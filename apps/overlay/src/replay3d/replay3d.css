@@ -1,0 +1,71 @@
+/* /replay3d (T-053): full-stage WebGL canvas with DOM caption and swing bar inside the title-safe area. */
+.r3d-stage {
+  position: relative;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  background: #060a12;
+  font-family: var(--font-ui);
+  color: var(--c-text);
+}
+
+.r3d-canvas {
+  position: absolute !important;
+  inset: 0;
+}
+
+.r3d-dom {
+  pointer-events: none;
+}
+
+.r3d-caption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--c-panel);
+  border-left: 6px solid var(--c-accent);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-panel);
+}
+
+.r3d-kicker {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--c-accent);
+}
+
+.r3d-what {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+}
+
+.r3d-clock {
+  font: var(--fw-semibold) var(--fs-sm) / 1 var(--font-num);
+  color: var(--c-text-muted);
+}
+
+.r3d-swing {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 600px;
+  box-sizing: border-box;
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--c-panel);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-panel);
+  animation: sw-in 300ms var(--ease-in) both;
+}
+
+.r3d-empty {
+  position: absolute;
+  top: 45%;
+  width: 100%;
+  text-align: center;
+  font-size: var(--fs-lg);
+}

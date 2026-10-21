@@ -52,13 +52,28 @@ def fan_url():
 
 
 @pytest.fixture(scope="session")
-def browser():
+def playwright_session():
+    """One sync Playwright per session: a second one in the same thread fails."""
     from playwright.sync_api import sync_playwright
 
     with sync_playwright() as pw:
-        b = pw.chromium.launch()
-        yield b
-        b.close()
+        yield pw
+
+
+@pytest.fixture(scope="session")
+def browser(playwright_session):
+    b = playwright_session.chromium.launch()
+    yield b
+    b.close()
+
+
+@pytest.fixture(scope="session")
+def gpu_browser(playwright_session):
+    """Chromium on the Mac's GPU (Metal through ANGLE). Plain headless Chromium renders WebGL with SwiftShader on
+    the CPU, which says nothing about how the 3D scene records; the demo recorder uses the same flags."""
+    b = playwright_session.chromium.launch(args=["--use-angle=metal", "--ignore-gpu-blocklist"])
+    yield b
+    b.close()
 
 
 @pytest.fixture

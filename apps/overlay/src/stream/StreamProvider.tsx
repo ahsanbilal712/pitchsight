@@ -177,7 +177,7 @@ export function StreamProvider({ children }: { children: ReactNode }) {
       visibleCues: visibleCues(state).map((c) => c.cue_id),
       frames: framesSeen.current,
     });
-    if (state.frame && state.hello) handle.ready = true;
+    handle.ready = Boolean(state.frame && state.hello && (handle.gate ? handle.gate() : true));
   }, [seek, state]);
 
   return <StreamContext.Provider value={{ state, seek }}>{children}</StreamContext.Provider>;

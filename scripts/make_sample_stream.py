@@ -316,11 +316,19 @@ def pitch_control_doc(t: int) -> dict:
             "home_share": r2(share), "contested_frac": r2(contested), "grid": grid}
 
 
+def fixture_docs() -> dict[str, dict]:
+    """Documents the overlay fetches by id in fixture mode (the api serves the same from the blackboard)."""
+    return {"pc_000412": pitch_control_doc(1874000), "cf_000077": counterfactual()}
+
+
 def write_docs() -> list[Path]:
     DOCS.mkdir(parents=True, exist_ok=True)
-    path = DOCS / "pc_000412.json"
-    path.write_text(json.dumps(pitch_control_doc(1874000), sort_keys=True, separators=(",", ":")) + "\n")
-    return [path]
+    paths = []
+    for doc_id, doc in fixture_docs().items():
+        path = DOCS / f"{doc_id}.json"
+        path.write_text(json.dumps(doc, sort_keys=True, separators=(",", ":")) + "\n")
+        paths.append(path)
+    return paths
 
 
 def build() -> list[dict]:
@@ -375,10 +383,10 @@ def check() -> list[str]:
     text = OUT.read_text(encoding="utf-8")
     if text != render(build()):
         errors.append("file differs from a fresh build (not byte-identical)")
-    pc = DOCS / "pc_000412.json"
-    if not pc.exists() or pc.read_text() != json.dumps(pitch_control_doc(1874000), sort_keys=True,
-                                                        separators=(",", ":")) + "\n":
-        errors.append(f"{pc.relative_to(ROOT)} missing or stale")
+    for doc_id, doc in fixture_docs().items():
+        path = DOCS / f"{doc_id}.json"
+        if not path.exists() or path.read_text() != json.dumps(doc, sort_keys=True, separators=(",", ":")) + "\n":
+            errors.append(f"{path.relative_to(ROOT)} missing or stale")
     counts: dict[str, int] = {}
     frames, events = [], []
     for n, line in enumerate(text.splitlines(), 1):
