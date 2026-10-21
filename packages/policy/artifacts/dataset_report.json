@@ -1,0 +1,78 @@
+{
+ "F": 16,
+ "G": 4,
+ "context": [
+  "score_diff/3",
+  "clock_fraction",
+  "period-1",
+  "possession_is_home"
+ ],
+ "counts": {
+  "test": {
+   "carry": 53251,
+   "clear": 3967,
+   "hold": 14788,
+   "pass": 267612,
+   "shoot": 5138
+  },
+  "train": {
+   "carry": 430102,
+   "clear": 31782,
+   "hold": 116230,
+   "pass": 2144564,
+   "shoot": 40553
+  },
+  "val": {
+   "carry": 53672,
+   "clear": 4106,
+   "hold": 14555,
+   "pass": 267718,
+   "shoot": 5182
+  }
+ },
+ "games_per_split": {
+  "test": {
+   "grf": 15,
+   "kickoff": 200
+  },
+  "train": {
+   "grf": 120,
+   "kickoff": 1600
+  },
+  "val": {
+   "grf": 15,
+   "kickoff": 200
+  }
+ },
+ "samples_per_split": {
+  "test": 344756,
+  "train": 2763231,
+  "val": 345233
+ },
+ "sources": {
+  "grf_files": 50,
+  "grf_games": 150,
+  "grf_samples": 57111,
+  "kickoff_matches": 2000,
+  "kickoff_samples": 3396109
+ },
+ "split_seed": 4242,
+ "token_features": [
+  "x/105",
+  "y/68",
+  "vx/10",
+  "vy/10",
+  "team",
+  "is_holder",
+  "role:goalkeeper",
+  "role:centre back",
+  "role:left back",
+  "role:right back",
+  "role:central midfield",
+  "role:left midfield",
+  "role:right midfield",
+  "role:central front",
+  "dist_ball/50",
+  "angle_goal/pi"
+ ]
+}
