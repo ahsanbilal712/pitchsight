@@ -5,12 +5,21 @@ import json
 import multiprocessing as mp
 import statistics
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import pytest
 
 from blackboard import NotFound, SqliteBlackboard, format_id, parse_id
 from blackboard.ids import collection_of
+
+
+def arun(coro):
+    """asyncio.run on a worker thread: Playwright's session-scoped sync API (tests/apps) keeps a loop running in
+    the main thread, and asyncio.run refuses to start inside it."""
+    with ThreadPoolExecutor(1) as pool:
+        return pool.submit(asyncio.run, coro).result()
+
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_COLLECTIONS = {"cue": "cues", "explanation": "explanations", "counterfactual": "counterfactuals",
@@ -79,7 +88,7 @@ def _collect(bb, collection, n, **kw):
             out.append(doc)
             if len(out) == n:
                 return out
-    return asyncio.run(asyncio.wait_for(run(), timeout=20))
+    return arun(asyncio.wait_for(run(), timeout=20))
 
 
 def test_watch_yields_in_insertion_order(bb):

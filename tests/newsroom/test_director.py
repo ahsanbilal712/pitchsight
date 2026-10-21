@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import pytest
@@ -16,6 +17,14 @@ from newsroom.factcheck import verify_claims
 from newsroom.graph import build_workflow
 from newsroom.messages import Draft, Moment
 from newsroom.worker import run_moment, start_message
+
+
+def arun(coro):
+    """asyncio.run on a worker thread: Playwright's session-scoped sync API (tests/apps) keeps a loop running in
+    the main thread, and asyncio.run refuses to start inside it."""
+    with ThreadPoolExecutor(1) as pool:
+        return pool.submit(asyncio.run, coro).result()
+
 
 ROOT = Path(__file__).resolve().parents[2]
 M = "m_4242"
@@ -64,7 +73,7 @@ def direct(deps, d, director=None):
     """Run one draft through the Director and the CueBus write; returns the cue or None."""
     director = director or DirectorExecutor("director", deps)
     ctx = Ctx()
-    asyncio.run(director.direct(d, ctx))
+    arun(director.direct(d, ctx))
     if not ctx.sent:
         return None
     cue = ctx.sent[0].cue
@@ -215,7 +224,7 @@ def test_director_in_the_graph(evidence_bb):
     deps = Deps(bb=evidence_bb)
     moment = {"moment_id": "mo_00077", "match_id": M, "t_ms": 1874000, "kind": "big_chance", "leverage": 0.09,
               "players": ["p_017"], "team": "home", "evidence_event_ids": ["e_8812"], "fast": True}
-    cue = asyncio.run(run_moment(build_workflow(deps), start_message(moment)))["outputs"][0]
+    cue = arun(run_moment(build_workflow(deps), start_message(moment)))["outputs"][0]
     assert not list(VALIDATOR.iter_errors(cue))
     assert cue["cue_id"] == "c_000770" and cue["provenance"]["agent_path"][-2:] == ["director", "cuebus"]
     assert evidence_bb.get("cues", "c_000770")["verified"] is True

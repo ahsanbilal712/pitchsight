@@ -1,6 +1,7 @@
 """Newsroom graph: fast branch to a cue, the rewrite loop stops at attempt 3, checkpoints per superstep (T-018)."""
 
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 from agent_framework import FileCheckpointStorage
@@ -10,6 +11,14 @@ from newsroom.executors.base import Deps
 from newsroom.executors.stubs import StubCueBus, StubDirector, StubFactCheck
 from newsroom.graph import EXECUTOR_IDS, WORKFLOW_NAME, build_workflow
 from newsroom.worker import run_moment, serve, start_message
+
+
+def arun(coro):
+    """asyncio.run on a worker thread: Playwright's session-scoped sync API (tests/apps) keeps a loop running in
+    the main thread, and asyncio.run refuses to start inside it."""
+    with ThreadPoolExecutor(1) as pool:
+        return pool.submit(asyncio.run, coro).result()
+
 
 GOAL = {"moment_id": "mo_00012", "match_id": "m_4242", "t_ms": 1_874_000, "clock": "31:14", "kind": "goal",
         "leverage": 0.21, "players": ["p_017"], "team": "home", "evidence_event_ids": ["e_0812"], "fast": True}
@@ -38,7 +47,7 @@ def test_graph_has_every_tech_plan_executor(deps):
 
 def test_goal_reaches_a_cue_through_the_fast_branch(deps):
     wf = build_workflow(deps, overrides=plumbing(deps))
-    result = asyncio.run(run_moment(wf, start_message(GOAL)))
+    result = arun(run_moment(wf, start_message(GOAL)))
     assert len(result["outputs"]) == 1
     cue = result["outputs"][0]
     assert cue["agent_path"] == ["ingest", "scout", "fast_line", "factcheck", "director", "cuebus"]
@@ -55,7 +64,7 @@ def test_rejecting_factcheck_loops_to_narrator_and_stops_at_attempt_3(deps):
         return False
 
     wf = build_workflow(deps, overrides=plumbing(deps, factcheck=StubFactCheck("factcheck", deps, verdict=reject)))
-    result = asyncio.run(run_moment(wf, start_message(EXPLAINED)))
+    result = arun(run_moment(wf, start_message(EXPLAINED)))
     assert seen == [1, 2, 3]
     cue = result["outputs"][0]
     assert cue["attempt"] == 3 and cue["verified"] is False
@@ -66,7 +75,7 @@ def test_rejecting_factcheck_loops_to_narrator_and_stops_at_attempt_3(deps):
 
 def test_unknown_branch_goes_to_drop(deps):
     wf = build_workflow(deps)
-    result = asyncio.run(run_moment(wf, start_message({**GOAL, "moment_id": "mo_00013", "branches": ["drop"]})))
+    result = arun(run_moment(wf, start_message({**GOAL, "moment_id": "mo_00013", "branches": ["drop"]})))
     assert result["outputs"] == []
     assert deps.bb.query("traces", executor="drop")[0]["status"] == "dropped"
 
@@ -79,19 +88,19 @@ def test_checkpoint_after_each_superstep(deps, tmp_path, monkeypatch):
     storage = make_storage()
     assert storage.storage_path == ckpt
     wf = build_workflow(deps, storage=storage)
-    result = asyncio.run(run_moment(wf, start_message(GOAL)))
+    result = arun(run_moment(wf, start_message(GOAL)))
     supersteps = result["events"].count("superstep_completed")
     files = list(ckpt.glob("*.json"))
     assert supersteps == 6 and len(files) >= supersteps
-    cps = asyncio.run(storage.list_checkpoints(workflow_name=WORKFLOW_NAME))
+    cps = arun(storage.list_checkpoints(workflow_name=WORKFLOW_NAME))
     assert len(cps) == len(files)
 
 
 def test_resume_from_a_mid_run_checkpoint(deps, tmp_path):
     storage = FileCheckpointStorage(tmp_path / "ckpt")
     wf = build_workflow(deps, storage=storage, overrides=plumbing(deps))
-    asyncio.run(run_moment(wf, start_message(EXPLAINED)))
-    cps = asyncio.run(storage.list_checkpoints(workflow_name=WORKFLOW_NAME))
+    arun(run_moment(wf, start_message(EXPLAINED)))
+    cps = arun(storage.list_checkpoints(workflow_name=WORKFLOW_NAME))
     mid = next(c for c in cps if "tactician" in c.messages)  # message waiting for the Tactician
 
     async def resume():
@@ -99,7 +108,7 @@ def test_resume_from_a_mid_run_checkpoint(deps, tmp_path):
         return [e.data async for e in fresh.run(checkpoint_id=mid.checkpoint_id, checkpoint_storage=storage,
                                                   stream=True) if e.type == "output"]
 
-    outputs = asyncio.run(resume())
+    outputs = arun(resume())
     assert len(outputs) == 1 and outputs[0]["moment_id"] == "mo_00077"
     assert outputs[0]["agent_path"][-4:] == ["narrator", "factcheck", "director", "cuebus"]
 
@@ -120,6 +129,6 @@ def test_worker_runs_one_workflow_per_new_moment(deps):
 
         await asyncio.wait_for(serve(deps, stop=stop, on_result=on_result), timeout=20)
 
-    asyncio.run(go())
+    arun(go())
     assert runs == ["mo_00012", "mo_00014"]
     assert [c["moment_id"] for c in deps.bb.query("cues")] == ["mo_00012", "mo_00014"]

@@ -2,6 +2,7 @@
 
 import asyncio
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
@@ -11,6 +12,14 @@ from newsroom.executors.stubs import StubCueBus, StubDirector, StubNarrator
 from newsroom.factcheck import BannedMatcher, banned_matcher, verify_claims
 from newsroom.graph import build_workflow
 from newsroom.worker import run_moment, start_message
+
+
+def arun(coro):
+    """asyncio.run on a worker thread: Playwright's session-scoped sync API (tests/apps) keeps a loop running in
+    the main thread, and asyncio.run refuses to start inside it."""
+    with ThreadPoolExecutor(1) as pool:
+        return pool.submit(asyncio.run, coro).result()
+
 
 M = "m_4242"
 
@@ -210,10 +219,10 @@ def test_executor_rejects_unbound_numbers_until_attempt_3(evidence_bb):
                                          "cuebus": StubCueBus("cuebus", deps)})
     moment = {"moment_id": "mo_00077", "match_id": M, "t_ms": 1878200, "clock": "31:18", "kind": "big_chance",
               "fast": False}
-    cue = asyncio.run(run_moment(wf, start_message(moment)))["outputs"][0]
+    cue = arun(run_moment(wf, start_message(moment)))["outputs"][0]
     assert cue["attempt"] == 3 and cue["verified"] is False   # "Big chance at 31:18." binds no claims
     goal = {**moment, "moment_id": "mo_00078", "kind": "goal", "fast": True}
-    cue = asyncio.run(run_moment(wf, start_message(goal)))["outputs"][0]
+    cue = arun(run_moment(wf, start_message(goal)))["outputs"][0]
     assert cue["verified"] is True
     rows = evidence_bb.query("traces", executor="factcheck")
     assert [r["status"] for r in rows] == ["rejected"] * 3 + ["verified"]

@@ -4,6 +4,7 @@ rewrite with the diff, one live call (T-020)."""
 import asyncio
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor
 from types import SimpleNamespace
 
 import pytest
@@ -18,6 +19,14 @@ from newsroom.llm import CacheMiss, FakeClient, LiveClient, LLMError, LLMTimeout
 from newsroom.messages import Moment
 from newsroom.templates import template_line
 from newsroom.worker import run_moment, start_message
+
+
+def arun(coro):
+    """asyncio.run on a worker thread: Playwright's session-scoped sync API (tests/apps) keeps a loop running in
+    the main thread, and asyncio.run refuses to start inside it."""
+    with ThreadPoolExecutor(1) as pool:
+        return pool.submit(asyncio.run, coro).result()
+
 
 M = "m_4242"
 SHOT = {"moment_id": "mo_00077", "match_id": M, "t_ms": 1874000, "clock": "31:14", "kind": "big_chance",
@@ -34,7 +43,7 @@ def good(headline="Okafor shoots, Reyes was free", body="The shot was worth 0.06
 
 def line(deps, claims, **kw):
     msg = start_message(SHOT)
-    return asyncio.run(write_line(deps, msg, "sliding_doors", claims, **kw))
+    return arun(write_line(deps, msg, "sliding_doors", claims, **kw))
 
 
 def test_output_fits_cue_limits_and_uses_only_given_claims(evidence_bb, explanation_example):
@@ -117,7 +126,7 @@ def test_fast_branch_end_to_end_verified(evidence_bb):
                                                     "body": "Verdant work it to Okafor: a 0.06 xG chance.",
                                                     "claims": ["Okafor", "0.06 xG", "Verdant"]}}]})
     deps = Deps(bb=evidence_bb, llm=fake)
-    cue = asyncio.run(run_moment(build_workflow(deps), start_message(SHOT)))["outputs"][0]
+    cue = arun(run_moment(build_workflow(deps), start_message(SHOT)))["outputs"][0]
     assert cue["verified"] is True and cue["text"]["headline"] == "Okafor goes for goal"
 
 
@@ -134,9 +143,9 @@ def test_live_client_times_out_and_counts_thinking_tokens(tmp_path):
                 "input_token_count": 1000, "output_token_count": 100, "reasoning_output_token_count": 50})
 
     with pytest.raises(LLMTimeout):
-        asyncio.run(LiveClient(guard, clients={"gemini": Slow()}).complete("narrator_fast", [
+        arun(LiveClient(guard, clients={"gemini": Slow()}).complete("narrator_fast", [
             {"role": "user", "content": "x"}], timeout_s=0.05))
-    res = asyncio.run(LiveClient(guard, clients={"gemini": Quick()}).complete(
+    res = arun(LiveClient(guard, clients={"gemini": Quick()}).complete(
         "narrator_fast", [{"role": "user", "content": "x"}], match_id="m_test"))
     assert res["tokens_out"] == 150 and res["json"]["headline"] == "a"
     assert res["cost_usd"] == pytest.approx((1000 * 0.75 + 150 * 3.75) / 1e6)
@@ -150,7 +159,7 @@ def test_live_narrator_line(evidence_bb, explanation_example):
     before = guard.total
     claims = verified_claims(evidence_bb, explanation_example)
     client = LiveClient(guard, mode="dev")
-    print(f"warm-up {asyncio.run(client.warm()):.2f} s")
+    print(f"warm-up {arun(client.warm()):.2f} s")
     t0 = time.perf_counter()
     out = line(Deps(bb=evidence_bb, llm=client), claims)
     print(f"narrator call {time.perf_counter() - t0:.2f} s")
