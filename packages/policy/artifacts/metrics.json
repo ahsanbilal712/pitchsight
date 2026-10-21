@@ -1,0 +1,66 @@
+{
+ "checkpoint": "policy_v1.pt",
+ "device": "mps",
+ "gates": {
+  "fde_4s_m": {
+   "baseline": 31.8497,
+   "op": "<=",
+   "passed": true,
+   "threshold": 31.84968945719465,
+   "value": 21.386
+  },
+  "offside_per_rollout": {
+   "baseline": 0.002,
+   "op": "<=",
+   "passed": true,
+   "threshold": 0.2,
+   "value": 0.001
+  },
+  "shape_collapse_rate": {
+   "baseline": 0.0035,
+   "op": "<=",
+   "passed": true,
+   "threshold": 0.05,
+   "value": 0.002
+  },
+  "teleports": {
+   "baseline": 0.0,
+   "op": "==",
+   "passed": true,
+   "threshold": 0,
+   "value": 0.0
+  },
+  "top1_kind_accuracy": {
+   "baseline": 0.7763,
+   "op": ">=",
+   "passed": true,
+   "threshold": 0.45,
+   "value": 0.8103
+  },
+  "top3_kind_target_accuracy": {
+   "baseline": 0.2692,
+   "op": ">=",
+   "passed": false,
+   "threshold": 0.8,
+   "value": 0.505
+  }
+ },
+ "horizon_s": 8,
+ "n_rollouts": 20,
+ "policy_rollouts": {
+  "fde_4s_m": 21.386002437215744,
+  "fde_4s_velocity_baseline_m": 31.84968945719465,
+  "offside_per_rollout": 0.001,
+  "shape_collapse_rate": 0.002,
+  "teleports": 0
+ },
+ "scripted_rollouts": {
+  "fde_4s_m": 22.150842370077292,
+  "fde_4s_velocity_baseline_m": 31.84968945719465,
+  "offside_per_rollout": 0.002,
+  "shape_collapse_rate": 0.0035,
+  "teleports": 0
+ },
+ "test_samples": 300000,
+ "worlds_per_rollout": 50
+}
