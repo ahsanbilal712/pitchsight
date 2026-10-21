@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-030 MCP server: core tools (track B)
+
+- `packages/mcp_server/{__main__,server,tools_core,errors}.py`. mcp 2.3.0 has no FastMCP: it is `MCPServer` now
+  (same decorator API); Streamable HTTP on :8080 `/mcp`. Seven tools with the 1.7 signatures; every failure returns
+  `{error, code}`.
+- `simulate_counterfactual` wraps T-016 `sliding_doors` (n 200, horizon 8 by default), stores `cf_` and its `pc_`
+  snapshot; golden minute 2: **2.9 s** cold (the match re-simulates from kick-off; later calls move forward).
+- Verification `pytest tests/mcp_server/test_tools.py -q`: 20 passed (each tool on the golden match, 9 error cases,
+  one Streamable HTTP round trip).
+- Open: `player_stats` counts the whole match file, so in replay it can see past the replay clock (T-033/T-039).
+
+---
+
 ## 2026-10-22 · T-029 Scout executor and classification predicates (track B)
 
 - `newsroom/scout_rules.py` (predicates exactly as TECH_PLAN 1.7; batch `detect_match` and live `ScoutStream`;
