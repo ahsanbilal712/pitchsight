@@ -40,4 +40,4 @@ def test_truth_has_match_regimes(full_match):
     regimes = [p for p in phases if p["side"] == "M"]
     assert regimes and regimes[0]["start_ms"] == 0 and regimes[-1]["end_ms"] == 90 * 60 * 1000
     assert {p["label"] for p in regimes} <= {"state_settled", "state_transitional", "state_chaotic"}
-    assert all(a["end_ms"] == b["start_ms"] and a["label"] != b["label"] for a, b in zip(regimes, regimes[1:]))
+    assert all(a["end_ms"] == b["start_ms"] and a["label"] != b["label"] for a, b in zip(regimes, regimes[1:], strict=False))
