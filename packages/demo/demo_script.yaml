@@ -1,0 +1,8 @@
+# TECH_PLAN 1.8 "Demo script": actions the api applies on the replay clock (packages/api/demo_runner.py),
+# so every take of the golden match is the same. Exactly the four 1.8 entries, in 1.8 order.
+# at_clock is what runs; `ref` names the golden_moments.yaml entry (T-039) the clock was taken from, and
+# tests/demo/test_demo_script.py checks the two agree.
+- {at_clock: "44:10", ref: "@kill", action: kill, target: newsroom}
+- {at_clock: "45:00+15s", action: veto, cue_kind: recap}
+- {at_clock: "31:10", ref: "@sliding_doors-4s", action: speed, value: 1}
+- {at_clock: "33:00", action: speed, value: 10}

@@ -60,27 +60,31 @@ def replay_control(request: Request, req: ControlRequest) -> dict:
     return clock.state().model_dump()
 
 
+def decide(bb, hub, request_id: str, status: str, match_id: str) -> dict:
+    """Record a producer decision; a veto of a shown cue also marks the cue vetoed and removes it from screens."""
+    bb.put("decisions", {"id": request_id, "request_id": request_id, "decision": status,
+                         "match_id": match_id, "t_ms": hub.now(), "decided_at": time.time()})
+    removed = False
+    if CUE_ID.match(request_id):
+        try:
+            cue = bb.get("cues", request_id, match_id=match_id)
+        except KeyError:
+            cue = None
+        if cue is not None:
+            bb.put("cues", {**cue, "producer_status": status})
+            if status == "vetoed":
+                hub.send([envelope("cue_remove", {"cue_id": request_id})])
+                removed = True
+    return {"request_id": request_id, "decision": status, "cue_removed": removed}
+
+
 @router.post("/producer/decision")
 def producer_decision(request: Request, body: Decision) -> dict:
     status = DECISIONS.get(body.decision.lower())
     if status is None:
         raise HTTPException(422, f"decision must be one of approved, vetoed, held (got {body.decision!r})")
     hub, bb = request.app.state.hub, request.app.state.bb
-    match_id = body.match_id or hub.match_id
-    bb.put("decisions", {"id": body.request_id, "request_id": body.request_id, "decision": status,
-                         "match_id": match_id, "t_ms": hub.now(), "decided_at": time.time()})
-    removed = False
-    if CUE_ID.match(body.request_id):
-        try:
-            cue = bb.get("cues", body.request_id, match_id=match_id)
-        except KeyError:
-            cue = None
-        if cue is not None:
-            bb.put("cues", {**cue, "producer_status": status})
-            if status == "vetoed":
-                hub.send([envelope("cue_remove", {"cue_id": body.request_id})])
-                removed = True
-    return {"request_id": body.request_id, "decision": status, "cue_removed": removed}
+    return decide(bb, hub, body.request_id, status, body.match_id or hub.match_id)
 
 
 def kill_when_ready(bb, run_id: str | None = None, timeout_s: float = 120.0, poll_s: float = 0.02,

@@ -1,0 +1,143 @@
+# Shot list for the two-minute video (DEMO_MASTERPLAN_50USD.md §7, TECH_PLAN 1.9 "Recording").
+# One row per recorded clip: {shot, beat, app, route, viewer, clock_in, clock_out, speed, keyframes[]}.
+# Clocks are literal ("45:00") or references into golden_moments.yaml (T-039), e.g. "@sliding_doors-6s";
+# {key.field} in a route or player is filled from golden_moments.yaml too (packages/demo/clocks.py).
+# app: overlay | studio | fan (served from apps/<app>/dist) | page (a local HTML file, recorded for duration_s).
+# Split screens are separate rows with the same beat and clocks; the edit (T-063) composes them.
+
+- shot: opener_3d
+  beat: opener
+  app: overlay
+  route: "/replay3d?cf={sliding_doors.counterfactual_id}&cam=wide"
+  viewer: analyst
+  clock_in: "@sliding_doors-8s"
+  clock_out: "@sliding_doors-1s"
+  speed: 1
+  keyframes: ["@sliding_doors-4s"]
+
+- shot: sliding_doors_2d
+  beat: sliding_doors
+  app: overlay
+  route: "/"
+  viewer: analyst
+  clock_in: "@sliding_doors-6s"
+  clock_out: "@sliding_doors+10s"
+  speed: 1
+  keyframes: ["@sliding_doors", "@sliding_doors+5s"]
+
+- shot: sliding_doors_3d_player
+  beat: sliding_doors
+  app: overlay
+  route: "/replay3d?cf={sliding_doors.counterfactual_id}&cam=player"
+  viewer: analyst
+  clock_in: "@sliding_doors-1s"
+  clock_out: "@sliding_doors+4s"
+  speed: 1
+  keyframes: ["@sliding_doors+3s"]
+
+- shot: sliding_doors_3d_wide
+  beat: sliding_doors
+  app: overlay
+  route: "/replay3d?cf={sliding_doors.counterfactual_id}&cam=wide"
+  viewer: analyst
+  clock_in: "@sliding_doors+2s"
+  clock_out: "@sliding_doors+9s"
+  speed: 1
+  keyframes: ["@sliding_doors+8s"]
+
+- shot: fourth_official
+  beat: fourth_official
+  app: overlay
+  route: "/"
+  viewer: casual
+  clock_in: "@fourth_official-3s"
+  clock_out: "@fourth_official+6s"
+  speed: 1
+  keyframes: ["@fourth_official+1s"]
+
+- shot: panel_kill_studio
+  beat: panel_kill
+  app: studio
+  route: "/"
+  viewer: studio
+  clock_in: "@kill-15s"
+  clock_out: "@kill+25s"
+  speed: 1
+  keyframes: ["@kill+2s", "@kill+20s"]
+
+- shot: oracle
+  beat: oracle_dugout
+  app: overlay
+  route: "/"
+  viewer: analyst
+  clock_in: "@oracle-6s"
+  clock_out: "@oracle+6s"
+  speed: 1
+  keyframes: ["@oracle"]
+
+- shot: dugout
+  beat: oracle_dugout
+  app: overlay
+  route: "/"
+  viewer: analyst
+  clock_in: "@dugout-2s"
+  clock_out: "@dugout+8s"
+  speed: 1
+  keyframes: ["@dugout+2s"]
+
+- shot: split_analyst
+  beat: split_modes
+  app: overlay
+  route: "/"
+  viewer: analyst
+  clock_in: "@sliding_doors-4s"
+  clock_out: "@sliding_doors+8s"
+  speed: 1
+  keyframes: ["@sliding_doors+4s"]
+
+- shot: split_casual
+  beat: split_modes
+  app: overlay
+  route: "/"
+  viewer: casual
+  clock_in: "@sliding_doors-4s"
+  clock_out: "@sliding_doors+8s"
+  speed: 1
+  keyframes: ["@sliding_doors+4s"]
+
+- shot: split_player_cam
+  beat: split_modes
+  app: fan
+  route: "/"
+  viewer: player_cam
+  player: "{sliding_doors.alternative_target}"
+  clock_in: "@sliding_doors-4s"
+  clock_out: "@sliding_doors+8s"
+  speed: 1
+  keyframes: ["@sliding_doors+4s"]
+
+- shot: veto_studio
+  beat: split_modes
+  app: studio
+  route: "/"
+  viewer: studio
+  clock_in: "45:00"
+  clock_out: "45:00+20s"
+  speed: 1
+  keyframes: ["45:00+16s"]
+
+- shot: architecture
+  beat: architecture
+  app: page
+  file: docs/video/architecture.html
+  duration_s: 18
+
+- shot: halftime
+  beat: halftime
+  app: studio
+  route: "/"
+  viewer: studio
+  clock_in: "45:00"
+  clock_out: "45:00+10s"
+  speed: 1
+  keyframes: ["45:00+5s"]

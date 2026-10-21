@@ -15,7 +15,7 @@ from collections.abc import AsyncIterator, Callable
 from fastapi import FastAPI, HTTPException, Query, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import control, cues, docs, ingest, players
+from api import control, cues, demo_runner, docs, ingest, players
 from api.models import envelope, viewer_profile
 from api.replay import MatchData, ReplayClock, parse_clock
 from api.spend import SpendGuard
@@ -58,9 +58,13 @@ def create_app(seed: int | str | None = None, speed: float | None = None, playin
         app.state.forwarder = cues.Forwarder(app.state.hub, board)
         tasks = [asyncio.create_task(app.state.hub.run()), asyncio.create_task(app.state.forwarder.run()),
                  asyncio.create_task(spend_loop(app.state.hub))]
+        app.state.demo_runner = app.state.demo_task = None
+        if os.environ.get("WHYLINE_DEMO_SCRIPT"):  # the demo script (TECH_PLAN 1.8) armed from the start
+            demo_runner.start(app)
         try:
             yield
         finally:
+            demo_runner.stop(app)
             for t in tasks:
                 t.cancel()
             for t in tasks:
@@ -70,7 +74,7 @@ def create_app(seed: int | str | None = None, speed: float | None = None, playin
     app = FastAPI(title="whyline-api", lifespan=lifespan)
     # the screens are served from other origins (:5173-5175, static files in tests); the API holds no secrets
     app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
-    for module in (control, cues, docs, ingest, players):
+    for module in (control, cues, demo_runner, docs, ingest, players):
         app.include_router(module.router)
 
     @app.get("/health")
