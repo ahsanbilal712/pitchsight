@@ -18,14 +18,14 @@ def main(argv: list[str] | None = None) -> int:
     play.add_argument("--seed", type=int, required=True)
     play.add_argument("--league", default="data/league")
     play.add_argument("--out", required=True)
-    play.add_argument("--home", default=None, help="club id (default: first club in clubs.json)")
-    play.add_argument("--away", default=None, help="club id (default: second club in clubs.json)")
+    play.add_argument("--home", default=None, help="club id (default: League.fixture(seed))")
+    play.add_argument("--away", default=None, help="club id (default: League.fixture(seed))")
     play.add_argument("--until-ms", type=int, default=None)
     args = ap.parse_args(argv)
 
     league = League.load(args.league)
-    home = args.home or league.club_order[0]
-    away = args.away or league.club_order[1]
+    home, away = league.fixture(args.seed)
+    home, away = args.home or home, args.away or away
     started = time.perf_counter()
     record = Engine(league, home, away, seed=args.seed).play(until_ms=args.until_ms)
     out = write_match(record, args.out)

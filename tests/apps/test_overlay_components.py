@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 FIXTURE = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "stream" / "sample_stream.jsonl"
+GOLDEN_EVENTS = Path(__file__).resolve().parents[2] / "data" / "matches" / "4242" / "events.jsonl"
 
 READY = "() => window.__whyline && window.__whyline.ready === true"
 CUE_IN, CUE_OUT = 1_878_200, 1_886_200            # the cue.schema.json example c_000912 (31:18-31:26)
@@ -159,21 +160,34 @@ def control(port, **body):
         return json.load(r)
 
 
+def _golden_goal():
+    """A goal of the golden match after 10:00, 5 s before it, and the score either side (read from the events)."""
+    events = [json.loads(line) for line in GOLDEN_EVENTS.read_text().splitlines()]
+    goals = [e for e in events if e["type"] == "goal"]
+    goal = next(g for g in goals if g["t_ms"] >= 600_000)
+    target = (goal["t_ms"] - 5000) // 1000 * 1000
+
+    def score(t):
+        return "–".join(str(sum(g["team"] == side and g["t_ms"] <= t for g in goals)) for side in ("home", "away"))
+    return goal, target, score(target), score(goal["t_ms"])
+
+
 @pytest.mark.parametrize("speed", [10])
 def test_score_bug_follows_goal_events(page, overlay_url, api_port, speed):
+    goal, target, before, after = _golden_goal()
     control(api_port, action="speed", value=1)
     control(api_port, action="play")
     page.goto(f"{overlay_url}?record=1&api=127.0.0.1:{api_port}")
     page.wait_for_function(READY, timeout=5000)
-    control(api_port, action="seek", value="39:00")
-    page.wait_for_function("() => window.__whyline.debug().clock >= 2340000", timeout=3000)
-    assert page.get_by_test_id("score").inner_text().replace("\n", "") == "0–0"
+    control(api_port, action="seek", value=f"{target // 60000:02d}:{target // 1000 % 60:02d}")
+    page.wait_for_function(f"() => window.__whyline.debug().clock >= {target}", timeout=3000)
+    assert page.get_by_test_id("score").inner_text().replace("\n", "") == before
     assert page.get_by_test_id("sb-home").inner_text() == "VER"
     assert page.get_by_test_id("sb-away").inner_text() == "IRO"
-    control(api_port, action="speed", value=speed)              # the 39:05 goal arrives as an event
-    page.wait_for_function("() => window.__whyline.debug().clock >= 2347000", timeout=5000)
+    control(api_port, action="speed", value=speed)              # the goal arrives as an event
+    page.wait_for_function(f"() => window.__whyline.debug().clock >= {goal['t_ms'] + 1200}", timeout=5000)
     control(api_port, action="speed", value=1)
-    assert page.get_by_test_id("score").inner_text().replace("\n", "") == "0–1"
+    assert page.get_by_test_id("score").inner_text().replace("\n", "") == after
     assert page.get_by_test_id("score").get_attribute("data-goal") == "true"   # flashes after the goal
-    assert page.get_by_test_id("score-clock").inner_text().startswith("39:")
+    assert page.get_by_test_id("score-clock").inner_text().startswith(f"{goal['t_ms'] // 60000:02d}:")
     assert not page.errors, page.errors

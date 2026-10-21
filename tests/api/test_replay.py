@@ -106,13 +106,18 @@ def test_ws_hello_then_10hz_frames(client):
 
 
 def test_ws_seek_resets_and_speed_x10(client):
+    # seek to 5 s before a golden-match goal (derived from the events, so a regenerated golden match still works)
+    goals_all = [e for e in MatchData.load(4242).events if e["type"] == "goal"]
+    goal = next(g for g in goals_all if g["t_ms"] >= 600_000)
+    target = (goal["t_ms"] - 5000) // 1000 * 1000
+    expected = [sum(g["team"] == side and g["t_ms"] <= target for g in goals_all) for side in ("home", "away")]
     with client.websocket_connect("/ws?viewer_id=t2") as ws:
         lines(ws)
-        client.post("/replay/control", json={"action": "seek", "value": "39:00"})
+        client.post("/replay/control", json={"action": "seek", "value": f"{target // 60000:02d}:{target // 1000 % 60:02d}"})
         hello = None
         while hello is None:
             hello = next((m["payload"] for m in lines(ws) if m["type"] == "hello"), None)
-        assert 2_340_000 <= hello["t_ms"] < 2_340_500 and hello["score"] == [0, 0]  # clock keeps playing
+        assert target <= hello["t_ms"] < target + 500 and hello["score"] == expected  # clock keeps playing
         client.post("/replay/control", json={"action": "speed", "value": 10})
         seen: list[dict] = []
         started = time.perf_counter()
@@ -123,7 +128,7 @@ def test_ws_seek_resets_and_speed_x10(client):
         print(f"\nx10: {len(frames)} frames, {frames[-1] - frames[0]} ms of match time in 1.0 s")
         assert frames[-1] - frames[0] >= 8_000  # x10 moves about 10 s of match time per second
         goals = [m["payload"] for m in seen if m["type"] == "event" and m["payload"]["type"] == "goal"]
-        assert goals and goals[0]["t_ms"] == 2_345_800  # the 39:05 goal arrives on the clock
+        assert goals and goals[0]["t_ms"] == goal["t_ms"]  # the goal arrives on the clock
 
 
 def test_ws_seek_by_t_ms_alias_and_pause(client):

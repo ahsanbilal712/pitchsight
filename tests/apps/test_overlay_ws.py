@@ -1,5 +1,10 @@
 """The overlay plays the golden match from the API WebSocket instead of the fixture (T-022)."""
 
+import json
+from pathlib import Path
+
+GOLDEN_EVENTS = Path(__file__).resolve().parents[2] / "data" / "matches" / "4242" / "events.jsonl"
+
 READY = "() => window.__whyline && window.__whyline.ready === true"
 
 
@@ -14,6 +19,8 @@ def test_overlay_plays_golden_match_over_ws(page, overlay_url, api_port, out_dir
     assert 1000 <= second["clock"] - first["clock"] <= 2200
     page.evaluate("() => window.__whyline.seek('39:10')")
     page.wait_for_function("() => window.__whyline.debug().clock >= 2350000", timeout=3000)
-    assert page.get_by_test_id("score").inner_text().replace("\n", "") == "0–1"  # rebuilt from the hello
+    goals = [e for e in map(json.loads, GOLDEN_EVENTS.read_text().splitlines()) if e["type"] == "goal"]
+    score = "–".join(str(sum(g["team"] == s and g["t_ms"] <= 2_350_000 for g in goals)) for s in ("home", "away"))
+    assert page.get_by_test_id("score").inner_text().replace("\n", "") == score  # rebuilt from the hello
     page.screenshot(path=str(out_dir / "overlay_ws.png"))
     assert not page.errors, page.errors

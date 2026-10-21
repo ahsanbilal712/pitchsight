@@ -88,6 +88,13 @@ RESTART_DELAY_MS = {"kick_off": 40000, "throw_in": 3000, "goal_kick": 6000, "cor
 RESTART_FLAG = {"kick_off": KICK_OFF, "throw_in": PASS_ONLY, "goal_kick": FREE, "corner": CROSS, "free_kick": FREE,
                 "penalty": PENALTY}
 SIDES = ("H", "A")
+# Realism knobs, tuned on seeds 1-50 against TECH_PLAN 1.4 (T-014).
+LINE_IN_POSS, LINE_OUT_POSS = 6.0, 10.0   # metres the defensive line moves up per unit of line_height
+RUN_AMP_M = 2.2                           # forwards drift this far either side of the offside line on a 7 s cycle
+FWD_REACH_M = 20.0                        # forwards push onto the offside line when it is this close to the ball
+INTERCEPT_P = 0.65                        # chance an opponent within reach cuts out a pass in flight
+FINISH = 0.8                              # open-play scoring probability = FINISH * xG (decisions see plain xG)
+TACKLE_RATE, TACKLE_PRESS = 0.9, 0.3      # challenge hazard per second within TACKLE_R: rate * (0.6 + press * press_height)
 
 
 @dataclass
@@ -607,7 +614,7 @@ class Engine:
         penalty = self.restart_flag[b] == PENALTY
         dist, ang = float(goal_distance(u0, v0)), float(goal_angle(u0, v0))
         cone = 0 if penalty else cone_count(u0, v0, U[11:], V[11:])
-        p_goal = 0.76 if penalty else float(xg(dist, ang, cone))
+        p_goal = 0.76 if penalty else FINISH * float(xg(dist, ang, cone))
         r = nz[N_SHOT]
         if r < p_goal:
             outcome = "goal"
@@ -684,18 +691,20 @@ class Engine:
             bu, bv = to_team(bx, by, d)
             styles = self.eff_styles[:, team]
             in_poss = self.possession == team
-            line = np.where(in_poss, np.clip(bu - 32 + 14 * styles[:, 4], 12, 58),
-                            np.clip(bu - 28 + 10 * styles[:, 4] - 6 * (1 - styles[:, 0]), 6, 45))
+            line = np.where(in_poss, np.clip(bu - 32 + LINE_IN_POSS * styles[:, 4], 12, 58),
+                            np.clip(bu - 28 + LINE_OUT_POSS * styles[:, 4] - 6 * (1 - styles[:, 0]), 6, 45))
             wscale = np.where(in_poss, 0.85 + 0.35 * styles[:, 2], 0.6 + 0.15 * styles[:, 2])
             u = line[:, None] + SLOT_U[None, :]
             v = GOAL_Y + (SLOT_V[None, :] - GOAL_Y) * wscale[:, None] + 0.3 * (bv[:, None] - GOAL_Y)
             opp = slice(11 * (1 - team), 11 * (1 - team) + 11)
             ou, _ = to_team(S[:, opp, 0], S[:, opp, 1], d)
             offside_line = np.maximum(np.sort(ou, axis=1)[:, -2], bu)
-            # forwards time their runs: each drifts up to 2 m either side of the line on a 7 s cycle
-            run = 2.0 * np.sin(2 * np.pi * self.t_ms / 7000.0 + np.array([0.0, 2.1, 4.2]))
-            u[:, 8:] = np.where(in_poss[:, None], np.minimum(u[:, 8:], offside_line[:, None] - 0.3 + run[None, :]),
-                                u[:, 8:])
+            # forwards time their runs: each drifts up to RUN_AMP_M either side of the line on a 7 s cycle
+            run = RUN_AMP_M * np.sin(2 * np.pi * self.t_ms / 7000.0 + np.array([0.0, 2.1, 4.2]))
+            # and push up onto that line when it is within FWD_REACH_M of the ball
+            cap = offside_line[:, None] - 0.3 + run[None, :]
+            push = np.where(cap < bu[:, None] + FWD_REACH_M, cap, u[:, 8:])
+            u[:, 8:] = np.where(in_poss[:, None], np.minimum(np.maximum(u[:, 8:], push), cap), u[:, 8:])
             u[:, 0] = np.clip(4.0 + 0.08 * bu, 3.0, 14.0)
             v[:, 0] = GOAL_Y + 0.25 * (bv - GOAL_Y)
             u, v = np.clip(u, 1.0, PITCH_L - 1.0), np.clip(v, 1.5, PITCH_W - 1.5)
@@ -832,7 +841,7 @@ class Engine:
                 row = int(cand[np.argmin(d[cand])])
                 team = self.team_of(row)
                 kicker_team = self.team_of(int(self.kicker[b])) if self.kicker[b] >= 0 else -1
-                p = 0.92 if team == kicker_team else (0.65 if self.flight[b] == 1 else 0.85)
+                p = 0.92 if team == kicker_team else (INTERCEPT_P if self.flight[b] == 1 else 0.85)
                 if nz[N_CONTROL] < p:
                     self._gain_ball(w, row, kicker_team)
                     return
@@ -932,7 +941,7 @@ class Engine:
             w.pressure_row = k
         if dist >= TACKLE_R or w.tackle_cooldown.get(k, -1) > self.t_ms or k % 11 == 0:
             return
-        rate = 0.9 * (0.6 + 0.8 * self.eff_styles[b, 1 - team, 0])
+        rate = TACKLE_RATE * (0.6 + TACKLE_PRESS * self.eff_styles[b, 1 - team, 0])
         if nz[N_TACKLE] >= 1.0 - math.exp(-rate * DT):
             return
         r = nz[N_TACKLE_OUT]

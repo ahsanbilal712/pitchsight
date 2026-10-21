@@ -29,6 +29,7 @@ ACCEL = 4.5                       # m/s^2
 GROUND_DECAY = 0.75               # 1/s, exponential speed decay of a rolling ball
 AIR_DRAG = 0.08
 STAMINA_COST = 1.3e-6             # per tick per (m/s)^2
+XG_INTERCEPT = -2.65              # open-play xG logit at zero angle, zero distance, empty cone
 
 
 def to_team(x, y, direction):
@@ -53,7 +54,7 @@ def goal_distance(u, v):
 
 def xg(dist, angle, cone):
     """Open-play expected goals: logistic in goal angle, distance and defenders in the shooting cone."""
-    z = -2.2 + 2.8 * angle - 0.07 * dist - 0.5 * cone
+    z = XG_INTERCEPT + 2.8 * angle - 0.07 * dist - 0.5 * cone
     return 1.0 / (1.0 + np.exp(-z))
 
 

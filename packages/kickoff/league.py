@@ -10,6 +10,7 @@ from pydantic import BaseModel, ConfigDict
 STYLE_KEYS = ("press_height", "tempo", "width", "directness", "line_height")
 # 4-3-3: GK, RB, RCB, LCB, LB, RCM, CM, LCM, RW, CF, LW (right side is low y when attacking +x)
 FORMATION = ("GK", "DF", "DF", "DF", "DF", "MF", "MF", "MF", "FW", "FW", "FW")
+GOLDEN_SEED = 4242
 SLOTS = ("GK", "RB", "RCB", "LCB", "LB", "RCM", "CM", "LCM", "RW", "CF", "LW")
 
 
@@ -58,6 +59,14 @@ class League:
         players = [Player(**p) for p in json.loads((path / "players.json").read_text(encoding="utf-8"))]
         styles = json.loads((path / "styles.json").read_text(encoding="utf-8"))
         return cls(clubs, players, styles)
+
+    def fixture(self, seed: int) -> tuple[str, str]:
+        """(home, away) for a seed: the golden match is Verdant v Ironvale, every other seed walks the 56 ordered
+        pairings with stride 17 so any 56 consecutive seeds play each pairing once."""
+        if seed == GOLDEN_SEED:
+            return "verdant", "ironvale"
+        pairs = [(h, a) for h in self.club_order for a in self.club_order if h != a]
+        return pairs[(seed * 17) % len(pairs)]
 
     def squad(self, club: str) -> list[Player]:
         return sorted((p for p in self.players.values() if p.club == club), key=lambda p: (p.shirt, p.id))

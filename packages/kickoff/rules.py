@@ -78,6 +78,11 @@ class ScriptedRule:
     """Utility + noise on-ball rule (scripted_v1)."""
 
     temperature = 0.012
+    # Tuned on seeds 1-50 against the TECH_PLAN 1.4 realism ranges (T-014).
+    shot_scale = 1.3              # weight on xG when comparing a shot with the best pass
+    shot_range_m = 25.0           # no open-play shots from further out
+    through_ball_bias = 0.045     # the passer over-rates a runner past the offside line (mistimed runs -> offsides)
+    rate_base, rate_tempo = 0.55, 1.1   # release hazard per second: base + tempo term
 
     def decide_batch(self, b: DecisionBatch) -> DecisionOut:
         D = b.U.shape[0]
@@ -100,7 +105,7 @@ class ScriptedRule:
         value_pass = pc * gain - (1.0 - pc) * loss[:, None]
         second_last = np.sort(ou, axis=1)[:, -2]
         line = np.maximum(np.maximum(second_last, u0), PITCH_L / 2)
-        value_pass = value_pass - 0.03 * (mu > line[:, None] + 0.2)
+        value_pass = value_pass + self.through_ball_bias * (mu > line[:, None] + 0.2)
         value_pass[:, 0] -= 0.01                                                            # back to the keeper
         value_pass[rows, b.holder] = -np.inf
         value_pass[d < 3.0] = -np.inf
@@ -108,7 +113,7 @@ class ScriptedRule:
         # shoot, clear, carry
         dist0, ang0 = goal_distance(u0, v0), goal_angle(u0, v0)
         cone = np.array([cone_count(u0[i], v0[i], ou[i], ov[i]) for i in range(D)])
-        value_shoot = np.where(dist0 < 28.0, 0.8 * xg(dist0, ang0, cone) * (1.0 + 0.25 * b.momentum), -np.inf)
+        value_shoot = np.where(dist0 < self.shot_range_m, self.shot_scale * xg(dist0, ang0, cone) * (1.0 + 0.25 * b.momentum), -np.inf)
         pressure = np.hypot(ou - u0[:, None], ov - v0[:, None]).min(axis=1)
         value_clear = np.where((u0 < 25.0) & (pressure < 2.5), 0.6 * loss, -np.inf)
         value_carry = threat(np.minimum(u0 + 3.0, PITCH_L), v0) * np.clip(pressure / 4.0, 0.2, 1.0)
@@ -132,7 +137,7 @@ class ScriptedRule:
             value_pass = np.where(stuck[:, None], fallback, value_pass)
         options = np.concatenate([value_pass, value_shoot[:, None], value_clear[:, None]], axis=1)   # [D, 13]
         best = options.max(axis=1)
-        rate = (0.55 + 1.1 * tempo) * (1.0 + 0.15 * b.momentum) * (1.0 + 1.5 * np.clip((3.0 - pressure) / 3.0, 0, 1))
+        rate = (self.rate_base + self.rate_tempo * tempo) * (1.0 + 0.15 * b.momentum) * (1.0 + 1.5 * np.clip((3.0 - pressure) / 3.0, 0, 1))
         rate = np.where(b.holder == 0, rate * 0.6, rate)
         p_act = 1.0 - np.exp(-rate * _sigmoid((best - value_carry) / 0.01) * DT)
         act = (b.noise[:, 0] < p_act) | (r != FREE)
