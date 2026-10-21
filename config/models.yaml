@@ -41,13 +41,14 @@ roles:
 
   tactician_live:
     provider: gemini
-    model: gemini-4-argon
-    effort: low                       # measured 22 Oct (T-032): thinking high used all 3000 tokens, 37 s; low 14 s
+    model: gemini-3.8-flash           # owner decision 22 Oct: pick by measurement. Tactician prompt: Flash 4.4-5.3 s,
+    effort: none                      # $0.003; Argon low 9-14 s, high 37 s (T-032). Argon stays for the golden batch.
     max_tokens: 3000
     output_format: schemas/explanation.schema.json
     tools: [query_events, get_pitch_control, simulate_counterfactual, player_stats]
     max_tool_rounds: 1                # TECH_PLAN 1.13 response: first live probe 18.6 s > 15 s (T-032)
     timeout_s: 12
+    hedge_after_s: 5.0                # Flash Tactician typically 2.7-4.3 s, tail 6-7 s (T-032 probes)
     fallback_role: tactician_degraded
 
   tactician_degraded:                 # no LLM; template explanation from the counterfactual numbers
@@ -57,10 +58,11 @@ roles:
   proposer:
     provider: gemini
     model: gemini-3.8-flash
-    effort: low
+    effort: none                      # live path: thinking off 1.3-1.8 s vs low 2.5-5.1 s per Flash call (T-020/T-032)
     max_tokens: 600
     output_format: inline_json        # {"alternatives": [{"kind","actor","target","reason"}]}
     timeout_s: 6
+    hedge_after_s: 2.5                # tail latency: a second identical request after 2.5 s, first answer wins
     fallback_role: proposer_rule       # enumerate passes to the 3 teammates with highest xT gain
 
   narrator_fast:
@@ -70,21 +72,32 @@ roles:
     max_tokens: 300
     output_format: inline_json        # {"headline","body","claims":[...]}
     timeout_s: 4
+    hedge_after_s: 2.5
     fallback_role: narrator_template
 
   narrator_template:
     provider: none
     model: template
 
-  panel_pundit:                       # three instances with distinct system prompts
+  panel_pundit:                       # three instances with distinct system prompts; live (25 s budget)
     provider: gemini
-    model: gemini-4-argon
-    effort: low                       # medium maps to thinking high on Argon: 37 s per call measured (T-032)
+    model: gemini-3.8-flash           # owner decision 22 Oct: Flash live if it fits the budget (Argon: 9-10 s/pundit)
+    effort: none
     max_tokens: 500
     output_format: inline_json        # {"take","claims":[...],"stance"}
     tools: [simulate_counterfactual, get_pitch_control]
     max_tool_rounds: 1
     timeout_s: 10
+    hedge_after_s: 4.0                # live panel: Flash pundits 3.5-7.5 s each, 25 s budget for all three (T-041)
+
+  panel_pundit_golden:                # golden precompute (T-042): same prompts, Argon, batch
+    provider: gemini
+    model: gemini-4-argon
+    effort: low
+    max_tokens: 500
+    output_format: inline_json
+    tools: []
+    batch: true
 
   panel_chair:
     provider: gemini

@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-032 follow-up: Flash live Tactician, explained cue p95 12.9 s (track B)
+
+- Owner decision: pick the live Tactician model by measurement, Argon stays for the golden batch. `tactician_live`
+  is gemini-3.8-flash, thinking off (4.4–5.3 s, $0.003 on the Tactician prompt vs 9–14 s on Argon); Proposer
+  thinking off. The Tactician gets the last 15 s of events up front (no `query_events` round), the Proposer starts
+  the rule alternatives' rollouts while it runs, and `LiveClient` hedges slow calls (`hedge_after_s` per role: a
+  second identical request, first answer wins, the loser gets a worst-case ledger row).
+- Probes over six golden decision moments (load average 200–340): 15.9 → 15.7 → 16.2 → **12.9 s p95**, p50 10.4 s,
+  5/6 delivered (the sixth had no plausible alternative), every cue verified. T-032's live test passes on Flash.
+  Details: `docs/evidence/latency_probe_day3.md`.
+- Bugs fixed: the worker died on its first idle second (a `wait_for` around the watcher closed the async
+  generator; regression test added); the MCP counterfactual tool re-checks its store inside the engine lock.
+- Spend since the decision: $0.10 ($0.088 reported, $0.012 worst-case rows). T-032 total on the ledger is now about
+  $0.68 against its $0.50 dev budget (most of it worst-case rows from the Argon timeouts this morning).
+- Note: uncommitted engine edits in the shared checkout (track A, 02:15) made re-simulation diverge from the golden
+  events, so rollout-dependent tests fail in the working tree; my tests pass on committed code plus my changes in a
+  detached scratch worktree (192 passed).
+
+---
+
 ## 2026-10-22 · T-029 follow-up: one moment per event (track B)
 
 - After track A's heads v1 (T-025) the golden match gave 61 explained moments (limit 60). Six were the same event

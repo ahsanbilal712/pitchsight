@@ -62,14 +62,16 @@ def make_deps(mode: str) -> Deps:
     store = MatchStore(bb)
     url = os.environ.get("WHYLINE_MCP_URL")
     tools = McpTools(url) if url else LocalTools(store)   # agents' data path is MCP; in-process is the dev default
+    # the Panel fits its 25 s budget live on Flash pundits (20.6 s measured, T-041); WHYLINE_PANEL=0 turns it off
+    panel = os.environ.get("WHYLINE_PANEL", "1") != "0"
     if mode == "live":
         from newsroom.llm import LiveClient
 
-        return Deps(bb=bb, llm=LiveClient(mode="live"), mode=mode, store=store, rollout=tools)
+        return Deps(bb=bb, llm=LiveClient(mode="live"), mode=mode, store=store, rollout=tools, panel_enabled=panel)
     from cache import CacheClient
 
     cache = CacheClient(inner_tools=tools)
-    return Deps(bb=bb, llm=cache, mode=mode, store=store, rollout=cache)
+    return Deps(bb=bb, llm=cache, mode=mode, store=store, rollout=cache, panel_enabled=panel)
 
 
 async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asyncio.Event | None = None,
@@ -80,18 +82,30 @@ async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asy
 
     workflow = build_workflow(deps, storage=storage)
     if hasattr(deps.llm, "warm"):
+        warmed = set()
         for role_name in ("narrator_fast", "tactician_live"):   # one per model: the cold first call is ~5-10 s
-            log.info("warm-up %s %.2f s", role_name, await deps.llm.warm(role_name))
+            model = config.role(role_name).model
+            if model not in warmed:
+                warmed.add(model)
+                log.info("warm-up %s %.2f s", role_name, await deps.llm.warm(role_name))
     if storage is not None:
         await resume_pending(deps, storage, on_result=on_result)
+    log.info("worker ready mode=%s", deps.mode)
     seen: set[str] = set()
     stop = stop or asyncio.Event()
-    watcher = deps.bb.watch("moments", match_id=match_id).__aiter__()
+    seq = 0
+    pending: list[dict] = []
     while not stop.is_set():
-        try:
-            doc = await asyncio.wait_for(watcher.__anext__(), timeout=0.5)
-        except TimeoutError:
-            continue
+        # poll the blackboard sequence (the same mechanism as bb.watch); a wait_for around an async generator's
+        # __anext__ would close the generator on its first timeout and end the loop
+        if not pending:
+            batch = deps.bb.changes_since("moments", seq, match_id)
+            if not batch:
+                await asyncio.sleep(0.05)
+                continue
+            seq = batch[-1][0]
+            pending = [doc for _, doc in batch]
+        doc = pending.pop(0)
         key = f"{doc.get('match_id')}/{doc.get('moment_id')}"
         if key in seen or doc.get("status", "new") != "new":
             continue

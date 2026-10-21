@@ -26,11 +26,43 @@ Run 1's cue (`c_000011`, verified by all eight Fact Checker rules):
 > **Tobi Okafor creates dangerous opening** — A 2v1 overload on the left in the middle third yields 3.4%, while an
 > option to Oren Novacek offers 20.65% and a 1.81% shift.
 
-**Result: the 15 s explained-cue target is not met.** Both runs exceed it. Run 1 is over by 3.6 s with the
+**Result on 22 Oct morning (Argon): the 15 s explained-cue target is not met** (superseded by the Flash update
+below). Both runs exceed it. Run 1 is over by 3.6 s with the
 Tactician making no tool calls; run 2 shows the variance: the same prompt that took 9.3 s timed out twice at 12 s.
 `max_tool_rounds` is now 1 in `config/models.yaml` as TECH_PLAN 1.13 prescribes, but tool rounds were not the cost
 here: one Argon call is. M1 item 4 records this number; the recorded judge run (T-080) and the latency work
 (T-081) carry it.
+
+## Update 22 Oct, after the owner's decision: Flash for the live Tactician
+
+Owner decision: either Gemini model for the live Tactician, chosen by measurement; Argon stays for the golden batch
+and recaps. On the Tactician prompt (2,422 input tokens) gemini-3.8-flash took 4.4–5.3 s at $0.003 (thinking off or
+low made no difference), against 9–14 s for gemini-4-argon at thinking low. Probes over six golden decision moments
+with a counterfactual (18:05, 24:57, 29:08, 45:15, 66:39, 83:07), `python scripts/latency_probe.py --moment-t
+1085800,1497500,1748000,2715600,3999600,4987900`, machine load average 200–340 throughout:
+
+| Probe | Change | Delivered | p50 | p95 (all delivered) | Spend |
+|---|---|---|---|---|---|
+| A | Flash Tactician (thinking off), Proposer thinking off | 6/6 | 14.5 s | 15.9 s | $0.038 |
+| B | + the last 15 s of events in the Tactician prompt (no `query_events` round) | 6/6 | 11.0 s | 15.7 s | $0.037 |
+| C | + rule alternatives' rollouts start while the Proposer runs | 5/6 | 11.5 s | 16.2 s | $0.042 |
+| D | + hedged requests (a second identical call after 2.5 s Proposer/Narrator, 5 s Tactician) | 5/6 | **10.4 s** | **12.9 s** | $0.073 |
+
+Per stage in D: Proposer 2.1–6.5 s, Rollout 0.02–2.8 s (prefetched), Tactician 3.5–4.4 s, Narrator 1.6–2.4 s. Every
+delivered cue is verified by the Fact Checker. The undelivered moment (24:57) is not a timeout: the Proposer's output
+was invalid twice and the rule found no alternative the engine gives at least 5%, so there is no Sliding Doors to
+show. Probes C and D ran in a detached worktree of the committed code, because uncommitted engine edits in the shared
+checkout made re-simulation diverge from the golden events at the time.
+
+**Result: explained cue p95 12.9 s, under the 15 s target**, with five delivered cues in one probe; hedging costs
+about $0.006 more per cue (the abandoned call gets a worst-case ledger row). The recorded judge run (T-080) measures
+the p95 over three matches.
+
+Fixes along the way: the worker's moment loop wrapped the blackboard watcher in a 0.5 s `wait_for`, which closed the
+async generator on the first idle second and killed the worker (regression test added); the MCP counterfactual tool
+re-checks its store inside the engine lock, so a prefetched rollout is never computed twice. T-032's live test
+(`WHYLINE_LIVE_TESTS=1 pytest tests/newsroom/test_tactician.py -m live`) passes on Flash: $0.0034, schema-valid,
+every claim cited.
 
 ## What else was measured
 

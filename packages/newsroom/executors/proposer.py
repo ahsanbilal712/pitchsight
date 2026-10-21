@@ -8,6 +8,7 @@ with no on-ball decision gets no alternatives.
 
 from __future__ import annotations
 
+import asyncio
 import json
 import time
 
@@ -69,6 +70,21 @@ async def propose(deps: Deps, msg: Envelope, decision: dict) -> tuple[list[dict]
 
 
 class ProposerExecutor(NewsroomExecutor):
+    def prefetch(self, msg: Envelope, decision: dict) -> None:
+        """Live mode: start the rule alternatives' rollouts while the model proposes. The MCP tool stores each
+        result, so the RolloutExecutor gets them back at once when the model proposes the same alternatives
+        (it usually does); different ones are simulated then as before."""
+        if self.deps.rollout is None or self.deps.mode == "replay":
+            return
+        from newsroom.executors.rollout import simulate, timeout_s
+
+        tasks = self.deps.state.setdefault("prefetch", set())
+        for alt in proposer_rule(decision):
+            task = asyncio.create_task(simulate(self.deps.rollout, msg.moment.match_id, decision["t_ms"], alt,
+                                                timeout_s()))
+            tasks.add(task)
+            task.add_done_callback(tasks.discard)
+
     @handler
     async def propose(self, msg: Routed, ctx: WorkflowContext[Proposals]) -> None:
         started = time.perf_counter()
@@ -80,6 +96,7 @@ class ProposerExecutor(NewsroomExecutor):
         if decision is None:
             alts, info = [], {"status": "no_decision", "model": None}
         else:
+            self.prefetch(msg, decision)
             alts, info = await propose(self.deps, msg, decision)
         out = Proposals(**msg.hop(self.id).model_dump(), alternatives=alts, decision=decision)
         self.trace(out, started, status=info["status"], model=info.get("model"), cost_usd=info.get("cost_usd", 0.0),

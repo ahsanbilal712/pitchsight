@@ -252,10 +252,17 @@ def simulate_counterfactual(store: MatchStore, match_id: str, t_ms: int, alterna
             return hit
     if store.replay:
         raise ToolError("cache_miss", f"replay mode: no cached counterfactual at {t_ms} for {key}")
-    for cf in store.bb.query("counterfactuals", match_id=match_id, t_ms=int(t_ms)):
-        if {k: cf["alternative"].get(k) for k in key} == key and cf["n"] == n and cf["horizon_s"] == horizon_s:
-            return cf
+    def stored() -> dict | None:
+        for cf in store.bb.query("counterfactuals", match_id=match_id, t_ms=int(t_ms)):
+            if {k: cf["alternative"].get(k) for k in key} == key and cf["n"] == n and cf["horizon_s"] == horizon_s:
+                return cf
+        return None
+
+    if (hit := stored()) is not None:
+        return hit
     with store._lock:
+        if (hit := stored()) is not None:   # a concurrent call (the Proposer's prefetch) finished it meanwhile
+            return hit
         if m.ref is None:
             m.ref = MatchRef(seed=int(match_id[2:]), match_dir=m.dir)
         started = time.perf_counter()
@@ -264,7 +271,8 @@ def simulate_counterfactual(store: MatchStore, match_id: str, t_ms: int, alterna
                                counterfactual_id=store.bb.next_id("counterfactuals", match_id))
         except BranchError as exc:
             raise ToolError("invalid_alternative", str(exc)) from exc
-    cf["compute_ms"] = int((time.perf_counter() - started) * 1000)
+        cf["compute_ms"] = int((time.perf_counter() - started) * 1000)
+        store.bb.put("counterfactuals", cf)
     try:
         store.bb.get("pitch_control", cf["pitch_control_snapshot_id"], match_id)
     except NotFound:

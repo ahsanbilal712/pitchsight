@@ -80,6 +80,12 @@ def test_rewrite_attempts_have_their_own_entries(manifest):
 
 
 def test_prefers_the_roles_model(manifest):
+    """The live role's own model first (Flash), then the golden batch model (Argon)."""
+    res = arun(CacheClient(manifest).complete("tactician_live", [], match_id="m_4242", moment_id="mo_00077",
+                                              prompt_version="tactician@3", producer="tactician"))
+    assert res["json"]["why"] == "gemini-3.8-flash"
+    manifest.data["entries"] = [e for e in manifest.entries if e.get("model") != "gemini-3.8-flash"
+                                or e.get("producer") != "tactician"]
     res = arun(CacheClient(manifest).complete("tactician_live", [], match_id="m_4242", moment_id="mo_00077",
                                               prompt_version="tactician@3", producer="tactician"))
     assert res["json"]["why"] == "gemini-4-argon"

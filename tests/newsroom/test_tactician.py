@@ -140,8 +140,8 @@ def test_live_client_runs_tool_rounds_through_its_own_client(tmp_path):
 
     lc = LiveClient(SpendGuard(ledger_path=tmp_path / "l.jsonl"), clients={"gemini": Fake()})
     res = arun(lc.complete("tactician_live", [{"role": "user", "content": "x"}], ["tool"], schema={"type": "object"}))
-    assert seen["tools"] == ["tool"] and seen["model"] == "gemini-4-argon" and res["json"]["why"] == "w"
-    assert seen["thinking_config"] == {"thinking_level": "LOW"}
+    assert seen["tools"] == ["tool"] and seen["model"] == "gemini-3.8-flash" and res["json"]["why"] == "w"
+    assert seen["thinking_config"] == {"thinking_budget": 0}         # live Tactician: Flash, thinking off
 
 
 @pytest.mark.live

@@ -2,6 +2,7 @@
 rewrite with the diff, one live call (T-020)."""
 
 import asyncio
+import dataclasses
 import json
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -169,3 +170,27 @@ def test_live_narrator_line(evidence_bb, explanation_example):
     assert out["status"] == "ok", out
     assert len(out["headline"]) <= 60 and len(out["body"]) <= 280
     assert guard.total - before <= 0.10
+
+
+def test_live_client_hedges_a_slow_call(tmp_path, monkeypatch):
+    """A second identical request after hedge_after_s; the first answer wins, the loser gets a worst-case row."""
+    from newsroom import config as cfg
+
+    guard = SpendGuard(ledger_path=tmp_path / "ledger.jsonl")
+    calls = []
+
+    class Tail:
+        async def get_response(self, messages, options=None):
+            calls.append(time.perf_counter())
+            await asyncio.sleep(2.0 if len(calls) == 1 else 0.05)   # the first request is stuck in the tail
+            return SimpleNamespace(text='{"headline": "h", "body": "b", "claims": []}',
+                                   usage_details={"input_token_count": 100, "output_token_count": 10})
+
+    real = cfg.role("narrator_fast")
+    monkeypatch.setattr("newsroom.llm.role", lambda name: dataclasses.replace(real, extra={"hedge_after_s": 0.2}))
+    t0 = time.perf_counter()
+    res = arun(LiveClient(guard, clients={"gemini": Tail()}).complete(
+        "narrator_fast", [{"role": "user", "content": "x" * 400}], match_id="m_test"))
+    assert time.perf_counter() - t0 < 1.0 and len(calls) == 2 and res["json"]["headline"] == "h"
+    rows = [json.loads(line) for line in (tmp_path / "ledger.jsonl").read_text().splitlines()]
+    assert sorted(r["role"] for r in rows) == ["narrator_fast", "narrator_fast:timeout"]

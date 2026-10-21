@@ -147,24 +147,53 @@ class LiveClient:
         self.guard.check(match_id)  # SpendCapReached propagates to the Director
         rounds = int(ctx.get("max_tool_rounds", r.max_tool_rounds))
         client = self._tool_client(r.provider, rounds) if tools else self._client(r.provider)
-        started = time.perf_counter()
-        try:
-            resp = await asyncio.wait_for(
-                client.get_response(_to_messages(messages), options=self.options(r, ctx.get("schema"), tools)),
-                timeout=ctx.get("timeout_s") or r.timeout_s)
-        except (TimeoutError, asyncio.CancelledError) as exc:
-            # the provider may still bill the abandoned call and returns no usage: record a worst case
-            # (input ~ 4 characters per token, output = max_tokens) so the caps stay conservative. A call
-            # cancelled from outside (the Panel's 25 s budget) is recorded the same way, then re-raised.
-            est_in = sum(len(m["content"]) for m in messages) // 4
-            calls = rounds + 1 if tools else 1
-            self.guard.record(f"{role_name}:timeout", r.model, est_in * calls, (r.max_tokens or 0) * calls, match_id,
-                              self.mode)
-            if isinstance(exc, asyncio.CancelledError):
+        timeout = ctx.get("timeout_s") or r.timeout_s
+        hedge = r.extra.get("hedge_after_s")
+        opts = self.options(r, ctx.get("schema"), tools)
+        calls = rounds + 1 if tools else 1
+
+        async def attempt():
+            try:
+                return await client.get_response(_to_messages(messages), options=opts)
+            except asyncio.CancelledError:
+                # the provider may still bill an abandoned call and returns no usage: record a worst case
+                # (input ~ 4 characters per token, output = max_tokens per possible round) so the caps stay
+                # conservative. Timeouts, the losing hedge and outside cancellation (the Panel's budget) all land here.
+                est_in = sum(len(m["content"]) for m in messages) // 4
+                self.guard.record(f"{role_name}:timeout", r.model, est_in * calls, (r.max_tokens or 0) * calls,
+                                  match_id, self.mode)
                 raise
-            raise LLMTimeout(f"{role_name} timed out after {ctx.get('timeout_s') or r.timeout_s}s") from exc
+
+        started = time.perf_counter()
+        tasks = [asyncio.create_task(attempt())]
+        try:
+            async with asyncio.timeout(timeout):
+                if hedge and float(hedge) < timeout:
+                    done, _ = await asyncio.wait(tasks, timeout=float(hedge))
+                    if not done:   # tail latency: a second identical request; the first answer wins
+                        tasks.append(asyncio.create_task(attempt()))
+                while True:
+                    done, _ = await asyncio.wait([t for t in tasks if not t.done()] or tasks,
+                                                 return_when=asyncio.FIRST_COMPLETED)
+                    finished = [t for t in tasks if t.done()]
+                    ok = [t for t in finished if not t.cancelled() and t.exception() is None]
+                    if ok:
+                        resp = ok[0].result()
+                        break
+                    if all(t.done() for t in tasks):
+                        raise finished[0].exception()
+        except TimeoutError as exc:
+            raise LLMTimeout(f"{role_name} timed out after {timeout}s") from exc
+        except LLMError:
+            raise
         except Exception as exc:  # provider errors become LLMError for the fallback chain
             raise LLMError(f"{role_name}: {type(exc).__name__}: {exc}") from exc
+        finally:
+            pending = [t for t in tasks if not t.done()]
+            for t in pending:
+                t.cancel()
+            if pending:
+                await asyncio.gather(*pending, return_exceptions=True)
         latency_ms = int((time.perf_counter() - started) * 1000)
         usage = dict(resp.usage_details or {})
         cached = int(usage.get("cache_read_input_token_count") or 0)

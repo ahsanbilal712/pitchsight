@@ -134,3 +134,24 @@ def test_worker_runs_one_workflow_per_new_moment(deps):
     arun(go())
     assert runs == ["mo_00012", "mo_00014"]
     assert [c["moment_id"] for c in deps.bb.query("cues")] == ["mo_00012", "mo_00014"]
+
+
+def test_worker_survives_idle_time_before_the_first_moment(deps):
+    """Regression: a wait_for around the watcher's __anext__ closed the generator on its first idle timeout."""
+    runs = []
+
+    async def go():
+        stop = asyncio.Event()
+
+        def on_result(msg, result):
+            runs.append(msg.moment.moment_id)
+            stop.set()
+
+        async def late_moment():
+            await asyncio.sleep(1.5)
+            deps.bb.put("moments", {**GOAL, "moment_id": "mo_00020"})
+
+        await asyncio.gather(asyncio.wait_for(serve(deps, stop=stop, on_result=on_result), timeout=20), late_moment())
+
+    arun(go())
+    assert runs == ["mo_00020"]

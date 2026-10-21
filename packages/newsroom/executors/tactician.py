@@ -41,6 +41,7 @@ RESPONSE_SCHEMA = {"type": "object", "required": ["why", "claims", "confidence"]
         "text": {"type": "string"}, "kind": {"type": "string", "enum": KINDS},
         "value_number": {"type": "number"}, "value_text": {"type": "string"}, "unit": {"type": "string"},
         "evidence_ids": {"type": "array", "items": {"type": "string"}}}}}}}
+RECENT_MS, RECENT_N = 15_000, 12     # events before the moment given to the model up front
 EVENT_KEEP = ("id", "t_ms", "clock", "type", "team", "player", "outcome", "location", "end_location")
 
 
@@ -133,7 +134,7 @@ def make_tools(deps: Deps, trace: list) -> list:
 
 
 def build_messages(meta: dict, moment, decision: dict | None, cf: dict | None, pc: dict | None,
-                   alternatives: list[dict]) -> list[dict]:
+                   alternatives: list[dict], recent: list[dict] | None = None) -> list[dict]:
     _, system = config.prompt(PROMPT)
     players, _ = league_data()
     m = moment.model_dump() if hasattr(moment, "model_dump") else dict(moment)
@@ -143,7 +144,8 @@ def build_messages(meta: dict, moment, decision: dict | None, cf: dict | None, p
     payload = {"MOMENT": view, "DECISION": None if decision is None else
                {k: decision[k] for k in ("t_ms", "actor", "actor_name", "team", "actual", "anchor_event_id")},
                "COUNTERFACTUAL": None if cf is None else {k: v for k, v in cf.items() if k != "futures_sample"},
-               "PITCH_CONTROL": pc, "ALTERNATIVES_TRIED": alternatives}
+               "PITCH_CONTROL": pc, "ALTERNATIVES_TRIED": alternatives,
+               "RECENT_EVENTS": [compact_event(e) for e in (recent or [])]}
     return [{"role": "system", "content": league_block(meta) + "\n\n" + system},
             {"role": "user", "content": json.dumps(payload, separators=(",", ":"), default=str)}]
 
@@ -203,7 +205,12 @@ async def explain(deps: Deps, msg: Envelope, decision: dict | None, cf: dict | N
     role = config.role(ROLE)
     trace: list = []
     tools = make_tools(deps, trace) if deps.rollout is not None else None
-    messages = build_messages(meta, m, decision, cf, pc, alternatives)
+    recent = []
+    if deps.rollout is not None:  # pre-resolve what a query_events round would fetch (a round costs 2-3 s live)
+        out = await deps.rollout.call("query_events", {"match_id": m.match_id, "t_from_ms": max(0, m.t_ms - RECENT_MS),
+                                                       "t_to_ms": m.t_ms + 1000})
+        recent = [e for e in out if isinstance(e, dict) and "id" in e][-RECENT_N:] if isinstance(out, list) else []
+    messages = build_messages(meta, m, decision, cf, pc, alternatives, recent)
     ctx = {"match_id": m.match_id, "moment_id": m.moment_id, "schema": RESPONSE_SCHEMA, "prompt_version": PROMPT,
            "producer": "tactician",
            "timeout_s": role.timeout_s, "max_tool_rounds": deps.state.get("max_tool_rounds", role.max_tool_rounds)}
