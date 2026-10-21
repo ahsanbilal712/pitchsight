@@ -1,0 +1,107 @@
+{
+ "clock": "09:23",
+ "cue_id": "c_900405",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0405"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Grabowski",
+    "unit": null,
+    "value": "p_045",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Contact point (40.8, 60.1) outside the penalty area."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     105.0,
+     13.84
+    ],
+    [
+     88.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     88.5,
+     13.84
+    ],
+    [
+     88.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     88.5,
+     54.16
+    ],
+    [
+     105.0,
+     54.16
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_045",
+   "p_007"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": null,
+ "period": 1,
+ "priority": 0.7,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "scout",
+   "fourth_official",
+   "director"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "fo_000563900"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 563900,
+ "t_out_ms": 571900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_045",
+   "p_007"
+  ]
+ },
+ "text": {
+  "body": "Contact outside the penalty area; Grabowski closed in at 0.3 m/s.",
+  "headline": "Free kick: Grabowski"
+ },
+ "verified": true
+}

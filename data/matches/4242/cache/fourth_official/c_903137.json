@@ -1,0 +1,98 @@
+{
+ "clock": "77:13",
+ "cue_id": "c_903137",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3137"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.1 m",
+    "unit": "metres",
+    "value": 0.1,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3137"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Valcourt",
+    "unit": null,
+    "value": "p_048",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Offside line at the second-last defender, x = 99.0 m, in the frame the pass was played."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     98.99,
+     0.0
+    ],
+    [
+     98.99,
+     68.0
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_048",
+   "p_005"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": null,
+ "period": 2,
+ "priority": 0.7,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "scout",
+   "fourth_official",
+   "director"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "fo_004633000"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 4633000,
+ "t_out_ms": 4641000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_048",
+   "p_005"
+  ]
+ },
+ "text": {
+  "body": "Valcourt was 0.1 m beyond the last defender when the ball was played.",
+  "headline": "Offside: Valcourt, 0.1 m"
+ },
+ "verified": true
+}

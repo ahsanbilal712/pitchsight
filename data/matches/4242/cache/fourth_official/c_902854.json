@@ -1,0 +1,107 @@
+{
+ "clock": "70:05",
+ "cue_id": "c_902854",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2854"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Valcourt",
+    "unit": null,
+    "value": "p_048",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Contact point (81.8, 24.4) outside the penalty area."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     0.0,
+     13.84
+    ],
+    [
+     16.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     16.5,
+     13.84
+    ],
+    [
+     16.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     16.5,
+     54.16
+    ],
+    [
+     0.0,
+     54.16
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_048",
+   "p_013"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": null,
+ "period": 2,
+ "priority": 0.7,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "scout",
+   "fourth_official",
+   "director"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "fo_004205500"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 4205500,
+ "t_out_ms": 4213500,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_048",
+   "p_013"
+  ]
+ },
+ "text": {
+  "body": "Contact outside the penalty area; Valcourt closed in at 0.7 m/s.",
+  "headline": "Free kick: Valcourt"
+ },
+ "verified": true
+}

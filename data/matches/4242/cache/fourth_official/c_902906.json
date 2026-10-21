@@ -1,0 +1,98 @@
+{
+ "clock": "70:59",
+ "cue_id": "c_902906",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2906"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.4 m",
+    "unit": "metres",
+    "value": 0.4,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_2906"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Marchetti",
+    "unit": null,
+    "value": "p_049",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Offside line at the second-last defender, x = 98.7 m, in the frame the pass was played."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     98.73,
+     0.0
+    ],
+    [
+     98.73,
+     68.0
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_049",
+   "p_005"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": null,
+ "period": 2,
+ "priority": 0.7,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "scout",
+   "fourth_official",
+   "director"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "fo_004259000"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 4259000,
+ "t_out_ms": 4267000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_049",
+   "p_005"
+  ]
+ },
+ "text": {
+  "body": "Marchetti was 0.4 m beyond the last defender when the ball was played.",
+  "headline": "Offside: Marchetti, 0.4 m"
+ },
+ "verified": true
+}

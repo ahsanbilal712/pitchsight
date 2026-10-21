@@ -1,0 +1,107 @@
+{
+ "clock": "57:01",
+ "cue_id": "c_902282",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2282"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Novacek",
+    "unit": null,
+    "value": "p_020",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Contact point (38.7, 45.3) outside the penalty area."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     105.0,
+     13.84
+    ],
+    [
+     88.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     88.5,
+     13.84
+    ],
+    [
+     88.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     88.5,
+     54.16
+    ],
+    [
+     105.0,
+     54.16
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_020",
+   "p_039"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": null,
+ "period": 2,
+ "priority": 0.7,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "scout",
+   "fourth_official",
+   "director"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "fo_003421200"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 3421200,
+ "t_out_ms": 3429200,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_020",
+   "p_039"
+  ]
+ },
+ "text": {
+  "body": "Contact outside the penalty area; Novacek closed in at 1.3 m/s.",
+  "headline": "Free kick: Novacek"
+ },
+ "verified": true
+}
