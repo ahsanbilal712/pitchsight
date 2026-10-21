@@ -1,7 +1,8 @@
 """PanelExecutor: three pundits and a chair debate one high-leverage moment (TECH_PLAN 1.7 Panel row, T-041).
 
 A sub-workflow built with `agent_framework.orchestrations.GroupChatBuilder` runs inside the executor: the three
-pundits (press, possession, sceptic; role `panel_pundit`, gemini-4-argon) are custom participant executors that
+pundits (press, possession, sceptic; role `panel_pundit`, gemini-3.8-flash live; `panel_pundit_golden`,
+gemini-4-argon, in the golden precompute) are custom participant executors that
 speak in a fixed order, one per round, with `max_rounds=3`. The chair (`panel_chair`, gemini-3.8-flash) closes
 the debate with {consensus, dissent, headline}. Both go through the newsroom LLMClient, so replay serves them from
 the cache and live calls go through SpendGuard.
@@ -101,6 +102,7 @@ class PunditExecutor(Executor):
                     "claims": panel_claims(m.match_id, body.get("claims", []), self.deps.bb)}
             for k in ("cost_usd", "tokens_in", "tokens_out"):
                 self.spent[k] = self.spent.get(k, 0) + (res.get(k) or 0)
+            self.spent.setdefault("pundit_s", []).append(res.get("latency_ms", 0) / 1000)
         except LLMError as exc:
             take["take"], take["error"] = "", str(exc)
         self.takes[self.name] = take
@@ -133,12 +135,19 @@ async def resolve_evidence(deps: Deps, msg: Envelope) -> dict:
     return evidence
 
 
+LAST_TIMINGS: dict = {}   # stage timings of the latest panel run (also kept when it times out)
+
+
 async def run_panel(deps: Deps, msg: Envelope) -> dict:
     """{takes, chair, claims, evidence, spent}; raises TimeoutError past BUDGET_S (the caller drops the cue)."""
     spent: dict = {}
+    LAST_TIMINGS.clear()
+    LAST_TIMINGS["spent"] = spent
 
     async def go() -> dict:
+        t0 = time.perf_counter()
         evidence = await resolve_evidence(deps, msg)
+        spent["timings"] = {"evidence_s": round(time.perf_counter() - t0, 2)}
         takes: dict = {}   # the orchestrator's output is a closing notice, not the conversation: pundits record here
         pundits = [PunditExecutor(n, deps, msg, evidence, spent, takes) for n in PUNDITS]
         chat = GroupChatBuilder(name="panel", participants=pundits, selection_func=speaking_order,
@@ -146,6 +155,7 @@ async def run_panel(deps: Deps, msg: Envelope) -> dict:
         start = Message("user", [json.dumps({"panel_on": evidence["moment"]}, default=str)])
         async for _event in chat.run([start], stream=True):
             pass
+        spent["timings"]["pundits_s"] = round(time.perf_counter() - t0 - spent["timings"]["evidence_s"], 2)
         takes = {k: v for k, v in takes.items() if v.get("take")}
         claims = list({c["text"]: c for t in takes.values() for c in t.get("claims", [])}.values())
         m = msg.moment
@@ -157,6 +167,7 @@ async def run_panel(deps: Deps, msg: Envelope) -> dict:
         for k in ("cost_usd", "tokens_in", "tokens_out"):
             spent[k] = spent.get(k, 0) + (res.get(k) or 0)
         chair = res.get("json") if isinstance(res.get("json"), dict) else {}
+        spent["timings"]["total_s"] = round(time.perf_counter() - t0, 2)
         return {"takes": takes, "chair": chair, "claims": claims, "evidence": evidence, "spent": spent}
 
     return await asyncio.wait_for(go(), timeout=BUDGET_S)

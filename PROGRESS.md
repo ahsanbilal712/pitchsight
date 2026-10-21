@@ -5,6 +5,18 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-041 follow-up: live Panel on Flash pundits, 20.6 s (track B) — cut line lifted
+
+- Owner decision: Flash for live pundits if it brings the Panel within budget. `panel_pundit` is gemini-3.8-flash
+  (thinking off, 4 s hedge); a new `panel_pundit_golden` role keeps Argon for the golden precompute (T-042).
+- Live run (golden 45:15, Okafor shot vs carry): **20.6 s** of the 25 s budget (evidence 3.6 s, three pundits
+  14.9 s at 3.8 / 7.5 / 3.5 s, chair ~2 s), $0.009. `WHYLINE_LIVE_TESTS=1 pytest tests/newsroom/test_panel.py -m
+  live`: passed. The day-4 cut line is lifted: `panel_enabled` defaults on (`WHYLINE_PANEL=0` turns it off).
+- The live test's warm-up now advances the engine explicitly (it re-simulated 45 minutes before, 29.7 s).
+  Pundit rules ask for whole percentages on screen (the run wrote raw fractions like 0.152).
+
+---
+
 ## 2026-10-22 · T-032 follow-up: Flash live Tactician, explained cue p95 12.9 s (track B)
 
 - Owner decision: pick the live Tactician model by measurement, Argon stays for the golden batch. `tactician_live`

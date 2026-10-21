@@ -101,30 +101,37 @@ def test_panel_branch_reaches_a_verified_cue(evidence_bb):
 
 @pytest.mark.live
 def test_live_panel(tmp_path):
-    """The golden 23:39 moment (Okafor shot vs pass to Novacek), real pundits and chair, in-process tools."""
+    """A golden shot moment (Okafor at 45:15, carry vs shot), real pundits and chair, in-process tools."""
     from api.spend import SpendGuard
     from blackboard import SqliteBlackboard
     from mcp_server.tools_core import MatchStore
     from newsroom.tools import LocalTools
 
     events = [json.loads(line) for line in open("data/matches/4242/events.jsonl")]
-    shot = next(e for e in events if e["id"] == "e_0942")
+    shot = next(e for e in events if e["type"] == "shot" and e["t_ms"] >= 2_715_000)
     store = MatchStore(SqliteBlackboard(tmp_path / "bb.sqlite"), runtime_dir=tmp_path)
     store.match(M)
     guard = SpendGuard()
     before = guard.total
     client = LiveClient(guard, mode="dev")
     arun(client.warm("panel_pundit"))
+    arun(client.warm("panel_chair"))
     deps = Deps(bb=store.bb, llm=client, store=store, rollout=LocalTools(store))
-    moment = {"moment_id": "mo_00060", "match_id": M, "t_ms": shot["t_ms"], "kind": "decision", "leverage": 0.0557,
+    moment = {"moment_id": "mo_00060", "match_id": M, "t_ms": shot["t_ms"], "kind": "decision", "leverage": 0.0471,
               "players": [shot["player"]], "team": shot["team"], "evidence_event_ids": [shot["id"]]}
-    arun(LocalTools(store).call("get_state", {"match_id": M, "t_ms": shot["t_ms"] - 30_000}))   # warm the engine
+    # a live match's engine is already at the moment: advance it (and the 1 Hz chaos series) to just before
+    from rollout.core import MatchRef
+    match = store.match(M)
+    match.ref = MatchRef(seed=4242, match_dir=match.dir)
+    match.ref.engine_at(shot["t_ms"] - 2000)
+    arun(LocalTools(store).call("get_state", {"match_id": M, "t_ms": shot["t_ms"] - 2000}))
     t0 = time.perf_counter()
     try:
         out = arun(P.run_panel(deps, start_message(moment)))
     except TimeoutError:
         out = None
     seconds = time.perf_counter() - t0
+    print("panel timings", P.LAST_TIMINGS)
     print(f"live panel {seconds:.1f} s, spend ${guard.total - before:.4f}")
     if out:
         print(json.dumps({k: {"take": v["take"], "stance": v["stance"], "claims": [c["text"] for c in v["claims"]]}
