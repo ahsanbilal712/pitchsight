@@ -7,7 +7,8 @@ import type { Message } from "./types";
 
 const TICK_MS = 100;
 const FIXTURE_URL = "fixtures/sample_stream.jsonl";
-const API = "localhost:8000";
+// ?api=host:port points the overlay at another API (tests use a free port)
+const API = new URLSearchParams(window.location.search).get("api") ?? "localhost:8000";
 
 interface StreamApi {
   state: OverlayState;

@@ -41,8 +41,17 @@ export function reducer(state: OverlayState, action: Action): OverlayState {
   if (action.kind === "reset") return initialState;
   const msg = action.msg;
   switch (msg.type) {
-    case "hello":
-      return { ...state, hello: msg.payload, mode: msg.payload.mode, profile: msg.payload.viewer_profile ?? null };
+    case "hello": // a hello resets the screen: the API sends one on connect and after every seek
+      return {
+        ...initialState,
+        hello: msg.payload,
+        mode: msg.payload.mode,
+        profile: msg.payload.viewer_profile ?? null,
+        clock: msg.payload.t_ms ?? 0,
+        score: msg.payload.score ? [msg.payload.score[0], msg.payload.score[1]] : [0, 0],
+      };
+    case "lineup":
+      return state.hello ? { ...state, hello: { ...state.hello, player_ids: msg.payload.player_ids } } : state;
     case "tracking_frame": {
       const cues = state.cues.filter((c) => c.t_out_ms > msg.payload.t_ms);
       return { ...state, prevFrame: state.frame, frame: msg.payload, clock: msg.payload.t_ms, cues };

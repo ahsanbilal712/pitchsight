@@ -25,7 +25,9 @@ export interface Hello {
   mode: "replay" | "live" | "degraded";
   replay_speed: number;
   viewer_profile?: ViewerProfile;
-  player_ids?: string[];
+  player_ids?: string[]; // row order, substitutions applied
+  t_ms?: number; // API: clock this hello resets the screen to (sent on connect and after every seek)
+  score?: [number, number];
 }
 
 export interface MatchEvent {
@@ -76,4 +78,5 @@ export type Message =
   | { type: "request_info"; payload: { request_id: string; cue: Cue } }
   | { type: "mode"; payload: { mode: "replay" | "live" | "degraded"; reason?: string } }
   | { type: "spend"; payload: { match_usd: number; day_usd: number; caps: Record<string, number> } }
-  | { type: "oracle"; payload: Oracle };
+  | { type: "oracle"; payload: Oracle }
+  | { type: "lineup"; payload: { t_ms: number; player_ids: string[] } };
