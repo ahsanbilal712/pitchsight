@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-053 /replay3d React-Three-Fiber Sliding Doors scene (track C)
+
+- `apps/overlay/src/replay3d/{Replay3D,Stadium,Players,Ball,GhostPaths,Cameras,SwingBarOverlay}.tsx`, `space.ts`,
+  `replay3d.css`, `src/routes.tsx` (lazy route; `?view=replay3d` works on static hosting). Procedural only: no
+  model, texture or HDR files are fetched (test checks requests). Ghosts fan out over the 8 s horizon as the clock
+  passes the branch point; `?ghost=full` for stills.
+- Headless Chromium uses SwiftShader (CPU) for WebGL by default; with `--use-angle=metal --ignore-gpu-blocklist` it
+  renders on the M3 Pro. Tests use a `gpu_browser` fixture with those flags; **the T-061 recorder must too.**
+- Verification: `npm --prefix apps/overlay run build && pytest tests/apps/test_replay3d.py -q` 2 passed: frame
+  renders, seek and both cameras work, swing bar "n = 200, 8 s, seed 4242"; **60.0 fps over 20 s** at 1920×1080
+  DPR 1 with 200 ghost paths (limit 30). TECH_PLAN 1.13 trigger (frame by end of day 5) met on day 2.
+  `tests/apps` + `tests/api`: 66 passed.
+- Polish left for T-083: slight moiré in the crowd texture on the behind-the-player camera.
+
+---
+
 ## 2026-10-22 · T-060 Freeze rule and frozen-cache-guard CI job (track B)
 
 - `scripts/frozen_cache_guard.py --base REF`: if the base manifest is frozen, any change at HEAD (entry added,
