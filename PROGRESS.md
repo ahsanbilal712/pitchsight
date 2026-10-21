@@ -5,6 +5,27 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-018 newsroom graph and T-019 Fact Checker (track B)
+
+- T-018: `packages/newsroom/{messages,graph,llm,worker,config}.py`, `executors/{base,ingest,stubs,drop}.py`. The full
+  1.7 graph with the verbatim builder calls; stubs keep the real executor ids so checkpoints survive swaps. Messages
+  are pydantic and registered for checkpoint restore. `LiveClient` = Gemini on Vertex AI via
+  `agent_framework.gemini.GeminiChatClient`, SpendGuard on every call, thinking tokens as output.
+  `pytest tests/newsroom/test_graph.py -q`: 7 passed (goal → cue via fast branch; rejecting stub stops at attempt 3;
+  a checkpoint per superstep; resume from a mid-run checkpoint).
+- T-019: `packages/newsroom/factcheck.py` (eight rules, verbatim tolerances; xT ±0.005 and seconds ±0.5 are my
+  choice, the plan names none), `executors/factcheck.py`, `scripts/scan_banned.py`. Verification: 56 passed;
+  `scan_banned.py data/league` 0 hits. Example check **1.1 ms** (limit 50 ms).
+- Decisions: the counterfactual schema has no field for the alternative's xG ("0.31 xG" cites `cf_000077`), so
+  derived numbers are facts carrying `counterfactual_id` and citing the cf covers them (no schema change). Rule 7
+  matches speculation and accusation phrases (e.g. "looks injured", "biased referee"), not topic nouns, so
+  `lore.md`'s "no injuries, no referee-bias talk" line passes. Rule 3 accepts a player from a cited event, a cited
+  counterfactual's actor/target, or one hop of `related_event_ids` (the cue example's "Reyes" cites the shot).
+- Note: the cue schema example's body ("In 200 replays … within 8 seconds") fails rule 6 as written; the Narrator
+  must bind those numbers to `count`/`seconds` claims on the counterfactual.
+
+---
+
 ## 2026-10-21 · T-022 API replay server and tracking stream (track C)
 
 - `packages/api/{main,replay,ws,models,__main__}.py`: `/health`, `/match/{id}/events?from&to` (ms or mm:ss),
