@@ -72,7 +72,8 @@ def losses(model: DecisionPolicy, batch, smoothing: float) -> tuple[torch.Tensor
     l_kind = F_.cross_entropy(out.kind_logits, kind, label_smoothing=smoothing)
     total = l_kind
     parts = {"kind": float(l_kind.detach())}
-    is_pass = kind == PASS
+    # a pass whose target is the masked holder slot (a passer regaining his own pass) carries no pointer label
+    is_pass = (kind == PASS) & torch.isfinite(out.pass_logits.gather(1, target.clamp(min=0)[:, None])[:, 0])
     if is_pass.any():
         l_pass = masked_cross_entropy(out.pass_logits[is_pass], target[is_pass], smoothing)
         total = total + l_pass
@@ -191,6 +192,24 @@ def train(cfg: TrainConfig) -> TrainReport:
                        samples_per_s=rate)
 
 
+def revalidate(cfg: TrainConfig) -> dict:
+    """Recompute the validation loss of every epoch checkpoint with the current loss code, copy the best to
+    <name>.pt and log it (used after a run whose in-run validation could not pick a best epoch)."""
+    out = Path(cfg.out_dir)
+    val = load_split(Path(cfg.data_dir) / "val.npz", cfg.val_max_samples, seed=cfg.seed)
+    scores = {}
+    for ck_path in sorted(out.glob(f"{cfg.name}_ep*.pt"), key=lambda p: int(p.stem.split("_ep")[-1])):
+        ck = torch.load(ck_path, map_location="cpu", weights_only=False)
+        model = DecisionPolicy(cfg.d_model, cfg.n_layers, cfg.n_heads, cfg.d_ff, 0.0).to(cfg.device)
+        model.load_state_dict(ck["model"])
+        scores[ck["epoch"]] = evaluate_loss(model, val, cfg)
+    best = min(scores, key=lambda e: scores[e]["val_loss"])
+    shutil.copyfile(out / f"{cfg.name}_ep{best}.pt", out / f"{cfg.name}.pt")
+    _log(out / "train_log.jsonl", {"event": "revalidate", "best_epoch": best,
+                                   "epochs": {str(e): {k: round(v, 5) for k, v in s.items()} for e, s in scores.items()}})
+    return {"best_epoch": best, "scores": scores}
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m policy.train")
     ap.add_argument("--data", type=Path, default=None)
@@ -199,6 +218,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--epochs", type=int, default=8)
     ap.add_argument("--smoke-minutes", type=float, default=None, help="short run: epochs of 1/4 the data, stop after N min")
     ap.add_argument("--device", default=None)
+    ap.add_argument("--revalidate", action="store_true", help="score every epoch checkpoint, keep the best")
     args = ap.parse_args(argv)
     cfg = TrainConfig(name=args.name, epochs=args.epochs)
     if args.data:
@@ -213,7 +233,7 @@ def main(argv: list[str] | None = None) -> int:
         cfg.warmup_steps = 200
         cfg.val_max_samples = 50_000
         cfg.log_every = 100
-    print(train(cfg))
+    print(revalidate(cfg) if args.revalidate else train(cfg))
     return 0
 
 

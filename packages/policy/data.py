@@ -141,6 +141,8 @@ def kickoff_match(match_dir: Path, hold_every_s: int = 3) -> dict[str, np.ndarra
             if r < 0 or (r >= 11) != bool(poss):
                 continue
             target = r - 11 * poss
+            if r == int(s["holder"][i]):          # the passer won his own pass back: not a pass to a team-mate
+                continue
         rows.append(i)
         kinds.append(kind)
         targets.append(target)
