@@ -5,6 +5,23 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-045 Overlay viewer modes, heatmap, threat front and referee lines (track C)
+
+- `apps/overlay/src/modes/{analyst,casual,playerCamConfig,config}.ts` (mirror `budgets.yaml`, checked by a test),
+  `pitch/layers/{heatmap,threatFront,refereeLines}.ts`, `api.ts` (doc fetch: api or fixture files). Fixture now
+  has 30 oracle messages, referee cue `c_000913` (onside by 0.4 m) and `apps/overlay/public/fixtures/docs/
+  pc_000412.json` (outside `tests/fixtures`, which needs a schema per file).
+- Oracle zone format chosen here (T-046 should emit it): `zone: {x, y, r}` in metres.
+- Verification: `npm --prefix apps/overlay run build && pytest tests/apps/test_viewer_modes.py -q` 5 passed. Modes
+  differ in exactly the 1.9 layers (analyst vs casual: heatmap, threat front, ticker; analyst vs player_cam:
+  heatmap, threat front, player trail, player tag); referee lines yellow at x = 88.2 and 88.6 m, margin label
+  0.4 m, half drawn at 0.3 s; **frame with heatmap + threat front + 200 ghosts p95 0.40 ms**, grid image built in
+  0.90 ms (limit 8 ms). `tests/apps` + `tests/api`: 64 passed twice.
+- Also: T-044's player_stats dump moved to `tests/apps/data/` (2390155) — under `tests/fixtures` it broke
+  `make schemas`.
+
+---
+
 ## 2026-10-22 · T-026, T-027, T-049 done; T-025, T-028 running (track A)
 
 - T-026 auto-events (`physics/auto_events.py`): six detectors, facts not events; golden counts pressing_trap 13,
