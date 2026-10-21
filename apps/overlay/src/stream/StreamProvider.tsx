@@ -42,6 +42,7 @@ export function StreamProvider({ children }: { children: ReactNode }) {
   const clock = useRef(0);
   const speed = useRef(1);
   const framesSeen = useRef(0);
+  const paused = useRef(false);
 
   // fixture playback: everything up to `clock` has been dispatched
   const fold = useCallback((until: number) => {
@@ -76,6 +77,7 @@ export function StreamProvider({ children }: { children: ReactNode }) {
         const first = messages.current.find((m) => m.type === "tracking_frame");
         fold(first ? (messageTime(first) ?? 0) : 0);
         timer = window.setInterval(() => {
+          if (paused.current) return;
           const next = clock.current + TICK_MS * speed.current;
           let last = clock.current;
           const batch: Message[] = [];
@@ -154,6 +156,9 @@ export function StreamProvider({ children }: { children: ReactNode }) {
     const handle = window.__whyline;
     if (!handle) return;
     handle.seek = seek;
+    handle.pause = (on: boolean) => {
+      paused.current = on;
+    };
     handle.debug = () => ({
       clock: clock.current || state.clock,
       visibleCues: visibleCues(state).map((c) => c.cue_id),

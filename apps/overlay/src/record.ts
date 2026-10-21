@@ -5,6 +5,7 @@ export interface WhylineHandle {
   record: boolean;
   dpr: number;
   seek: (clock: string | number) => void;
+  pause: (paused: boolean) => void;
   debug: () => { clock: number; visibleCues: string[]; frames: number };
 }
 
@@ -42,6 +43,7 @@ export function installRecordMode(): void {
     record: RECORD,
     dpr: canvasDpr(),
     seek: () => undefined,
+    pause: () => undefined,
     debug: () => ({ clock: 0, visibleCues: [], frames: 0 }),
   };
 }

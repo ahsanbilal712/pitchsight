@@ -1,5 +1,6 @@
-// Overlay root (TECH_PLAN 1.9): a fixed 1920x1080 transparent stage. Pitch2D and the lower-third
-// components arrive in T-011 and T-023; this shell shows the stream clock and the visible cues.
+// Overlay root (TECH_PLAN 1.9): a fixed 1920x1080 transparent stage with Pitch2D underneath.
+// Lower-third components arrive in T-023; until then the shell shows the stream clock and visible cues.
+import Pitch2D from "./pitch/Pitch2D";
 import { visibleCues } from "./stream/reducer";
 import { useStream } from "./stream/StreamProvider";
 
@@ -13,6 +14,7 @@ export default function App() {
   const cues = visibleCues(state);
   return (
     <div className="stage" data-mode={state.profile?.mode ?? "analyst"}>
+      <Pitch2D />
       <div className="safe-area">
         <div className="shell-clock" data-testid="clock">
           {state.frame ? clockText(state.clock) : "--:--"} · {state.score[0]}-{state.score[1]}
