@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-024 Ghost trail and swing bar (track C)
+
+- `apps/overlay/src/pitch/layers/ghostTrail.ts`: 200 futures, Catmull-Rom (81 points per 8 s path), Path2D cache,
+  branch colours, 0.8 s fade, orange dashed chosen trail. `components/SwingBar.tsx`: from → to animation,
+  "n = 200, 8 s, seed 4242" always printed; no counterfactual document → no bar.
+- Interim contract: `counterfactual` stream message; `futures_sample` first half baseline, second half alternative
+  (cue contract gap 7; note for track A's T-016 in the shared notes folder). Fixture has 200 deterministic futures.
+- Verification: `npm --prefix apps/overlay run build && pytest tests/apps/test_ghost_trail.py -q` 5 passed.
+  **200 paths: p95 0.20 ms** CPU-side draw (limit 8 ms), rAF interval p95 16.7 ms (no dropped frames).
+  `tests/apps` + `tests/api`: 35 passed.
+
+---
+
 ## 2026-10-21 · T-020 Narrator and fast-line executors (track B)
 
 - `executors/{narrator,fast_line}.py`, `templates.py`, `prompts/narrator@2.md`, empty `prompts/fewshot/narrator.jsonl`.
