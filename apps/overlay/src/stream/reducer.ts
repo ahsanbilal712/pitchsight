@@ -1,4 +1,5 @@
 // Overlay state (TECH_PLAN 1.9): {frame, cues[], facts, oracle, profile} plus the bits the score bug and badges need.
+import { modeAllows } from "../modes/config";
 import type {
   Counterfactual,
   Cue,
@@ -102,10 +103,10 @@ export function reducer(state: OverlayState, action: Action): OverlayState {
   }
 }
 
-/** Cues on screen at the current stream clock. */
+/** Cues on screen at the current stream clock, for this overlay's viewer mode. */
 export function visibleCues(state: OverlayState): Cue[] {
   return state.cues
-    .filter((c) => c.t_in_ms <= state.clock && state.clock < c.t_out_ms)
+    .filter((c) => c.t_in_ms <= state.clock && state.clock < c.t_out_ms && modeAllows(state, c))
     .sort((a, b) => b.priority - a.priority);
 }
 

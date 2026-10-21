@@ -23,6 +23,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "tests" / "fixtures" / "stream" / "sample_stream.jsonl"
+# documents the overlay fetches by id in fixture mode (no schema exists for pitch_control, so not tests/fixtures)
+DOCS = ROOT / "apps" / "overlay" / "public" / "fixtures" / "docs"
 SCHEMAS = ROOT / "schemas"
 
 MATCH_ID = "m_4242"
@@ -260,6 +262,67 @@ def counterfactual() -> dict:
     return cf
 
 
+# Oracle (T-045 until T-046): every 2 s, {t_ms, p_shot_home, p_shot_away, zone {x, y, r} in metres, shooter}.
+# Verdant's threat builds toward the right-hand box and peaks just before Okafor's shot at 31:14.
+ORACLE_KNOTS = [(1850000, 0.06), (1862000, 0.12), (1868000, 0.24), (1872000, 0.34), (1876000, 0.18),
+                (1882000, 0.05), (1910000, 0.04)]
+
+
+def oracle_messages() -> list[dict]:
+    out = []
+    for t in range(T0, T0 + N_FRAMES * DT, 2000):
+        (ta, va), (tb, vb) = next(((a, b) for a, b in zip(ORACLE_KNOTS, ORACLE_KNOTS[1:], strict=False)
+                                   if a[0] <= t <= b[0]), (ORACLE_KNOTS[-2], ORACLE_KNOTS[-1]))
+        p = r2(va + (vb - va) * (t - ta) / (tb - ta))
+        x, y = player_pos(9, t)                                  # Okafor leads the threat
+        out.append({"t_ms": t, "p_shot_home": p, "p_shot_away": 0.02,
+                    "zone": {"x": r2(min(100.0, x + 6)), "y": r2(y), "r": 11.0},
+                    "shooter": PLAYER_IDS[9] if p >= 0.2 else None})
+    return out
+
+
+def referee_cue() -> dict:
+    """A Fourth Official ruling (T-045 until T-049): offside lines in metres, onside by 0.4 m."""
+    cue = schema_example("cue.schema.json")
+    cue.update({"cue_id": "c_000913", "moment_id": None, "t_in_ms": 1900000, "t_out_ms": 1908000, "clock": "31:40",
+                "layer": "referee_line", "kind": "fourth_official", "priority": 0.9, "leverage": None,
+                "targets": {"modes": ["analyst", "casual", "player_cam"], "clubs": ["any"], "players": ["p_040"]},
+                "text": {"headline": "Onside by 0.4 m.", "body": "Ironvale's runner was level with the last "
+                         "Verdant defender's line when the pass was played."}})
+    cue["graphics"] = {"pitch_control_snapshot": None, "ghost_trail": [], "players_highlight": ["p_040"],
+                       "lines": [[[88.2, 0.0], [88.2, 68.0]], [[88.6, 0.0], [88.6, 68.0]]], "bar": None}
+    cue["explain"] = {"why": "Measured at the frame of the pass.", "counterfactual_id": None, "explanation_id": None,
+                      "claims": [{"text": "0.4 m", "kind": "number", "value": 0.4, "unit": "metres",
+                                  "evidence_ids": ["e_8816"], "verified": True}]}
+    return cue
+
+
+def pitch_control_doc(t: int) -> dict:
+    """pc_000412 for the fixture cue: [34, 53] home share from a soft nearest-player rule (stdlib, deterministic)."""
+    pos = [player_pos(r, t) for r in range(22)]
+    grid = []
+    for row in range(34):
+        y = 1.0 + 2.0 * row
+        line = []
+        for col in range(53):
+            x = 1.0 + 2.0 * col
+            d = [math.hypot(px - x, py - y) for px, py in pos]
+            home, away = min(d[:11]), min(d[11:])
+            line.append(r2(1.0 / (1.0 + math.exp((home - away) / 2.5))))
+        grid.append(line)
+    share = sum(map(sum, grid)) / (34 * 53)
+    contested = sum(1 for line in grid for v in line if 0.3 <= v <= 0.7) / (34 * 53)
+    return {"snapshot_id": "pc_000412", "match_id": MATCH_ID, "t_ms": t, "period": 1, "team_in_possession": "home",
+            "home_share": r2(share), "contested_frac": r2(contested), "grid": grid}
+
+
+def write_docs() -> list[Path]:
+    DOCS.mkdir(parents=True, exist_ok=True)
+    path = DOCS / "pc_000412.json"
+    path.write_text(json.dumps(pitch_control_doc(1874000), sort_keys=True, separators=(",", ":")) + "\n")
+    return [path]
+
+
 def build() -> list[dict]:
     ex_pass, ex_shot = schema_example("event.schema.json", 0), schema_example("event.schema.json", 1)
     cue = schema_example("cue.schema.json")
@@ -296,6 +359,9 @@ def build() -> list[dict]:
     cf = counterfactual()
     timed += [(cue["t_in_ms"], 2, "counterfactual", cf), (cue["t_in_ms"], 2, "cue", cue),
               (cue["t_out_ms"], 3, "cue_remove", {"cue_id": cue["cue_id"]})]
+    timed += [(o["t_ms"], 1, "oracle", o) for o in oracle_messages()]
+    ref = referee_cue()
+    timed += [(ref["t_in_ms"], 2, "cue", ref)]
     timed.sort(key=lambda m: (m[0], m[1], m[3].get("id", "")))
     return [{"type": "hello", "payload": hello}] + [{"type": typ, "payload": p} for _, _, typ, p in timed]
 
@@ -309,6 +375,10 @@ def check() -> list[str]:
     text = OUT.read_text(encoding="utf-8")
     if text != render(build()):
         errors.append("file differs from a fresh build (not byte-identical)")
+    pc = DOCS / "pc_000412.json"
+    if not pc.exists() or pc.read_text() != json.dumps(pitch_control_doc(1874000), sort_keys=True,
+                                                        separators=(",", ":")) + "\n":
+        errors.append(f"{pc.relative_to(ROOT)} missing or stale")
     counts: dict[str, int] = {}
     frames, events = [], []
     for n, line in enumerate(text.splitlines(), 1):
@@ -322,7 +392,8 @@ def check() -> list[str]:
             frames.append(msg["payload"])
         elif msg["type"] == "event":
             events.append(msg["payload"])
-    want = {"hello": (1, 1), "tracking_frame": (600, 600), "event": (6, None), "cue": (1, None), "fact": (62, 62), "counterfactual": (1, 1)}
+    want = {"hello": (1, 1), "tracking_frame": (600, 600), "event": (6, None), "cue": (2, 2), "fact": (62, 62), "counterfactual": (1, 1),
+            "oracle": (30, 30)}
     for typ, (lo, hi) in want.items():
         got = counts.get(typ, 0)
         if got < lo or (hi is not None and got > hi):
@@ -360,6 +431,8 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(render(build()), encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}")
+    for path in write_docs():
+        print(f"wrote {path.relative_to(ROOT)}")
     return 0
 
 

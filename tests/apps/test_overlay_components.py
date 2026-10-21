@@ -97,7 +97,7 @@ def test_text_never_overflows_at_schema_maximum(page, overlay_url, out_dir):
     page.evaluate("(m) => window.__whyline.inject(m)",
                   cue("c_900002", "ticker", "milestone", 1_870_000, 1_880_000, "W" * 60))
     page.evaluate("(m) => window.__whyline.inject(m)",
-                  cue("c_900003", "player_tag", "player_tag", 1_870_000, 1_880_000, "M" * 60, players=["p_031"]))
+                  cue("c_900003", "player_tag", "decision_index", 1_870_000, 1_880_000, "M" * 60, players=["p_031"]))
     page.wait_for_selector(".lower-third[data-cue-id=c_900001][data-state=in]", timeout=1000)
     page.wait_for_timeout(400)                                  # entry animations finish
     assert page.locator(".lower-third[data-cue-id=c_900001] .lt-headline").inner_text() == HEADLINE_MAX
@@ -132,7 +132,7 @@ def test_chaos_meter_follows_facts(page, overlay_url, out_dir):
 def test_player_tag_is_pinned_to_its_player(page, overlay_url):
     open_fixture(page, overlay_url, 1_875_000)
     page.evaluate("(m) => window.__whyline.inject(m)",
-                  cue("c_900004", "player_tag", "player_tag", 1_870_000, 1_880_000, "32 km/h", players=["p_031"]))
+                  cue("c_900004", "player_tag", "decision_index", 1_870_000, 1_880_000, "32 km/h", players=["p_031"]))
     tag = page.locator(".player-tag[data-cue-id=c_900004][data-state=in]")
     tag.wait_for(state="attached", timeout=1000)  # the anchor is 0x0; its spans carry the size
     assert "32 km/h" in tag.inner_text() and "Reyes" in tag.inner_text()

@@ -1,14 +1,13 @@
 // Feeds the overlay reducer from the API WebSocket, or with ?fixture=1 from the T-003 sample stream
 // replayed on the same 10 Hz clock. Exposes seek() for the recorder through window.__whyline.
 import { createContext, useCallback, useContext, useEffect, useReducer, useRef, type ReactNode } from "react";
+import { API } from "../api";
 import { FIXTURE, parseClock } from "../record";
 import { initialState, messageTime, reducer, visibleCues, type OverlayState } from "./reducer";
 import type { Message } from "./types";
 
 const TICK_MS = 100;
 const FIXTURE_URL = "fixtures/sample_stream.jsonl";
-// ?api=host:port points the overlay at another API (tests use a free port)
-const API = new URLSearchParams(window.location.search).get("api") ?? "localhost:8000";
 
 interface StreamApi {
   state: OverlayState;
@@ -79,6 +78,18 @@ export function StreamProvider({ children }: { children: ReactNode }) {
           times.current[i] = next;
         }
         const hello = messages.current.find((m) => m.type === "hello");
+        if (hello && hello.type === "hello" && hello.payload.viewer_profile) {
+          // ?mode=&player=&club= pick the viewer in fixture mode, as the query string does for the api
+          const page = new URLSearchParams(window.location.search);
+          const vp = { ...hello.payload.viewer_profile };
+          const mode = page.get("mode");
+          if (mode === "analyst" || mode === "casual" || mode === "player_cam" || mode === "studio") vp.mode = mode;
+          if (page.get("player")) vp.player = page.get("player");
+          const club = page.get("club");
+          if (club === "home" || club === "away") vp.club = club;
+          vp.show_heatmap = vp.mode === "analyst" || vp.mode === "studio";
+          hello.payload = { ...hello.payload, viewer_profile: vp };
+        }
         if (hello && hello.type === "hello") speed.current = hello.payload.replay_speed || 1;
         const first = messages.current.find((m) => m.type === "tracking_frame");
         fold(first ? (messageTime(first) ?? 0) : 0);

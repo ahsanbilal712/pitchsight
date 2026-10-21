@@ -1,7 +1,7 @@
 // Ordered layer registry for Pitch2D. Each layer draws with (ctx, frame, cues, facts, toCanvas, state).
 // Layers with order < PLAYERS_ORDER draw under the players, the rest above them.
-// T-011 registers the four hooks empty; T-024 (ghost trail) and T-045 (heatmap, threat front,
-// referee lines) fill them in. `layerStats` lets the record-mode handle report what a layer drew.
+// T-011 registers the four hooks empty; layers/ghostTrail.ts (T-024) and layers/{heatmap,threatFront,
+// refereeLines}.ts (T-045) replace them by name. `layerStats` lets the record-mode handle report what a layer drew.
 import type { OverlayState } from "../stream/reducer";
 import type { Cue, Fact } from "../stream/types";
 
