@@ -75,9 +75,10 @@ def _real_executors() -> dict:
     from newsroom.executors.factcheck import FactCheckExecutor
     from newsroom.executors.fast_line import FastLineExecutor
     from newsroom.executors.narrator import NarratorExecutor
+    from newsroom.executors.scout import ScoutExecutor
 
     return {"factcheck": FactCheckExecutor, "narrator": NarratorExecutor, "fast_line": FastLineExecutor,
-            "director": DirectorExecutor, "cuebus": CueBus}
+            "director": DirectorExecutor, "cuebus": CueBus, "scout": ScoutExecutor}
 
 
 def build_workflow(deps: Deps, storage=None, overrides: dict[str, Executor] | None = None,

@@ -8,7 +8,7 @@ from agent_framework import FileCheckpointStorage
 
 from blackboard import SqliteBlackboard
 from newsroom.executors.base import Deps
-from newsroom.executors.stubs import StubCueBus, StubDirector, StubFactCheck
+from newsroom.executors.stubs import StubCueBus, StubDirector, StubFactCheck, StubScout
 from newsroom.graph import EXECUTOR_IDS, WORKFLOW_NAME, build_workflow
 from newsroom.worker import run_moment, serve, start_message
 
@@ -28,8 +28,10 @@ EXPLAINED = {"moment_id": "mo_00077", "match_id": "m_4242", "t_ms": 1_878_200, "
 
 
 def plumbing(deps, **extra):
-    """Stub Director and CueBus: these tests check routing; the Director's rules have their own tests."""
-    return {"director": StubDirector("director", deps), "cuebus": StubCueBus("cuebus", deps), **extra}
+    """Stub Scout, Director and CueBus: these tests check the graph's plumbing; those executors have their own
+    tests. The stub Scout routes by the moment's `fast` flag or an explicit `branches` list."""
+    return {"scout": StubScout("scout", deps), "director": StubDirector("director", deps),
+            "cuebus": StubCueBus("cuebus", deps), **extra}
 
 
 @pytest.fixture
@@ -74,7 +76,7 @@ def test_rejecting_factcheck_loops_to_narrator_and_stops_at_attempt_3(deps):
 
 
 def test_unknown_branch_goes_to_drop(deps):
-    wf = build_workflow(deps)
+    wf = build_workflow(deps, overrides=plumbing(deps))
     result = arun(run_moment(wf, start_message({**GOAL, "moment_id": "mo_00013", "branches": ["drop"]})))
     assert result["outputs"] == []
     assert deps.bb.query("traces", executor="drop")[0]["status"] == "dropped"
@@ -87,7 +89,7 @@ def test_checkpoint_after_each_superstep(deps, tmp_path, monkeypatch):
 
     storage = make_storage()
     assert storage.storage_path == ckpt
-    wf = build_workflow(deps, storage=storage)
+    wf = build_workflow(deps, storage=storage, overrides=plumbing(deps))
     result = arun(run_moment(wf, start_message(GOAL)))
     supersteps = result["events"].count("superstep_completed")
     files = list(ckpt.glob("*.json"))

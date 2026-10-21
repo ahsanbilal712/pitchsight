@@ -30,7 +30,7 @@ def arun(coro):
 
 M = "m_4242"
 SHOT = {"moment_id": "mo_00077", "match_id": M, "t_ms": 1874000, "clock": "31:14", "kind": "big_chance",
-        "leverage": 0.09, "players": ["p_017"], "team": "home", "evidence_event_ids": ["e_8812"], "fast": True}
+        "xg": 0.31, "leverage": 0.02, "players": ["p_017"], "team": "home", "evidence_event_ids": ["e_8812"], "fast": True}
 
 
 def verified_claims(bb, explanation_example):

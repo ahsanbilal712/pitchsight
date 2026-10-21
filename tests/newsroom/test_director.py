@@ -222,7 +222,7 @@ def test_spend_cap_switches_to_degraded(tmp_path, evidence_bb):
 
 def test_director_in_the_graph(evidence_bb):
     deps = Deps(bb=evidence_bb)
-    moment = {"moment_id": "mo_00077", "match_id": M, "t_ms": 1874000, "kind": "big_chance", "leverage": 0.09,
+    moment = {"moment_id": "mo_00077", "match_id": M, "t_ms": 1874000, "kind": "big_chance", "xg": 0.31, "leverage": 0.02,
               "players": ["p_017"], "team": "home", "evidence_event_ids": ["e_8812"], "fast": True}
     cue = arun(run_moment(build_workflow(deps), start_message(moment)))["outputs"][0]
     assert not list(VALIDATOR.iter_errors(cue))
