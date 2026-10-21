@@ -5,6 +5,20 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-014 Training corpus generator and realism ranges (track A)
+
+- Engine tuned (`packages/kickoff`): seeds 1–50 per team per match now completion **0.834**, shots **14.6**, goals
+  **1.59**, offsides **1.01**, fouls 5.1, cards 0.54 (was 0.823 / 21.0 / 2.17 / 0.06; Ironvale 37.9 → 15.4 shots).
+  Knobs are named constants at the top of `engine.py`, `rules.py`, `physics_prior.py`.
+- Golden 4242 regenerated: **Verdant 2–2 Ironvale**, goals 00:53, 10:28, 23:10, 68:09; 4 offsides, 2 cards; new
+  `SHA256SUMS`. Three tests that hard-coded the old 0–4 score (`tests/api/test_replay.py`,
+  `tests/apps/test_overlay_components.py`, `tests/apps/test_overlay_ws.py`) now read goals from `events.jsonl`.
+- `scripts/generate_corpus.py` (resumable, `progress.json`, behavioural engine hash), `League.fixture(seed)`,
+  `tests/kickoff/test_realism.py`. Seeds 1–50 done; 1001–3000 and 51–350 running in the background (~30
+  matches/min, about 80 min). Verification: `pytest tests/kickoff/test_realism.py -q && python scripts/generate_corpus.py --status` pass.
+
+---
+
 ## 2026-10-21 · T-066 Licence scan job and asset list (track B, built early: only needs T-005)
 
 - `scripts/licence_scan.py`, `config/licence_allowlist.txt`, `LICENSES.md`, `tests/tooling/test_licence_scan.py`.
