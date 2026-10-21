@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-034 Studio console core (track C)
+
+- `apps/studio/src/{App,api,league,main}.tsx|ts`, `stream/{StreamProvider.tsx,reducer.ts,types.ts}`,
+  `components/{Header,MomentQueue,AgentTrace,CueList,WhyDrawer,Blackboard}.tsx`, `styles/{tokens,studio}.css`,
+  `public/league.json` (export script output). The studio keeps a cue/trace/moment log across seeks and reloads
+  the full cue list over REST on each hello.
+- api: the doc endpoint inlines the pitch-control grid from the MCP server's `grid_path` .npz; the studio's
+  reset snapshot also carries the last 60 trace rows and undecided `requests`.
+- Verification: `npm --prefix apps/studio run build && pytest tests/apps/test_studio.py -q` 4 passed: trace rows
+  show all six fields, cache_miss and interrupted rows red; the fixture cue's evidence (e_8812, cf_000077) resolves
+  2/2 through `/match/{id}/doc/{id}`; an unknown id is flagged missing; thumbnail and "n = 200, 8 s, seed 4242".
+  `tests/apps` + `tests/api`: 48 passed.
+- Seen, not mine: ruff flags `tests/kickoff/test_no_truth_leak.py:43` (B905) and `tests/policy/test_data.py` (I001).
+
+---
+
 ## 2026-10-22 · T-033 API cue fan-out, ingest and control endpoints (track C)
 
 - `packages/api/{cues,control,docs,ingest,messages}.py`, `ws.py` reworked: blackboard watcher forwards every 1.9
