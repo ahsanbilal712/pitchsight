@@ -1,7 +1,8 @@
 """whyline-api (TECH_PLAN 1.1, 1.4 api): REST, the WebSocket stream and the replay controller.
 
 Run: `PYTHONPATH=packages uvicorn api.main:app --port 8000`, or `python -m api.replay --seed 4242`.
-WHYLINE_MATCH_SEED picks the match under data/matches/, WHYLINE_REPLAY_SPEED the starting speed (x1..x10).
+WHYLINE_MATCH_SEED picks the match under data/matches/, WHYLINE_REPLAY_SPEED the starting speed (x1..x10),
+WHYLINE_BLACKBOARD the blackboard file the newsroom writes cues into.
 """
 
 from __future__ import annotations
@@ -14,74 +15,90 @@ from collections.abc import AsyncIterator, Callable
 from fastapi import FastAPI, HTTPException, Query, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.models import ControlRequest, viewer_profile
+from api import control, cues, docs, ingest
+from api.models import envelope, viewer_profile
 from api.replay import MatchData, ReplayClock, parse_clock
+from api.spend import SpendGuard
 from api.ws import Hub
+
+SPEND_EVERY_S = 5.0
+
+
+def spend_payload(match_id: str) -> dict:
+    """{match_usd, day_usd, caps} from the ledger (a fresh SpendGuard re-reads it, so other processes count)."""
+    s = SpendGuard().summary(match_id)
+    return {"match_usd": s["match_usd"], "day_usd": s["day_usd"], "project_usd": s["project_usd"], "caps": s["caps"]}
 
 
 def create_app(seed: int | str | None = None, speed: float | None = None, playing: bool = True,
-               wall: Callable[[], float] | None = None) -> FastAPI:
+               wall: Callable[[], float] | None = None, bb=None) -> FastAPI:
     seed = seed if seed is not None else os.environ.get("WHYLINE_MATCH_SEED", "4242")
     speed = speed if speed is not None else float(os.environ.get("WHYLINE_REPLAY_SPEED") or 1)
     mode = os.environ.get("WHYLINE_MODE", "replay")
+
+    async def spend_loop(hub: Hub) -> None:
+        while True:
+            await asyncio.sleep(SPEND_EVERY_S)
+            with contextlib.suppress(Exception):
+                hub.send([envelope("spend", spend_payload(hub.match_id))])
 
     @contextlib.asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         data = MatchData.load(seed)
         kwargs = {"wall": wall} if wall else {}
         clock = ReplayClock(data.end_ms, speed=speed, playing=playing, **kwargs)
-        app.state.data, app.state.clock = data, clock
-        app.state.hub = Hub(data, clock, mode=mode)
-        ticker = asyncio.create_task(app.state.hub.run())
+        if bb is None:
+            from blackboard import SqliteBlackboard
+
+            board = SqliteBlackboard()
+        else:
+            board = bb
+        app.state.data, app.state.clock, app.state.bb = data, clock, board
+        app.state.hub = Hub(data, clock, mode=mode, bb=board)
+        app.state.forwarder = cues.Forwarder(app.state.hub, board)
+        tasks = [asyncio.create_task(app.state.hub.run()), asyncio.create_task(app.state.forwarder.run()),
+                 asyncio.create_task(spend_loop(app.state.hub))]
         try:
             yield
         finally:
-            ticker.cancel()
-            with contextlib.suppress(asyncio.CancelledError):
-                await ticker
+            for t in tasks:
+                t.cancel()
+            for t in tasks:
+                with contextlib.suppress(asyncio.CancelledError):
+                    await t
 
     app = FastAPI(title="whyline-api", lifespan=lifespan)
     # the screens are served from other origins (:5173-5175, static files in tests); the API holds no secrets
     app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+    for module in (control, cues, docs, ingest):
+        app.include_router(module.router)
 
     @app.get("/health")
     def health() -> dict:
-        return {"status": "ok", "match_id": app.state.data.match_id, "mode": app.state.hub.mode,
-                "clients": len(app.state.hub.clients), "clock": app.state.clock.state().model_dump()}
+        hub: Hub = app.state.hub
+        return {"status": "ok", "match_id": hub.match_id, "mode": hub.mode, "clients": len(hub.clients),
+                "clock": app.state.clock.state().model_dump(), "stream_t_ms": hub.now()}
 
     @app.get("/match/{match_id}/events")
     def events(match_id: str, start: str | None = Query(None, alias="from"),
                end: str | None = Query(None, alias="to")) -> list[dict]:
         data: MatchData = app.state.data
-        if match_id.removeprefix("m_") != data.match_id.removeprefix("m_"):
-            raise HTTPException(404, f"match {match_id} is not loaded (serving {data.match_id})")
         try:
             lo = parse_clock(start) if start is not None else None
             hi = parse_clock(end) if end is not None else None
         except ValueError as exc:
             raise HTTPException(422, f"bad from/to: {exc}") from exc
-        return data.events_range(lo, hi)
+        if match_id.removeprefix("m_") == data.match_id.removeprefix("m_"):
+            return data.events_range(lo, hi)
+        mid = match_id if match_id.startswith("m_") else f"m_{match_id}"
+        found = app.state.bb.query("events", match_id=mid, t_from_ms=lo, t_to_ms=hi)
+        if not found and mid != app.state.hub.match_id:
+            raise HTTPException(404, f"match {match_id} is not loaded (serving {data.match_id})")
+        return found
 
-    @app.post("/replay/control")
-    def control(req: ControlRequest) -> dict:
-        clock: ReplayClock = app.state.clock
-        try:
-            if req.action == "play":
-                clock.play()
-            elif req.action == "pause":
-                clock.pause()
-            elif req.action == "seek":
-                target = req.value if req.value is not None else req.t_ms
-                if target is None:
-                    raise ValueError("seek needs value (ms or mm:ss) or t_ms")
-                clock.seek(parse_clock(target))
-            elif req.action == "speed":
-                if req.value is None:
-                    raise ValueError("speed needs value")
-                clock.set_speed(float(req.value))
-        except ValueError as exc:
-            raise HTTPException(422, str(exc)) from exc
-        return clock.state().model_dump()
+    @app.get("/spend")
+    def spend() -> dict:
+        return spend_payload(app.state.hub.match_id)
 
     @app.websocket("/ws")
     async def ws(websocket: WebSocket, viewer_id: str = "", mode: str = "analyst", club: str | None = None,

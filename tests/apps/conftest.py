@@ -59,16 +59,18 @@ def out_dir() -> Path:
 
 
 @pytest.fixture(scope="session")
-def api_port():
+def api_port(tmp_path_factory):
     """whyline-api serving the golden match 4242 at x1 on a free port, for screens opened with ?api=."""
     import uvicorn
 
     from api.main import create_app
+    from blackboard import SqliteBlackboard
 
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))
         port = s.getsockname()[1]
-    server = uvicorn.Server(uvicorn.Config(create_app(seed=4242, speed=1), host="127.0.0.1", port=port,
+    server = uvicorn.Server(uvicorn.Config(create_app(seed=4242, speed=1,
+                                                      bb=SqliteBlackboard(tmp_path_factory.mktemp("bb") / "bb.sqlite")), host="127.0.0.1", port=port,
                                            log_level="warning"))
     thread = threading.Thread(target=server.run, daemon=True)
     thread.start()

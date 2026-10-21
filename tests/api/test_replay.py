@@ -8,12 +8,15 @@ from fastapi.testclient import TestClient
 
 from api.main import create_app
 from api.replay import MatchData, ReplayClock, parse_clock
+from blackboard import SqliteBlackboard
 
 
 @pytest.fixture(scope="module")
-def client():
-    with TestClient(create_app(seed=4242, speed=1)) as c:
+def client(tmp_path_factory):
+    bb = SqliteBlackboard(tmp_path_factory.mktemp("bb") / "bb.sqlite")
+    with TestClient(create_app(seed=4242, speed=1, bb=bb)) as c:
         yield c
+    bb.close()
 
 
 def lines(ws) -> list[dict]:
