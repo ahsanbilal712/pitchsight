@@ -108,6 +108,19 @@ def _rows(team: int) -> np.ndarray:
     return np.arange(11 * team, 11 * team + 11)
 
 
+def shot_features(e: dict, S: np.ndarray) -> dict:
+    """SHOT_FEATURES for one shot event given the frame the shooter saw (the tick before the shot)."""
+    team, period = (0 if e["team"] == "home" else 1), e["period"]
+    S = np.asarray(S, dtype=np.float64)
+    U, _ = _team_uv(S, team, period)
+    share = float(control_at(S, [e["location"]])[0])
+    a = e["attrs"]
+    return {"distance_m": a["distance_m"], "angle_rad": np.radians(a["angle_deg"]),
+            "body_part": BODY.get(a.get("body_part"), 0), "defenders_in_cone": a["defenders_in_cone"],
+            "keeper_line_m": float(PITCH_L - U[11 * (1 - team)]), "under_pressure": int(e["under_pressure"]),
+            "control_at_shot": share if team == 0 else 1.0 - share, "penalty": int(bool(a.get("penalty")))}
+
+
 def shot_rows(m: Match) -> list[dict]:
     fr = _Frames(m.samples)
     out = []
@@ -117,18 +130,8 @@ def shot_rows(m: Match) -> list[dict]:
         i = fr.at(e["t_ms"] - 100)
         if i is None:
             continue
-        team, period = (0 if e["team"] == "home" else 1), e["period"]
-        S = fr.S(i)
-        U, _ = _team_uv(S, team, period)
-        share = float(control_at(S, [e["location"]])[0])
-        a = e["attrs"]
-        out.append({
-            "seed": m.seed, "t_ms": e["t_ms"], "distance_m": a["distance_m"], "angle_rad": np.radians(a["angle_deg"]),
-            "body_part": BODY.get(a.get("body_part"), 0), "defenders_in_cone": a["defenders_in_cone"],
-            "keeper_line_m": float(PITCH_L - U[11 * (1 - team)]), "under_pressure": int(e["under_pressure"]),
-            "control_at_shot": share if team == 0 else 1.0 - share, "penalty": int(bool(a.get("penalty"))),
-            "label": int(e["outcome"] == "goal"),
-        })
+        out.append({"seed": m.seed, "t_ms": e["t_ms"], **shot_features(e, fr.S(i)),
+                    "label": int(e["outcome"] == "goal")})
     return out
 
 
