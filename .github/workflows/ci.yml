@@ -134,7 +134,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: frozen cache unchanged unless docs/video/VERSION is bumped
         if: hashFiles('scripts/frozen_cache_guard.py') != ''
-        run: python scripts/frozen_cache_guard.py
+        run: python scripts/frozen_cache_guard.py --base "${{ github.event.pull_request.base.sha || 'HEAD^' }}"
 
   chaos-resume:
     runs-on: ubuntu-latest

@@ -5,6 +5,16 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-060 Freeze rule and frozen-cache-guard CI job (track B)
+
+- `scripts/frozen_cache_guard.py --base REF`: if the base manifest is frozen, any change at HEAD (entry added,
+  removed or re-hashed, match hashes, the frozen flag) fails unless `docs/video/VERSION` went up in the same diff;
+  not frozen or absent at the base passes. `docs/video/VERSION` = 0. CI passes the PR base sha or HEAD^.
+- Verification `pytest tests/tooling/test_frozen_guard.py -q`: 6 passed (unchanged, changed without bump fails,
+  changed with bump passes, unfreezing fails, not frozen / absent pass, this repository passes).
+
+---
+
 ## 2026-10-22 · T-051 Supervisor, kill switch and checkpoint resume (track B)
 
 - `newsroom/{supervisor,resume}.py`, `api/control.py` (`POST /demo/kill` + `kill_when_ready`), worker run tracking
