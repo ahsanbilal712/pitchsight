@@ -108,6 +108,9 @@ class EventLog:
     def is_open(self, ev: Event) -> bool:
         return ev.seq in self._open
 
+    def has_ready(self) -> bool:
+        return bool(self._ready)
+
     def release(self, flush: bool = False) -> list[Event]:
         if flush:
             for ev in list(self._open.values()):

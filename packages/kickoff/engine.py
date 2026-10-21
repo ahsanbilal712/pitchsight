@@ -97,9 +97,12 @@ REGIME_DELTA = {
 REGIME_INTENSITY = {"state_settled": 0.03, "state_transitional": 1.0, "state_chaotic": 8.0}
 RESTART_DELAY_MS = {"kick_off": 40000, "throw_in": 3000, "goal_kick": 6000, "corner": 7000, "free_kick": 6000,
                     "penalty": 9000}
+RESTART_DELAY_ARR = np.array([RESTART_DELAY_MS[k] for k in ("kick_off", "throw_in", "goal_kick", "corner",
+                                                               "free_kick", "penalty")], dtype=np.int64)
 RESTART_FLAG = {"kick_off": KICK_OFF, "throw_in": PASS_ONLY, "goal_kick": FREE, "corner": CROSS, "free_kick": FREE,
                 "penalty": PENALTY}
 SIDES = ("H", "A")
+NOISE_BLOCK = 64                          # ticks of noise drawn per world at once
 # Realism knobs, tuned on seeds 1-50 against TECH_PLAN 1.4 (T-014).
 LINE_IN_POSS, LINE_OUT_POSS = 6.0, 10.0   # metres the defensive line moves up per unit of line_height
 RUN_AMP_M = 2.2                           # forwards drift this far either side of the offside line on a 7 s cycle
@@ -133,29 +136,41 @@ class MatchRecord:
     truth: dict
 
 
+RESTART_KINDS = ("kick_off", "throw_in", "goal_kick", "corner", "free_kick", "penalty")
+
+
+class _WorldArrays:
+    """Per-world discrete state that the vectorised tick reads for all worlds at once; _World exposes it as
+    attributes, so the per-world code reads and writes it as before."""
+
+    def __init__(self, B: int) -> None:
+        self.pass_tgt = np.full(B, -1, dtype=np.int64)          # intended receiver of the pass in flight, -1 none
+        self.pass_xy = np.zeros((B, 2))
+        self.restart_code = np.full(B, -1, dtype=np.int64)      # index into RESTART_KINDS, -1 none yet
+        self.restart_team = np.full(B, -1, dtype=np.int64)
+        self.restart_pos = np.zeros((B, 2))
+        self.restart_at = np.zeros(B, dtype=np.int64)
+        self.restart_taker = np.full(B, -1, dtype=np.int64)
+        self.ball_placed = np.zeros(B, dtype=bool)
+        self.pressure_row = np.full(B, -1, dtype=np.int64)
+        self.shot_blocker = np.full(B, -1, dtype=np.int64)
+
+
 class _World:
     """Per-world discrete state: rng, event log, open events, restarts, bookings, substitutions, truth."""
 
-    def __init__(self, b: int, seed: int) -> None:
+    def __init__(self, b: int, seed: int, arrays: _WorldArrays) -> None:
         self.b = b
+        self.a = arrays
         self.rng = np.random.default_rng(seed + b)
         self.log = EventLog(b)
         self.carry: Event | None = None
         self.carry_start: tuple[float, float] | None = None
         self.pressure: Event | None = None
-        self.pressure_row = -1
         self.pass_ev: Event | None = None
-        self.pass_target: tuple[int, float, float] | None = None
         self.first_touch_restart = ""
         self.shot_ev: Event | None = None
         self.shot_outcome = ""
-        self.shot_blocker = -1
-        self.restart_kind = ""
-        self.restart_team = -1
-        self.restart_pos = (0.0, 0.0)
-        self.restart_at = 0
-        self.restart_taker = -1
-        self.ball_placed = False
         self.booked: set[str] = set()
         self.subs: list[tuple[int, int]] = []          # (due_ms, team)
         self.subs_used = [0, 0]
@@ -166,6 +181,51 @@ class _World:
         self.phases: list[dict] = []
         self.momentum: np.ndarray = np.zeros((2, 91))
         self.jitter: np.ndarray = np.zeros((2, 5))
+
+    @property
+    def pass_target(self) -> tuple[int, float, float] | None:
+        tgt = int(self.a.pass_tgt[self.b])
+        return None if tgt < 0 else (tgt, float(self.a.pass_xy[self.b, 0]), float(self.a.pass_xy[self.b, 1]))
+
+    @pass_target.setter
+    def pass_target(self, value: tuple[int, float, float] | None) -> None:
+        if value is None:
+            self.a.pass_tgt[self.b] = -1
+        else:
+            self.a.pass_tgt[self.b], self.a.pass_xy[self.b] = value[0], value[1:]
+
+    @property
+    def restart_kind(self) -> str:
+        code = int(self.a.restart_code[self.b])
+        return "" if code < 0 else RESTART_KINDS[code]
+
+    @restart_kind.setter
+    def restart_kind(self, kind: str) -> None:
+        self.a.restart_code[self.b] = RESTART_KINDS.index(kind) if kind else -1
+
+    @property
+    def restart_pos(self) -> tuple[float, float]:
+        return float(self.a.restart_pos[self.b, 0]), float(self.a.restart_pos[self.b, 1])
+
+    @restart_pos.setter
+    def restart_pos(self, pos: tuple[float, float]) -> None:
+        self.a.restart_pos[self.b] = pos
+
+    def _scalar(name: str, cast):  # noqa: N805 - property factory used in the class body
+        def get(self):
+            return cast(getattr(self.a, name)[self.b])
+
+        def put(self, value) -> None:
+            getattr(self.a, name)[self.b] = value
+        return property(get, put)
+
+    restart_team = _scalar("restart_team", int)
+    restart_at = _scalar("restart_at", int)
+    restart_taker = _scalar("restart_taker", int)
+    ball_placed = _scalar("ball_placed", bool)
+    pressure_row = _scalar("pressure_row", int)
+    shot_blocker = _scalar("shot_blocker", int)
+    del _scalar
 
 
 class Engine:
@@ -206,7 +266,11 @@ class Engine:
         self.t_ms = 0
         self.period = 1
         self.finished = False
-        self.worlds = [_World(b, self.seed) for b in range(B)]
+        self.record_events = True
+        self._noise = np.zeros((B, NOISE_BLOCK, N_NOISE))
+        self._noise_i = NOISE_BLOCK
+        self.wa = _WorldArrays(B)
+        self.worlds = [_World(b, self.seed, self.wa) for b in range(B)]
         for w in self.worlds:
             self._init_world(w)
         self._update_truth_effects()
@@ -453,21 +517,19 @@ class Engine:
             return []
         self.t_ms += TICK_MS
         t = self.t_ms
-        if t % 1000 == 0:
+        if t % 60000 == 0:                       # phases, regimes and momentum change on whole minutes
             self._update_truth_effects()
-        noise = np.stack([w.rng.random(N_NOISE) for w in self.worlds])
+        noise = self._next_noise()
 
-        for w in self.worlds:
-            if self.dead[w.b]:
-                self._dead_tick(w)
+        for b in np.flatnonzero(self._dead_due()):
+            self._dead_tick(self.worlds[b])
         self._decide(noise)
         self._move_players()
         self._move_ball()
-        for w in self.worlds:
-            if not self.dead[w.b]:
-                self._resolve_ball(w, noise[w.b])
-            if not self.dead[w.b] and self.holder[w.b] >= 0:
-                self._duels(w, noise[w.b])
+        for b in np.flatnonzero(self._resolve_due()):
+            self._resolve_ball(self.worlds[b], noise[b])
+        for b in np.flatnonzero(self._duel_due()):
+            self._duels(self.worlds[b], noise[b])
         self._bookkeeping()
 
         if t >= PERIOD_MS * self.period:
@@ -482,8 +544,74 @@ class Engine:
             else:
                 self.finished = True
         out: list[Event] = []
-        for w in self.worlds:
-            out.extend(w.log.release(flush=self.finished))
+        if self.record_events:
+            for w in self.worlds:
+                if w.log.has_ready() or self.finished:
+                    out.extend(w.log.release(flush=self.finished))
+        return out
+
+    # ------------------------------------------------------------------ vectorised gates
+    # Each gate marks the worlds whose per-world method could change something this tick, with a small margin, so
+    # the per-world code (unchanged) runs only where it matters and the result is identical to running it everywhere.
+    def _next_noise(self) -> np.ndarray:
+        """One noise row per world per tick, drawn from each world's generator in blocks of NOISE_BLOCK ticks
+        (the same stream as one draw per tick)."""
+        if self._noise_i >= NOISE_BLOCK:
+            for w in self.worlds:
+                self._noise[w.b] = w.rng.random((NOISE_BLOCK, N_NOISE))
+            self._noise_i = 0
+        row = self._noise[:, self._noise_i]
+        self._noise_i += 1
+        return row
+
+    def _dead_due(self) -> np.ndarray:
+        a = self.wa
+        delay = RESTART_DELAY_ARR[np.maximum(a.restart_code, 0)]
+        place_at = a.restart_at - np.maximum(0, delay - 1000)
+        return self.dead & (((~a.ball_placed) & (self.t_ms >= place_at)) | (self.t_ms >= a.restart_at))
+
+    def _resolve_due(self) -> np.ndarray:
+        S, eps = self.S, 1e-6
+        bx, by = S[:, 22, 0], S[:, 22, 1]
+        live = ~self.dead
+        held = self.holder >= 0
+        out_held = (bx < -0.3 + eps) | (bx > PITCH_L + 0.3 - eps) | (by < -0.3 + eps) | (by > PITCH_W + 0.3 - eps)
+        out_loose = (bx < eps) | (bx > PITCH_L - eps) | (by < eps) | (by > PITCH_W - eps)
+        d = np.hypot(S[:, :22, 0] - bx[:, None], S[:, :22, 1] - by[:, None])          # [B, 22]
+        reach = np.full(d.shape, CONTROL_R)
+        for keeper in (0, 11):                                                    # keepers reach further in their box
+            u = np.where(self.team_dir(self.team_of(keeper)) > 0, bx, PITCH_L - bx)
+            reach[:, keeper] = np.where((u <= BOX_DEPTH + eps) & (np.abs(by - GOAL_Y) <= BOX_HALF + eps), KEEPER_R,
+                                        CONTROL_R)
+        ok = (d <= reach + eps) & (self.ball_z[:, None] <= HEADER_Z + 0.4 * (reach > CONTROL_R) + eps)
+        kicker_out = (self.t_ms - self.kick_t < 400) & (self.kicker >= 0)
+        ok[kicker_out, self.kicker[kicker_out]] = False
+        loose_due = (self.flight == 2) | ok.any(axis=1) | out_loose
+        return live & np.where(held, out_held, loose_due)
+
+    def _duel_due(self) -> np.ndarray:
+        eps = 1e-6
+        due = (~self.dead) & (self.holder >= 0)
+        idx = np.flatnonzero(due)
+        if idx.size == 0:
+            return due
+        h = self.holder[idx]
+        team = (h >= 11).astype(np.int64)
+        opp = np.where(team[:, None] == 0, np.arange(11, 22)[None, :], np.arange(0, 11)[None, :])
+        Sb = self.S[idx]
+        hx, hy = Sb[np.arange(idx.size), h, 0], Sb[np.arange(idx.size), h, 1]
+        ox = np.take_along_axis(Sb[:, :22, 0], opp, axis=1)
+        oy = np.take_along_axis(Sb[:, :22, 1], opp, axis=1)
+        dd = np.hypot(ox - hx[:, None], oy - hy[:, None])
+        k = opp[np.arange(idx.size), np.argmin(dd, axis=1)]
+        dist = dd.min(axis=1)
+        prow = self.wa.pressure_row[idx]
+        open_ = prow >= 0
+        settled = self.t_ms - self.control_since[idx] >= 200
+        need = (open_ & ((dist > PRESSURE_R + 1.0 - eps) | (prow != k))) \
+            | ((~open_) & (dist < PRESSURE_R + eps) & settled) | (dist < TACKLE_R + eps)
+        out = np.zeros_like(due)
+        out[idx[need]] = True
         return out
 
     def state(self) -> State:
@@ -546,34 +674,30 @@ class Engine:
         idx = np.flatnonzero(need)
         if idx.size == 0:
             return
-        U = np.zeros((idx.size, 22))
-        V = np.zeros((idx.size, 22))
-        slot = np.zeros(idx.size, dtype=np.int64)
-        styles = np.zeros((idx.size, 5))
-        mom = np.zeros(idx.size)
-        for i, b in enumerate(idx):
-            h = int(self.holder[b])
-            team = self.team_of(h)
-            U[i], V[i] = self._team_frame(b, team)
-            slot[i], styles[i], mom[i] = h - 11 * team, self.eff_styles[b, team], self.mom[b, team]
-        out = self.model.decide_batch(DecisionBatch(U=U, V=V, holder=slot, styles=styles, momentum=mom,
-                                                    restart=self.restart_flag[idx], noise=noise[idx]))
-        for i, b in enumerate(idx):
+        h = self.holder[idx]
+        team = (h >= 11).astype(np.int64)
+        order = np.where(team[:, None] == 0, np.arange(22)[None, :], np.r_[np.arange(11, 22), np.arange(0, 11)][None, :])
+        d = np.where(team == 0, self.home_dir, -self.home_dir)                 # team_dir(team) per world
+        X = np.take_along_axis(self.S[idx, :22, 0], order, axis=1)
+        Y = np.take_along_axis(self.S[idx, :22, 1], order, axis=1)
+        U = np.where(d[:, None] > 0, X, PITCH_L - X)
+        V = np.where(d[:, None] > 0, Y, PITCH_W - Y)
+        out = self.model.decide_batch(DecisionBatch(U=U, V=V, holder=h - 11 * team, styles=self.eff_styles[idx, team],
+                                                    momentum=self.mom[idx, team], restart=self.restart_flag[idx],
+                                                    noise=noise[idx]))
+        kind = np.asarray(out.kind)
+        self.mode[idx] = kind
+        self.carry_dir[idx] = np.stack([out.dir_u * d, out.dir_v * d], axis=1)
+        for i in np.flatnonzero(np.isin(kind, (PASS, SHOOT, CLEAR))):
+            b, hb, tb = int(idx[i]), int(h[i]), int(team[i])
             w = self.worlds[b]
-            h = int(self.holder[b])
-            team = self.team_of(h)
-            d = self.team_dir(team)
-            kind = int(out.kind[i])
-            self.mode[b] = kind
-            self.carry_dir[b] = [out.dir_u[i] * d, out.dir_v[i] * d]
-            if kind == PASS:
-                self._kick_pass(w, h, 11 * team + int(out.target[i]), bool(out.lofted[i]), noise[b])
-            elif kind == SHOOT:
-                self._kick_shot(w, h, noise[b])
-            elif kind == CLEAR:
-                self._kick_clear(w, h, noise[b])
-            if kind in (PASS, SHOOT, CLEAR):
-                self.restart_flag[b] = FREE
+            if kind[i] == PASS:
+                self._kick_pass(w, hb, 11 * tb + int(out.target[i]), bool(out.lofted[i]), noise[b])
+            elif kind[i] == SHOOT:
+                self._kick_shot(w, hb, noise[b])
+            else:
+                self._kick_clear(w, hb, noise[b])
+            self.restart_flag[b] = FREE
 
     def _release(self, w: _World, row: int) -> bool:
         """Let go of the ball; returns True when this is the first touch of a restart exempt from offside."""
@@ -737,14 +861,13 @@ class Engine:
             u[:, 0] = np.clip(4.0 + 0.08 * bu, 3.0, 14.0)
             v[:, 0] = GOAL_Y + 0.25 * (bv - GOAL_Y)
             u, v = np.clip(u, 1.0, PITCH_L - 1.0), np.clip(v, 1.5, PITCH_W - 1.5)
-            kick_off = self.dead & np.array([w.restart_kind == "kick_off" for w in self.worlds])
+            kick_off = self.dead & (self.wa.restart_code == 0)
             u = np.where(kick_off[:, None], np.minimum(u, 49.0), u)
             x, y = to_team(u, v, d)
             targets[:, rows, 0], targets[:, rows, 1] = x, y
             stam = 0.85 + 0.15 * S[:, rows, 4]
             vmax[:, rows] = np.where(self.dead[:, None], 0.75 * JOG, 5.0) * stam
-        for w in self.worlds:
-            self._special_targets(w, targets, vmax)
+        self._special_targets_all(targets, vmax)
         pos = S[:, :22, 0:2]
         vel = S[:, :22, 2:4]
         desired = (targets - pos) * 0.8
@@ -758,62 +881,70 @@ class Engine:
         S[:, :22, 2:4] = vel
         S[:, :22, 0:2] = np.clip(pos + vel * DT, [-3.0, -3.0], [PITCH_L + 3.0, PITCH_W + 3.0])
 
-    def _special_targets(self, w: _World, targets: np.ndarray, vmax: np.ndarray) -> None:
-        b, S = w.b, self.S
-        stam = 0.85 + 0.15 * S[b, :22, 4]
-        sprint = SPRINT * stam
-        if self.dead[b]:
-            r = w.restart_taker
-            targets[b, r] = w.restart_pos
-            vmax[b, r] = sprint[r]
+    def _special_targets_all(self, targets: np.ndarray, vmax: np.ndarray) -> None:
+        """Vectorised `_special_targets` for every world (same values, same overwrite order)."""
+        S, a = self.S, self.wa
+        sprint = SPRINT * (0.85 + 0.15 * S[:, :22, 4])                    # [B, 22]
+        bx, by = S[:, 22, 0], S[:, 22, 1]
+        idx = np.flatnonzero(self.dead)
+        if idx.size:
+            r = a.restart_taker[idx]
+            targets[idx, r] = a.restart_pos[idx]
+            vmax[idx, r] = sprint[idx, r]
+        idx = np.flatnonzero(~self.dead & (self.holder >= 0))
+        if idx.size:
+            n = np.arange(idx.size)
+            h = self.holder[idx]
+            team = (h >= 11).astype(np.int64)
+            opp = np.where(team[:, None] == 0, np.arange(11, 22)[None, :], np.arange(0, 11)[None, :])   # [n, 11]
+            Sb = S[idx]
+            hpos = Sb[n, h, 0:2]
+            ox, oy = np.take_along_axis(Sb[:, :22, 0], opp, axis=1), np.take_along_axis(Sb[:, :22, 1], opp, axis=1)
+            near = np.hypot(ox - hpos[:, 0:1], oy - hpos[:, 1:2]).min(axis=1)
+            speed = np.where(self.mode[idx] == HOLD, 0.0, np.where(near < PRESSURE_R, 3.5, 5.0))
+            targets[idx, h] = hpos + self.carry_dir[idx] * speed[:, None]
+            vmax[idx, h] = speed * (0.85 + 0.15 * Sb[n, h, 4])
+            d = np.hypot(ox - bx[idx, None], oy - by[idx, None])
+            order = np.take_along_axis(opp, np.argsort(d, axis=1, kind="stable"), axis=1)
+            def_dir = np.where(team == 0, -self.home_dir, self.home_dir)          # team_dir(1 - team)
+            du = np.where(def_dir > 0, bx[idx], PITCH_L - bx[idx])
+            press_zone = 40.0 + 50.0 * self.eff_styles[idx, 1 - team, 0]
+            keeper = 11 * (1 - team)
+            presser = np.where(order[:, 0] != keeper, order[:, 0], order[:, 1])
+            go = (du < press_zone) | (d.min(axis=1) < 8.0)
+            targets[idx[go], presser[go]] = hpos[go]
+            vmax[idx[go], presser[go]] = sprint[idx[go], presser[go]]
+            cover = np.where(order[:, 1] != presser, order[:, 1], order[:, 2])
+            vec = np.stack([np.where(def_dir > 0, 0.0, PITCH_L), np.full(idx.size, GOAL_Y)], axis=1) - hpos
+            targets[idx, cover] = hpos + 6.0 * vec / (np.hypot(vec[:, 0], vec[:, 1]) + 1e-9)[:, None]
+            vmax[idx, cover] = 0.8 * sprint[idx, cover]
+        idx = np.flatnonzero(~self.dead & (self.holder < 0))
+        if idx.size == 0:
             return
-        h = int(self.holder[b])
-        bx, by = S[b, 22, 0], S[b, 22, 1]
-        if h >= 0:
-            team = self.team_of(h)
-            mode = self.mode[b]
-            speed = 0.0 if mode == HOLD else (3.5 if self._nearest_opponent(b, h)[1] < PRESSURE_R else 5.0)
-            targets[b, h] = S[b, h, 0:2] + self.carry_dir[b] * speed
-            vmax[b, h] = speed * stam[h]
-            opp = np.arange(11 * (1 - team), 11 * (1 - team) + 11)
-            d = np.hypot(S[b, opp, 0] - bx, S[b, opp, 1] - by)
-            order = opp[np.argsort(d, kind="stable")]
-            du, _ = to_team(bx, by, self.team_dir(1 - team))     # ball depth in the defending team's frame
-            press_zone = 40.0 + 50.0 * self.eff_styles[b, 1 - team, 0]
-            presser = int(order[0]) if order[0] != 11 * (1 - team) else int(order[1])
-            if du < press_zone or d.min() < 8.0:
-                targets[b, presser] = S[b, h, 0:2]
-                vmax[b, presser] = sprint[presser]
-            cover = int(order[1]) if int(order[1]) != presser else int(order[2])
-            gx = 0.0 if self.team_dir(1 - team) > 0 else PITCH_L
-            vec = np.array([gx, GOAL_Y]) - S[b, h, 0:2]
-            targets[b, cover] = S[b, h, 0:2] + 6.0 * vec / (np.hypot(*vec) + 1e-9)
-            vmax[b, cover] = 0.8 * sprint[cover]
-            return
-        # ball in flight: the intended receiver runs to the pass target, the nearest players chase the ball
-        vx, vy = S[b, 22, 2], S[b, 22, 3]
-        ahead = np.array([bx + vx * 0.6, by + vy * 0.6])
-        if self.flight[b] == 1 and w.pass_target is not None:
-            tgt, px, py = w.pass_target
-            targets[b, tgt] = (px, py)
-            vmax[b, tgt] = sprint[tgt]
+        vx, vy = S[idx, 22, 2], S[idx, 22, 3]
+        ahead = np.stack([bx[idx] + vx * 0.6, by[idx] + vy * 0.6], axis=1)
+        p = (self.flight[idx] == 1) & (a.pass_tgt[idx] >= 0)
+        tgt = a.pass_tgt[idx[p]]
+        targets[idx[p], tgt] = a.pass_xy[idx[p]]
+        vmax[idx[p], tgt] = sprint[idx[p], tgt]
+        kicker = self.kicker[idx]
+        kicker_team = (kicker >= 11).astype(np.int64)
         for team in (0, 1):
+            shot = (self.flight[idx] == 2) & (team != kicker_team)
+            j = idx[shot]
+            targets[j, 11 * team] = np.stack([bx[j] + vx[shot] * 0.3, by[j] + vy[shot] * 0.3], axis=1)
+            vmax[j, 11 * team] = sprint[j, 11 * team]
+            blk = a.shot_blocker[j] >= 0
+            jb, rb = j[blk], a.shot_blocker[j[blk]]
+            targets[jb, rb] = np.stack([bx[jb], by[jb]], axis=1)
+            vmax[jb, rb] = sprint[jb, rb]
             rows = np.arange(11 * team, 11 * team + 11)
-            if self.flight[b] == 2 and team != self.team_of(int(self.kicker[b])):
-                keeper = 11 * team
-                targets[b, keeper] = (bx + vx * 0.3, by + vy * 0.3)
-                vmax[b, keeper] = sprint[keeper]
-                if w.shot_blocker >= 0:
-                    targets[b, w.shot_blocker] = (bx, by)
-                    vmax[b, w.shot_blocker] = sprint[w.shot_blocker]
-                continue
-            d = np.hypot(S[b, rows, 0] - ahead[0], S[b, rows, 1] - ahead[1])
-            d[0] += 15.0                                          # keepers stay home unless the ball is close
-            k = int(rows[int(np.argmin(d))])
-            if k == self.kicker[b] and self.t_ms - self.kick_t[b] < 500:
-                continue
-            targets[b, k] = ahead
-            vmax[b, k] = sprint[k]
+            d = np.hypot(S[idx][:, rows, 0] - ahead[:, 0:1], S[idx][:, rows, 1] - ahead[:, 1:2])
+            d[:, 0] += 15.0
+            k = rows[np.argmin(d, axis=1)]
+            go = ~shot & ~((k == kicker) & (self.t_ms - self.kick_t[idx] < 500))
+            targets[idx[go], k[go]] = ahead[go]
+            vmax[idx[go], k[go]] = sprint[idx[go], k[go]]
 
     def _move_ball(self) -> None:
         S = self.S

@@ -17,7 +17,7 @@ from .physics_prior import (
     DT,
     PITCH_L,
     PITCH_W,
-    cone_count,
+    cone_counts,
     goal_angle,
     goal_distance,
     segment_distance,
@@ -112,7 +112,7 @@ class ScriptedRule:
 
         # shoot, clear, carry
         dist0, ang0 = goal_distance(u0, v0), goal_angle(u0, v0)
-        cone = np.array([cone_count(u0[i], v0[i], ou[i], ov[i]) for i in range(D)])
+        cone = cone_counts(u0, v0, ou, ov)
         value_shoot = np.where(dist0 < self.shot_range_m, self.shot_scale * xg(dist0, ang0, cone) * (1.0 + 0.25 * b.momentum), -np.inf)
         pressure = np.hypot(ou - u0[:, None], ov - v0[:, None]).min(axis=1)
         value_clear = np.where((u0 < 25.0) & (pressure < 2.5), 0.6 * loss, -np.inf)

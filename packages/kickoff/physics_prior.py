@@ -80,6 +80,17 @@ def segment_distance(px, py, ax, ay, bx, by):
     return np.hypot(px - (ax + s * dx), py - (ay + s * dy))
 
 
+def cone_counts(u, v, opp_u, opp_v) -> np.ndarray:
+    """`cone_count` for D shooters at once: u, v [D]; opp_u, opp_v [D, 11]."""
+    u, v = np.asarray(u)[:, None], np.asarray(v)[:, None]
+    a = np.arctan2(GOAL_Y + GOAL_HALF - v, PITCH_L - u)
+    b = np.arctan2(GOAL_Y - GOAL_HALF - v, PITCH_L - u)
+    ang = np.arctan2(opp_v - v, opp_u - u)
+    ahead = (opp_u > u) & (np.hypot(opp_u - u, opp_v - v) < goal_distance(u, v))
+    lo, hi = np.minimum(a, b) - 0.03, np.maximum(a, b) + 0.03
+    return np.sum(ahead & (ang >= lo) & (ang <= hi), axis=1).astype(np.int64)
+
+
 def cone_count(u, v, opp_u, opp_v):
     """Opponents inside the triangle between the shooter and the two posts (team frame)."""
     a = np.arctan2(GOAL_Y + GOAL_HALF - v, PITCH_L - u)
