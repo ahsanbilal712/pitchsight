@@ -1,8 +1,8 @@
 # WHYLINE model routing. Role -> model. Read by packages/newsroom at start-up.
 # Prices (USD per 1M tokens, verified 21 Oct 2026 via the Claude API reference):
 #   claude-opus-5-5  in 4.00  out 20.00  cache_read 0.20
-#   claude-sonnet-5-5 in 2.00 out 10.00  cache_read 0.20
-#   claude-haiku-5-5 in 0.10  out 0.50   (prompts <= 100K tokens)
+#   claude-sonnet-5-5 in 2.00 out 10.00  cache_read 0.10 (0.05x input; corrected T-001 from the pricing page)
+#   claude-haiku-5-5 in 0.10  out 0.50   cache_read 0.01 (prompts <= 100K tokens)
 #   gemini-3.8-flash in 0.75  out 3.75 paid tier; free tier exists (limits unpublished)
 # Rules: Opus 5.5 default effort is "medium" and must be set explicitly; thinking cannot be
 # disabled on Opus 5.5 / Sonnet 5.5 (use effort); forced tool_choice "any"/"tool" is a 400 on
