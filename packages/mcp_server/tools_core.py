@@ -144,7 +144,8 @@ def query_events(store: MatchStore, match_id: str, t_from_ms: int, t_to_ms: int,
 
 
 def get_state(store: MatchStore, match_id: str, t_ms: int) -> dict:
-    """Score, clock, possession, chaos state label and the 60 s indices at t_ms."""
+    """Score, clock, possession, chaos state label, the 60 s indices and, when a player is in control, the
+    engine's option probabilities at t_ms."""
     from physics.indices import chaos_index, indices, transition_share_at, turnover_rate
     from physics.pitch_control import pitch_control
     from physics.state_machine import StateMachine
@@ -168,13 +169,30 @@ def get_state(store: MatchStore, match_id: str, t_ms: int) -> dict:
         series = [x for x in m.chaos if x[0] <= t_ms]
     i = w.index_at(t_ms)
     holder = int(w.holder[i])
+    options = _options(store, m, int(t_ms)) if holder >= 0 else None
     win = w.slice(max(0, t_ms - 60_000), t_ms)
     idx = indices(win, [e for e in past if e["t_ms"] >= t_ms - 60_000]) if len(win) else {}
     return {"match_id": match_id, "t_ms": int(t_ms), "clock": _clock(int(t_ms)), "period": int(w.period[i]),
             "score": score, "possession": {0: "home", 1: "away"}.get(int(w.possession[i]), "none"),
             "holder": w.player_at(holder, int(t_ms)) if holder >= 0 else None,
             "state": series[-1][2] if series else "Settled", "chaos": round(series[-1][1], 2) if series else None,
-            "indices": {k: round(float(v), 4) for k, v in idx.items()}}
+            "indices": {k: round(float(v), 4) for k, v in idx.items()},
+            "options": options}
+
+
+def _options(store: MatchStore, m: _Match, t_ms: int) -> dict | None:
+    """scripted_v1 probabilities of the player in control (team-mate ids, shoot, clear, carry): the policy_prob
+    the Sliding Doors guard uses. From the match's engine, the one simulate_counterfactual also moves forward."""
+    from rollout.core import MatchRef
+    from rollout.sliding_doors import option_probs
+
+    with store._lock:
+        if m.ref is None:
+            m.ref = MatchRef(seed=int(m.match_id[2:]), match_dir=m.dir)
+        eng = m.ref.state_at(t_ms).source
+        if int(eng.holder[0]) < 0 or eng.dead[0]:
+            return None
+        return {k: round(float(v), 4) for k, v in option_probs(eng).items()}
 
 
 def get_pitch_control(store: MatchStore, match_id: str, t_ms: int) -> dict:

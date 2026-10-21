@@ -2,7 +2,8 @@
 
 Role `proposer` (gemini-3.8-flash since ADR-004 Revision 1), prompt `proposer@1`, inline JSON, timeout 6 s with one
 retry, then `proposer_rule` (passes to the three team-mates with the highest xT gain). The decision point comes
-from local match data (newsroom.decision); a moment with no on-ball decision gets no alternatives.
+from local match data (newsroom.decision) plus the engine's option probabilities from MCP get_state; a moment
+with no on-ball decision gets no alternatives.
 """
 
 from __future__ import annotations
@@ -13,7 +14,7 @@ import time
 from agent_framework import WorkflowContext, handler
 
 from newsroom import config
-from newsroom.decision import decision_point, proposer_rule, valid_alternatives
+from newsroom.decision import attach_options, decision_point, proposer_rule, valid_alternatives
 from newsroom.executors.base import Deps, NewsroomExecutor
 from newsroom.llm import CacheMiss, LLMError
 from newsroom.messages import Envelope, Proposals, Routed
@@ -28,7 +29,7 @@ SCHEMA = {"type": "object", "required": ["alternatives"], "properties": {"altern
 
 def build_messages(decision: dict, moment_kind: str) -> list[dict]:
     _, system = config.prompt(PROMPT)
-    view = {k: decision[k] for k in ("actor", "actor_name", "team", "actual", "ball", "teammates")}
+    view = {k: decision.get(k) for k in ("actor", "actor_name", "team", "actual", "ball", "options", "teammates")}
     return [{"role": "system", "content": system},
             {"role": "user", "content": json.dumps({"moment_kind": moment_kind, "DECISION": view})}]
 
@@ -72,6 +73,10 @@ class ProposerExecutor(NewsroomExecutor):
     async def propose(self, msg: Routed, ctx: WorkflowContext[Proposals]) -> None:
         started = time.perf_counter()
         decision = decision_point(self.deps.store, msg.moment) if self.deps.store is not None else None
+        if decision is not None and self.deps.rollout is not None:
+            state = await self.deps.rollout.call("get_state", {"match_id": msg.moment.match_id,
+                                                               "t_ms": decision["t_ms"]})
+            decision = attach_options(decision, state.get("options") if isinstance(state, dict) else None)
         if decision is None:
             alts, info = [], {"status": "no_decision", "model": None}
         else:

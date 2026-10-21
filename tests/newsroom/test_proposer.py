@@ -12,7 +12,7 @@ import pytest
 
 from blackboard import SqliteBlackboard
 from mcp_server.tools_core import MatchStore
-from newsroom.decision import decision_point, proposer_rule, valid_alternatives
+from newsroom.decision import attach_options, decision_point, proposer_rule, valid_alternatives
 from newsroom.executors.base import Deps
 from newsroom.executors.proposer import propose
 from newsroom.executors.rollout import choose, simulate
@@ -51,13 +51,16 @@ def moment():
 
 @pytest.fixture(scope="module")
 def decision(store, moment):
-    return decision_point(store, moment)
+    d = decision_point(store, moment)
+    state = arun(LocalTools(store).call("get_state", {"match_id": M, "t_ms": d["t_ms"]}))
+    return attach_options(d, state["options"])
 
 
 def test_decision_point(decision):
     assert decision["t_ms"] == PASS["t_ms"] - 100 and decision["actor"] == PASS["player"]
     assert decision["actual"] == {"kind": "pass", "actor": PASS["player"], "target": PASS["attrs"]["recipient"]}
     assert len(decision["teammates"]) == 10 and PASS["player"] not in {m["player_id"] for m in decision["teammates"]}
+    assert decision["options"] is not None and all(m["policy_prob"] is not None for m in decision["teammates"])
     gains = [m["xt_gain"] for m in decision["teammates"]]
     assert gains == sorted(gains, reverse=True)
 
@@ -69,8 +72,18 @@ def test_no_decision_point_without_on_ball_event(store):
 
 def test_rule_top3_by_xt_gain_excluding_actual_target(decision):
     alts = proposer_rule(decision)
+    plausible = [m for m in decision["teammates"] if m["player_id"] != decision["actual"]["target"]
+                 and m["policy_prob"] >= 0.05]
+    passes = [a["target"] for a in alts if a["kind"] == "pass"]
+    assert passes == [m["player_id"] for m in plausible][:3] and 1 <= len(alts) <= 3
+    probs = {m["player_id"]: m["policy_prob"] for m in decision["teammates"]} | decision["options"]
+    assert all(probs[a["target"] if a["kind"] == "pass" else a["kind"]] >= 0.05 for a in alts)
+
+
+def test_rule_without_probabilities_is_pure_xt(decision):
+    blind = {**decision, "options": None, "teammates": [{**m, "policy_prob": None} for m in decision["teammates"]]}
     expected = [m["player_id"] for m in decision["teammates"] if m["player_id"] != decision["actual"]["target"]][:3]
-    assert [a["target"] for a in alts] == expected and all(a["kind"] == "pass" for a in alts)
+    assert [a["target"] for a in proposer_rule(blind)] == expected
 
 
 def test_model_output_is_validated(decision):

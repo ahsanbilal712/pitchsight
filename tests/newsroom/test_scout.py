@@ -133,12 +133,14 @@ def test_stream_under_50ms_per_event(golden):
     events = [json.loads(line) for line in (GOLDEN / "events.jsonl").read_text().splitlines()]
     stream = sr.ScoutStream("m_4242", TrackingWindow.load(GOLDEN), xg_head=XGHead())
     stream.observe(events[0])  # warm-up: first LightGBM call
-    times = []
+    cpu, wall = [], []
     for e in events[1:1500]:
-        t0 = time.perf_counter()
+        c0, w0 = time.process_time(), time.perf_counter()
         stream.observe(e)
-        times.append((time.perf_counter() - t0) * 1000)
-    t = np.asarray(times)
-    print(f"Scout per event: p50 {np.median(t):.2f} ms, p95 {np.quantile(t, .95):.2f} ms, "
-          f"p99 {np.quantile(t, .99):.2f} ms, max {t.max():.1f} ms")
-    assert np.quantile(t, 0.99) < 50
+        cpu.append((time.process_time() - c0) * 1000)
+        wall.append((time.perf_counter() - w0) * 1000)
+    c, w = np.asarray(cpu), np.asarray(wall)
+    print(f"Scout per event, CPU: p50 {np.median(c):.2f} ms, p99 {np.quantile(c, .99):.2f} ms, max {c.max():.1f} ms; "
+          f"wall: p50 {np.median(w):.2f} ms, p99 {np.quantile(w, .99):.2f} ms, max {w.max():.1f} ms")
+    # process CPU time, as the physics budget test does (T-013): wall time measures the machine's other load
+    assert c.max() < 50

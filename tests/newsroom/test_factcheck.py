@@ -8,7 +8,7 @@ import pytest
 
 from newsroom.executors.base import Deps
 from newsroom.executors.factcheck import FactCheckExecutor
-from newsroom.executors.stubs import StubCueBus, StubDirector, StubNarrator, StubScout
+from newsroom.executors.stubs import StubCueBus, StubDirector, StubNarrator, StubScout, StubTactician
 from newsroom.factcheck import BannedMatcher, banned_matcher, verify_claims
 from newsroom.graph import build_workflow
 from newsroom.worker import run_moment, start_message
@@ -216,6 +216,7 @@ def test_executor_rejects_unbound_numbers_until_attempt_3(evidence_bb):
     wf = build_workflow(deps, overrides={"factcheck": FactCheckExecutor("factcheck", deps),
                                          "narrator": StubNarrator("narrator", deps),
                                          "scout": StubScout("scout", deps),
+                                         "tactician": StubTactician("tactician", deps),
                                          "director": StubDirector("director", deps),
                                          "cuebus": StubCueBus("cuebus", deps)})
     moment = {"moment_id": "mo_00077", "match_id": M, "t_ms": 1878200, "clock": "31:18", "kind": "big_chance",

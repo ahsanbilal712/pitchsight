@@ -42,11 +42,11 @@ roles:
   tactician_live:
     provider: gemini
     model: gemini-4-argon
-    effort: medium
+    effort: low                       # measured 22 Oct (T-032): thinking high used all 3000 tokens, 37 s; low 14 s
     max_tokens: 3000
     output_format: schemas/explanation.schema.json
     tools: [query_events, get_pitch_control, simulate_counterfactual, player_stats]
-    max_tool_rounds: 2
+    max_tool_rounds: 1                # TECH_PLAN 1.13 response: first live probe 18.6 s > 15 s (T-032)
     timeout_s: 12
     fallback_role: tactician_degraded
 

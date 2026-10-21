@@ -3,7 +3,8 @@
 decision_point(store, moment) finds the last pass, carry, shot or clearance among the moment's evidence (else the
 last one by the moment's team in the 10 s before it) and describes the branch point the rollout forces:
 t_ms = event time - 100 ms (the engine kicks the on-ball event one tick after the decision), the actor, the
-actual action and every team-mate on the pitch with the expected-threat gain of a pass to him.
+actual action and every team-mate on the pitch with the expected-threat gain of a pass to that player.
+`attach_options` adds the engine's option probabilities, which the MCP tool get_state returns.
 """
 
 from __future__ import annotations
@@ -60,23 +61,49 @@ def decision_point(store, moment) -> dict | None:
                       "y": round(float(S[r, 1]), 1), "xt_gain": round(float(threat(u, v) - threat(u0, v0)), 4)})
     mates.sort(key=lambda x: -x["xt_gain"])
     target = (anchor.get("attrs") or {}).get("recipient") if anchor["type"] == "pass" else None
+    for mate in mates:
+        mate["policy_prob"] = None
     return {"match_id": match_id, "t_ms": t_dec, "anchor_event_id": anchor["id"], "actor": anchor["player"],
             "actor_name": players.get(anchor["player"], {}).get("name", anchor["player"]), "team": anchor["team"],
             "actual": {"kind": EVENT_KIND[anchor["type"]], "actor": anchor["player"], "target": target},
-            "ball": [round(float(S[22, 0]), 1), round(float(S[22, 1]), 1)], "teammates": mates}
+            "ball": [round(float(S[22, 0]), 1), round(float(S[22, 1]), 1)], "attack_tag": "e" if d > 0 else "w",
+            "options": None, "teammates": mates}
 
 
-def proposer_rule(decision: dict, k: int = 3) -> list[dict]:
-    """models.yaml `proposer_rule`: passes to the k team-mates with the highest xT gain (not the actual target)."""
+def attach_options(decision: dict, options: dict | None) -> dict:
+    """Add the engine's option probabilities (MCP get_state `options`: team-mate ids, shoot, clear, carry)."""
+    if not options:
+        return decision
+    mates = [{**m, "policy_prob": round(float(options.get(m["player_id"], 0.0)), 4)} for m in decision["teammates"]]
+    return {**decision, "teammates": mates,
+            "options": {k: round(float(v), 4) for k, v in options.items() if k in ("shoot", "clear", "carry")}}
+
+
+def proposer_rule(decision: dict, k: int = 3, min_prob: float = 0.05) -> list[dict]:
+    """models.yaml `proposer_rule`: passes to the k team-mates with the highest xT gain (never the actual target).
+    When the engine's option probabilities are known, only options it gives at least `min_prob` count (the
+    RolloutExecutor would drop the rest, audit B.2 guard 1), and shoot / clear / carry fill any free places."""
     actual = decision["actual"]
+    known = decision.get("options") is not None
+
+    def plausible(p):
+        return not known or (p or 0) >= min_prob
+
     out = []
     for mate in decision["teammates"]:
         if actual["kind"] == "pass" and mate["player_id"] == actual["target"]:
             continue
-        out.append({"kind": "pass", "actor": decision["actor"], "target": mate["player_id"],
-                    "reason": "highest expected-threat gain among team-mates"})
+        if plausible(mate.get("policy_prob")):
+            out.append({"kind": "pass", "actor": decision["actor"], "target": mate["player_id"],
+                        "reason": "highest expected-threat gain among team-mates"})
         if len(out) == k:
-            break
+            return out
+    if known:
+        tags = {"carry": decision.get("attack_tag", "e"), "shoot": None, "clear": None}
+        for kind, p in sorted(decision["options"].items(), key=lambda kv: -kv[1]):
+            if kind != actual["kind"] and p >= min_prob and len(out) < k:
+                out.append({"kind": kind, "actor": decision["actor"], "target": tags[kind],
+                            "reason": "the engine's next most likely choice"})
     return out
 
 

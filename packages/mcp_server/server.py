@@ -33,7 +33,8 @@ def build_server(store: core.MatchStore) -> MCPServer:
     @mcp.tool(structured_output=True)
     @guarded
     def get_state(match_id: str, t_ms: int) -> dict[str, Any]:
-        """Score, clock, possession, game state (Settled/Transitional/Chaotic), chaos index and 60 s indices."""
+        """Score, clock, possession, game state (Settled/Transitional/Chaotic), chaos index, 60 s indices and the
+        simulator's option probabilities for the player in control."""
         return core.get_state(store, match_id, t_ms)
 
     @mcp.tool(structured_output=True)

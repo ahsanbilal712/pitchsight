@@ -193,3 +193,39 @@ def test_streamable_http_round_trip(server):
         http.should_exit = True
         thread.join(5)
     assert set(TOOLS) <= set(names) and budget["max_per_10min"] == 12
+
+
+def test_newsroom_mcp_client_over_http(server):
+    """The newsroom's McpTools (mcp.Client) against the real server; Agent Framework's MCPStreamableHTTPTool
+    fails to initialise against mcp 2.3.0, which is why McpTools does not use it."""
+    import uvicorn
+
+    from newsroom.tools import McpTools
+
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        port = s.getsockname()[1]
+    http = uvicorn.Server(uvicorn.Config(server.streamable_http_app(streamable_http_path="/mcp"),
+                                         host="127.0.0.1", port=port, log_level="warning"))
+    thread = threading.Thread(target=http.run, daemon=True)
+    thread.start()
+    for _ in range(100):
+        if http.started:
+            break
+        time.sleep(0.05)
+
+    async def go():
+        tools = McpTools(f"http://127.0.0.1:{port}/mcp")
+        try:
+            events = await tools.call("query_events", {"match_id": M, "t_from_ms": 0, "t_to_ms": 5000})
+            err = await tools.call("get_budget", {"mode": "nobody"})
+            return events, err
+        finally:
+            await tools.close()
+
+    try:
+        events, err = arun(go())
+    finally:
+        http.should_exit = True
+        thread.join(5)
+    assert isinstance(events, list) and events[0]["id"] == "e_0001" and err["code"] == "unknown_mode"

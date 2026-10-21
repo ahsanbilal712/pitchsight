@@ -85,6 +85,7 @@ class LiveClient:
                                        location=os.environ.get("GOOGLE_CLOUD_LOCATION", "global"))
                 else:
                     sdk = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+                self._sdk = sdk
                 self._clients[provider] = GeminiChatClient(client=sdk)
             elif provider == "anthropic":
                 from agent_framework.anthropic import AnthropicClient
@@ -93,6 +94,21 @@ class LiveClient:
             else:
                 raise TemplateRole(f"provider {provider!r} has no client")
         return self._clients[provider]
+
+    def _tool_client(self, provider: str, rounds: int):
+        """A chat client whose function-invocation loop stops after `rounds` tool rounds plus the final answer.
+        The loop runs here, in the workflow process, calling our tool functions (Gemini's own automatic function
+        calling stays off; models.yaml header)."""
+        key = f"{provider}:tools{rounds}"
+        if key not in self._clients:
+            base = self._client(provider)
+            if provider != "gemini" or not hasattr(self, "_sdk"):
+                return base  # injected test clients run their own loop
+            from agent_framework.gemini import GeminiChatClient
+
+            self._clients[key] = GeminiChatClient(client=self._sdk,
+                                                  function_invocation_configuration={"max_iterations": rounds + 1})
+        return self._clients[key]
 
     async def warm(self, role_name: str = "narrator_fast") -> float:
         """One tiny call so credentials, TLS and the client are ready before the first moment (the cold first
@@ -129,7 +145,8 @@ class LiveClient:
             raise TemplateRole(role_name)
         match_id = ctx.get("match_id")
         self.guard.check(match_id)  # SpendCapReached propagates to the Director
-        client = self._client(r.provider)
+        rounds = int(ctx.get("max_tool_rounds", r.max_tool_rounds))
+        client = self._tool_client(r.provider, rounds) if tools else self._client(r.provider)
         started = time.perf_counter()
         try:
             resp = await asyncio.wait_for(
@@ -139,7 +156,9 @@ class LiveClient:
             # the provider may still bill the abandoned call and returns no usage: record a worst case
             # (input ~ 4 characters per token, output = max_tokens) so the caps stay conservative
             est_in = sum(len(m["content"]) for m in messages) // 4
-            self.guard.record(f"{role_name}:timeout", r.model, est_in, r.max_tokens or 0, match_id, self.mode)
+            calls = rounds + 1 if tools else 1
+            self.guard.record(f"{role_name}:timeout", r.model, est_in * calls, (r.max_tokens or 0) * calls, match_id,
+                              self.mode)
             raise LLMTimeout(f"{role_name} timed out after {ctx.get('timeout_s') or r.timeout_s}s") from exc
         except Exception as exc:  # provider errors become LLMError for the fallback chain
             raise LLMError(f"{role_name}: {type(exc).__name__}: {exc}") from exc

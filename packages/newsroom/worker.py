@@ -78,7 +78,8 @@ async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asy
     """Watch `moments` and run each new one. Moments with status other than `new` are skipped."""
     workflow = build_workflow(deps, storage=storage)
     if hasattr(deps.llm, "warm"):
-        log.info("warm-up %.2f s", await deps.llm.warm())
+        for role_name in ("narrator_fast", "tactician_live"):   # one per model: the cold first call is ~5-10 s
+            log.info("warm-up %s %.2f s", role_name, await deps.llm.warm(role_name))
     seen: set[str] = set()
     stop = stop or asyncio.Event()
     watcher = deps.bb.watch("moments", match_id=match_id).__aiter__()

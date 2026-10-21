@@ -5,6 +5,32 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-032 Tactician with MCP tools and first live latency probe (track B)
+
+- `executors/tactician.py` (gemini-4-argon, tools query_events / get_pitch_control / simulate_counterfactual /
+  player_stats through the newsroom tool client, structured output → explanation.schema.json, 12 s timeout, one
+  retry, then `tactician_degraded`), `prompts/tactician@3.md` (stable league block first for implicit prefix
+  caching), `templates.tactician_template`, `scripts/latency_probe.py`, `docs/evidence/latency_probe_day3.md`.
+- Live probe (MCP server + worker as processes, golden 23:39, Okafor shot vs pass to Novacek, goal chance
+  3.4% → 20.7%): **run 1 18.6 s** moment→cue, verified Sliding Doors cue with model text, $0.013 (Proposer 3.7 s,
+  Rollout 2.3 s, Tactician 9.3 s, Narrator 3.1 s). > 15 s, so `max_tool_rounds` 1 (TECH_PLAN 1.13): **run 2
+  37.5 s**, Tactician timed out twice and Narrator once → template cue (verified). 15 s target not met; carried
+  to T-080/T-081 with the levers listed in the evidence file.
+- Config from measurements: `tactician_live.effort` low (thinking high: 37 s, all 3,000 tokens on thinking, JSON
+  cut off), `max_tool_rounds` 1; worker warms both models.
+- Fixes found by the probe: Agent Framework 1.22.0 `MCPStreamableHTTPTool` cannot initialise against mcp 2.3.0
+  (`protocolVersion` → `protocol_version`), so `McpTools` uses `mcp.Client` (regression test added). The 5% policy
+  guard dropped every rule alternative because the rule ignored policy probabilities: MCP `get_state` now returns
+  the engine's option probabilities, the rule picks plausible options (17 of 27 golden decision moments get a
+  plausible alternative), and the Proposer sees them.
+- **Spend over budget:** T-032 ledger $0.59 against $0.50: $0.064 reported usage plus $0.529 worst-case estimates
+  for ten timed-out calls. Live calls stopped there; the `-m live` Tactician test is written but not run.
+- Verification `pytest tests/newsroom/test_tactician.py -q`: 9 passed (+1 live not run). Scout timing test now
+  measures process CPU time (load average 283 from another track's job made wall time meaningless): CPU p99
+  14 ms, max 26 ms per event.
+
+---
+
 ## 2026-10-22 · T-044 Player-Cam card and player_cam overlay mode (track C)
 
 - `packages/api/players.py`: `GET /match/{id}/players/{player_id}/stats` = MCP `player_stats` (same code) +

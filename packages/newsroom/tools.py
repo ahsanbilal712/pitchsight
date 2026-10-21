@@ -1,7 +1,8 @@
 """Tool clients for code executors: the MCP tools (TECH_PLAN 1.7) over Streamable HTTP, or the same functions
 in-process. Both expose `await call(name, args) -> dict | list` and never raise: failures are {error, code}.
 
-    McpTools("http://localhost:8080/mcp")   # MCPStreamableHTTPTool(name="whyline", url=...), core 1.22.0
+    McpTools("http://localhost:8080/mcp")   # mcp.Client over Streamable HTTP (see the class for why not
+                                            # agent_framework.MCPStreamableHTTPTool)
     LocalTools(store)                       # mcp_server.tools_core over a MatchStore, on a worker thread
 """
 
@@ -40,26 +41,32 @@ class LocalTools:
 
 
 class McpTools:
-    def __init__(self, url: str = MCP_URL) -> None:
-        from agent_framework import MCPStreamableHTTPTool
+    """MCP over Streamable HTTP with the MCP SDK's own client. Agent Framework 1.22.0's MCPStreamableHTTPTool
+    cannot talk to the pinned mcp 2.3.0 (it reads `InitializeResult.protocolVersion`, renamed `protocol_version`
+    in mcp 2), so the newsroom uses `mcp.Client`; one session per McpTools, opened on first use."""
 
-        self.tool = MCPStreamableHTTPTool(name="whyline", url=url)
-        self._connected = False
+    def __init__(self, url: str = MCP_URL) -> None:
+        self.url = url
+        self._client = None
         self._lock = asyncio.Lock()
 
     async def call(self, name: str, args: dict) -> Any:
         try:
             async with self._lock:
-                if not self._connected:
-                    await self.tool.connect()
-                    self._connected = True
-            out = await self.tool.call_tool(name, **args)
-            text = out if isinstance(out, str) else "".join(getattr(c, "text", "") or "" for c in out)
-            return unwrap(json.loads(text))
+                if self._client is None:
+                    from mcp import Client
+
+                    client = Client(self.url)
+                    await client.__aenter__()
+                    self._client = client
+            res = await self._client.call_tool(name, args)
+            if res.structured_content is not None:
+                return unwrap(res.structured_content)
+            return unwrap(json.loads("".join(getattr(c, "text", "") or "" for c in res.content)))
         except Exception as exc:  # transport or protocol failure: same shape as a tool error
             return {"error": f"{type(exc).__name__}: {exc}", "code": "mcp_unavailable"}
 
     async def close(self) -> None:
-        if self._connected:
-            await self.tool.close()
-            self._connected = False
+        if self._client is not None:
+            await self._client.__aexit__(None, None, None)
+            self._client = None
