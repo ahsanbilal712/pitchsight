@@ -356,3 +356,107 @@
 .tk-items li[data-state="out"] {
   animation: lt-out 300ms var(--ease-out) both;
 }
+
+/* ------------------------------------------------------------------ swing bar (bottom right, above ticker) */
+.swing-bar-slot {
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--ticker-h) + var(--sp-4));
+  width: 600px;
+}
+
+.swing-bar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--c-panel);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-panel);
+  animation: sw-in 300ms var(--ease-in) both;
+}
+
+.swing-bar[data-state="out"] {
+  animation: sw-out 300ms var(--ease-out) both;
+}
+
+.sw-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-4);
+}
+
+.sw-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font: var(--fw-semibold) var(--fs-sm) / var(--lh-tight) var(--font-ui);
+  color: var(--c-text-muted);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.sw-number {
+  font: var(--fw-bold) var(--fs-2xl) / 1 var(--font-num);
+  font-feature-settings: var(--font-features-num);
+  color: var(--c-accent);
+}
+
+.sw-track {
+  position: relative;
+  height: 14px;
+  margin: var(--sp-3) 0;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+}
+
+.sw-span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--c-accent-soft);
+  border-radius: 7px;
+}
+
+.sw-from,
+.sw-to {
+  position: absolute;
+  top: -5px;
+  width: 4px;
+  height: 24px;
+  margin-left: -2px;
+  border-radius: 2px;
+}
+
+.sw-from { background: var(--c-text-muted); }
+.sw-to { background: var(--c-accent); }
+
+.sw-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  font-size: var(--fs-xs);
+}
+
+.sw-delta {
+  font-weight: var(--fw-semibold);
+  font-family: var(--font-num);
+}
+
+.sw-prov {
+  color: var(--c-text-muted);
+  font-family: var(--font-num);
+  white-space: nowrap;
+}
+
+@keyframes sw-in {
+  from { transform: translateX(40px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes sw-out {
+  from { transform: none; opacity: 1; }
+  to { transform: translateX(40px); opacity: 0; }
+}

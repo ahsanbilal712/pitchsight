@@ -8,6 +8,7 @@ export interface WhylineHandle {
   pause: (paused: boolean) => void;
   debug: () => { clock: number; visibleCues: string[]; frames: number };
   inject: (msg: unknown) => void; // dispatch one stream message as if it arrived (tests, scripted shots)
+  layerStats?: () => Record<string, Record<string, number>>; // what each Pitch2D layer drew last frame
 }
 
 declare global {

@@ -79,7 +79,10 @@ renders every cue of every layer (studio receives all cues regardless of mode), 
    (`last_defender`, `attacker`, `box_edge`), a colour hint and a label ("0.4 m").
 7. **Ghost futures for `/replay3d`.** The 3D scene draws 200 ball paths; the cue has one `ghost_trail`, and
    `futures_sample` lives in the counterfactual document the screen cannot read. Needs `GET /counterfactual/{id}`
-   on `api` or a `counterfactual` stream message.
+   on `api` or a `counterfactual` stream message. **Interim (T-024):** screens accept a `counterfactual` stream
+   message (payload = the counterfactual document, already in `scripts/validate_schemas.py`) and split
+   `futures_sample` by convention: first half baseline futures, second half alternative futures. A
+   `futures_branch[]` field (minor bump) would replace the convention.
 8. **Bar semantics.** `graphics.bar` has no team or unit; the `SwingBar` needs `team` (home or away, for kit colour)
    and a `format` (percent or raw).
 9. **Mode budgets for `fast_line`.** `fast_line` is a valid kind but appears in no `kinds` list in
@@ -95,5 +98,6 @@ renders every cue of every layer (studio receives all cues regardless of mode), 
 
 `python3 scripts/make_sample_stream.py` writes `tests/fixtures/stream/sample_stream.jsonl`: 1 `hello`, 600
 `tracking_frame` (30:50–31:50 at 10 Hz, rows 0–10 Verdant, 11–21 Ironvale, 22 ball), 14 `event` (including the
-schema examples `e_8809` and `e_8812`), 62 `fact` (`chaos_index` once a second; `chaos_state` Transitional at 30:50 and Chaotic from 31:26, T-023), 1 `cue` (the `cue.schema.json` example, 31:18–31:26)
+schema examples `e_8809` and `e_8812`), 62 `fact` (`chaos_index` once a second; `chaos_state` Transitional at 30:50 and Chaotic from 31:26, T-023), 1 `counterfactual` (the schema example with 200
+`futures_sample` paths, 100 per branch, T-024), 1 `cue` (the `cue.schema.json` example, 31:18–31:26)
 and 1 `cue_remove`. Byte-identical on every run; `--check` re-parses and asserts the counts.

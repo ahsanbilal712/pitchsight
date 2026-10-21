@@ -1,7 +1,8 @@
-// Ordered layer registry for Pitch2D. Each layer draws with (ctx, frame, cues, facts, toCanvas).
+// Ordered layer registry for Pitch2D. Each layer draws with (ctx, frame, cues, facts, toCanvas, state).
 // Layers with order < PLAYERS_ORDER draw under the players, the rest above them.
 // T-011 registers the four hooks empty; T-024 (ghost trail) and T-045 (heatmap, threat front,
-// referee lines) fill them in.
+// referee lines) fill them in. `layerStats` lets the record-mode handle report what a layer drew.
+import type { OverlayState } from "../stream/reducer";
 import type { Cue, Fact } from "../stream/types";
 
 export interface DrawFrame {
@@ -18,6 +19,7 @@ export type LayerFn = (
   cues: Cue[],
   facts: Record<string, Fact>,
   toCanvas: (x: number, y: number) => [number, number],
+  state: OverlayState,
 ) => void;
 
 export interface Layer {
@@ -35,6 +37,8 @@ export function registerLayer(name: string, order: number, draw: LayerFn): void 
   registry.push({ name, order, draw });
   registry.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
 }
+
+export const layerStats: Record<string, Record<string, number>> = {};
 
 export function layers(): readonly Layer[] {
   return registry;

@@ -8,7 +8,8 @@ import { useStream } from "../stream/StreamProvider";
 import type { TrackingFrame } from "../stream/types";
 import { drawBall, drawPitch, drawPlayers, type Kit, type Palette } from "./draw";
 import { lerp, makeTransform } from "./geometry";
-import { layers, PLAYERS_ORDER, type DrawFrame } from "./layers";
+import { layers, layerStats, PLAYERS_ORDER, type DrawFrame } from "./layers";
+import "./layers/ghostTrail";
 
 export const STAGE_W = 1920;
 export const STAGE_H = 1080;
@@ -102,14 +103,15 @@ export default function Pitch2D() {
       ctx.clearRect(0, 0, STAGE_W, STAGE_H);
       ctx.drawImage(cache, 0, 0, STAGE_W, STAGE_H);
       const all = layers();
-      for (const l of all) if (l.order < PLAYERS_ORDER) l.draw(ctx, frame, cues, s.facts, T.toCanvas);
+      for (const l of all) if (l.order < PLAYERS_ORDER) l.draw(ctx, frame, cues, s.facts, T.toCanvas, s);
       drawPlayers(ctx, T, frame, kits, numbers, palette.ring, palette.pitch);
       drawBall(ctx, T, frame);
-      for (const l of all) if (l.order >= PLAYERS_ORDER) l.draw(ctx, frame, cues, s.facts, T.toCanvas);
+      for (const l of all) if (l.order >= PLAYERS_ORDER) l.draw(ctx, frame, cues, s.facts, T.toCanvas, s);
       performance.measure("pitch2d-draw", "pitch2d-start");
       if (++n % MAX_MEASURES === 0) performance.clearMeasures("pitch2d-draw");
     };
     raf = requestAnimationFrame(loop);
+    if (window.__whyline) window.__whyline.layerStats = () => JSON.parse(JSON.stringify(layerStats));
     return () => cancelAnimationFrame(raf);
   }, []);
 

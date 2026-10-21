@@ -223,6 +223,43 @@ def chaos_facts() -> list[dict]:
     return facts
 
 
+# Ghost futures for the counterfactual (T-024): 200 ball paths at 1 Hz over the 8 s horizon from the branch
+# point. Renderer convention (docs/cue_contract.md gap 7): the first half of futures_sample are baseline futures,
+# the second half alternative futures. Variation comes from a fixed trig hash, not a random generator.
+N_FUTURES, HORIZON_S = 200, 8
+
+
+def _jitter(k: int, j: int, scale: float) -> float:
+    return scale * math.sin(12.9898 * (k + 1) + 78.233 * (j + 1)) * math.cos(4.1414 * (k + 3) * (j + 2))
+
+
+def ghost_futures(start: tuple[float, float]) -> list[list[list[float]]]:
+    # baseline: the shot from the tight angle, then the rebound or goal kick drifting back out
+    base = [start, (103.5, 31.5), (100.5, 30.0), (96.0, 31.0), (90.0, 33.0), (84.0, 35.0), (78.0, 36.0),
+            (72.0, 36.0), (66.0, 35.0)]
+    # alternative: the square pass to Reyes at the far post, his shot, then the scramble in the six-yard box
+    alt = [start, (96.5, 37.5), (99.5, 39.0), (104.0, 34.5), (102.0, 33.5), (99.0, 35.0), (96.0, 36.0),
+           (93.0, 36.5), (90.0, 36.0)]
+    paths = []
+    for k in range(N_FUTURES):
+        knots = base if k < N_FUTURES // 2 else alt
+        path = []
+        for j, (x, y) in enumerate(knots):
+            spread = 0.0 if j == 0 else min(6.0, 0.9 * j)
+            px = min(105.0, max(0.0, x + _jitter(k, j, spread)))
+            py = min(68.0, max(0.0, y + _jitter(k + 101, j, spread)))
+            path.append([r2(px), r2(py)])
+        paths.append(path)
+    return paths
+
+
+def counterfactual() -> dict:
+    cf = schema_example("counterfactual.schema.json")
+    cf["futures_sample"] = ghost_futures(tuple(cf["futures_sample"][0][0]))
+    assert len(cf["futures_sample"]) == N_FUTURES and all(len(p) == HORIZON_S + 1 for p in cf["futures_sample"])
+    return cf
+
+
 def build() -> list[dict]:
     ex_pass, ex_shot = schema_example("event.schema.json", 0), schema_example("event.schema.json", 1)
     cue = schema_example("cue.schema.json")
@@ -256,7 +293,8 @@ def build() -> list[dict]:
     timed = [(T0 + k * DT, 4, "tracking_frame", frame(T0 + k * DT)) for k in range(N_FRAMES)]
     timed += [(e["t_ms"], 0, "event", e) for e in events]
     timed += [(f["t_ms"], 1, "fact", f) for f in facts]
-    timed += [(cue["t_in_ms"], 2, "cue", cue),
+    cf = counterfactual()
+    timed += [(cue["t_in_ms"], 2, "counterfactual", cf), (cue["t_in_ms"], 2, "cue", cue),
               (cue["t_out_ms"], 3, "cue_remove", {"cue_id": cue["cue_id"]})]
     timed.sort(key=lambda m: (m[0], m[1], m[3].get("id", "")))
     return [{"type": "hello", "payload": hello}] + [{"type": typ, "payload": p} for _, _, typ, p in timed]
@@ -284,7 +322,7 @@ def check() -> list[str]:
             frames.append(msg["payload"])
         elif msg["type"] == "event":
             events.append(msg["payload"])
-    want = {"hello": (1, 1), "tracking_frame": (600, 600), "event": (6, None), "cue": (1, None), "fact": (62, 62)}
+    want = {"hello": (1, 1), "tracking_frame": (600, 600), "event": (6, None), "cue": (1, None), "fact": (62, 62), "counterfactual": (1, 1)}
     for typ, (lo, hi) in want.items():
         got = counts.get(typ, 0)
         if got < lo or (hi is not None and got > hi):

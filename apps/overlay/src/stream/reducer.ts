@@ -1,5 +1,15 @@
 // Overlay state (TECH_PLAN 1.9): {frame, cues[], facts, oracle, profile} plus the bits the score bug and badges need.
-import type { Cue, Fact, Hello, MatchEvent, Message, Oracle, TrackingFrame, ViewerProfile } from "./types";
+import type {
+  Counterfactual,
+  Cue,
+  Fact,
+  Hello,
+  MatchEvent,
+  Message,
+  Oracle,
+  TrackingFrame,
+  ViewerProfile,
+} from "./types";
 
 export interface OverlayState {
   hello: Hello | null;
@@ -8,6 +18,7 @@ export interface OverlayState {
   clock: number; // stream clock, ms of match time
   cues: Cue[]; // every cue not yet removed; visibility is decided against the clock
   facts: Record<string, Fact>; // latest fact per name
+  counterfactuals: Record<string, Counterfactual>; // by counterfactual_id, for ghost trails and swing bars
   oracle: Oracle | null;
   profile: ViewerProfile | null;
   events: MatchEvent[]; // recent events, newest last (bounded)
@@ -24,6 +35,7 @@ export const initialState: OverlayState = {
   clock: 0,
   cues: [],
   facts: {},
+  counterfactuals: {},
   oracle: null,
   profile: null,
   events: [],
@@ -67,6 +79,11 @@ export function reducer(state: OverlayState, action: Action): OverlayState {
       return { ...state, facts: { ...state.facts, [msg.payload.name]: msg.payload } };
     case "cue":
       return { ...state, cues: [...state.cues.filter((c) => c.cue_id !== msg.payload.cue_id), msg.payload] };
+    case "counterfactual":
+      return {
+        ...state,
+        counterfactuals: { ...state.counterfactuals, [msg.payload.counterfactual_id]: msg.payload },
+      };
     case "cue_remove":
       return { ...state, cues: state.cues.filter((c) => c.cue_id !== msg.payload.cue_id) };
     case "oracle":

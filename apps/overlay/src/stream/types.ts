@@ -59,6 +59,29 @@ export interface Fact {
   [key: string]: unknown;
 }
 
+export interface CfOutcome {
+  p_goal_home: number;
+  p_goal_away: number;
+  win_prob_home: number;
+  ci95_win_prob_home?: [number, number];
+  [key: string]: unknown;
+}
+
+/** schemas/counterfactual.schema.json (fields the screens use). */
+export interface Counterfactual {
+  counterfactual_id: string;
+  t_ms: number;
+  engine: string;
+  n: number;
+  horizon_s: number;
+  seed: number;
+  baseline: CfOutcome;
+  alternative_outcome: CfOutcome;
+  delta_win_prob_home: number;
+  futures_sample?: number[][][]; // first half baseline futures, second half alternative (cue contract gap 7)
+  [key: string]: unknown;
+}
+
 export interface Oracle {
   t_ms: number;
   p_shot_home: number;
@@ -80,4 +103,5 @@ export type Message =
   | { type: "mode"; payload: { mode: "replay" | "live" | "degraded"; reason?: string } }
   | { type: "spend"; payload: { match_usd: number; day_usd: number; caps: Record<string, number> } }
   | { type: "oracle"; payload: Oracle }
-  | { type: "lineup"; payload: { t_ms: number; player_ids: string[] } };
+  | { type: "lineup"; payload: { t_ms: number; player_ids: string[] } }
+  | { type: "counterfactual"; payload: Counterfactual };
