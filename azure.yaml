@@ -1,0 +1,43 @@
+# Azure Developer CLI (azd 1.36.0) project for WHYLINE (T-009; resources and deploy arrive in T-052).
+# ADR-009: Container Apps (consumption, scale to zero) for api, mcp, newsroom; Static Web Apps (free) for the screens.
+name: whyline
+metadata:
+  template: whyline@0.0.1
+infra:
+  provider: bicep
+  path: infra
+  module: main
+services:
+  api:
+    project: ./packages/api
+    language: python
+    host: containerapp
+    docker:
+      context: .
+  mcp:
+    project: ./packages/mcp_server
+    language: python
+    host: containerapp
+    docker:
+      context: .
+  newsroom:
+    project: ./packages/newsroom
+    language: python
+    host: containerapp
+    docker:
+      context: .
+  overlay:
+    project: ./apps/overlay
+    language: ts
+    host: staticwebapp
+    dist: dist
+  studio:
+    project: ./apps/studio
+    language: ts
+    host: staticwebapp
+    dist: dist
+  fan:
+    project: ./apps/fan
+    language: ts
+    host: staticwebapp
+    dist: dist
