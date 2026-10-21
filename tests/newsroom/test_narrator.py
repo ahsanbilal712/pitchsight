@@ -145,11 +145,13 @@ def test_live_client_times_out_and_counts_thinking_tokens(tmp_path):
     with pytest.raises(LLMTimeout):
         arun(LiveClient(guard, clients={"gemini": Slow()}).complete("narrator_fast", [
             {"role": "user", "content": "x"}], timeout_s=0.05))
+    timeout_row = json.loads((tmp_path / "ledger.jsonl").read_text().splitlines()[0])
+    assert timeout_row["role"] == "narrator_fast:timeout" and timeout_row["tokens_out"] == 300
     res = arun(LiveClient(guard, clients={"gemini": Quick()}).complete(
         "narrator_fast", [{"role": "user", "content": "x"}], match_id="m_test"))
     assert res["tokens_out"] == 150 and res["json"]["headline"] == "a"
     assert res["cost_usd"] == pytest.approx((1000 * 0.75 + 150 * 3.75) / 1e6)
-    row = json.loads((tmp_path / "ledger.jsonl").read_text().splitlines()[0])
+    row = json.loads((tmp_path / "ledger.jsonl").read_text().splitlines()[1])
     assert row["model"] == "gemini-3.8-flash" and row["tokens_out"] == 150 and row["role"] == "narrator_fast"
 
 

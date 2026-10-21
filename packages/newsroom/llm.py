@@ -136,6 +136,10 @@ class LiveClient:
                 client.get_response(_to_messages(messages), options=self.options(r, ctx.get("schema"), tools)),
                 timeout=ctx.get("timeout_s") or r.timeout_s)
         except TimeoutError as exc:
+            # the provider may still bill the abandoned call and returns no usage: record a worst case
+            # (input ~ 4 characters per token, output = max_tokens) so the caps stay conservative
+            est_in = sum(len(m["content"]) for m in messages) // 4
+            self.guard.record(f"{role_name}:timeout", r.model, est_in, r.max_tokens or 0, match_id, self.mode)
             raise LLMTimeout(f"{role_name} timed out after {ctx.get('timeout_s') or r.timeout_s}s") from exc
         except Exception as exc:  # provider errors become LLMError for the fallback chain
             raise LLMError(f"{role_name}: {type(exc).__name__}: {exc}") from exc

@@ -19,7 +19,8 @@ class Deps:
 
     bb: Any                                   # blackboard.Blackboard
     llm: Any = None                           # newsroom.llm.LLMClient
-    rollout: Any = None                       # RolloutClient (T-031): simulate_counterfactual
+    rollout: Any = None                       # tool client (newsroom.tools): MCP over HTTP, or in-process
+    store: Any = None                         # mcp_server.tools_core.MatchStore: local match files
     guard: Any = None                         # api.spend.SpendGuard
     mode: str = "replay"
     panel_enabled: bool = False

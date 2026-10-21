@@ -57,10 +57,12 @@ class Routed(Envelope):
 
 class Proposals(Envelope):
     alternatives: list[dict] = Field(default_factory=list)
+    decision: dict | None = None        # the on-ball decision point the alternatives replace (newsroom.decision)
 
 
 class RolloutDone(Envelope):
     alternatives: list[dict] = Field(default_factory=list)
+    decision: dict | None = None
     counterfactual: dict | None = None
 
 

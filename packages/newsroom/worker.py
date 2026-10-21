@@ -53,8 +53,13 @@ def make_storage() -> FileCheckpointStorage:
 
 def make_deps(mode: str) -> Deps:
     from blackboard import SqliteBlackboard
+    from mcp_server.tools_core import MatchStore
+    from newsroom.tools import LocalTools, McpTools
 
     bb = SqliteBlackboard()
+    store = MatchStore(bb)
+    url = os.environ.get("WHYLINE_MCP_URL")
+    rollout = McpTools(url) if url else LocalTools(store)   # agents' data path is MCP; in-process is the dev default
     if mode == "live":
         from newsroom.llm import LiveClient
 
@@ -65,7 +70,7 @@ def make_deps(mode: str) -> Deps:
         except ImportError:  # replay cache not built yet
             CacheClient = None
         llm = CacheClient() if CacheClient else None
-    return Deps(bb=bb, llm=llm, mode=mode)
+    return Deps(bb=bb, llm=llm, mode=mode, store=store, rollout=rollout)
 
 
 async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asyncio.Event | None = None,

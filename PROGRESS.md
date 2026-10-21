@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-031 Proposer and RolloutExecutor (track B)
+
+- `newsroom/decision.py` (decision point: last pass/carry/shot/clearance of the moment, branch at event − 100 ms,
+  team-mates with xT gain; `proposer_rule`; `valid_alternatives`), `executors/{proposer,rollout}.py`,
+  `prompts/proposer@1.md`, `newsroom/tools.py` (`McpTools` over `MCPStreamableHTTPTool`, `LocalTools` in-process;
+  the worker uses MCP when `WHYLINE_MCP_URL` is set).
+- Proposer: gemini-3.8-flash (`proposer` role), 6 s timeout, one retry, then the rule (top-3 team-mates by xT
+  gain); model output is validated (actor forced, targets on the pitch, never the actual action). Rollout: n 200
+  under 2 s (5 s with `WHYLINE_CLOUD`), then n 50; errors (invalid alternatives) skipped; keeps the largest
+  |Δ win prob| with policy_prob ≥ 0.05.
+- Gemini's schema converter rejects `["string","null"]` types, so `target` is a string ("" for none).
+- Live proposer on a golden decision: 3 valid alternatives, $0.0013; the cold first call timed out at 6 s and
+  the retry succeeded (9.9 s total). `LiveClient` now records a worst-case ledger row (`<role>:timeout`, input
+  ≈ chars/4, output = max_tokens) for every timed-out call; two earlier unrecorded timeouts (T-020, T-031) were
+  added the same way ($0.0045). Dev spend for T-031: $0.0044 (limit $0.20).
+- Verification `pytest tests/newsroom/test_proposer.py -q`: 9 passed (+1 live). In-graph run on the golden
+  match: proposer + 2 rollouts 2.8 s.
+
+---
+
 ## 2026-10-22 · T-030 MCP server: core tools (track B)
 
 - `packages/mcp_server/{__main__,server,tools_core,errors}.py`. mcp 2.3.0 has no FastMCP: it is `MCPServer` now
