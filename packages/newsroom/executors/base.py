@@ -34,18 +34,28 @@ def trace_id_for(run_id: str) -> str:
 
 
 class NewsroomExecutor(Executor):
+    """Executors keep no in-flight data between supersteps: every message carries its run envelope, so a
+    checkpoint's pending messages are the whole run state and the checkpoint hooks save nothing (T-051)."""
+
     def __init__(self, id: str, deps: Deps) -> None:
         self.deps = deps
         super().__init__(id=id)
+
+    async def on_checkpoint_save(self) -> dict:
+        return {}
+
+    async def on_checkpoint_restore(self, state: dict) -> None:
+        return None
 
     def trace(self, msg: Envelope, started: float, *, status: str = "ok", model: str | None = None,
               tokens_in: int = 0, tokens_out: int = 0, cost_usd: float = 0.0, cache_hit: bool | None = None,
               **extra) -> None:
         """Write one trace row for this executor's step to the blackboard."""
         now = time.perf_counter()
+        resumed = msg.resumed_from_checkpoint or self.deps.state.get("resumed", {}).get(msg.run_id)
         row = {"match_id": msg.moment.match_id, "run_id": msg.run_id, "moment_id": msg.moment.moment_id,
                "trace_id": msg.trace_id, "executor": self.id, "branch": msg.branch,
                "started_ms": int(self.deps.clock() * 1000), "latency_ms": int((now - started) * 1000),
                "model": model, "tokens_in": tokens_in, "tokens_out": tokens_out, "cost_usd": cost_usd,
-               "cache_hit": cache_hit, "status": status, "checkpoint_id": msg.resumed_from_checkpoint, **extra}
+               "cache_hit": cache_hit, "status": status, "checkpoint_id": resumed, **extra}
         self.deps.bb.put("traces", row)

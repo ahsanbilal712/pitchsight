@@ -5,6 +5,24 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-051 Supervisor, kill switch and checkpoint resume (track B)
+
+- `newsroom/{supervisor,resume}.py`, `api/control.py` (`POST /demo/kill` + `kill_when_ready`), worker run tracking
+  (blackboard `runs` running → done, moments marked running/done), Director/trace rows stamp
+  `resumed_from_checkpoint`, `tests/chaos/test_resume.py`, `docs/evidence/kill_resume.log`.
+- The kill waits for a running run with a Tactician trace row and no Narrator row, then SIGKILLs the pid the
+  supervisor wrote; the supervisor restarts the worker; on start the worker restores each `running` run from its
+  newest checkpoint holding that run's messages. Executors hold no in-flight data (messages carry everything), so
+  `on_checkpoint_save/restore` save nothing.
+- Measured (replay mode, cached outputs): restart **0.05 s** after the kill, resume 0.9 s later, resumed cue
+  `c_000011` 3.1 s after that (the cached Narrator latency), same cue id and text as the uninterrupted run.
+  Verification `pytest tests/chaos/test_resume.py -q`: 2 passed. The CI chaos-resume job already runs this file.
+- The demo-script run at 44:10 (`packages/demo/golden_moments.yaml`) does not exist yet; the evidence log comes
+  from the chaos test's moment (00:00 state change) and should be re-recorded on the golden cache after T-039/T-062.
+- Note: track C's `tests/api/test_fanout_perf.py` failed here (88 ms > 50 ms) at load average 265; unrelated.
+
+---
+
 ## 2026-10-22 · T-041 Panel via GroupChatBuilder (track B) — live budget not met, day-4 cut line applied
 
 - `executors/panel.py`, `prompts/{pundit_press,pundit_possession,pundit_sceptic,chair}@1.md` (+ shared

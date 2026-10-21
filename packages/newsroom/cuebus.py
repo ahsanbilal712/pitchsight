@@ -11,6 +11,7 @@ from agent_framework import WorkflowContext, handler
 
 from newsroom.executors.base import NewsroomExecutor
 from newsroom.messages import CueOut
+from newsroom.resume import demo_log
 
 log = logging.getLogger("whyline.newsroom")
 
@@ -22,6 +23,9 @@ class CueBus(NewsroomExecutor):
         cue = msg.cue
         self.deps.bb.put("cues", cue)
         self.trace(msg.hop(self.id), started, status="delivered", cue_id=cue["cue_id"])
-        log.info("cue %s delivered resumed_from_checkpoint=%s", cue["cue_id"],
-                 cue["provenance"].get("resumed_from_checkpoint"))
+        resumed = cue["provenance"].get("resumed_from_checkpoint")
+        if resumed:
+            demo_log(f"cue {cue['cue_id']} delivered resumed_from_checkpoint={resumed}")
+        else:
+            log.info("cue %s delivered", cue["cue_id"])
         await ctx.yield_output(cue)

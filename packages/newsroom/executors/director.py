@@ -210,7 +210,8 @@ class DirectorExecutor(NewsroomExecutor):
                         "explanation_id": exp.get("explanation_id")},
             "verified": all(c["verified"] for c in claims) if red else bool(msg.verified), "producer_status": "auto",
             "provenance": {"mode": mode, "agent_path": [*out.agent_path, "cuebus"], "trace_id": msg.trace_id,
-                           "resumed_from_checkpoint": msg.resumed_from_checkpoint,
+                           "resumed_from_checkpoint": msg.resumed_from_checkpoint
+                           or self.deps.state.get("resumed", {}).get(msg.run_id),
                            "model": "template" if red else msg.model, "prompt_version": msg.prompt_version,
                            "cache_key": msg.cache_key},
         }

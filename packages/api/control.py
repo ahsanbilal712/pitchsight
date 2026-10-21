@@ -4,12 +4,17 @@
 - `POST /producer/decision {request_id, decision}` writes `decisions/<request_id>` for the newsroom worker (T-050).
   A veto whose request_id is a shown cue's id also rewrites that cue as `producer_status: vetoed` and broadcasts
   `cue_remove` at once (the veto-a-shown-cue path of 1.7).
-- `POST /demo/kill {target}` is a stub answering 202 until the supervisor exists (T-051).
+- `POST /demo/kill {target: newsroom}` (T-051) waits in the background until a running newsroom run has finished
+  the Tactician and not the Narrator, then sends SIGKILL to the worker pid the supervisor wrote
+  (WHYLINE_WORKER_PIDFILE) and logs `kill target=newsroom run_id=... at_executor=tactician`.
 """
 
 from __future__ import annotations
 
+import os
 import re
+import signal
+import threading
 import time
 
 from fastapi import APIRouter, HTTPException, Request
@@ -78,8 +83,34 @@ def producer_decision(request: Request, body: Decision) -> dict:
     return {"request_id": body.request_id, "decision": status, "cue_removed": removed}
 
 
+def kill_when_ready(bb, run_id: str | None = None, timeout_s: float = 120.0, poll_s: float = 0.02,
+                    pid_path: str | None = None) -> dict:
+    """Block until a running newsroom run (or `run_id`) has a Tactician trace row and no Narrator row, then SIGKILL
+    the worker. Returns {killed, run_id, pid} or {killed: False, reason}."""
+    from newsroom.resume import demo_log
+    from newsroom.supervisor import pidfile
+
+    end = time.time() + timeout_s
+    while time.time() < end:
+        runs = [r["id"] for r in bb.query("runs", status="running")] if run_id is None else [run_id]
+        for rid in runs:
+            done = {t["executor"] for t in bb.query("traces", run_id=rid)}
+            if "tactician" in done and "narrator" not in done:
+                path = pid_path or pidfile()
+                pid = int(open(path).read().strip())
+                os.kill(pid, signal.SIGKILL)
+                demo_log(f"kill target=newsroom run_id={rid} at_executor=tactician")
+                return {"killed": True, "run_id": rid, "pid": pid}
+        time.sleep(poll_s)
+    return {"killed": False, "reason": f"no run between Tactician and Narrator within {timeout_s:.0f} s"}
+
+
 @router.post("/demo/kill", status_code=202)
-def demo_kill(body: Kill) -> dict:
+def demo_kill(request: Request, body: Kill) -> dict:
     if body.target not in ("newsroom", "mcp", "api"):
         raise HTTPException(422, f"unknown target {body.target!r}")
-    return {"accepted": True, "target": body.target, "note": "stub until T-051 (supervisor)"}
+    if body.target != "newsroom":
+        return {"accepted": False, "target": body.target, "note": "only the newsroom worker is supervised (T-051)"}
+    bb = request.app.state.bb
+    threading.Thread(target=kill_when_ready, args=(bb,), daemon=True, name="demo-kill").start()
+    return {"accepted": True, "target": body.target}

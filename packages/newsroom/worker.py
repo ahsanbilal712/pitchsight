@@ -74,11 +74,16 @@ def make_deps(mode: str) -> Deps:
 
 async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asyncio.Event | None = None,
                 on_result=None) -> None:
-    """Watch `moments` and run each new one. Moments with status other than `new` are skipped."""
+    """Resume runs a kill interrupted (T-051), then watch `moments` and run each new one. A moment is marked
+    `running` before its run and `done` after; the run itself is tracked in blackboard `runs`."""
+    from newsroom.resume import mark_run, resume_pending
+
     workflow = build_workflow(deps, storage=storage)
     if hasattr(deps.llm, "warm"):
         for role_name in ("narrator_fast", "tactician_live"):   # one per model: the cold first call is ~5-10 s
             log.info("warm-up %s %.2f s", role_name, await deps.llm.warm(role_name))
+    if storage is not None:
+        await resume_pending(deps, storage, on_result=on_result)
     seen: set[str] = set()
     stop = stop or asyncio.Event()
     watcher = deps.bb.watch("moments", match_id=match_id).__aiter__()
@@ -93,7 +98,11 @@ async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asy
         seen.add(key)
         msg = start_message(doc, deps.mode)
         log.info("run %s moment %s", msg.run_id, msg.moment.moment_id)
+        deps.bb.put("moments", {**doc, "status": "running"})
+        mark_run(deps.bb, msg, "running")
         result = await run_moment(workflow, msg)
+        mark_run(deps.bb, msg, "done", cues=[c.get("cue_id") for c in result["outputs"] if isinstance(c, dict)])
+        deps.bb.put("moments", {**doc, "status": "done"})
         if on_result:
             on_result(msg, result)
 

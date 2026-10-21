@@ -15,7 +15,7 @@ from blackboard import SqliteBlackboard
 from heads.models import GoalIn8sHead, HeadArtifactMissing
 from newsroom import scout_rules as sr
 from newsroom.executors.base import Deps
-from newsroom.executors.stubs import StubCueBus, StubDirector
+from newsroom.executors.stubs import StubCueBus, StubDirector, StubPanel
 from newsroom.graph import build_workflow
 from newsroom.worker import run_moment, start_message
 
@@ -78,7 +78,7 @@ def test_scout_emits_one_message_per_branch(tmp_path):
     bb = SqliteBlackboard(tmp_path / "bb.sqlite")
     deps = Deps(bb=bb, panel_enabled=True)
     wf = build_workflow(deps, overrides={"director": StubDirector("director", deps),
-                                         "cuebus": StubCueBus("cuebus", deps)})
+                                         "cuebus": StubCueBus("cuebus", deps), "panel": StubPanel("panel", deps)})
     goal = {"moment_id": "mo_00003", "match_id": "m_4242", "t_ms": 600_000, "kind": "goal", "leverage": 0.07,
             "players": [], "team": "home", "evidence_event_ids": []}
     outputs = arun(run_moment(wf, start_message(goal)))["outputs"]
