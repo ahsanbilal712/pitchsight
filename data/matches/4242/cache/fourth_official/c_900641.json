@@ -1,34 +1,23 @@
 {
- "clock": "11:15",
- "cue_id": "c_900478",
+ "clock": "15:52",
+ "cue_id": "c_900641",
  "explain": {
   "claims": [
    {
     "evidence_ids": [
-     "e_0478"
-    ],
-    "kind": "number",
-    "reject_reason": null,
-    "text": "1.2 m",
-    "unit": "metres",
-    "value": 1.2,
-    "verified": true
-   },
-   {
-    "evidence_ids": [
-     "e_0478"
+     "e_0641"
     ],
     "kind": "player",
     "reject_reason": null,
-    "text": "Varga",
+    "text": "Okafor",
     "unit": null,
-    "value": "p_047",
+    "value": "p_017",
     "verified": true
    }
   ],
   "counterfactual_id": null,
   "explanation_id": null,
-  "why": "Offside line at the second-last defender, x = 12.1 m, in the frame the pass was played."
+  "why": "Contact point (101.5, 40.7) outside the penalty area."
  },
  "graphics": {
   "bar": null,
@@ -36,19 +25,39 @@
   "lines": [
    [
     [
-     12.07,
-     0.0
+     0.0,
+     13.84
     ],
     [
-     12.07,
-     68.0
+     16.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     16.5,
+     13.84
+    ],
+    [
+     16.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     16.5,
+     54.16
+    ],
+    [
+     0.0,
+     54.16
     ]
    ]
   ],
   "pitch_control_snapshot": null,
   "players_highlight": [
-   "p_047",
-   "p_005"
+   "p_017",
+   "p_030"
   ]
  },
  "kind": "fourth_official",
@@ -70,11 +79,11 @@
   "model": null,
   "prompt_version": null,
   "resumed_from_checkpoint": null,
-  "trace_id": "fo_000675400"
+  "trace_id": "fo_000952000"
  },
  "schema_version": "1.0.0",
- "t_in_ms": 675400,
- "t_out_ms": 683400,
+ "t_in_ms": 952000,
+ "t_out_ms": 960000,
  "targets": {
   "clubs": [
    "any"
@@ -86,13 +95,13 @@
    "studio"
   ],
   "players": [
-   "p_047",
-   "p_005"
+   "p_017",
+   "p_030"
   ]
  },
  "text": {
-  "body": "Varga was 1.2 m beyond the last defender when the ball was played.",
-  "headline": "Offside: Varga, 1.2 m"
+  "body": "Contact outside the penalty area; Okafor closed in at 0.9 m/s.",
+  "headline": "Free kick: Okafor"
  },
  "verified": true
 }

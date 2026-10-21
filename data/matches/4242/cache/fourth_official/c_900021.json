@@ -1,34 +1,23 @@
 {
- "clock": "70:59",
- "cue_id": "c_902906",
+ "clock": "00:38",
+ "cue_id": "c_900021",
  "explain": {
   "claims": [
    {
     "evidence_ids": [
-     "e_2906"
-    ],
-    "kind": "number",
-    "reject_reason": null,
-    "text": "0.4 m",
-    "unit": "metres",
-    "value": 0.4,
-    "verified": true
-   },
-   {
-    "evidence_ids": [
-     "e_2906"
+     "e_0021"
     ],
     "kind": "player",
     "reject_reason": null,
-    "text": "Marchetti",
+    "text": "Strand",
     "unit": null,
-    "value": "p_049",
+    "value": "p_013",
     "verified": true
    }
   ],
   "counterfactual_id": null,
   "explanation_id": null,
-  "why": "Offside line at the second-last defender, x = 98.7 m, in the frame the pass was played."
+  "why": "Contact point (82.1, 55.0) outside the penalty area."
  },
  "graphics": {
   "bar": null,
@@ -36,19 +25,39 @@
   "lines": [
    [
     [
-     98.73,
-     0.0
+     0.0,
+     13.84
     ],
     [
-     98.73,
-     68.0
+     16.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     16.5,
+     13.84
+    ],
+    [
+     16.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     16.5,
+     54.16
+    ],
+    [
+     0.0,
+     54.16
     ]
    ]
   ],
   "pitch_control_snapshot": null,
   "players_highlight": [
-   "p_049",
-   "p_005"
+   "p_013",
+   "p_037"
   ]
  },
  "kind": "fourth_official",
@@ -56,7 +65,7 @@
  "leverage": null,
  "match_id": "m_4242",
  "moment_id": null,
- "period": 2,
+ "period": 1,
  "priority": 0.7,
  "producer_status": "auto",
  "provenance": {
@@ -70,11 +79,11 @@
   "model": null,
   "prompt_version": null,
   "resumed_from_checkpoint": null,
-  "trace_id": "fo_004259000"
+  "trace_id": "fo_000038200"
  },
  "schema_version": "1.0.0",
- "t_in_ms": 4259000,
- "t_out_ms": 4267000,
+ "t_in_ms": 38200,
+ "t_out_ms": 46200,
  "targets": {
   "clubs": [
    "any"
@@ -86,13 +95,13 @@
    "studio"
   ],
   "players": [
-   "p_049",
-   "p_005"
+   "p_013",
+   "p_037"
   ]
  },
  "text": {
-  "body": "Marchetti was 0.4 m beyond the last defender when the ball was played.",
-  "headline": "Offside: Marchetti, 0.4 m"
+  "body": "Contact outside the penalty area; Strand closed in at 0.7 m/s.",
+  "headline": "Free kick: Strand"
  },
  "verified": true
 }

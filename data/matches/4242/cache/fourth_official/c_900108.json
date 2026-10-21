@@ -1,23 +1,23 @@
 {
- "clock": "67:32",
- "cue_id": "c_902763",
+ "clock": "02:36",
+ "cue_id": "c_900108",
  "explain": {
   "claims": [
    {
     "evidence_ids": [
-     "e_2763"
+     "e_0108"
     ],
     "kind": "player",
     "reject_reason": null,
-    "text": "Hartigan",
+    "text": "Sandoval",
     "unit": null,
-    "value": "p_025",
+    "value": "p_046",
     "verified": true
    }
   ],
   "counterfactual_id": null,
   "explanation_id": null,
-  "why": "Contact point (4.9, 43.8) inside the penalty area."
+  "why": "Contact point (37.4, 26.2) outside the penalty area."
  },
  "graphics": {
   "bar": null,
@@ -25,39 +25,39 @@
   "lines": [
    [
     [
-     0.0,
+     105.0,
      13.84
     ],
     [
-     16.5,
+     88.5,
      13.84
     ]
    ],
    [
     [
-     16.5,
+     88.5,
      13.84
     ],
     [
-     16.5,
+     88.5,
      54.16
     ]
    ],
    [
     [
-     16.5,
+     88.5,
      54.16
     ],
     [
-     0.0,
+     105.0,
      54.16
     ]
    ]
   ],
   "pitch_control_snapshot": null,
   "players_highlight": [
-   "p_025",
-   "p_021"
+   "p_046",
+   "p_005"
   ]
  },
  "kind": "fourth_official",
@@ -65,7 +65,7 @@
  "leverage": null,
  "match_id": "m_4242",
  "moment_id": null,
- "period": 2,
+ "period": 1,
  "priority": 0.7,
  "producer_status": "auto",
  "provenance": {
@@ -79,11 +79,11 @@
   "model": null,
   "prompt_version": null,
   "resumed_from_checkpoint": null,
-  "trace_id": "fo_004052500"
+  "trace_id": "fo_000156000"
  },
  "schema_version": "1.0.0",
- "t_in_ms": 4052500,
- "t_out_ms": 4060500,
+ "t_in_ms": 156000,
+ "t_out_ms": 164000,
  "targets": {
   "clubs": [
    "any"
@@ -95,13 +95,13 @@
    "studio"
   ],
   "players": [
-   "p_025",
-   "p_021"
+   "p_046",
+   "p_005"
   ]
  },
  "text": {
-  "body": "Contact inside the penalty area; Hartigan closed in at 1.0 m/s.",
-  "headline": "Penalty: Hartigan"
+  "body": "Contact outside the penalty area; Sandoval closed in at 0.0 m/s.",
+  "headline": "Free kick: Sandoval"
  },
  "verified": true
 }

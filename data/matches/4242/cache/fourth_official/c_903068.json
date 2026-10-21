@@ -1,34 +1,23 @@
 {
- "clock": "70:43",
- "cue_id": "c_902886",
+ "clock": "75:04",
+ "cue_id": "c_903068",
  "explain": {
   "claims": [
    {
     "evidence_ids": [
-     "e_2886"
-    ],
-    "kind": "number",
-    "reject_reason": null,
-    "text": "0.4 m",
-    "unit": "metres",
-    "value": 0.4,
-    "verified": true
-   },
-   {
-    "evidence_ids": [
-     "e_2886"
+     "e_3068"
     ],
     "kind": "player",
     "reject_reason": null,
     "text": "Valcourt",
     "unit": null,
-    "value": "p_048",
+    "value": "p_005",
     "verified": true
    }
   ],
   "counterfactual_id": null,
   "explanation_id": null,
-  "why": "Offside line at the second-last defender, x = 95.5 m, in the frame the pass was played."
+  "why": "Contact point (64.4, 40.2) outside the penalty area."
  },
  "graphics": {
   "bar": null,
@@ -36,19 +25,39 @@
   "lines": [
    [
     [
-     95.55,
-     0.0
+     105.0,
+     13.84
     ],
     [
-     95.55,
-     68.0
+     88.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     88.5,
+     13.84
+    ],
+    [
+     88.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     88.5,
+     54.16
+    ],
+    [
+     105.0,
+     54.16
     ]
    ]
   ],
   "pitch_control_snapshot": null,
   "players_highlight": [
-   "p_048",
-   "p_005"
+   "p_005",
+   "p_048"
   ]
  },
  "kind": "fourth_official",
@@ -70,11 +79,11 @@
   "model": null,
   "prompt_version": null,
   "resumed_from_checkpoint": null,
-  "trace_id": "fo_004243900"
+  "trace_id": "fo_004504600"
  },
  "schema_version": "1.0.0",
- "t_in_ms": 4243900,
- "t_out_ms": 4251900,
+ "t_in_ms": 4504600,
+ "t_out_ms": 4512600,
  "targets": {
   "clubs": [
    "any"
@@ -86,13 +95,13 @@
    "studio"
   ],
   "players": [
-   "p_048",
-   "p_005"
+   "p_005",
+   "p_048"
   ]
  },
  "text": {
-  "body": "Valcourt was 0.4 m beyond the last defender when the ball was played.",
-  "headline": "Offside: Valcourt, 0.4 m"
+  "body": "Contact outside the penalty area; Valcourt closed in at 0.0 m/s.",
+  "headline": "Free kick: Valcourt, yellow card"
  },
  "verified": true
 }
