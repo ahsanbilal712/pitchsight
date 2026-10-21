@@ -59,6 +59,13 @@ class MatchData:
         return data
 
     @property
+    def clubs(self) -> dict | None:
+        """{home, away} club ids from the match_metadata event, if the match has one."""
+        meta = next((e for e in self.events[:5] if e["type"] == "match_metadata"), None)
+        attrs = meta["attrs"] if meta else {}
+        return {"home": attrs["home"], "away": attrs["away"]} if "home" in attrs and "away" in attrs else None
+
+    @property
     def end_ms(self) -> int:
         return int(self.t_ms[-1])
 

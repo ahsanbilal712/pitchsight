@@ -2,7 +2,9 @@
 
 import functools
 import http.server
+import socket
 import threading
+import time
 from pathlib import Path
 
 import pytest
@@ -54,3 +56,27 @@ def page(browser):
 def out_dir() -> Path:
     OUT.mkdir(exist_ok=True)
     return OUT
+
+
+@pytest.fixture(scope="session")
+def api_port():
+    """whyline-api serving the golden match 4242 at x1 on a free port, for screens opened with ?api=."""
+    import uvicorn
+
+    from api.main import create_app
+
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        port = s.getsockname()[1]
+    server = uvicorn.Server(uvicorn.Config(create_app(seed=4242, speed=1), host="127.0.0.1", port=port,
+                                           log_level="warning"))
+    thread = threading.Thread(target=server.run, daemon=True)
+    thread.start()
+    deadline = time.time() + 20
+    while not server.started:
+        if time.time() > deadline:
+            pytest.fail("api did not start")
+        time.sleep(0.05)
+    yield port
+    server.should_exit = True
+    thread.join(timeout=5)

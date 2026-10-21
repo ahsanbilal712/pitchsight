@@ -1,0 +1,358 @@
+/* Broadcast DOM components (T-023): score bug, chaos meter, lower-third, player tags, ticker.
+ * Sizes, colours and motion come from tokens.css; every component sits inside the title-safe area
+ * except player tags, which follow the pitch transform in stage pixels. */
+
+/* ------------------------------------------------------------------ score bug (top left) */
+.score-bug {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: stretch;
+  height: var(--score-bug-h);
+  background: var(--c-panel);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+  font: var(--fw-bold) var(--fs-md) / var(--lh-tight) var(--font-ui);
+}
+
+.sb-team {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-3);
+  letter-spacing: var(--tracking-caps);
+}
+
+.sb-kit {
+  width: 14px;
+  height: 30px;
+  border-radius: 2px;
+  border: 3px solid var(--c-divider);
+  /* dark kits (Verdant) disappear on the dark panel without a light edge */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.75);
+}
+
+.sb-away {
+  flex-direction: row-reverse;
+}
+
+.sb-score {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--sp-3);
+  padding: 0 var(--sp-3);
+  height: 100%;
+  background: var(--c-text);
+  color: var(--c-text-inverse);
+  font: var(--fw-bold) var(--fs-xl) / 1 var(--font-num);
+  font-feature-settings: var(--font-features-num);
+}
+
+.sb-score[data-goal="true"] {
+  animation: sb-pop 1000ms var(--ease-in) 3;
+}
+
+.sb-dash {
+  margin: 0 var(--sp-2);
+  opacity: 0.6;
+}
+
+.sb-clock,
+.sb-period {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp-3);
+  border-left: 1px solid var(--c-divider);
+  font-family: var(--font-num);
+  font-feature-settings: var(--font-features-num);
+}
+
+.sb-period {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}
+
+@keyframes sb-pop {
+  0% { background: var(--c-accent); }
+  100% { background: var(--c-text); }
+}
+
+/* ------------------------------------------------------------------ chaos meter (top right) */
+.chaos-meter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-panel);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-panel);
+  --cm-colour: var(--c-chaos-transitional);
+}
+
+.chaos-meter[hidden] {
+  display: none;
+}
+
+.chaos-meter[data-state="Settled"] { --cm-colour: var(--c-chaos-settled); }
+.chaos-meter[data-state="Chaotic"] { --cm-colour: var(--c-chaos-chaotic); }
+
+.cm-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: var(--fw-bold);
+}
+
+.cm-title {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.cm-value {
+  font: var(--fw-bold) var(--fs-lg) / 1 var(--font-num);
+  font-feature-settings: var(--font-features-num);
+}
+
+.cm-track {
+  position: relative;
+  height: 10px;
+  margin: var(--sp-2) 0;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.cm-fill {
+  height: 100%;
+  background: var(--cm-colour);
+  transition: width 400ms var(--ease-in), background-color 400ms linear;
+}
+
+.cm-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--c-panel-solid);
+  opacity: 0.6;
+}
+
+.cm-state {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--cm-colour);
+}
+
+/* ------------------------------------------------------------------ lower-third (bottom left, above ticker) */
+.lower-third-slot {
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--ticker-h) + var(--sp-4));
+  width: var(--lower-third-w);
+}
+
+.lower-third {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  background: var(--c-panel);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+  animation: lt-in 300ms var(--ease-in) both;
+}
+
+.lower-third[data-state="out"] {
+  animation: lt-out 300ms var(--ease-out) both;
+}
+
+.lt-bar {
+  flex: 0 0 8px;
+  background: var(--c-accent);
+}
+
+.lt-content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--sp-4) var(--sp-5);
+}
+
+.lt-headline {
+  max-height: calc(2 * 1.1 * var(--fs-lg));
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-tight);
+}
+
+.lt-body {
+  margin: var(--sp-2) 0 0;
+  max-height: calc(4 * 1.35 * var(--fs-sm));
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--c-text-muted);
+}
+
+.lt-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--sp-3);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.lt-verified { color: var(--c-verified); }
+.lt-unverified { color: var(--c-unverified); }
+.lt-clock {
+  color: var(--c-text-muted);
+  font-family: var(--font-num);
+}
+
+@keyframes lt-in {
+  from { transform: translateX(-40px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes lt-out {
+  from { transform: none; opacity: 1; }
+  to { transform: translateX(-40px); opacity: 0; }
+}
+
+/* ------------------------------------------------------------------ player tags (stage pixels) */
+.player-tags {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.player-tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: transform 100ms linear;
+  animation: pt-in 300ms var(--ease-in) both;
+}
+
+.player-tag[data-state="out"] {
+  animation: pt-out 300ms var(--ease-out) both;
+}
+
+/* the tag sits above-right of the disc (above-left near the right edge) */
+.player-tag > span {
+  position: absolute;
+  left: 22px;
+  white-space: nowrap;
+}
+
+.player-tag[data-flip="true"] > span {
+  left: auto;
+  right: 22px;
+}
+
+.pt-name {
+  bottom: 20px;
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  height: var(--player-tag-h);
+  padding: 0 var(--sp-3);
+  background: var(--c-panel);
+  border-left: 4px solid var(--c-accent);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  font: var(--fw-bold) var(--fs-md) / 1 var(--font-ui);
+}
+
+.pt-name b {
+  font-family: var(--font-num);
+  color: var(--c-accent);
+}
+
+.pt-metric {
+  top: -20px;
+  width: max-content;
+  max-width: 420px;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  padding: var(--sp-1) var(--sp-3);
+  background: var(--c-accent);
+  color: var(--c-text-inverse);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  font: var(--fw-bold) var(--fs-sm) / 1.2 var(--font-num);
+}
+
+@keyframes pt-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pt-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ------------------------------------------------------------------ ticker (bottom strip) */
+.ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  height: var(--ticker-h);
+  background: var(--c-panel);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: opacity var(--dur-out) var(--ease-out);
+}
+
+.ticker[data-empty="true"] {
+  opacity: 0;
+}
+
+.tk-label {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp-4);
+  background: var(--c-accent);
+  color: var(--c-text-inverse);
+  font: var(--fw-bold) var(--fs-sm) / 1 var(--font-ui);
+  letter-spacing: var(--tracking-caps);
+}
+
+.tk-items {
+  position: relative;
+  flex: 1;
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+  font: var(--fw-semibold) var(--fs-md) / 1 var(--font-ui);
+}
+
+/* one item at a time; the leaving item fades out underneath the entering one */
+.tk-items li {
+  position: absolute;
+  inset: 0 var(--sp-5);
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: lt-in 300ms var(--ease-in) both;
+}
+
+.tk-items li[data-state="out"] {
+  animation: lt-out 300ms var(--ease-out) both;
+}

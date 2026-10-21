@@ -7,6 +7,7 @@ export interface WhylineHandle {
   seek: (clock: string | number) => void;
   pause: (paused: boolean) => void;
   debug: () => { clock: number; visibleCues: string[]; frames: number };
+  inject: (msg: unknown) => void; // dispatch one stream message as if it arrived (tests, scripted shots)
 }
 
 declare global {
@@ -45,5 +46,6 @@ export function installRecordMode(): void {
     seek: () => undefined,
     pause: () => undefined,
     debug: () => ({ clock: 0, visibleCues: [], frames: 0 }),
+    inject: () => undefined,
   };
 }

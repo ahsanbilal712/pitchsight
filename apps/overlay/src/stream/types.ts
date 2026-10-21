@@ -28,6 +28,7 @@ export interface Hello {
   player_ids?: string[]; // row order, substitutions applied
   t_ms?: number; // API: clock this hello resets the screen to (sent on connect and after every seek)
   score?: [number, number];
+  clubs?: { home: string; away: string }; // club ids, from the match_metadata event
 }
 
 export interface MatchEvent {
@@ -54,7 +55,7 @@ export interface Fact {
   id: string;
   t_ms: number;
   name: string;
-  value: number;
+  value: number | string; // indices are numbers; state facts (chaos_state) carry a label
   [key: string]: unknown;
 }
 

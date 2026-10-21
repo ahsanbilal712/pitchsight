@@ -39,6 +39,7 @@ function wsUrl(): string {
 export function StreamProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(rootReducer, initialState);
   const messages = useRef<Message[]>([]);
+  const times = useRef<number[]>([]); // match time per message; untimed ones take the next timed message's time
   const cursor = useRef(0);
   const clock = useRef(0);
   const speed = useRef(1);
@@ -49,11 +50,8 @@ export function StreamProvider({ children }: { children: ReactNode }) {
   const fold = useCallback((until: number) => {
     let s = initialState;
     let i = 0;
-    let last = -Infinity;
     for (; i < messages.current.length; i++) {
-      const t = messageTime(messages.current[i]) ?? last;
-      if (t > until) break;
-      last = t;
+      if (times.current[i] > until) break;
       s = reducer(s, { kind: "message", msg: messages.current[i] });
     }
     cursor.current = i;
@@ -73,6 +71,13 @@ export function StreamProvider({ children }: { children: ReactNode }) {
           .split("\n")
           .filter((l) => l.trim())
           .map((l) => JSON.parse(l) as Message);
+        // a cue_remove sits just before the frame it belongs to, so it must not fire with the frame before it
+        let next = Infinity;
+        times.current = new Array<number>(messages.current.length);
+        for (let i = messages.current.length - 1; i >= 0; i--) {
+          next = messageTime(messages.current[i]) ?? next;
+          times.current[i] = next;
+        }
         const hello = messages.current.find((m) => m.type === "hello");
         if (hello && hello.type === "hello") speed.current = hello.payload.replay_speed || 1;
         const first = messages.current.find((m) => m.type === "tracking_frame");
@@ -80,14 +85,9 @@ export function StreamProvider({ children }: { children: ReactNode }) {
         timer = window.setInterval(() => {
           if (paused.current) return;
           const next = clock.current + TICK_MS * speed.current;
-          let last = clock.current;
           const batch: Message[] = [];
-          while (cursor.current < messages.current.length) {
-            const msg = messages.current[cursor.current];
-            const t = messageTime(msg) ?? last;
-            if (t > next) break;
-            last = t;
-            batch.push(msg);
+          while (cursor.current < messages.current.length && times.current[cursor.current] <= next) {
+            batch.push(messages.current[cursor.current]);
             cursor.current += 1;
           }
           clock.current = next;
@@ -160,6 +160,7 @@ export function StreamProvider({ children }: { children: ReactNode }) {
     handle.pause = (on: boolean) => {
       paused.current = on;
     };
+    handle.inject = (msg: unknown) => dispatch({ kind: "message", msg: msg as Message });
     handle.debug = () => ({
       clock: clock.current || state.clock,
       visibleCues: visibleCues(state).map((c) => c.cue_id),

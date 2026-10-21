@@ -1,6 +1,7 @@
 // Pitch2D (TECH_PLAN 1.9): requestAnimationFrame loop drawing the pitch, players with numbers, the ball
 // and the registered layers, interpolating linearly between the two latest 10 Hz tracking frames.
 import { useEffect, useRef } from "react";
+import { leagueNow, loadLeague, matchKits } from "../league";
 import { canvasDpr } from "../record";
 import { visibleCues } from "../stream/reducer";
 import { useStream } from "../stream/StreamProvider";
@@ -9,17 +10,14 @@ import { drawBall, drawPitch, drawPlayers, type Kit, type Palette } from "./draw
 import { lerp, makeTransform } from "./geometry";
 import { layers, PLAYERS_ORDER, type DrawFrame } from "./layers";
 
-const STAGE_W = 1920;
-const STAGE_H = 1080;
+export const STAGE_W = 1920;
+export const STAGE_H = 1080;
 const SAFE = { x: 96, y: 54 }; // 5% title-safe insets (tokens.css)
 const FRAME_MS = 100;
 const MAX_MEASURES = 2000;
 
-interface LeagueWeb {
-  golden: { home: string; away: string };
-  clubs: Record<string, { home_kit: Kit; away_kit: Kit }>;
-  players: Record<string, { shirt: number }>;
-}
+/** The pitch transform every overlay component shares (pitch fitted inside the title-safe area). */
+export const PITCH_T = makeTransform(SAFE.x, SAFE.y, STAGE_W - 2 * SAFE.x, STAGE_H - 2 * SAFE.y);
 
 function cssVar(name: string, fallback: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
@@ -48,7 +46,6 @@ export default function Pitch2D() {
     at: 0,
   });
   const live = useRef(state);
-  const league = useRef<LeagueWeb | null>(null);
 
   live.current = state;
   if (state.frame && state.frame !== frames.current.cur) {
@@ -56,12 +53,7 @@ export default function Pitch2D() {
   }
 
   useEffect(() => {
-    fetch("league.json")
-      .then((r) => r.json())
-      .then((data: LeagueWeb) => {
-        league.current = data;
-      })
-      .catch(() => undefined);
+    void loadLeague();
   }, []);
 
   useEffect(() => {
@@ -73,7 +65,7 @@ export default function Pitch2D() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const T = makeTransform(SAFE.x, SAFE.y, STAGE_W - 2 * SAFE.x, STAGE_H - 2 * SAFE.y);
+    const T = PITCH_T;
     const palette: Palette = {
       pitch: cssVar("--c-pitch", "#2f7a3e"),
       stripe: cssVar("--c-pitch-stripe", "#2a6f38"),
@@ -102,10 +94,8 @@ export default function Pitch2D() {
       const t = Math.min(1, (performance.now() - at) / FRAME_MS);
       const frame = interpolate(prev, cur, t);
       const cues = visibleCues(s);
-      const lg = league.current;
-      const kits: [Kit, Kit] = lg
-        ? [lg.clubs[lg.golden.home].home_kit, lg.clubs[lg.golden.away].away_kit]
-        : fallbackKits;
+      const lg = leagueNow();
+      const kits: [Kit, Kit] = lg ? matchKits(lg, s.hello) : fallbackKits;
       const ids = s.hello?.player_ids;
       const numbers = (row: number) => String((ids && lg?.players[ids[row]]?.shirt) ?? (row % 11) + 1);
 
@@ -113,7 +103,7 @@ export default function Pitch2D() {
       ctx.drawImage(cache, 0, 0, STAGE_W, STAGE_H);
       const all = layers();
       for (const l of all) if (l.order < PLAYERS_ORDER) l.draw(ctx, frame, cues, s.facts, T.toCanvas);
-      drawPlayers(ctx, T, frame, kits, numbers, palette.ring);
+      drawPlayers(ctx, T, frame, kits, numbers, palette.ring, palette.pitch);
       drawBall(ctx, T, frame);
       for (const l of all) if (l.order >= PLAYERS_ORDER) l.draw(ctx, frame, cues, s.facts, T.toCanvas);
       performance.measure("pitch2d-draw", "pitch2d-start");

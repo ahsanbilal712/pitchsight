@@ -27,7 +27,8 @@ def test_seek_shows_the_cue_inside_its_window_only(page, overlay_url):
     page.wait_for_function(READY, timeout=5000)
     page.evaluate("() => window.__whyline.seek('31:20')")
     page.wait_for_function("() => window.__whyline.debug().visibleCues.includes('c_000912')", timeout=2000)
-    assert page.locator("[data-cue-id=c_000912]").inner_text() == "Okafor shoots. Reyes was free."
+    headline = page.locator(".lower-third[data-cue-id=c_000912] .lt-headline")
+    assert headline.inner_text() == "Okafor shoots. Reyes was free."
     page.evaluate("() => window.__whyline.seek('31:30')")
     page.wait_for_function("() => window.__whyline.debug().visibleCues.length === 0", timeout=2000)
 

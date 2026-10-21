@@ -95,5 +95,5 @@ renders every cue of every layer (studio receives all cues regardless of mode), 
 
 `python3 scripts/make_sample_stream.py` writes `tests/fixtures/stream/sample_stream.jsonl`: 1 `hello`, 600
 `tracking_frame` (30:50–31:50 at 10 Hz, rows 0–10 Verdant, 11–21 Ironvale, 22 ball), 14 `event` (including the
-schema examples `e_8809` and `e_8812`), 1 `fact` (`chaos_index`), 1 `cue` (the `cue.schema.json` example, 31:18–31:26)
+schema examples `e_8809` and `e_8812`), 62 `fact` (`chaos_index` once a second; `chaos_state` Transitional at 30:50 and Chaotic from 31:26, T-023), 1 `cue` (the `cue.schema.json` example, 31:18–31:26)
 and 1 `cue_remove`. Byte-identical on every run; `--check` re-parses and asserts the counts.

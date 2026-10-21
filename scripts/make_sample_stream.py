@@ -194,6 +194,35 @@ def pass_event(n: int, a: int, b: int, t0: int, t1: int, *, height="ground", out
                  location=[r2(x0), r2(y0)])
 
 
+# chaos_index once a second (TECH_PLAN 1.9 "indices every 1 s"): (t_ms, value) knots, linear in between.
+# The storyboard fact f_000301 (67.4 at 31:15) stays as it was in T-003; the state machine (enter > 65 for 20 s)
+# turns Chaotic at 31:26; the window opens Transitional.
+CHAOS_KNOTS = [(1850000, 46.0), (1862000, 55.0), (1866000, 66.0), (1875000, 67.4), (1880000, 72.0),
+               (1890000, 69.0), (1899000, 58.0)]
+
+
+def chaos_facts() -> list[dict]:
+    facts, n = [], 275  # numbered so the 31:15 fact keeps its T-003 id f_000301
+    for t in range(T0, T0 + N_FRAMES * DT, 1000):
+        (ta, va), (tb, vb) = next(((a, b) for a, b in zip(CHAOS_KNOTS, CHAOS_KNOTS[1:], strict=False)
+                                   if a[0] <= t <= b[0]), (CHAOS_KNOTS[-2], CHAOS_KNOTS[-1]))
+        value = r2(va + (vb - va) * min(1.0, (t - ta) / (tb - ta)))
+        n += 1
+        ev = ["e_8811", "e_8812"] if t == 1875000 else []
+        facts.append({"id": f"f_{n:06d}", "match_id": MATCH_ID, "t_ms": t, "kind": "index", "name": "chaos_index",
+                      "value": value, "unit": "index_0_100", "window_s": 60, "evidence_event_ids": ev})
+        if t == 1886000:
+            n += 1
+            facts.append({"id": f"f_{n:06d}", "match_id": MATCH_ID, "t_ms": t, "kind": "state",
+                          "name": "chaos_state", "value": "Chaotic", "unit": None, "window_s": 20,
+                          "evidence_event_ids": []})
+    assert any(f["id"] == "f_000301" and f["value"] == 67.4 for f in facts)
+    # the state the window opens in, so screens never derive one without hysteresis
+    facts.insert(0, {"id": "f_000274", "match_id": MATCH_ID, "t_ms": T0, "kind": "state", "name": "chaos_state",
+                     "value": "Transitional", "unit": None, "window_s": 20, "evidence_event_ids": []})
+    return facts
+
+
 def build() -> list[dict]:
     ex_pass, ex_shot = schema_example("event.schema.json", 0), schema_example("event.schema.json", 1)
     cue = schema_example("cue.schema.json")
@@ -219,15 +248,15 @@ def build() -> list[dict]:
         event(8818, 1894800, "possession_change", 7, "n/a", related=["e_8817"]),
     ]
     events[11]["end_location"] = [r2(v) for v in player_pos(7, 1894800)]   # the cut-out pass ends at the interceptor
-    fact = {"id": "f_000301", "match_id": MATCH_ID, "t_ms": 1875000, "kind": "index", "name": "chaos_index",
-            "value": 67.4, "unit": "index_0_100", "window_s": 60, "evidence_event_ids": ["e_8811", "e_8812"]}
+    facts = chaos_facts()
     hello = {"match_id": MATCH_ID, "mode": "replay", "replay_speed": 1.0, "player_ids": PLAYER_IDS,
              "viewer_profile": {"schema_version": "1.0.0", "viewer_id": "v_fixture", "mode": "analyst", "club": None,
                                 "player": None, "metric": None, "high_contrast": False, "show_heatmap": True}}
 
     timed = [(T0 + k * DT, 4, "tracking_frame", frame(T0 + k * DT)) for k in range(N_FRAMES)]
     timed += [(e["t_ms"], 0, "event", e) for e in events]
-    timed += [(fact["t_ms"], 1, "fact", fact), (cue["t_in_ms"], 2, "cue", cue),
+    timed += [(f["t_ms"], 1, "fact", f) for f in facts]
+    timed += [(cue["t_in_ms"], 2, "cue", cue),
               (cue["t_out_ms"], 3, "cue_remove", {"cue_id": cue["cue_id"]})]
     timed.sort(key=lambda m: (m[0], m[1], m[3].get("id", "")))
     return [{"type": "hello", "payload": hello}] + [{"type": typ, "payload": p} for _, _, typ, p in timed]
@@ -255,7 +284,7 @@ def check() -> list[str]:
             frames.append(msg["payload"])
         elif msg["type"] == "event":
             events.append(msg["payload"])
-    want = {"hello": (1, 1), "tracking_frame": (600, 600), "event": (6, None), "cue": (1, None), "fact": (1, 1)}
+    want = {"hello": (1, 1), "tracking_frame": (600, 600), "event": (6, None), "cue": (1, None), "fact": (62, 62)}
     for typ, (lo, hi) in want.items():
         got = counts.get(typ, 0)
         if got < lo or (hi is not None and got > hi):

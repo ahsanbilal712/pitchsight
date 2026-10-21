@@ -1,17 +1,15 @@
 // Canvas 2D drawing for the pitch, players and ball (ADR-008: 2.5D canvas for live overlays).
+import { contrast, type Kit } from "../league";
 import { PITCH_L, PITCH_W, type Transform } from "./geometry";
 import type { DrawFrame } from "./layers";
+
+export type { Kit };
 
 export interface Palette {
   pitch: string;
   stripe: string;
   line: string;
   ring: string;
-}
-
-export interface Kit {
-  primary: string;
-  secondary: string;
 }
 
 /** Static pitch: stripes and markings. Drawn once into an offscreen canvas and blitted every frame. */
@@ -71,7 +69,11 @@ function textColour(hex: string): string {
   return lum > 150 ? "#0c1016" : "#ffffff";
 }
 
-/** Players as kit-coloured discs with shirt numbers; a ring marks the ball holder. */
+/** Below this WCAG contrast against the grass a kit gets a light halo (Verdant's #0E5C36 is 1.6). */
+export const MIN_KIT_CONTRAST = 3;
+
+/** Players as kit-coloured discs with shirt numbers; a ring marks the ball holder. Kits that blend into the
+ * grass get a light outer halo so every disc stays readable on the green pitch. */
 export function drawPlayers(
   ctx: CanvasRenderingContext2D,
   T: Transform,
@@ -79,14 +81,22 @@ export function drawPlayers(
   kits: [Kit, Kit],
   numbers: (row: number) => string,
   ringColour: string,
+  grass = "#2f7a3e",
 ): void {
   const r = 0.95 * T.scale;
+  const halo = kits.map((k) => !(contrast(k.primary, grass) >= MIN_KIT_CONTRAST));
   ctx.font = `700 ${Math.round(r * 1.05)}px system-ui, sans-serif`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   for (let row = 0; row < 22; row++) {
     const [px, py] = T.toCanvas(frame.p[row][0], frame.p[row][1]);
     const kit = kits[row < 11 ? 0 : 1];
+    if (halo[row < 11 ? 0 : 1]) {
+      ctx.beginPath();
+      ctx.arc(px, py, r + Math.max(2.5, 0.2 * T.scale), 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+      ctx.fill();
+    }
     ctx.beginPath();
     ctx.arc(px, py, r, 0, Math.PI * 2);
     ctx.fillStyle = kit.primary;

@@ -2,9 +2,10 @@
 time), `event` and `lineup` messages to every connected screen; each client has its own bounded queue.
 
 On connect, and again after every seek, a client receives `hello` {match_id, mode, replay_speed, viewer_profile}
-plus three optional fields screens use to rebuild state at the new clock: `t_ms`, `score` and `player_ids`
-(row order with substitutions applied). Screens treat a `hello` as a reset. `lineup` {t_ms, player_ids} follows
-each substitution so row-to-player mapping stays right. Unknown fields and types are ignored by consumers (1.3).
+plus optional fields screens use to rebuild state at the new clock: `t_ms`, `score`, `player_ids` (row order
+with substitutions applied) and `clubs` {home, away}. Screens treat a `hello` as a reset. `lineup`
+{t_ms, player_ids} follows each substitution so row-to-player mapping stays right. Unknown fields and types are
+ignored by consumers (1.3).
 """
 
 from __future__ import annotations
@@ -64,7 +65,7 @@ class Hub:
         return envelope("hello", {
             "match_id": self.data.match_id, "mode": self.mode, "replay_speed": self.clock.speed,
             "viewer_profile": client.profile, "t_ms": t_ms, "score": self.data.score_at(t_ms),
-            "player_ids": self.data.lineup_at(t_ms),
+            "player_ids": self.data.lineup_at(t_ms), "clubs": self.data.clubs,
         })
 
     def _reset_lines(self, client: Client) -> list[str]:
