@@ -1,0 +1,25 @@
+# Fourth Official rules library (T-049). Geometry in metres on the 105 x 68 m pitch; directions are taken from the
+# period (home attacks +x in period 1). Each rule names the Law of the Game it encodes.
+schema_version: "1.0.0"
+offside:                       # Law 11
+  line: second_last_opponent   # the keeper counts as an opponent
+  level_is_onside: true        # level with the second-last opponent or the ball is onside
+  own_half_exempt: true        # no offence in one's own half (the halfway line counts as own half)
+  behind_ball_exempt: true     # no offence when level with or behind the ball
+  restart_exempt: [throw_in, goal_kick, corner]
+  judged_at: pass_frame        # positions in the frame before the ball is played
+penalty_area:                  # Law 1
+  depth_m: 16.5
+  half_width_m: 20.16          # 40.32 m wide, centred on the goal
+goal_area:
+  depth_m: 5.5
+  half_width_m: 9.16
+handball_zones:                # Law 12: the arm counts from the bottom of the armpit; the keeper may handle in his own area
+  keeper_may_handle_in: penalty_area
+  arm_starts_below: armpit
+back_pass:                     # Law 12: indirect free kick if the keeper handles a deliberate kick from a team-mate
+  applies_to: [pass]
+  exempt_heights: [head, chest, knee]
+foul:
+  contact_radius_m: 1.3        # the engine's tackle radius: contact needs the players this close
+  in_box_means: penalty        # a direct-free-kick foul by the defenders inside their own area is a penalty

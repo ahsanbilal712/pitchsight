@@ -29,6 +29,18 @@ class Frame:
     holder: int              # row index, -1 none
     possession: int          # 0 home, 1 away, -1 none
     player_ids: np.ndarray | None = None
+    subs: tuple[np.ndarray, np.ndarray, np.ndarray] | None = None   # (t_ms, row, player_on)
+
+    def row_of(self, player_id: str) -> int:
+        """Row of a player at this frame (substitutions applied), -1 if not on the pitch."""
+        if self.player_ids is None:
+            return -1
+        ids = [str(p) for p in self.player_ids]
+        if self.subs is not None:
+            for st, sr, on in zip(*self.subs, strict=True):
+                if int(st) <= self.t_ms:
+                    ids[int(sr)] = str(on)
+        return ids.index(player_id) if player_id in ids else -1
 
     def attack_dir(self, team: int) -> int:
         """+1 when `team` (0 home, 1 away) attacks +x in this frame's period."""
@@ -90,7 +102,8 @@ class TrackingWindow:
 
     def frame(self, i: int = -1) -> Frame:
         return Frame(t_ms=int(self.t_ms[i]), period=int(self.period[i]), S=self.S[i], ball_z=float(self.ball_z[i]),
-                     holder=int(self.holder[i]), possession=int(self.possession[i]), player_ids=self.player_ids)
+                     holder=int(self.holder[i]), possession=int(self.possession[i]), player_ids=self.player_ids,
+                     subs=self.subs)
 
     def frame_at(self, t_ms: int) -> Frame:
         return self.frame(self.index_at(t_ms))
