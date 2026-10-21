@@ -70,11 +70,14 @@ def default_executors(deps: Deps) -> dict[str, Executor]:
 
 def _real_executors() -> dict:
     """Real executors that exist so far; each later ticket adds its line here."""
+    from newsroom.cuebus import CueBus
+    from newsroom.executors.director import DirectorExecutor
     from newsroom.executors.factcheck import FactCheckExecutor
     from newsroom.executors.fast_line import FastLineExecutor
     from newsroom.executors.narrator import NarratorExecutor
 
-    return {"factcheck": FactCheckExecutor, "narrator": NarratorExecutor, "fast_line": FastLineExecutor}
+    return {"factcheck": FactCheckExecutor, "narrator": NarratorExecutor, "fast_line": FastLineExecutor,
+            "director": DirectorExecutor, "cuebus": CueBus}
 
 
 def build_workflow(deps: Deps, storage=None, overrides: dict[str, Executor] | None = None,

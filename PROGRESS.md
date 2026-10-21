@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-021 Director with budgets (track B)
+
+- `executors/director.py`, `cuebus.py`. Hard rules: a cue waits out a shot sequence (to the next possession change,
+  goal, restart, foul or period end, max 6 s) and the 3 s after a goal; same kind within 90 s, unshown after 45 s
+  (`deps.state["match_clock_ms"]` when the clock is known), Sliding Doors below leverage 0.04 and Oracle below
+  p_shot 0.30 are dropped. Per viewer mode: kinds, min gap between lower-thirds, max per 10 min, casual Sliding
+  Doors per half; history is read from blackboard `cues`, so it survives restarts. Studio gets every cue that
+  reaches any viewer mode; a cue no viewer mode accepts is suppressed with a trace row.
+- `cue_id` = `c_` + moment number × 10 + branch index (mo_00077 explained → `c_000771`): independent of process
+  state and processing order. SpendCapReached → `degraded` mode, one `modes` document; model error, timeout, cache
+  miss or third rejection → template from verified claims and a red trace row (status `error`/`cache_miss`/…).
+- Verification `pytest tests/newsroom/test_director.py -q`: 17 passed (every produced cue validates against
+  `cue.schema.json`). Graph-routing tests now use the stub Director/CueBus so they test routing only.
+
+---
+
 ## 2026-10-21 · T-024 Ghost trail and swing bar (track C)
 
 - `apps/overlay/src/pitch/layers/ghostTrail.ts`: 200 futures, Catmull-Rom (81 points per 8 s path), Path2D cache,

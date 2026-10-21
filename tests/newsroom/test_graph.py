@@ -7,7 +7,7 @@ from agent_framework import FileCheckpointStorage
 
 from blackboard import SqliteBlackboard
 from newsroom.executors.base import Deps
-from newsroom.executors.stubs import StubFactCheck
+from newsroom.executors.stubs import StubCueBus, StubDirector, StubFactCheck
 from newsroom.graph import EXECUTOR_IDS, WORKFLOW_NAME, build_workflow
 from newsroom.worker import run_moment, serve, start_message
 
@@ -16,6 +16,11 @@ GOAL = {"moment_id": "mo_00012", "match_id": "m_4242", "t_ms": 1_874_000, "clock
 EXPLAINED = {"moment_id": "mo_00077", "match_id": "m_4242", "t_ms": 1_878_200, "clock": "31:18",
              "kind": "big_chance", "leverage": 0.09, "players": ["p_017", "p_031"], "team": "home",
              "evidence_event_ids": ["e_0812"], "fast": False}
+
+
+def plumbing(deps, **extra):
+    """Stub Director and CueBus: these tests check routing; the Director's rules have their own tests."""
+    return {"director": StubDirector("director", deps), "cuebus": StubCueBus("cuebus", deps), **extra}
 
 
 @pytest.fixture
@@ -32,7 +37,7 @@ def test_graph_has_every_tech_plan_executor(deps):
 
 
 def test_goal_reaches_a_cue_through_the_fast_branch(deps):
-    wf = build_workflow(deps)
+    wf = build_workflow(deps, overrides=plumbing(deps))
     result = asyncio.run(run_moment(wf, start_message(GOAL)))
     assert len(result["outputs"]) == 1
     cue = result["outputs"][0]
@@ -49,7 +54,7 @@ def test_rejecting_factcheck_loops_to_narrator_and_stops_at_attempt_3(deps):
         seen.append(draft.attempt)
         return False
 
-    wf = build_workflow(deps, overrides={"factcheck": StubFactCheck("factcheck", deps, verdict=reject)})
+    wf = build_workflow(deps, overrides=plumbing(deps, factcheck=StubFactCheck("factcheck", deps, verdict=reject)))
     result = asyncio.run(run_moment(wf, start_message(EXPLAINED)))
     assert seen == [1, 2, 3]
     cue = result["outputs"][0]
@@ -84,13 +89,13 @@ def test_checkpoint_after_each_superstep(deps, tmp_path, monkeypatch):
 
 def test_resume_from_a_mid_run_checkpoint(deps, tmp_path):
     storage = FileCheckpointStorage(tmp_path / "ckpt")
-    wf = build_workflow(deps, storage=storage)
+    wf = build_workflow(deps, storage=storage, overrides=plumbing(deps))
     asyncio.run(run_moment(wf, start_message(EXPLAINED)))
     cps = asyncio.run(storage.list_checkpoints(workflow_name=WORKFLOW_NAME))
     mid = next(c for c in cps if "tactician" in c.messages)  # message waiting for the Tactician
 
     async def resume():
-        fresh = build_workflow(deps, storage=storage)
+        fresh = build_workflow(deps, storage=storage, overrides=plumbing(deps))
         return [e.data async for e in fresh.run(checkpoint_id=mid.checkpoint_id, checkpoint_storage=storage,
                                                   stream=True) if e.type == "output"]
 
@@ -102,7 +107,7 @@ def test_resume_from_a_mid_run_checkpoint(deps, tmp_path):
 def test_worker_runs_one_workflow_per_new_moment(deps):
     deps.bb.put("moments", GOAL)
     deps.bb.put("moments", {**EXPLAINED, "status": "done"})  # not new: skipped
-    deps.bb.put("moments", {**GOAL, "moment_id": "mo_00014"})
+    deps.bb.put("moments", {**GOAL, "moment_id": "mo_00014", "t_ms": GOAL["t_ms"] + 120_000})  # past the dedupe
     runs = []
 
     async def go():
