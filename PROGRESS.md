@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-061 part 1 (track C): demo runner, shot list and recorder — waiting for T-039
+
+- `packages/api/demo_runner.py` (demo script on the replay clock: speed, kill via T-051, veto of the pending recap
+  request), `packages/demo/{clocks.py,demo_script.yaml,shot_list.yaml,record_demo.py,__main__.py}`,
+  `scripts/record_demo.sh`, `tests/demo/test_demo_script.py`. Shot clocks are references into
+  `golden_moments.yaml` (`@sliding_doors-6s`); 14 shots cover the 8 storyboard beats; the recorder uses GPU Chromium.
+- `pytest tests/demo -q`: 8 passed, 1 failing by design (`golden_moments.yaml` does not exist; T-039, track A,
+  writes it). A real 2.5 s recording works: `smoke.webm` 1.1 MB plus keyframe PNG, ready 1.6 s after load.
+  `--dry-run` with the sample moments file prints all 14 shots. Key list for track A in the shared notes folder.
+- Not committed as `T-061:` until the clock check passes against the real file.
+
+---
+
 ## 2026-10-22 · T-053 /replay3d React-Three-Fiber Sliding Doors scene (track C)
 
 - `apps/overlay/src/replay3d/{Replay3D,Stadium,Players,Ball,GhostPaths,Cameras,SwingBarOverlay}.tsx`, `space.ts`,
