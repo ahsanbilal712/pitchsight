@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-038 CacheManifest and CacheClient (track B)
+
+- `packages/cache/{manifest,client,errors}.py`. Keys as TECH_PLAN 1.8 (the two schema-example keys reproduce
+  exactly); saves validate against the schema; `verify_hashes()` catches one flipped byte in an entry or in
+  events.jsonl. `CacheClient` serves model calls and tool calls after `simulated_latency_ms / WHYLINE_REPLAY_SPEED`;
+  a model miss raises `CacheMiss` (template + red `cache_miss` trace row from the executors), a counterfactual miss
+  returns `{error, code: cache_miss}` and the Rollout trace row turns red.
+- Injection: worker replay mode → CacheClient (LLM and tools); MCP server with `WHYLINE_MODE=replay` → cached
+  `simulate_counterfactual` (`cf_000077` from the schema example in the test), misses refused.
+- Executors now pass `producer` (narrator / fast_line / proposer / tactician) so a moment's fast line and its
+  explained line have separate keys.
+- Verification `pytest tests/cache -q`: 15 passed.
+
+---
+
 ## 2026-10-22 · T-032 Tactician with MCP tools and first live latency probe (track B)
 
 - `executors/tactician.py` (gemini-4-argon, tools query_events / get_pitch_control / simulate_counterfactual /

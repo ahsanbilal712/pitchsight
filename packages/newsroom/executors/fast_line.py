@@ -60,7 +60,7 @@ class FastLineExecutor(NewsroomExecutor):
         kind = m.kind if m.kind in CUE_KINDS else "fast_line"
         checked = verify_claims(m.match_id, claims_from_moment(m, self.deps.bb), self.deps.bb)["claims"]
         claims = [c for c in checked if c["verified"]]
-        line = await write_line(self.deps, msg, kind, claims)
+        line = await write_line(self.deps, msg, kind, claims, producer="fast_line")
         out = Draft(**msg.hop(self.id).model_dump(), kind=kind,
                     layer="player_tag" if kind == "player_tag" else "lower_third",
                     headline=line["headline"], body=line["body"], claims=claims, model=line.get("model"),

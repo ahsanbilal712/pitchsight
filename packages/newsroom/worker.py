@@ -52,6 +52,8 @@ def make_storage() -> FileCheckpointStorage:
 
 
 def make_deps(mode: str) -> Deps:
+    """Replay mode injects cache.CacheClient as both LLM client and tool client (cache hits, misses raise or
+    return cache_miss); live mode injects LiveClient and the MCP tools (TECH_PLAN 1.8)."""
     from blackboard import SqliteBlackboard
     from mcp_server.tools_core import MatchStore
     from newsroom.tools import LocalTools, McpTools
@@ -59,18 +61,15 @@ def make_deps(mode: str) -> Deps:
     bb = SqliteBlackboard()
     store = MatchStore(bb)
     url = os.environ.get("WHYLINE_MCP_URL")
-    rollout = McpTools(url) if url else LocalTools(store)   # agents' data path is MCP; in-process is the dev default
+    tools = McpTools(url) if url else LocalTools(store)   # agents' data path is MCP; in-process is the dev default
     if mode == "live":
         from newsroom.llm import LiveClient
 
-        llm = LiveClient(mode="live")
-    else:
-        try:
-            from cache import CacheClient  # T-038
-        except ImportError:  # replay cache not built yet
-            CacheClient = None
-        llm = CacheClient() if CacheClient else None
-    return Deps(bb=bb, llm=llm, mode=mode, store=store, rollout=rollout)
+        return Deps(bb=bb, llm=LiveClient(mode="live"), mode=mode, store=store, rollout=tools)
+    from cache import CacheClient
+
+    cache = CacheClient(inner_tools=tools)
+    return Deps(bb=bb, llm=cache, mode=mode, store=store, rollout=cache)
 
 
 async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asyncio.Event | None = None,

@@ -46,7 +46,7 @@ def build_messages(kind: str, claims: list[dict], diff: list[dict] | None = None
 
 
 async def write_line(deps: Deps, msg: Envelope, kind: str, claims: list[dict], diff: list[dict] | None = None,
-                     previous: dict | None = None, attempt: int = 1) -> dict:
+                     previous: dict | None = None, attempt: int = 1, producer: str = "narrator") -> dict:
     """{headline, body, claims, model, status, prompt_version, cache_key}; never raises."""
     verified = [c for c in claims if c.get("verified")]
     fallback = {**template_line(kind, verified), "model": "template", "prompt_version": PROMPT, "cache_key": None}
@@ -55,7 +55,7 @@ async def write_line(deps: Deps, msg: Envelope, kind: str, claims: list[dict], d
     role = config.role(ROLE)
     roles = [ROLE, role.extra.get("provider_fallback", ROLE)]  # one retry
     ctx = {"match_id": msg.moment.match_id, "moment_id": msg.moment.moment_id, "schema": SCHEMA,
-           "prompt_version": PROMPT, "attempt": attempt, "timeout_s": role.timeout_s}
+           "prompt_version": PROMPT, "attempt": attempt, "timeout_s": role.timeout_s, "producer": producer}
     messages = build_messages(kind, verified, diff, previous)
     status = "template"
     for name in roles:

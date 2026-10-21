@@ -41,7 +41,7 @@ async def propose(deps: Deps, msg: Envelope, decision: dict) -> tuple[list[dict]
         return rule, {"status": "rule", "model": "proposer_rule"}
     role = config.role(ROLE)
     ctx = {"match_id": msg.moment.match_id, "moment_id": msg.moment.moment_id, "schema": SCHEMA,
-           "prompt_version": PROMPT, "timeout_s": role.timeout_s}
+           "prompt_version": PROMPT, "timeout_s": role.timeout_s, "producer": "proposer"}
     messages = build_messages(decision, msg.moment.kind)
     status = "rule"
     for _attempt in range(2):

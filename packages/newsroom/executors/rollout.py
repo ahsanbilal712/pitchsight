@@ -64,6 +64,7 @@ class RolloutExecutor(NewsroomExecutor):
             self.deps.bb.put("counterfactuals", best)
         out = RolloutDone(**msg.hop(self.id).model_dump(exclude={"alternatives"}), alternatives=summary,
                           counterfactual=best)
-        self.trace(out, started, status="ok" if best else "no_counterfactual",
+        missed = any(is_error(r) and (r[0] if isinstance(r, list) else r).get("code") == "cache_miss" for r in results)
+        self.trace(out, started, status="ok" if best else ("cache_miss" if missed else "no_counterfactual"),
                    counterfactual_id=best and best["counterfactual_id"], tried=len(results))
         await ctx.send_message(out)

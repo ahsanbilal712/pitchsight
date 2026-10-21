@@ -205,6 +205,7 @@ async def explain(deps: Deps, msg: Envelope, decision: dict | None, cf: dict | N
     tools = make_tools(deps, trace) if deps.rollout is not None else None
     messages = build_messages(meta, m, decision, cf, pc, alternatives)
     ctx = {"match_id": m.match_id, "moment_id": m.moment_id, "schema": RESPONSE_SCHEMA, "prompt_version": PROMPT,
+           "producer": "tactician",
            "timeout_s": role.timeout_s, "max_tool_rounds": deps.state.get("max_tool_rounds", role.max_tool_rounds)}
     status, spent = "template", {"cost_usd": 0.0, "tokens_in": 0, "tokens_out": 0}
     for _attempt in range(2):

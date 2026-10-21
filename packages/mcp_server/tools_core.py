@@ -45,8 +45,11 @@ class _Match:
 class MatchStore:
     """Per-process cache of match data plus the blackboard the tools write to."""
 
-    def __init__(self, bb, matches_dir: str | Path | None = None, runtime_dir: str | Path | None = None) -> None:
+    def __init__(self, bb, matches_dir: str | Path | None = None, runtime_dir: str | Path | None = None,
+                 cache=None, replay: bool = False) -> None:
         self.bb = bb
+        self.cache = cache          # cache.CacheClient: counterfactual hits (replay mode)
+        self.replay = replay        # replay mode: a counterfactual miss is an error, never a fresh simulation
         self.matches_dir = Path(matches_dir or os.environ.get("WHYLINE_MATCHES_DIR") or MATCHES)
         self.runtime_dir = Path(runtime_dir or RUNTIME)
         self._matches: dict[str, _Match] = {}
@@ -242,6 +245,13 @@ def simulate_counterfactual(store: MatchStore, match_id: str, t_ms: int, alterna
     if not 1 <= int(n) <= 1000 or not 0 < float(horizon_s) <= 90:
         raise ToolError("bad_budget", "n must be 1..1000 and horizon_s 0..90")
     key = {k: alternative.get(k) for k in ("kind", "actor", "target")}
+    if store.cache is not None:
+        hit = store.cache.counterfactual(match_id, int(t_ms), key, int(n), float(horizon_s))
+        if hit is not None:
+            store.bb.put("counterfactuals", hit)
+            return hit
+    if store.replay:
+        raise ToolError("cache_miss", f"replay mode: no cached counterfactual at {t_ms} for {key}")
     for cf in store.bb.query("counterfactuals", match_id=match_id, t_ms=int(t_ms)):
         if {k: cf["alternative"].get(k) for k in key} == key and cf["n"] == n and cf["horizon_s"] == horizon_s:
             return cf
