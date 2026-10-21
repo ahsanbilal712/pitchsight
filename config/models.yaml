@@ -79,7 +79,7 @@ roles:
   panel_pundit:                       # three instances with distinct system prompts
     provider: gemini
     model: gemini-4-argon
-    effort: medium
+    effort: low                       # medium maps to thinking high on Argon: 37 s per call measured (T-032)
     max_tokens: 500
     output_format: inline_json        # {"take","claims":[...],"stance"}
     tools: [simulate_counterfactual, get_pitch_control]

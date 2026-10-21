@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-041 Panel via GroupChatBuilder (track B) — live budget not met, day-4 cut line applied
+
+- `executors/panel.py`, `prompts/{pundit_press,pundit_possession,pundit_sceptic,chair}@1.md` (+ shared
+  `pundit_rules.md`). `GroupChatBuilder` sub-workflow inside `PanelExecutor`: three pundit participant executors
+  (gemini-4-argon, tools simulate_counterfactual / get_pitch_control, max_tool_rounds 1) speak in a fixed order,
+  `max_rounds=3`; the chair (gemini-3.8-flash) writes {consensus, dissent, headline}. Pundit claims without a cf_/pc_
+  id or failing the Fact Checker are dropped. 25 s budget; on timeout the cue is dropped, no retry.
+- Deviation: the speaking order is a selection function, not the agent-based manager, because that orchestrator
+  makes a structured next-speaker call every round (three more model calls inside 25 s); the chair still decides
+  what goes on screen. The orchestrator's output is a closing notice, not the conversation, so pundits record takes.
+- `panel_pundit.effort` low (medium maps to thinking high on Argon: 37 s per call, T-032).
+- **Live: 25 s budget exceeded.** Each pundit call takes 9–10 s, sequential, after ~4 s of evidence; two live runs
+  were both cut at 25.0 s (machine load average ~380). Cut line day 4, first drop: the Panel is near-line
+  (golden precompute T-042 and recaps), off on the live path (`panel_enabled` false by default). The live test
+  is kept as written and fails; offline `pytest tests/newsroom/test_panel.py -q`: 5 passed.
+- `LiveClient` also records a worst-case ledger row when a call is cancelled from outside (the panel budget).
+  T-041 dev spend **$0.08** (limit $0.50), $0.04 of it worst-case rows for cancelled calls.
+
+---
+
 ## 2026-10-22 · T-045 Overlay viewer modes, heatmap, threat front and referee lines (track C)
 
 - `apps/overlay/src/modes/{analyst,casual,playerCamConfig,config}.ts` (mirror `budgets.yaml`, checked by a test),
