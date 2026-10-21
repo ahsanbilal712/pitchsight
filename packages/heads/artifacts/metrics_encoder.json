@@ -1,0 +1,95 @@
+{
+ "purity_test": 0.6945,
+ "purity_train": 0.6893,
+ "purity_threshold": 0.6,
+ "majority_label_rate_test": 0.357,
+ "labels": "truth.json phases side M (hidden regime)",
+ "states_train": 486000,
+ "states_test": 54000,
+ "matches_train": 360,
+ "matches_test": 40,
+ "test_seeds": [
+  1002,
+  1012,
+  1014,
+  1015,
+  1020,
+  1021,
+  1023,
+  1038,
+  1040,
+  1044,
+  1047,
+  1049,
+  1050,
+  1061,
+  1071,
+  1077,
+  1093,
+  1096,
+  1103,
+  1106,
+  1116,
+  1120,
+  1127,
+  1133,
+  1141,
+  1143,
+  1149,
+  1166,
+  1167,
+  1171,
+  1173,
+  1177,
+  1179,
+  1181,
+  1182,
+  1187,
+  1192,
+  1197,
+  1202,
+  1206
+ ],
+ "step_s": 4,
+ "epochs": 6,
+ "device": "mps",
+ "train_log": [
+  {
+   "epoch": 1,
+   "train_mse": 0.7346533962635347,
+   "test_mse": 0.14992931485176086
+  },
+  {
+   "epoch": 2,
+   "train_mse": 0.12393248697170996,
+   "test_mse": 0.10337386280298233
+  },
+  {
+   "epoch": 3,
+   "train_mse": 0.09548513751780545,
+   "test_mse": 0.08299506455659866
+  },
+  {
+   "epoch": 4,
+   "train_mse": 0.07776991922914246,
+   "test_mse": 0.07234552502632141
+  },
+  {
+   "epoch": 5,
+   "train_mse": 0.06740456452904414,
+   "test_mse": 0.1003720760345459
+  },
+  {
+   "epoch": 6,
+   "train_mse": 0.0602657786091414,
+   "test_mse": 0.05364055186510086
+  }
+ ],
+ "minutes": 6.1,
+ "naming": {
+  "model": "gemini-3.8-flash",
+  "cost_usd": 0.00141075,
+  "tokens_in": 1736,
+  "tokens_out": 29
+ }
+}

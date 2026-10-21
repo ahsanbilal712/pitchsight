@@ -2,7 +2,7 @@
 
 mcp 2.x renamed FastMCP to `MCPServer`; it serves Streamable HTTP at /mcp (port WHYLINE_MCP_PORT, default 8080).
 Every tool is wrapped by `errors.guarded`, so a failure comes back as {error, code} and never raises into the agent.
-Signatures are copied from TECH_PLAN 1.7 (returns spelled dict[str, Any], which structured output needs). `top_moments`, `timeline` (T-050) and `similar_moments` (T-054) come later.
+Signatures are copied from TECH_PLAN 1.7 (returns spelled dict[str, Any], which structured output needs). `top_moments` and `timeline` (T-050) come later; `similar_moments` is T-054.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from mcp_server.errors import guarded
 INSTRUCTIONS = ("WHYLINE match data for one fictional football match. Cite the ids these tools return "
                 "(e_, cf_, f_, pc_) as evidence for every claim.")
 TOOLS = ("query_events", "get_state", "get_pitch_control", "simulate_counterfactual", "player_stats",
-         "verify_claims", "get_budget")
+         "verify_claims", "get_budget", "similar_moments")
 
 
 def build_server(store: core.MatchStore) -> MCPServer:
@@ -68,5 +68,12 @@ def build_server(store: core.MatchStore) -> MCPServer:
     def get_budget(mode: str) -> dict[str, Any]:
         """Director screen-time budget for a viewer mode, the hard rules and the spend summary."""
         return core.get_budget(store, mode)
+
+    @mcp.tool(structured_output=True)
+    @guarded
+    def similar_moments(match_id: str, t_ms: int, k: int = 3) -> list[dict[str, Any]]:
+        """The k moments of the golden season most like this one (other matches), each with its phase name."""
+        from mcp_server import tools_similar
+        return tools_similar.similar_moments(store, match_id, t_ms, k)
 
     return mcp

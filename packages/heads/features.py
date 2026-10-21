@@ -285,3 +285,35 @@ def match_tables(match_dir: str | Path, step_s: int = 2) -> dict[str, pd.DataFra
     g8, chaos, wp = state_rows(m, step_s=step_s)
     return {"shots": pd.DataFrame(shot_rows(m)), "passes": pd.DataFrame(pass_rows(m)), "goal8s": pd.DataFrame(g8),
             "chaos": pd.DataFrame(chaos), "winprob": pd.DataFrame(wp)}
+
+
+def moment_features(window, events: list[dict], t_ms: int) -> tuple[dict, int]:
+    """The 12 chaos features at t_ms from full 10 Hz tracking (same formulas as `state_rows`), and the team in
+    possession (carried over loose balls). Used by the moment encoder index and similar_moments."""
+    i = window.index_at(t_ms)
+    pos = np.asarray(window.possession[: i + 1])
+    held = np.flatnonzero(pos >= 0)
+    team = int(pos[held[-1]]) if held.size else 0
+    S = np.asarray(window.S[i], dtype=np.float64)
+    pc = pitch_control(S)
+    g = state_features(S[None], np.array([window.ball_z[i]]), np.array([window.holder[i]]), np.array([team]),
+                       np.array([window.period[i]]), np.array([t_ms]), np.array([window.possession[i] >= 0]),
+                       pcs=pc[None]).iloc[0]
+    turn_t = open_play_turnovers(events, 0, t_ms)
+    passes = sum(1 for e in events if e["type"] == "pass" and t_ms - 60_000 < e["t_ms"] <= t_ms)
+    h = int(window.holder[i])
+    if h >= 0:
+        opp = _rows(1 - (h >= 11))
+        rel = S[h, 0:2] - S[opp, 0:2]
+        dist = np.hypot(rel[:, 0], rel[:, 1])
+        k = int(np.argmin(dist))
+        closing = float(max(0.0, np.dot(S[opp[k], 2:4] - S[h, 2:4], rel[k] / max(dist[k], 1e-6))))
+        press = float(dist[k])
+    else:
+        closing, press = 0.0, 30.0
+    return {"contested_frac": float(np.mean(np.abs(pc - 0.5) < 0.15)), "turnovers_60s": turnover_rate(events, t_ms),
+            "transition_share": transition_share_at(events, t_ms), "closing_speed": closing, "tempo": float(passes),
+            "holder_pressure_m": press, "ball_u": float(g["ball_u"]), "ball_speed": float(g["ball_speed"]),
+            "has_holder": int(g["has_holder"]),
+            "since_turnover_s": float(min((t_ms - turn_t[-1]) / 1000.0, 60.0)) if turn_t.size else 60.0,
+            "att_third_control": float(g["att_third_control"]), "minute": t_ms / 60000.0}, team
