@@ -1,0 +1,29 @@
+# WHYLINE licence allow-list (T-066; DEMO_MASTERPLAN §9 item 6, TECH_PLAN 1.10 licence-scan).
+# scripts/licence_scan.py normalises every licence string to an SPDX id and checks it against this list.
+# "A AND B" needs every part allowed; "A OR B" and pip's "A; B" need one. "WITH <exception>" is ignored.
+# Anything GPL, AGPL, LGPL or non-commercial always fails, whatever this file says.
+
+[licences]
+MIT
+Apache-2.0
+BSD-2-Clause
+BSD-3-Clause
+BSD                   # pip classifier "BSD License" (2- or 3-clause; both allowed)
+ISC
+PSF-2.0
+CC-BY-4.0
+CC0-1.0
+# permissive variants of the families above
+MIT-0                 # MIT without the attribution clause
+MIT-CMU               # Pillow's historical PIL licence, MIT family
+0BSD                  # zero-clause BSD (numpy bundles it)
+Zlib                  # numpy bundles it
+BSL-1.0               # Boost Software Licence (PyTorch bundles it)
+CNRI-Python           # Python's own lineage licence (regex bundles it)
+Commercial-Output     # outputs of paid services we are licensed to use (Gemini, Nano Banana, Lyria); assets.json only
+
+[packages]
+# Named exceptions: <ecosystem>:<name> <licence>  # reason. Each one is listed in LICENSES.md for the owner.
+pip:certifi MPL-2.0         # CA bundle used unmodified as a dependency; MPL-2.0 is file-level and imposes nothing on our code
+pip:tqdm MPL-2.0 AND MIT    # progress bars, unmodified dependency; same MPL-2.0 reasoning
+npm:webgl-constants MIT     # package.json has no licence field; LICENSE file in the package is MIT (checked 21 Oct 2026)

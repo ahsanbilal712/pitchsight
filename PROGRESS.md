@@ -5,6 +5,18 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-066 Licence scan job and asset list (track B, built early: only needs T-005)
+
+- `scripts/licence_scan.py`, `config/licence_allowlist.txt`, `LICENSES.md`, `tests/tooling/test_licence_scan.py`.
+  Python via `pip-licenses`, npm production deps from the three lockfiles (works without node_modules), assets from
+  `data/league/assets.json` once T-077 creates it. GPL/AGPL/LGPL/non-commercial always fail.
+- `python scripts/licence_scan.py`: **202 entries (131 pip, 71 npm), 0 offenders**, 3 named exceptions for the
+  owner to confirm: `certifi` and `tqdm` (MPL-2.0, unmodified dependencies) and `webgl-constants` (no licence field,
+  MIT LICENSE file). The `licence-scan` CI job already runs the script once it exists; `ci.yml` unchanged.
+- Open: the repo has no top-level `LICENSE` file (pyproject says MIT); needed before the repo goes public.
+
+---
+
 ## 2026-10-21 · T-021 Director with budgets (track B)
 
 - `executors/director.py`, `cuebus.py`. Hard rules: a cue waits out a shot sequence (to the next possession change,
