@@ -121,6 +121,8 @@ def test_kill_between_tactician_and_narrator_resumes_with_same_cue(tmp_path, mon
     print(f"restart {restart_s:.2f} s after the kill")
     assert restart_s < 2.0
     assert bb.get("runs", run_id, "m_4242")["status"] == "done"
+    red = [t for t in bb.query("traces", run_id=run_id) if t["status"] == "interrupted"]
+    assert len(red) == 1 and red[0]["executor"] == "narrator"          # one red row for the studio, from the kill
     bb.close()
     out = os.environ.get("WHYLINE_KILL_LOG_OUT")
     if out:  # python -m pytest tests/chaos with WHYLINE_KILL_LOG_OUT=docs/evidence/kill_resume.log saves the demo log
@@ -134,4 +136,16 @@ def test_kill_waits_for_the_window(tmp_path):
     bb.put("traces", {"match_id": "m_1", "run_id": "run_x", "executor": "proposer"})
     out = kill_when_ready(bb, timeout_s=0.3, pid_path=str(tmp_path / "missing.pid"))
     assert out["killed"] is False                      # Tactician not finished: no kill
+    bb.close()
+
+
+def test_interrupted_row_written_once(tmp_path):
+    from newsroom.resume import mark_interrupted
+
+    bb = SqliteBlackboard(tmp_path / "bb.sqlite")
+    run = {"id": "run_m_1_mo_00001", "match_id": "m_1", "moment_id": "mo_00001"}
+    mark_interrupted(bb, run, at_executor="narrator")
+    mark_interrupted(bb, run, checkpoint_id="cp")                     # the resume path: already marked
+    rows = bb.query("traces", run_id=run["id"])
+    assert [(r["executor"], r["status"]) for r in rows] == [("narrator", "interrupted")]
     bb.close()

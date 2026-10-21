@@ -47,6 +47,18 @@ async def latest_checkpoint(storage, run_id: str, workflow_name: str = "newsroom
     return max(mine, key=lambda cp: (cp.timestamp, cp.iteration_count)) if mine else None
 
 
+def mark_interrupted(bb, run: dict, at_executor: str | None = None, checkpoint_id: str | None = None) -> None:
+    """One `interrupted` trace row for a killed run (TECH_PLAN 1.7 kill-switch step 2: the studio shows it red for
+    the gap). Written once per run: by the kill, or by the resume when the worker died some other way."""
+    if any(t.get("status") == "interrupted" for t in bb.query("traces", run_id=run["id"])):
+        return
+    bb.put("traces", {"match_id": run.get("match_id"), "run_id": run["id"], "moment_id": run.get("moment_id"),
+                      "executor": at_executor or "worker", "status": "interrupted", "started_ms": int(time.time() * 1000),
+                      "latency_ms": 0, "model": None, "tokens_in": 0, "tokens_out": 0, "cost_usd": 0.0,
+                      "cache_hit": None, "checkpoint_id": checkpoint_id,
+                      "reason": "newsroom worker killed; the run resumes from its last checkpoint"})
+
+
 def mark_run(bb, msg, status: str, **extra) -> None:
     bb.put("runs", {"id": msg.run_id, "match_id": msg.moment.match_id, "moment_id": msg.moment.moment_id,
                     "status": status, "updated_at": time.time(), **extra})
@@ -63,6 +75,7 @@ async def resume_pending(deps, storage, run_moment_fn=None, on_result=None) -> l
         if cp is None:
             deps.bb.put("runs", {**run, "status": "lost", "updated_at": time.time()})
             continue
+        mark_interrupted(deps.bb, run, checkpoint_id=cp.checkpoint_id)
         deps.state.setdefault("resumed", {})[run["id"]] = cp.checkpoint_id
         demo_log(f"resume run_id={run['id']} checkpoint_id={cp.checkpoint_id}")
         workflow = build_workflow(deps, storage=storage)

@@ -91,7 +91,7 @@ def kill_when_ready(bb, run_id: str | None = None, timeout_s: float = 120.0, pol
                     pid_path: str | None = None) -> dict:
     """Block until a running newsroom run (or `run_id`) has a Tactician trace row and no Narrator row, then SIGKILL
     the worker. Returns {killed, run_id, pid} or {killed: False, reason}."""
-    from newsroom.resume import demo_log
+    from newsroom.resume import demo_log, mark_interrupted
     from newsroom.supervisor import pidfile
 
     end = time.time() + timeout_s
@@ -104,6 +104,8 @@ def kill_when_ready(bb, run_id: str | None = None, timeout_s: float = 120.0, pol
                 pid = int(open(path).read().strip())
                 os.kill(pid, signal.SIGKILL)
                 demo_log(f"kill target=newsroom run_id={rid} at_executor=tactician")
+                run = next((r for r in bb.query("runs", id=rid)), {"id": rid})
+                mark_interrupted(bb, run, at_executor="narrator")   # the step the kill cut
                 return {"killed": True, "run_id": rid, "pid": pid}
         time.sleep(poll_s)
     return {"killed": False, "reason": f"no run between Tactician and Narrator within {timeout_s:.0f} s"}
