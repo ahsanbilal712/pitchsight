@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-025 and T-054 done; T-028 training; T-037 outlook (track A)
+
+- T-025 heads v1 on 2,000 matches, test split (200 matches): xG ECE **0.0102**, pass **0.0045**, win probability
+  **0.0257**, goal-in-8-s **0.0001** (PR-AUC 0.286), chaos AUC **0.765**. All gates pass (`python -m heads.gates`).
+- T-054 MomentEncoder: purity vs the hidden regime **0.695** (gate 0.6; majority 0.39) after weighting the 60 s
+  features 4x; clusters named by one gemini-3.8-flash call, **$0.0014** (line in `data/spend/ledger.jsonl`, which
+  also holds track B's uncommitted lines, so A did not commit the ledger). `similar_moments` MCP tool registered.
+- T-028: epoch 1 val loss printed as Infinity: a passer who regains his own pass was labelled as the recipient
+  (2 samples). Fixed in the dataset and the loss; `python -m policy.train --revalidate` re-scores epochs after the
+  run (epoch 1: val loss 2.910, kind accuracy 0.809). Training continues; ~38 min per epoch, done about 06:30.
+- T-037 outlook (dry run on epoch 1): top-1 kind 0.809 (gate 0.45, pass), **top-3 kind+target 0.502 (gate 0.80,
+  fail)**, 4 s FDE 18.8 m vs 28.7 m velocity baseline (pass), teleports 0, shape collapse 0, offsides 0. The
+  scripted rule's own probabilities reach only about 0.44 top-3 (near-uniform choice among good passes), so the
+  0.80 gate looks unreachable for any model imitating this engine; expect `gate.json` = scripted_v1 (an accepted
+  M1 outcome). Threshold unchanged.
+- Dugout at 60:00 with a 90 s scripted horizon moves the trailing home side's win probability by at most +0.0008;
+  honest but small (style changes act over minutes, win probability at 0-2 down is 2.4%).
+
+---
+
 ## 2026-10-22 · T-061 part 1 (track C): demo runner, shot list and recorder — waiting for T-039
 
 - `packages/api/demo_runner.py` (demo script on the replay clock: speed, kill via T-051, veto of the pending recap
