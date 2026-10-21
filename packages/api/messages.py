@@ -6,6 +6,13 @@ which viewers get it, server side. Studio gets every cue and the studio-only mes
 
 from __future__ import annotations
 
+import functools
+from pathlib import Path
+
+import yaml
+
+BUDGETS = Path(__file__).resolve().parents[2] / "config" / "budgets.yaml"
+
 # TECH_PLAN 1.9 message types, plus the additions screens already handle (lineup, counterfactual).
 MESSAGE_TYPES = ("hello", "tracking_frame", "event", "fact", "moment", "cue", "cue_remove", "trace", "request_info",
                  "mode", "spend", "oracle", "lineup", "counterfactual")
@@ -21,6 +28,13 @@ STUDIO_ONLY = {"moment", "trace", "request_info", "spend"}
 
 DECISIONS = {"approve": "approved", "approved": "approved", "veto": "vetoed", "vetoed": "vetoed",
              "hold": "held", "held": "held"}
+
+
+@functools.cache
+def mode_kinds() -> dict[str, frozenset[str] | None]:
+    """Allowed cue kinds per viewer mode (config/budgets.yaml director.modes); None = all kinds."""
+    modes = yaml.safe_load(BUDGETS.read_text())["director"]["modes"]
+    return {m: (None if "all" in cfg["kinds"] else frozenset(cfg["kinds"])) for m, cfg in modes.items()}
 
 
 def doc_time(doc: dict) -> int | None:
@@ -40,7 +54,8 @@ def cue_matches(profile: dict, cue: dict) -> bool:
     """A cue goes to a viewer when its targets admit the viewer's mode, club and (player_cam) player.
 
     - studio receives every cue (1.9);
-    - `targets.modes` must list the viewer's mode;
+    - `targets.modes` must list the viewer's mode, and the cue's kind must be one the mode allows in
+      config/budgets.yaml (the Director targets by the same list; the api enforces it as well);
     - `targets.clubs`: "any" (the default) matches everyone; otherwise a viewer with a club must be listed
       (a viewer without a club perspective sees every club's cues);
     - player-specific kinds (player_tag, decision_index) with `targets.players` go to player_cam viewers of one
@@ -51,6 +66,9 @@ def cue_matches(profile: dict, cue: dict) -> bool:
     targets = cue.get("targets") or {}
     mode = profile.get("mode")
     if mode not in (targets.get("modes") or []):
+        return False
+    allowed = mode_kinds().get(mode)
+    if allowed is not None and cue.get("kind") not in allowed:
         return False
     clubs = targets.get("clubs") or ["any"]
     club = profile.get("club")

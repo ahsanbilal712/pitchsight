@@ -1,0 +1,234 @@
+/* Fan app (T-043): a 390x844 phone frame; full width on a real phone. Tokens from tokens.css. */
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  background: #05080c;
+  color: var(--c-text);
+  font-family: var(--font-ui);
+  font-size: 15px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.phone {
+  width: 390px;
+  max-width: 100%;
+  height: 844px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--c-panel-solid);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-panel-raised);
+}
+
+.brand {
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-caps);
+}
+
+.brand span {
+  color: var(--c-accent);
+  font-weight: var(--fw-regular);
+}
+
+.scoreline {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: baseline;
+  font-size: 14px;
+}
+
+.scoreline b {
+  font-family: var(--font-num);
+  font-size: 18px;
+}
+
+.scoreline .clock {
+  margin-left: var(--sp-2);
+  font-family: var(--font-num);
+  color: var(--c-text-muted);
+}
+
+/* ------------------------------------------------------------------ picker */
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--c-divider);
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 2px;
+  background: var(--c-panel-raised);
+  border-radius: var(--radius-md);
+}
+
+.seg button {
+  padding: var(--sp-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--c-text-muted);
+  font: inherit;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+
+.seg button[aria-checked="true"] {
+  background: var(--c-accent);
+  color: var(--c-text-inverse);
+}
+
+.picker .row {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+.picker label {
+  display: flex;
+  flex: 1;
+  gap: var(--sp-2);
+  align-items: center;
+  color: var(--c-text-muted);
+  font-size: 13px;
+}
+
+.picker select {
+  flex: 1;
+  min-width: 0;
+  padding: var(--sp-1) var(--sp-2);
+  border: 1px solid var(--c-divider);
+  border-radius: var(--radius-sm);
+  background: var(--c-panel-raised);
+  color: var(--c-text);
+  font: inherit;
+}
+
+.picker .toggle {
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ mini-pitch */
+.mini-pitch {
+  display: block;
+  width: 358px;
+  max-width: calc(100% - 32px);
+  margin: var(--sp-3) auto;
+  border-radius: var(--radius-sm);
+}
+
+/* ------------------------------------------------------------------ feed and cards */
+.feed {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 var(--sp-4) var(--sp-4);
+}
+
+.cue-card {
+  margin-bottom: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-left: 4px solid var(--c-accent);
+  border-radius: var(--radius-sm);
+  background: var(--c-panel-raised);
+  animation: card-in 300ms var(--ease-in) both;
+}
+
+@keyframes card-in {
+  from { transform: translateY(-8px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.cue-card header {
+  display: flex;
+  gap: var(--sp-2);
+  font-size: 12px;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.cue-card .clock {
+  font-family: var(--font-num);
+}
+
+.cue-card .live {
+  margin-left: auto;
+  color: var(--c-veto);
+  font-weight: var(--fw-bold);
+}
+
+.cue-card h3 {
+  margin: var(--sp-1) 0;
+  font-size: 17px;
+  line-height: var(--lh-tight);
+  overflow-wrap: anywhere;
+}
+
+.cue-card p {
+  margin: 0;
+  color: var(--c-text-muted);
+  line-height: var(--lh-body);
+  overflow-wrap: anywhere;
+}
+
+.tick {
+  display: inline-block;
+  margin-top: var(--sp-1);
+  font-size: 12px;
+  color: var(--c-verified);
+}
+
+.moment-cards {
+  display: flex;
+  gap: var(--sp-3);
+  overflow-x: auto;
+  padding: 0 var(--sp-4) var(--sp-3);
+  scroll-snap-type: x mandatory;
+}
+
+.moment-card {
+  flex: 0 0 300px;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, var(--c-panel-raised), #1f2a38);
+  scroll-snap-align: start;
+}
+
+.moment-card small {
+  color: var(--c-accent);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+
+.moment-card h3 {
+  margin: var(--sp-1) 0;
+  font-size: 16px;
+}
+
+.moment-card p {
+  margin: 0;
+  color: var(--c-text-muted);
+  font-size: 13px;
+}
+
+.empty {
+  color: var(--c-text-muted);
+  text-align: center;
+}

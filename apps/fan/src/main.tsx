@@ -1,9 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import App from "./App";
+import "./styles/tokens.css";
+import "./styles/fan.css";
 
-// Skeleton from T-001; the real shell arrives with its own ticket.
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <div>WHYLINE fan</div>
+    <App />
   </StrictMode>,
 );

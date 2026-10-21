@@ -1,0 +1,114 @@
+/* WHYLINE design tokens, copied from apps/overlay/src/styles/tokens.css (T-003); apps do not import each other.
+ * Stage is a fixed 1920x1080 frame with a transparent body. Title-safe area is the inner 90%:
+ * 5% insets = 96 px left/right, 54 px top/bottom. Keep all text and graphics inside it.
+ * System font stack only: no third-party font files in the video (rules 4.4). */
+
+:root {
+  /* stage */
+  --stage-w: 1920px;
+  --stage-h: 1080px;
+  --safe-x: 96px;                     /* 5% of 1920 */
+  --safe-y: 54px;                     /* 5% of 1080 */
+  --safe-left: var(--safe-x);
+  --safe-right: var(--safe-x);
+  --safe-top: var(--safe-y);
+  --safe-bottom: var(--safe-y);
+  --safe-w: calc(var(--stage-w) - 2 * var(--safe-x));   /* 1728px */
+  --safe-h: calc(var(--stage-h) - 2 * var(--safe-y));   /* 972px */
+
+  /* palette: surfaces (graphics sit over video or pitch, so panels are dark and slightly translucent) */
+  --c-panel: rgba(12, 16, 22, 0.88);
+  --c-panel-solid: #0c1016;
+  --c-panel-raised: #18202b;
+  --c-divider: rgba(255, 255, 255, 0.14);
+  --c-text: #f5f7fa;
+  --c-text-muted: #a9b4c2;
+  --c-text-inverse: #0c1016;
+
+  /* palette: meaning */
+  --c-accent: #ff7a1a;                /* WHYLINE orange: the chosen alternative, the "why" */
+  --c-accent-soft: rgba(255, 122, 26, 0.24);
+  --c-verified: #2ecc71;
+  --c-unverified: #f1c40f;
+  --c-veto: #e74c3c;
+  --c-chaos-settled: #3fa7ff;
+  --c-chaos-transitional: #f5b301;
+  --c-chaos-chaotic: #ff3d5a;
+  --c-threat: rgba(255, 61, 90, 0.55);
+  --c-ghost: rgba(255, 255, 255, 0.35);
+  --c-referee-line: #ffe600;
+
+  /* palette: pitch (Pitch2D) */
+  --c-pitch: #2f7a3e;
+  --c-pitch-stripe: #2a6f38;
+  --c-pitch-line: rgba(255, 255, 255, 0.85);
+
+  /* palette: golden-match clubs (data/league/clubs.json home kits; renderers read league.json for others) */
+  --c-home: #0e5c36;                  /* Verdant Athletic */
+  --c-home-trim: #e3b23c;
+  --c-away: #8e1b1b;                  /* Ironvale Forge */
+  --c-away-trim: #1c1c1c;
+
+  /* type: system stacks, tabular figures for numbers */
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-num: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --font-features-num: "tnum" 1, "lnum" 1;
+
+  /* type scale at 1080p (1.25 ratio from 20 px) */
+  --fs-xs: 16px;                      /* ticker small print, provenance */
+  --fs-sm: 20px;                      /* body copy in lower-thirds */
+  --fs-md: 25px;                      /* ticker, player tags */
+  --fs-lg: 31px;                      /* lower-third headline */
+  --fs-xl: 39px;                      /* score bug score */
+  --fs-2xl: 49px;                     /* card titles */
+  --fs-3xl: 61px;                     /* opener, recap headline */
+  --lh-tight: 1.1;
+  --lh-body: 1.35;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold: 750;
+  --tracking-caps: 0.06em;
+
+  /* spacing (4 px grid) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* shape and motion */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-panel: 0 6px 24px rgba(0, 0, 0, 0.35);
+  --dur-in: 280ms;
+  --dur-out: 200ms;
+  --ease-in: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out: cubic-bezier(0.4, 0, 1, 1);
+
+  /* component sizes */
+  --lower-third-w: 960px;
+  --lower-third-max-lines: 3;
+  --score-bug-h: 56px;
+  --ticker-h: 48px;
+  --player-tag-h: 36px;
+}
+
+/* high-contrast viewer profile (viewer_profile.high_contrast) */
+:root[data-contrast="high"] {
+  --c-panel: #000000;
+  --c-panel-solid: #000000;
+  --c-text: #ffffff;
+  --c-text-muted: #e6e6e6;
+  --c-divider: #ffffff;
+  --c-accent: #ffb000;
+  --c-ghost: rgba(255, 255, 255, 0.7);
+}
+
+/* title-safe container: every overlay component is placed inside this box */
+.safe-area {
+  position: absolute;
+  inset: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}

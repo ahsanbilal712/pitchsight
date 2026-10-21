@@ -180,7 +180,9 @@ def test_score_bug_follows_goal_events(page, overlay_url, api_port, speed):
     page.goto(f"{overlay_url}?record=1&api=127.0.0.1:{api_port}")
     page.wait_for_function(READY, timeout=5000)
     control(api_port, action="seek", value=f"{target // 60000:02d}:{target // 1000 % 60:02d}")
-    page.wait_for_function(f"() => window.__whyline.debug().clock >= {target}", timeout=3000)
+    # a window, not ">=": the shared api may still be further on from an earlier test until the seek lands
+    page.wait_for_function(f"() => {{ const c = window.__whyline.debug().clock; return c >= {target} && c < {target + 3000}; }}",
+                           timeout=3000)
     assert page.get_by_test_id("score").inner_text().replace("\n", "") == before
     assert page.get_by_test_id("sb-home").inner_text() == "VER"
     assert page.get_by_test_id("sb-away").inner_text() == "IRO"

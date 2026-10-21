@@ -45,6 +45,13 @@ def studio_url():
 
 
 @pytest.fixture(scope="session")
+def fan_url():
+    server, url = _serve("fan")
+    yield url
+    server.shutdown()
+
+
+@pytest.fixture(scope="session")
 def browser():
     from playwright.sync_api import sync_playwright
 
