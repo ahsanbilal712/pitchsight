@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-035 Studio producer panel and demo controls (track C)
+
+- `apps/studio/src/components/{ProducerPanel,DemoControls}.tsx`: Approve / Veto / Hold on `request_info`, Veto on
+  any on-air cue, Kill newsroom, Pause/Play, x1/x2/x5/x10, seek mm:ss. Held requests stay pending (the api's studio
+  snapshot now drops only approved/vetoed requests).
+- Verification: `npm --prefix apps/studio run build && pytest tests/apps/test_studio_controls.py -q` 3 passed.
+  **Veto click → overlay lower-third leaving: 7 ms** (limit 200 ms, two pages, both stamped with Date.now()).
+  Decisions land in blackboard `decisions` (approved / vetoed / held); kill posts `{target: "newsroom"}`; x5 and
+  seek 52:30 reach the replay clock. The fan half of "overlay and fan" is checked when the fan app exists (T-043).
+  `tests/apps` + `tests/api`: 51 passed.
+
+---
+
 ## 2026-10-22 · T-034 Studio console core (track C)
 
 - `apps/studio/src/{App,api,league,main}.tsx|ts`, `stream/{StreamProvider.tsx,reducer.ts,types.ts}`,
