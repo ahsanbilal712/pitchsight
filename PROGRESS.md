@@ -5,6 +5,24 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-015 Outcome heads v0, T-016 rollout primitive (track A)
+
+- T-015 `packages/heads`: five heads on the first 200 training matches, split by match seed (rng 4242), test split:
+  xG ECE 0.040 / AUC 0.81, pass ECE 0.009, goal-in-8-s ECE 0.0004 / PR-AUC 0.24, win probability ECE 0.106
+  (only 20 test matches, one label each), chaos AUC 0.758. Reports only; T-025 gates on 2,000. Artefacts committed
+  (`*.txt`, `*.metrics.json`, `*.calibration.png`); missing artefacts raise at start-up.
+- T-016: engine tick vectorised (B=200: 13 → 1.4 ms per tick; golden hashes unchanged), `Engine.branch`,
+  `Override`, `rollout` → `Futures`, `sliding_doors` → schema-valid `CounterfactualResult`, `placebo`, `MatchRef`.
+  Idle Mac: B=200 × 90 s **1.265 s CPU** (≤ 1.3), × 60 s **0.845 s** (≤ 1.2). The perf test fails while the corpus
+  runs in the background (CPU contention); run it on an idle machine.
+- Placebo: forced actual action vs baseline worlds whose own first choice was that action, two-sample 95% interval
+  floored at ±0.005 (8-s futures barely move win probability, so raw intervals are ~1e-4). 7/7 golden moments pass;
+  without the floor 18/21 passed in a wider sample.
+- For track B (MCP, day 3): `from rollout import MatchRef, rollout, sliding_doors, option_probs` (see
+  `packages/rollout/README.md`). Run CLIs with `PYTHONPATH=packages`.
+
+---
+
 ## 2026-10-21 · T-013 Physics core, and hidden match regimes for T-014 (track A)
 
 - T-013 `packages/physics`: Spearman-style pitch control [34,53] (shares sum to 1, mirror test), indices, chaos
