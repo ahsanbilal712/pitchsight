@@ -2,8 +2,11 @@
 
 import os
 
-import lightgbm  # noqa: F401  (before any test imports torch: two libomp copies, torch first crashes LightGBM)
 import pytest
+
+# torch's libomp must load before LightGBM's, with OpenMP defaulting to one thread (packages/policy/__init__.py)
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+import torch  # noqa: E402, F401
 
 
 def pytest_collection_modifyitems(config, items):
