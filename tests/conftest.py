@@ -2,6 +2,7 @@
 
 import os
 
+import lightgbm  # noqa: F401  (before any test imports torch: two libomp copies, torch first crashes LightGBM)
 import pytest
 
 

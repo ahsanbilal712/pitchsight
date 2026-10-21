@@ -1,0 +1,24 @@
+{"config": {"batch_size": 256, "d_ff": 1024, "d_model": 256, "data_dir": "/Users/ahsanbilal/projects/football-hackathon/data/grf/dataset", "device": "mps", "dropout": 0.1, "epochs": 8, "label_smoothing": 0.05, "log_every": 200, "lr": 0.0003, "max_minutes": null, "max_steps_per_epoch": null, "n_heads": 8, "n_layers": 6, "name": "policy_v1", "out_dir": "/Users/ahsanbilal/projects/football-hackathon/packages/policy/artifacts", "seed": 4242, "val_max_samples": 200000, "warmup_steps": 1000, "weight_decay": 0.01}, "event": "start", "name": "policy_v1", "params": 5207821, "steps_per_epoch": 10793, "train_samples": 2763231, "val_samples": 200000}
+{"epoch": 1, "event": "step", "loss": 6.0512, "loss_carry": 2.1563, "loss_kind": 1.5974, "loss_pass": 2.2975, "lr": 6e-07, "samples_per_s": 176.1, "step": 0}
+{"epoch": 1, "event": "step", "loss": 3.7722, "loss_carry": 0.814, "loss_kind": 0.7571, "loss_pass": 2.2011, "lr": 6.0599999999999996e-05, "samples_per_s": 1315.3, "step": 200}
+{"epoch": 1, "event": "step", "loss": 3.7881, "loss_carry": 0.8687, "loss_kind": 0.7138, "loss_pass": 2.2055, "lr": 0.00012059999999999999, "samples_per_s": 1339.7, "step": 400}
+{"epoch": 1, "event": "step", "loss": 3.6419, "loss_carry": 0.6546, "loss_kind": 0.7683, "loss_pass": 2.219, "lr": 0.00018059999999999997, "samples_per_s": 1350.2, "step": 600}
+{"epoch": 1, "event": "step", "loss": 3.6185, "loss_carry": 0.7352, "loss_kind": 0.7072, "loss_pass": 2.1761, "lr": 0.0002406, "samples_per_s": 1351.2, "step": 800}
+{"epoch": 1, "event": "step", "loss": 3.5787, "loss_carry": 0.7302, "loss_kind": 0.6946, "loss_pass": 2.1539, "lr": 0.0002999999998983716, "samples_per_s": 1339.9, "step": 1000}
+{"epoch": 1, "event": "step", "loss": 3.5055, "loss_carry": 0.6651, "loss_kind": 0.6444, "loss_pass": 2.196, "lr": 0.0002999958941303811, "samples_per_s": 1337.9, "step": 1200}
+{"epoch": 1, "event": "step", "loss": 3.3876, "loss_carry": 0.5063, "loss_kind": 0.6989, "loss_pass": 2.1824, "lr": 0.0002999836583509218, "samples_per_s": 1334.1, "step": 1400}
+{"epoch": 1, "event": "step", "loss": 3.2534, "loss_carry": 0.5138, "loss_kind": 0.5814, "loss_pass": 2.1582, "lr": 0.00029996329322319186, "samples_per_s": 1324.6, "step": 1600}
+{"epoch": 1, "event": "step", "loss": 3.3763, "loss_carry": 0.49, "loss_kind": 0.6988, "loss_pass": 2.1875, "lr": 0.00029993479985101297, "samples_per_s": 1320.7, "step": 1800}
+{"epoch": 1, "event": "step", "loss": 3.2291, "loss_carry": 0.434, "loss_kind": 0.6109, "loss_pass": 2.1842, "lr": 0.0002998981797787704, "samples_per_s": 1315.7, "step": 2000}
+{"epoch": 1, "event": "step", "loss": 3.2912, "loss_carry": 0.5734, "loss_kind": 0.6441, "loss_pass": 2.0737, "lr": 0.00029985343499132924, "samples_per_s": 1303.4, "step": 2200}
+{"epoch": 1, "event": "step", "loss": 3.321, "loss_carry": 0.512, "loss_kind": 0.6492, "loss_pass": 2.1597, "lr": 0.0002998005679139267, "samples_per_s": 1299.4, "step": 2400}
+{"epoch": 1, "event": "step", "loss": 3.4602, "loss_carry": 0.6179, "loss_kind": 0.7197, "loss_pass": 2.1226, "lr": 0.0002997395814120409, "samples_per_s": 1289.4, "step": 2600}
+{"epoch": 1, "event": "step", "loss": 3.3372, "loss_carry": 0.5465, "loss_kind": 0.6161, "loss_pass": 2.1746, "lr": 0.0002996704787912353, "samples_per_s": 1290.2, "step": 2800}
+{"epoch": 1, "event": "step", "loss": 3.1685, "loss_carry": 0.4179, "loss_kind": 0.6231, "loss_pass": 2.1275, "lr": 0.00029959326379697994, "samples_per_s": 1288.7, "step": 3000}
+{"epoch": 1, "event": "step", "loss": 3.3561, "loss_carry": 0.578, "loss_kind": 0.6486, "loss_pass": 2.1294, "lr": 0.0002995079406144478, "samples_per_s": 1290.2, "step": 3200}
+{"epoch": 1, "event": "step", "loss": 3.197, "loss_carry": 0.38, "loss_kind": 0.6136, "loss_pass": 2.2033, "lr": 0.00029941451386828854, "samples_per_s": 1290.3, "step": 3400}
+{"epoch": 1, "event": "step", "loss": 3.3247, "loss_carry": 0.5633, "loss_kind": 0.6495, "loss_pass": 2.112, "lr": 0.0002993129886223775, "samples_per_s": 1291.3, "step": 3600}
+{"epoch": 1, "event": "step", "loss": 3.6459, "loss_carry": 0.7879, "loss_kind": 0.7128, "loss_pass": 2.1452, "lr": 0.0002992033703795415, "samples_per_s": 1291.8, "step": 3800}
+{"epoch": 1, "event": "step", "loss": 3.1469, "loss_carry": 0.3778, "loss_kind": 0.63, "loss_pass": 2.1391, "lr": 0.0002990856650812603, "samples_per_s": 1292.8, "step": 4000}
+{"epoch": 1, "event": "step", "loss": 3.5425, "loss_carry": 0.7642, "loss_kind": 0.6689, "loss_pass": 2.1094, "lr": 0.00029895987910734465, "samples_per_s": 1293.8, "step": 4200}
+{"epoch": 1, "event": "step", "loss": 3.5882, "loss_carry": 0.7665, "loss_kind": 0.6983, "loss_pass": 2.1234, "lr": 0.00029882601927559054, "samples_per_s": 1294.7, "step": 4400}
