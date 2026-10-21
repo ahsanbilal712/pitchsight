@@ -7,6 +7,7 @@ still-open event started earlier, so ids e_0001.. are monotonic in both id and t
 
 from __future__ import annotations
 
+import copy
 import heapq
 from dataclasses import dataclass, field
 
@@ -107,6 +108,18 @@ class EventLog:
 
     def is_open(self, ev: Event) -> bool:
         return ev.seq in self._open
+
+    def fork(self, world: int) -> tuple[EventLog, dict[int, Event]]:
+        """A new log for a branched world holding copies of this log's open events (released history is not
+        copied); returns the log and a map from old open-event seq to its copy."""
+        log = EventLog(world)
+        log._seq, log._next_idx = self._seq, self._next_idx
+        copies = {}
+        for seq, ev in self._open.items():
+            c = copy.copy(ev)
+            c.world, c.attrs, c.related = world, dict(ev.attrs), list(ev.related)
+            log._open[seq] = copies[seq] = c
+        return log, copies
 
     def has_ready(self) -> bool:
         return bool(self._ready)

@@ -64,6 +64,17 @@ def transition_share(window: TrackingWindow, after_s: float = TRANSITION_S, even
     return float(np.mean(since <= after_s * 1000))
 
 
+def transition_share_at(events: list[dict], t_ms: int, window_s: int = 60, after_s: float = TRANSITION_S) -> float:
+    """Share of the 1 s points in the last `window_s` seconds that fall within `after_s` of an open-play turnover
+    (events only, no tracking: the form the heads and the rollout context use)."""
+    turns = open_play_turnovers(events, t_ms - (window_s + 10) * 1000, t_ms)
+    if turns.size == 0:
+        return 0.0
+    grid_t = np.arange(t_ms - (window_s - 1) * 1000, t_ms + 1, 1000)
+    k = np.searchsorted(turns, grid_t, side="right") - 1
+    return float(np.mean(np.where(k >= 0, grid_t - turns[np.maximum(k, 0)], 10**9) <= after_s * 1000))
+
+
 def _holder_pressure(window: TrackingWindow) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Per frame with a holder: holder team, nearest-opponent distance, nearest opponent's closing speed."""
     held = np.flatnonzero(window.holder >= 0)

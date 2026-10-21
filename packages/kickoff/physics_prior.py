@@ -76,7 +76,7 @@ def segment_distance(px, py, ax, ay, bx, by):
     """Distance from points (px, py) to the segment a-b (broadcasts)."""
     dx, dy = bx - ax, by - ay
     seg2 = dx * dx + dy * dy
-    s = np.clip(((px - ax) * dx + (py - ay) * dy) / np.where(seg2 > 1e-9, seg2, 1.0), 0.0, 1.0)
+    s = np.minimum(np.maximum(((px - ax) * dx + (py - ay) * dy) / np.where(seg2 > 1e-9, seg2, 1.0), 0.0), 1.0)
     return np.hypot(px - (ax + s * dx), py - (ay + s * dy))
 
 

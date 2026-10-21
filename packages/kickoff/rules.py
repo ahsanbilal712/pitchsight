@@ -52,6 +52,7 @@ class DecisionBatch:
     momentum: np.ndarray     # [D] hidden momentum of the holder's team, -1..1
     restart: np.ndarray      # [D] FREE | PASS_ONLY | CROSS | PENALTY | KICK_OFF
     noise: np.ndarray        # [D, >= RULE_NOISE] uniforms in [0, 1)
+    force_act: np.ndarray | None = None   # [D] bool: release the ball this tick (rollout baselines decide now)
 
 
 @dataclass
@@ -62,6 +63,9 @@ class DecisionOut:
     lofted: np.ndarray       # [D] bool
     dir_u: np.ndarray        # [D] carry direction in team frame
     dir_v: np.ndarray
+    options: np.ndarray | None = None       # [D, 13] utilities: ten passes (slot order), shoot, clear
+    value_carry: np.ndarray | None = None   # [D] utility of carrying on
+    lofted_all: np.ndarray | None = None    # [D, 11] whether a pass to each slot would be lofted
 
 
 class DecisionModel(Protocol):
@@ -116,39 +120,41 @@ class ScriptedRule:
         value_shoot = np.where(dist0 < self.shot_range_m, self.shot_scale * xg(dist0, ang0, cone) * (1.0 + 0.25 * b.momentum), -np.inf)
         pressure = np.hypot(ou - u0[:, None], ov - v0[:, None]).min(axis=1)
         value_clear = np.where((u0 < 25.0) & (pressure < 2.5), 0.6 * loss, -np.inf)
-        value_carry = threat(np.minimum(u0 + 3.0, PITCH_L), v0) * np.clip(pressure / 4.0, 0.2, 1.0)
+        value_carry = threat(np.minimum(u0 + 3.0, PITCH_L), v0) * np.minimum(np.maximum(pressure / 4.0, 0.2), 1.0)
 
-        # restarts narrow the options
+        # restarts narrow the options (skipped when every world is in open play: nothing below would change)
         r = b.restart
-        value_shoot = np.where(np.isin(r, (PASS_ONLY, CROSS, KICK_OFF)), -np.inf, value_shoot)
-        value_shoot = np.where(r == PENALTY, 1.0, value_shoot)
-        value_clear = np.where(r != FREE, -np.inf, value_clear)
-        value_pass = np.where((r == PENALTY)[:, None], -np.inf, value_pass)
-        value_pass = np.where(((r == PASS_ONLY) | (r == KICK_OFF))[:, None] & (d > 30.0), -np.inf, value_pass)
-        value_pass = np.where((r == KICK_OFF)[:, None] & (mu > u0[:, None]), -np.inf, value_pass)
-        in_box = (mu > PITCH_L - 16.5) & (np.abs(mv - PITCH_W / 2) < 20.0)
-        value_pass = np.where((r == CROSS)[:, None] & ~in_box, -np.inf, value_pass)
-        lofted = np.where((r == CROSS)[:, None], True, lofted)
-
-        stuck = (r != FREE) & ~np.isfinite(value_pass).any(axis=1) & ~np.isfinite(value_shoot)
-        if stuck.any():                                    # a restart with no legal target: any pass will do
-            fallback = pc * gain - (1.0 - pc) * loss[:, None]
-            fallback[rows, b.holder] = -np.inf
-            value_pass = np.where(stuck[:, None], fallback, value_pass)
+        if np.any(r != FREE):
+            value_shoot = np.where((r == PASS_ONLY) | (r == CROSS) | (r == KICK_OFF), -np.inf, value_shoot)
+            value_shoot = np.where(r == PENALTY, 1.0, value_shoot)
+            value_clear = np.where(r != FREE, -np.inf, value_clear)
+            value_pass = np.where((r == PENALTY)[:, None], -np.inf, value_pass)
+            value_pass = np.where(((r == PASS_ONLY) | (r == KICK_OFF))[:, None] & (d > 30.0), -np.inf, value_pass)
+            value_pass = np.where((r == KICK_OFF)[:, None] & (mu > u0[:, None]), -np.inf, value_pass)
+            in_box = (mu > PITCH_L - 16.5) & (np.abs(mv - PITCH_W / 2) < 20.0)
+            value_pass = np.where((r == CROSS)[:, None] & ~in_box, -np.inf, value_pass)
+            lofted = np.where((r == CROSS)[:, None], True, lofted)
+            stuck = (r != FREE) & ~np.isfinite(value_pass).any(axis=1) & ~np.isfinite(value_shoot)
+            if stuck.any():                                    # a restart with no legal target: any pass will do
+                fallback = pc * gain - (1.0 - pc) * loss[:, None]
+                fallback[rows, b.holder] = -np.inf
+                value_pass = np.where(stuck[:, None], fallback, value_pass)
         options = np.concatenate([value_pass, value_shoot[:, None], value_clear[:, None]], axis=1)   # [D, 13]
         best = options.max(axis=1)
-        rate = (self.rate_base + self.rate_tempo * tempo) * (1.0 + 0.15 * b.momentum) * (1.0 + 1.5 * np.clip((3.0 - pressure) / 3.0, 0, 1))
+        rate = (self.rate_base + self.rate_tempo * tempo) * (1.0 + 0.15 * b.momentum) * (1.0 + 1.5 * np.minimum(np.maximum((3.0 - pressure) / 3.0, 0), 1))
         rate = np.where(b.holder == 0, rate * 0.6, rate)
         p_act = 1.0 - np.exp(-rate * _sigmoid((best - value_carry) / 0.01) * DT)
         act = (b.noise[:, 0] < p_act) | (r != FREE)
+        if b.force_act is not None:
+            act = act | b.force_act
         act &= np.isfinite(best)
 
-        gumbel = -np.log(-np.log(np.clip(b.noise[:, 1:14], 1e-9, 1 - 1e-9)))
+        gumbel = -np.log(-np.log(np.minimum(np.maximum(b.noise[:, 1:14], 1e-9), 1 - 1e-9)))
         choice = np.argmax(np.where(np.isfinite(options), options / self.temperature + gumbel, -np.inf), axis=1)
         kind = np.where(choice < 11, PASS, np.where(choice == 11, SHOOT, CLEAR))
         kind = np.where(act, kind, np.where(b.holder == 0, HOLD, CARRY))
         target = np.where(kind == PASS, choice, -1)
-        lofted_out = np.where(kind == PASS, lofted[rows, np.clip(choice, 0, 10)], kind == CLEAR)
+        lofted_out = np.where(kind == PASS, lofted[rows, np.minimum(choice, 10)], kind == CLEAR)
 
         # carry toward goal, bending away from the nearest opponent and the touchlines
         gu, gv = PITCH_L - u0, PITCH_W / 2 - v0
@@ -162,7 +168,16 @@ class ScriptedRule:
         dv = dv + np.where(v0 < 4.0, 0.6, 0.0) - np.where(v0 > PITCH_W - 4.0, 0.6, 0.0)
         dn = np.hypot(du, dv) + 1e-9
         return DecisionOut(act=act, kind=kind, target=target, lofted=lofted_out.astype(bool),
-                           dir_u=du / dn, dir_v=dv / dn)
+                           dir_u=du / dn, dir_v=dv / dn, options=options, value_carry=value_carry, lofted_all=lofted)
+
+    def option_probs(self, out: DecisionOut) -> np.ndarray:
+        """[D, 14] softmax of the rule's utilities over the ten passes (slot order), shoot, clear and carry, at the
+        rule's temperature: the probability scripted_v1 assigns to each alternative at a branch point."""
+        z = np.concatenate([out.options, out.value_carry[:, None]], axis=1) / self.temperature
+        z = np.where(np.isfinite(z), z, -np.inf)
+        z = z - z.max(axis=1, keepdims=True)
+        e = np.exp(z)
+        return e / e.sum(axis=1, keepdims=True)
 
     def decide(self, state, world: int = 0, noise: np.ndarray | None = None) -> Action:
         """Single-world decision from a kickoff State; noise defaults to a fixed row (deterministic)."""

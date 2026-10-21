@@ -33,7 +33,7 @@ from kickoff.physics_prior import (
     threat,
     to_team,
 )
-from physics.indices import chaos_index, open_play_turnovers, turnover_rate
+from physics.indices import chaos_index, open_play_turnovers, transition_share_at, turnover_rate
 from physics.pitch_control import control_at, grid, pitch_control
 
 FEATURE_VERSION = "f1"
@@ -202,7 +202,7 @@ def state_features(S: np.ndarray, ball_z: np.ndarray, holder: np.ndarray, team: 
     return pd.DataFrame(rows, columns=GOAL8_FEATURES)
 
 
-def _xt_xg_15(events: list[dict], t_ms: int) -> tuple[float, float]:
+def xt_xg_15(events: list[dict], t_ms: int) -> tuple[float, float]:
     """Home minus away over the last 15 minutes: expected threat added by completed passes, and shot xG."""
     xt, xgd = 0.0, 0.0
     for e in events:
@@ -244,13 +244,7 @@ def state_rows(m: Match, step_s: int = 2, winprob_every_s: int = 30) -> tuple[li
         S = s["S"][i].astype(np.float64)
         pc = pcs[j]
         rate = turnover_rate(m.events, ti)
-        recent = turn_t[(turn_t <= ti) & (turn_t > ti - 70_000)]
-        grid_t = np.arange(ti - 59_000, ti + 1, 1000)
-        if recent.size:
-            k = np.searchsorted(recent, grid_t, side="right") - 1
-            trans = float(np.mean(np.where(k >= 0, grid_t - recent[np.maximum(k, 0)], 10**9) <= 10_000))
-        else:
-            trans = 0.0
+        trans = transition_share_at(m.events, ti)
         h = int(s["holder"][i])
         if h >= 0:
             opp = _rows(1 - (h >= 11))
@@ -273,7 +267,7 @@ def state_rows(m: Match, step_s: int = 2, winprob_every_s: int = 30) -> tuple[li
             "label": int(any(ti < ht <= ti + CHAOS_HORIZON_MS and hteam == other for ht, hteam in handover)),
         })
         if ti % (winprob_every_s * 1000) == 0:
-            xt, xgd = _xt_xg_15(m.events, ti)
+            xt, xgd = xt_xg_15(m.events, ti)
             score = s["score"][i]
             wp_rows.append({
                 "seed": m.seed, "t_ms": ti, "score_diff": int(score[0]) - int(score[1]), "minute": ti / 60000.0,

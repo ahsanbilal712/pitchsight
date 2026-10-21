@@ -12,12 +12,13 @@ State rows: 0-10 home, 11-21 away, 22 ball; columns x, y, vx, vy, stamina, facin
 
 from __future__ import annotations
 
+import copy
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 
-from .errors import EngineError
+from .errors import BranchError, EngineError
 from .events import TEAM_NAMES, Event, EventLog
 from .league import SLOTS, STYLE_KEYS, League
 from .physics_prior import (
@@ -62,6 +63,7 @@ from .rules import (
     PASS_ONLY,
     PENALTY,
     SHOOT,
+    Action,
     DecisionBatch,
     ScriptedRule,
 )
@@ -102,6 +104,10 @@ RESTART_DELAY_ARR = np.array([RESTART_DELAY_MS[k] for k in ("kick_off", "throw_i
 RESTART_FLAG = {"kick_off": KICK_OFF, "throw_in": PASS_ONLY, "goal_kick": FREE, "corner": CROSS, "free_kick": FREE,
                 "penalty": PENALTY}
 SIDES = ("H", "A")
+TEAM_ROWS = (np.arange(0, 11), np.arange(11, 22))
+TEAM_ORDER = np.array([np.r_[0:22], np.r_[11:22, 0:11]])     # a team's rows first, then its opponents'
+MOVE_HI = np.array([PITCH_L + 3.0, PITCH_W + 3.0])
+KIND_CODE = {"pass": PASS, "carry": CARRY, "shoot": SHOOT, "clear": CLEAR, "hold": HOLD}
 NOISE_BLOCK = 64                          # ticks of noise drawn per world at once
 # Realism knobs, tuned on seeds 1-50 against TECH_PLAN 1.4 (T-014).
 LINE_IN_POSS, LINE_OUT_POSS = 6.0, 10.0   # metres the defensive line moves up per unit of line_height
@@ -126,6 +132,7 @@ class State:
     period: int
     attack_dir: int          # +1 when home attacks +x
     styles: dict             # effective styles of world 0 {"home": {...}, "away": {...}}
+    source: Engine | None = None   # a one-world fork of the engine at this state (set by Engine.snapshot_state)
 
 
 @dataclass
@@ -137,6 +144,13 @@ class MatchRecord:
 
 
 RESTART_KINDS = ("kick_off", "throw_in", "goal_kick", "corner", "free_kick", "penalty")
+
+
+@dataclass
+class Override:
+    """What a branch changes: the first on-ball action and/or team style deltas ({"home": {"press_height": 0.15}})."""
+    first_action: Action | None = None
+    styles: dict[str, dict[str, float]] | None = field(default=None)
 
 
 class _WorldArrays:
@@ -181,6 +195,20 @@ class _World:
         self.phases: list[dict] = []
         self.momentum: np.ndarray = np.zeros((2, 91))
         self.jitter: np.ndarray = np.zeros((2, 5))
+
+    def fork(self, b: int, seed: int, arrays: _WorldArrays) -> _World:
+        """Copy of this world's discrete state as world b of a branched engine, with generator default_rng(seed + b)."""
+        w = _World.__new__(_World)
+        w.__dict__.update(self.__dict__)
+        w.b, w.a, w.rng = b, arrays, np.random.default_rng(seed + b)
+        w.log, copies = self.log.fork(b)
+        for name in ("carry", "pressure", "pass_ev", "shot_ev"):
+            ev = getattr(self, name)
+            setattr(w, name, None if ev is None else copies.get(ev.seq, ev))
+        w.booked, w.subs, w.subs_used = set(self.booked), list(self.subs), list(self.subs_used)
+        w.row_ids, w.bench = list(self.row_ids), [list(x) for x in self.bench]
+        w.tackle_cooldown, w.sub_log = dict(self.tackle_cooldown), list(self.sub_log)
+        return w
 
     @property
     def pass_target(self) -> tuple[int, float, float] | None:
@@ -234,6 +262,7 @@ class Engine:
         if batch < 1:
             raise ValueError("batch must be >= 1")
         self.league, self.home, self.away, self.seed, self.B = league, home, away, int(seed), int(batch)
+        self.styles_arg = styles
         self.model = decision_model if decision_model is not None else ScriptedRule()
         self.match_id = f"m_{self.seed}"
         base = {0: dict(league.styles[home]), 1: dict(league.styles[away])}
@@ -263,6 +292,11 @@ class Engine:
         self.eff_styles = np.zeros((B, 2, 5))
         self.mom = np.zeros((B, 2))
         self.intensity = np.ones(B)
+        self.shots = np.zeros((B, 2), dtype=np.int64)         # shots taken, for rollout futures
+        self.force: dict | None = None                        # forced first action of a branch (rollouts)
+        self.force_pending = np.zeros(B, dtype=bool)
+        self.first_kind = np.full(B, -1, dtype=np.int64)       # a branch's first decision per world (kind, team slot)
+        self.first_target = np.full(B, -1, dtype=np.int64)
         self.t_ms = 0
         self.period = 1
         self.finished = False
@@ -359,7 +393,7 @@ class Engine:
 
     def _team_frame(self, b: int, team: int) -> tuple[np.ndarray, np.ndarray]:
         """Positions of all 22 players in `team`'s frame, team first then opponents."""
-        order = np.r_[np.arange(11 * team, 11 * team + 11), np.arange(11 * (1 - team), 11 * (1 - team) + 11)]
+        order = TEAM_ORDER[team]
         return to_team(self.S[b, order, 0], self.S[b, order, 1], self.team_dir(team))
 
     def _pos(self, b: int, row: int) -> list[float]:
@@ -372,7 +406,7 @@ class Engine:
 
     def _nearest_opponent(self, b: int, row: int) -> tuple[int, float]:
         team = self.team_of(row)
-        opp = np.arange(11 * (1 - team), 11 * (1 - team) + 11)
+        opp = TEAM_ROWS[1 - team]
         d = np.hypot(self.S[b, opp, 0] - self.S[b, row, 0], self.S[b, opp, 1] - self.S[b, row, 1])
         k = int(np.argmin(d))
         return int(opp[k]), float(d[k])
@@ -528,7 +562,7 @@ class Engine:
         self._move_ball()
         for b in np.flatnonzero(self._resolve_due()):
             self._resolve_ball(self.worlds[b], noise[b])
-        for b in np.flatnonzero(self._duel_due()):
+        for b in np.flatnonzero(self._duel_due(noise)):
             self._duels(self.worlds[b], noise[b])
         self._bookkeeping()
 
@@ -589,7 +623,7 @@ class Engine:
         loose_due = (self.flight == 2) | ok.any(axis=1) | out_loose
         return live & np.where(held, out_held, loose_due)
 
-    def _duel_due(self) -> np.ndarray:
+    def _duel_due(self, noise: np.ndarray) -> np.ndarray:
         eps = 1e-6
         due = (~self.dead) & (self.holder >= 0)
         idx = np.flatnonzero(due)
@@ -600,16 +634,19 @@ class Engine:
         opp = np.where(team[:, None] == 0, np.arange(11, 22)[None, :], np.arange(0, 11)[None, :])
         Sb = self.S[idx]
         hx, hy = Sb[np.arange(idx.size), h, 0], Sb[np.arange(idx.size), h, 1]
-        ox = np.take_along_axis(Sb[:, :22, 0], opp, axis=1)
-        oy = np.take_along_axis(Sb[:, :22, 1], opp, axis=1)
+        ni = np.arange(idx.size)[:, None]
+        ox, oy = Sb[ni, opp, 0], Sb[ni, opp, 1]
         dd = np.hypot(ox - hx[:, None], oy - hy[:, None])
         k = opp[np.arange(idx.size), np.argmin(dd, axis=1)]
         dist = dd.min(axis=1)
         prow = self.wa.pressure_row[idx]
         open_ = prow >= 0
         settled = self.t_ms - self.control_since[idx] >= 200
+        rate = TACKLE_RATE * np.minimum(self.intensity[idx], TACKLE_INTENSITY_CAP) \
+            * (0.6 + TACKLE_PRESS * self.eff_styles[idx, 1 - team, 0])
+        tackle = (dist < TACKLE_R + eps) & (k % 11 != 0) & (noise[idx, N_TACKLE] < 1.0 - np.exp(-rate * DT) + eps)
         need = (open_ & ((dist > PRESSURE_R + 1.0 - eps) | (prow != k))) \
-            | ((~open_) & (dist < PRESSURE_R + eps) & settled) | (dist < TACKLE_R + eps)
+            | ((~open_) & (dist < PRESSURE_R + eps) & settled) | tackle
         out = np.zeros_like(due)
         out[idx[need]] = True
         return out
@@ -621,6 +658,90 @@ class Engine:
                      holder=self.holder.astype(np.int16), possession=self.possession.astype(np.int8),
                      score=self.score.astype(np.int16), t_ms=self.t_ms, period=self.period,
                      attack_dir=self.home_dir, styles=styles)
+
+    # ------------------------------------------------------------------ branching (TECH_PLAN 1.5)
+    PER_WORLD = ("S", "ball_z", "ball_vz", "holder", "possession", "score", "control_since", "latency", "restart_flag",
+                 "dead", "flight", "kicker", "kick_t", "last_touch", "carry_dir", "mode", "eff_styles", "mom",
+                 "intensity", "shots", "force_pending", "first_kind", "first_target")
+
+    def _fork(self, batch: int, seed: int, world: int = 0) -> Engine:
+        """`batch` copies of world `world` at the current tick; world b draws from default_rng(seed + b)."""
+        new = copy.copy(self)
+        new.B = int(batch)
+        for name in self.PER_WORLD:
+            setattr(new, name, np.repeat(getattr(self, name)[world:world + 1], batch, axis=0).copy())
+        new.wa = _WorldArrays(batch)
+        for name, arr in vars(self.wa).items():
+            setattr(new.wa, name, np.repeat(arr[world:world + 1], batch, axis=0).copy())
+        new.worlds = [self.worlds[world].fork(b, seed, new.wa) for b in range(batch)]
+        new._noise = np.zeros((batch, NOISE_BLOCK, N_NOISE))
+        new._noise_i = NOISE_BLOCK
+        new.record_events = False
+        new.force = None
+        new.base_styles = self.base_styles.copy()
+        return new
+
+    def _at(self, t_ms: int) -> Engine:
+        """This match (world 0) at t_ms: this engine if it is there, a deep copy run forward, or a re-simulation
+        from kick-off for a past time. Never reads truth.json."""
+        if t_ms % TICK_MS or not 0 <= t_ms <= MATCH_MS:
+            raise ValueError(f"t_ms {t_ms} is not a tick of the match")
+        if t_ms == self.t_ms:
+            return self
+        if t_ms > self.t_ms and self.B == 1:
+            eng = copy.deepcopy(self)
+        else:
+            eng = Engine(self.league, self.home, self.away, self.seed, 1, self.model, self.styles_arg)
+        eng.record_events = False
+        while eng.t_ms < t_ms:
+            eng.step()
+        return eng
+
+    def snapshot_state(self, world: int = 0) -> State:
+        """State of one world with `source` set to a one-world fork, so rollouts can branch from it later."""
+        src = self._fork(1, self.seed, world)
+        st = src.state()
+        st.source = src
+        return st
+
+    def branch(self, t_ms: int, batch: int, override: Override | None, seed: int | None = None,
+               decide_now: bool = False) -> Engine:
+        """Clone the match at t_ms into `batch` worlds. With `override.first_action`, the player in control makes that
+        decision on the first tick in every world; with `decide_now`, he makes the decision model's choice on the first
+        tick (an unforced baseline at a decision point). `override.styles` shifts a team's style profile."""
+        src = self._at(t_ms)
+        new = src._fork(batch, src.seed if seed is None else seed)
+        if override is not None and override.styles:
+            for key, delta in override.styles.items():
+                team = 0 if key in ("home", 0, self.home) else 1
+                for k, v in delta.items():
+                    new.base_styles[team, STYLE_KEYS.index(k)] += float(v)
+            new._update_truth_effects()
+        action = override.first_action if override is not None else None
+        if action is not None or decide_now:
+            row = int(new.holder[0])
+            if row < 0 or new.dead[0]:
+                raise BranchError("no player is in control of the ball at the branch point")
+            if action is not None:
+                self._validate(new, row, action)
+            new.force = {"row": row, "action": action}
+            new.force_pending[:] = True
+        return new
+
+    def _validate(self, eng: Engine, row: int, action: Action) -> None:
+        team = self.team_of(row)
+        if action.kind not in KIND_CODE:
+            raise BranchError(f"unknown action kind {action.kind}")
+        if action.kind == "pass":
+            if action.target is None or not 0 <= int(action.target) <= 10 or 11 * team + int(action.target) == row:
+                raise BranchError("pass needs a team-mate slot 0-10 other than the passer")
+            U, _ = eng._team_frame(0, team)
+            line = max(float(np.sort(U[11:])[-2]), float(U[row - 11 * team]), PITCH_L / 2)
+            exempt = eng.worlds[0].first_touch_restart in ("throw_in", "goal_kick", "corner", "kick_off")
+            if not exempt and int(action.target) != 0 and float(U[int(action.target)]) > line:
+                raise BranchError("target offside")
+        if action.kind == "carry" and action.direction is None:
+            raise BranchError("carry needs a direction")
 
     def play(self, until_ms: int | None = None) -> MatchRecord:
         """Run world 0 to `until_ms` (default: full time) and return its events, 10 Hz tracking and truth."""
@@ -671,28 +792,46 @@ class Engine:
 
     def _decide(self, noise: np.ndarray) -> None:
         need = (~self.dead) & (self.holder >= 0) & (self.t_ms - self.control_since >= self.latency)
+        forced = np.zeros(self.B, dtype=bool)
+        if self.force is not None:                 # a branch's first decision happens on its first tick
+            forced = self.force_pending & (~self.dead) & (self.holder == self.force["row"])
+            need |= forced
+            self.force_pending[:] = False
         idx = np.flatnonzero(need)
         if idx.size == 0:
             return
         h = self.holder[idx]
         team = (h >= 11).astype(np.int64)
-        order = np.where(team[:, None] == 0, np.arange(22)[None, :], np.r_[np.arange(11, 22), np.arange(0, 11)][None, :])
+        order = TEAM_ORDER[team]
         d = np.where(team == 0, self.home_dir, -self.home_dir)                 # team_dir(team) per world
-        X = np.take_along_axis(self.S[idx, :22, 0], order, axis=1)
-        Y = np.take_along_axis(self.S[idx, :22, 1], order, axis=1)
+        X = self.S[idx[:, None], order, 0]
+        Y = self.S[idx[:, None], order, 1]
         U = np.where(d[:, None] > 0, X, PITCH_L - X)
         V = np.where(d[:, None] > 0, Y, PITCH_W - Y)
+        f = forced[idx]
         out = self.model.decide_batch(DecisionBatch(U=U, V=V, holder=h - 11 * team, styles=self.eff_styles[idx, team],
                                                     momentum=self.mom[idx, team], restart=self.restart_flag[idx],
-                                                    noise=noise[idx]))
-        kind = np.asarray(out.kind)
+                                                    noise=noise[idx], force_act=f if f.any() else None))
+        kind = np.asarray(out.kind).copy()
+        target = np.asarray(out.target).copy()
+        lofted = np.asarray(out.lofted).copy()
+        carry_dir = np.stack([out.dir_u * d, out.dir_v * d], axis=1)
+        action = self.force.get("action") if self.force is not None else None
+        if action is not None and f.any():          # the alternative replaces the model's first decision
+            kind[f] = KIND_CODE[action.kind]
+            target[f] = -1 if action.target is None else int(action.target)
+            lofted[f] = bool(action.lofted)
+            if action.direction is not None:
+                carry_dir[f] = np.asarray(action.direction, dtype=float) / max(math.hypot(*action.direction), 1e-9)
+        if f.any():
+            self.first_kind[idx[f]], self.first_target[idx[f]] = kind[f], target[f]
         self.mode[idx] = kind
-        self.carry_dir[idx] = np.stack([out.dir_u * d, out.dir_v * d], axis=1)
-        for i in np.flatnonzero(np.isin(kind, (PASS, SHOOT, CLEAR))):
+        self.carry_dir[idx] = carry_dir
+        for i in np.flatnonzero((kind == PASS) | (kind == SHOOT) | (kind == CLEAR)):
             b, hb, tb = int(idx[i]), int(h[i]), int(team[i])
             w = self.worlds[b]
             if kind[i] == PASS:
-                self._kick_pass(w, hb, 11 * tb + int(out.target[i]), bool(out.lofted[i]), noise[b])
+                self._kick_pass(w, hb, 11 * tb + int(target[i]), bool(lofted[i]), noise[b])
             elif kind[i] == SHOOT:
                 self._kick_shot(w, hb, noise[b])
             else:
@@ -720,8 +859,8 @@ class Engine:
         tx, ty = self.S[b, target, 0], self.S[b, target, 1]
         dist0 = math.hypot(tx - x0, ty - y0)
         lead = dist0 / 16.0
-        px = float(np.clip(tx + self.S[b, target, 2] * lead, 0.5, PITCH_L - 0.5))
-        py = float(np.clip(ty + self.S[b, target, 3] * lead, 0.5, PITCH_W - 0.5))
+        px = float(min(max(tx + self.S[b, target, 2] * lead, 0.5), PITCH_L - 0.5))
+        py = float(min(max(ty + self.S[b, target, 3] * lead, 0.5), PITCH_W - 0.5))
         dist = max(math.hypot(px - x0, py - y0), 1.0)
         _, opp_d = self._nearest_opponent(b, row)
         U, V = self._team_frame(b, team)
@@ -738,7 +877,7 @@ class Engine:
             ev.related.append(w.carry)
         exempt = self._release(w, row)
         if not exempt and target != 11 * team and tu > line:
-            opp_rows = np.arange(11 * (1 - team), 11 * (1 - team) + 11)
+            opp_rows = TEAM_ROWS[1 - team]
             Uo, _ = to_team(self.S[b, opp_rows, 0], self.S[b, opp_rows, 1], d)
             last_def = int(opp_rows[np.argsort(Uo, kind="stable")[-2]])
             ev.outcome = "incomplete"
@@ -783,7 +922,7 @@ class Engine:
         elif outcome == "saved":
             tu, tv = PITCH_L + 0.6, float(np.clip(gkv + (aim - 0.5) * 1.4, GOAL_Y - GOAL_HALF + 0.3, GOAL_Y + GOAL_HALF - 0.3))
         elif outcome == "blocked":
-            opp_rows = np.arange(11 * (1 - team), 11 * (1 - team) + 11)
+            opp_rows = TEAM_ROWS[1 - team]
             Uo, Vo = to_team(self.S[b, opp_rows, 0], self.S[b, opp_rows, 1], d)
             ahead = np.where(Uo > u0, np.hypot(Uo - u0, Vo - v0), np.inf)
             ahead[0] = np.inf
@@ -809,6 +948,7 @@ class Engine:
             w.shot_ev.related.append(w.carry)
         self._release(w, row)
         w.shot_outcome, w.shot_blocker = outcome, blocker
+        self.shots[b, team] += 1
         self.S[b, 22, 2:4] = [speed * math.cos(heading), speed * math.sin(heading)]
         self.ball_vz[b] = 1.2 if outcome != "off_target" or aim < 0.8 else 3.5
         self.flight[b] = 2
@@ -834,39 +974,38 @@ class Engine:
         self.flight[b] = 3
 
     def _move_players(self) -> None:
+        """Formation targets for both teams at once ([B, 2, 11]: axis 1 is the team, each in its own frame)."""
         S, B = self.S, self.B
-        targets = np.zeros((B, 22, 2))
-        vmax = np.zeros((B, 22))
         bx, by = S[:, 22, 0], S[:, 22, 1]
-        for team in (0, 1):
-            d = self.team_dir(team)
-            rows = slice(11 * team, 11 * team + 11)
-            bu, bv = to_team(bx, by, d)
-            styles = self.eff_styles[:, team]
-            in_poss = self.possession == team
-            line = np.where(in_poss, np.clip(bu - 32 + LINE_IN_POSS * styles[:, 4], 12, 58),
-                            np.clip(bu - 28 + LINE_OUT_POSS * styles[:, 4] - 6 * (1 - styles[:, 0]), 6, 45))
-            wscale = np.where(in_poss, 0.85 + 0.35 * styles[:, 2], 0.6 + 0.15 * styles[:, 2])
-            u = line[:, None] + SLOT_U[None, :]
-            v = GOAL_Y + (SLOT_V[None, :] - GOAL_Y) * wscale[:, None] + 0.3 * (bv[:, None] - GOAL_Y)
-            opp = slice(11 * (1 - team), 11 * (1 - team) + 11)
-            ou, _ = to_team(S[:, opp, 0], S[:, opp, 1], d)
-            offside_line = np.maximum(np.sort(ou, axis=1)[:, -2], bu)
-            # forwards time their runs: each drifts up to RUN_AMP_M either side of the line on a 7 s cycle
-            run = RUN_AMP_M * np.sin(2 * np.pi * self.t_ms / 7000.0 + np.array([0.0, 2.1, 4.2]))
-            # and push up onto that line when it is within FWD_REACH_M of the ball
-            cap = offside_line[:, None] - 0.3 + run[None, :]
-            push = np.where(cap < bu[:, None] + FWD_REACH_M, cap, u[:, 8:])
-            u[:, 8:] = np.where(in_poss[:, None], np.minimum(np.maximum(u[:, 8:], push), cap), u[:, 8:])
-            u[:, 0] = np.clip(4.0 + 0.08 * bu, 3.0, 14.0)
-            v[:, 0] = GOAL_Y + 0.25 * (bv - GOAL_Y)
-            u, v = np.clip(u, 1.0, PITCH_L - 1.0), np.clip(v, 1.5, PITCH_W - 1.5)
-            kick_off = self.dead & (self.wa.restart_code == 0)
-            u = np.where(kick_off[:, None], np.minimum(u, 49.0), u)
-            x, y = to_team(u, v, d)
-            targets[:, rows, 0], targets[:, rows, 1] = x, y
-            stam = 0.85 + 0.15 * S[:, rows, 4]
-            vmax[:, rows] = np.where(self.dead[:, None], 0.75 * JOG, 5.0) * stam
+        pos_dir = np.array([self.home_dir > 0, self.home_dir < 0])                     # team attacks +x
+        bu = np.where(pos_dir[None, :], bx[:, None], PITCH_L - bx[:, None])             # [B, 2]
+        bv = np.where(pos_dir[None, :], by[:, None], PITCH_W - by[:, None])
+        styles = self.eff_styles                                                       # [B, 2, 5]
+        in_poss = self.possession[:, None] == np.array([0, 1])[None, :]
+        line = np.where(in_poss, np.minimum(np.maximum(bu - 32 + LINE_IN_POSS * styles[..., 4], 12), 58),
+                        np.minimum(np.maximum(bu - 28 + LINE_OUT_POSS * styles[..., 4] - 6 * (1 - styles[..., 0]), 6), 45))
+        wscale = np.where(in_poss, 0.85 + 0.35 * styles[..., 2], 0.6 + 0.15 * styles[..., 2])
+        u = line[..., None] + SLOT_U
+        v = GOAL_Y + (SLOT_V - GOAL_Y) * wscale[..., None] + 0.3 * (bv[..., None] - GOAL_Y)
+        opp_x = np.stack([S[:, 11:22, 0], S[:, 0:11, 0]], axis=1)                         # each team's opponents
+        ou = np.where(pos_dir[None, :, None], opp_x, PITCH_L - opp_x)
+        offside_line = np.maximum(np.sort(ou, axis=2)[..., -2], bu)
+        # forwards time their runs: each drifts up to RUN_AMP_M either side of the line on a 7 s cycle
+        run = RUN_AMP_M * np.sin(2 * np.pi * self.t_ms / 7000.0 + np.array([0.0, 2.1, 4.2]))
+        # and push up onto that line when it is within FWD_REACH_M of the ball
+        cap = offside_line[..., None] - 0.3 + run
+        push = np.where(cap < bu[..., None] + FWD_REACH_M, cap, u[..., 8:])
+        u[..., 8:] = np.where(in_poss[..., None], np.minimum(np.maximum(u[..., 8:], push), cap), u[..., 8:])
+        u[..., 0] = np.minimum(np.maximum(4.0 + 0.08 * bu, 3.0), 14.0)
+        v[..., 0] = GOAL_Y + 0.25 * (bv - GOAL_Y)
+        u, v = np.minimum(np.maximum(u, 1.0), PITCH_L - 1.0), np.minimum(np.maximum(v, 1.5), PITCH_W - 1.5)
+        kick_off = self.dead & (self.wa.restart_code == 0)
+        u = np.where(kick_off[:, None, None], np.minimum(u, 49.0), u)
+        x = np.where(pos_dir[None, :, None], u, PITCH_L - u)
+        y = np.where(pos_dir[None, :, None], v, PITCH_W - v)
+        targets = np.stack([x.reshape(B, 22), y.reshape(B, 22)], axis=2)
+        stam = 0.85 + 0.15 * S[:, :22, 4]
+        vmax = np.where(self.dead[:, None], 0.75 * JOG, 5.0) * stam
         self._special_targets_all(targets, vmax)
         pos = S[:, :22, 0:2]
         vel = S[:, :22, 2:4]
@@ -879,7 +1018,7 @@ class Engine:
         dv *= np.minimum(1.0, ACCEL * DT / np.maximum(dvn, 1e-9))[..., None]
         vel = vel + dv
         S[:, :22, 2:4] = vel
-        S[:, :22, 0:2] = np.clip(pos + vel * DT, [-3.0, -3.0], [PITCH_L + 3.0, PITCH_W + 3.0])
+        S[:, :22, 0:2] = np.minimum(np.maximum(pos + vel * DT, -3.0), MOVE_HI)
 
     def _special_targets_all(self, targets: np.ndarray, vmax: np.ndarray) -> None:
         """Vectorised `_special_targets` for every world (same values, same overwrite order)."""
@@ -899,13 +1038,13 @@ class Engine:
             opp = np.where(team[:, None] == 0, np.arange(11, 22)[None, :], np.arange(0, 11)[None, :])   # [n, 11]
             Sb = S[idx]
             hpos = Sb[n, h, 0:2]
-            ox, oy = np.take_along_axis(Sb[:, :22, 0], opp, axis=1), np.take_along_axis(Sb[:, :22, 1], opp, axis=1)
+            ox, oy = Sb[n[:, None], opp, 0], Sb[n[:, None], opp, 1]
             near = np.hypot(ox - hpos[:, 0:1], oy - hpos[:, 1:2]).min(axis=1)
             speed = np.where(self.mode[idx] == HOLD, 0.0, np.where(near < PRESSURE_R, 3.5, 5.0))
             targets[idx, h] = hpos + self.carry_dir[idx] * speed[:, None]
             vmax[idx, h] = speed * (0.85 + 0.15 * Sb[n, h, 4])
             d = np.hypot(ox - bx[idx, None], oy - by[idx, None])
-            order = np.take_along_axis(opp, np.argsort(d, axis=1, kind="stable"), axis=1)
+            order = opp[n[:, None], np.argsort(d, axis=1, kind="stable")]
             def_dir = np.where(team == 0, -self.home_dir, self.home_dir)          # team_dir(1 - team)
             du = np.where(def_dir > 0, bx[idx], PITCH_L - bx[idx])
             press_zone = 40.0 + 50.0 * self.eff_styles[idx, 1 - team, 0]
@@ -921,7 +1060,8 @@ class Engine:
         idx = np.flatnonzero(~self.dead & (self.holder < 0))
         if idx.size == 0:
             return
-        vx, vy = S[idx, 22, 2], S[idx, 22, 3]
+        Sf = S[idx]
+        vx, vy = Sf[:, 22, 2], Sf[:, 22, 3]
         ahead = np.stack([bx[idx] + vx * 0.6, by[idx] + vy * 0.6], axis=1)
         p = (self.flight[idx] == 1) & (a.pass_tgt[idx] >= 0)
         tgt = a.pass_tgt[idx[p]]
@@ -939,7 +1079,7 @@ class Engine:
             targets[jb, rb] = np.stack([bx[jb], by[jb]], axis=1)
             vmax[jb, rb] = sprint[jb, rb]
             rows = np.arange(11 * team, 11 * team + 11)
-            d = np.hypot(S[idx][:, rows, 0] - ahead[:, 0:1], S[idx][:, rows, 1] - ahead[:, 1:2])
+            d = np.hypot(Sf[:, rows, 0] - ahead[:, 0:1], Sf[:, rows, 1] - ahead[:, 1:2])
             d[:, 0] += 15.0
             k = rows[np.argmin(d, axis=1)]
             go = ~shot & ~((k == kicker) & (self.t_ms - self.kick_t[idx] < 500))
@@ -1012,8 +1152,8 @@ class Engine:
         self._check_out(w, bx, by, z)
 
     def _in_own_box(self, keeper: int, x: float, y: float) -> bool:
-        team = self.team_of(keeper)
-        u, v = to_team(np.float64(x), np.float64(y), self.team_dir(team))
+        pos = self.team_dir(self.team_of(keeper)) > 0
+        u, v = (x, y) if pos else (PITCH_L - x, PITCH_W - y)
         return bool(u <= BOX_DEPTH and abs(v - GOAL_Y) <= BOX_HALF)
 
     def _gain_ball(self, w: _World, row: int, kicker_team: int) -> None:
@@ -1135,7 +1275,7 @@ class Engine:
         S[:, :22, 4] = np.maximum(0.0, S[:, :22, 4] - STAMINA_COST * sp * sp)
         moving = sp > 0.5
         S[:, :22, 5] = np.where(moving, np.arctan2(S[:, :22, 3], S[:, :22, 2]), S[:, :22, 5])
-        if not np.isfinite(S).all() or not np.isfinite(self.ball_z).all():
+        if not np.isfinite(S.sum() + self.ball_z.sum()):        # any NaN or inf makes the sum non-finite
             raise EngineError(f"non-finite state at t_ms={self.t_ms} (seed {self.seed})")
 
 
