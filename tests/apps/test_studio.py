@@ -48,6 +48,7 @@ def seed_newsroom(bb) -> None:
         ("proposer", "gemini-3.8-flash", 1420, 2100, 180, True, "ok"),
         ("tactician", "gemini-4-argon", 5200, 9100, 640, False, "cache_miss"),
         ("narrator", "gemini-3.8-flash", 0, 0, 0, None, "interrupted"),
+        ("panel", None, 48, 0, 0, None, "error"),
     ]:
         bb.put("traces", {**run, "executor": executor, "model": model, "latency_ms": latency, "tokens_in": tin,
                           "tokens_out": tout, "cache_hit": hit, "status": status, "started_ms": 0})
@@ -68,12 +69,13 @@ def studio(page, studio_url, api_server):
 def test_trace_rows_show_fields_and_red_for_miss_or_interrupted(studio, out_dir):
     rows = studio.locator("[data-testid=agent-trace] tbody tr")
     rows.first.wait_for(timeout=3000)
-    studio.wait_for_function("() => document.querySelectorAll('[data-testid=agent-trace] tbody tr').length >= 4")
+    studio.wait_for_function("() => document.querySelectorAll('[data-testid=agent-trace] tbody tr').length >= 5")
     tactician = studio.locator("[data-testid=agent-trace] tr[data-executor=tactician]")
     cells = tactician.locator("td").all_inner_texts()
     assert cells == ["mo_00077", "tactician", "gemini-4-argon", "5200 ms", "9100 / 640", "miss", "cache_miss"]
     assert "red" in tactician.get_attribute("class")
     assert "red" in studio.locator("tr[data-executor=narrator]").get_attribute("class")
+    assert "red" in studio.locator("tr[data-executor=panel]").get_attribute("class")
     assert studio.locator("tr[data-executor=proposer]").get_attribute("class") is None
     assert studio.locator("tr[data-executor=proposer] td").nth(5).inner_text() == "hit"
     studio.screenshot(path=str(out_dir / "studio.png"))

@@ -1,9 +1,10 @@
 // Agent trace (TECH_PLAN 1.9 studio): one row per executor step: executor, model, latency, tokens, cache hit,
-// status. Rows are red for a cache miss or an interrupted run (TECH_PLAN 1.8: a miss is visible, never silent).
+// status. Rows are red for a cache miss, an interrupted run or an error (TECH_PLAN 1.8: a miss is visible, never
+// silent; a failed step, such as a Panel cache miss reported as an error, must not look clean either).
 import { useStream } from "../stream/StreamProvider";
 import type { Trace } from "../stream/types";
 
-const RED = new Set(["cache_miss", "interrupted"]);
+const RED = new Set(["cache_miss", "interrupted", "error"]);
 const SHOWN = 80;
 
 export function isRed(t: Trace): boolean {

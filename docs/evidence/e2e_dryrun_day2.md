@@ -27,3 +27,23 @@ Defects found:
 
 To repeat: the script used is in this session's scratchpad; the same steps are `scripts/record_demo.sh` plus the
 supervisor command above.
+
+## Re-run on HEAD after track B's fixes (076ea60, 72b0f55)
+
+Same setup, 30:00 → 46:00 at x10.
+
+| Check | Result |
+|---|---|
+| Worker restarts | none apart from the scripted kill (61 before the fix) |
+| Kill at 44:10 | `kill target=newsroom run_id=run_m_4242_mo_00062 at_executor=tactician`, `restart pid=13292` 0.11 s later, `resume run_id=run_m_4242_mo_00062 checkpoint_id=4f3147bd-…` 0.67 s after that |
+| Moments | 61 done, 2 running, 1 queued at 46:00 (x10) |
+| Cues | 16 (state_change 4, fourth_official 6, big_chance 3, goal 2, recap 1) |
+| Tracebacks in api or newsroom logs | none; no console errors on the four screens |
+| Trace statuses | cache_miss 146 and Panel `error` 18 (CacheMiss): all expected until T-042 |
+
+Still open for the recording:
+- The resumed run's cue was suppressed by the Director, so the fourth evidence line (`cue c_… delivered
+  resumed_from_checkpoint=…`) did not appear; the kill moment chosen in golden_moments.yaml (T-039) must be one whose
+  cue is delivered.
+- No `interrupted` trace row was written for the killed run, so the studio cannot show it red (T-051 step 2).
+- The studio now colours `error` rows red as well as cache_miss and interrupted.
