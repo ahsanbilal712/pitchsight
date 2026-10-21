@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
-DUMP = ROOT / "tests" / "fixtures" / "player_stats" / "m_4242.json"
+DUMP = ROOT / "tests" / "apps" / "data" / "player_stats_m_4242.json"  # not under tests/fixtures: no schema
 READY = "() => window.__whyline && window.__whyline.ready === true"
 PID, OTHER = "p_017", "p_045"            # Okafor (Verdant) and an Ironvale midfielder, both starters
 
