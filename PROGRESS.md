@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-044 Player-Cam card and player_cam overlay mode (track C)
+
+- `packages/api/players.py`: `GET /match/{id}/players/{player_id}/stats` = MCP `player_stats` (same code) +
+  `distance_m` from tracking + Decision Index from a blackboard fact until T-048 (README lists the addition).
+  `apps/fan/src/components/PlayerCamCard.tsx`; `apps/overlay/src/modes/playerCam.ts` (8 s trail layer, persistent
+  Player-Cam tag). api filter applies `only_player_involved`.
+- Verification: `npm --prefix apps/fan run build && npm --prefix apps/overlay run build && pytest
+  tests/apps/test_player_cam.py -q` 4 passed: endpoint equals the MCP dump (`tests/fixtures/player_stats/
+  m_4242.json`) for p_017, p_031, p_045; the card shows touches 95, sprints 38, top speed 28.0, DI 71 (fixture fact)
+  for Okafor; a player_cam viewer gets only cues listing the player; overlay trail ≥ 20 points and tag on Okafor.
+  `tests/apps` + `tests/api`: 59 passed.
+- Open: stats cover the whole recorded match (MCP semantics), not "so far" at the replay clock. Engine
+  observation for track A in the shared notes: distances high (Okafor 10.5 km in 60 min), every top speed 28.0.
+
+---
+
 ## 2026-10-22 · T-043 Fan app: modes, mini-pitch, cue feed, moment cards (track C)
 
 - `apps/fan/src/{App,main,profile,league}.tsx|ts`, `stream/{StreamProvider.tsx,reducer.ts,types.ts}`,
