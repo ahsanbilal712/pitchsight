@@ -205,7 +205,10 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--speed", type=float, default=float(os.environ.get("WHYLINE_REPLAY_SPEED", "1")))
     parser.add_argument("--port", type=int, default=int(os.environ.get("WHYLINE_API_PORT", "8000")))
     parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--feed", action="store_true", help="play the golden cache on the clock (api/replay_feed.py)")
     args = parser.parse_args(argv)
+    if args.feed:
+        os.environ["WHYLINE_REPLAY_FEED"] = "1"
     os.environ["WHYLINE_MATCH_SEED"] = str(args.seed)
     os.environ["WHYLINE_REPLAY_SPEED"] = str(args.speed)
     uvicorn.run("api.main:app", host=args.host, port=args.port, log_level="info")

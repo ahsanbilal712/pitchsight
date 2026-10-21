@@ -71,7 +71,7 @@ class LiveState:
 
 
 class Hub:
-    def __init__(self, data: MatchData, clock: ReplayClock, mode: str = "replay", bb=None) -> None:
+    def __init__(self, data: MatchData, clock: ReplayClock, mode: str = "replay", bb=None, feed=None) -> None:
         self.data = data
         self.clock = clock
         self.mode = mode
@@ -84,6 +84,7 @@ class Hub:
         self._last_idx = data.index_at(state.t_ms)
         self._last_doc_t = state.t_ms  # timed blackboard documents up to here have been released
         self._cf_cache: dict[str, dict] = {}
+        self.feed = feed  # api.replay_feed.ReplayFeed: cached analytics, oracle and moments on the clock
 
     # ------------------------------------------------------------------ clock
     @property
@@ -204,10 +205,14 @@ class Hub:
         msgs = [self.hello(client, t_ms)]
         if frame is not None:
             msgs.append(envelope("tracking_frame", frame))
+        if self.feed is not None and not self.live:
+            msgs += self.feed.snapshot(t_ms)
         return self.lines_for(client, msgs + self.snapshot(client, t_ms))
 
     def reset_all(self) -> None:
         self._last_doc_t = self.now()
+        if self.feed is not None and not self.live:
+            self.feed.release_moments(self._last_doc_t)  # a seek forward still hands the skipped moments over
         for c in list(self.clients):
             c.push(self._reset_lines(c))
 
@@ -283,6 +288,9 @@ class Hub:
             timed.append((int(e["t_ms"]), 1, envelope("event", e)))
         for sub_t, _row, _pid in self.data.subs_between(self._last_t, t):
             timed.append((sub_t, 2, envelope("lineup", {"t_ms": sub_t, "player_ids": self.data.lineup_at(sub_t)})))
+        if self.feed is not None:
+            timed += [(ft, 3, msg) for ft, msg in self.feed.between(self._last_t, t)]
+            self.feed.release_moments(t)
         for doc_t, msg in self.timed_between(self._last_doc_t, t):
             timed.append((doc_t, 3, msg))
         self._last_t, self._last_idx, self._last_doc_t = t, max(idx, self._last_idx), t

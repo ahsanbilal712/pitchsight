@@ -2,7 +2,8 @@
 
 Run: `PYTHONPATH=packages uvicorn api.main:app --port 8000`, or `python -m api.replay --seed 4242`.
 WHYLINE_MATCH_SEED picks the match under data/matches/, WHYLINE_REPLAY_SPEED the starting speed (x1..x10),
-WHYLINE_BLACKBOARD the blackboard file the newsroom writes cues into.
+WHYLINE_BLACKBOARD the blackboard file the newsroom writes cues into, WHYLINE_REPLAY_FEED=1 the replay feed
+(cached analytics, oracle and moments on the clock; api/replay_feed.py).
 """
 
 from __future__ import annotations
@@ -31,8 +32,9 @@ def spend_payload(match_id: str) -> dict:
 
 
 def create_app(seed: int | str | None = None, speed: float | None = None, playing: bool = True,
-               wall: Callable[[], float] | None = None, bb=None) -> FastAPI:
+               wall: Callable[[], float] | None = None, bb=None, feed: bool | None = None) -> FastAPI:
     seed = seed if seed is not None else os.environ.get("WHYLINE_MATCH_SEED", "4242")
+    feed = feed if feed is not None else os.environ.get("WHYLINE_REPLAY_FEED") == "1"
     speed = speed if speed is not None else float(os.environ.get("WHYLINE_REPLAY_SPEED") or 1)
     mode = os.environ.get("WHYLINE_MODE", "replay")
 
@@ -54,7 +56,13 @@ def create_app(seed: int | str | None = None, speed: float | None = None, playin
         else:
             board = bb
         app.state.data, app.state.clock, app.state.bb = data, clock, board
-        app.state.hub = Hub(data, clock, mode=mode, bb=board)
+        replay_feed = None
+        if feed:
+            from api.replay import match_dir
+            from api.replay_feed import ReplayFeed
+
+            replay_feed = ReplayFeed(data, match_dir(seed) / "cache", board)
+        app.state.hub = Hub(data, clock, mode=mode, bb=board, feed=replay_feed)
         app.state.forwarder = cues.Forwarder(app.state.hub, board)
         tasks = [asyncio.create_task(app.state.hub.run()), asyncio.create_task(app.state.forwarder.run()),
                  asyncio.create_task(spend_loop(app.state.hub))]
