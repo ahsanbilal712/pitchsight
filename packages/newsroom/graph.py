@@ -71,8 +71,10 @@ def default_executors(deps: Deps) -> dict[str, Executor]:
 def _real_executors() -> dict:
     """Real executors that exist so far; each later ticket adds its line here."""
     from newsroom.executors.factcheck import FactCheckExecutor
+    from newsroom.executors.fast_line import FastLineExecutor
+    from newsroom.executors.narrator import NarratorExecutor
 
-    return {"factcheck": FactCheckExecutor}
+    return {"factcheck": FactCheckExecutor, "narrator": NarratorExecutor, "fast_line": FastLineExecutor}
 
 
 def build_workflow(deps: Deps, storage=None, overrides: dict[str, Executor] | None = None,

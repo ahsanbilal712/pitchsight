@@ -33,6 +33,10 @@ class LLMTimeout(LLMError):
     """The role's timeout elapsed."""
 
 
+class CacheMiss(LLMError):
+    """Replay mode: no cached output for this key (raised by cache.CacheClient)."""
+
+
 class TemplateRole(LLMError):
     """The role has provider `none`; callers build a template instead."""
 
@@ -72,12 +76,16 @@ class LiveClient:
             if provider == "gemini":
                 from agent_framework.gemini import GeminiChatClient
                 from dotenv import load_dotenv
+                from google import genai
 
                 load_dotenv(ROOT / ".env")
-                vertex = os.environ.get("GOOGLE_GENAI_USE_VERTEXAI", "").lower() in ("1", "true", "yes")
-                self._clients[provider] = GeminiChatClient(
-                    vertexai=vertex or None, project=os.environ.get("GOOGLE_CLOUD_PROJECT") if vertex else None,
-                    location=os.environ.get("GOOGLE_CLOUD_LOCATION", "global") if vertex else None)
+                # same routing as scripts/smoke_models.py: Vertex AI with gcloud ADC, else the Developer API key
+                if os.environ.get("GOOGLE_GENAI_USE_VERTEXAI", "").lower() in ("1", "true", "yes"):
+                    sdk = genai.Client(vertexai=True, project=os.environ["GOOGLE_CLOUD_PROJECT"],
+                                       location=os.environ.get("GOOGLE_CLOUD_LOCATION", "global"))
+                else:
+                    sdk = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+                self._clients[provider] = GeminiChatClient(client=sdk)
             elif provider == "anthropic":
                 from agent_framework.anthropic import AnthropicClient
 
@@ -86,11 +94,28 @@ class LiveClient:
                 raise TemplateRole(f"provider {provider!r} has no client")
         return self._clients[provider]
 
+    async def warm(self, role_name: str = "narrator_fast") -> float:
+        """One tiny call so credentials, TLS and the client are ready before the first moment (the cold first
+        call measured 5.4 s against 1.3-1.8 s warm). Recorded in the ledger as role `warmup`. Returns seconds."""
+        r = role(role_name)
+        started = time.perf_counter()
+        self.guard.check(None)
+        resp = await self._client(r.provider).get_response(
+            _to_messages([{"role": "user", "content": "Reply with: ok"}]),
+            options={**self.options(r), "max_tokens": 5})
+        usage = dict(resp.usage_details or {})
+        self.guard.record("warmup", r.model, int(usage.get("input_token_count") or 0),
+                          int(usage.get("output_token_count") or 0) + int(usage.get("reasoning_output_token_count")
+                                                                         or 0), None, self.mode)
+        return time.perf_counter() - started
+
     def options(self, r: Role, schema: dict | None = None, tools: list | None = None) -> dict:
         opts: dict[str, Any] = {"model": r.model}
         if r.max_tokens:
             opts["max_tokens"] = r.max_tokens
-        if (level := r.thinking_level()) is not None:
+        if (level := r.thinking_level()) == "none":
+            opts["thinking_config"] = {"thinking_budget": 0}
+        elif level is not None:
             opts["thinking_config"] = {"thinking_level": level.upper()}
         if schema is not None:
             opts["response_schema"] = schema

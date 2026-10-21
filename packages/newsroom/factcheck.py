@@ -96,7 +96,7 @@ def banned_matcher() -> BannedMatcher:
 
 
 @lru_cache(maxsize=1)
-def _league() -> tuple[dict, dict]:
+def league_data() -> tuple[dict, dict]:
     players = {p["id"]: p for p in json.loads((LEAGUE / "players.json").read_text())}
     clubs = {c["id"]: c for c in json.loads((LEAGUE / "clubs.json").read_text())}
     return players, clubs
@@ -294,7 +294,7 @@ def _players_in(doc: dict, coll: str) -> set[str]:
 
 def _check_player(claim: dict, ev: _Evidence, ids: list[str], meta: dict) -> str | None:
     pid = claim.get("value")
-    players, _ = _league()
+    players, _ = league_data()
     if not isinstance(pid, str) or pid not in players:
         return "unknown_player"
     lineups = meta.get("lineups", {})
@@ -319,7 +319,7 @@ def _check_player(claim: dict, ev: _Evidence, ids: list[str], meta: dict) -> str
 
 
 def _check_team(claim: dict, meta: dict) -> str | None:
-    _, clubs = _league()
+    _, clubs = league_data()
     value = claim.get("value")
     sides = {"home": meta.get("home"), "away": meta.get("away")}
     club_id = sides.get(value, value)

@@ -5,6 +5,25 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-020 Narrator and fast-line executors (track B)
+
+- `executors/{narrator,fast_line}.py`, `templates.py`, `prompts/narrator@2.md`, empty `prompts/fewshot/narrator.jsonl`.
+  The Narrator re-verifies the Tactician's claims and sends only verified ones to the model; output is clipped to
+  60/280 chars; rewrites get the Fact Checker diff and the previous draft. Fast line builds player/xG/team claims
+  from the moment's evidence events.
+- Gemini adaptation of "Anthropic error → Gemini fallback": `narrator_fast` is already gemini-3.8-flash, so a
+  provider error retries once (or uses a role's `provider_fallback` if one is configured), then the template;
+  timeout, cache miss and SpendCapReached go straight to the template (cap also sets degraded).
+- Latency (measured, Vertex AI global): Flash with thinking `low` 2.5–5.1 s per call, thinking off 1.3–1.8 s, so
+  `config/models.yaml` `narrator_fast.effort` is now `none` (thinking_budget 0). A cold first call took 4.8–5.4 s,
+  so `LiveClient.warm()` runs at worker start. Live narrator call with 483 input tokens: **3.4 s**, $0.000726; the
+  fast-cue SLO of 3 s will need the template or a shorter prompt live (T-032 probe).
+- Verification: `pytest tests/newsroom/test_narrator.py -q` 11 passed; live test passed (output verified-claim
+  numbers only). Dev spend for T-020 **$0.0007** (limit $0.10). A call cut off by the timeout is not in the ledger
+  (no usage returned); at most one such call happened here.
+
+---
+
 ## 2026-10-21 · T-023 Lower-thirds, score bug, chaos meter, player tags, ticker (track C)
 
 - `apps/overlay/src/components/{ScoreBug,ChaosMeter,LowerThird,PlayerTags,Ticker}.tsx`, `motion.ts`

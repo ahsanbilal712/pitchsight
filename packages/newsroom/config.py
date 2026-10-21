@@ -39,6 +39,8 @@ class Role:
         """Gemini thinking_level for this role's effort (models.yaml header: medium -> high on Argon, low on Flash)."""
         if self.provider != "gemini" or self.effort is None:
             return None
+        if self.effort == "none":
+            return "none"
         if self.effort == "medium":
             return "high" if "argon" in self.model else "low"
         return self.effort

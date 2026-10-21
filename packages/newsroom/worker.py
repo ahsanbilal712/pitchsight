@@ -72,6 +72,8 @@ async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asy
                 on_result=None) -> None:
     """Watch `moments` and run each new one. Moments with status other than `new` are skipped."""
     workflow = build_workflow(deps, storage=storage)
+    if hasattr(deps.llm, "warm"):
+        log.info("warm-up %.2f s", await deps.llm.warm())
     seen: set[str] = set()
     stop = stop or asyncio.Event()
     watcher = deps.bb.watch("moments", match_id=match_id).__aiter__()
