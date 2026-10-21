@@ -5,6 +5,24 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · Movement realism fix (T-014) and full rebuild (track A)
+
+- Track C found 10.5 km in 60 min and every top speed exactly 28.0 km/h. Cause: one sprint speed for all players
+  (7.8 m/s) and constant jogging to formation spots (13.5 km per 90). Fix: per-player top speed from position, pace
+  traits and age (25-35 km/h, no random draw); formation movement eases to a stop within 3 m (keepers, ball carrier,
+  pressers, runners exempt); offsides and goals re-balanced. Seeds 1-50: completion **0.804**, shots **13.8**,
+  goals **1.58**, offsides 0.64; outfield **11.6 km/90**, keepers **5.7 km**, fastest per match median **34.1 km/h**.
+  State detection macro F1 0.773 (seeds 1-30). `tests/kickoff/test_realism.py` now checks distance and top speeds.
+- Golden 4242 regenerated: **Verdant 3-1 Ironvale** (goals 08:18 away; 23:29, 83:37, 85:49 home), 1 offside,
+  2 cards. Fourth Official cache rebuilt (20 cues). Tracks B and C told; B asked to hold T-042 until A commits the
+  regenerated `cache/moments.jsonl`.
+- Rebuilding everything trained on the old engine: corpus (2,350 matches), heads v1, policy dataset, policy_v1
+  training (restarted; the old-engine run was stopped after epoch 2), moment encoder, auto-events report, golden
+  caches. Chain: `data/runtime/rebuild_chain.sh`.
+- Also fixed: ruff B905 in `tests/kickoff/test_no_truth_leak.py`.
+
+---
+
 ## 2026-10-22 · T-041 follow-up: live Panel on Flash pundits, 20.6 s (track B) — cut line lifted
 
 - Owner decision: Flash for live pundits if it brings the Panel within budget. `panel_pundit` is gemini-3.8-flash
