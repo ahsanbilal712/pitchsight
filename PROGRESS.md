@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-023 Lower-thirds, score bug, chaos meter, player tags, ticker (track C)
+
+- `apps/overlay/src/components/{ScoreBug,ChaosMeter,LowerThird,PlayerTags,Ticker}.tsx`, `motion.ts`
+  (presence + text fitting), `styles/broadcast.css`, shared `league.ts`. Chaos meter reads facts `chaos_index` and
+  `chaos_state` (note for track A in the shared notes folder).
+- **Kit contrast fix:** kits under 3:1 WCAG contrast with the grass get a light halo (Verdant #0E5C36 is 1.6:1,
+  Ironvale's navy away kit too); score-bug kit chips get a light edge.
+- Fixture: 62 facts (chaos_index every 1 s, chaos_state Transitional → Chaotic at 31:26). Fixed a T-010 fold bug:
+  untimed messages took the previous frame's time, so `cue_remove` fired 100 ms early.
+- Verification: `npm --prefix apps/overlay run build && pytest tests/apps/test_overlay_components.py -q`
+  7 passed (all of `tests/apps` + `tests/api`: 30 passed). Schema-max text (60/280 wide chars) fits at full size
+  (headline 31 px, body 20 px), nothing overflows; cue appears at 31:18.2 and is gone at 31:26.2; score bug goes
+  0–0 → 0–1 on the 39:05 goal event over the WebSocket. Pitch2D p95 still 0.20–0.30 ms.
+
+---
+
 ## 2026-10-21 · T-018 newsroom graph and T-019 Fact Checker (track B)
 
 - T-018: `packages/newsroom/{messages,graph,llm,worker,config}.py`, `executors/{base,ingest,stubs,drop}.py`. The full
