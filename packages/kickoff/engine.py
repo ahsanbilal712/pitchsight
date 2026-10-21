@@ -107,6 +107,7 @@ SIDES = ("H", "A")
 TEAM_ROWS = (np.arange(0, 11), np.arange(11, 22))
 TEAM_ORDER = np.array([np.r_[0:22], np.r_[11:22, 0:11]])     # a team's rows first, then its opponents'
 MOVE_HI = np.array([PITCH_L + 3.0, PITCH_W + 3.0])
+KEEPER_ROWS = np.array([0, 11])
 KIND_CODE = {"pass": PASS, "carry": CARRY, "shoot": SHOOT, "clear": CLEAR, "hold": HOLD}
 NOISE_BLOCK = 64                          # ticks of noise drawn per world at once
 # Realism knobs, tuned on seeds 1-50 against TECH_PLAN 1.4 (T-014).
@@ -1026,9 +1027,10 @@ class Engine:
         desired = (targets - pos) * FORMATION_GAIN
         if FORMATION_DEADZONE > 0:            # settle near a formation spot instead of shuffling (not runs and presses)
             gap = np.hypot(desired[..., 0], desired[..., 1]) / FORMATION_GAIN
-            ease = np.clip((gap - FORMATION_DEADZONE) / FORMATION_DEADZONE, 0.0, 1.0)
-            ease[:, [0, 11]] = 1.0            # keepers keep tracking the ball across their goal
-            desired *= np.where(special, 1.0, ease)[..., None]
+            ease = np.minimum(np.maximum((gap - FORMATION_DEADZONE) / FORMATION_DEADZONE, 0.0), 1.0)
+            ease[:, KEEPER_ROWS] = 1.0         # keepers keep tracking the ball across their goal
+            ease[special] = 1.0
+            desired *= ease[..., None]
         sp = np.hypot(desired[..., 0], desired[..., 1])
         scale = np.minimum(1.0, vmax / np.maximum(sp, 1e-9))
         desired *= scale[..., None]
