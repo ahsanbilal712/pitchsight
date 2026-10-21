@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-026, T-027, T-049 done; T-025, T-028 running (track A)
+
+- T-026 auto-events (`physics/auto_events.py`): six detectors, facts not events; golden counts pressing_trap 13,
+  line_break 3, switch_of_play 19 (35 m, not the brief's example 30 m: 51 at 30 m), overload 4, counter_attack 3,
+  big_chance 4; p95 0.6 ms on a 15 s window.
+- T-027: user approved the GRF download; 150 games (1.3 GB, git-ignored) check out (10.21 Hz, mapping holds).
+  Dataset 2.76M / 345k / 345k samples (2,000 Kickoff + 150 GRF games), split by game. F = 16: TECH_PLAN's list
+  has 17 entries, stamina dropped. The repo downloader hung once (no timeout); re-run with a 60 s socket timeout.
+- T-049: Fourth Official geometry re-derives all 5 golden offsides exactly; 28 cached verified referee_line cues
+  (`scripts/precompute.py --stages fourth_official`); executor registered in `newsroom/graph.py` (only A's two lines
+  committed; track B's Panel edits left in the working copy, see the shared notes).
+- T-028 launched: `policy_v1`, 8 epochs on MPS, about 1,300 samples/s while the corpus and heads jobs share the CPU
+  (spec measured 2,474), so about 36 min per epoch. Log: `packages/policy/artifacts/train_log.jsonl`.
+- Found: importing torch before LightGBM crashes LightGBM predictions on macOS (two libomp copies). `heads`,
+  `policy` and `tests/conftest.py` now import LightGBM first.
+- Dugout at 8 s moves win probability by 0.0000 for every style option; T-047 will use a longer scripted horizon
+  (the schema allows up to 90 s for scripted_v1).
+
+---
+
 ## 2026-10-22 · T-038 CacheManifest and CacheClient (track B)
 
 - `packages/cache/{manifest,client,errors}.py`. Keys as TECH_PLAN 1.8 (the two schema-example keys reproduce
