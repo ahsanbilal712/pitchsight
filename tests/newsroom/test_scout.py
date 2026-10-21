@@ -144,3 +144,27 @@ def test_stream_under_50ms_per_event(golden):
           f"wall: p50 {np.median(w):.2f} ms, p99 {np.quantile(w, .99):.2f} ms, max {w.max():.1f} ms")
     # process CPU time, as the physics budget test does (T-013): wall time measures the machine's other load
     assert c.max() < 50
+
+
+def det(kind, t, team, lev=None, ev=None):
+    return sr.Detection(kind, t, 1, team, [ev or f"e_{t}"], [], lev)
+
+
+def test_goal_or_whistle_absorbs_the_play_it_ends():
+    shot_goal = sr.merge([det("decision", 1000, "home", 0.3), det("goal", 1300, "home", 0.7)])
+    assert len(shot_goal) == 1 and shot_goal[0].kind == "goal" and shot_goal[0].leverage == 0.7
+    m = sr.to_moment(shot_goal[0], "m_1")
+    assert sr.branches(m) == ["fast", "explained"] and m["evidence_event_ids"] == ["e_1000", "e_1300"]
+    offside = sr.merge([det("decision", 5000, "away", 0.05), det("offside", 5000, "away", 0.05)])
+    assert [d.kind for d in offside] == ["offside"]
+    assert sr.branches(sr.to_moment(offside[0], "m_1")) == ["explained", "referee"]
+    late = sr.merge([det("decision", 1000, "home", 0.3), det("goal", 2500, "home", 0.7)])
+    assert [d.kind for d in late] == ["decision", "goal"]                 # more than 1 s apart: two moments
+    other = sr.merge([det("decision", 1000, "home", 0.3), det("goal", 1200, "away", 0.7)])
+    assert [d.kind for d in other] == ["decision", "goal"]                # the other team's goal
+
+
+def test_teamless_state_change_does_not_split_a_possession():
+    out = sr.merge([det("decision", 1000, "home", 0.05), det("state_change", 2000, None),
+                    det("decision", 3000, "home", 0.09)])
+    assert [d.kind for d in out] == ["decision", "state_change"] and out[0].leverage == 0.09

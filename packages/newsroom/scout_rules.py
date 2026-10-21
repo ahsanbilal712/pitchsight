@@ -32,6 +32,7 @@ PANEL_LEVERAGE = 0.06
 PLAYER_TAG_KMH = 34.0
 LEVERAGE_AFTER_MS = 100     # adjacent frames: "the frame before and after the event" (TECH_PLAN 1.7)
 MERGE_MS = 5000
+SAME_INSTANT_MS = 1000      # a goal or whistle this soon after the same team's detection is that play's outcome
 REFEREE_KINDS = {"offside", "foul", "card"}
 ON_BALL = {"pass", "carry", "shot", "clearance"}   # decisions a counterfactual can replace (rollout action kinds)
 AUTO_KINDS = {"pressing_trap", "line_break", "switch_of_play", "overload", "counter_attack", "big_chance"}
@@ -221,7 +222,9 @@ KEEP_ALONE = {"goal", "period_end", "player_tag", "milestone"} | REFEREE_KINDS
 
 class Merger:
     """Collapse consecutive same-team detections within MERGE_MS into one moment. Goals, referee events, period ends
-    and player tags stay separate (each drives its own cue); a detection of the other team ends the story.
+    and player tags stay separate (each drives its own cue); a detection of the other team ends the story, a
+    team-less one (a chaos-state change) does not. A goal or referee event within SAME_INSTANT_MS of the same
+    team's detection absorbs it: one event, one moment, all its branches.
     `add` returns (moment, is_new): live mode updates the moment already written when is_new is False."""
 
     def __init__(self) -> None:
@@ -230,6 +233,22 @@ class Merger:
 
     def add(self, d: Detection) -> tuple[Detection, bool]:
         o = self.last
+        if d.team is None:  # team-less (a chaos-state change): its own moment, and it does not end a possession
+            m = Detection(d.kind, d.t_ms, d.period, d.team, list(d.evidence), list(d.players), d.leverage,
+                          dict(d.extra), list(d.hypotheses))
+            self.out.append(m)
+            return m, True
+        if (d.kind in KEEP_ALONE and o is not None and o.team == d.team and o.kind not in KEEP_ALONE
+                and 0 <= d.t_ms - o.t_ms <= SAME_INSTANT_MS):
+            # the goal or whistle of the play just detected: one event, one moment, all its branches
+            o.kind, o.t_ms = d.kind, d.t_ms
+            o.evidence += [e for e in d.evidence if e not in o.evidence]
+            o.players += [p for p in d.players if p not in o.players]
+            o.extra.update(d.extra)
+            if d.leverage is not None and (o.leverage is None or d.leverage > o.leverage):
+                o.leverage = d.leverage
+            self.last = None
+            return o, False
         if d.kind in KEEP_ALONE or o is None or o.team != d.team or d.t_ms - o.t_ms > MERGE_MS:
             m = Detection(d.kind, d.t_ms, d.period, d.team, list(d.evidence), list(d.players), d.leverage,
                           dict(d.extra), list(d.hypotheses))

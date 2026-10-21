@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-029 follow-up: one moment per event (track B)
+
+- After track A's heads v1 (T-025) the golden match gave 61 explained moments (limit 60). Six were the same event
+  counted twice: a pass that ended offside was both a "decision" and an "offside" moment, and a shot or big chance
+  followed by its goal was two moments, each taking the explained branch. The Merger now lets a goal or referee
+  event absorb the same team's detection from the same instant (≤ 1 s): one moment, all its branches (TECH_PLAN 1.7
+  "a moment can take several branches"). Team-less detections (chaos-state changes) no longer split a possession.
+  The 0.04 leverage threshold is unchanged.
+- Golden 4242 now: **119 moments, 55 explained**, 28 referee, 5 fast (two big chances became their goals' moments),
+  2 recap. `pytest tests/newsroom/test_scout.py -q`: 22 passed (CPU p99 10 ms per event).
+
+---
+
 ## 2026-10-22 · Track C: replay feed, end-to-end dry run, fixes
 
 - Owner direction: local demo first, Azure later. While T-039/T-057 are pending:
