@@ -160,8 +160,18 @@ def test_goal_or_whistle_absorbs_the_play_it_ends():
     assert sr.branches(sr.to_moment(offside[0], "m_1")) == ["explained", "referee"]
     late = sr.merge([det("decision", 1000, "home", 0.3), det("goal", 2500, "home", 0.7)])
     assert [d.kind for d in late] == ["decision", "goal"]                 # more than 1 s apart: two moments
-    other = sr.merge([det("decision", 1000, "home", 0.3), det("goal", 1200, "away", 0.7)])
-    assert [d.kind for d in other] == ["decision", "goal"]                # the other team's goal
+    cleared = sr.merge([det("decision", 1000, "home", 0.3), det("goal", 1200, "away", 0.7)])
+    assert [(d.kind, d.team) for d in cleared] == [("goal", "away")]       # a failed clearance, then the goal
+
+
+def test_contested_passage_is_one_moment():
+    """Shot, block, rebound within a second each move the same ball state: one swing, one moment."""
+    out = sr.merge([det("decision", 1000, "away", 0.08), det("decision", 1500, "home", 0.09),
+                    det("decision", 2000, "away", 0.27)])
+    assert len(out) == 1 and out[0].team == "away" and out[0].leverage == 0.27
+    assert out[0].evidence == ["e_1000", "e_1500", "e_2000"]
+    apart = sr.merge([det("decision", 1000, "away", 0.08), det("decision", 2500, "home", 0.09)])
+    assert len(apart) == 2                                                # more than a second: two stories
 
 
 def test_teamless_state_change_does_not_split_a_possession():

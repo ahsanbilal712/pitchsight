@@ -32,7 +32,9 @@ PANEL_LEVERAGE = 0.06
 PLAYER_TAG_KMH = 34.0
 LEVERAGE_AFTER_MS = 100     # adjacent frames: "the frame before and after the event" (TECH_PLAN 1.7)
 MERGE_MS = 5000
-SAME_INSTANT_MS = 1000      # a goal or whistle this soon after the same team's detection is that play's outcome
+SAME_INSTANT_MS = 1000      # a goal or whistle this soon after a detection is that play's outcome; touches of both
+                            # sides within it are one contested passage
+OUTCOME_KINDS = {"goal", "offside", "foul", "card"}
 REFEREE_KINDS = {"offside", "foul", "card"}
 ON_BALL = {"pass", "carry", "shot", "clearance"}   # decisions a counterfactual can replace (rollout action kinds)
 AUTO_KINDS = {"pressing_trap", "line_break", "switch_of_play", "overload", "counter_attack", "big_chance"}
@@ -144,6 +146,17 @@ def clock(t_ms: int) -> str:
     return f"{t_ms // 60000:02d}:{(t_ms // 1000) % 60:02d}"
 
 
+def _last_event_ids(events: list[dict], t_ms: int) -> list[str]:
+    """Evidence for a detection that names no event (an overload seen in tracking only): the last event at or
+    before t_ms, so every moment cites something the Fact Checker can resolve."""
+    last = None
+    for e in events:
+        if e["t_ms"] > t_ms:
+            break
+        last = e
+    return [last["id"]] if last else []
+
+
 def _period_at(events: list[dict], t_ms: int) -> int:
     p = 1
     for e in events:
@@ -189,7 +202,8 @@ def detect(events: list[dict], window, head=None, xg_head=None, auto=None) -> li
         if v is None:
             v = float(lev.at([a.t_ms])[0])
         extra = {"xg": a.value} if a.auto_kind == "big_chance" else {}
-        found.append(Detection(a.auto_kind, a.t_ms, _period_at(events, a.t_ms), a.team, list(a.related_event_ids),
+        evidence = list(a.related_event_ids) or _last_event_ids(events, a.t_ms)
+        found.append(Detection(a.auto_kind, a.t_ms, _period_at(events, a.t_ms), a.team, evidence,
                                [p for p in a.players if isinstance(p, str)], v, extra, [a.auto_kind]))
     # chaos-state changes at 1 Hz
     sm = StateMachine()
@@ -223,8 +237,9 @@ KEEP_ALONE = {"goal", "period_end", "player_tag", "milestone"} | REFEREE_KINDS
 class Merger:
     """Collapse consecutive same-team detections within MERGE_MS into one moment. Goals, referee events, period ends
     and player tags stay separate (each drives its own cue); a detection of the other team ends the story, a
-    team-less one (a chaos-state change) does not. A goal or referee event within SAME_INSTANT_MS of the same
-    team's detection absorbs it: one event, one moment, all its branches.
+    team-less one (a chaos-state change) does not. Within SAME_INSTANT_MS, a goal or referee event absorbs the
+    detection before it (either side's touch: one event, one moment, all its branches), and touches of both
+    sides are one contested passage (one goal-in-8-s swing, counted once).
     `add` returns (moment, is_new): live mode updates the moment already written when is_new is False."""
 
     def __init__(self) -> None:
@@ -238,16 +253,29 @@ class Merger:
                           dict(d.extra), list(d.hypotheses))
             self.out.append(m)
             return m, True
-        if (d.kind in KEEP_ALONE and o is not None and o.team == d.team and o.kind not in KEEP_ALONE
-                and 0 <= d.t_ms - o.t_ms <= SAME_INSTANT_MS):
-            # the goal or whistle of the play just detected: one event, one moment, all its branches
-            o.kind, o.t_ms = d.kind, d.t_ms
+        same_instant = o is not None and o.kind not in KEEP_ALONE and 0 <= d.t_ms - o.t_ms <= SAME_INSTANT_MS
+        if same_instant and d.kind in OUTCOME_KINDS:
+            # the goal or whistle of the play just detected (either side's last touch): one event, one moment,
+            # all its branches
+            o.kind, o.t_ms, o.team = d.kind, d.t_ms, d.team
             o.evidence += [e for e in d.evidence if e not in o.evidence]
             o.players += [p for p in d.players if p not in o.players]
             o.extra.update(d.extra)
             if d.leverage is not None and (o.leverage is None or d.leverage > o.leverage):
                 o.leverage = d.leverage
             self.last = None
+            return o, False
+        if same_instant and d.kind not in KEEP_ALONE and o.team != d.team:
+            # a contested passage: touches of both sides within one second (shot, block, rebound) move the same
+            # ball state, so the same goal-in-8-s swing would be counted once per touch. One moment; the side with
+            # the larger swing names it.
+            if d.leverage is not None and (o.leverage is None or d.leverage > o.leverage):
+                o.leverage, o.team, o.kind = d.leverage, d.team, d.kind
+            o.t_ms = d.t_ms
+            o.evidence += [e for e in d.evidence if e not in o.evidence]
+            o.players += [p for p in d.players if p not in o.players]
+            o.hypotheses += [h for h in d.hypotheses if h not in o.hypotheses]
+            o.extra.update(d.extra)
             return o, False
         if d.kind in KEEP_ALONE or o is None or o.team != d.team or d.t_ms - o.t_ms > MERGE_MS:
             m = Detection(d.kind, d.t_ms, d.period, d.team, list(d.evidence), list(d.players), d.leverage,
@@ -352,7 +380,8 @@ class ScoutStream:
                     continue
                 self.seen_auto.add(a.auto_id)
                 extra = {"xg": a.value} if a.auto_kind == "big_chance" else {}
-                found.append(Detection(a.auto_kind, a.t_ms, e["period"], a.team, list(a.related_event_ids),
+                found.append(Detection(a.auto_kind, a.t_ms, e["period"], a.team,
+                                       list(a.related_event_ids) or _last_event_ids(self.events, a.t_ms),
                                        [p for p in a.players if isinstance(p, str)], float(self.lev.at([a.t_ms])[0]),
                                        extra, [a.auto_kind]))
         while self.next_second <= t:

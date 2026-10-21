@@ -5,6 +5,23 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-029 follow-up 2: contested passages on the regenerated golden match (track B)
+
+- Track A's regenerated golden 4242 (movement realism, 0353e09; heads v1 498119e) gave 136 moments, **69 explained**
+  (limit 60). Besides 28 chaos-state changes, many play moments were the same ball state counted per touch: shot,
+  block or clearance, rebound within a second, by both sides, each carrying the same goal-in-8-s swing.
+- The Merger now treats touches of both sides within SAME_INSTANT_MS (1 s, the existing constant) as one contested
+  passage, named by the side with the larger swing; a goal or whistle absorbs either side's touch in the second
+  before it. Moments whose auto-event names no event (an overload seen in tracking only) cite the last event before.
+  The 0.04 threshold is unchanged.
+- Golden 4242 now: **125 moments, 60 explained** (28 state changes, 23 decisions, 4 goals, 5 others), 20 referee,
+  5 fast, 2 recap. 60 is exactly the upper limit; nearly half the explained moments are chaos-state changes from the
+  T-013 state machine (two chaotic spells and twelve Settled/Transitional flips), flagged to track A.
+- `pytest tests/newsroom/test_scout.py -q`: 23 passed. My suites on the new golden: newsroom, mcp_server, cache,
+  chaos, blackboard all pass (two Proposer tests now pick a team-mate other than the pass actually played).
+
+---
+
 ## 2026-10-22 · Movement realism fix (T-014) and full rebuild (track A)
 
 - Track C found 10.5 km in 60 min and every top speed exactly 28.0 km/h. Cause: one sprint speed for all players

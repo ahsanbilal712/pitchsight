@@ -100,6 +100,11 @@ def test_model_output_is_validated(decision):
         ("pass", decision["actor"], mate), ("shoot", decision["actor"], None), ("carry", decision["actor"], "ne")]
 
 
+def other_mate(decision):
+    """A team-mate who is not the actual pass target (the model may never propose the action played)."""
+    return next(m["player_id"] for m in decision["teammates"] if m["player_id"] != decision["actual"]["target"])
+
+
 def _propose(store, decision, script):
     deps = Deps(bb=store.bb, llm=FakeClient({"proposer": script}), store=store)
     alts, info = arun(propose(deps, start_message({"moment_id": "mo_00009", "match_id": M, "t_ms": 1,
@@ -108,7 +113,7 @@ def _propose(store, decision, script):
 
 
 def test_proposer_uses_model_alternatives(store, decision):
-    mate = decision["teammates"][1]["player_id"]
+    mate = other_mate(decision)
     alts, info, calls = _propose(store, decision, [{"json": {"alternatives": [
         {"kind": "pass", "actor": decision["actor"], "target": mate, "reason": "switch"}]}}])
     assert info["status"] == "ok" and alts[0]["target"] == mate and len(calls) == 1
@@ -116,7 +121,7 @@ def test_proposer_uses_model_alternatives(store, decision):
 
 
 def test_proposer_timeout_retries_once_then_rule(store, decision):
-    mate = decision["teammates"][1]["player_id"]
+    mate = other_mate(decision)
     good = {"json": {"alternatives": [{"kind": "pass", "actor": "x", "target": mate, "reason": "r"}]}}
     alts, info, calls = _propose(store, decision, [LLMTimeout("6 s"), good])
     assert info["status"] == "ok" and len(calls) == 2
