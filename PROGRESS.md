@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-033 API cue fan-out, ingest and control endpoints (track C)
+
+- `packages/api/{cues,control,docs,ingest,messages}.py`, `ws.py` reworked: blackboard watcher forwards every 1.9
+  message type; timed docs (cues, facts, moments, oracle) released on the stream clock; target filtering server side;
+  seek snapshot (cues on screen, latest facts); counterfactual sent before its first cue. Doc endpoint (addition to
+  the 1.4 list, in `packages/api/README.md`), `/producer/decision` (+ veto of a shown cue → `cue_remove`),
+  `/demo/kill` 202 stub, `/spend`, `/ingest/*` (live mode), `python -m kickoff play --target api`
+  (`packages/kickoff/stream.py`; small CLI edit in `kickoff/__main__.py`).
+- Contract for track B (collections `requests`, `decisions`) in the shared notes folder.
+- Verification: `pytest tests/api/test_cues.py tests/api/test_fanout_perf.py -q` 9 passed. **Fan-out to 20 clients
+  (blackboard write → 20th client): max 23.7–29.6 ms, p95 23–27 ms** over three runs (limit 50 ms). Veto →
+  `cue_remove` on two screens in 4–8 ms. CLI streamed m_7 into a running api (31 frames, 7 events).
+  `tests/api` + `tests/apps` + `tests/kickoff`: 58 passed.
+
+---
+
 ## 2026-10-22 · T-031 Proposer and RolloutExecutor (track B)
 
 - `newsroom/decision.py` (decision point: last pass/carry/shot/clearance of the moment, branch at event − 100 ms,
