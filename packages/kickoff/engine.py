@@ -79,10 +79,22 @@ PHASES = ("phase_high_press", "phase_low_block", "phase_direct_play", "phase_pat
 PHASE_DELTA = {
     "phase_high_press": {"press_height": 0.25, "line_height": 0.15},
     "phase_low_block": {"press_height": -0.25, "line_height": -0.2},
-    "phase_direct_play": {"directness": 0.3, "tempo": 0.1},
-    "phase_patient_build": {"directness": -0.25, "tempo": -0.15},
-    "phase_counter_attack": {"directness": 0.2, "press_height": -0.15, "tempo": 0.2},
+    "phase_direct_play": {"directness": 0.3},
+    "phase_patient_build": {"directness": -0.25},
+    "phase_counter_attack": {"directness": 0.2, "press_height": -0.15},
 }
+# Hidden match state (truth phases with side "M"): one regime at a time for both teams. It shifts both teams'
+# styles and scales duel intensity (tackle hazard, interception chance), so the game-state machine has a real,
+# hidden signal to detect (T-055 scores it against these labels).
+REGIMES = ("state_settled", "state_transitional", "state_chaotic")
+REGIME_P = (0.45, 0.30, 0.25)
+REGIME_MIN = (10, 18)                     # regime length in whole minutes (inclusive range)
+REGIME_DELTA = {
+    "state_settled": {"tempo": -0.4, "press_height": -0.4, "directness": -0.2},
+    "state_transitional": {},
+    "state_chaotic": {"tempo": 0.4, "press_height": 0.4, "directness": 0.3},
+}
+REGIME_INTENSITY = {"state_settled": 0.03, "state_transitional": 1.0, "state_chaotic": 8.0}
 RESTART_DELAY_MS = {"kick_off": 40000, "throw_in": 3000, "goal_kick": 6000, "corner": 7000, "free_kick": 6000,
                     "penalty": 9000}
 RESTART_FLAG = {"kick_off": KICK_OFF, "throw_in": PASS_ONLY, "goal_kick": FREE, "corner": CROSS, "free_kick": FREE,
@@ -92,8 +104,11 @@ SIDES = ("H", "A")
 LINE_IN_POSS, LINE_OUT_POSS = 6.0, 10.0   # metres the defensive line moves up per unit of line_height
 RUN_AMP_M = 2.2                           # forwards drift this far either side of the offside line on a 7 s cycle
 FWD_REACH_M = 20.0                        # forwards push onto the offside line when it is this close to the ball
+AIM_K = 1.0                               # pass aim error scales with regime intensity ** AIM_K
+FIRST_TOUCH_K = 0.05                      # first-touch control falls by this per unit of regime intensity above 1
 INTERCEPT_P = 0.65                        # chance an opponent within reach cuts out a pass in flight
 FINISH = 0.8                              # open-play scoring probability = FINISH * xG (decisions see plain xG)
+TACKLE_INTENSITY_CAP = 2.5                # regime intensity scales the tackle hazard up to this factor
 TACKLE_RATE, TACKLE_PRESS = 0.9, 0.3      # challenge hazard per second within TACKLE_R: rate * (0.6 + press * press_height)
 
 
@@ -187,6 +202,7 @@ class Engine:
         self.mode = np.full(B, CARRY, dtype=np.int64)
         self.eff_styles = np.zeros((B, 2, 5))
         self.mom = np.zeros((B, 2))
+        self.intensity = np.ones(B)
         self.t_ms = 0
         self.period = 1
         self.finished = False
@@ -212,6 +228,13 @@ class Engine:
                 label = PHASES[int(rng.choice(len(PHASES), p=weights / weights.sum()))]
                 w.phases.append({"side": SIDES[team], "label": label, "start_ms": t, "end_ms": min(MATCH_MS, t + dur)})
                 t += dur
+        t, label = 0, ""
+        while t < MATCH_MS:
+            dur = int(rng.integers(REGIME_MIN[0], REGIME_MIN[1] + 1)) * 60000
+            p = np.array([0.0 if r == label else q for r, q in zip(REGIMES, REGIME_P, strict=True)])
+            label = REGIMES[int(rng.choice(len(REGIMES), p=p / p.sum()))]
+            w.phases.append({"side": "M", "label": label, "start_ms": t, "end_ms": min(MATCH_MS, t + dur)})
+            t += dur
         m = np.zeros((2, 91))
         for k in range(1, 91):
             m[:, k] = np.clip(0.8 * m[:, k - 1] + rng.normal(0.0, 0.25, size=2), -1, 1)
@@ -233,22 +256,28 @@ class Engine:
     def _update_truth_effects(self) -> None:
         minute = min(self.t_ms // 60000, 90)
         for w in self.worlds:
+            regime = self._phase_at(w, "M")
             for team in (0, 1):
                 styles = self.base_styles[team] + w.jitter[team]
-                phase = next(p for p in w.phases if p["side"] == SIDES[team] and p["start_ms"] <= self.t_ms < p["end_ms"]) \
-                    if self.t_ms < MATCH_MS else None
-                if phase:
-                    for k, delta in PHASE_DELTA[phase["label"]].items():
-                        styles = styles.copy()
-                        styles[STYLE_KEYS.index(k)] += delta
+                deltas = list(PHASE_DELTA[p].items()) if (p := self._phase_at(w, SIDES[team])) else []
+                deltas += list(REGIME_DELTA[regime].items()) if regime else []
+                for k, delta in deltas:
+                    styles = styles.copy()
+                    styles[STYLE_KEYS.index(k)] += delta
                 self.eff_styles[w.b, team] = np.clip(styles, 0, 1)
                 self.mom[w.b, team] = w.momentum[team, minute]
+            self.intensity[w.b] = REGIME_INTENSITY[regime] if regime else 1.0
+
+    def _phase_at(self, w: _World, side: str) -> str | None:
+        if self.t_ms >= MATCH_MS:
+            return None
+        return next(p["label"] for p in w.phases if p["side"] == side and p["start_ms"] <= self.t_ms < p["end_ms"])
 
     def truth(self, world: int = 0) -> dict:
         w = self.worlds[world]
         profiles = {SIDES[t]: {k: round(float(np.clip(self.base_styles[t][i] + w.jitter[t][i], 0, 1)), 4)
                                for i, k in enumerate(STYLE_KEYS)} for t in (0, 1)}
-        return {"truth_version": "t1", "style_profiles": profiles, "phases": w.phases,
+        return {"truth_version": "t2", "style_profiles": profiles, "phases": w.phases,
                 "momentum": {"step_ms": 60000, "H": [round(float(v), 4) for v in w.momentum[0]],
                              "A": [round(float(v), 4) for v in w.momentum[1]]}}
 
@@ -598,7 +627,7 @@ class Engine:
             return
         w.pass_ev = ev
         v0, vz = pass_launch(dist, lofted)
-        jitter = (nz[N_AIM] - 0.5) * (0.06 if not lofted else 0.1)
+        jitter = (nz[N_AIM] - 0.5) * (0.06 if not lofted else 0.1) * self.intensity[b] ** AIM_K
         ang = math.atan2(py - y0, px - x0) + jitter
         self.S[b, 22, 2:4] = [v0 * math.cos(ang), v0 * math.sin(ang)]
         self.ball_vz[b] = vz
@@ -841,7 +870,11 @@ class Engine:
                 row = int(cand[np.argmin(d[cand])])
                 team = self.team_of(row)
                 kicker_team = self.team_of(int(self.kicker[b])) if self.kicker[b] >= 0 else -1
-                p = 0.92 if team == kicker_team else (INTERCEPT_P if self.flight[b] == 1 else 0.85)
+                intensity = self.intensity[b]
+                if team == kicker_team:          # first touch: cleaner in a settled game, scrappier in a chaotic one
+                    p = min(max(0.92 - FIRST_TOUCH_K * (intensity - 1.0), 0.72), 0.97)
+                else:
+                    p = min(0.92, INTERCEPT_P * math.sqrt(intensity)) if self.flight[b] == 1 else 0.85
                 if nz[N_CONTROL] < p:
                     self._gain_ball(w, row, kicker_team)
                     return
@@ -941,7 +974,7 @@ class Engine:
             w.pressure_row = k
         if dist >= TACKLE_R or w.tackle_cooldown.get(k, -1) > self.t_ms or k % 11 == 0:
             return
-        rate = TACKLE_RATE * (0.6 + TACKLE_PRESS * self.eff_styles[b, 1 - team, 0])
+        rate = TACKLE_RATE * min(self.intensity[b], TACKLE_INTENSITY_CAP) * (0.6 + TACKLE_PRESS * self.eff_styles[b, 1 - team, 0])
         if nz[N_TACKLE] >= 1.0 - math.exp(-rate * DT):
             return
         r = nz[N_TACKLE_OUT]

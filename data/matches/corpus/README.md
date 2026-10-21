@@ -17,5 +17,9 @@ every 1 s plus every decision tick. Fixtures come from `League.fixture(seed)`: 5
 `progress.json` holds per-seed status, the fixture, the run time and per-team match stats; the realism test
 (`tests/kickoff/test_realism.py`) reads seeds 1–50 from it when the engine hash matches, else simulates them.
 
-Realism on seeds 1–50 after T-014 tuning (per team per match): pass completion 0.834, shots 14.6, goals 1.59,
-offsides 1.01, fouls 5.1, cards 0.54 (TECH_PLAN 1.4 ranges: 0.78–0.86, 8–16, 1.0–1.8).
+Realism on seeds 1–50 after T-014 tuning and the hidden match regimes (per team per match): pass completion 0.801,
+shots 13.2, goals 1.52, offsides 1.17, fouls 8.0, cards 0.91 (TECH_PLAN 1.4 ranges: 0.78–0.86, 8–16, 1.0–1.8).
+
+`truth.json` (truth_version t2) phases carry side `H`/`A` (tactical phases) and side `M`: the hidden match regime
+(`state_settled`, `state_transitional`, `state_chaotic`, 10–18 min each) that drives tempo, press and duel intensity.
+The physics state machine recovers it at macro F1 0.771 on seeds 1–50 (T-055 owns the official number).
