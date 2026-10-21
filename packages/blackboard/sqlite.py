@@ -68,7 +68,11 @@ class SqliteBlackboard:
     def _exists(self, collection: str) -> bool:
         if collection in self._tables:
             return True
-        row = self._db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (collection,)).fetchone()
+        with self._lock:   # the connection is shared across threads (check_same_thread=False)
+            row = self._db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
+                                   (collection,)).fetchone()
+        if row is not None:
+            self._tables.add(collection)
         return row is not None
 
     # ------------------------------------------------------------------ ids

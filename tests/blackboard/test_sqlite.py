@@ -150,3 +150,25 @@ def test_put_under_2ms(bb):
     p50 = statistics.median(times)
     print(f"put p50 {p50:.3f} ms, p95 {sorted(times)[474]:.3f} ms")
     assert p50 < 2.0
+
+
+def test_shared_connection_is_thread_safe(bb):
+    """Threads sharing one SqliteBlackboard (the api's kill thread, T-051) must not hit InterfaceError."""
+    import threading
+
+    errors = []
+
+    def reader(i):
+        try:
+            for _ in range(200):
+                bb.query(f"coll_{i % 4}", status="running")
+                bb.put("runs", {"id": f"r{i}", "status": "running"})
+        except Exception as exc:  # noqa: BLE001 - any error fails the test
+            errors.append(exc)
+
+    threads = [threading.Thread(target=reader, args=(i,)) for i in range(8)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert errors == []
