@@ -1,9 +1,9 @@
-// Fan app (TECH_PLAN 1.9): phone-shaped. ProfilePicker -> MiniPitch -> CueFeed -> PlayerCamCard (T-044) ->
-// MomentCards. The profile is validated, stored client-side and drives the server-side filtered stream.
+// Fan app (TECH_PLAN 1.9): phone-shaped. ProfilePicker -> MiniPitch -> CueFeed -> PlayerCamCard -> MomentCards. The profile is validated, stored client-side and drives the server-side filtered stream.
 import { useEffect, useState } from "react";
 import CueFeed from "./components/CueFeed";
 import MiniPitch from "./components/MiniPitch";
 import MomentCards from "./components/MomentCards";
+import PlayerCamCard from "./components/PlayerCamCard";
 import ProfilePicker from "./components/ProfilePicker";
 import { useLeague } from "./league";
 import { loadProfile, saveProfile, validateProfile, type ViewerProfile } from "./profile";
@@ -55,6 +55,7 @@ export default function App() {
         </header>
         <ProfilePicker profile={profile} onChange={change} />
         <MiniPitch highlight={profile.mode === "player_cam" ? profile.player : null} />
+        {profile.mode === "player_cam" && profile.player && <PlayerCamCard player={profile.player} />}
         <MomentCards />
         <CueFeed profile={profile} />
       </div>

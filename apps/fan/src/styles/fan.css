@@ -232,3 +232,80 @@ body,
   color: var(--c-text-muted);
   text-align: center;
 }
+
+/* ------------------------------------------------------------------ Player-Cam card (T-044) */
+.player-cam {
+  margin: 0 var(--sp-4) var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-md);
+  background: var(--c-panel-raised);
+  border-top: 3px solid var(--c-accent);
+}
+
+.player-cam header {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+.player-cam .shirt {
+  min-width: 40px;
+  font: var(--fw-bold) 28px / 1 var(--font-num);
+  color: var(--c-accent);
+}
+
+.player-cam h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.player-cam header small {
+  color: var(--c-text-muted);
+}
+
+.player-cam dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3) var(--sp-2);
+  margin: var(--sp-3) 0 0;
+}
+
+.player-cam dl div {
+  min-width: 0;
+}
+
+.player-cam dt {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-cam dd {
+  margin: 0;
+  white-space: nowrap;
+  font: var(--fw-bold) 20px / 1.2 var(--font-num);
+  font-feature-settings: var(--font-features-num);
+}
+
+.player-cam dd small {
+  font-size: 10px;
+  color: var(--c-text-muted);
+}
+
+.player-cam .tag {
+  margin: var(--sp-2) 0 0;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-sm);
+  background: var(--c-accent);
+  color: var(--c-text-inverse);
+  font-weight: var(--fw-bold);
+}
+
+.player-cam .err {
+  color: var(--c-veto);
+  font-size: 12px;
+}

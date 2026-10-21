@@ -37,6 +37,13 @@ def mode_kinds() -> dict[str, frozenset[str] | None]:
     return {m: (None if "all" in cfg["kinds"] else frozenset(cfg["kinds"])) for m, cfg in modes.items()}
 
 
+@functools.cache
+def involved_only_modes() -> frozenset[str]:
+    """Modes that show only cues involving the viewer's player (budgets.yaml only_player_involved)."""
+    modes = yaml.safe_load(BUDGETS.read_text())["director"]["modes"]
+    return frozenset(m for m, cfg in modes.items() if cfg.get("only_player_involved"))
+
+
 def doc_time(doc: dict) -> int | None:
     t = doc.get("t_ms", doc.get("t_in_ms"))
     return int(t) if isinstance(t, int | float) else None
@@ -59,7 +66,8 @@ def cue_matches(profile: dict, cue: dict) -> bool:
     - `targets.clubs`: "any" (the default) matches everyone; otherwise a viewer with a club must be listed
       (a viewer without a club perspective sees every club's cues);
     - player-specific kinds (player_tag, decision_index) with `targets.players` go to player_cam viewers of one
-      of those players only.
+      of those players only;
+    - a mode with `only_player_involved` (player_cam) gets only cues whose `targets.players` include its player.
     """
     if is_studio(profile):
         return True
@@ -75,6 +83,8 @@ def cue_matches(profile: dict, cue: dict) -> bool:
     if "any" not in clubs and club and club not in clubs:
         return False
     players = targets.get("players") or []
+    if mode in involved_only_modes():
+        return profile.get("player") in players
     if mode == "player_cam" and cue.get("kind") in ("player_tag", "decision_index") and players:
         return profile.get("player") in players
     return True

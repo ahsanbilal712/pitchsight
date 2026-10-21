@@ -15,7 +15,7 @@ from collections.abc import AsyncIterator, Callable
 from fastapi import FastAPI, HTTPException, Query, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import control, cues, docs, ingest
+from api import control, cues, docs, ingest, players
 from api.models import envelope, viewer_profile
 from api.replay import MatchData, ReplayClock, parse_clock
 from api.spend import SpendGuard
@@ -70,7 +70,7 @@ def create_app(seed: int | str | None = None, speed: float | None = None, playin
     app = FastAPI(title="whyline-api", lifespan=lifespan)
     # the screens are served from other origins (:5173-5175, static files in tests); the API holds no secrets
     app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
-    for module in (control, cues, docs, ingest):
+    for module in (control, cues, docs, ingest, players):
         app.include_router(module.router)
 
     @app.get("/health")

@@ -10,6 +10,7 @@ import { drawBall, drawPitch, drawPlayers, type Kit, type Palette } from "./draw
 import { lerp, makeTransform } from "./geometry";
 import { layers, layerStats, PLAYERS_ORDER, type DrawFrame } from "./layers";
 import "./layers/ghostTrail";
+import "../modes/playerCam";
 
 export const STAGE_W = 1920;
 export const STAGE_H = 1080;

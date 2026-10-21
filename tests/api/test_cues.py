@@ -119,18 +119,20 @@ def test_target_filtering_per_viewer(env):
     bb.put("cues", make_cue(3, now - 500, modes=("casual",), clubs=("away",)))               # casual away fans
     bb.put("cues", make_cue(4, now - 500, modes=("player_cam",), players=("p_031",), kind="player_tag",
                             layer="player_tag"))                                             # Reyes cam only
-    bb.put("cues", make_cue(5, now - 500, modes=("player_cam", "casual"), kind="milestone", layer="ticker"))
+    bb.put("cues", make_cue(5, now - 500, modes=("player_cam", "casual"), kind="milestone", layer="ticker",
+                            players=("p_031",)))
+    bb.put("cues", make_cue(6, now - 500, modes=("player_cam",), kind="goal"))      # involves nobody: no cam viewer
     for s in screens.values():
         s.drain(0.6)
     got = {name: s.cue_ids() for name, s in screens.items()}
     assert got["analyst"] == {"c_000001", "c_000002"}
     assert got["casual_home"] == {"c_000001", "c_000005"}
     assert got["cam_reyes"] == {"c_000004", "c_000005"}
-    assert got["cam_other"] == {"c_000005"}
-    assert got["studio"] == {"c_000001", "c_000002", "c_000003", "c_000004", "c_000005"}
+    assert got["cam_other"] == set()                                     # only_player_involved (budgets.yaml)
+    assert got["studio"] == {"c_000001", "c_000002", "c_000003", "c_000004", "c_000005", "c_000006"}
     rest = client.get("/match/m_4242/cues", params={"viewer": "player_cam", "player": "p_031"}).json()
     assert {c["cue_id"] for c in rest} == {"c_000004", "c_000005"}
-    assert len(client.get("/match/4242/cues").json()) == 5                                   # studio default
+    assert len(client.get("/match/4242/cues").json()) == 6                                   # studio default
 
 
 def test_future_cue_is_released_on_the_clock_with_its_counterfactual(env):

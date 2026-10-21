@@ -16,6 +16,7 @@ FastAPI (pin at T-001). Endpoints: `GET /health`, `GET /match/{id}/events?from&t
 | `GET /match/{id}/cues?viewer=<mode>&club&player` | `cues.py` | cues that profile would receive; vetoed cues excluded; `viewer` defaults to `studio` (all) |
 | **`GET /match/{id}/doc/{collection}/{doc_id}`** | `docs.py` | **addition to the 1.4 list**: read-only blackboard documents for the studio Why? drawer and `/replay3d`. Whitelist: `counterfactuals`, `explanations`, `pitch_control`, `moments`, `facts`, `events` |
 | **`GET /match/{id}/doc/{doc_id}`** | `docs.py` | **addition**: same, collection from the id prefix (`cf_`, `ex_`, `pc_`, `mo_`, `f_`, `e_`), so every evidence id in a claim resolves |
+| **`GET /match/{id}/players/{player_id}/stats`** | `players.py` | **addition to the 1.4 list** (T-044): MCP `player_stats` on the same code, plus `distance_m` from tracking and `decision_index` from a blackboard `decision_index` fact while MCP has none (T-048) |
 | `POST /ingest/events` | `ingest.py` | one event or a list; stored in blackboard `events`; the first post switches the stream to live mode |
 | `POST /ingest/tracking?match_id=` | `ingest.py` | one `tracking_frame` or a list (exact 1.3 shape, 23 rows) |
 | `POST /replay/control` | `control.py` | `{action: play\|pause\|seek\|speed, value}`; seek also takes `t_ms`; speed x1..x10 |
