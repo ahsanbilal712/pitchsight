@@ -1,0 +1,144 @@
+# WHYLINE CI (TECH_PLAN 1.10): exactly nine jobs. lint, unit, schemas and spend-ledger are live from T-005;
+# the other five skip cleanly until the ticket that owns their script lands.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.12"
+  # CPU torch wheels on ubuntu-latest; tests that need MPS skip when it is absent.
+  TORCH_INDEX: https://download.pytorch.org/whl/cpu
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: pip install "ruff==0.17.1"
+      - run: ruff check .
+
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: pip install --index-url "$TORCH_INDEX" "torch==2.14.1"
+      - run: pip install -r requirements.lock
+      - run: pytest -q -m "not live"
+
+  schemas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: pip install "jsonschema==4.26.0"
+      - run: python scripts/validate_schemas.py
+
+  golden-determinism:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: skipped until T-007
+        if: hashFiles('tests/kickoff/test_determinism.py') == ''
+        run: 'echo "skipped: T-007"'
+      - uses: actions/setup-python@v5
+        if: hashFiles('tests/kickoff/test_determinism.py') != ''
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: generate seed 4242 twice and compare hashes
+        if: hashFiles('tests/kickoff/test_determinism.py') != ''
+        run: |
+          pip install -r requirements.lock --index-url "$TORCH_INDEX" --extra-index-url https://pypi.org/simple
+          pytest tests/kickoff/test_determinism.py -q
+
+  evals-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: skipped until T-056
+        if: hashFiles('packages/evals/gate.py') == ''
+        run: 'echo "skipped: T-056"'
+      - uses: actions/setup-python@v5
+        if: hashFiles('packages/evals/gate.py') != ''
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: thresholds from TECH_PLAN 1.11 on committed artefacts
+        if: hashFiles('packages/evals/gate.py') != ''
+        run: |
+          pip install -r requirements.lock --index-url "$TORCH_INDEX" --extra-index-url https://pypi.org/simple
+          PYTHONPATH=packages python -m evals.gate
+
+  licence-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: skipped until T-066
+        if: hashFiles('scripts/licence_scan.py') == ''
+        run: 'echo "skipped: T-066"'
+      - uses: actions/setup-python@v5
+        if: hashFiles('scripts/licence_scan.py') != ''
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: pip-licenses against the allow-list
+        if: hashFiles('scripts/licence_scan.py') != ''
+        run: |
+          pip install -r requirements.lock --index-url "$TORCH_INDEX" --extra-index-url https://pypi.org/simple
+          python scripts/licence_scan.py
+
+  spend-ledger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: pip install "pyyaml==6.0.3"
+      - run: python scripts/check_spend.py
+
+  frozen-cache-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: skipped until T-060
+        if: hashFiles('scripts/frozen_cache_guard.py') == ''
+        run: 'echo "skipped: T-060"'
+      - uses: actions/setup-python@v5
+        if: hashFiles('scripts/frozen_cache_guard.py') != ''
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: frozen cache unchanged unless docs/video/VERSION is bumped
+        if: hashFiles('scripts/frozen_cache_guard.py') != ''
+        run: python scripts/frozen_cache_guard.py
+
+  chaos-resume:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: skipped until T-051
+        if: hashFiles('tests/chaos/test_resume.py') == ''
+        run: 'echo "skipped: T-051"'
+      - uses: actions/setup-python@v5
+        if: hashFiles('tests/chaos/test_resume.py') != ''
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: kill and resume the newsroom, zero cues lost
+        if: hashFiles('tests/chaos/test_resume.py') != ''
+        run: |
+          pip install -r requirements.lock --index-url "$TORCH_INDEX" --extra-index-url https://pypi.org/simple
+          pytest tests/chaos/test_resume.py -q

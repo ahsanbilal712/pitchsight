@@ -19,7 +19,11 @@ markers = [
 [tool.ruff]
 line-length = 110
 target-version = "py312"
-extend-exclude = ["data", "apps", ".venv", "node_modules"]
+extend-exclude = [
+    "data", "apps", ".venv", "node_modules",
+    # first-pass footage exploration scripts (21 Oct), superseded by packages/evals/pitchwatch/shots.py (T-103)
+    "scripts/shots_firstpass.py", "scripts/shots_contact_sheet.py",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
