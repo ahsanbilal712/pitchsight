@@ -5,9 +5,9 @@ screen; each client has its own bounded queue and its own filter (cue targets, s
 On connect, and again after every seek, a client receives `hello` {match_id, mode, replay_speed, viewer_profile}
 plus optional fields screens use to rebuild state at the new clock: `t_ms`, `score`, `player_ids` (row order
 with substitutions applied) and `clubs` {home, away}; then the current frame and a snapshot: cues on screen at that
-clock (each preceded by its counterfactual), the latest fact per name and, for studio, recent moments. Screens
-treat a `hello` as a reset. `lineup` {t_ms, player_ids} follows each substitution. Unknown fields and types are
-ignored by consumers (1.3).
+clock (each preceded by its counterfactual), the latest fact per name and, for studio, recent moments, recent
+trace rows and undecided producer requests. Screens treat a `hello` as a reset. `lineup` {t_ms, player_ids}
+follows each substitution. Unknown fields and types are ignored by consumers (1.3).
 
 Replay mode walks `ReplayClock` over `MatchData`; live mode (first POST /ingest/*) takes the clock from the
 ingested frames instead (`LiveState`).
@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 
 from fastapi import WebSocket, WebSocketDisconnect
 
-from api.messages import TIMED_COLLECTIONS, cue_matches, doc_time, is_studio, wants
+from api.messages import TIMED_COLLECTIONS, cue_matches, doc_time, is_studio, request_payload, wants
 from api.models import envelope
 from api.replay import MatchData, ReplayClock
 
@@ -33,6 +33,7 @@ QUEUE_MAX = 400  # about 40 s of frames at x1; a client that falls further behin
 MAX_FRAMES_PER_TICK = 50  # after a stall, skip to the newest frame instead of flooding
 FACT_SNAPSHOT_MS = 120_000  # index facts older than this are not replayed on reset (state facts always are)
 MOMENT_SNAPSHOT = 20
+TRACE_SNAPSHOT = 60
 
 
 def dumps(msg: dict) -> str:
@@ -186,6 +187,10 @@ class Hub:
         if is_studio(client.profile):
             msgs += [envelope("moment", m) for m in
                      self.bb.query("moments", match_id=mid, t_to_ms=t_ms)[-MOMENT_SNAPSHOT:]]
+            msgs += [envelope("trace", r) for r in self.bb.query("traces", match_id=mid)[-TRACE_SNAPSHOT:]]
+            decided = {d.get("request_id") for d in self.bb.query("decisions", match_id=mid)}
+            msgs += [envelope("request_info", request_payload(r)) for r in self.bb.query("requests", match_id=mid)
+                     if request_payload(r)["request_id"] not in decided]
         for cue in self.bb.query("cues", match_id=mid, t_to_ms=t_ms):
             if cue.get("producer_status") != "vetoed" and int(cue.get("t_out_ms", 0)) > t_ms:
                 msgs.append(envelope("cue", cue))

@@ -1,9 +1,14 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import App from "./App";
+import { StreamProvider } from "./stream/StreamProvider";
+import "./styles/tokens.css";
+import "./styles/studio.css";
 
-// Skeleton from T-001; the real shell arrives with its own ticket.
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <div>WHYLINE studio</div>
+    <StreamProvider>
+      <App />
+    </StreamProvider>
   </StrictMode>,
 );

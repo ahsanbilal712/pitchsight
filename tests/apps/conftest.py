@@ -5,6 +5,7 @@ import http.server
 import socket
 import threading
 import time
+import types
 from pathlib import Path
 
 import pytest
@@ -18,16 +19,28 @@ class _Quiet(http.server.SimpleHTTPRequestHandler):
         pass
 
 
-@pytest.fixture(scope="session")
-def overlay_url():
-    dist = ROOT / "apps" / "overlay" / "dist"
+def _serve(app: str):
+    dist = ROOT / "apps" / app / "dist"
     if not (dist / "index.html").exists():
-        pytest.fail("apps/overlay/dist missing: run `npm --prefix apps/overlay run build` first")
+        pytest.fail(f"apps/{app}/dist missing: run `npm --prefix apps/{app} run build` first")
     handler = functools.partial(_Quiet, directory=str(dist))
     server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    yield f"http://127.0.0.1:{server.server_address[1]}/index.html"
+    return server, f"http://127.0.0.1:{server.server_address[1]}/index.html"
+
+
+@pytest.fixture(scope="session")
+def overlay_url():
+    server, url = _serve("overlay")
+    yield url
+    server.shutdown()
+
+
+@pytest.fixture(scope="session")
+def studio_url():
+    server, url = _serve("studio")
+    yield url
     server.shutdown()
 
 
@@ -59,8 +72,9 @@ def out_dir() -> Path:
 
 
 @pytest.fixture(scope="session")
-def api_port(tmp_path_factory):
-    """whyline-api serving the golden match 4242 at x1 on a free port, for screens opened with ?api=."""
+def api_server(tmp_path_factory):
+    """whyline-api serving the golden match 4242 at x1 on a free port, for screens opened with ?api=.
+    Yields (port, bb, app): tests seed the blackboard the way the newsroom would."""
     import uvicorn
 
     from api.main import create_app
@@ -69,9 +83,9 @@ def api_port(tmp_path_factory):
     with socket.socket() as s:
         s.bind(("127.0.0.1", 0))
         port = s.getsockname()[1]
-    server = uvicorn.Server(uvicorn.Config(create_app(seed=4242, speed=1,
-                                                      bb=SqliteBlackboard(tmp_path_factory.mktemp("bb") / "bb.sqlite")), host="127.0.0.1", port=port,
-                                           log_level="warning"))
+    bb = SqliteBlackboard(tmp_path_factory.mktemp("bb") / "bb.sqlite")
+    app = create_app(seed=4242, speed=1, bb=bb)
+    server = uvicorn.Server(uvicorn.Config(app, host="127.0.0.1", port=port, log_level="warning"))
     thread = threading.Thread(target=server.run, daemon=True)
     thread.start()
     deadline = time.time() + 20
@@ -79,6 +93,11 @@ def api_port(tmp_path_factory):
         if time.time() > deadline:
             pytest.fail("api did not start")
         time.sleep(0.05)
-    yield port
+    yield types.SimpleNamespace(port=port, bb=bb, app=app, base=f"http://127.0.0.1:{port}")
     server.should_exit = True
     thread.join(timeout=5)
+
+
+@pytest.fixture(scope="session")
+def api_port(api_server):
+    return api_server.port
