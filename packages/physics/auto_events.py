@@ -30,7 +30,7 @@ BIG_CHANCE_XG = 0.30            # TECH_PLAN 1.7 Scout classification
 SWITCH_M, SWITCH_S = 35.0, 3.0  # lateral ball travel and time limit
 TRAP_U, TRAP_PRESS_S, TRAP_PRESSERS = 63.0, 5.0, 2   # won in the attacking 40% after >= 2 players pressed
 COUNTER_FROM_U, COUNTER_TO_U, COUNTER_S = 45.0, 80.0, 10.0
-OVERLOAD_U, OVERLOAD_EDGE, OVERLOAD_MARGIN, OVERLOAD_GAP_S = 60.0, 22.0, 2, 30.0
+OVERLOAD_U, OVERLOAD_EDGE, OVERLOAD_MARGIN, OVERLOAD_GAP_S = 60.0, 25.0, 2, 30.0
 
 
 @dataclass
@@ -198,7 +198,7 @@ def counter_attacks(window: TrackingWindow, events: list[dict]) -> list[AutoEven
 
 def overloads(window: TrackingWindow, events: list[dict], step_ms: int = 1000) -> list[AutoEvent]:
     """Team in possession has at least two more players than the defenders in a wide channel of the attacking
-    half (u > 60, within 22 m of a touchline) with the ball in that channel; one detection per team per 30 s."""
+    half (u > 60, within 25 m of a touchline) with the ball in that channel; one detection per team per 30 s."""
     out: list[AutoEvent] = []
     last = {0: -10**9, 1: -10**9}
     idx = np.flatnonzero(window.t_ms % step_ms == 0)
