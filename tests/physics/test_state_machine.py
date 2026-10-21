@@ -43,6 +43,6 @@ def test_values_between_50_and_65_keep_chaotic():
 
 def test_settled_transitional_round_trip():
     sm = StateMachine()
-    changes = feed(sm, [(55, 11), (30, 11)])
+    changes = feed(sm, [(40, 11), (20, 11)])
     assert [s for _, s in changes] == [TRANSITIONAL, SETTLED]
     assert changes[0][0] == 10_000 and changes[1][0] == 21_000

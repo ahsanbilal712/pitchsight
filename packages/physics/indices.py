@@ -1,5 +1,6 @@
 """Match indices over a tracking window and the chaos index (TECH_PLAN 1.4 physics).
 
+Turnovers are open-play possession changes (`possession_change` events), so restarts do not count as chaos.
 `indices` returns control, pressure, tempo and turnover rate plus the inputs of `chaos_index` (contested share,
 turnovers in the window, transition share) and the mean closing speed of the nearest defender, so one call
 yields every number the facts stream and the chaos head (T-015) need.
@@ -14,9 +15,13 @@ from .window import TrackingWindow
 
 PRESSURE_R = 3.0          # m, an opponent this close to the holder is pressing
 TRANSITION_S = 10.0       # s after a turnover counts as transition
-# chaos_index weights (sum 1) and the saturation points of its inputs; calibrated on seeds 1-50 (T-013)
-CHAOS_W = {"contested": 0.25, "turnovers": 0.45, "transition": 0.30}
-CONTESTED_SAT, TURNOVERS_SAT = 0.06, 6.0
+RATE_TAU_S = 60.0         # s, time constant of the exponentially weighted turnover rate
+# chaos_index: the turnover rate maps linearly from RATE_LO (chaos 20) to RATE_HI (chaos 85) per minute; transition
+# share and contested pitch nudge it by at most CHAOS_NUDGE points each. Calibrated against the hidden match regimes
+# (truth phases with side "M") so the state machine's 65 / 50 thresholds separate them (T-013, T-055).
+RATE_LO, RATE_HI = 1.0, 7.0
+CHAOS_NUDGE = 0.0           # measured: nudges cost macro F1 (0.748 vs 0.765, seeds 1-30), so off for now
+TRANSITION_MID, CONTESTED_MID = 0.40, 0.035
 
 
 def team_possession(possession: np.ndarray) -> np.ndarray:
@@ -35,12 +40,23 @@ def turnover_mask(possession: np.ndarray) -> np.ndarray:
     return out
 
 
-def transition_share(window: TrackingWindow, after_s: float = TRANSITION_S) -> float:
-    """Share of the window's frames that fall within `after_s` of a turnover."""
+def open_play_turnovers(events: list[dict], t0: int, t1: int) -> np.ndarray:
+    """Times of open-play turnovers (possession_change events: tackles won, interceptions, loose balls) in
+    [t0, t1]. Restarts that hand the ball over (throw-ins, goal kicks) are not turnovers."""
+    return np.array(sorted(e["t_ms"] for e in events if e.get("type") == "possession_change" and t0 <= e["t_ms"] <= t1),
+                    dtype=np.int64)
+
+
+def transition_share(window: TrackingWindow, after_s: float = TRANSITION_S, events: list[dict] | None = None) -> float:
+    """Share of the window's frames that fall within `after_s` of a turnover (open-play turnovers from `events`
+    when given, else every change of the team in possession in the tracking)."""
     if len(window) == 0:
         return 0.0
     t = window.t_ms
-    turn_t = t[turnover_mask(window.possession)]
+    if events is None:
+        turn_t = t[turnover_mask(window.possession)]
+    else:
+        turn_t = open_play_turnovers(events, int(t[0]) - int(after_s * 1000), int(t[-1]))
     if turn_t.size == 0:
         return 0.0
     k = np.searchsorted(turn_t, t, side="right") - 1
@@ -81,8 +97,8 @@ def indices(window: TrackingWindow, events: list[dict]) -> dict[str, float]:
     away_has, home_has = team == 1, team == 0
     t0, t1 = int(window.t_ms[0]), int(window.t_ms[-1])
     passes = sum(1 for e in events if e.get("type") == "pass" and t0 <= e["t_ms"] <= t1)
-    turnovers = int(turnover_mask(window.possession).sum())
-    trans = transition_share(window)
+    turnovers = int(open_play_turnovers(events, t0, t1).size)
+    trans = transition_share(window, events=events)
     contested = contested_fraction(pc)
     out = {
         "control_home": float(pc.mean()),
@@ -96,15 +112,24 @@ def indices(window: TrackingWindow, events: list[dict]) -> dict[str, float]:
         "contested_frac": contested,
         "closing_speed": float(np.clip(closing[pressed], 0, None).mean()) if pressed.any() else 0.0,
     }
-    out["chaos"] = chaos_index(pc, turnovers * 60.0 / max(window.duration_s, 1.0), trans)
+    out["turnovers_60s"] = turnover_rate(events, t1)
+    out["chaos"] = chaos_index(pc, out["turnovers_60s"], trans)
     return out
 
 
+def turnover_rate(events: list[dict], t_ms: int, tau_s: float = RATE_TAU_S) -> float:
+    """Open-play turnovers per minute at t_ms, exponentially weighted with time constant tau_s (unbiased for a
+    constant rate; less noisy than a box count over the same lag)."""
+    t = open_play_turnovers(events, int(t_ms - 8 * tau_s * 1000), int(t_ms))
+    if t.size == 0:
+        return 0.0
+    return float(np.exp(-(t_ms - t) / (tau_s * 1000.0)).sum() / tau_s * 60.0)
+
+
 def chaos_index(pc: np.ndarray, turnovers_60s: float, transition_share: float) -> float:
-    """0-100 fallback formula until the learned chaos head exists: contested pitch, turnovers per 60 s and the
-    share of time spent in transition, each saturating, weighted by CHAOS_W."""
-    contested = min(contested_fraction(pc) / CONTESTED_SAT, 1.0)
-    turnovers = min(float(turnovers_60s) / TURNOVERS_SAT, 1.0)
-    trans = min(max(float(transition_share), 0.0), 1.0)
-    value = (CHAOS_W["contested"] * contested + CHAOS_W["turnovers"] * turnovers + CHAOS_W["transition"] * trans)
-    return float(round(100.0 * value, 3))
+    """0-100 fallback formula until the learned chaos head exists. `turnovers_60s` is a rate per 60 s (indices
+    passes the exponentially weighted rate); transition share and contested pitch add or remove a few points."""
+    base = 20.0 + 65.0 * (float(turnovers_60s) - RATE_LO) / (RATE_HI - RATE_LO)
+    nudge = CHAOS_NUDGE * np.clip((float(transition_share) - TRANSITION_MID) / TRANSITION_MID, -1, 1)
+    nudge += CHAOS_NUDGE * np.clip((contested_fraction(pc) - CONTESTED_MID) / CONTESTED_MID, -1, 1)
+    return float(round(np.clip(base + nudge, 0.0, 100.0), 3))

@@ -29,7 +29,7 @@ def _pass(window, events) -> list[float]:
         pc = pitch_control(frame.S)
         last60 = window.slice(t - 60_000, t)
         ix = indices(last60, [e for e in events if t - 60_000 <= e["t_ms"] <= t])
-        chaos = chaos_index(pc, ix["turnovers"], ix["transition_share"])
+        chaos = chaos_index(pc, ix["turnovers_60s"], ix["transition_share"])
         speeds(window.slice(t - 1_000, t))
         sm.update(chaos, t)
         times.append((time.process_time() - started) * 1000)

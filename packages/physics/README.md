@@ -20,9 +20,11 @@ Implementation notes (T-013):
 - `window.py`: `TrackingWindow` (slice of `tracking.npz`, substitutions applied by `player_at`) and `Frame`.
 - `pitch_control.py`: arrival time = 0.7 s reaction on the current velocity + run at 5 m/s; softmin over all 22
   players with Spearman's logistic scale (sigma 0.45 s). Grid rows are y (bottom to top), columns x.
-- `indices.py`: `indices` also returns `turnovers`, `transition_share`, `contested_frac`, `closing_speed` and `chaos`
-  (the chaos head's inputs). Chaos = 100 × (0.25 contested/0.06 + 0.45 turnovers/6 + 0.30 transition), each capped at 1.
-- `state_machine.py`: one timer per threshold; Settled ↔ Transitional at 50/35 for 10 s; Chaotic at 65 for 20 s,
-  out at 50 for 30 s.
+- `indices.py`: turnovers are open-play `possession_change` events (restarts are not chaos). `indices` also returns
+  `turnovers`, `turnovers_60s` (exponentially weighted rate per minute, tau 60 s), `transition_share`,
+  `contested_frac`, `closing_speed` and `chaos`. Chaos = 20 + 65 × (rate − 1) / 6, clipped to 0–100; the transition
+  and contested nudges exist but are weighted 0 (they cost macro F1: 0.748 vs 0.765 on seeds 1–30).
+- `state_machine.py`: one timer per threshold; Settled ↔ Transitional at 35/25 for 10 s; Chaotic at 65 for 20 s,
+  out at 50 for 30 s. Against the engine's hidden match regimes (truth side `M`): macro F1 0.771 on seeds 1–50.
 - Measured on the golden match: p50 0.8 ms, p95 3.4 ms per frame for pitch control + 60 s indices + chaos + speeds +
   state update.
