@@ -1,0 +1,30 @@
+#!/bin/sh
+# WHYLINE pre-commit secret guard (T-004, TECH_PLAN 1.10 "Secrets").
+# Refuses a commit when an added line looks like an Anthropic or Google API key, or when a file
+# named .env is staged. Bare prefixes in docs ("sk-ant-", "AIza") pass: a key body must follow.
+# Prints the file name only, never the matched value. Install with scripts/install_hooks.sh.
+
+TAB=$(printf '\t')
+KEY_RE='(sk-ant-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{35})'
+status=0
+
+envs=$(git diff --cached --name-only --diff-filter=ACMR | awk -F/ '$NF == ".env"')
+if [ -n "$envs" ]; then
+    echo "pre-commit: refusing to commit .env files (keep keys in the git-ignored root .env):" >&2
+    echo "$envs" | sed 's/^/  /' >&2
+    status=1
+fi
+
+# Added lines only, each prefixed with its file name and a tab.
+hits=$(git diff --cached --no-color --no-ext-diff -U0 --diff-filter=ACMR \
+    | awk -v tab="$TAB" '/^\+\+\+ /{ f = substr($0, 7); next } /^\+/{ print f tab substr($0, 2) }' \
+    | grep -E "^[^$TAB]*$TAB.*$KEY_RE" \
+    | cut -f1 | sort -u)
+if [ -n "$hits" ]; then
+    echo "pre-commit: staged content looks like an API key (sk-ant-… or AIza…) in:" >&2
+    echo "$hits" | sed 's/^/  /' >&2
+    echo "Remove the key, unstage the file, and keep secrets in .env only." >&2
+    status=1
+fi
+
+exit $status
