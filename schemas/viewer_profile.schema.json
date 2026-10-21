@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whyline.dev/schemas/viewer_profile.schema.json",
+  "title": "ViewerProfile",
+  "description": "What the Director knows about one viewer. English only; no audio. Stored client-side and sent with the stream subscription.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "viewer_id", "mode"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "viewer_id": { "type": "string" },
+    "mode": { "type": "string", "enum": ["analyst", "casual", "player_cam", "studio"], "description": "studio is the producer console; it receives every cue regardless of budget." },
+    "club": { "type": ["string", "null"], "enum": ["home", "away", null], "description": "Perspective for framing; numbers are never changed by it." },
+    "player": { "type": ["string", "null"], "pattern": "^p_[0-9]{3}$", "description": "Required when mode is player_cam." },
+    "metric": { "type": ["string", "null"], "enum": ["pressure", "pitch_control", "ball_speed", "passing", "decision_index", null] },
+    "high_contrast": { "type": "boolean", "default": false },
+    "show_heatmap": { "type": "boolean", "default": false }
+  },
+  "examples": [
+    { "schema_version": "1.0.0", "viewer_id": "v_analyst_demo", "mode": "analyst", "club": null, "player": null, "metric": "pitch_control", "high_contrast": false, "show_heatmap": true },
+    { "schema_version": "1.0.0", "viewer_id": "v_reyes_fan", "mode": "player_cam", "club": "home", "player": "p_031", "metric": "decision_index", "high_contrast": false, "show_heatmap": false }
+  ]
+}

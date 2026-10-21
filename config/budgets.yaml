@@ -1,0 +1,68 @@
+# WHYLINE budgets: Director screen-time budgets per viewer mode, and spend caps.
+schema_version: "1.0.0"
+
+director:
+  # Minimum gap between lower-thirds, max cues per 10 minutes, allowed kinds, heatmap default.
+  modes:
+    analyst:
+      min_gap_s: 30
+      max_per_10min: 12
+      kinds: [sliding_doors, state_change, big_chance, goal, tempo_shift, pressing_trap, fourth_official, oracle, dugout, decision_index, milestone, recap]
+      heatmap: true
+      threat_front: true
+    casual:
+      min_gap_s: 60
+      max_per_10min: 6
+      kinds: [goal, big_chance, milestone, fourth_official, sliding_doors]
+      sliding_doors_per_half: 2
+      heatmap: false
+      threat_front: false
+    player_cam:
+      min_gap_s: 20
+      max_per_10min: 15
+      kinds: [player_tag, milestone, decision_index, sliding_doors, goal, fourth_official]
+      only_player_involved: true
+      heatmap: false
+      player_trail: true
+    studio:
+      min_gap_s: 0
+      max_per_10min: 999
+      kinds: [all]
+      heatmap: true
+      threat_front: true
+  hard_rules:
+    no_overlay_during_shot_sequence: true       # from shot event to ball dead or possession change, max 6 s
+    no_overlay_within_ms_after_goal: 3000
+    dedupe_same_kind_window_s: 90
+    expire_unshown_after_s: 45
+    leverage_floor_for_sliding_doors: 0.04
+    oracle_min_p_shot: 0.30
+    oracle_refresh_s: 2
+
+spend:
+  currency: USD
+  per_match_cap: 2.50          # live mode; Director switches to degraded when reached
+  per_day_cap: 10.00
+  project_total_cap: 50.00     # enforced at runtime too: SpendGuard reads the ledger total at start-up
+  ledger_path: data/spend/ledger.jsonl   # committed; one line per API call {ts, role, model, tokens_in, tokens_out, cost_usd, match_id, mode}
+  ledger_azure: cosmos:spend   # in Azure the ledger lives in Cosmos (survives scale-to-zero); scripts/pull_ledger.py mirrors it to the file
+  warn_at_fraction: 0.8
+  prices_usd_per_1m:
+    claude-opus-5-5: { in: 4.00, out: 20.00, cache_read: 0.20 }
+    claude-sonnet-5-5: { in: 2.00, out: 10.00, cache_read: 0.10 }   # 0.05x input, Anthropic pricing page 21 Oct 2026
+    claude-haiku-5-5: { in: 0.10, out: 0.50, cache_read: 0.01 }   # prompts up to 100k tokens; cache read 0.1x input, Anthropic pricing page 21 Oct 2026
+    gemini-3.8-flash: { in: 0.75, out: 3.75 }
+    batch_discount: 0.5
+
+latency_slo:
+  fast_cue_p95_s: 3            # event -> verified fast cue on the stream (template or Haiku)
+  explained_cue_p95_s: 15      # event -> verified explained cue (Tactician + counterfactual)
+  counterfactual_ms:
+    scripted_200x60s_cpu: 1200     # measured 1.2 s warm, 200 x 90 s on this Mac CPU (audit)
+    policy_200x8s_decision_only_mps: 300   # measured 0.3 s for 15 policy calls at batch 200 on the Mac GPU (audit)
+    policy_200x8s_decision_only_cpu: 1200
+
+tokens:
+  tactician_max_context: 12000
+  league_context_block_tokens: 1500   # cached
+  blackboard_snapshot_tokens: 2500

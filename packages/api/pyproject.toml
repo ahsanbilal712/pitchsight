@@ -1,0 +1,8 @@
+[project]
+name = "whyline-api"
+version = "0.0.1"
+description = "FastAPI replay server, WebSocket stream and SpendGuard."
+requires-python = ">=3.12"
+
+# Import package = this folder (packages/ is on the pytest pythonpath).
+# Dependencies are pinned once for the whole repo in config/pins.txt and requirements.lock.

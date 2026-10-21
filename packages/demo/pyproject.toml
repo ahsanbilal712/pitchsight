@@ -1,0 +1,8 @@
+[project]
+name = "whyline-demo"
+version = "0.0.1"
+description = "Demo script runner and Playwright recorder."
+requires-python = ">=3.12"
+
+# Import package = this folder (packages/ is on the pytest pythonpath).
+# Dependencies are pinned once for the whole repo in config/pins.txt and requirements.lock.

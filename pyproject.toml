@@ -1,0 +1,32 @@
+[project]
+name = "whyline"
+version = "0.0.1"
+description = "WHYLINE: synthetic football simulator, pitch physics, counterfactuals and a multi-agent newsroom"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+
+# Each folder under packages/ is its own import package with its own pyproject.toml.
+# Dependencies are pinned in config/pins.txt and frozen in requirements.lock.
+
+[tool.pytest.ini_options]
+pythonpath = ["packages"]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib"
+markers = [
+    "live: calls a paid or rate-limited external API; runs only when WHYLINE_LIVE_TESTS=1",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["data", "apps", ".venv", "node_modules"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "kickoff", "physics", "heads", "policy", "rollout", "blackboard", "mcp_server",
+    "newsroom", "fourth_official", "cache", "api", "evals", "demo",
+]

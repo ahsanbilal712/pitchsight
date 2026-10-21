@@ -1,0 +1,128 @@
+# WHYLINE model routing. Role -> model. Read by packages/newsroom at start-up.
+# Prices (USD per 1M tokens, verified 21 Oct 2026 via the Claude API reference):
+#   claude-opus-5-5  in 4.00  out 20.00  cache_read 0.20
+#   claude-sonnet-5-5 in 2.00 out 10.00  cache_read 0.20
+#   claude-haiku-5-5 in 0.10  out 0.50   (prompts <= 100K tokens)
+#   gemini-3.8-flash in 0.75  out 3.75 paid tier; free tier exists (limits unpublished)
+# Rules: Opus 5.5 default effort is "medium" and must be set explicitly; thinking cannot be
+# disabled on Opus 5.5 / Sonnet 5.5 (use effort); forced tool_choice "any"/"tool" is a 400 on
+# these models (use auto + strict tools + prompt instruction); structured outputs via
+# output_config.format; prefill is not supported. Fallbacks: betas server-side-fallback-2026-07-01
+# with fallbacks "default" on Opus/Sonnet calls.
+
+schema_version: "1.0.0"
+provider_defaults:
+  anthropic:
+    thinking: { type: adaptive }
+    fallbacks: default
+    betas: ["server-side-fallback-2026-07-01"]
+    cache_control: ephemeral          # on the frozen system prompt + league context block
+    max_retries: 2
+    timeout_s: 60
+  gemini:
+    timeout_s: 60
+
+roles:
+  tactician_golden:                   # precompute only, golden match, Batch API
+    provider: anthropic
+    model: claude-opus-5-5
+    effort: high
+    max_tokens: 4000
+    temperature: null                 # sampling params not accepted on Opus 5.5
+    output_format: schemas/explanation.schema.json
+    tools: []                         # Batch API cannot run tool rounds: precompute.py pre-resolves
+    pre_resolved_tools: [query_events, get_pitch_control, simulate_counterfactual, player_stats, similar_moments]
+    max_tool_rounds: 0
+    fallback_role: tactician_live
+    batch: true
+
+  tactician_live:
+    provider: anthropic
+    model: claude-sonnet-5-5
+    effort: medium
+    max_tokens: 3000
+    output_format: schemas/explanation.schema.json
+    tools: [query_events, get_pitch_control, simulate_counterfactual, player_stats]
+    max_tool_rounds: 2
+    timeout_s: 12
+    fallback_role: tactician_degraded
+
+  tactician_degraded:                 # no LLM; template explanation from the counterfactual numbers
+    provider: none
+    model: template
+
+  proposer:
+    provider: anthropic
+    model: claude-sonnet-5-5
+    effort: low
+    max_tokens: 600
+    output_format: inline_json        # {"alternatives": [{"kind","actor","target","reason"}]}
+    timeout_s: 6
+    fallback_role: proposer_rule       # enumerate passes to the 3 teammates with highest xT gain
+
+  narrator_fast:
+    provider: anthropic
+    model: claude-haiku-5-5
+    effort: low
+    max_tokens: 300
+    output_format: inline_json        # {"headline","body","claims":[...]}
+    timeout_s: 4
+    fallback_role: narrator_template
+    gemini_fallback: gemini-3.8-flash
+
+  narrator_template:
+    provider: none
+    model: template
+
+  panel_pundit:                       # three instances with distinct system prompts
+    provider: anthropic
+    model: claude-sonnet-5-5
+    effort: medium
+    max_tokens: 500
+    output_format: inline_json        # {"take","claims":[...],"stance"}
+    tools: [simulate_counterfactual, get_pitch_control]
+    max_tool_rounds: 1
+    timeout_s: 10
+
+  panel_chair:
+    provider: anthropic
+    model: claude-sonnet-5-5
+    effort: low
+    max_tokens: 300
+    output_format: inline_json        # {"consensus","dissent","headline"}
+    timeout_s: 6
+
+  recap:
+    provider: anthropic
+    model: claude-opus-5-5
+    effort: high
+    max_tokens: 6000
+    output_format: inline_json        # recap_card list
+    timeout_s: 90
+    batch: true
+    fallback_role: recap_live
+
+  recap_live:
+    provider: anthropic
+    model: claude-sonnet-5-5
+    effort: medium
+    max_tokens: 4000
+    timeout_s: 45
+
+  judge:                              # CI evaluator only, never on the live path
+    provider: anthropic
+    model: claude-sonnet-5-5
+    effort: medium
+    max_tokens: 800
+
+  video_tagger:                       # optional Pitchwatch adapter
+    provider: gemini
+    model: gemini-3.8-flash
+    video_processing: agentic
+    output_format: schemas/event.schema.json
+
+  cluster_namer:                      # names the moment-embedding clusters once, offline
+    provider: anthropic
+    model: claude-sonnet-5-5
+    effort: low
+    max_tokens: 400

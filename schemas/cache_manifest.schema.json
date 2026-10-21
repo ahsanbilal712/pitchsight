@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whyline.dev/schemas/cache_manifest.schema.json",
+  "title": "CacheManifest",
+  "description": "Index of every precomputed artefact for one golden match. The demo app serves cache hits from this manifest; live mode writes new entries. Cache key format: <match_id>/<moment_id or 'match'>/<producer>@<version>/<model or engine>/s<seed>. The manifest is committed to the repo under data/matches/<seed>/cache/manifest.json and is regenerated only by the precompute script.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "match_id", "match_seed", "events_sha256", "tracking_sha256", "engine_hash", "created_at", "entries", "totals"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "match_id": { "type": "string" },
+    "match_seed": { "type": "integer" },
+    "events_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "SHA-256 of events.jsonl. If it changes, every entry is invalid." },
+    "tracking_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "engine_hash": { "type": "string", "description": "Git SHA of the engine at generation time." },
+    "created_at": { "type": "string", "format": "date-time" },
+    "frozen": { "type": "boolean", "default": false, "description": "True after day 7. A frozen manifest may not be regenerated without a new video (TECH_PLAN 1.8)." },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "kind", "path", "sha256", "created_at"],
+        "properties": {
+          "key": { "type": "string" },
+          "kind": { "type": "string", "enum": ["analytics", "pitch_control", "counterfactual", "explanation", "fast_line", "panel", "recap", "fourth_official", "cue"] },
+          "moment_id": { "type": ["string", "null"] },
+          "producer": { "type": ["string", "null"], "description": "agent or engine name" },
+          "version": { "type": ["string", "null"], "description": "prompt version or engine version" },
+          "model": { "type": ["string", "null"] },
+          "seed": { "type": ["integer", "null"] },
+          "path": { "type": "string", "description": "Relative to the cache directory." },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "simulated_latency_ms": { "type": ["integer", "null"], "description": "Latency the replay layer waits before serving, so the trace panel animates realistically." },
+          "tokens_in": { "type": ["integer", "null"] },
+          "tokens_out": { "type": ["integer", "null"] },
+          "cost_usd": { "type": ["number", "null"] },
+          "batch_id": { "type": ["string", "null"] },
+          "hand_reviewed": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entries", "cost_usd"],
+      "properties": {
+        "entries": { "type": "integer" },
+        "cost_usd": { "type": "number" },
+        "tokens_in": { "type": "integer" },
+        "tokens_out": { "type": "integer" }
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "1.0.0",
+      "match_id": "m_4242",
+      "match_seed": 4242,
+      "events_sha256": "8f4e1c2a9b7d6e5f4a3b2c1d0e9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f",
+      "tracking_sha256": "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
+      "engine_hash": "0000000000000000000000000000000000000000",
+      "created_at": "2026-10-25T20:00:00Z",
+      "frozen": false,
+      "entries": [
+        { "key": "m_4242/mo_00077/rollout@scripted_v1/scripted/s4242", "kind": "counterfactual", "moment_id": "mo_00077", "producer": "rollout", "version": "scripted_v1", "model": null, "seed": 4242, "path": "counterfactuals/cf_000077.json", "sha256": "2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c", "created_at": "2026-10-25T20:01:10Z", "simulated_latency_ms": 1180, "tokens_in": null, "tokens_out": null, "cost_usd": 0, "batch_id": null, "hand_reviewed": false },
+        { "key": "m_4242/mo_00077/tactician@3/claude-opus-5-5/s4242", "kind": "explanation", "moment_id": "mo_00077", "producer": "tactician", "version": "tactician@3", "model": "claude-opus-5-5", "seed": 4242, "path": "explanations/ex_000077.json", "sha256": "3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d", "created_at": "2026-10-25T20:14:33Z", "simulated_latency_ms": 6200, "tokens_in": 4120, "tokens_out": 790, "cost_usd": 0.0161, "batch_id": "msgbatch_01ABC", "hand_reviewed": true }
+      ],
+      "totals": { "entries": 2, "cost_usd": 0.0161, "tokens_in": 4120, "tokens_out": 790 }
+    }
+  ]
+}

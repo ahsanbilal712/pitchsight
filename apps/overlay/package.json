@@ -1,0 +1,32 @@
+{
+  "name": "whyline-overlay",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 5173"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "0.186.1",
+    "@react-three/fiber": "9.8.2",
+    "@react-three/drei": "10.7.9"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "@types/three": "0.186.0"
+  },
+  "overrides": {
+    "three": "$three"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

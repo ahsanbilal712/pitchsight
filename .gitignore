@@ -1,0 +1,32 @@
+# secrets
+.env
+.env.*
+!config/.env.example
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# runtime state
+.checkpoints/
+data/runtime/*
+!data/runtime/.gitkeep
+data/grf/
+data/matches/corpus/
+packages/demo/out/
+packages/policy/artifacts/*.pt
+tests/apps/out/
+
+# front-end
+node_modules/
+apps/*/dist/
+
+# licensed footage: media is ignored by data/footage/.gitignore; yt-dlp info files carry signed stream URLs
+data/footage/*/clip.info.json
+
+# os
+.DS_Store

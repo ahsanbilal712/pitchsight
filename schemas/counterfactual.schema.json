@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whyline.dev/schemas/counterfactual.schema.json",
+  "title": "CounterfactualResult",
+  "description": "Output of the rollout primitive for one branch point. Baseline = unforced continuation from the frozen state; alternative = the first action forced to the alternative, then the same engine. Both are sampled n times for horizon_s seconds, then scored by the goal-in-horizon head and converted to win probability. Numbers are shown on screen only with n, horizon_s and seed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "counterfactual_id", "match_id", "t_ms", "engine", "n", "horizon_s", "seed", "actual", "alternative", "baseline", "alternative_outcome", "delta_win_prob_home", "evidence_event_ids", "pitch_control_snapshot_id"],
+  "$defs": {
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "actor", "target"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["pass", "carry", "shoot", "clear", "hold"] },
+        "actor": { "type": "string", "pattern": "^p_[0-9]{3}$" },
+        "target": { "type": ["string", "null"], "description": "Teammate id for pass; direction tag for carry (n, ne, e, se, s, sw, w, nw); null otherwise." },
+        "policy_prob": { "type": ["number", "null"], "minimum": 0, "maximum": 1, "description": "Probability the decision policy assigned to this action at the branch point. Alternatives below 0.05 are not shown to viewers." }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["p_goal_home", "p_goal_away", "win_prob_home", "mean_xt_gain", "shots_home", "shots_away"],
+      "properties": {
+        "p_goal_home": { "type": "number", "minimum": 0, "maximum": 1 },
+        "p_goal_away": { "type": "number", "minimum": 0, "maximum": 1 },
+        "win_prob_home": { "type": "number", "minimum": 0, "maximum": 1, "description": "From the win-probability head applied to the state at the end of each future, averaged." },
+        "mean_xt_gain": { "type": "number" },
+        "shots_home": { "type": "number", "description": "Mean shots per future." },
+        "shots_away": { "type": "number" },
+        "ci95_win_prob_home": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "counterfactual_id": { "type": "string", "pattern": "^cf_[0-9]{6}$" },
+    "match_id": { "type": "string" },
+    "moment_id": { "type": ["string", "null"], "pattern": "^mo_[0-9]{5}$" },
+    "t_ms": { "type": "integer", "minimum": 0 },
+    "engine": { "type": "string", "enum": ["scripted_v1", "policy_v1", "policy_v2"], "description": "Which decision model drove the futures. scripted_v1 is the deterministic engine rule; policy_vN is the learned on-ball policy." },
+    "n": { "type": "integer", "minimum": 50, "maximum": 1000 },
+    "horizon_s": { "type": "number", "minimum": 4, "maximum": 90, "description": "Learned engines are capped at 8 s; scripted may run to 90 s." },
+    "seed": { "type": "integer" },
+    "actual": { "$ref": "#/$defs/action" },
+    "alternative": { "$ref": "#/$defs/action" },
+    "baseline": { "$ref": "#/$defs/outcome" },
+    "alternative_outcome": { "$ref": "#/$defs/outcome" },
+    "delta_win_prob_home": { "type": "number", "minimum": -1, "maximum": 1, "description": "alternative_outcome.win_prob_home - baseline.win_prob_home" },
+    "futures_sample": { "type": "array", "description": "Up to 200 ball paths for the ghost-trail render: each is a list of [x, y] at 1 Hz.", "items": { "type": "array", "items": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 } } },
+    "evidence_event_ids": { "type": "array", "items": { "type": "string", "pattern": "^e_[0-9]{4,}$" }, "minItems": 1 },
+    "pitch_control_snapshot_id": { "type": "string", "pattern": "^pc_[0-9]{6}$" },
+    "compute_ms": { "type": ["integer", "null"] },
+    "engine_hash": { "type": ["string", "null"], "description": "Git SHA of the engine/policy that produced it, for cache invalidation." }
+  },
+  "examples": [
+    {
+      "schema_version": "1.0.0",
+      "counterfactual_id": "cf_000077",
+      "match_id": "m_4242",
+      "moment_id": "mo_00077",
+      "t_ms": 1874000,
+      "engine": "scripted_v1",
+      "n": 200,
+      "horizon_s": 8,
+      "seed": 4242,
+      "actual": { "kind": "shoot", "actor": "p_017", "target": null, "policy_prob": 0.46 },
+      "alternative": { "kind": "pass", "actor": "p_017", "target": "p_031", "policy_prob": 0.38 },
+      "baseline": { "p_goal_home": 0.11, "p_goal_away": 0.02, "win_prob_home": 0.42, "mean_xt_gain": 0.004, "shots_home": 1.0, "shots_away": 0.05, "ci95_win_prob_home": [0.39, 0.45] },
+      "alternative_outcome": { "p_goal_home": 0.27, "p_goal_away": 0.02, "win_prob_home": 0.51, "mean_xt_gain": 0.031, "shots_home": 0.83, "shots_away": 0.04, "ci95_win_prob_home": [0.48, 0.54] },
+      "delta_win_prob_home": 0.09,
+      "futures_sample": [[[87.5, 29.5], [98.9, 39.8], [105.0, 33.0]]],
+      "evidence_event_ids": ["e_8809", "e_8811", "e_8812"],
+      "pitch_control_snapshot_id": "pc_000412",
+      "compute_ms": 1180,
+      "engine_hash": "0000000000000000000000000000000000000000"
+    }
+  ]
+}
