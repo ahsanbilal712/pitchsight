@@ -1,14 +1,15 @@
 # WHYLINE model routing. Role -> model. Read by packages/newsroom at start-up.
-# Prices (USD per 1M tokens, verified 21 Oct 2026 via the Claude API reference):
-#   claude-opus-5-5  in 4.00  out 20.00  cache_read 0.20
-#   claude-sonnet-5-5 in 2.00 out 10.00  cache_read 0.10 (0.05x input; corrected T-001 from the pricing page)
-#   claude-haiku-5-5 in 0.10  out 0.50   cache_read 0.01 (prompts <= 100K tokens)
-#   gemini-3.8-flash in 0.75  out 3.75 paid tier; free tier exists (limits unpublished)
-# Rules: Opus 5.5 default effort is "medium" and must be set explicitly; thinking cannot be
-# disabled on Opus 5.5 / Sonnet 5.5 (use effort); forced tool_choice "any"/"tool" is a 400 on
-# these models (use auto + strict tools + prompt instruction); structured outputs via
-# output_config.format; prefill is not supported. Fallbacks: betas server-side-fallback-2026-07-01
-# with fallbacks "default" on Opus/Sonnet calls.
+# Decision 21 Oct 2026 (owner): runtime reasoning runs on Gemini, not Claude (ADR-004 revised).
+# Both models verified callable on Vertex AI project ffc-19484 on 21 Oct 2026.
+# Prices (USD per 1M tokens; ADR-004 / audit rows 30-31; confirm on the Vertex AI pricing page):
+#   gemini-4-argon   in 2.00  out 10.00 until 30 Nov 2026, then 4.00 / 20.00; no free tier
+#   gemini-3.8-flash in 0.75  out 3.75 paid tier until 31 Dec 2026; free tier exists (limits unpublished)
+#   Vertex AI batch prediction is billed at 0.5x (batch_discount in budgets.yaml).
+# Rules: thinking tokens are billed as output, so count thoughts_token_count in tokens_out; effort maps to
+# Gemini thinking_level (low | high; "medium" -> high on Argon, low on Flash); structured output via
+# response_mime_type application/json + response_json_schema; tools via function declarations with
+# automatic function calling off (the workflow runs tool rounds itself). Claude roles were removed; the
+# anthropic provider block is kept so a role can be switched back by editing provider/model only.
 
 schema_version: "1.0.0"
 provider_defaults:
@@ -20,25 +21,26 @@ provider_defaults:
     max_retries: 2
     timeout_s: 60
   gemini:
+    route: vertex                     # GOOGLE_GENAI_USE_VERTEXAI=true + GOOGLE_CLOUD_PROJECT; developer API if GOOGLE_API_KEY
+    max_retries: 2
     timeout_s: 60
 
 roles:
-  tactician_golden:                   # precompute only, golden match, Batch API
-    provider: anthropic
-    model: claude-opus-5-5
+  tactician_golden:                   # precompute only, golden match, Vertex AI batch prediction
+    provider: gemini
+    model: gemini-4-argon
     effort: high
     max_tokens: 4000
-    temperature: null                 # sampling params not accepted on Opus 5.5
     output_format: schemas/explanation.schema.json
-    tools: []                         # Batch API cannot run tool rounds: precompute.py pre-resolves
+    tools: []                         # batch jobs cannot run tool rounds: precompute.py pre-resolves
     pre_resolved_tools: [query_events, get_pitch_control, simulate_counterfactual, player_stats, similar_moments]
     max_tool_rounds: 0
     fallback_role: tactician_live
     batch: true
 
   tactician_live:
-    provider: anthropic
-    model: claude-sonnet-5-5
+    provider: gemini
+    model: gemini-4-argon
     effort: medium
     max_tokens: 3000
     output_format: schemas/explanation.schema.json
@@ -52,8 +54,8 @@ roles:
     model: template
 
   proposer:
-    provider: anthropic
-    model: claude-sonnet-5-5
+    provider: gemini
+    model: gemini-3.8-flash
     effort: low
     max_tokens: 600
     output_format: inline_json        # {"alternatives": [{"kind","actor","target","reason"}]}
@@ -61,22 +63,21 @@ roles:
     fallback_role: proposer_rule       # enumerate passes to the 3 teammates with highest xT gain
 
   narrator_fast:
-    provider: anthropic
-    model: claude-haiku-5-5
+    provider: gemini
+    model: gemini-3.8-flash
     effort: low
     max_tokens: 300
     output_format: inline_json        # {"headline","body","claims":[...]}
     timeout_s: 4
     fallback_role: narrator_template
-    gemini_fallback: gemini-3.8-flash
 
   narrator_template:
     provider: none
     model: template
 
   panel_pundit:                       # three instances with distinct system prompts
-    provider: anthropic
-    model: claude-sonnet-5-5
+    provider: gemini
+    model: gemini-4-argon
     effort: medium
     max_tokens: 500
     output_format: inline_json        # {"take","claims":[...],"stance"}
@@ -85,16 +86,16 @@ roles:
     timeout_s: 10
 
   panel_chair:
-    provider: anthropic
-    model: claude-sonnet-5-5
+    provider: gemini
+    model: gemini-3.8-flash
     effort: low
     max_tokens: 300
     output_format: inline_json        # {"consensus","dissent","headline"}
     timeout_s: 6
 
   recap:
-    provider: anthropic
-    model: claude-opus-5-5
+    provider: gemini
+    model: gemini-4-argon
     effort: high
     max_tokens: 6000
     output_format: inline_json        # recap_card list
@@ -103,15 +104,15 @@ roles:
     fallback_role: recap_live
 
   recap_live:
-    provider: anthropic
-    model: claude-sonnet-5-5
+    provider: gemini
+    model: gemini-4-argon
     effort: medium
     max_tokens: 4000
     timeout_s: 45
 
   judge:                              # CI evaluator only, never on the live path
-    provider: anthropic
-    model: claude-sonnet-5-5
+    provider: gemini
+    model: gemini-4-argon
     effort: medium
     max_tokens: 800
 
@@ -122,7 +123,7 @@ roles:
     output_format: schemas/event.schema.json
 
   cluster_namer:                      # names the moment-embedding clusters once, offline
-    provider: anthropic
-    model: claude-sonnet-5-5
+    provider: gemini
+    model: gemini-3.8-flash
     effort: low
     max_tokens: 400

@@ -1,12 +1,15 @@
-"""One tiny Claude Haiku 5.5 call and one tiny Gemini 3.8 Flash call, both through SpendGuard (T-008).
+"""One tiny call each to Gemini 3.8 Flash and Gemini 4 Argon, both through SpendGuard (T-008).
+
+Runtime models are Gemini since 21 Oct 2026 (ADR-004 revised). Claude Haiku 5.5 is called only if
+ANTHROPIC_API_KEY is set; without it the Claude check is skipped, not blocked.
 
 Usage: python scripts/smoke_models.py
 
-Credentials come from .env (git-ignored): ANTHROPIC_API_KEY for Claude; for Gemini either GOOGLE_API_KEY
+Credentials come from .env (git-ignored): for Gemini either GOOGLE_API_KEY
 (Developer API) or GOOGLE_GENAI_USE_VERTEXAI=true + GOOGLE_CLOUD_PROJECT (Vertex AI with gcloud
-application-default credentials). Keys are never printed. Each call is capped at 20 output tokens and
-recorded in the ledger with role "smoke"; the script fails if the two calls together cost more than $0.01.
-Exit codes: 0 both calls succeeded, 2 a provider is blocked on missing credentials, 1 a call failed.
+application-default credentials); optional ANTHROPIC_API_KEY for Claude. Keys are never printed. Each call is capped at 20 output tokens and
+recorded in the ledger with role "smoke"; the script fails if the calls together cost more than $0.01.
+Exit codes: 0 the Gemini calls succeeded, 2 Gemini is blocked on missing credentials, 1 a call failed.
 """
 
 from __future__ import annotations
@@ -28,7 +31,7 @@ MAX_SMOKE_USD = 0.01
 
 def claude(guard: SpendGuard) -> tuple[str, dict | None]:
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        return "blocked: ANTHROPIC_API_KEY is not set in .env", None
+        return "skipped: ANTHROPIC_API_KEY not set (optional since ADR-004 revision)", None
     import anthropic
 
     client = anthropic.Anthropic()
@@ -42,7 +45,7 @@ def claude(guard: SpendGuard) -> tuple[str, dict | None]:
     return f"ok: {text!r}", row
 
 
-def gemini(guard: SpendGuard) -> tuple[str, dict | None]:
+def gemini(guard: SpendGuard, model: str = "gemini-3.8-flash") -> tuple[str, dict | None]:
     from google import genai
     from google.genai import types
 
@@ -57,12 +60,13 @@ def gemini(guard: SpendGuard) -> tuple[str, dict | None]:
     else:
         return "blocked: neither GOOGLE_API_KEY nor GOOGLE_GENAI_USE_VERTEXAI + GOOGLE_CLOUD_PROJECT is set", None
     guard.check("smoke")
-    resp = client.models.generate_content(
-        model="gemini-3.8-flash", contents=PROMPT,
-        config=types.GenerateContentConfig(max_output_tokens=20, thinking_config=types.ThinkingConfig(thinking_budget=0)))
+    # Argon thinks by default and its thoughts count against max_output_tokens, so it gets more room
+    cfg = (types.GenerateContentConfig(max_output_tokens=20, thinking_config=types.ThinkingConfig(thinking_budget=0))
+           if model == "gemini-3.8-flash" else types.GenerateContentConfig(max_output_tokens=200))
+    resp = client.models.generate_content(model=model, contents=PROMPT, config=cfg)
     u = resp.usage_metadata
     tokens_out = (u.candidates_token_count or 0) + (getattr(u, "thoughts_token_count", 0) or 0)
-    row = guard.record("smoke", "gemini-3.8-flash", u.prompt_token_count or 0, tokens_out, "smoke", "smoke")
+    row = guard.record("smoke", model, u.prompt_token_count or 0, tokens_out, "smoke", "smoke")
     return f"ok via {route}: {(resp.text or '').strip()!r}", row
 
 
@@ -71,7 +75,9 @@ def main() -> int:
     guard = SpendGuard()
     blocked = failed = False
     spent = 0.0
-    for name, call in (("claude-haiku-5-5", claude), ("gemini-3.8-flash", gemini)):
+    calls = (("gemini-3.8-flash", gemini), ("gemini-4-argon", lambda g: gemini(g, "gemini-4-argon")),
+             ("claude-haiku-5-5", claude))
+    for name, call in calls:
         try:
             status, row = call(guard)
         except Exception as exc:  # noqa: BLE001 - report any provider error without a traceback full of headers

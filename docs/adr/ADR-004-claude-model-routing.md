@@ -41,3 +41,26 @@ Claude is reached through `agent-framework-anthropic` (`from agent_framework.ant
 - ADR-003, ADR-005, ADR-011.
 - Config: `config/models.yaml`, `config/budgets.yaml`, `config/pins.txt`. Schemas: `schemas/explanation.schema.json` (`model`, `prompt_version`).
 - Audit: A.1 rows 30, 31, 39, 48 to 50; C.1.
+
+## Revision 1 (2026-10-21): Gemini replaces Claude at runtime
+
+Status: Accepted, 2026-10-21, owner decision. Supersedes the Decision section above where they conflict.
+
+- Every runtime role moves to Gemini on Vertex AI (project ffc-19484, gcloud application-default credentials):
+  `gemini-4-argon` (Google's top tier) for `tactician_golden`, `tactician_live`, `panel_pundit`, `recap`,
+  `recap_live` and `judge`; `gemini-3.8-flash` for `narrator_fast`, `proposer`, `panel_chair`, `cluster_namer`
+  and `video_tagger`. Template roles are unchanged. Both models answered a smoke call on 21 Oct 2026
+  (`scripts/smoke_models.py`, ledger cost $0.000135).
+- Why: one provider and one bill; no Anthropic API account or credit needed. Argon's list price ($2 / $10 per 1M
+  until 30 Nov 2026) is half of Opus 5.5 and equal to Sonnet 5.5, so the $50 plan still holds; after 30 Nov the
+  price doubles, which is after judging closes on 10 Nov.
+- Batch: the golden precompute (T-042) uses Vertex AI batch prediction (0.5x) instead of the Anthropic Message
+  Batches API. Results are still matched by `custom_id`-style keys, never by position.
+- Claude-specific rules in this ADR (effort, no prefill, no forced `tool_choice`, server-side fallback beta,
+  `cache_control`) no longer apply. Gemini equivalents: `thinking_level` for effort, `response_json_schema` for
+  structured output, explicit context caching for the frozen league block, and the template fallback when a call
+  fails or times out. Thinking tokens are billed as output and must be counted in `tokens_out`.
+- Claude stays possible: the `anthropic` provider block remains in `config/models.yaml`, and the smoke test calls
+  Claude only when `ANTHROPIC_API_KEY` is set.
+- New risk: Argon has no free tier and Flash free-tier limits are unpublished; on Vertex both are paid per token,
+  so 429s come from project quota, not a free tier. Check quota before the day-6 recording.

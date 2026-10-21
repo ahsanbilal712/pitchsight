@@ -37,7 +37,7 @@ Version 1.0, 21 October 2026. Sources: `TECH_PLAN.md` (sections 1.1–1.14), `DE
 - English only. No voice, no TTS, no audio in cues, no Localizer (ADR-010).
 - Never used: gfootball; `RequestInfoExecutor` (use `ctx.request_info()` + `@response_handler`); `sv.ByteTrack` (use `trackers.ByteTrackTracker`); ffmpeg for HLS ID3 metadata; the `agent-framework[all]` metapackage; `agent-framework-mcp` or `HostedMCPTool`; YOLOv8/ultralytics weights; sn-gamestate; Veo.
 - Learned rollouts are decision-only and capped at 8 s (ADR-002, audit E.1). Futures past 8 s are valued by `GoalIn8sHead` and labelled as estimates.
-- Opus 5.5 and Sonnet 5.5 calls: set `effort` explicitly, no `temperature` on Opus, no forced `tool_choice`, no prefill, structured output via `output_config.format`, server-side fallback beta (`config/models.yaml` header).
+- Runtime models are Gemini since 21 Oct 2026 (ADR-004 Revision 1): `gemini-4-argon` for reasoning roles, `gemini-3.8-flash` for volume roles, both on Vertex AI. Where a ticket below says Opus, Sonnet, Haiku or "Anthropic Batch API", read the role in `config/models.yaml` and Vertex AI batch prediction instead. Count thinking tokens as output; structured output via `response_json_schema` (`config/models.yaml` header).
 
 ## Dependency order
 
@@ -887,7 +887,7 @@ Unplanned hours are buffer. Days 8–14 carry deliberate slack because "flawless
   Acceptance: pytest tests/newsroom/test_panel.py -q
   ```
 
-### T-042 Golden precompute, part 2: model calls via the Anthropic Batch API
+### T-042 Golden precompute, part 2: model calls via batch (Vertex AI batch prediction since ADR-004 Revision 1)
 - **Owner:** B · **Day:** 4 · **Estimated hours:** 3
 - **Depends on:** T-038, T-039, T-041
 - **Files:** `scripts/precompute.py` (stages fast_lines, tactician, narrator, panel, factcheck), `packages/cache/batch.py`, `data/matches/4242/cache/{explanations/,fast_lines/,panel/,batches.json}`, `tests/cache/test_batch.py`
