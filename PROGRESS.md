@@ -5,6 +5,14 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-017 SqliteBlackboard (track B)
+
+- `packages/blackboard/{protocol,sqlite,ids}.py`: one table per collection, JSON column, WAL, cross-process
+  `watch` by sequence polling; ids per TECH_PLAN 1.3, monotonic per match. Verification `pytest tests/blackboard -q`:
+  15 passed. `put` p50 **0.06 ms**, p95 0.10 ms (limit 2 ms).
+
+---
+
 ## 2026-10-21 · Day 1 backlog: T-001 to T-012
 
 **Done** (one commit per ticket, `git log --oneline`)
