@@ -109,6 +109,17 @@ def kill_when_ready(bb, run_id: str | None = None, timeout_s: float = 120.0, pol
     return {"killed": False, "reason": f"no run between Tactician and Narrator within {timeout_s:.0f} s"}
 
 
+def thread_board(bb):
+    """A blackboard connection for a background thread: one sqlite connection must not be used from two threads at
+    once (the kill wait polls while the stream ticker queries), so file-backed boards get a connection of their own."""
+    path = getattr(bb, "path", ":memory:")
+    if path == ":memory:":
+        return bb
+    from blackboard import SqliteBlackboard
+
+    return SqliteBlackboard(path)
+
+
 @router.post("/demo/kill", status_code=202)
 def demo_kill(request: Request, body: Kill) -> dict:
     if body.target not in ("newsroom", "mcp", "api"):
@@ -116,5 +127,5 @@ def demo_kill(request: Request, body: Kill) -> dict:
     if body.target != "newsroom":
         return {"accepted": False, "target": body.target, "note": "only the newsroom worker is supervised (T-051)"}
     bb = request.app.state.bb
-    threading.Thread(target=kill_when_ready, args=(bb,), daemon=True, name="demo-kill").start()
+    threading.Thread(target=kill_when_ready, args=(thread_board(bb),), daemon=True, name="demo-kill").start()
     return {"accepted": True, "target": body.target}

@@ -80,9 +80,9 @@ class DemoRunner:
             if self.kill is not None:
                 a.result = self.kill(a.spec.get("target", "newsroom")) or {}
             else:
-                from api.control import kill_when_ready
+                from api.control import kill_when_ready, thread_board
 
-                threading.Thread(target=kill_when_ready, args=(self.state.bb,), daemon=True,
+                threading.Thread(target=kill_when_ready, args=(thread_board(self.state.bb),), daemon=True,
                                  name="demo-script-kill").start()
                 a.result = {"started": True}
         elif a.action == "veto":
