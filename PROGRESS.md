@@ -5,6 +5,20 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-043 Fan app: modes, mini-pitch, cue feed, moment cards (track C)
+
+- `apps/fan/src/{App,main,profile,league}.tsx|ts`, `stream/{StreamProvider.tsx,reducer.ts,types.ts}`,
+  `components/{ProfilePicker,MiniPitch,CueFeed,MomentCards}.tsx`, `styles/{tokens,fan}.css`,
+  `public/league.json`. Profile validated against the viewer_profile schema rules, stored with try/catch (app works
+  when storage throws). api `messages.cue_matches` now also enforces `budgets.yaml` mode kinds server side.
+- Verification: `npm --prefix apps/fan run build && pytest tests/apps/test_fan.py -q` 4 passed. With one cue of
+  every kind on air, **casual receives exactly its 5 kinds, analyst its 12** (switching back and forth); stored
+  profile passes `jsonschema` against `viewer_profile.schema.json` and survives a reload; **veto → fan card gone
+  in 3–5 ms** (closes the fan half of T-035). Fixed an order-dependent wait in the score-bug test (shared api
+  left at 70:00 by another test). `tests/apps` + `tests/api`: 55 passed, twice.
+
+---
+
 ## 2026-10-22 · T-035 Studio producer panel and demo controls (track C)
 
 - `apps/studio/src/components/{ProducerPanel,DemoControls}.tsx`: Approve / Veto / Hold on `request_info`, Veto on
