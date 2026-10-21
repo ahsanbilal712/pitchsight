@@ -188,7 +188,8 @@ class Hub:
             msgs += [envelope("moment", m) for m in
                      self.bb.query("moments", match_id=mid, t_to_ms=t_ms)[-MOMENT_SNAPSHOT:]]
             msgs += [envelope("trace", r) for r in self.bb.query("traces", match_id=mid)[-TRACE_SNAPSHOT:]]
-            decided = {d.get("request_id") for d in self.bb.query("decisions", match_id=mid)}
+            decided = {d.get("request_id") for d in self.bb.query("decisions", match_id=mid)
+                       if d.get("decision") in ("approved", "vetoed")}  # held requests stay pending
             msgs += [envelope("request_info", request_payload(r)) for r in self.bb.query("requests", match_id=mid)
                      if request_payload(r)["request_id"] not in decided]
         for cue in self.bb.query("cues", match_id=mid, t_to_ms=t_ms):

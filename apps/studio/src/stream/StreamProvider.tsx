@@ -1,10 +1,10 @@
 // Studio stream (pattern copied from apps/overlay; apps do not import each other). Connects as mode=studio, so
 // the api sends every cue and the studio-only messages. On each hello it also loads the match's full cue list
-// over REST, so the cue log survives seeks and late connects.
+// and the spend totals over REST, so the cue log survives seeks and late connects.
 import { createContext, useContext, useEffect, useReducer, type ReactNode } from "react";
 import { API, http } from "../api";
 import { initialState, reducer, type Action, type StudioState } from "./reducer";
-import type { Cue, Message } from "./types";
+import type { Cue, Message, Spend } from "./types";
 
 interface StreamApi {
   state: StudioState;
@@ -45,6 +45,10 @@ export function StreamProvider({ children }: { children: ReactNode }) {
             void fetch(http(`/match/${msg.payload.match_id}/cues?viewer=studio`))
               .then((r) => (r.ok ? (r.json() as Promise<Cue[]>) : []))
               .then((cues) => dispatch({ kind: "cues", cues }))
+              .catch(() => undefined);
+            void fetch(http("/spend"))
+              .then((r) => (r.ok ? (r.json() as Promise<Spend>) : null))
+              .then((spend) => spend && dispatch({ kind: "message", msg: { type: "spend", payload: spend } }))
               .catch(() => undefined);
           }
         }

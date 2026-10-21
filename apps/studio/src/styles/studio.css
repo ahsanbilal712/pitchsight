@@ -363,3 +363,95 @@ figcaption {
 .swatch.base { background: var(--c-text-muted); }
 .swatch.alt { background: var(--c-accent); }
 .provenance { margin-top: var(--sp-5); font-size: 12px; }
+
+/* ------------------------------------------------------------------ producer panel and demo controls (T-035) */
+.side .blackboard { flex: 1; }
+
+.producer h3 {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-4);
+  font-size: 12px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  border-top: 1px solid var(--c-divider);
+}
+
+.producer li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.producer li[data-held="true"] { background: rgba(241, 196, 15, 0.1); }
+
+.req-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.req-text b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.req-text small { color: var(--c-text-muted); }
+
+.buttons { display: flex; gap: var(--sp-1); }
+
+.producer button,
+.demo button,
+.demo input {
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid var(--c-divider);
+  border-radius: var(--radius-sm);
+  background: var(--c-panel-solid);
+  color: var(--c-text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.producer button.approve { border-color: var(--c-verified); color: var(--c-verified); }
+.producer button.veto,
+.demo button.kill { border-color: var(--c-veto); color: var(--c-veto); }
+.producer button.hold { border-color: var(--c-unverified); color: var(--c-unverified); }
+.producer button:hover,
+.demo button:hover { background: var(--c-panel-raised); }
+
+.demo .row {
+  display: flex;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+}
+
+.demo .speeds button[aria-pressed="true"] {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-text-inverse);
+}
+
+.demo input {
+  width: 90px;
+  cursor: text;
+  font-family: var(--font-num);
+}
+
+.note,
+.error {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-4);
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+.error { color: var(--c-veto); }
+
+.panel li.empty {
+  display: block;
+}
