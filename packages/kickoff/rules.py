@@ -85,7 +85,7 @@ class ScriptedRule:
     # Tuned on seeds 1-50 against the TECH_PLAN 1.4 realism ranges (T-014).
     shot_scale = 1.3              # weight on xG when comparing a shot with the best pass
     shot_range_m = 25.0           # no open-play shots from further out
-    through_ball_bias = 0.045     # the passer over-rates a runner past the offside line (mistimed runs -> offsides)
+    through_ball_bias = 0.07      # the passer over-rates a runner past the offside line (mistimed runs -> offsides)
     rate_base, rate_tempo = 0.55, 1.1   # release hazard per second: base + tempo term
 
     def decide_batch(self, b: DecisionBatch) -> DecisionOut:

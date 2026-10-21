@@ -23,13 +23,26 @@ HEADER_Z = 2.3                    # highest ball a player can control
 PRESSURE_R = 3.0
 TACKLE_R = 1.3
 
-SPRINT = 7.8                      # top speed at full stamina
+SPRINT = 7.8                      # reference top speed (m/s); each player's own comes from top_speed()
 JOG = 4.2
 ACCEL = 4.5                       # m/s^2
 GROUND_DECAY = 0.75               # 1/s, exponential speed decay of a rolling ball
 AIR_DRAG = 0.08
 STAMINA_COST = 1.3e-6             # per tick per (m/s)^2
 XG_INTERCEPT = -2.65              # open-play xG logit at zero angle, zero distance, empty cone
+
+
+TOP_SPEED_BASE = {"GK": 7.3, "DF": 8.5, "MF": 8.4, "FW": 8.8}      # m/s at full stamina (26-32 km/h)
+TOP_SPEED_TRAITS = {"recovery pace": 0.5, "runs in behind": 0.5, "overlapping runs": 0.3, "dribbler": 0.25,
+                    "progressive carrier": 0.2, "inverted runs": 0.2, "back-post runner": 0.15}
+
+
+def top_speed(position: str, traits: list[str], age: int, player_id: str) -> float:
+    """A player's top speed (m/s): position base, pace traits, -0.05 per year past 27, and a fixed +-0.25 spread
+    from the player id (no random draw, so the engine's random streams are untouched)."""
+    spread = ((int(player_id[2:]) * 37) % 11 - 5) / 20.0
+    v = TOP_SPEED_BASE.get(position, 8.4) + sum(TOP_SPEED_TRAITS.get(t, 0.0) for t in traits)
+    return float(v - 0.05 * max(0, age - 27) + spread)
 
 
 def to_team(x, y, direction):

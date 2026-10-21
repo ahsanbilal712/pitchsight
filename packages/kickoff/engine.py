@@ -40,7 +40,6 @@ from .physics_prior import (
     PITCH_L,
     PITCH_W,
     PRESSURE_R,
-    SPRINT,
     STAMINA_COST,
     TACKLE_R,
     TICK_MS,
@@ -50,6 +49,7 @@ from .physics_prior import (
     goal_distance,
     pass_launch,
     to_team,
+    top_speed,
     xg,
 )
 from .rules import (
@@ -111,12 +111,15 @@ KIND_CODE = {"pass": PASS, "carry": CARRY, "shoot": SHOOT, "clear": CLEAR, "hold
 NOISE_BLOCK = 64                          # ticks of noise drawn per world at once
 # Realism knobs, tuned on seeds 1-50 against TECH_PLAN 1.4 (T-014).
 LINE_IN_POSS, LINE_OUT_POSS = 6.0, 10.0   # metres the defensive line moves up per unit of line_height
-RUN_AMP_M = 2.2                           # forwards drift this far either side of the offside line on a 7 s cycle
+RUN_AMP_M = 3.0                           # forwards drift this far either side of the offside line on a 7 s cycle
 FWD_REACH_M = 20.0                        # forwards push onto the offside line when it is this close to the ball
 AIM_K = 1.0                               # pass aim error scales with regime intensity ** AIM_K
 FIRST_TOUCH_K = 0.05                      # first-touch control falls by this per unit of regime intensity above 1
 INTERCEPT_P = 0.65                        # chance an opponent within reach cuts out a pass in flight
-FINISH = 0.8                              # open-play scoring probability = FINISH * xG (decisions see plain xG)
+FINISH = 0.62                             # open-play scoring probability = FINISH * xG (decisions see plain xG)
+FORMATION_VMAX = 5.0                      # m/s cap while moving to a formation target in play
+FORMATION_DEADZONE = 3.0                  # m, players within this of their target ease to a stop (0 = off)
+FORMATION_GAIN = 0.8                      # 1/s, desired speed toward the target per metre of distance
 TACKLE_INTENSITY_CAP = 2.5                # regime intensity scales the tackle hazard up to this factor
 TACKLE_RATE, TACKLE_PRESS = 0.9, 0.3      # challenge hazard per second within TACKLE_R: rate * (0.6 + press * press_height)
 
@@ -293,6 +296,7 @@ class Engine:
         self.mom = np.zeros((B, 2))
         self.intensity = np.ones(B)
         self.shots = np.zeros((B, 2), dtype=np.int64)         # shots taken, for rollout futures
+        self.vtop = np.tile([self._top_speed(p) for p in self.lineups[0][0] + self.lineups[1][0]], (B, 1))
         self.force: dict | None = None                        # forced first action of a branch (rollouts)
         self.force_pending = np.zeros(B, dtype=bool)
         self.first_kind = np.full(B, -1, dtype=np.int64)       # a branch's first decision per world (kind, team slot)
@@ -345,6 +349,10 @@ class Engine:
                 "lineups": {"home": {"starting": self.lineups[0][0], "bench": self.lineups[0][1]},
                             "away": {"starting": self.lineups[1][0], "bench": self.lineups[1][1]}}}
         w.log.new(t_ms=0, period=1, type="match_metadata", team="none", player=None, location=None, attrs=meta)
+
+    def _top_speed(self, player_id: str) -> float:
+        p = self.league.players[player_id]
+        return top_speed(p.position, list(p.traits), p.age, player_id)
 
     def _kickoff_iso(self) -> str:
         day = 15 + self.seed % 120
@@ -493,6 +501,7 @@ class Engine:
                 self._ev(w, "substitution", team, int(row), None, attrs={"player_off": off, "player_on": on})
                 w.bench[team].remove(on)
                 w.row_ids[row] = on
+                self.vtop[b, row] = self._top_speed(on)
                 self.S[b, row, 4] = 1.0
                 w.subs_used[team] += 1
                 w.sub_log.append((self.t_ms, int(row), on))
@@ -662,7 +671,7 @@ class Engine:
     # ------------------------------------------------------------------ branching (TECH_PLAN 1.5)
     PER_WORLD = ("S", "ball_z", "ball_vz", "holder", "possession", "score", "control_since", "latency", "restart_flag",
                  "dead", "flight", "kicker", "kick_t", "last_touch", "carry_dir", "mode", "eff_styles", "mom",
-                 "intensity", "shots", "force_pending", "first_kind", "first_target")
+                 "intensity", "shots", "force_pending", "first_kind", "first_target", "vtop")
 
     def _fork(self, batch: int, seed: int, world: int = 0) -> Engine:
         """`batch` copies of world `world` at the current tick; world b draws from default_rng(seed + b)."""
@@ -1009,11 +1018,17 @@ class Engine:
         y = np.where(pos_dir[None, :, None], v, PITCH_W - v)
         targets = np.stack([x.reshape(B, 22), y.reshape(B, 22)], axis=2)
         stam = 0.85 + 0.15 * S[:, :22, 4]
-        vmax = np.where(self.dead[:, None], 0.75 * JOG, 5.0) * stam
-        self._special_targets_all(targets, vmax)
+        vmax = np.where(self.dead[:, None], 0.75 * JOG, FORMATION_VMAX) * stam
+        special = np.zeros((B, 22), dtype=bool)
+        self._special_targets_all(targets, vmax, special)
         pos = S[:, :22, 0:2]
         vel = S[:, :22, 2:4]
-        desired = (targets - pos) * 0.8
+        desired = (targets - pos) * FORMATION_GAIN
+        if FORMATION_DEADZONE > 0:            # settle near a formation spot instead of shuffling (not runs and presses)
+            gap = np.hypot(desired[..., 0], desired[..., 1]) / FORMATION_GAIN
+            ease = np.clip((gap - FORMATION_DEADZONE) / FORMATION_DEADZONE, 0.0, 1.0)
+            ease[:, [0, 11]] = 1.0            # keepers keep tracking the ball across their goal
+            desired *= np.where(special, 1.0, ease)[..., None]
         sp = np.hypot(desired[..., 0], desired[..., 1])
         scale = np.minimum(1.0, vmax / np.maximum(sp, 1e-9))
         desired *= scale[..., None]
@@ -1024,15 +1039,16 @@ class Engine:
         S[:, :22, 2:4] = vel
         S[:, :22, 0:2] = np.minimum(np.maximum(pos + vel * DT, -3.0), MOVE_HI)
 
-    def _special_targets_all(self, targets: np.ndarray, vmax: np.ndarray) -> None:
+    def _special_targets_all(self, targets: np.ndarray, vmax: np.ndarray, special: np.ndarray) -> None:
         """Vectorised `_special_targets` for every world (same values, same overwrite order)."""
         S, a = self.S, self.wa
-        sprint = SPRINT * (0.85 + 0.15 * S[:, :22, 4])                    # [B, 22]
+        sprint = self.vtop * (0.85 + 0.15 * S[:, :22, 4])                 # [B, 22], each player's own top speed
         bx, by = S[:, 22, 0], S[:, 22, 1]
         idx = np.flatnonzero(self.dead)
         if idx.size:
             r = a.restart_taker[idx]
             targets[idx, r] = a.restart_pos[idx]
+            special[idx, r] = True
             vmax[idx, r] = sprint[idx, r]
         idx = np.flatnonzero(~self.dead & (self.holder >= 0))
         if idx.size:
@@ -1046,6 +1062,7 @@ class Engine:
             near = np.hypot(ox - hpos[:, 0:1], oy - hpos[:, 1:2]).min(axis=1)
             speed = np.where(self.mode[idx] == HOLD, 0.0, np.where(near < PRESSURE_R, 3.5, 5.0))
             targets[idx, h] = hpos + self.carry_dir[idx] * speed[:, None]
+            special[idx, h] = True
             vmax[idx, h] = speed * (0.85 + 0.15 * Sb[n, h, 4])
             d = np.hypot(ox - bx[idx, None], oy - by[idx, None])
             order = opp[n[:, None], np.argsort(d, axis=1, kind="stable")]
@@ -1056,10 +1073,12 @@ class Engine:
             presser = np.where(order[:, 0] != keeper, order[:, 0], order[:, 1])
             go = (du < press_zone) | (d.min(axis=1) < 8.0)
             targets[idx[go], presser[go]] = hpos[go]
+            special[idx[go], presser[go]] = True
             vmax[idx[go], presser[go]] = sprint[idx[go], presser[go]]
             cover = np.where(order[:, 1] != presser, order[:, 1], order[:, 2])
             vec = np.stack([np.where(def_dir > 0, 0.0, PITCH_L), np.full(idx.size, GOAL_Y)], axis=1) - hpos
             targets[idx, cover] = hpos + 6.0 * vec / (np.hypot(vec[:, 0], vec[:, 1]) + 1e-9)[:, None]
+            special[idx, cover] = True
             vmax[idx, cover] = 0.8 * sprint[idx, cover]
         idx = np.flatnonzero(~self.dead & (self.holder < 0))
         if idx.size == 0:
@@ -1070,6 +1089,7 @@ class Engine:
         p = (self.flight[idx] == 1) & (a.pass_tgt[idx] >= 0)
         tgt = a.pass_tgt[idx[p]]
         targets[idx[p], tgt] = a.pass_xy[idx[p]]
+        special[idx[p], tgt] = True
         vmax[idx[p], tgt] = sprint[idx[p], tgt]
         kicker = self.kicker[idx]
         kicker_team = (kicker >= 11).astype(np.int64)
@@ -1077,10 +1097,12 @@ class Engine:
             shot = (self.flight[idx] == 2) & (team != kicker_team)
             j = idx[shot]
             targets[j, 11 * team] = np.stack([bx[j] + vx[shot] * 0.3, by[j] + vy[shot] * 0.3], axis=1)
+            special[j, 11 * team] = True
             vmax[j, 11 * team] = sprint[j, 11 * team]
             blk = a.shot_blocker[j] >= 0
             jb, rb = j[blk], a.shot_blocker[j[blk]]
             targets[jb, rb] = np.stack([bx[jb], by[jb]], axis=1)
+            special[jb, rb] = True
             vmax[jb, rb] = sprint[jb, rb]
             rows = np.arange(11 * team, 11 * team + 11)
             d = np.hypot(Sf[:, rows, 0] - ahead[:, 0:1], Sf[:, rows, 1] - ahead[:, 1:2])
@@ -1088,6 +1110,7 @@ class Engine:
             k = rows[np.argmin(d, axis=1)]
             go = ~shot & ~((k == kicker) & (self.t_ms - self.kick_t[idx] < 500))
             targets[idx[go], k[go]] = ahead[go]
+            special[idx[go], k[go]] = True
             vmax[idx[go], k[go]] = sprint[idx[go], k[go]]
 
     def _move_ball(self) -> None:

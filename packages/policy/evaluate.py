@@ -109,6 +109,7 @@ def eval_states(n: int) -> list[tuple[int, int]]:
         lines = (CORPUS / str(seed) / "events.jsonl").read_text(encoding="utf-8").splitlines()
         ev = next(json.loads(line) for line in lines if '"type":"pass"' in line and json.loads(line)["t_ms"] > 1_800_000)
         out.append((seed, ev["t_ms"] - 100))
+    # a state must have a player in control (decide_now); stale corpora would fail here, so fail loudly
     return out
 
 
