@@ -1,0 +1,39 @@
+/* Fixed 1920x1080 stage with a transparent body (TECH_PLAN 1.9). */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.stage {
+  position: relative;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  background: transparent;
+  font-family: var(--font-ui);
+  color: var(--c-text);
+}
+
+.shell-clock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--c-panel);
+  border-radius: var(--radius-sm);
+  font: var(--fw-bold) var(--fs-md) / var(--lh-tight) var(--font-num);
+  font-feature-settings: var(--font-features-num);
+}
+
+.shell-cues {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-lg);
+}

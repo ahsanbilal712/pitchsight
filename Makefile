@@ -2,15 +2,18 @@
 VENV ?= .venv
 PY := $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python)
 
-.PHONY: ci lint unit schemas spend hooks
+.PHONY: ci lint unit schemas spend hooks overlay
 
 ci: lint unit schemas spend
 
 lint:
 	$(PY) -m ruff check .
 
-unit:
+unit: overlay
 	$(PY) -m pytest -q -m "not live"
+
+overlay:
+	npm --prefix apps/overlay run build
 
 schemas:
 	$(PY) scripts/validate_schemas.py

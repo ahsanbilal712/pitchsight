@@ -36,6 +36,12 @@ jobs:
           cache-dependency-path: requirements.lock
       - run: pip install --index-url "$TORCH_INDEX" "torch==2.14.1"
       - run: pip install -r requirements.lock
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: build the overlay for the Playwright smoke tests
+        run: npm --prefix apps/overlay ci && npm --prefix apps/overlay run build
+      - run: python -m playwright install --with-deps chromium
       - run: pytest -q -m "not live"
 
   schemas:

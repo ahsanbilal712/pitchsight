@@ -1,9 +1,17 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import App from "./App";
+import { installRecordMode } from "./record";
+import { StreamProvider } from "./stream/StreamProvider";
+import "./styles/tokens.css";
+import "./styles/stage.css";
 
-// Skeleton from T-001; the real shell arrives with its own ticket.
+installRecordMode();
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <div>WHYLINE overlay</div>
+    <StreamProvider>
+      <App />
+    </StreamProvider>
   </StrictMode>,
 );
