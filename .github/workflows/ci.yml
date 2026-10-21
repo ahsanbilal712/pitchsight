@@ -64,6 +64,10 @@ jobs:
         run: |
           pip install -r requirements.lock --index-url "$TORCH_INDEX" --extra-index-url https://pypi.org/simple
           pytest tests/kickoff/test_determinism.py -q
+      - name: committed golden hashes (informational; SHA256SUMS were written on Apple silicon)
+        if: hashFiles('tests/kickoff/test_determinism.py') != ''
+        continue-on-error: true
+        run: cd data/matches/4242 && sha256sum -c SHA256SUMS
 
   evals-gate:
     runs-on: ubuntu-latest
