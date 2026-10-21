@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · Track C: replay feed, end-to-end dry run, fixes
+
+- Owner direction: local demo first, Azure later. While T-039/T-057 are pending:
+- **Replay feed** (44f0136, `packages/api/replay_feed.py`): plays the golden cache on the replay clock: analytics as facts
+  (chaos meter, studio blackboard), cached oracle converted to the 1.9 shape, moments written to the blackboard when
+  the clock reaches them so the worker runs each in time. `python -m api.replay --feed`.
+- **End-to-end dry run** 30:00 → 46:00 on the current golden match: `docs/evidence/e2e_dryrun_day2.md`. Moments flow,
+  13 cues reach all screens, demo script fires all four actions, no console errors. Found: the newsroom worker exits
+  after 0.5 s idle (track B, reported with fix); a cross-thread sqlite error in the api kill path (fixed 13f5c02).
+- `tests/apps` + `tests/api`: 70 passed (one wall-clock flake under load average 313, clean on rerun).
+
+---
+
 ## 2026-10-22 · T-025 and T-054 done; T-028 training; T-037 outlook (track A)
 
 - T-025 heads v1 on 2,000 matches, test split (200 matches): xG ECE **0.0102**, pass **0.0045**, win probability
