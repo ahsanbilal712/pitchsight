@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-21 · T-013 Physics core, and hidden match regimes for T-014 (track A)
+
+- T-013 `packages/physics`: Spearman-style pitch control [34,53] (shares sum to 1, mirror test), indices, chaos
+  index, speeds, `StateMachine`, `TrackingWindow`. Per frame (pitch control + 60 s indices + chaos + speeds + state):
+  p50 0.8 ms, p95 3.4 ms CPU (budget 15 ms). `pytest tests/physics -q` passes.
+- The engine's tactical phases barely moved anything observable, so state detection (T-055, F1 ≥ 0.75) could not
+  pass. Added a hidden match regime to `truth.json` (t2, phases with side `M`: settled / transitional / chaotic,
+  10–18 min) that drives tempo, press and duel intensity. Chaos now comes from the open-play turnover rate
+  (EWMA, tau 60 s). **State-detection macro F1 0.771 on seeds 1–50** (Settled 0.84, Transitional 0.68, Chaotic 0.79).
+- Realism after the change, seeds 1–50 per team: completion **0.801**, shots **13.2**, goals **1.52**, offsides 1.17.
+- Golden 4242 regenerated again: **Verdant 1–2 Ironvale**, goals 11:50, 16:55, 67:42; 5 offsides, 2 cards; regimes
+  chaotic 0–17 and 57–75 min. Corpus restarted from scratch (1001–3000, 51–350) in the background.
+
+---
+
 ## 2026-10-21 · T-014 Training corpus generator and realism ranges (track A)
 
 - Engine tuned (`packages/kickoff`): seeds 1–50 per team per match now completion **0.834**, shots **14.6**, goals
