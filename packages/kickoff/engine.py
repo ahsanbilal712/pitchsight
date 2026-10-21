@@ -790,13 +790,17 @@ class Engine:
             if gap <= 2.0 or self.t_ms >= w.restart_at + 5000:
                 self._restart(w)
 
-    def _decide(self, noise: np.ndarray) -> None:
+    def _decide(self, noise: np.ndarray, only: np.ndarray | None = None) -> None:
         need = (~self.dead) & (self.holder >= 0) & (self.t_ms - self.control_since >= self.latency)
+        if only is not None:                       # a learned decision model handles the other worlds (T-036)
+            need &= only
         forced = np.zeros(self.B, dtype=bool)
         if self.force is not None:                 # a branch's first decision happens on its first tick
             forced = self.force_pending & (~self.dead) & (self.holder == self.force["row"])
+            if only is not None:
+                forced &= only
             need |= forced
-            self.force_pending[:] = False
+            self.force_pending[forced if only is not None else slice(None)] = False
         idx = np.flatnonzero(need)
         if idx.size == 0:
             return

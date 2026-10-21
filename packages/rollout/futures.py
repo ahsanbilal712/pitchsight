@@ -71,7 +71,7 @@ class Futures:
 
 
 def value_terminal(eng, goals: np.ndarray, context: dict) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Per world: P(home goal in horizon or next 8 s), the same for away, and home win probability."""
+    """Per world: P(home goal in horizon or next 8 s), the same for away, and [home win, draw, away win]."""
     goal8s, winprob = heads()
     B = eng.B
     team = np.where(eng.possession >= 0, eng.possession, np.where(eng.last_touch >= 11, 1, 0))
@@ -89,10 +89,10 @@ def value_terminal(eng, goals: np.ndarray, context: dict) -> tuple[np.ndarray, n
         rows.append(pd.DataFrame({"score_diff": (score[:, 0] + dh) - (score[:, 1] + da), "minute": eng.t_ms / 60000.0,
                                   "period": eng.period, "red_card_diff": 0, "xt_diff_15": context["xt_diff_15"],
                                   "xg_diff_15": context["xg_diff_15"], "chaos": context["chaos"]}))
-    P = winprob.predict(pd.concat(rows, ignore_index=True)[WINPROB_FEATURES])[:, 0].reshape(3, B)
-    nh, na = head[:, 0], head[:, 1]
-    wp = (1.0 - nh - na) * P[0] + nh * P[1] + na * P[2]
-    return p_home, p_away, wp
+    P = winprob.predict(pd.concat(rows, ignore_index=True)[WINPROB_FEATURES]).reshape(3, B, 3)
+    nh, na = head[:, 0:1], head[:, 1:2]
+    mix = (1.0 - nh - na) * P[0] + nh * P[1] + na * P[2]                       # [B, 3] home, draw, away
+    return p_home, p_away, mix
 
 
 def xt_gain(start_ball: np.ndarray, end_ball: np.ndarray, team: int, period: int) -> np.ndarray:

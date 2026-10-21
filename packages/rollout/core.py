@@ -100,13 +100,19 @@ def context_at(events: list[dict], state: State) -> dict:
     return {"xt_diff_15": xt, "xg_diff_15": xg, "chaos": chaos_index(pc, rate, transition_share_at(past, t))}
 
 
-def rollout(state: State, overrides: Override | None, B: int, horizon_s: float, seed: int,
-            engine: Literal["scripted_v1", "policy_v1"] = "scripted_v1", decide_now: bool = False,
-            events: list[dict] | None = None) -> Futures:
-    """Run B futures of horizon_s seconds from `state`. `decide_now` makes the player in control take the decision
-    model's own choice on the first tick (the unforced baseline at a decision point); `overrides.first_action` forces
-    a choice instead. `events` (the match so far) feed the win-probability context; without them it is neutral."""
-    meta = {"t_ms": int(state.t_ms), "B": int(B), "horizon_s": float(horizon_s), "seed": int(seed), "engine": engine}
+@dataclass
+class Simulation:
+    """The raw futures of one rollout before valuation: the engine after the horizon and what happened on the way."""
+    eng: Engine
+    goals: np.ndarray            # [B, 2]
+    shots: np.ndarray            # [B, 2]
+    paths: np.ndarray            # [B, horizon_s + 1, 2] ball at 1 Hz
+    start_ball: np.ndarray       # [B, 2]
+
+
+def simulate(state: State, overrides: Override | None, B: int, horizon_s: float, seed: int,
+             engine: Literal["scripted_v1", "policy_v1"] = "scripted_v1", decide_now: bool = False) -> Simulation:
+    """Branch `state` into B worlds and run them for horizon_s seconds (raises BranchError for an illegal override)."""
     if engine == "policy_v1":
         if horizon_s > POLICY_MAX_HORIZON_S:
             raise ValueError(f"policy_v1 rollouts are capped at {POLICY_MAX_HORIZON_S} s (ADR-002)")
@@ -119,11 +125,8 @@ def rollout(state: State, overrides: Override | None, B: int, horizon_s: float, 
     if state.source is None:
         raise ValueError("state has no source engine; use MatchRef.state_at or Engine.snapshot_state")
     src = state.source
-    try:
-        eng = src.branch(src.t_ms, B, overrides, seed=seed, decide_now=decide_now) if make is None \
-            else make(src, B, overrides, seed=seed, decide_now=decide_now)
-    except BranchError as err:
-        return Futures.invalid(str(err), meta)
+    eng = src.branch(src.t_ms, B, overrides, seed=seed, decide_now=decide_now) if make is None \
+        else make(src, B, overrides, seed=seed, decide_now=decide_now)
     steps = int(round(horizon_s * 1000 / TICK_MS))
     score0, shots0 = eng.score.copy(), eng.shots.copy()
     start_ball = eng.S[:, 22, 0:2].copy()
@@ -132,16 +135,32 @@ def rollout(state: State, overrides: Override | None, B: int, horizon_s: float, 
         eng.step()
         if i % 10 == 0:
             paths.append(eng.S[:, 22, 0:2].copy())
-    goals, shots = eng.score - score0, eng.shots - shots0
+    return Simulation(eng, eng.score - score0, eng.shots - shots0, np.stack(paths, axis=1), start_ball)
+
+
+def rollout(state: State, overrides: Override | None, B: int, horizon_s: float, seed: int,
+            engine: Literal["scripted_v1", "policy_v1"] = "scripted_v1", decide_now: bool = False,
+            events: list[dict] | None = None) -> Futures:
+    """Run B futures of horizon_s seconds from `state`. `decide_now` makes the player in control take the decision
+    model's own choice on the first tick (the unforced baseline at a decision point); `overrides.first_action` forces
+    a choice instead. `events` (the match so far) feed the win-probability context; without them it is neutral."""
+    meta = {"t_ms": int(state.t_ms), "B": int(B), "horizon_s": float(horizon_s), "seed": int(seed), "engine": engine}
+    try:
+        sim = simulate(state, overrides, B, horizon_s, seed, engine, decide_now)
+    except BranchError as err:
+        return Futures.invalid(str(err), meta)
+    eng, goals, shots = sim.eng, sim.goals, sim.shots
+    src = state.source
     context = context_at(events, state) if events is not None else {"xt_diff_15": 0.0, "xg_diff_15": 0.0, "chaos": 50.0}
-    p_home, p_away, wp = value_terminal(eng, goals, context)
+    p_home, p_away, outcome = value_terminal(eng, goals, context)
+    wp = outcome[:, 0]
     team0 = int(src.possession[0]) if src.possession[0] >= 0 else 0
-    gain = xt_gain(start_ball, eng.S[:, 22, 0:2], team0, src.period)
+    gain = xt_gain(sim.start_ball, eng.S[:, 22, 0:2], team0, src.period)
     half = 1.96 * float(np.std(wp)) / np.sqrt(B)
     mean_wp = float(np.mean(wp))
     return Futures(S_end=eng.S.astype(np.float32), goals=goals.astype(np.int16), shots=shots.astype(np.int16),
-                   ball_paths=np.stack(paths, axis=1).astype(np.float32), p_goal_home=float(np.mean(p_home)),
+                   ball_paths=sim.paths.astype(np.float32), p_goal_home=float(np.mean(p_home)),
                    p_goal_away=float(np.mean(p_away)), win_prob_home=mean_wp, ci95=(mean_wp - half, mean_wp + half),
                    xt_gain_mean=float(np.mean(gain)), meta=meta,
-                   per_world={"p_home": p_home, "p_away": p_away, "win_prob": wp,
+                   per_world={"p_home": p_home, "p_away": p_away, "win_prob": wp, "away_win": outcome[:, 2],
                               "first_kind": eng.first_kind.copy(), "first_target": eng.first_target.copy()})
