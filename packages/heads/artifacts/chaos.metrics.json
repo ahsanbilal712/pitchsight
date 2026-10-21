@@ -1,0 +1,93 @@
+{
+ "calibration": "none",
+ "data": {
+  "matches": {
+   "test": 20,
+   "train": 160,
+   "val": 20
+  },
+  "rows": {
+   "test": 54000,
+   "train": 432000,
+   "val": 54000
+  },
+  "split_seed": 4242,
+  "test_seeds": [
+   1002,
+   1003,
+   1028,
+   1040,
+   1058,
+   1072,
+   1081,
+   1082,
+   1085,
+   1086,
+   1092,
+   1096,
+   1098,
+   1108,
+   1113,
+   1146,
+   1164,
+   1167,
+   1178,
+   1191
+  ],
+  "train_seed_range": [
+   1001,
+   1200
+  ],
+  "val_seeds": [
+   1006,
+   1007,
+   1021,
+   1034,
+   1039,
+   1078,
+   1089,
+   1095,
+   1099,
+   1105,
+   1115,
+   1126,
+   1132,
+   1142,
+   1150,
+   1159,
+   1170,
+   1177,
+   1190,
+   1193
+  ]
+ },
+ "feature_version": "f1",
+ "features": [
+  "contested_frac",
+  "turnovers_60s",
+  "transition_share",
+  "closing_speed",
+  "tempo",
+  "holder_pressure_m",
+  "ball_u",
+  "ball_speed",
+  "has_holder",
+  "since_turnover_s",
+  "att_third_control",
+  "minute"
+ ],
+ "head": "chaos",
+ "model": "logistic",
+ "test": {
+  "auc": 0.7580272164290774,
+  "base_rate": 0.3834074074074074,
+  "brier": 0.19172547807130394,
+  "ece": 0.024698192005878035,
+  "log_loss": 0.5675711834498032,
+  "mean_pred": 0.3903421226305983,
+  "pr_auc": 0.639259282655096
+ },
+ "thresholds": {
+  "auc_min": 0.7
+ }
+}

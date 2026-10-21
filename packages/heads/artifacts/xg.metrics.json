@@ -1,0 +1,90 @@
+{
+ "best_iteration": 52,
+ "calibration": "none",
+ "data": {
+  "matches": {
+   "test": 20,
+   "train": 160,
+   "val": 20
+  },
+  "rows": {
+   "test": 489,
+   "train": 3985,
+   "val": 479
+  },
+  "split_seed": 4242,
+  "test_seeds": [
+   1002,
+   1003,
+   1028,
+   1040,
+   1058,
+   1072,
+   1081,
+   1082,
+   1085,
+   1086,
+   1092,
+   1096,
+   1098,
+   1108,
+   1113,
+   1146,
+   1164,
+   1167,
+   1178,
+   1191
+  ],
+  "train_seed_range": [
+   1001,
+   1200
+  ],
+  "val_seeds": [
+   1006,
+   1007,
+   1021,
+   1034,
+   1039,
+   1078,
+   1089,
+   1095,
+   1099,
+   1105,
+   1115,
+   1126,
+   1132,
+   1142,
+   1150,
+   1159,
+   1170,
+   1177,
+   1190,
+   1193
+  ]
+ },
+ "feature_version": "f1",
+ "features": [
+  "distance_m",
+  "angle_rad",
+  "body_part",
+  "defenders_in_cone",
+  "keeper_line_m",
+  "under_pressure",
+  "control_at_shot",
+  "penalty"
+ ],
+ "head": "xg",
+ "model": "lightgbm",
+ "test": {
+  "auc": 0.8072981366459626,
+  "base_rate": 0.1411042944785276,
+  "brier": 0.09001721530073697,
+  "ece": 0.04029822982150905,
+  "log_loss": 0.3137790691404397,
+  "mean_pred": 0.14158824607687298,
+  "pr_auc": 0.5276400088777202
+ },
+ "thresholds": {
+  "ece_max": 0.03
+ }
+}

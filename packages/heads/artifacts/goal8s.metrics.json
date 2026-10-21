@@ -1,0 +1,96 @@
+{
+ "best_iteration": 182,
+ "calibration": "none",
+ "data": {
+  "matches": {
+   "test": 20,
+   "train": 160,
+   "val": 20
+  },
+  "rows": {
+   "test": 108000,
+   "train": 864000,
+   "val": 108000
+  },
+  "split_seed": 4242,
+  "test_seeds": [
+   1002,
+   1003,
+   1028,
+   1040,
+   1058,
+   1072,
+   1081,
+   1082,
+   1085,
+   1086,
+   1092,
+   1096,
+   1098,
+   1108,
+   1113,
+   1146,
+   1164,
+   1167,
+   1178,
+   1191
+  ],
+  "train_seed_range": [
+   1001,
+   1200
+  ],
+  "val_seeds": [
+   1006,
+   1007,
+   1021,
+   1034,
+   1039,
+   1078,
+   1089,
+   1095,
+   1099,
+   1105,
+   1115,
+   1126,
+   1132,
+   1142,
+   1150,
+   1159,
+   1170,
+   1177,
+   1190,
+   1193
+  ]
+ },
+ "feature_version": "f1",
+ "features": [
+  "ball_u",
+  "ball_dv",
+  "ball_z",
+  "has_holder",
+  "ball_speed",
+  "ball_goal_dist",
+  "ball_goal_angle",
+  "att_in_box",
+  "def_in_box",
+  "att_third_control",
+  "nearest_def_m",
+  "in_play",
+  "minute",
+  "side"
+ ],
+ "head": "goal8s",
+ "model": "lightgbm",
+ "test": {
+  "auc": 0.9655904884979509,
+  "base_rate": 0.0024074074074074076,
+  "brier": 0.002066428518435147,
+  "ece": 0.0003724061982218471,
+  "log_loss": 0.009856788313228435,
+  "mean_pred": 0.002260604831452748,
+  "pr_auc": 0.2362164060249788
+ },
+ "thresholds": {
+  "ece_max": 0.01
+ }
+}

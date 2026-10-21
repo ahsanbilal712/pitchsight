@@ -53,6 +53,16 @@ def pitch_control(S: np.ndarray, cell_m: float = 2.0) -> np.ndarray:
     return home / (home + w[11:].sum(axis=0))
 
 
+def control_at(S: np.ndarray, points: np.ndarray) -> np.ndarray:
+    """Home share of control at arbitrary points [P, 2] (same model as `pitch_control`, no grid)."""
+    pts = np.asarray(points, dtype=np.float64).reshape(-1, 2)
+    p = np.asarray(S[:22, 0:2], dtype=np.float64) + REACTION_S * np.asarray(S[:22, 2:4], dtype=np.float64)
+    t = REACTION_S + np.hypot(pts[None, :, 0] - p[:, 0, None], pts[None, :, 1] - p[:, 1, None]) / VMAX   # [22, P]
+    w = np.exp(-(t - t.min(axis=0, keepdims=True)) / SCALE)
+    home = w[:11].sum(axis=0)
+    return home / (home + w[11:].sum(axis=0))
+
+
 def zones(pc: np.ndarray, home_attacks_right: bool = True) -> dict[str, float]:
     """Home share by third (defensive, middle, attacking from the home team's view) and the contested fraction."""
     nx = pc.shape[1]
