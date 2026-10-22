@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-040 Counterfactual calibration plot and placebo test (track A)
+
+- `packages/evals/calibration.py`: every explained moment of the 300 held-out matches (seeds 51-350), re-simulated
+  to the branch state, unforced branch n=200, 8 s with the goal-in-8-s hand-off, vs the realised outcome.
+- Measured: **Brier 0.0629** (gate <= 0.18), log-loss 0.213, base rate 0.090, mean forecast 0.099, ECE 0.0117,
+  9,226 moments; **placebo pass rate 0.987** (gate >= 0.95) on 8,420 testable moments. Engine scripted_v1 (from
+  `packages/policy/artifacts/gate.json`, T-037). 39.2 min on CPU, 8 workers.
+- Outputs: `packages/evals/out/{calibration.json,calibration.png,calibration_moments.jsonl}`.
+- Verification: `python -m evals.calibration --seeds 51..350 --engine-from packages/policy/artifacts/gate.json
+  --out packages/evals/out` exits 0.
+
+---
+
 ## 2026-10-22 · T-070 Front-end bug bash and clean-load check (track C)
 
 - Clean `npm ci` + build of all three apps; `pytest tests/apps -q` **41 passed**. New `scripts/frontend_sweep.py`:
