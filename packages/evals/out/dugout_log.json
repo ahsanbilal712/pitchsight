@@ -1,0 +1,55 @@
+{
+ "match_id": "m_4242",
+ "teams": {
+  "away": {
+   "after": {
+    "directness": 0.09523809523809523,
+    "passes": 42,
+    "press_height": 38.14575940072537
+   },
+   "before": {
+    "directness": 0.1780821917808219,
+    "passes": 73,
+    "press_height": 38.64958084506147
+   },
+   "caption_allowed": false,
+   "delta": {
+    "directness": 0.0,
+    "press_height": -0.15
+   },
+   "delta_win_prob": 0.0,
+   "matched": false,
+   "observed_change": {
+    "directness": -0.083,
+    "press_height": -0.504
+   },
+   "recommendation": "drop the press",
+   "t_ms": 3600000
+  },
+  "home": {
+   "after": {
+    "directness": 0.11538461538461539,
+    "passes": 52,
+    "press_height": 30.412183856624726
+   },
+   "before": {
+    "directness": 0.1568627450980392,
+    "passes": 51,
+    "press_height": 30.654538905366937
+   },
+   "caption_allowed": true,
+   "delta": {
+    "directness": -0.15,
+    "press_height": 0.0
+   },
+   "delta_win_prob": 0.0046,
+   "matched": true,
+   "observed_change": {
+    "directness": -0.041,
+    "press_height": -0.242
+   },
+   "recommendation": "keep the ball",
+   "t_ms": 3600000
+  }
+ }
+}

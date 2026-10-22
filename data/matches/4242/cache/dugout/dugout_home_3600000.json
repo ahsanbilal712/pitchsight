@@ -1,0 +1,203 @@
+{
+ "$schema": "analytics.schema.json",
+ "all_options": [
+  {
+   "ci95": [
+    0.2135,
+    0.2504
+   ],
+   "delta": {
+    "directness": -0.15,
+    "press_height": 0.0
+   },
+   "delta_win_prob": 0.0046,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "keep the ball",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2319
+  },
+  {
+   "ci95": [
+    0.2149,
+    0.2441
+   ],
+   "delta": {
+    "directness": -0.15,
+    "press_height": -0.15
+   },
+   "delta_win_prob": 0.0022,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "drop the press and keep the ball",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2295
+  },
+  {
+   "ci95": [
+    0.2148,
+    0.2439
+   ],
+   "delta": {
+    "directness": 0.0,
+    "press_height": -0.15
+   },
+   "delta_win_prob": 0.002,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "drop the press",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2293
+  },
+  {
+   "ci95": [
+    0.2147,
+    0.2439
+   ],
+   "delta": {
+    "directness": 0.15,
+    "press_height": -0.15
+   },
+   "delta_win_prob": 0.002,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "drop the press and go more direct",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2293
+  },
+  {
+   "ci95": [
+    0.2122,
+    0.2439
+   ],
+   "delta": {
+    "directness": 0.15,
+    "press_height": 0.0
+   },
+   "delta_win_prob": 0.0007,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "go more direct",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.228
+  },
+  {
+   "ci95": [
+    0.2138,
+    0.2351
+   ],
+   "delta": {
+    "directness": -0.15,
+    "press_height": 0.15
+   },
+   "delta_win_prob": -0.0029,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "press higher and keep the ball",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2244
+  },
+  {
+   "ci95": [
+    0.2214,
+    0.2237
+   ],
+   "delta": {
+    "directness": 0.0,
+    "press_height": 0.15
+   },
+   "delta_win_prob": -0.0048,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "press higher",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2225
+  },
+  {
+   "ci95": [
+    0.2211,
+    0.2225
+   ],
+   "delta": {
+    "directness": 0.15,
+    "press_height": 0.15
+   },
+   "delta_win_prob": -0.0055,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "press higher and go more direct",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2218
+  }
+ ],
+ "engine": "scripted_v1",
+ "horizon_s": 90.0,
+ "match_id": "m_4242",
+ "n": 100,
+ "options": [
+  {
+   "ci95": [
+    0.2135,
+    0.2504
+   ],
+   "delta": {
+    "directness": -0.15,
+    "press_height": 0.0
+   },
+   "delta_win_prob": 0.0046,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "keep the ball",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2319
+  },
+  {
+   "ci95": [
+    0.2149,
+    0.2441
+   ],
+   "delta": {
+    "directness": -0.15,
+    "press_height": -0.15
+   },
+   "delta_win_prob": 0.0022,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "drop the press and keep the ball",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2295
+  },
+  {
+   "ci95": [
+    0.2148,
+    0.2439
+   ],
+   "delta": {
+    "directness": 0.0,
+    "press_height": -0.15
+   },
+   "delta_win_prob": 0.002,
+   "engine": "scripted_v1",
+   "horizon_s": 90.0,
+   "label": "drop the press",
+   "n": 100,
+   "seed": 4242,
+   "win_prob": 0.2293
+  }
+ ],
+ "producer": "dugout",
+ "schema_version": "1.0.0",
+ "seed": 4242,
+ "t_ms": 3600000,
+ "team": "home"
+}
