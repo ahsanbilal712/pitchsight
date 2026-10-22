@@ -1,7 +1,9 @@
 """Ruling -> referee_line cue (schemas/cue.schema.json), verified by construction (T-049).
 
-Every number on screen is a claim that cites the event it came from, so the Fact Checker can re-verify it; the
-geometry was computed by code from the frames, which is why the cue is `verified` without a model in the loop.
+Every number on screen is a claim that cites the event it came from, so the Fact Checker can re-verify it (the offside
+margin is the event's margin_m). Geometry the events do not carry (the fouler's closing speed, the contact point, the
+offside line's x) is drawn or said in words, never shown as a number. The geometry was computed by code from the
+frames, which is why the cue is `verified` without a model in the loop.
 """
 
 from __future__ import annotations
@@ -15,6 +17,7 @@ from .offside import OffsideRuling
 
 ROOT = Path(__file__).resolve().parents[2]
 SHOW_MS = 8000
+FAST_CLOSING_MS = 3.0                  # closing speed (m/s) worded as "came in at speed"
 
 
 @lru_cache(maxsize=1)
@@ -50,19 +53,19 @@ def ruling_to_cue(r: OffsideRuling | FoulRuling, t_ms: int, match_id: str = "m_4
                   {"text": who, "kind": "player", "value": r.offside_player, "unit": None, "evidence_ids": [ev],
                    "verified": True, "reject_reason": None}]
         lines, players = [r.line], [r.offside_player, r.last_defender]
-        why = f"Offside line at the second-last defender, x = {r.line[0][0]:.1f} m, in the frame the pass was played."
+        why = "Offside line drawn at the second-last defender, in the frame the pass was played."
     else:
         ev = evidence_event_id or r.foul_event_id
         who = names.get(r.fouler, r.fouler)
         where = "inside the penalty area" if r.in_box else "outside the penalty area"
         verdict = "Penalty" if r.in_box else "Free kick"
         headline = f"{verdict}: {who}" + (f", {r.card} card" if r.card else "")
-        speed = r.closing_speed_ms
-        body = f"Contact {where}; {who} closed in at {speed:.1f} m/s."
+        closing = "came in at speed" if r.closing_speed_ms >= FAST_CLOSING_MS else "made the contact"
+        body = f"Contact {where}; {who} {closing}."
         claims = [{"text": who, "kind": "player", "value": r.fouler, "unit": None, "evidence_ids": [ev],
                    "verified": True, "reject_reason": None}]
         lines, players = r.box_lines, [r.fouler, r.fouled_player]
-        why = f"Contact point ({r.contact_point[0]:.1f}, {r.contact_point[1]:.1f}) {where}."
+        why = f"Contact point marked {where}, in the frame of the foul."
     return {
         "schema_version": "1.0.0", "cue_id": cid, "match_id": match_id, "moment_id": None,
         "t_in_ms": int(t_ms), "t_out_ms": int(t_ms) + SHOW_MS, "clock": _clock(t_ms),
