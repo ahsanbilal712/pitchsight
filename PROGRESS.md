@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-057 follow-up: seven cue lines the T-056 judge flagged, hand-reviewed (track B)
+
+- The judge (31344a9) flagged factual swaps of actual and alternative: c_000201 (the alternative's 7% credited to
+  the pass to Okafor), c_001181 (Ainsley named as shooter; Tolliver shot), c_000911 (the alternative's 1% to 9%
+  credited to the clearance), c_000132 (a shot called "turning back"). Also rewritten: c_000612, c_001142 (vague
+  Panel cards) and c_000261 (my own mo_00026 line, now with the clearance as the alternative). c_000552 and c_000302
+  are vague but not false, so they stay as they are.
+- `cache.review.export_lines` / `line_<moment>_a<n>.md` replaces the rewrite-only path: it records the claims the
+  Narrator actually received in replay (for a Panel moment the Panel's, not the Tactician's), and the import gates
+  each edit on exactly those through the Fact Checker. 10 lines imported, 0 refused; 54 entries `hand_reviewed`.
+- Golden replay: 55 cues + 2 held, 55/55 verified, 0 templates, 0 `error`/`cache_miss` rows. No model call.
+- Verification: `python scripts/import_review.py review/ && python scripts/check_cue_evidence.py --seed 4242 &&
+  python scripts/validate_schemas.py && python scripts/check_spend.py` exits 0; track B suites 245 passed.
+
+---
+
 ## 2026-10-22 · T-057 follow-up: three broken cached rewrites hand-reviewed, golden replay has no red rows (track B)
 
 - Track C's x10 rehearsal showed 4 red `error` trace rows: the golden run cached three Narrator rewrites

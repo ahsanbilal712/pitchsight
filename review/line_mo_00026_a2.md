@@ -12,7 +12,7 @@ Claims it may use: `Grabowski`, `Fennimore`, `Silva`, `52%`, `16%`
  "attempt": 2,
  "line": {
   "headline": "Fennimore plays out to Silva",
-  "body": "Under pressure from Grabowski, Fennimore finds Silva with a 52% pass. The goal chance stays at 16%.",
+  "body": "Under pressure from Grabowski, Fennimore plays out to Silva rather than clearing: a 52% pass, and the goal chance stays at 16% either way.",
   "claims": []
  }
 }
