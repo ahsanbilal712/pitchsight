@@ -70,11 +70,12 @@ def test_oracle_converted_to_the_overlay_shape(feed):
 
 def test_moments_written_when_the_clock_reaches_them_once(feed):
     f, bb = feed
-    assert f.release_moments(19_000) == 0
-    assert f.release_moments(21_000) == 1
+    assert f.release_moments(0, 19_000) == 0
+    assert f.release_moments(19_000, 21_000) == 1
     assert bb.get("moments", "mo_00001")["status"] == "new"
     bb.put("moments", {**bb.get("moments", "mo_00001"), "status": "done"})
-    assert f.release_moments(80_000) == 1 and bb.get("moments", "mo_00001")["status"] == "done"
+    assert f.release_moments(21_000, 80_000) == 1 and bb.get("moments", "mo_00001")["status"] == "done"
+    assert f.release_moments(0, 80_000) == 0               # both already in the blackboard: left alone
 
 
 def test_stream_carries_the_feed_and_studio_sees_moments(tmp_path, monkeypatch):
@@ -93,4 +94,7 @@ def test_stream_carries_the_feed_and_studio_sees_moments(tmp_path, monkeypatch):
         assert {"fact", "moment"} <= {m["type"] for m in seen}
         assert any(m["type"] == "fact" and m["payload"]["name"] == "chaos_index" for m in seen)
         assert bb.get("moments", "mo_00001")["moment_id"] == "mo_00001"
+        client.post("/replay/control", json={"action": "seek", "value": 100_000})   # jump over mo_00002 (01:10)
+        time.sleep(0.5)
+        assert not bb.query("moments", moment_id="mo_00002")   # a seek is a cut: skipped moments are not run
     bb.close()

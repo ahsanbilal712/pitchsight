@@ -216,8 +216,6 @@ class Hub:
 
     def reset_all(self) -> None:
         self._last_doc_t = self.now()
-        if self.feed is not None and not self.live:
-            self.feed.release_moments(self._last_doc_t)  # a seek forward still hands the skipped moments over
         for c in list(self.clients):
             c.push(self._reset_lines(c))
 
@@ -295,7 +293,7 @@ class Hub:
             timed.append((sub_t, 2, envelope("lineup", {"t_ms": sub_t, "player_ids": self.data.lineup_at(sub_t)})))
         if self.feed is not None:
             timed += [(ft, 3, msg) for ft, msg in self.feed.between(self._last_t, t)]
-            self.feed.release_moments(t)
+            self.feed.release_moments(self._last_t, t)  # moments the clock played past (not ones a seek skipped)
         for doc_t, msg in self.timed_between(self._last_doc_t, t):
             timed.append((doc_t, 3, msg))
         self._last_t, self._last_idx, self._last_doc_t = t, max(idx, self._last_idx), t

@@ -8,8 +8,11 @@
                              worker runs it then (the 44:10 kill needs its run in flight at 44:10)
 
 Facts and oracle go straight to the stream (screens only need them as messages; thousands of index facts would
-only bloat the blackboard). A reset (connect, seek) gets the latest values at the new clock. Moments the clock has
-passed are written once; ones already in the blackboard (written by the Scout, T-029) are left alone.
+only bloat the blackboard). A reset (connect, seek) gets the latest values at the new clock. A moment is written
+when the clock plays past it, never because a seek jumped over it: a seek is a cut, and handing the worker every
+skipped moment at once would queue them ahead of the moments on screen (the full rehearsal, T-062, plays every
+moment once; recorded shots then seek freely). Moments already in the blackboard (an earlier pass, or the Scout,
+T-029) are left alone.
 Enabled with WHYLINE_REPLAY_FEED=1 or `python -m api.replay --feed`.
 """
 
@@ -76,7 +79,6 @@ class ReplayFeed:
             self.moments = sorted((json.loads(x) for x in path.read_text().splitlines() if x.strip()),
                                   key=lambda m: m["t_ms"])
         self.moments_t = [int(m["t_ms"]) for m in self.moments]
-        self.released: set[str] = set()
 
     # ------------------------------------------------------------------ conversions
     def oracle_message(self, doc: dict) -> dict:
@@ -135,16 +137,14 @@ class ReplayFeed:
             msgs.append(envelope("oracle", self.oracle[j]))
         return msgs
 
-    def release_moments(self, until_ms: int) -> int:
-        """Write every cached moment at or before until_ms that is not in the blackboard yet; returns how many."""
-        if self.bb is None:
+    def release_moments(self, after_ms: int, until_ms: int) -> int:
+        """Write the cached moments with after_ms < t <= until_ms that are not in the blackboard yet; returns how many."""
+        if self.bb is None or until_ms <= after_ms:
             return 0
         n = 0
-        for m in self.moments[: bisect.bisect_right(self.moments_t, until_ms)]:
+        lo, hi = bisect.bisect_right(self.moments_t, after_ms), bisect.bisect_right(self.moments_t, until_ms)
+        for m in self.moments[lo:hi]:
             mid = m["moment_id"]
-            if mid in self.released:
-                continue
-            self.released.add(mid)
             try:
                 self.bb.get("moments", mid, match_id=self.match_id)
                 continue  # the Scout (or an earlier run) already wrote it
