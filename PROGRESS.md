@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · T-107 Moment freeze and hand-correction, part 1 (track B)
+
+- `footage.freeze`: a moment file `data/footage/<slug>/moments/<clip_ms>.json` (players and ball in pitch metres,
+  homography, home direction, clock, score) becomes a branchable engine `State`: `fill` assigns every observed player
+  an engine slot (4-3-3 role prior shifted to the team's observed line, Hungarian matching) and adds the missing ones
+  at their role position, pushed off camera when the homography says they would be visible; `to_state` builds a
+  neutral synthetic fixture (league-average styles), mirrors the frame into the engine's period convention, sets
+  positions, velocities, ball, score and the holder in control, and returns `snapshot_state()`.
+- `python -m footage.editor <slug> <clip_ms>`: local page (127.0.0.1) with the frozen frame and a top-down pitch;
+  drag a dot in either view, the other follows through the homography; "Fill missing" and "Save". Checked in the
+  browser pane: dots sit on the players' feet; image and pitch drags update the file model; prior dots draggable.
+- Starter frame without tracking: Liverpool v Man City 86:23 (clip 14:35), hand-marked from the 1080p frame,
+  homography from 8 box/goal landmarks (**RMS 0.19 m**, leave-one-out <= 0.8 m); 19 players seen, 3 by role prior.
+  Szoboszlai shoots from 31 m (blocked) with Salah free wide right. 200 rollouts x 8 s from the frozen state: forced
+  shot p_goal 3.2%, pass to Salah 4.6%, engine's own choice 11.6% (1.5 s CPU).
+- **Pending:** reading track A's tracking output (T-105; format not published yet) into moment files with 1 s
+  velocities. Verification: `pytest tests/footage` 10 passed.
+
+---
+
 ## 2026-10-23 · T-106 Gemini event tagging of the real clips (track B)
 
 - `python -m footage.tag [slug...]` (packages/footage/tag.py, config/footage.yaml): each clip is cut by ffmpeg into
