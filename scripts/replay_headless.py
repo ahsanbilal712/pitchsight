@@ -32,10 +32,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 VOLATILE = {"ts", "created_at", "updated_at", "started_ms", "pid", "latency_ms", "wall_ms"}
 
-GUARD = '''"""WHYLINE network guard (scripts/replay_headless.py): loopback only."""
+GUARD = '''"""WHYLINE network guard (scripts/replay_headless.py): loopback only; SIGUSR1 dumps every thread's stack."""
+import faulthandler
 import ipaddress
 import os
+import signal
 import socket
+
+faulthandler.register(signal.SIGUSR1, all_threads=True)
 
 _connect, _connect_ex = socket.socket.connect, socket.socket.connect_ex
 _LOG = os.environ.get("WHYLINE_NET_GUARD_LOG")
@@ -95,9 +99,32 @@ def get_json(url: str, timeout: float = 2.0) -> dict:
         return json.loads(r.read())
 
 
-def wait_for(cond, timeout_s: float, what: str, procs: dict) -> None:
+def dump_stacks(procs: dict) -> None:
+    """SIGUSR1 to every harness process and its children: faulthandler writes their stacks to the logs."""
+    pids = [p.pid for p in procs.values() if p.poll() is None]
+    for pid in list(pids):
+        r = subprocess.run(["pgrep", "-P", str(pid)], capture_output=True, text=True)
+        pids += [int(x) for x in r.stdout.split()]
+    for pid in pids:
+        try:
+            os.kill(pid, signal.SIGUSR1)
+        except OSError:
+            pass
+    time.sleep(1.0)
+
+
+def wait_for(cond, timeout_s: float, what: str, procs: dict, progress=None, stall_s: float = 180) -> None:
+    """Poll cond(); fail on timeout, on a dead process, or when progress() has not changed for stall_s."""
     deadline = time.monotonic() + timeout_s
+    last, since = None, time.monotonic()
     while time.monotonic() < deadline:
+        if progress is not None:
+            now = progress()
+            if now != last:
+                last, since = now, time.monotonic()
+            elif time.monotonic() - since > stall_s:
+                dump_stacks(procs)
+                raise SystemExit(f"stalled: no progress ({now}) for {stall_s:.0f} s waiting for {what}")
         for name, p in procs.items():
             if p.poll() is not None and name != "newsroom":
                 raise SystemExit(f"{name} exited with {p.returncode} while waiting for {what}")
@@ -107,6 +134,7 @@ def wait_for(cond, timeout_s: float, what: str, procs: dict) -> None:
         except OSError:
             pass
         time.sleep(0.25)
+    dump_stacks(procs)
     raise SystemExit(f"timed out after {timeout_s:.0f} s waiting for {what}")
 
 
@@ -156,7 +184,10 @@ def run(seed: int, speed: float, out: Path, work: Path, timeout_s: float, python
             moments = bb.query("moments", match_id=match_id)
             return len(moments) >= expected and all(m.get("status") in ("done",) for m in moments)
 
-        wait_for(finished, timeout_s, "full time and every moment run", procs)
+        def progress() -> int:              # moments run; the longest quiet gap at x10 is ~90 s
+            return sum(1 for m in bb.query("moments", match_id=match_id) if m.get("status") == "done")
+
+        wait_for(finished, timeout_s, "full time and every moment run", procs, progress=progress, stall_s=240)
         cues = sorted((strip(c) for c in bb.query("cues", match_id=match_id)), key=lambda c: c["cue_id"])
         bb.close()
     finally:
