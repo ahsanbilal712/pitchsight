@@ -2,7 +2,7 @@
 VENV ?= .venv
 PY := $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python)
 
-.PHONY: ci lint unit schemas spend hooks overlay
+.PHONY: ci lint unit schemas spend hooks overlay demo clean-replay
 
 ci: lint unit schemas spend
 
@@ -23,3 +23,11 @@ spend:
 
 hooks:
 	sh scripts/install_hooks.sh
+
+# The six services and the golden replay in one command (TECH_PLAN 1.10 "Local", T-064): open :5173, :5174, :5175.
+demo:
+	docker compose up --build
+
+# Three replays from a fresh clone and venv, no keys, loopback-only network: identical cue streams (T-064).
+clean-replay:
+	bash scripts/clean_machine_replay.sh --runs 3

@@ -1,0 +1,8 @@
+# docker-compose.yml builds code only; data/ and .checkpoints/ are mounted volumes (the corpus is ~6 GB).
+data/
+.checkpoints/
+.venv/
+.git/
+**/node_modules/
+**/__pycache__/
+packages/policy/artifacts/*.pt
