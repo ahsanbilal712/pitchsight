@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+
+## 2026-10-22 · T-048 Decision Index precompute (track A)
+
+- `packages/rollout/decision_index.py`: value = p_goal(actual) - max p_goal(engine's top-3 other options), n = 50,
+  8 s, scripted_v1; per-player index = percentile of the mean value (>= 5 decisions). A pass to an offside team-mate
+  (the engine will not force one) is valued from the realised state after the whistle (the 66:05 offside, e_2661).
+- Golden match: **1,385 / 1,385** decisions valued, 27 players indexed, **1.7 min** with 8 workers (< 30 min).
+- Live approximation: the goal-in-8-s head swing t - 100 ms -> t + 1 s, **net of the opponent**. Spearman with the
+  rollout index **0.645** (gate >= 0.5). The team-only swing gave 0.417; checked on held-out seeds 1 and 2 (rollout
+  index run for each): net 0.529 / 0.534, team-only 0.451 / 0.664, so net is the one that holds on all three.
+- Cache: `analytics/decision_index.json` (producer decision_index, `$schema` analytics) + manifest entry.
+- Verification: `pytest tests/rollout/test_decision_index.py -q` 4 passed; `python scripts/precompute.py --seed 4242
+  --mode batch --stages decision_index` exits 0; `validate_schemas` OK.
+
+---
+
 ## 2026-10-22 · T-040 Counterfactual calibration plot and placebo test (track A)
 
 - `packages/evals/calibration.py`: every explained moment of the 300 held-out matches (seeds 51-350), re-simulated
