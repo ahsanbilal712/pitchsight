@@ -1,0 +1,85 @@
+<!doctype html>
+<!-- Architecture beat of the v1 video (DEMO_MASTERPLAN_50USD.md §7 1:24-1:42; T-063). Recorded by
+     `python -m demo.record_demo --only architecture` at 1920x1080. Every number is copied from
+     packages/evals/results.md (22 Oct 2026); no third-party marks, system fonts only, no external files. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>WHYLINE architecture</title>
+<style>
+  :root {
+    --bg: #0c1016; --panel: #18202b; --line: rgba(255,255,255,0.18); --text: #f5f7fa; --muted: #a9b4c2;
+    --accent: #ff7a1a; --ok: #2ecc71; --blue: #3fa7ff;
+  }
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; cursor: none; }
+  .stage { position: absolute; inset: 54px 96px; }
+  h1 { margin: 0; font-size: 44px; letter-spacing: 0.02em; }
+  h1 span { color: var(--accent); }
+  .sub { margin-top: 8px; font-size: 22px; color: var(--muted); }
+  .flow { position: absolute; top: 150px; left: 0; width: 1100px; display: grid; gap: 18px; }
+  .row { display: flex; gap: 18px; align-items: stretch; opacity: 0; transform: translateY(14px);
+    animation: in 600ms cubic-bezier(.2,.8,.2,1) forwards; }
+  .box { flex: 1; padding: 16px 20px; background: var(--panel); border-radius: 8px; border-left: 5px solid var(--blue); }
+  .box b { display: block; font-size: 24px; margin-bottom: 4px; }
+  .box small { font-size: 17px; color: var(--muted); line-height: 1.35; }
+  .box.agents { border-left-color: var(--accent); }
+  .box.code { border-left-color: var(--ok); }
+  .arrow { text-align: center; color: var(--muted); font-size: 22px; margin: -8px 0; opacity: 0;
+    animation: in 400ms ease forwards; }
+  .side { position: absolute; top: 150px; right: 0; width: 560px; opacity: 0; animation: in 700ms ease forwards; }
+  .side h2 { margin: 0 0 12px; font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 21px; }
+  td { padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.num { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-weight: 700; color: var(--ok);
+    text-align: right; white-space: nowrap; }
+  .foot { position: absolute; bottom: 0; left: 0; right: 0; font-size: 18px; color: var(--muted); opacity: 0;
+    animation: in 600ms ease forwards; animation-delay: 9s; }
+  @keyframes in { to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1>WHY<span>LINE</span>: how a line gets on screen</h1>
+  <div class="sub">Replay of golden match 4242, run locally from its frozen cache. Synthetic league.</div>
+
+  <div class="flow">
+    <div class="row" style="animation-delay: .3s">
+      <div class="box"><b>Match engine</b><small>22 players, events and 10 Hz tracking; hidden truth kept apart</small></div>
+      <div class="box"><b>Physics and outcome heads</b><small>pitch control, chaos index, game state, goal and win chances</small></div>
+    </div>
+    <div class="arrow" style="animation-delay: 1.3s">↓ moments the Scout raises</div>
+    <div class="row" style="animation-delay: 1.8s">
+      <div class="box agents"><b>Newsroom agents</b><small>Proposer, 200-future rollouts, Tactician, a three-pundit Panel, Narrator; data only through MCP tools; one shared blackboard</small></div>
+    </div>
+    <div class="arrow" style="animation-delay: 3.3s">↓ every number checked in code</div>
+    <div class="row" style="animation-delay: 3.8s">
+      <div class="box code"><b>Fact Checker</b><small>each on-screen number bound to evidence: events, counterfactuals, facts</small></div>
+      <div class="box code"><b>Director</b><small>budgets per viewer mode; producer approval for recaps; checkpoints resume a killed run</small></div>
+    </div>
+    <div class="arrow" style="animation-delay: 5.3s">↓ the cue sheet</div>
+    <div class="row" style="animation-delay: 5.8s">
+      <div class="box"><b>Broadcast overlay</b><small>analyst, casual, Player-Cam; 3D Sliding Doors</small></div>
+      <div class="box"><b>Producer studio</b><small>trace, Why? drawer, veto, kill switch</small></div>
+      <div class="box"><b>Fan app</b><small>one profile, server-side filtered</small></div>
+    </div>
+  </div>
+
+  <div class="side" style="animation-delay: 7s">
+    <h2>Measured</h2>
+    <table>
+      <tr><td>On-screen numbers bound to verified claims (55 golden cues)</td><td class="num">141/141</td></tr>
+      <tr><td>Planted errors caught by the Fact Checker</td><td class="num">500/500</td></tr>
+      <tr><td>Fact Checker false rejects</td><td class="num">0/500</td></tr>
+      <tr><td>Counterfactual calibration, Brier (9,226 held-out moments)</td><td class="num">0.0629</td></tr>
+      <tr><td>Placebo: forcing the actual action reproduces the baseline</td><td class="num">98.7%</td></tr>
+      <tr><td>Game-state detection F1 vs hidden truth (50 matches)</td><td class="num">0.772</td></tr>
+      <tr><td>Model spend for the golden match, all modes</td><td class="num">$2.31</td></tr>
+    </table>
+  </div>
+
+  <div class="foot">Source: packages/evals/results.md · counterfactuals use the scripted engine (policy gate, day 4)</div>
+</div>
+</body>
+</html>

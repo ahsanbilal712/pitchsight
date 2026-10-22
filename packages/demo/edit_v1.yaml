@@ -1,0 +1,104 @@
+# Video v1 edit decision list (T-063). DEMO_MASTERPLAN_50USD.md §7 storyboard, rebuilt on the golden match's real
+# beats (packages/demo/golden_moments.yaml) and on what is measured today. Assembled by
+#   python packages/demo/assemble.py packages/demo/edit_v1.yaml
+# Clips come from packages/demo/out (T-062). `from`/`to` are seconds after the take's play mark (<shot>.json
+# play_s; ready_s for pages), so the page load is never in the cut. Captions are timed within their clip.
+# No music in v1 (the generated track is T-082); captions only, English only, no voice.
+# PROVISIONAL: the clips were recorded on the golden cache at 405fd91, before the T-057 regeneration.
+
+out: packages/demo/out/final_v1.mp4
+size: [1920, 1080]
+fps: 30
+caption_band: 120   # picture 1707x960 above a caption band, so captions never cover the screens
+
+clips:
+  - shot: opener_3d
+    from: 0.0
+    to: 7.0
+    captions:
+      - {from: 0.3, to: 6.8, text: "Football broadcasts tell you what happened. Nobody tells you why it mattered."}
+
+  - shot: sliding_doors_2d
+    from: 2.0
+    to: 14.0
+    captions:
+      - {from: 0.3, to: 11.8, text: "Underneath is a world we can run forwards, backwards and sideways."}
+
+  - shot: sliding_doors_3d_wide
+    from: 0.0
+    to: 7.0
+    captions:
+      - {from: 0.2, to: 7.0, text: "Each key moment is replayed 200 times. Passing instead of shooting: +4 points of win chance."}
+
+  - shot: sliding_doors_3d_player
+    from: 0.0
+    to: 4.5
+    captions:
+      - {from: 0.0, to: 4.4, text: "Not a stat: what would have happened."}
+
+  - shot: fourth_official
+    from: 1.0
+    to: 9.0
+    captions:
+      - {from: 0.3, to: 7.8, text: "Every refereeing call explained, with the lines drawn."}
+
+  - shot: panel_kill_studio
+    from: 14.0
+    to: 30.0
+    captions:
+      - {from: 0.3, to: 7.8, text: "Agents share a blackboard, reach data only through MCP, and every number is checked in code before it airs."}
+      - {from: 8.0, to: 15.8, text: "Kill the newsroom mid-moment and it resumes from its checkpoint."}
+
+  - shot: oracle
+    from: 0.0
+    to: 9.0
+    captions:
+      - {from: 0.3, to: 8.8, text: "It sees danger before it happens..."}
+
+  - shot: dugout
+    from: 0.0
+    to: 6.0
+    captions:
+      - {from: 0.0, to: 5.8, text: "...and tells the studio what the manager should do."}
+
+  - layout: split3
+    shots: [split_analyst, split_casual, split_player_cam]
+    labels: [Analyst, Casual, Player-Cam]
+    from: 0.0
+    to: 12.0
+    captions:
+      - {from: 0.3, to: 11.8, text: "The same intelligence becomes an analyst's breakdown, a casual fan's line, and a player's story."}
+
+  - shot: veto_studio
+    from: 18.0
+    to: 30.0
+    captions:
+      - {from: 0.3, to: 11.8, text: "A producer can veto anything before it airs."}
+
+  - shot: architecture
+    from: 3.0
+    to: 16.0
+    captions:
+      - {from: 0.3, to: 12.8, text: "Measured, not claimed: 141 of 141 on-screen numbers grounded, 500 of 500 planted errors caught, $2.31 for the golden match."}
+
+  - card: end
+    duration: 4.0
+    title: "WHYLINE"
+    lines: ["Every line on screen has a why.", "Synthetic league · replay of golden match 4242"]
+
+# Every number in a caption, and where it is measured (T-063 acceptance). assemble.py refuses to build when a
+# caption contains a number missing here.
+sources:
+  "200": "counterfactual cf_000070 (data/matches/4242/cache/counterfactuals/cf_000070.json) n = 200; the swing bar prints 'n = 200, 8 s, seed 4242'"
+  "+4": "verified cue c_001042 (mo_00104, 76:56): swing bar 17% -> 21% (+4 pts), from cf_000070 delta_win_prob_home 0.0374"
+  "141": "packages/evals/results.md, Groundedness: 141/141 = 1.000"
+  "500": "packages/evals/results.md, Fact Checker planted errors caught: 500/500 = 100.0%"
+  "$2.31": "packages/evals/results.md, Cost, golden match (all modes): $2.31"
+
+# Storyboard lines (DEMO_MASTERPLAN §7) changed because they are not measured today:
+#   "a model trained on thousands of simulated matches" -> dropped: gate.json engine is scripted_v1 (T-037 cut line)
+#   "in three seconds" (referee calls), "under five seconds for the fast cue" -> dropped: live latency pending (T-080)
+#   "Seven agents on Microsoft Agent Framework", "Cloud-native on Azure", "Measured in Foundry" -> no third-party
+#     marks in the video (TECH_PLAN 1.12), Azure deferred, Foundry not used (TECH_PLAN 1.14 #1)
+#   "shot in the next 10 s: 34%", "Ten minutes later, he does it" -> no oracle cue or Dugout-called-it cue is shown
+#   "ninety-seven percent grounded" -> replaced by the measured 141 of 141
