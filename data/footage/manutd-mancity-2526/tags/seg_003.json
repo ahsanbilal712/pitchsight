@@ -1,0 +1,154 @@
+{
+ "segment": 3,
+ "start_s": 540.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:05",
+   "match_clock": "35:26",
+   "type": "pass",
+   "team": "Manchester City",
+   "player": "J\u00e9r\u00e9my Doku",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Cross into the penalty area."
+  },
+  {
+   "clip_time": "00:07",
+   "match_clock": "35:28",
+   "type": "save",
+   "team": "Manchester United",
+   "player": "Lammens",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Pushes the ball behind for a corner."
+  },
+  {
+   "clip_time": "00:20",
+   "match_clock": "35:42",
+   "type": "save",
+   "team": "Manchester United",
+   "player": "Lammens",
+   "outcome": "saved",
+   "replay": true,
+   "note": "Replay of save tipping ball out."
+  },
+  {
+   "clip_time": "00:26",
+   "match_clock": "36:01",
+   "type": "set_piece",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Corner kick into the box."
+  },
+  {
+   "clip_time": "00:29",
+   "match_clock": "36:04",
+   "type": "shot",
+   "team": "Manchester City",
+   "player": "Maxence Lacroix",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Header on target from corner."
+  },
+  {
+   "clip_time": "00:30",
+   "match_clock": "36:05",
+   "type": "clearance",
+   "team": "Manchester United",
+   "player": "Diogo Dalot",
+   "outcome": "won",
+   "replay": false,
+   "note": "Goal-line clearance to prevent goal."
+  },
+  {
+   "clip_time": "01:00",
+   "match_clock": "38:44",
+   "type": "shot",
+   "team": "Manchester City",
+   "player": "Antoine Semenyo",
+   "outcome": "off_target",
+   "replay": false,
+   "note": "Curled shot misses the far post."
+  },
+  {
+   "clip_time": "01:25",
+   "match_clock": "39:09",
+   "type": "shot",
+   "team": "Manchester City",
+   "player": "Maxence Lacroix",
+   "outcome": "saved",
+   "replay": true,
+   "note": "Replay of header cleared off line."
+  },
+  {
+   "clip_time": "01:29",
+   "match_clock": "39:13",
+   "type": "clearance",
+   "team": "Manchester United",
+   "player": "Diogo Dalot",
+   "outcome": "won",
+   "replay": true,
+   "note": "Replay of Dalot goal-line clearance."
+  },
+  {
+   "clip_time": "01:40",
+   "match_clock": "40:02",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Long ball played through the middle."
+  },
+  {
+   "clip_time": "01:44",
+   "match_clock": "40:06",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "goal",
+   "replay": false,
+   "note": "Rounds the keeper and finishes into net."
+  },
+  {
+   "clip_time": "01:53",
+   "match_clock": "40:15",
+   "type": "offside",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Assistant raises flag for offside."
+  },
+  {
+   "clip_time": "02:22",
+   "match_clock": "40:44",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Replay of the disallowed goal."
+  },
+  {
+   "clip_time": "02:50",
+   "match_clock": "41:20",
+   "type": "set_piece",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "n/a",
+   "replay": false,
+   "note": "Referee confirms offside after check."
+  }
+ ],
+ "usage": {
+  "tokens_in": 17003,
+  "tokens_out": 1268
+ },
+ "cost_usd": 0.01750725,
+ "latency_ms": 42125,
+ "model": "gemini-3.8-flash"
+}

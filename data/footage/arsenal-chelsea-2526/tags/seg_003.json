@@ -1,0 +1,74 @@
+{
+ "segment": 3,
+ "start_s": 540.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:17",
+   "match_clock": "44:27",
+   "type": "clearance",
+   "team": "Arsenal",
+   "player": "David Raya",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Raya punches away the corner under pressure."
+  },
+  {
+   "clip_time": "01:10",
+   "match_clock": "45:20",
+   "type": "set_piece",
+   "team": "Chelsea",
+   "player": "Reece James",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Reece James prepares to take corner kick."
+  },
+  {
+   "clip_time": "01:56",
+   "match_clock": "46:06",
+   "type": "pass",
+   "team": "Chelsea",
+   "player": "Reece James",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Reece James delivers corner kick into the box."
+  },
+  {
+   "clip_time": "01:58",
+   "match_clock": "46:08",
+   "type": "goal",
+   "team": "Chelsea",
+   "player": "",
+   "outcome": "goal",
+   "replay": false,
+   "note": "Header into the far corner off the corner delivery."
+  },
+  {
+   "clip_time": "02:30",
+   "match_clock": "46:42",
+   "type": "pass",
+   "team": "Chelsea",
+   "player": "Reece James",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Reece James crosses corner kick towards the near post."
+  },
+  {
+   "clip_time": "02:32",
+   "match_clock": "46:44",
+   "type": "goal",
+   "team": "Chelsea",
+   "player": "",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Header glances into far corner of the net."
+  }
+ ],
+ "usage": {
+  "tokens_in": 17001,
+  "tokens_out": 411
+ },
+ "cost_usd": 0.014292,
+ "latency_ms": 44201,
+ "model": "gemini-3.8-flash"
+}

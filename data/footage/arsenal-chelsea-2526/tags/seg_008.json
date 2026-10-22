@@ -1,0 +1,84 @@
+{
+ "segment": 8,
+ "start_s": 1440.0,
+ "dur_s": 92.37768699999992,
+ "events": [
+  {
+   "clip_time": "00:03",
+   "match_clock": "95:16",
+   "type": "pass",
+   "team": "Chelsea",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Cross into Arsenal box."
+  },
+  {
+   "clip_time": "00:06",
+   "match_clock": "95:19",
+   "type": "shot",
+   "team": "Chelsea",
+   "player": "Jo\u00e3o Pedro",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Overhead kick on target."
+  },
+  {
+   "clip_time": "00:07",
+   "match_clock": "95:20",
+   "type": "save",
+   "team": "Arsenal",
+   "player": "David Raya",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Tipped over crossbar."
+  },
+  {
+   "clip_time": "00:08",
+   "match_clock": "95:21",
+   "type": "offside",
+   "team": "Chelsea",
+   "player": "Jo\u00e3o Pedro",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Offside flag raised."
+  },
+  {
+   "clip_time": "00:15",
+   "match_clock": "95:28",
+   "type": "shot",
+   "team": "Chelsea",
+   "player": "Jo\u00e3o Pedro",
+   "outcome": "saved",
+   "replay": true,
+   "note": "Slow motion replay of overhead kick."
+  },
+  {
+   "clip_time": "00:16",
+   "match_clock": "95:29",
+   "type": "save",
+   "team": "Arsenal",
+   "player": "David Raya",
+   "outcome": "saved",
+   "replay": true,
+   "note": "Slow motion replay of fingertip save."
+  },
+  {
+   "clip_time": "00:27",
+   "match_clock": "96:26",
+   "type": "clearance",
+   "team": "Arsenal",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Cleared out from the box."
+  }
+ ],
+ "usage": {
+  "tokens_in": 8993,
+  "tokens_out": 449
+ },
+ "cost_usd": 0.0084285,
+ "latency_ms": 25912,
+ "model": "gemini-3.8-flash"
+}

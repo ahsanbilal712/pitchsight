@@ -1,0 +1,104 @@
+{
+ "segment": 6,
+ "start_s": 1080.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:20",
+   "match_clock": "90:10",
+   "type": "pass",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "through ball into the penalty area for Matheus Nunes"
+  },
+  {
+   "clip_time": "00:26",
+   "match_clock": "90:15",
+   "type": "foul",
+   "team": "Liverpool",
+   "player": "Alisson",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Alisson brings down Matheus Nunes in the box"
+  },
+  {
+   "clip_time": "00:34",
+   "match_clock": "90:24",
+   "type": "foul",
+   "team": "Manchester City",
+   "player": "Matheus Nunes",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "referee awards a penalty to Manchester City"
+  },
+  {
+   "clip_time": "00:49",
+   "match_clock": "90:39",
+   "type": "foul",
+   "team": "Liverpool",
+   "player": "Alisson",
+   "outcome": "committed",
+   "replay": true,
+   "note": "replay showing Alisson wiping out Matheus Nunes"
+  },
+  {
+   "clip_time": "00:55",
+   "match_clock": "90:45",
+   "type": "foul",
+   "team": "Liverpool",
+   "player": "Alisson",
+   "outcome": "committed",
+   "replay": true,
+   "note": "alternate angle of the penalty incident"
+  },
+  {
+   "clip_time": "02:05",
+   "match_clock": "91:55",
+   "type": "card",
+   "team": "Liverpool",
+   "player": "Alisson",
+   "outcome": "n/a",
+   "replay": false,
+   "note": "yellow card shown to Alisson"
+  },
+  {
+   "clip_time": "02:52",
+   "match_clock": "92:42",
+   "type": "set_piece",
+   "team": "Manchester City",
+   "player": "Haaland",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Haaland takes the penalty kick"
+  },
+  {
+   "clip_time": "02:53",
+   "match_clock": "92:43",
+   "type": "shot",
+   "team": "Manchester City",
+   "player": "Haaland",
+   "outcome": "goal",
+   "replay": false,
+   "note": "penalty into the bottom right corner"
+  },
+  {
+   "clip_time": "02:54",
+   "match_clock": "92:44",
+   "type": "goal",
+   "team": "Manchester City",
+   "player": "Haaland",
+   "outcome": "n/a",
+   "replay": false,
+   "note": "Haaland scores the penalty to make it 1-2"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17002,
+  "tokens_out": 828
+ },
+ "cost_usd": 0.0158565,
+ "latency_ms": 11527,
+ "model": "gemini-3.8-flash"
+}

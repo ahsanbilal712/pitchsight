@@ -1,0 +1,64 @@
+{
+ "segment": 2,
+ "start_s": 360.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:00",
+   "match_clock": "77:49",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "free kick into top corner"
+  },
+  {
+   "clip_time": "00:31",
+   "match_clock": "78:21",
+   "type": "foul",
+   "team": "",
+   "player": "",
+   "outcome": "committed",
+   "replay": true,
+   "note": "foul leading to free kick"
+  },
+  {
+   "clip_time": "00:54",
+   "match_clock": "78:44",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "behind the goal view"
+  },
+  {
+   "clip_time": "01:00",
+   "match_clock": "78:50",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "wide replay angle"
+  },
+  {
+   "clip_time": "01:54",
+   "match_clock": "79:44",
+   "type": "tackle",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "won",
+   "replay": false,
+   "note": "tackle inside the penalty box"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17002,
+  "tokens_out": 341
+ },
+ "cost_usd": 0.01403025,
+ "latency_ms": 9915,
+ "model": "gemini-3.8-flash"
+}

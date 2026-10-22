@@ -5,6 +5,25 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · T-106 Gemini event tagging of the real clips (track B)
+
+- `python -m footage.tag [slug...]` (packages/footage/tag.py, config/footage.yaml): each clip is cut by ffmpeg into
+  180 s, 360p, 5 fps segments (git-ignored media) sent **inline** to gemini-3.8-flash on Vertex AI (no bucket, no
+  Files API, no new GCP resource: owner rule) at low media resolution and 1 frame/s, thinking off, with a JSON schema.
+  Every call goes through SpendGuard under the clip's own match id; a clip stops at $0.40.
+- Output: `data/footage/<slug>/events.jsonl` in event.schema.json form (players have no p_ ids: `player` null,
+  `attrs.player_name`; `attrs.clip_ms` links back to the video; replays dropped; clock read off the score bug or
+  carried between reads); raw answers in `tags/` (re-runs cost nothing).
+- **Spend: $0.6072 for 40 segments, 113 min of video** (m_9001 Liverpool v Man City $0.1893, m_9002 Man Utd v Man
+  City $0.1384, m_9003 Arsenal v Chelsea $0.1365, m_9004 Man Utd v Spurs $0.1431); ~17k tokens in per 3 min.
+- 284 live events (169 replay tags dropped), 0 schema errors. Spot check against the broadcasts: the goals
+  (Szoboszlai FK, Silva, Haaland pen, Cherki; Mbeumo, Dorgu, Mount; Saliba, Timber; Johnson, Kulusevski, Solanke),
+  Bruno Fernandes' straight red at 41:04, Neto's second yellow, the Raya saves are all tagged with the right clock.
+- **Agreement with tracking-derived events: pending** (T-105, track A, not landed); to be measured when it lands.
+- Verification: `pytest tests/footage/test_tag.py` (conversion, replays, clock carry, boundary dedupe) 4 passed.
+
+---
+
 ## 2026-10-22 · T-069 part 1 Video v1 final pass (track C) — waiting for the human steps
 
 - Manifest unchanged since the takes → no re-record. Machine frame review: no real marks or names; Dugout clip cut (no

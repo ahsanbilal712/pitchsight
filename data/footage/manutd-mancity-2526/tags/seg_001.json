@@ -1,0 +1,134 @@
+{
+ "segment": 1,
+ "start_s": 180.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:51",
+   "match_clock": "00:30",
+   "type": "tackle",
+   "team": "Manchester City",
+   "player": "J\u00e9r\u00e9my Doku",
+   "outcome": "lost",
+   "replay": false,
+   "note": "tackled by Casemiro"
+  },
+  {
+   "clip_time": "00:52",
+   "match_clock": "00:31",
+   "type": "tackle",
+   "team": "Manchester United",
+   "player": "Casemiro",
+   "outcome": "won",
+   "replay": false,
+   "note": "tackles Doku"
+  },
+  {
+   "clip_time": "00:57",
+   "match_clock": "00:36",
+   "type": "tackle",
+   "team": "Manchester United",
+   "player": "Casemiro",
+   "outcome": "lost",
+   "replay": false,
+   "note": "challenges Doku sliding"
+  },
+  {
+   "clip_time": "00:59",
+   "match_clock": "00:38",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "committed",
+   "replay": false,
+   "note": "fouls Doku"
+  },
+  {
+   "clip_time": "01:46",
+   "match_clock": "02:14",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "cross into the penalty box"
+  },
+  {
+   "clip_time": "01:48",
+   "match_clock": "02:16",
+   "type": "clearance",
+   "team": "Manchester City",
+   "player": "Abner",
+   "outcome": "complete",
+   "replay": false,
+   "note": "deflects ball over crossbar for corner"
+  },
+  {
+   "clip_time": "02:19",
+   "match_clock": "02:47",
+   "type": "set_piece",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "complete",
+   "replay": false,
+   "note": "takes corner into penalty box"
+  },
+  {
+   "clip_time": "02:19",
+   "match_clock": "02:47",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "complete",
+   "replay": false,
+   "note": "corner cross into box"
+  },
+  {
+   "clip_time": "02:22",
+   "match_clock": "02:50",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Harry Maguire",
+   "outcome": "off_target",
+   "replay": false,
+   "note": "header strikes the crossbar"
+  },
+  {
+   "clip_time": "02:35",
+   "match_clock": "03:02",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "complete",
+   "replay": true,
+   "note": "corner cross replay"
+  },
+  {
+   "clip_time": "02:37",
+   "match_clock": "03:04",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Harry Maguire",
+   "outcome": "off_target",
+   "replay": true,
+   "note": "header off crossbar replay"
+  },
+  {
+   "clip_time": "02:45",
+   "match_clock": "03:13",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Harry Maguire",
+   "outcome": "off_target",
+   "replay": true,
+   "note": "close-up angle of header hitting crossbar"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17003,
+  "tokens_out": 1076
+ },
+ "cost_usd": 0.01678725,
+ "latency_ms": 37588,
+ "model": "gemini-3.8-flash"
+}

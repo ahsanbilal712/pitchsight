@@ -1,0 +1,164 @@
+{
+ "segment": 2,
+ "start_s": 360.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:15",
+   "match_clock": "09:54",
+   "type": "tackle",
+   "team": "Manchester United",
+   "player": "Dalot",
+   "outcome": "lost",
+   "replay": false,
+   "note": "Late sliding tackle on Doku"
+  },
+  {
+   "clip_time": "00:16",
+   "match_clock": "09:55",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Dalot",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Dalot brings down Doku"
+  },
+  {
+   "clip_time": "00:28",
+   "match_clock": "10:07",
+   "type": "card",
+   "team": "Manchester United",
+   "player": "Dalot",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Yellow card for Dalot"
+  },
+  {
+   "clip_time": "00:41",
+   "match_clock": "10:20",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Dalot",
+   "outcome": "committed",
+   "replay": true,
+   "note": "Replay of Dalot tackle on Doku"
+  },
+  {
+   "clip_time": "01:33",
+   "match_clock": "20:51",
+   "type": "tackle",
+   "team": "Manchester United",
+   "player": "Casemiro",
+   "outcome": "won",
+   "replay": false,
+   "note": "Tackle dispossesses Phil Foden"
+  },
+  {
+   "clip_time": "01:42",
+   "match_clock": "21:00",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Cross into the box towards Dorgu"
+  },
+  {
+   "clip_time": "01:44",
+   "match_clock": "21:02",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Dorgu",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Close range effort saved"
+  },
+  {
+   "clip_time": "01:45",
+   "match_clock": "21:03",
+   "type": "save",
+   "team": "Manchester City",
+   "player": "Donnarumma",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Point-blank save"
+  },
+  {
+   "clip_time": "01:47",
+   "match_clock": "21:05",
+   "type": "clearance",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Cleared out of the box"
+  },
+  {
+   "clip_time": "02:08",
+   "match_clock": "21:26",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Dorgu",
+   "outcome": "saved",
+   "replay": true,
+   "note": "Replay of Dorgu attempt"
+  },
+  {
+   "clip_time": "02:09",
+   "match_clock": "21:27",
+   "type": "save",
+   "team": "Manchester City",
+   "player": "Donnarumma",
+   "outcome": "saved",
+   "replay": true,
+   "note": "Replay of Donnarumma save"
+  },
+  {
+   "clip_time": "02:16",
+   "match_clock": "32:33",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Through ball to Amad"
+  },
+  {
+   "clip_time": "02:20",
+   "match_clock": "32:37",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Amad",
+   "outcome": "off_target",
+   "replay": false,
+   "note": "Shot wide of the post"
+  },
+  {
+   "clip_time": "02:23",
+   "match_clock": "32:40",
+   "type": "offside",
+   "team": "Manchester United",
+   "player": "Amad",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Offside flagged against Amad"
+  },
+  {
+   "clip_time": "02:43",
+   "match_clock": "32:59",
+   "type": "offside",
+   "team": "Manchester United",
+   "player": "Amad",
+   "outcome": "awarded",
+   "replay": true,
+   "note": "Replay of Amad offside"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17003,
+  "tokens_out": 1011
+ },
+ "cost_usd": 0.0165435,
+ "latency_ms": 34221,
+ "model": "gemini-3.8-flash"
+}

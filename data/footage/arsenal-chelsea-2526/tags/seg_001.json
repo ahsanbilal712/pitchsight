@@ -1,0 +1,144 @@
+{
+ "segment": 1,
+ "start_s": 180.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:54",
+   "match_clock": "04:31",
+   "type": "interception",
+   "team": "Arsenal",
+   "player": "Gy\u00f6keres",
+   "outcome": "won",
+   "replay": false,
+   "note": "Gy\u00f6keres intercepts S\u00e1nchez's loose pass inside the box."
+  },
+  {
+   "clip_time": "00:55",
+   "match_clock": "04:32",
+   "type": "tackle",
+   "team": "Chelsea",
+   "player": "S\u00e1nchez",
+   "outcome": "won",
+   "replay": false,
+   "note": "S\u00e1nchez tackles back to prevent Gy\u00f6keres scoring."
+  },
+  {
+   "clip_time": "01:13",
+   "match_clock": "04:50",
+   "type": "interception",
+   "team": "Arsenal",
+   "player": "",
+   "outcome": "won",
+   "replay": true,
+   "note": "Replay showing Gy\u00f6keres pressing Sanchez to win the ball."
+  },
+  {
+   "clip_time": "01:14",
+   "match_clock": "04:51",
+   "type": "tackle",
+   "team": "Chelsea",
+   "player": "Robert S\u00e1nchez",
+   "outcome": "won",
+   "replay": true,
+   "note": "S\u00e1nchez slides in to recover the ball from Gy\u00f6keres."
+  },
+  {
+   "clip_time": "01:42",
+   "match_clock": "14:33",
+   "type": "shot",
+   "team": "Arsenal",
+   "player": "Eze",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Eze attempts long-range shot over the goalkeeper."
+  },
+  {
+   "clip_time": "01:46",
+   "match_clock": "14:38",
+   "type": "save",
+   "team": "Chelsea",
+   "player": "Robert S\u00e1nchez",
+   "outcome": "complete",
+   "replay": false,
+   "note": "S\u00e1nchez catches the long shot under the bar."
+  },
+  {
+   "clip_time": "01:57",
+   "match_clock": "15:28",
+   "type": "shot",
+   "team": "Arsenal",
+   "player": "Eberechi Eze",
+   "outcome": "saved",
+   "replay": true,
+   "note": "Replay of Eze's long-range effort."
+  },
+  {
+   "clip_time": "02:00",
+   "match_clock": "15:31",
+   "type": "save",
+   "team": "Chelsea",
+   "player": "",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Replay of S\u00e1nchez claiming Eze's lofted shot."
+  },
+  {
+   "clip_time": "02:34",
+   "match_clock": "19:35",
+   "type": "pass",
+   "team": "Arsenal",
+   "player": "",
+   "outcome": "incomplete",
+   "replay": false,
+   "note": "Cross into the box blocked behind."
+  },
+  {
+   "clip_time": "02:35",
+   "match_clock": "19:36",
+   "type": "tackle",
+   "team": "Chelsea",
+   "player": "Enzo Fern\u00e1ndez",
+   "outcome": "won",
+   "replay": false,
+   "note": "Enzo Fernandez blocks the cross out for a corner."
+  },
+  {
+   "clip_time": "02:49",
+   "match_clock": "19:50",
+   "type": "pass",
+   "team": "Arsenal",
+   "player": "Jurri\u00ebn Timber",
+   "outcome": "incomplete",
+   "replay": true,
+   "note": "Replay of Timber crossing into Enzo Fernandez."
+  },
+  {
+   "clip_time": "02:54",
+   "match_clock": "19:54",
+   "type": "tackle",
+   "team": "Chelsea",
+   "player": "Enzo Fern\u00e1ndez",
+   "outcome": "won",
+   "replay": true,
+   "note": "Replay of Enzo sliding to block the cross."
+  },
+  {
+   "clip_time": "02:58",
+   "match_clock": "20:39",
+   "type": "set_piece",
+   "team": "Arsenal",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Corner kick swung into the penalty box."
+  }
+ ],
+ "usage": {
+  "tokens_in": 17001,
+  "tokens_out": 905
+ },
+ "cost_usd": 0.0161445,
+ "latency_ms": 36083,
+ "model": "gemini-3.8-flash"
+}

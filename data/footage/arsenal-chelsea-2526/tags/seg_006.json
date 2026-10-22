@@ -1,0 +1,104 @@
+{
+ "segment": 6,
+ "start_s": 1080.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:03",
+   "match_clock": "66:02",
+   "type": "goal",
+   "team": "Arsenal",
+   "player": "J. Timber",
+   "outcome": "goal",
+   "replay": false,
+   "note": "Celebration of Arsenal goal scored from corner kick."
+  },
+  {
+   "clip_time": "00:41",
+   "match_clock": "66:42",
+   "type": "set_piece",
+   "team": "Arsenal",
+   "player": "",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Corner kick swung into the box."
+  },
+  {
+   "clip_time": "00:43",
+   "match_clock": "66:43",
+   "type": "shot",
+   "team": "Arsenal",
+   "player": "J. Timber",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Header into the net."
+  },
+  {
+   "clip_time": "00:49",
+   "match_clock": "66:49",
+   "type": "goal",
+   "team": "Arsenal",
+   "player": "J. Timber",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Goal confirmed after VAR check."
+  },
+  {
+   "clip_time": "00:54",
+   "match_clock": "66:54",
+   "type": "shot",
+   "team": "Arsenal",
+   "player": "J. Timber",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Close angle replay of the header."
+  },
+  {
+   "clip_time": "01:34",
+   "match_clock": "67:33",
+   "type": "card",
+   "team": "Chelsea",
+   "player": "Neto",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Yellow card awarded to Neto."
+  },
+  {
+   "clip_time": "02:16",
+   "match_clock": "69:20",
+   "type": "foul",
+   "team": "Chelsea",
+   "player": "Neto",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Neto trips Gabriel Martinelli on the break."
+  },
+  {
+   "clip_time": "02:22",
+   "match_clock": "69:26",
+   "type": "card",
+   "team": "Chelsea",
+   "player": "Neto",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Referee shows second yellow card to Neto."
+  },
+  {
+   "clip_time": "02:26",
+   "match_clock": "69:31",
+   "type": "card",
+   "team": "Chelsea",
+   "player": "Neto",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Referee shows red card sending Neto off."
+  }
+ ],
+ "usage": {
+  "tokens_in": 17001,
+  "tokens_out": 806
+ },
+ "cost_usd": 0.01577325,
+ "latency_ms": 49495,
+ "model": "gemini-3.8-flash"
+}

@@ -1,0 +1,84 @@
+{
+ "segment": 5,
+ "start_s": 900.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:57",
+   "match_clock": "45:38",
+   "type": "substitution",
+   "team": "Manchester United",
+   "player": "Casemiro",
+   "outcome": "n/a",
+   "replay": false,
+   "note": "Casemiro replaces Zirkzee"
+  },
+  {
+   "clip_time": "01:16",
+   "match_clock": "45:57",
+   "type": "clearance",
+   "team": "Tottenham Hotspur",
+   "player": "Guglielmo Vicario",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Vicario sweeps and clears"
+  },
+  {
+   "clip_time": "01:18",
+   "match_clock": "45:59",
+   "type": "substitution",
+   "team": "Tottenham Hotspur",
+   "player": "Djed Spence",
+   "outcome": "n/a",
+   "replay": false,
+   "note": "Spence replaces Udogie"
+  },
+  {
+   "clip_time": "01:31",
+   "match_clock": "46:12",
+   "type": "foul",
+   "team": "Tottenham Hotspur",
+   "player": "James Maddison",
+   "outcome": "committed",
+   "replay": false,
+   "note": "foul on Casemiro"
+  },
+  {
+   "clip_time": "02:11",
+   "match_clock": "46:53",
+   "type": "pass",
+   "team": "Tottenham Hotspur",
+   "player": "Brennan Johnson",
+   "outcome": "complete",
+   "replay": false,
+   "note": "deflected cross to Kulusevski"
+  },
+  {
+   "clip_time": "02:14",
+   "match_clock": "46:56",
+   "type": "shot",
+   "team": "Tottenham Hotspur",
+   "player": "Dejan Kulusevski",
+   "outcome": "goal",
+   "replay": false,
+   "note": "flicked finish over keeper"
+  },
+  {
+   "clip_time": "02:15",
+   "match_clock": "46:57",
+   "type": "goal",
+   "team": "Tottenham Hotspur",
+   "player": "Dejan Kulusevski",
+   "outcome": "goal",
+   "replay": false,
+   "note": "Kulusevski scores to make it 2-0"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17003,
+  "tokens_out": 497
+ },
+ "cost_usd": 0.014616,
+ "latency_ms": 39890,
+ "model": "gemini-3.8-flash"
+}

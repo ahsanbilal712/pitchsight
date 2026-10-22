@@ -1,0 +1,164 @@
+{
+ "segment": 0,
+ "start_s": 0.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:23",
+   "match_clock": "72:12",
+   "type": "pass",
+   "team": "Liverpool",
+   "player": "Mo Salah",
+   "outcome": "incomplete",
+   "replay": false,
+   "note": "Cross into penalty area."
+  },
+  {
+   "clip_time": "00:24",
+   "match_clock": "72:13",
+   "type": "clearance",
+   "team": "Manchester City",
+   "player": "Donnarumma",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Punches the cross away."
+  },
+  {
+   "clip_time": "00:28",
+   "match_clock": "72:18",
+   "type": "tackle",
+   "team": "Manchester City",
+   "player": "Bernardo Silva",
+   "outcome": "lost",
+   "replay": false,
+   "note": "Challenges Ryan Gravenberch."
+  },
+  {
+   "clip_time": "00:29",
+   "match_clock": "72:18",
+   "type": "foul",
+   "team": "Manchester City",
+   "player": "Bernardo Silva",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Fouls Ryan Gravenberch outside the box."
+  },
+  {
+   "clip_time": "00:44",
+   "match_clock": "72:34",
+   "type": "pass",
+   "team": "Liverpool",
+   "player": "Mo Salah",
+   "outcome": "incomplete",
+   "replay": true,
+   "note": "Replay of the cross."
+  },
+  {
+   "clip_time": "00:46",
+   "match_clock": "72:35",
+   "type": "clearance",
+   "team": "Manchester City",
+   "player": "Donnarumma",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Replay of the punch clearance."
+  },
+  {
+   "clip_time": "01:36",
+   "match_clock": "73:25",
+   "type": "set_piece",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Direct free kick."
+  },
+  {
+   "clip_time": "01:37",
+   "match_clock": "73:26",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "goal",
+   "replay": false,
+   "note": "Direct shot from free kick."
+  },
+  {
+   "clip_time": "01:38",
+   "match_clock": "73:27",
+   "type": "goal",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "goal",
+   "replay": false,
+   "note": "Scores direct free kick into top corner."
+  },
+  {
+   "clip_time": "02:17",
+   "match_clock": "74:07",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Replay of free kick goal."
+  },
+  {
+   "clip_time": "02:18",
+   "match_clock": "74:08",
+   "type": "goal",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Replay of free kick goal."
+  },
+  {
+   "clip_time": "02:29",
+   "match_clock": "74:19",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Close-up replay of free kick."
+  },
+  {
+   "clip_time": "02:30",
+   "match_clock": "74:20",
+   "type": "goal",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Close-up replay of free kick goal."
+  },
+  {
+   "clip_time": "02:37",
+   "match_clock": "74:27",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Replay from behind the goal."
+  },
+  {
+   "clip_time": "02:38",
+   "match_clock": "74:28",
+   "type": "goal",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Replay from behind the goal."
+  }
+ ],
+ "usage": {
+  "tokens_in": 17002,
+  "tokens_out": 1030
+ },
+ "cost_usd": 0.016614,
+ "latency_ms": 18755,
+ "model": "gemini-3.8-flash"
+}

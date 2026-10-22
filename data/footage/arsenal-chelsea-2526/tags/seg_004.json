@@ -1,0 +1,134 @@
+{
+ "segment": 4,
+ "start_s": 720.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:06",
+   "match_clock": "49:26",
+   "type": "foul",
+   "team": "Chelsea",
+   "player": "Pedro Neto",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Trip on Trossard"
+  },
+  {
+   "clip_time": "00:36",
+   "match_clock": "",
+   "type": "set_piece",
+   "team": "Arsenal",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Second half kickoff"
+  },
+  {
+   "clip_time": "01:03",
+   "match_clock": "45:25",
+   "type": "tackle",
+   "team": "Chelsea",
+   "player": "Reece James",
+   "outcome": "won",
+   "replay": false,
+   "note": "Dispossesses Trossard"
+  },
+  {
+   "clip_time": "01:21",
+   "match_clock": "45:43",
+   "type": "tackle",
+   "team": "Chelsea",
+   "player": "",
+   "outcome": "won",
+   "replay": false,
+   "note": "Sliding tackle in box"
+  },
+  {
+   "clip_time": "01:52",
+   "match_clock": "50:29",
+   "type": "shot",
+   "team": "Chelsea",
+   "player": "Enzo Fern\u00e1ndez",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Left foot shot saved"
+  },
+  {
+   "clip_time": "01:53",
+   "match_clock": "50:30",
+   "type": "save",
+   "team": "Arsenal",
+   "player": "David Raya",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Diving save to deny Enzo"
+  },
+  {
+   "clip_time": "02:12",
+   "match_clock": "50:50",
+   "type": "shot",
+   "team": "Chelsea",
+   "player": "Enzo Fern\u00e1ndez",
+   "outcome": "saved",
+   "replay": true,
+   "note": "Replay of saved shot"
+  },
+  {
+   "clip_time": "02:13",
+   "match_clock": "50:51",
+   "type": "save",
+   "team": "Arsenal",
+   "player": "David Raya",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Replay of save"
+  },
+  {
+   "clip_time": "02:23",
+   "match_clock": "51:24",
+   "type": "set_piece",
+   "team": "Chelsea",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Corner kick into box"
+  },
+  {
+   "clip_time": "02:25",
+   "match_clock": "51:26",
+   "type": "save",
+   "team": "Arsenal",
+   "player": "David Raya",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Punch clearance from corner"
+  },
+  {
+   "clip_time": "02:42",
+   "match_clock": "51:43",
+   "type": "save",
+   "team": "Arsenal",
+   "player": "David Raya",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Replay of punch at corner"
+  },
+  {
+   "clip_time": "02:49",
+   "match_clock": "51:49",
+   "type": "save",
+   "team": "Arsenal",
+   "player": "David Raya",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Alternative angle of punch"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17001,
+  "tokens_out": 764
+ },
+ "cost_usd": 0.01561575,
+ "latency_ms": 44567,
+ "model": "gemini-3.8-flash"
+}

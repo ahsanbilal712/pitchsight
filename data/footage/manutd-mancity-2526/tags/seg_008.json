@@ -1,0 +1,64 @@
+{
+ "segment": 8,
+ "start_s": 1440.0,
+ "dur_s": 92.37768699999992,
+ "events": [
+  {
+   "clip_time": "00:09",
+   "match_clock": "92:28",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Replay of through ball into the box."
+  },
+  {
+   "clip_time": "00:13",
+   "match_clock": "92:33",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Mason Mount",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Slotted into open net."
+  },
+  {
+   "clip_time": "00:20",
+   "match_clock": "92:40",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Alternative angle through ball to Mason Mount."
+  },
+  {
+   "clip_time": "00:22",
+   "match_clock": "92:42",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Mason Mount",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Finish replay from behind."
+  },
+  {
+   "clip_time": "00:35",
+   "match_clock": "93:49",
+   "type": "offside",
+   "team": "Manchester United",
+   "player": "Matheus Cunha",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Referee signals offside after VAR check, goal disallowed."
+  }
+ ],
+ "usage": {
+  "tokens_in": 8995,
+  "tokens_out": 335
+ },
+ "cost_usd": 0.0080025,
+ "latency_ms": 26917,
+ "model": "gemini-3.8-flash"
+}

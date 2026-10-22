@@ -1,0 +1,104 @@
+{
+ "segment": 7,
+ "start_s": 1260.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:43",
+   "match_clock": "93:33",
+   "type": "shot",
+   "team": "Manchester City",
+   "player": "Erling Haaland",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Penalty converted into the bottom corner."
+  },
+  {
+   "clip_time": "00:43",
+   "match_clock": "93:33",
+   "type": "goal",
+   "team": "Manchester City",
+   "player": "Erling Haaland",
+   "outcome": "awarded",
+   "replay": true,
+   "note": "Haaland converts penalty to make it 1-2."
+  },
+  {
+   "clip_time": "01:30",
+   "match_clock": "94:20",
+   "type": "substitution",
+   "team": "Liverpool",
+   "player": "Chiesa",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Chiesa comes on for Kerkez."
+  },
+  {
+   "clip_time": "01:46",
+   "match_clock": "94:36",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Chiesa",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Shot saved by Donnarumma."
+  },
+  {
+   "clip_time": "01:47",
+   "match_clock": "94:37",
+   "type": "save",
+   "team": "Manchester City",
+   "player": "Donnarumma",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Donnarumma safely collects the shot."
+  },
+  {
+   "clip_time": "02:02",
+   "match_clock": "94:52",
+   "type": "card",
+   "team": "Manchester City",
+   "player": "Erling Haaland",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Yellow card Haaland shown on graphic."
+  },
+  {
+   "clip_time": "02:09",
+   "match_clock": "94:59",
+   "type": "foul",
+   "team": "Manchester City",
+   "player": "Erling Haaland",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Haaland fouls Szoboszlai."
+  },
+  {
+   "clip_time": "02:18",
+   "match_clock": "95:08",
+   "type": "clearance",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "City clearance upfield."
+  },
+  {
+   "clip_time": "02:29",
+   "match_clock": "95:19",
+   "type": "substitution",
+   "team": "Manchester City",
+   "player": "Ake",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Ake replaces Semenyo."
+  }
+ ],
+ "usage": {
+  "tokens_in": 17002,
+  "tokens_out": 605
+ },
+ "cost_usd": 0.01502025,
+ "latency_ms": 11033,
+ "model": "gemini-3.8-flash"
+}

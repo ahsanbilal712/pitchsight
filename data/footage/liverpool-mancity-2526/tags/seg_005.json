@@ -1,0 +1,114 @@
+{
+ "segment": 5,
+ "start_s": 900.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:00",
+   "match_clock": "86:49",
+   "type": "offside",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "n/a",
+   "replay": false,
+   "note": "Assistant flags offside"
+  },
+  {
+   "clip_time": "00:35",
+   "match_clock": "87:25",
+   "type": "tackle",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "won",
+   "replay": false,
+   "note": "Slide tackle to challenge possession"
+  },
+  {
+   "clip_time": "01:04",
+   "match_clock": "87:54",
+   "type": "clearance",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Back-pass booted away by goalkeeper"
+  },
+  {
+   "clip_time": "01:16",
+   "match_clock": "88:05",
+   "type": "foul",
+   "team": "Liverpool",
+   "player": "Kerkez",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Kerkez fouls Cherki"
+  },
+  {
+   "clip_time": "01:42",
+   "match_clock": "88:32",
+   "type": "pass",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Low cross into the penalty box"
+  },
+  {
+   "clip_time": "01:46",
+   "match_clock": "88:36",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Salah",
+   "outcome": "off_target",
+   "replay": false,
+   "note": "First-time shot sails wide"
+  },
+  {
+   "clip_time": "01:53",
+   "match_clock": "88:43",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Salah",
+   "outcome": "off_target",
+   "replay": true,
+   "note": "Replay of Salah shot wide"
+  },
+  {
+   "clip_time": "02:29",
+   "match_clock": "89:19",
+   "type": "pass",
+   "team": "Manchester City",
+   "player": "Cherki",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Through ball down the right channel"
+  },
+  {
+   "clip_time": "02:32",
+   "match_clock": "89:22",
+   "type": "pass",
+   "team": "Manchester City",
+   "player": "Semenyo",
+   "outcome": "incomplete",
+   "replay": false,
+   "note": "First-time cross cut out"
+  },
+  {
+   "clip_time": "02:33",
+   "match_clock": "89:23",
+   "type": "save",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Goalkeeper drops to gather low cross"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17002,
+  "tokens_out": 881
+ },
+ "cost_usd": 0.01605525,
+ "latency_ms": 11744,
+ "model": "gemini-3.8-flash"
+}

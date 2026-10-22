@@ -1,0 +1,104 @@
+{
+ "segment": 4,
+ "start_s": 720.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:06",
+   "match_clock": "38:45",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Diogo Dalot",
+   "outcome": "committed",
+   "replay": true,
+   "note": "Dalot brings down Kulusevski."
+  },
+  {
+   "clip_time": "00:15",
+   "match_clock": "38:54",
+   "type": "pass",
+   "team": "Tottenham Hotspur",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Kulusevski plays Werner through into space."
+  },
+  {
+   "clip_time": "00:19",
+   "match_clock": "38:58",
+   "type": "shot",
+   "team": "Tottenham Hotspur",
+   "player": "Timo Werner",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Werner's shot blocked by goalkeeper Onana."
+  },
+  {
+   "clip_time": "00:20",
+   "match_clock": "38:59",
+   "type": "save",
+   "team": "Manchester United",
+   "player": "Onana",
+   "outcome": "won",
+   "replay": false,
+   "note": "Onana denies Werner on a 1v1."
+  },
+  {
+   "clip_time": "00:53",
+   "match_clock": "40:58",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Fernandes catches Maddison's knee/shin with a high boot."
+  },
+  {
+   "clip_time": "00:59",
+   "match_clock": "41:04",
+   "type": "card",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "n/a",
+   "replay": false,
+   "note": "Referee shows straight red card to Bruno Fernandes."
+  },
+  {
+   "clip_time": "01:28",
+   "match_clock": "41:33",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "committed",
+   "replay": true,
+   "note": "Fernandes slips and raises his leg into Maddison."
+  },
+  {
+   "clip_time": "01:34",
+   "match_clock": "41:39",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "committed",
+   "replay": true,
+   "note": "Replay showing Fernandes catching Maddison."
+  },
+  {
+   "clip_time": "01:44",
+   "match_clock": "41:49",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "committed",
+   "replay": true,
+   "note": "Slow motion replay of the foul."
+  }
+ ],
+ "usage": {
+  "tokens_in": 17003,
+  "tokens_out": 633
+ },
+ "cost_usd": 0.015126,
+ "latency_ms": 36306,
+ "model": "gemini-3.8-flash"
+}

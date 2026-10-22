@@ -1,0 +1,64 @@
+{
+ "segment": 8,
+ "start_s": 1440.0,
+ "dur_s": 93.1903850000001,
+ "events": [
+  {
+   "clip_time": "00:07",
+   "match_clock": "90:56",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Pass through the wing to Garnacho."
+  },
+  {
+   "clip_time": "00:15",
+   "match_clock": "91:04",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Cross into the box towards the far post."
+  },
+  {
+   "clip_time": "00:17",
+   "match_clock": "91:06",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Matthijs de Ligt",
+   "outcome": "off_target",
+   "replay": false,
+   "note": "Sliding attempt at the far post misses the target."
+  },
+  {
+   "clip_time": "00:27",
+   "match_clock": "91:16",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Replay of the cross delivered into the box."
+  },
+  {
+   "clip_time": "00:29",
+   "match_clock": "91:18",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Matthijs de Ligt",
+   "outcome": "off_target",
+   "replay": true,
+   "note": "Replay of de Ligt's sliding finish going wide."
+  }
+ ],
+ "usage": {
+  "tokens_in": 9086,
+  "tokens_out": 471
+ },
+ "cost_usd": 0.00858075,
+ "latency_ms": 29414,
+ "model": "gemini-3.8-flash"
+}

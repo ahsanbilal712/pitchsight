@@ -1,0 +1,104 @@
+{
+ "segment": 4,
+ "start_s": 720.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:10",
+   "match_clock": "84:00",
+   "type": "pass",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Header pass inside the box"
+  },
+  {
+   "clip_time": "00:13",
+   "match_clock": "84:03",
+   "type": "goal",
+   "team": "Manchester City",
+   "player": "Bernardo Silva",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Bernardo Silva slides the ball in"
+  },
+  {
+   "clip_time": "00:19",
+   "match_clock": "84:09",
+   "type": "goal",
+   "team": "Manchester City",
+   "player": "Bernardo Silva",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Alternate angle of Silva goal"
+  },
+  {
+   "clip_time": "00:27",
+   "match_clock": "84:17",
+   "type": "goal",
+   "team": "Manchester City",
+   "player": "Bernardo Silva",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Another replay angle of the goal"
+  },
+  {
+   "clip_time": "00:48",
+   "match_clock": "84:38",
+   "type": "substitution",
+   "team": "Liverpool",
+   "player": "Curtis Jones",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Curtis Jones replaces Cody Gakpo"
+  },
+  {
+   "clip_time": "01:03",
+   "match_clock": "84:53",
+   "type": "set_piece",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Restart after the goal"
+  },
+  {
+   "clip_time": "02:04",
+   "match_clock": "85:54",
+   "type": "interception",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "won",
+   "replay": false,
+   "note": "Intercepts pass aimed towards Salah"
+  },
+  {
+   "clip_time": "02:18",
+   "match_clock": "86:08",
+   "type": "foul",
+   "team": "Manchester City",
+   "player": "Bernardo Silva",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Advantage played after foul on Gravenberch"
+  },
+  {
+   "clip_time": "02:35",
+   "match_clock": "86:25",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Dominik Szoboszlai",
+   "outcome": "blocked",
+   "replay": false,
+   "note": "Shot blocked by defender"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17002,
+  "tokens_out": 598
+ },
+ "cost_usd": 0.014994,
+ "latency_ms": 36314,
+ "model": "gemini-3.8-flash"
+}

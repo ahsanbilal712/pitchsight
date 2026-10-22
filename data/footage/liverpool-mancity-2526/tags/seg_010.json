@@ -1,0 +1,44 @@
+{
+ "segment": 10,
+ "start_s": 1800.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:38",
+   "match_clock": "102:28",
+   "type": "card",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "awarded",
+   "replay": false,
+   "note": "Szoboszlai red card for denying goalscoring opportunity"
+  },
+  {
+   "clip_time": "02:39",
+   "match_clock": "104:30",
+   "type": "shot",
+   "team": "Manchester City",
+   "player": "Cherki",
+   "outcome": "off_target",
+   "replay": false,
+   "note": "Cherki shoots free kick high over the bar"
+  },
+  {
+   "clip_time": "02:51",
+   "match_clock": "104:41",
+   "type": "set_piece",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Goal kick taken long downfield"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17002,
+  "tokens_out": 215
+ },
+ "cost_usd": 0.01355775,
+ "latency_ms": 10312,
+ "model": "gemini-3.8-flash"
+}

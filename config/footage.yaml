@@ -1,0 +1,16 @@
+# Real Premier League clips (FOOTAGE_ADDENDUM.md; sources and permission in data/footage/SOURCES.md).
+# Each clip has its own match id so its model spend is separate from the synthetic matches (SpendGuard per-match cap).
+# The media stays in data/footage/<slug>/ and is never committed.
+schema_version: "1.0.0"
+tagger:
+  model: gemini-3.8-flash
+  segment_s: 180                # inline video per call (no bucket, no Files API: owner rule)
+  height_px: 360
+  fps_encode: 5
+  fps_sample: 1                 # frames per second Gemini reads
+  max_usd_per_clip: 0.40
+clips:
+  liverpool-mancity-2526: { match_id: m_9001, home: Liverpool, away: Manchester City, period_hint: 2 }
+  manutd-mancity-2526:    { match_id: m_9002, home: Manchester United, away: Manchester City }
+  arsenal-chelsea-2526:   { match_id: m_9003, home: Arsenal, away: Chelsea }
+  manutd-spurs-2425:      { match_id: m_9004, home: Manchester United, away: Tottenham Hotspur }

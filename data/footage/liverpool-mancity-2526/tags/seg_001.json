@@ -1,0 +1,134 @@
+{
+ "segment": 1,
+ "start_s": 180.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:52",
+   "match_clock": "75:41",
+   "type": "clearance",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Clearance by defender."
+  },
+  {
+   "clip_time": "01:02",
+   "match_clock": "75:51",
+   "type": "tackle",
+   "team": "Manchester City",
+   "player": "Semenyo",
+   "outcome": "won",
+   "replay": false,
+   "note": "Tackle winning the ball."
+  },
+  {
+   "clip_time": "01:05",
+   "match_clock": "75:54",
+   "type": "foul",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Foul committed in midfield."
+  },
+  {
+   "clip_time": "01:13",
+   "match_clock": "76:03",
+   "type": "set_piece",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Replay of free kick taken."
+  },
+  {
+   "clip_time": "01:14",
+   "match_clock": "76:04",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Direct free kick shot into goal."
+  },
+  {
+   "clip_time": "01:14",
+   "match_clock": "76:04",
+   "type": "goal",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Free kick goal shown in replay."
+  },
+  {
+   "clip_time": "02:08",
+   "match_clock": "76:57",
+   "type": "pass",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Pass to Salah."
+  },
+  {
+   "clip_time": "02:10",
+   "match_clock": "76:59",
+   "type": "pass",
+   "team": "Liverpool",
+   "player": "Salah",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Cross into penalty box."
+  },
+  {
+   "clip_time": "02:27",
+   "match_clock": "77:16",
+   "type": "tackle",
+   "team": "Manchester City",
+   "player": "O'Reilly",
+   "outcome": "lost",
+   "replay": false,
+   "note": "Tackle attempt on Gravenberch."
+  },
+  {
+   "clip_time": "02:35",
+   "match_clock": "77:24",
+   "type": "foul",
+   "team": "Liverpool",
+   "player": "",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Foul committed near sideline."
+  },
+  {
+   "clip_time": "02:45",
+   "match_clock": "77:35",
+   "type": "set_piece",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "complete",
+   "replay": true,
+   "note": "Free kick taken, replay angle."
+  },
+  {
+   "clip_time": "02:46",
+   "match_clock": "77:36",
+   "type": "shot",
+   "team": "Liverpool",
+   "player": "Szoboszlai",
+   "outcome": "goal",
+   "replay": true,
+   "note": "Free kick goal replay."
+  }
+ ],
+ "usage": {
+  "tokens_in": 17002,
+  "tokens_out": 790
+ },
+ "cost_usd": 0.015714,
+ "latency_ms": 12901,
+ "model": "gemini-3.8-flash"
+}

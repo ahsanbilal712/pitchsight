@@ -1,0 +1,134 @@
+{
+ "segment": 4,
+ "start_s": 720.0,
+ "dur_s": 180.0,
+ "events": [
+  {
+   "clip_time": "00:00",
+   "match_clock": "41:30",
+   "type": "offside",
+   "team": "Manchester United",
+   "player": "Bruno Fernandes",
+   "outcome": "n/a",
+   "replay": true,
+   "note": "Bruno Fernandes judged offside"
+  },
+  {
+   "clip_time": "00:06",
+   "match_clock": "47:00",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Harry Maguire",
+   "outcome": "committed",
+   "replay": false,
+   "note": "Maguire fouls Haaland"
+  },
+  {
+   "clip_time": "00:23",
+   "match_clock": "",
+   "type": "foul",
+   "team": "Manchester United",
+   "player": "Harry Maguire",
+   "outcome": "committed",
+   "replay": true,
+   "note": "Maguire brings down Haaland"
+  },
+  {
+   "clip_time": "00:56",
+   "match_clock": "",
+   "type": "substitution",
+   "team": "Manchester City",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Double change for Man City"
+  },
+  {
+   "clip_time": "01:28",
+   "match_clock": "",
+   "type": "set_piece",
+   "team": "Manchester United",
+   "player": "",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Second half kickoff"
+  },
+  {
+   "clip_time": "01:53",
+   "match_clock": "45:25",
+   "type": "set_piece",
+   "team": "Manchester City",
+   "player": "Rico Lewis",
+   "outcome": "complete",
+   "replay": false,
+   "note": "Lewis takes throw-in"
+  },
+  {
+   "clip_time": "02:06",
+   "match_clock": "45:39",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "Diogo Dalot",
+   "outcome": "incomplete",
+   "replay": false,
+   "note": "Dalot low cross across face of goal"
+  },
+  {
+   "clip_time": "02:18",
+   "match_clock": "45:51",
+   "type": "pass",
+   "team": "Manchester United",
+   "player": "Diogo Dalot",
+   "outcome": "incomplete",
+   "replay": true,
+   "note": "Dalot dangerous cross"
+  },
+  {
+   "clip_time": "02:37",
+   "match_clock": "56:42",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Amad",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Amad shot saved by Donnarumma"
+  },
+  {
+   "clip_time": "02:38",
+   "match_clock": "56:43",
+   "type": "save",
+   "team": "Manchester City",
+   "player": "Gianluigi Donnarumma",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Donnarumma parries Amad's effort"
+  },
+  {
+   "clip_time": "02:40",
+   "match_clock": "56:44",
+   "type": "shot",
+   "team": "Manchester United",
+   "player": "Casemiro",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Casemiro follow-up shot"
+  },
+  {
+   "clip_time": "02:41",
+   "match_clock": "56:45",
+   "type": "save",
+   "team": "Manchester City",
+   "player": "Gianluigi Donnarumma",
+   "outcome": "saved",
+   "replay": false,
+   "note": "Donnarumma saves Casemiro's chip"
+  }
+ ],
+ "usage": {
+  "tokens_in": 17003,
+  "tokens_out": 797
+ },
+ "cost_usd": 0.015741,
+ "latency_ms": 36896,
+ "model": "gemini-3.8-flash"
+}
