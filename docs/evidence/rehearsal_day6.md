@@ -46,7 +46,10 @@ No miss appeared, so no moment went back to track B.
 - **Session 1**, fresh blackboard with the demo script armed and the newsroom running, so the beats happen in the
   take: `panel_kill_studio` (kill at 41:37 → `kill target=newsroom run_id=run_m_4242_mo_00060 at_executor=tactician`,
   restart, resume, `c_000601` delivered with resumed_from_checkpoint; the studio's one red row is that run's
-  `interrupted`) and `veto_studio` (half-time recap request vetoed by the demo script).
+  `interrupted`) and `veto_studio` (half-time recap request vetoed by the demo script). Each live beat has its own
+  fresh session: a first veto take after the kill take found the worker still busy with the 41:51 Panel run, so
+  the recap request arrived after the take; re-taken alone, the request shows on the producer panel at 45:22
+  (Approve / Veto / Hold, trace `awaiting_producer`) and the demo script vetoes it after 3 s of match time.
 - **Session 2**, the rehearsed blackboard, no newsroom, demo script off: every other shot, with each cue on screen at
   its time.
 
@@ -64,7 +67,7 @@ No miss appeared, so no moment went back to track B.
 | `split_analyst.webm` | 1920x1080 | 12.1 s | split_analyst_7700.png |
 | `split_casual.webm` | 1920x1080 | 12.1 s | split_casual_7700.png |
 | `split_player_cam.webm` | 390x844 | 12.0 s | split_player_cam_7700.png |
-| `veto_studio.webm` | 1920x1080 | 37.0 s | veto_studio_4510.png, veto_studio_4530.png |
+| `veto_studio.webm` | 1920x1080 | 37.8 s (re-take) | veto_studio_4522.png, veto_studio_4532.png |
 
 The `.webm` files run longer than the take: the page load before `ready` and, under load (average 73), a slow
 `ctx.close()` that keeps filming the paused page. `<shot>.json` holds `ready_s`, `play_s` and `end_s`; the edit (T-063)

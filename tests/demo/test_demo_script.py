@@ -93,6 +93,8 @@ def test_runner_applies_actions_on_the_clock(stage):
     stage.bb.put("requests", {"id": "req_other", "request_id": "req_other", "match_id": "m_4242",
                               "cue": {"kind": "dugout"}})
     stage.advance(2_716_000)
+    assert not stage.bb.query("decisions", request_id="req_recap")   # on the producer panel first
+    stage.advance(2_719_500)
     assert stage.bb.get("decisions", "req_recap")["decision"] == "vetoed"
     assert not stage.bb.query("decisions", request_id="req_other")
     stage.clock.set_speed(4)
@@ -114,6 +116,8 @@ def test_runner_waits_for_a_late_recap_request(stage):
     stage.bb.put("requests", {"id": "req_late", "request_id": "req_late", "match_id": "m_4242",
                               "cue": {"kind": "recap"}})
     stage.advance(2_721_000)
+    assert not stage.bb.query("decisions", request_id="req_late")
+    stage.advance(2_724_500)                               # read for 3 s of match time, then vetoed
     assert stage.bb.get("decisions", "req_late")["decision"] == "vetoed"
 
 

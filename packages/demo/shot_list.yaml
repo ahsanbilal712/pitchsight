@@ -117,7 +117,7 @@
   keyframes: ["@sliding_doors+4s"]
 
 # the half-time recap run takes ~20 s at x1 (simulated Recap latency), so its approval request appears around
-# 45:20; the demo script's 45:15 veto waits for it
+# 45:20; the demo script's 45:15 veto waits for it and lets it show for 3 s before vetoing
 - shot: veto_studio
   beat: split_modes
   app: studio
@@ -126,7 +126,7 @@
   clock_in: "44:58"
   clock_out: "45:00+35s"
   speed: 1
-  keyframes: ["45:00+10s", "45:00+30s"]
+  keyframes: ["45:00+22s", "45:00+32s"]
 
 - shot: architecture
   beat: architecture

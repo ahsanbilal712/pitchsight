@@ -3,7 +3,8 @@ clock so every take is the same.
 
     kill   -> the T-051 path: wait for a run between Tactician and Narrator, SIGKILL the worker
     veto   -> producer decision `vetoed` on the pending request whose cue has `cue_kind` (the half-time recap);
-              if the request is not there yet, the veto waits for it (up to VETO_WAIT_MS of match time)
+              if the request is not there yet, the veto waits for it (up to VETO_WAIT_MS of match time); a request
+              stays on the producer panel for VETO_READ_MS of match time before the veto, as a producer reads it
     speed  -> replay speed
 
 An action fires once when the clock passes its time. Seeking backwards re-arms the actions after the new clock;
@@ -33,6 +34,7 @@ DEFAULT_SCRIPT = ROOT / "packages" / "demo" / "demo_script.yaml"
 TICK_S = 0.05
 SEEK_JUMP_MS = 2000  # a clock jump larger than this is a seek
 VETO_WAIT_MS = 60_000
+VETO_READ_MS = 3_000  # the request is visible in the studio this long before the scripted veto
 
 
 @dataclass
@@ -61,6 +63,7 @@ class DemoRunner:
         self.kill = kill  # injectable for tests; default: control.kill_when_ready on a thread
         self.last_t: int | None = None
         self.pending_veto: list[Action] = []
+        self.request_seen: dict[str, int] = {}  # request_id -> clock when the runner first saw it
 
     # ------------------------------------------------------------------ actions
     def _demo_log(self, line: str) -> None:
@@ -102,8 +105,13 @@ class DemoRunner:
             for r in bb.query("requests", match_id=hub.match_id):
                 rid = r.get("request_id") or r.get("id")
                 if (r.get("cue") or {}).get("kind") == a.spec.get("cue_kind", "recap") and rid not in decided:
+                    seen = self.request_seen.setdefault(rid, t_ms)
+                    if t_ms - seen < VETO_READ_MS:
+                        break  # on screen, not read yet
                     a.result = decide(bb, hub, rid, "vetoed", hub.match_id)
                     self.pending_veto.remove(a)
+                    self._demo_log(f"demo veto request_id={rid} cue_kind={a.spec.get('cue_kind', 'recap')} "
+                                   f"clock={fmt(t_ms)} shown_for={fmt(t_ms - seen)}")
                     break
             else:
                 if t_ms - a.at_ms > VETO_WAIT_MS:
