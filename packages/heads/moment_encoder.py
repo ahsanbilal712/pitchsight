@@ -248,7 +248,7 @@ def train(n_matches: int = 400, epochs: int = 6, step_s: int = 4, workers: int =
     p_test, p_train = purity(clusters[is_test], labels[is_test]), purity(clusters[~is_test], labels[~is_test])
     majority = float(max(np.mean(labels[is_test] == lab) for lab in np.unique(labels[is_test])))
     described = describe_centroids(raw[~is_test], clusters[~is_test])
-    names, naming = name_clusters(described, use_model)
+    names, naming = name_clusters(described, False)        # placeholders; `name` asks cluster_namer afterwards
     out.mkdir(parents=True, exist_ok=True)
     torch.save({"model": net.state_dict(), "mean": mean, "scale": scale, "grid": GRID, "features": CHAOS_FEATURES},
                out / "moment_encoder.pt")
@@ -263,7 +263,22 @@ def train(n_matches: int = 400, epochs: int = 6, step_s: int = 4, workers: int =
                "epochs": epochs, "device": device, "train_log": log, "minutes": round((time.perf_counter() - started)
                                                                                          / 60, 1), "naming": naming}
     (out / "metrics_encoder.json").write_text(json.dumps(metrics, indent=1) + "\n", encoding="utf-8")
+    if use_model:
+        metrics["naming"] = name(out)
     return metrics
+
+
+def name(out: Path = ARTIFACTS) -> dict:
+    """The one cluster_namer call (Gemini through SpendGuard): replaces the placeholder names in clusters.json and
+    records the call in clusters.json and metrics_encoder.json."""
+    c = json.loads((out / "clusters.json").read_text(encoding="utf-8"))
+    names, naming = name_clusters(c["described"], True)
+    c["names"], c["naming"] = names, naming
+    (out / "clusters.json").write_text(json.dumps(c, indent=1) + "\n", encoding="utf-8")
+    m = json.loads((out / "metrics_encoder.json").read_text(encoding="utf-8"))
+    m["naming"] = naming
+    (out / "metrics_encoder.json").write_text(json.dumps(m, indent=1) + "\n", encoding="utf-8")
+    return naming
 
 
 def build_index(out: Path = ARTIFACTS, step_s: int = 10, workers: int = 6) -> dict:
@@ -306,15 +321,20 @@ def _tracking_states(args: tuple[str, int]) -> dict[str, np.ndarray]:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m heads.moment_encoder")
-    ap.add_argument("cmd", choices=("train", "index"))
+    ap.add_argument("cmd", choices=("train", "index", "name"))
     ap.add_argument("--matches", type=int, default=400)
     ap.add_argument("--epochs", type=int, default=6)
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--no-model", action="store_true", help="skip the cluster_namer call")
     args = ap.parse_args(argv)
+    if args.cmd == "name":
+        print(json.dumps(name(), indent=1))
+        return 0
     if args.cmd == "train":
-        print(json.dumps(train(args.matches, args.epochs, workers=args.workers, use_model=not args.no_model), indent=1))
+        print(json.dumps(train(args.matches, args.epochs, workers=args.workers, use_model=False), indent=1))
     print(json.dumps(build_index(workers=args.workers)))
+    if args.cmd == "train" and not args.no_model:
+        print(json.dumps(name(), indent=1))
     return 0
 
 
