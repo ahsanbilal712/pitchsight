@@ -146,3 +146,12 @@ def test_ws_seek_by_t_ms_alias_and_pause(client):
         assert hello["player_ids"] != MatchData.load(4242).player_ids  # substitutions applied
         assert client.get("/health").json()["clock"]["t_ms"] == 4_000_000
         client.post("/replay/control", json={"action": "play"})
+
+
+def test_clock_is_published_to_the_blackboard(client):
+    """Other processes (the newsroom's simulated latencies) follow speed changes through blackboard `replay`."""
+    client.post("/replay/control", json={"action": "speed", "value": 7})
+    doc = client.app.state.bb.get("replay", "m_4242")
+    assert doc["speed"] == 7 and doc["playing"] is True
+    client.post("/replay/control", json={"action": "speed", "value": 1})
+    assert client.app.state.bb.get("replay", "m_4242")["speed"] == 1

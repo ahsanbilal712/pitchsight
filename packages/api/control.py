@@ -1,6 +1,7 @@
 """Control endpoints (TECH_PLAN 1.4 api, 1.7 producer veto, T-033): replay clock, producer decisions, demo kill.
 
-- `POST /replay/control {action: play|pause|seek|speed, value | t_ms}` drives the replay clock.
+- `POST /replay/control {action: play|pause|seek|speed, value | t_ms}` drives the replay clock and publishes it to
+  blackboard `replay/<match_id>` {speed, playing, t_ms} for other processes (publish_clock).
 - `POST /producer/decision {request_id, decision}` writes `decisions/<request_id>` for the newsroom worker (T-050).
   A veto whose request_id is a shown cue's id also rewrites that cue as `producer_status: vetoed` and broadcasts
   `cue_remove` at once (the veto-a-shown-cue path of 1.7).
@@ -38,6 +39,18 @@ class Kill(BaseModel):
     target: str
 
 
+def publish_clock(state) -> dict:
+    """Write the replay clock to blackboard `replay/<match_id>` {speed, playing, t_ms, updated_at}, so other
+    processes (the newsroom worker's simulated latencies) follow speed changes made here, in the studio or by the
+    demo script."""
+    clock: ReplayClock = state.clock
+    st = clock.state()
+    doc = {"id": state.hub.match_id, "match_id": state.hub.match_id, "speed": st.speed, "playing": st.playing,
+           "t_ms": st.t_ms, "updated_at": time.time()}
+    state.bb.put("replay", doc)
+    return doc
+
+
 @router.post("/replay/control")
 def replay_control(request: Request, req: ControlRequest) -> dict:
     clock: ReplayClock = request.app.state.clock
@@ -57,6 +70,7 @@ def replay_control(request: Request, req: ControlRequest) -> dict:
             clock.set_speed(float(req.value))
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
+    publish_clock(request.app.state)
     return clock.state().model_dump()
 
 

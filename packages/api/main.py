@@ -67,6 +67,7 @@ def create_app(seed: int | str | None = None, speed: float | None = None, playin
         tasks = [asyncio.create_task(app.state.hub.run()), asyncio.create_task(app.state.forwarder.run()),
                  asyncio.create_task(spend_loop(app.state.hub))]
         app.state.demo_runner = app.state.demo_task = None
+        control.publish_clock(app.state)  # the worker reads the replay speed from blackboard `replay`
         if os.environ.get("WHYLINE_DEMO_SCRIPT"):  # the demo script (TECH_PLAN 1.8) armed from the start
             demo_runner.start(app)
         try:

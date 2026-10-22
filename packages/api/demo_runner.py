@@ -75,6 +75,9 @@ class DemoRunner:
         a.fired = True
         if a.action == "speed":
             self.state.clock.set_speed(float(a.spec["value"]))
+            from api.control import publish_clock
+
+            publish_clock(self.state)
             a.result = {"speed": float(a.spec["value"])}
         elif a.action == "kill":
             if self.kill is not None:
