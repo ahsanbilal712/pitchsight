@@ -94,15 +94,23 @@ class Camera:
 FLIP_Y = np.array([[1.0, 0.0, 0.0], [0.0, -1.0, PITCH_W], [0.0, 0.0, 1.0]])
 
 
-def from_pitchwatch(calib: dict, frame: int) -> Camera:
-    """The camera for one frame of a Pitchwatch `calib/<shot>.json` (H: pixels -> pitch, far-touchline y; no lens
-    term), or the nearest frame whose fit is trusted."""
+def from_pitchwatch(calib: dict, frame: int, lens: bool = True) -> Camera:
+    """The camera for one frame of a Pitchwatch `calib/<shot>.json`, or of the nearest frame whose fit is trusted.
+    `H` maps pixels to pitch metres (far-touchline y), no lens term; a refined file (demo.refine_calib) adds `k1` and
+    `H_k1`, the homography that applies to pixels once the lens term is taken out, used when `lens`."""
     frames = {int(k): v for k, v in calib["frames"].items() if v.get("ok")}
     if not frames:
         raise ValueError(f"calib shot {calib.get('shot_id')}: no trusted frame")
-    near = min(frames, key=lambda f: abs(f - frame))
-    h = np.linalg.inv(np.asarray(frames[near]["H"], float)) @ FLIP_Y
-    return Camera(h / h[2, 2], size=tuple(calib.get("image_size", (1920, 1080))))
+    entry = frames[min(frames, key=lambda f: abs(f - frame))]
+    with_k1 = lens and "H_k1" in entry
+    h = np.linalg.inv(np.asarray(entry["H_k1" if with_k1 else "H"], float)) @ FLIP_Y
+    return Camera(h / h[2, 2], float(entry["k1"]) if with_k1 else 0.0, tuple(calib.get("image_size", (1920, 1080))))
+
+
+def to_pitchwatch(cam: Camera) -> list[list[float]]:
+    """The camera's homography as Pitchwatch's pixels -> pitch metres (far-touchline y); the lens term is not in it."""
+    h = FLIP_Y @ np.linalg.inv(cam.h)
+    return (h / h[2, 2]).tolist()
 
 
 def as_camera(cam) -> Camera:
@@ -178,16 +186,22 @@ def _targets(cam: Camera, resp, pts, step=0.25, min_peak=18.0, occ=None, search=
     tgt = np.full_like(px, np.nan)
     inside = ((px[:, 0] > search + 2) & (px[:, 0] < resp.shape[1] - search - 2) &
               (px[:, 1] > search + 2) & (px[:, 1] < resp.shape[0] - search - 2))
-    for i in np.nonzero(inside)[0]:
-        if occ is not None and occ[int(px[i][1]), int(px[i][0])]:
-            continue
-        q = px[i][None, :] + ks[:, None] * nrm[i][None, :]
-        prof = ndi.map_coordinates(resp, [q[:, 1], q[:, 0]], order=1)
-        j = int(np.argmax(prof))
-        if prof[j] >= min_peak and 0 < j < len(ks) - 1:
-            a, b, c = prof[j - 1], prof[j], prof[j + 1]
-            frac = 0.5 * (a - c) / (a - 2 * b + c) if (a - 2 * b + c) != 0 else 0.0
-            tgt[i] = px[i] + (ks[j] + frac * step) * nrm[i]
+    idx = np.nonzero(inside)[0]
+    if occ is not None:
+        idx = idx[~occ[px[idx, 1].astype(int), px[idx, 0].astype(int)]]
+    if not len(idx):
+        return tgt, nrm, inside
+    q = px[idx, None, :] + ks[None, :, None] * nrm[idx, None, :]           # samples x profile x 2
+    prof = ndi.map_coordinates(resp, [q[..., 1].ravel(), q[..., 0].ravel()], order=1).reshape(len(idx), len(ks))
+    j = np.argmax(prof, axis=1)
+    rows = np.arange(len(idx))
+    good = (prof[rows, j] >= min_peak) & (j > 0) & (j < len(ks) - 1)
+    jj = np.clip(j, 1, len(ks) - 2)
+    a, b, c = prof[rows, jj - 1], prof[rows, jj], prof[rows, jj + 1]
+    den = a - 2 * b + c
+    frac = np.where(den != 0, 0.5 * (a - c) / np.where(den != 0, den, 1), 0.0)
+    off = ks[j] + frac * step
+    tgt[idx[good]] = px[idx[good]] + off[good, None] * nrm[idx[good]]
     return tgt, nrm, inside
 
 
@@ -245,14 +259,17 @@ class Fit:
 
 
 def fit_from_lines(frame: np.ndarray, pitch_pts, pixel_pts, names: list[str], top=0,
-                   search=(24, 16, 8, 8, 8, 8), min_peak: float = 10.0, lens: bool = True) -> Fit:
+                   search=(24, 16, 8, 8, 8, 8), min_peak: float = 10.0, lens: bool = True,
+                   seed: Camera | None = None) -> Fit:
     """DLT from hand landmarks (pitch metres <-> pixels), then refine H (8 parameters) and k1 ICP-style: find the
     centre of each named marking along the normal of its projection, fit the camera to those centres (robust loss,
     so players and noise do not pull the fit), repeat. The search window narrows over the iterations, so a line the
-    landmarks leave loose (a far touchline) is still caught by the first ones."""
+    landmarks leave loose (a far touchline) is still caught by the first ones. `seed` (a camera from elsewhere, e.g.
+    track A's per-frame calibration) replaces the landmarks."""
     size = (frame.shape[1], frame.shape[0])
     resp, occ = line_response(frame, top=top), occluders(frame)
-    cam = Camera(dlt(np.asarray(pitch_pts, float), np.asarray(pixel_pts, float)), size=size)
+    cam = seed if seed is not None else Camera(dlt(np.asarray(pitch_pts, float), np.asarray(pixel_pts, float)),
+                                               size=size)
     lines = model_lines(step=0.2)
     pts = np.vstack([lines[n] for n in names])
 
@@ -267,7 +284,7 @@ def fit_from_lines(frame: np.ndarray, pitch_pts, pixel_pts, names: list[str], to
         def resid(x, p=p, t=t, n=n):
             return np.sum((unpack(x).project(p) - t) * n, axis=1)
 
-        x0 = np.append((cam.h / cam.h[2, 2]).ravel()[:8], cam.k1)
+        x0 = np.append((cam.h / cam.h[2, 2]).ravel()[:8], [cam.k1] if lens else [])
         cam = unpack(least_squares(resid, x0, loss="soft_l1", f_scale=1.0, x_scale="jac").x)
     return Fit(camera=cam, drift=drift_px(cam, frame, names, top=top), lines=names)
 

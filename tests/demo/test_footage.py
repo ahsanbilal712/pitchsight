@@ -185,3 +185,26 @@ def test_drawn_referee_line_sits_on_the_paint_real():
     # residual is a smooth S (+1.5, -1, +2.4 px end to end; a second lens term does no better, so likely the
     # pitch's crown), so the drawn line is held to the 2 px on its median here and its p95 is reported.
     assert len(off) > 50 and np.median(np.abs(off)) <= 2.0
+
+
+def test_refined_calibration_round_trips_with_its_lens_term():
+    from demo.footage import to_pitchwatch
+    entry = {"H": to_pitchwatch(Camera(TRUE.h)), "H_k1": to_pitchwatch(TRUE), "k1": TRUE.k1, "ok": True}
+    pts = np.array([[88.5, 13.84], [105, 68], [77.9, 19.2]])
+    with_lens = from_pitchwatch({"frames": {"1": entry}}, 1)
+    assert np.abs(with_lens.project(pts) - TRUE.project(pts)).max() < 1e-6
+    plain = from_pitchwatch({"frames": {"1": entry}}, 1, lens=False)
+    assert plain.k1 == 0 and np.abs(plain.project(pts) - Camera(TRUE.h).project(pts)).max() < 1e-6
+
+
+def test_refine_brings_a_seed_camera_to_the_paint():
+    """A seed off by several pixels (as track A's edge-fitted H was) is refined to within 2 px of the paint."""
+    from demo.refine_calib import refine
+    frame = synthetic_frame(TRUE)
+    rng = np.random.default_rng(3)
+    off = np.array(SPEC["landmarks"]["pixel"], float) + rng.uniform(-7, 7, (len(SPEC["landmarks"]["pixel"]), 2))
+    seed = Camera(dlt(np.array(SPEC["landmarks"]["pitch"], float), off))
+    out = refine(frame, seed)
+    print(f"\nrefine: seed p95 {out['seed_drift_p95_px']} px -> {out.get('drift_p95_px')} px (k1 {out.get('k1')})")
+    assert out["refined"] and out["drift_p95_px"] <= 2.0 < out["seed_drift_p95_px"]
+    assert abs(out["k1"] - TRUE.k1) < 0.01
