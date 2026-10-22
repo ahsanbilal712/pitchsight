@@ -5,6 +5,20 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+
+## 2026-10-23 · T-064 Clean-machine replay test and one-command demo (track A)
+
+- `scripts/replay_headless.py` (mcp, newsroom supervisor and api replay on free ports, loopback-only network guard,
+  stall detection with stack dumps), `scripts/clean_machine_replay.sh`, `docker-compose.yml` +
+  `docker/python.Dockerfile` + `.dockerignore`, `make demo` / `make clean-replay`.
+- **3/3 fresh-clone runs: identical cue-stream sha256 `b90e1e03...`**, 55 cues all verified, 125/125 moments, 0
+  refused connections, ~9 min each at x10. Evidence: `docs/evidence/clean_replay_v0.1.md`.
+- Not verified: `make demo` itself (Docker daemon not running here; compose file validated). One earlier run stalled
+  after mo_00020 and has not recurred; the harness now diagnoses a stall instead of waiting an hour.
+- Verification: `bash scripts/clean_machine_replay.sh --runs 3` -> PASS.
+
+---
+
 ## 2026-10-23 · T-108 Real-frame compositing, part 1 (track C)
 
 - `demo.footage`: broadcast camera = homography + one radial lens term k1, fitted from >= 4 hand landmarks and
