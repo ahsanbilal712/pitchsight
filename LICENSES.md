@@ -20,6 +20,8 @@ WHYLINE's own code is MIT (`pyproject.toml`).
 |---|---|---|
 | `certifi` (Python) | MPL-2.0 | CA certificate bundle pulled in by `httpx`/`requests`, used unmodified. MPL-2.0 is file-level copyleft and puts no obligation on our code. |
 | `tqdm` (Python) | MPL-2.0 AND MIT | Progress bars pulled in by ML dependencies, used unmodified; same reasoning. |
+| `shellingham` (Python, via typer) | ISC | ISC is on the allow-list; its metadata spelling "ISC License (ISCL)" trips the scanner's parenthesis handling. |
+| `transformers` (Python, via rfdetr) | Apache-2.0 | Apache-2.0 under the spelling "Apache 2.0 License", which the scanner does not normalise. |
 | `webgl-constants` (npm, via three/drei) | MIT | Its `package.json` has no licence field; the bundled `LICENSE` file is MIT (checked 21 Oct 2026). |
 
 **Excluded on purpose** (`config/pins.txt`): ultralytics / YOLOv8 weights (AGPL-3.0), sn-gamestate (GPL-3.0),

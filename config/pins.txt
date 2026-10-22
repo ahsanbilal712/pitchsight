@@ -42,10 +42,24 @@ matplotlib==3.11.2                # PSF-based (matplotlib licence)   pinned T-00
 httpx==0.28.1                     # BSD-3        pinned T-001
 pytest-asyncio==1.4.0             # Apache-2.0   pinned T-001
 pip-licenses==5.5.5               # MIT          pinned T-001 (licence-scan CI job)
-rfdetr==1.11.2                    # Apache-2.0   verified; optional Pitchwatch adapter only (days 11-14) [deferred: T-090]
-trackers==2.6.1                   # Apache-2.0   verified; ByteTrackTracker (sv.ByteTrack was removed in supervision 0.31.0) [deferred: T-090]
-supervision==0.31.1               # MIT          verified; annotators only (no tracker) [deferred: T-090]
-opencv-python==5.0.0.93           # Apache-2.0   verified; optional Pitchwatch adapter only [deferred: T-090]
+# ---- Pitchwatch on real footage (FOOTAGE_ADDENDUM §3, T-103 to T-105; installed 23 Oct 2026, owner decision) ----
+rfdetr==1.11.2                    # Apache-2.0   verified; player and ball detection, COCO-pretrained weights (Apache-2.0)
+trackers==2.6.1                   # Apache-2.0   verified; ByteTrackTracker (sv.ByteTrack was removed in supervision 0.31.0)
+supervision==0.31.1               # MIT          verified; detections container and annotators only (no tracker)
+opencv-python==5.0.0.93           # Apache-2.0   verified; video decoding, line detection, homography
+transformers==5.20.2              # Apache-2.0   pinned T-105 (rfdetr dependency)
+torchvision==0.29.1               # BSD-3        pinned T-105 (rfdetr dependency; matches torch 2.14.1)
+huggingface_hub==2.2.0            # Apache-2.0   pinned T-105 (rfdetr/transformers dependency)
+hf-xet==1.7.0                     # Apache-2.0   pinned T-105 (huggingface_hub dependency)
+safetensors==0.8.0                # Apache-2.0   pinned T-105 (transformers dependency)
+tokenizers==0.23.3                # Apache-2.0   pinned T-105 (transformers dependency)
+av==19.0.2                        # BSD-3        pinned T-105 (trackers dependency; wheels bundle FFmpeg, LGPL, dynamically linked)
+pyDeprecate==0.9.0                # Apache-2.0   pinned T-105 (rfdetr dependency)
+rich==15.0.0                      # MIT          pinned T-105 (trackers dependency)
+markdown-it-py==4.2.0             # MIT          pinned T-105 (rich dependency)
+mdurl==0.1.2                      # MIT          pinned T-105 (markdown-it-py dependency)
+typer==0.27.3                     # MIT          pinned T-105 (transformers CLI dependency)
+shellingham==1.5.4                # ISC          pinned T-105 (typer dependency)
 #
 # ---- Excluded on purpose (licence or scope) ----
 # ultralytics / YOLOv8 weights   AGPL-3.0  excluded

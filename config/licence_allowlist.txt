@@ -27,3 +27,5 @@ Commercial-Output     # outputs of paid services we are licensed to use (Gemini,
 pip:certifi MPL-2.0         # CA bundle used unmodified as a dependency; MPL-2.0 is file-level and imposes nothing on our code
 pip:tqdm MPL-2.0 AND MIT    # progress bars, unmodified dependency; same MPL-2.0 reasoning
 npm:webgl-constants MIT     # package.json has no licence field; LICENSE file in the package is MIT (checked 21 Oct 2026)
+pip:shellingham ISC License (ISCL)   # ISC is allowed; the scanner strips the closing parenthesis of this spelling (T-105)
+pip:transformers Apache 2.0 License  # Apache-2.0 under a spelling the scanner does not normalise (T-105)
