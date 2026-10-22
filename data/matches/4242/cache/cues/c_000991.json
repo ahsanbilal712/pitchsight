@@ -1,0 +1,179 @@
+{
+ "clock": "74:12",
+ "cue_id": "c_000991",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_044528"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "3v1 overload on the right in the middle third",
+    "unit": null,
+    "value": "overload_right_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3025",
+     "cf_000065"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Kian Marchetti",
+    "unit": null,
+    "value": "p_049",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3025",
+     "cf_000065"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Fintan Valcourt",
+    "unit": null,
+    "value": "p_048",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3026"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Kian Strand",
+    "unit": null,
+    "value": "p_013",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3025"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "57%",
+    "unit": "percent",
+    "value": 0.57,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000065"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "4%",
+    "unit": "p_goal",
+    "value": 0.0379,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000065",
+  "explanation_id": "ex_000099",
+  "why": "A 3v1 overload on the right in the middle third gives Kian Marchetti, Fintan Valcourt, and Kian Strand space to move forward."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.1474,
+   "label": "Verdant win chance",
+   "to": 0.1498
+  },
+  "ghost_trail": [
+   [
+    85.15,
+    11.15
+   ],
+   [
+    91.34,
+    21.26
+   ],
+   [
+    97.21,
+    30.61
+   ],
+   [
+    96.05,
+    28.86
+   ],
+   [
+    83.37,
+    18.99
+   ],
+   [
+    72.24,
+    10.32
+   ],
+   [
+    65.03,
+    4.7
+   ],
+   [
+    61.8,
+    2.18
+   ],
+   [
+    60.28,
+    1.0
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_044528",
+  "players_highlight": [
+   "p_049"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0602,
+ "match_id": "m_4242",
+ "moment_id": "mo_00099",
+ "period": 2,
+ "priority": 0.86,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00099/narrator@2.a2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "cba054a1a793b9f2"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 4452900,
+ "t_out_ms": 4460900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_049"
+  ]
+ },
+ "text": {
+  "body": "A 3v1 overload on the right in the middle third gives Kian Marchetti, Fintan Valcourt, and Kian Strand space to move forward.",
+  "headline": "Right side creates an overload"
+ },
+ "verified": true
+}

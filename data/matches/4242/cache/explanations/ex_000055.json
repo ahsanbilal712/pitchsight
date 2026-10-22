@@ -1,0 +1,88 @@
+{
+ "alternatives_considered": [
+  "pass p_046",
+  "pass p_039",
+  "pass p_037"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_1530",
+    "cf_000041"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Ortega-Bell",
+   "unit": null,
+   "value": "p_026",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1530",
+    "cf_000041"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Grabowski",
+   "unit": null,
+   "value": "p_045",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000041"
+   ],
+   "kind": "team",
+   "reject_reason": null,
+   "text": "Verdant",
+   "unit": null,
+   "value": "verdant",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000041"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "3%",
+   "unit": "p_goal",
+   "value": 0.0323,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000041"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Sandoval",
+   "unit": null,
+   "value": "p_046",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000041"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "1 point",
+   "unit": "win_prob_delta",
+   "value": -0.0103,
+   "verified": false
+  }
+ ],
+ "confidence": 0.92,
+ "counterfactual_id": "cf_000041",
+ "explanation_id": "ex_000055",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00055",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "620accf8dfe80964",
+ "why": "Ortega-Bell's short pass to Grabowski invites Verdant's press and gives Verdant a 3% goal chance. A longer ball to Sandoval would have been safer, moving Verdant's win chance by -1 point."
+}

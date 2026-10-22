@@ -1,0 +1,177 @@
+{
+ "clock": "39:02",
+ "cue_id": "c_000551",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1530",
+     "cf_000041"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Ortega-Bell",
+    "unit": null,
+    "value": "p_026",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1530",
+     "cf_000041"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Grabowski",
+    "unit": null,
+    "value": "p_045",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000041"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000041"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "3%",
+    "unit": "p_goal",
+    "value": 0.0323,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000041"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Sandoval",
+    "unit": null,
+    "value": "p_046",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000041"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "1 point",
+    "unit": "win_prob_delta",
+    "value": -0.0103,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000041",
+  "explanation_id": "ex_000055",
+  "why": "Ortega-Bell's short pass to Grabowski invites Verdant's press and gives Verdant a 3% goal chance. A longer ball to Sandoval would have been safer, moving Verdant's win chance by -1 point."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.3159,
+   "label": "Verdant win chance",
+   "to": 0.3056
+  },
+  "ghost_trail": [
+   [
+    98.97,
+    35.75
+   ],
+   [
+    82.44,
+    36.11
+   ],
+   [
+    67.28,
+    36.03
+   ],
+   [
+    59.86,
+    36.22
+   ],
+   [
+    57.52,
+    37.62
+   ],
+   [
+    54.79,
+    38.26
+   ],
+   [
+    52.43,
+    39.67
+   ],
+   [
+    49.15,
+    37.58
+   ],
+   [
+    46.05,
+    37.47
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_023428",
+  "players_highlight": [
+   "p_026"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0717,
+ "match_id": "m_4242",
+ "moment_id": "mo_00055",
+ "period": 1,
+ "priority": 0.872,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00055/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "620accf8dfe80964"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2342900,
+ "t_out_ms": 2350900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_026"
+  ]
+ },
+ "text": {
+  "body": "Ortega-Bell's short pass to Grabowski hands Verdant a 3% goal chance. Going long to Sandoval moves Verdant's win chance by -1 point.",
+  "headline": "Ortega-Bell invites the press"
+ },
+ "verified": true
+}

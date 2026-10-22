@@ -1,0 +1,99 @@
+{
+ "clock": "66:05",
+ "cue_id": "c_000943",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2662"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "1.1 m",
+    "unit": "metres",
+    "value": 1.1,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_2662"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Reyes",
+    "unit": null,
+    "value": "p_031",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Offside line drawn at the second-last defender, in the frame the pass was played."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     30.17,
+     0.0
+    ],
+    [
+     30.17,
+     68.0
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_031",
+   "p_025"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": 0.0002,
+ "match_id": "m_4242",
+ "moment_id": "mo_00094",
+ "period": 2,
+ "priority": 0.9,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "fourth_official",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "6fbe7893a88b11c2"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 3965000,
+ "t_out_ms": 3973000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_031"
+  ]
+ },
+ "text": {
+  "body": "Reyes was 1.1 m beyond the last defender when the ball was played.",
+  "headline": "Offside: Reyes, 1.1 m"
+ },
+ "verified": true
+}

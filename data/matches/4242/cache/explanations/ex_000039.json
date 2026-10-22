@@ -1,0 +1,87 @@
+{
+ "alternatives_considered": [],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_1129",
+    "e_1130",
+    "e_1132"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Teo Reyes",
+   "unit": null,
+   "value": "p_031",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1129",
+    "e_1130"
+   ],
+   "kind": "team",
+   "reject_reason": null,
+   "text": "Verdant Athletic",
+   "unit": null,
+   "value": "verdant",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1132",
+    "e_1133"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Oren Novacek",
+   "unit": null,
+   "value": "p_020",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1133",
+    "e_1135"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Tobi Okafor",
+   "unit": null,
+   "value": "p_017",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1134"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Otto Ainsley",
+   "unit": null,
+   "value": "p_038",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1135"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "0.03 xG",
+   "unit": "xg",
+   "value": 0.031,
+   "verified": false
+  }
+ ],
+ "confidence": 0.9,
+ "counterfactual_id": null,
+ "explanation_id": "ex_000039",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00039",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "94858f81a3cac3ba",
+ "why": "Teo Reyes wins possession for Verdant Athletic and initiates a quick transition through Oren Novacek. Novacek sets up Tobi Okafor, who fires an off-target shot under pressure from Otto Ainsley worth 0.03 xG."
+}

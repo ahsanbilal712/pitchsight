@@ -1,0 +1,109 @@
+{
+ "clock": "37:41",
+ "cue_id": "c_000523",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1493"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Reyes",
+    "unit": null,
+    "value": "p_031",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Contact point marked outside the penalty area, in the frame of the foul."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     0.0,
+     13.84
+    ],
+    [
+     16.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     16.5,
+     13.84
+    ],
+    [
+     16.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     16.5,
+     54.16
+    ],
+    [
+     0.0,
+     54.16
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_031",
+   "p_045"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": 0.0001,
+ "match_id": "m_4242",
+ "moment_id": "mo_00052",
+ "period": 1,
+ "priority": 0.9,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "fourth_official",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "82c5ae56f3d31195"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2261500,
+ "t_out_ms": 2269500,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_031",
+   "p_045"
+  ]
+ },
+ "text": {
+  "body": "Contact outside the penalty area; Reyes made the contact.",
+  "headline": "Free kick: Reyes"
+ },
+ "verified": true
+}

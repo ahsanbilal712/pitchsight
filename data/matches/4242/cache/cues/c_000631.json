@@ -1,0 +1,121 @@
+{
+ "clock": "42:29",
+ "cue_id": "c_000631",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1666",
+     "e_1667",
+     "e_1668"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Nilo Thornbury",
+    "unit": null,
+    "value": "p_006",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1666",
+     "e_1667",
+     "e_1670"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant Athletic",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1668",
+     "e_1669"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Lauro Silva",
+    "unit": null,
+    "value": "p_022",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1669",
+     "e_1670"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Teo Reyes",
+    "unit": null,
+    "value": "p_031",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1670"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "16.71m",
+    "unit": "metres",
+    "value": 16.714,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": "ex_000063",
+  "why": "After Nilo Thornbury intercepts the ball for Verdant Athletic, Lauro Silva plays a pass to Teo Reyes, who drives the transition forward with a 16.71m carry."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "state_change",
+ "layer": "lower_third",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00063",
+ "period": 1,
+ "priority": 0.6,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00063/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "86a1ffcc97d34d31"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2549000,
+ "t_out_ms": 2557000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Nilo Thornbury connects with Lauro Silva and Teo Reyes over 16.71m for Verdant Athletic.",
+  "headline": "Verdant Athletic push forward"
+ },
+ "verified": true
+}

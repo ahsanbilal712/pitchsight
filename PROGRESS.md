@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-057 Hand-review export/import, few-shots and cue stream (track B) — partial, no regeneration
+
+- `--hand-review 20` exports the 20 highest-leverage moments (`review/mo_*.md`) and the 5 cached fast lines for
+  goals and big chances (`review/fast_*.md`). All 25 edited in this session and imported: **45 cache entries
+  `hand_reviewed: true`** (20 Tactician, 20 Narrator, 5 fast lines), **0 refused** by the Fact Checker;
+  20 few-shots each in `fewshot/{narrator,tactician}.jsonl`. Re-import is idempotent.
+- Review found two bugs, both fixed with tests: goal fast lines credited the passer ("Fennimore strikes" for
+  Sandoval's goal), so `claims_from_moment` now names only the scorer or shooter; and the Director's 90 s dedupe hid
+  explained lower-thirds behind the Panel's options card of the same kind, so it now compares kind and layer.
+  Factcheck reads "1 point" as 0.01 win probability.
+- Cue stream cached (`cue_stream` stage, kind `cue`): **55 cues delivered + 2 recaps held, 55/55 verified,
+  21 explanations**, was 46 before the dedupe fix. replay_check clean (0 model misses, 0 counterfactual misses).
+- **Not done:** prompt bump (tactician@4, narrator@3) and regeneration. m_4242 has spent $2.32 of its $2.50
+  per-match cap, so regeneration can't run; the owner's call is pending. Regeneration spend so far $0.00.
+- Verification: `python scripts/import_review.py review/ && python scripts/check_cue_evidence.py --seed 4242 &&
+  python scripts/validate_schemas.py && python scripts/check_spend.py` exits 0 (57 cues, 201 claims, 0 problems;
+  5053 documents; total spend $2.3191).
+
+---
+
 
 ## 2026-10-22 · T-055 Evals: state detection and planted-error suite (track A)
 

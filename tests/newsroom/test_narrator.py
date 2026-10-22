@@ -122,6 +122,20 @@ def test_fast_line_claims_come_from_the_moment_evidence(evidence_bb):
     assert verify_claims(M, claims, evidence_bb)["verified"]
 
 
+def test_goal_fast_line_names_only_the_scorer(evidence_bb):
+    """T-057 review: the evidence also holds the passer, so a goal cue named the wrong player."""
+    for eid, t, typ, pid, attrs in (("e_9101", 2_000_000, "pass", "p_018", {}),
+                                    ("e_9102", 2_001_000, "shot", "p_017", {"xg": 0.27}),
+                                    ("e_9103", 2_001_100, "goal", "p_017", {})):
+        evidence_bb.put("events", {"id": eid, "match_id": M, "t_ms": t, "type": typ, "player": pid, "team": "home",
+                                   "period": 1, "attrs": attrs})
+    goal = {**SHOT, "moment_id": "mo_00078", "kind": "goal", "team": None,
+            "evidence_event_ids": ["e_9101", "e_9102", "e_9103"]}
+    claims = claims_from_moment(Moment.model_validate(goal), evidence_bb)
+    assert [c["text"] for c in claims] == ["Okafor", "0.27 xG", "Verdant"]
+    assert verify_claims(M, claims, evidence_bb)["verified"]
+
+
 def test_fast_branch_end_to_end_verified(evidence_bb):
     fake = FakeClient({"narrator_fast": [{"json": {"headline": "Okafor goes for goal",
                                                     "body": "Verdant work it to Okafor: a 0.06 xG chance.",

@@ -1,0 +1,146 @@
+{
+ "clock": "09:52",
+ "cue_id": "c_000132",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_005864"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "22%",
+    "unit": "percent",
+    "value": 0.2244,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "1%",
+    "unit": "p_goal",
+    "value": 0.0122,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_005864"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "2v1 on the right",
+    "unit": null,
+    "value": "overload_right_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "8%",
+    "unit": "p_goal",
+    "value": 0.0784,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "8-second",
+    "unit": "seconds",
+    "value": 8.0,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "200",
+    "unit": "count",
+    "value": 200,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "-1 point",
+    "unit": "win_prob_delta",
+    "value": -0.0073,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000010",
+  "explanation_id": null,
+  "why": "The attack creates a 2v1 on the right. Pundits see a 22% chance if the team carries forward instead of turning back."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.1382,
+   "label": "Verdant win chance",
+   "to": 0.131
+  },
+  "lines": [],
+  "pitch_control_snapshot": "pc_005864",
+  "players_highlight": []
+ },
+ "kind": "sliding_doors",
+ "layer": "options_card",
+ "leverage": 0.0656,
+ "match_id": "m_4242",
+ "moment_id": "mo_00013",
+ "period": 1,
+ "priority": 0.866,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "panel",
+   "factcheck",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00013/narrator@2.a2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "chair@1",
+  "resumed_from_checkpoint": null,
+  "trace_id": "16c334f056d99f17"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 592500,
+ "t_out_ms": 600500,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_046"
+  ]
+ },
+ "text": {
+  "body": "The attack creates a 2v1 on the right. Pundits see a 22% chance if the team carries forward instead of turning back.",
+  "headline": "Debating the Carry on the Right"
+ },
+ "verified": true
+}

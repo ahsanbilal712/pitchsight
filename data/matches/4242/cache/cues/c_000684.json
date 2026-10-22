@@ -1,0 +1,123 @@
+{
+ "clock": "45:00",
+ "cue_id": "c_000684",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0936"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Okafor",
+    "unit": null,
+    "value": "p_017",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0332"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Sandoval",
+    "unit": null,
+    "value": "p_046",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0332"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0332"
+    ],
+    "kind": "minute",
+    "reject_reason": null,
+    "text": "minute 8",
+    "unit": "minute",
+    "value": 8,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0936"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0936"
+    ],
+    "kind": "minute",
+    "reject_reason": null,
+    "text": "minute 23",
+    "unit": "minute",
+    "value": 23,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Sandoval puts Ironvale ahead in minute 8 during an open start. After a chaotic spell, Okafor levels the contest for Verdant in minute 23. Both sides go into the break on level terms after trading early strikes."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "recap",
+ "layer": "recap_card",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00068",
+ "period": 1,
+ "priority": 0.7,
+ "producer_status": "held",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "recap",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": "gemini-4-argon",
+  "prompt_version": "recap@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "793b4279d2919c64"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2700000,
+ "t_out_ms": 2715000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Sandoval puts Ironvale ahead in minute 8 during an open start. After a chaotic spell, Okafor levels the contest for Verdant in minute 23. Both sides go into the break on level terms after trading early strikes.",
+  "headline": "Okafor cancels out Sandoval's early opener"
+ },
+ "verified": true
+}

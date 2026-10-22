@@ -1,0 +1,187 @@
+{
+ "clock": "85:46",
+ "cue_id": "c_001181",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3526"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Femi Bolingbroke",
+    "unit": null,
+    "value": "p_023",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3528",
+     "cf_000082"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Sacha Tolliver",
+    "unit": null,
+    "value": "p_021",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3527"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Otto Ainsley",
+    "unit": null,
+    "value": "p_038",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3528"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.05 xG",
+    "unit": "xg",
+    "value": 0.05,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3529"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Anselm Ortega-Bell",
+    "unit": null,
+    "value": "p_026",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000082"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "5%",
+    "unit": "p_goal",
+    "value": 0.05,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000082"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "18%",
+    "unit": "p_goal",
+    "value": 0.1841,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000082",
+  "explanation_id": "ex_000118",
+  "why": "After receiving a pass from Femi Bolingbroke, Sacha Tolliver shoots under pressure from Otto Ainsley for a 0.05 xG effort that Anselm Ortega-Bell saves. Carrying closer to goal instead lifts the goal chance from 5% to 18%."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.9519,
+   "label": "Verdant win chance",
+   "to": 0.9571
+  },
+  "ghost_trail": [
+   [
+    11.63,
+    31.44
+   ],
+   [
+    -0.3,
+    38.53
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.44,
+    34.45
+   ],
+   [
+    10.89,
+    33.7
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_051464",
+  "players_highlight": [
+   "p_021"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0589,
+ "match_id": "m_4242",
+ "moment_id": "mo_00118",
+ "period": 2,
+ "priority": 0.859,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00118/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "40f0f22139a82cde"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 5146600,
+ "t_out_ms": 5154600,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_021"
+  ]
+ },
+ "text": {
+  "body": "Otto Ainsley takes a shot rated at 0.05 xG with a 5% chance of finding the net. A pass to Sacha Tolliver offers an alternate 18% opening.",
+  "headline": "Otto Ainsley faces low probability chance"
+ },
+ "verified": true
+}

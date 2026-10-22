@@ -1,0 +1,106 @@
+{
+ "clock": "84:35",
+ "cue_id": "c_001171",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3468",
+     "e_3469"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Fintan Valcourt",
+    "unit": null,
+    "value": "p_048",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3469",
+     "e_3470"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Dimitar Thornbury",
+    "unit": null,
+    "value": "p_029",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3470"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "9.8 metres",
+    "unit": "metres",
+    "value": 9.824,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3470"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale Forge",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": "ex_000117",
+  "why": "After exchanging passes with Fintan Valcourt, Dimitar Thornbury takes the ball in his own half and carries it 9.8 metres forward to help Ironvale Forge settle out of a transitional phase."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "state_change",
+ "layer": "lower_third",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00117",
+ "period": 2,
+ "priority": 0.6,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00117/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "fc36c9691a35d144"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 5075000,
+ "t_out_ms": 5083000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Fintan Valcourt gains 9.8 metres for Ironvale Forge as Dimitar Thornbury tracks the play.",
+  "headline": "Fintan Valcourt advances for Ironvale Forge"
+ },
+ "verified": true
+}

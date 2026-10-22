@@ -272,3 +272,11 @@ def stage_replay_check(seed: int, manifest: CacheManifest, events: list[dict], w
         manifest.save()
     return {"passes": passes, "repaired": repaired, "clean": passes[-1]["counterfactual_misses"] == 0
             and passes[-1]["model_misses"] == 0}
+
+
+def stage_cue_stream(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
+    """T-057: cache the full cue stream (every delivered cue, each recap held for the producer, the explanations
+    they cite) so replay screens and checks need no model."""
+    from cache.review import build_cue_stream
+
+    return build_cue_stream(manifest)

@@ -75,6 +75,7 @@ def test_rule1_missing_evidence_rejected(evidence_bb):
     ("34 km/h", 34.0, "kmh", ["f_000002"]),                     # sprint 33.4
     ("42% to 51%", 0.09, "win_prob_delta", ["cf_000077"]),
     ("+9 points", 0.09, "win_prob_delta", ["cf_000077"]),
+    ("+9 points", 0.087, "win_prob_delta", ["cf_000077"]),
     ("0.03 xT", 0.031, "xt", ["cf_000077"]),
     ("200 replays", 200, "count", ["cf_000077"]),
     ("8 seconds", 8, "seconds", ["cf_000077"]),
@@ -228,3 +229,13 @@ def test_executor_rejects_unbound_numbers_until_attempt_3(evidence_bb):
     assert cue["verified"] is True
     rows = evidence_bb.query("traces", executor="factcheck")
     assert [r["status"] for r in rows] == ["rejected"] * 3 + ["verified"]
+
+
+def test_one_point_is_a_hundredth(evidence_bb):
+    """'1 point' of win chance is 0.01, not 1.0 (found in the T-057 hand review)."""
+    cf = {**evidence_bb.get("counterfactuals", "cf_000077"), "counterfactual_id": "cf_000078",
+          "delta_win_prob_home": -0.0103}
+    evidence_bb.put("counterfactuals", cf)
+    ok = claim("-1 point", value=-0.0103, unit="win_prob_delta", ids=["cf_000078"])
+    assert one(evidence_bb, ok)[0] is None
+    assert one(evidence_bb, {**ok, "text": "-3 points"})[0] == "text_value_mismatch"

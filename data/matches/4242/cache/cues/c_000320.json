@@ -1,0 +1,96 @@
+{
+ "clock": "23:32",
+ "cue_id": "c_000320",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0935"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Okafor",
+    "unit": null,
+    "value": "p_017",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0935"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.30 xG",
+    "unit": "xg",
+    "value": 0.3,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0932"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Okafor converts a chance valued at 0.30 xG for Verdant."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": [
+   "p_017"
+  ]
+ },
+ "kind": "goal",
+ "layer": "lower_third",
+ "leverage": 0.3582,
+ "match_id": "m_4242",
+ "moment_id": "mo_00032",
+ "period": 1,
+ "priority": 1.0,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "fast_line",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00032/fast_line@narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "d03284562a8ae28f"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 1412400,
+ "t_out_ms": 1420400,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_017"
+  ]
+ },
+ "text": {
+  "body": "Okafor converts a chance valued at 0.30 xG for Verdant.",
+  "headline": "Okafor scores for Verdant"
+ },
+ "verified": true
+}

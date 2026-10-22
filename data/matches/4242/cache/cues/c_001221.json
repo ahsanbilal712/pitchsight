@@ -1,0 +1,128 @@
+{
+ "clock": "88:13",
+ "cue_id": "c_001221",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3597"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Kian Marchetti",
+    "unit": null,
+    "value": "p_049",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3597",
+     "e_3598"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Bram Rossiter",
+    "unit": null,
+    "value": "p_050",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3597"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "42.4 m",
+    "unit": "metres",
+    "value": 42.352,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3597",
+     "e_3598"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale Forge",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3598"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "4.7 m",
+    "unit": "metres",
+    "value": 4.689,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3599"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Bram Rosengren",
+    "unit": null,
+    "value": "p_024",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": "ex_000122",
+  "why": "Kian Marchetti switches play to Bram Rossiter with a 42.4 m pass for Ironvale Forge. Rossiter carries the ball 4.7 m forward as Verdant Athletic forward Bram Rosengren applies pressure."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "state_change",
+ "layer": "lower_third",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00122",
+ "period": 2,
+ "priority": 0.6,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00122/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "a3f0aed60d3d022a"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 5293000,
+ "t_out_ms": 5301000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Kian Marchetti advances the ball 42.4 m for Ironvale Forge.",
+  "headline": "Ironvale Forge on the attack"
+ },
+ "verified": true
+}

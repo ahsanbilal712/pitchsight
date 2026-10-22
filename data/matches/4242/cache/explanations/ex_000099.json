@@ -1,0 +1,87 @@
+{
+ "alternatives_considered": [
+  "carry e",
+  "pass p_050"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "pc_044528"
+   ],
+   "kind": "tactical",
+   "reject_reason": null,
+   "text": "3v1 overload on the right in the middle third",
+   "unit": null,
+   "value": "overload_right_middle_third",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3025",
+    "cf_000065"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Kian Marchetti",
+   "unit": null,
+   "value": "p_049",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3025",
+    "cf_000065"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Fintan Valcourt",
+   "unit": null,
+   "value": "p_048",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3026"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Kian Strand",
+   "unit": null,
+   "value": "p_013",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3025"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "57%",
+   "unit": "percent",
+   "value": 0.57,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000065"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "4%",
+   "unit": "p_goal",
+   "value": 0.0379,
+   "verified": false
+  }
+ ],
+ "confidence": 0.9,
+ "counterfactual_id": "cf_000065",
+ "explanation_id": "ex_000099",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00099",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "cba054a1a793b9f2",
+ "why": "With a 3v1 overload on the right in the middle third, Kian Marchetti opts to pass to Fintan Valcourt instead of carrying down the flank. Although Kian Strand intercepts the 57% pass, attempting the pass carries a 4% goal chance for Ironvale compared to 2% from carrying."
+}

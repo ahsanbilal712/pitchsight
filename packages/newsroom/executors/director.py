@@ -118,7 +118,8 @@ class DirectorExecutor(NewsroomExecutor):
             seen = [c for c in history if mode in c["targets"]["modes"]]
             if not self.budgets.allows_kind(mode, kind):
                 why[mode] = "kind_not_in_mode"
-            elif any(c["kind"] == kind and t_in - c["t_in_ms"] < hard["dedupe_same_kind_window_s"] * 1000
+            elif any(c["kind"] == kind and c["layer"] == layer   # a debate card is not a second lower-third
+                     and t_in - c["t_in_ms"] < hard["dedupe_same_kind_window_s"] * 1000
                      for c in seen):
                 why[mode] = "dedupe_same_kind"
             elif layer == "lower_third" and any(c["layer"] == "lower_third" and t_in - c["t_in_ms"] <

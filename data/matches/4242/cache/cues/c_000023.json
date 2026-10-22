@@ -1,0 +1,109 @@
+{
+ "clock": "00:38",
+ "cue_id": "c_000023",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0021"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Strand",
+    "unit": null,
+    "value": "p_013",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Contact point marked outside the penalty area, in the frame of the foul."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     0.0,
+     13.84
+    ],
+    [
+     16.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     16.5,
+     13.84
+    ],
+    [
+     16.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     16.5,
+     54.16
+    ],
+    [
+     0.0,
+     54.16
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_013",
+   "p_037"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": 0.0005,
+ "match_id": "m_4242",
+ "moment_id": "mo_00002",
+ "period": 1,
+ "priority": 0.9,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "fourth_official",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "b4b27415ef9db566"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 38200,
+ "t_out_ms": 46200,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_013",
+   "p_037"
+  ]
+ },
+ "text": {
+  "body": "Contact outside the penalty area; Strand made the contact.",
+  "headline": "Free kick: Strand"
+ },
+ "verified": true
+}

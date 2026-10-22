@@ -1,5 +1,6 @@
 {
  "$schema": "model_cache.schema.json",
+ "hand_reviewed": true,
  "json": {
   "claims": [
    {
@@ -60,12 +61,12 @@
    }
   ],
   "confidence": 0.85,
-  "why": "After receiving a pass from Fintan Grabowski, Bastian Sandoval takes a shot under pressure from Nilo Thornbury worth 0.06 xG that is saved by Zoltan Fennimore, turning over possession for Ironvale Forge."
+  "why": "Grabowski feeds Sandoval, who shoots under Thornbury's pressure: a 0.06 xG chance that Fennimore saves, and Ironvale Forge lose the ball."
  },
  "record": "model_result",
  "round": 6,
  "schema_version": "1.0.0",
- "text": "{\"why\":\"After receiving a pass from Fintan Grabowski, Bastian Sandoval takes a shot under pressure from Nilo Thornbury worth 0.06 xG that is saved by Zoltan Fennimore, turning over possession for Ironvale Forge.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Fintan Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"e_1346\"]},{\"text\":\"Bastian Sandoval\",\"kind\":\"player\",\"value_text\":\"p_046\",\"unit\":\"\",\"evidence_ids\":[\"e_1346\",\"e_1348\"]},{\"text\":\"Nilo Thornbury\",\"kind\":\"player\",\"value_text\":\"p_006\",\"unit\":\"\",\"evidence_ids\":[\"e_1347\"]},{\"text\":\"0.06 xG\",\"kind\":\"number\",\"value_number\":0.061,\"unit\":\"xg\",\"evidence_ids\":[\"e_1348\"]},{\"text\":\"Zoltan Fennimore\",\"kind\":\"player\",\"value_text\":\"p_001\",\"unit\":\"\",\"evidence_ids\":[\"e_1349\",\"e_1350\"]},{\"text\":\"Ironvale Forge\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_1348\"]}]}",
+ "text": "{\"claims\": [{\"evidence_ids\": [\"e_1346\"], \"kind\": \"player\", \"text\": \"Fintan Grabowski\", \"unit\": \"\", \"value_text\": \"p_045\"}, {\"evidence_ids\": [\"e_1346\", \"e_1348\"], \"kind\": \"player\", \"text\": \"Bastian Sandoval\", \"unit\": \"\", \"value_text\": \"p_046\"}, {\"evidence_ids\": [\"e_1347\"], \"kind\": \"player\", \"text\": \"Nilo Thornbury\", \"unit\": \"\", \"value_text\": \"p_006\"}, {\"evidence_ids\": [\"e_1348\"], \"kind\": \"number\", \"text\": \"0.06 xG\", \"unit\": \"xg\", \"value_number\": 0.061}, {\"evidence_ids\": [\"e_1349\", \"e_1350\"], \"kind\": \"player\", \"text\": \"Zoltan Fennimore\", \"unit\": \"\", \"value_text\": \"p_001\"}, {\"evidence_ids\": [\"e_1348\"], \"kind\": \"team\", \"text\": \"Ironvale Forge\", \"unit\": \"\", \"value_text\": \"ironvale\"}], \"confidence\": 0.85, \"why\": \"Grabowski feeds Sandoval, who shoots under Thornbury's pressure: a 0.06 xG chance that Fennimore saves, and Ironvale Forge lose the ball.\"}",
  "verified": true,
  "via": "live"
 }

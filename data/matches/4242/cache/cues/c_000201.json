@@ -1,0 +1,179 @@
+{
+ "clock": "16:57",
+ "cue_id": "c_000201",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0677",
+     "e_0681",
+     "cf_000014"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Reyes",
+    "unit": null,
+    "value": "p_031",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0681",
+     "cf_000014"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Okafor",
+    "unit": null,
+    "value": "p_017",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0681",
+     "cf_000014"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant's",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000014"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "3%",
+    "unit": "p_goal",
+    "value": 0.0303,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_010169"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "3v1 overload on the left of the middle third",
+    "unit": null,
+    "value": "overload_left_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000014"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "7%",
+    "unit": "p_goal",
+    "value": 0.0743,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000014",
+  "explanation_id": "ex_000020",
+  "why": "After winning an interception high up the pitch, Reyes forces an incomplete pass to Okafor that limits Verdant's scoring chance to 3%. With a 3v1 overload on the left of the middle third, switching play to Novacek raises the goal probability to 7%."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.1438,
+   "label": "Verdant win chance",
+   "to": 0.1499
+  },
+  "ghost_trail": [
+   [
+    91.45,
+    49.28
+   ],
+   [
+    94.69,
+    31.01
+   ],
+   [
+    88.54,
+    27.97
+   ],
+   [
+    81.51,
+    26.66
+   ],
+   [
+    78.05,
+    27.06
+   ],
+   [
+    74.07,
+    27.41
+   ],
+   [
+    70.08,
+    27.76
+   ],
+   [
+    66.11,
+    28.18
+   ],
+   [
+    70.06,
+    29.85
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_010169",
+  "players_highlight": [
+   "p_031"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0427,
+ "match_id": "m_4242",
+ "moment_id": "mo_00020",
+ "period": 1,
+ "priority": 0.843,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00020/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "8f1dadaedf06f6c5"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 1017000,
+ "t_out_ms": 1025000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_031"
+  ]
+ },
+ "text": {
+  "body": "Reyes exploits a 3v1 overload on the left of the middle third for Verdant's attack. The move shifts the goal probability from 3% to 7% for Okafor.",
+  "headline": "Reyes creates an opening for Okafor"
+ },
+ "verified": true
+}

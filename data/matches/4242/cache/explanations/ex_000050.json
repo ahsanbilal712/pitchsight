@@ -1,0 +1,87 @@
+{
+ "alternatives_considered": [
+  "carry w"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_1429",
+    "e_1431",
+    "e_1435"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Grabowski",
+   "unit": null,
+   "value": "p_045",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1437"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Varga",
+   "unit": null,
+   "value": "p_047",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1438",
+    "cf_000037"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Sandoval",
+   "unit": null,
+   "value": "p_046",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000037"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "9%",
+   "unit": "p_goal",
+   "value": 0.0911,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "pc_021808"
+   ],
+   "kind": "tactical",
+   "reject_reason": null,
+   "text": "2v1 overload on the left in the attacking third",
+   "unit": null,
+   "value": "overload_left_attacking_third",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000037"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "15%",
+   "unit": "p_goal",
+   "value": 0.1454,
+   "verified": false
+  }
+ ],
+ "confidence": 0.92,
+ "counterfactual_id": "cf_000037",
+ "explanation_id": "ex_000050",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00050",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "26392237ad280519",
+ "why": "Grabowski wins the ball and Varga sets up Sandoval inside a 2v1 overload on the left in the attacking third. Sandoval shoots off target, a 9% goal chance; carrying closer first lifts it to 15%."
+}

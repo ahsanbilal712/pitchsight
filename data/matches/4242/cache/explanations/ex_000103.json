@@ -1,0 +1,88 @@
+{
+ "alternatives_considered": [
+  "carry e",
+  "pass p_021",
+  "pass p_013"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_3138",
+    "cf_000094"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Bolingbroke",
+   "unit": null,
+   "value": "p_023",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3138",
+    "cf_000094"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Novacek",
+   "unit": null,
+   "value": "p_020",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "pc_046054"
+   ],
+   "kind": "tactical",
+   "reject_reason": null,
+   "text": "3v1 overload in the central middle third",
+   "unit": null,
+   "value": "overload_centre_middle_third",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000094"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "1%",
+   "unit": "p_goal",
+   "value": 0.011,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000094"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "4%",
+   "unit": "p_goal",
+   "value": 0.0391,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000094"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "+2 points",
+   "unit": "win_prob_delta",
+   "value": 0.0174,
+   "verified": false
+  }
+ ],
+ "confidence": 0.92,
+ "counterfactual_id": "cf_000094",
+ "explanation_id": "ex_000103",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00103",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "25926584f93da30b",
+ "why": "Bolingbroke passes to Novacek instead of carrying into a 3v1 overload in the central middle third, leaving the scoring chance at 1% instead of 4% and missing a +2 points win-probability gain for Verdant."
+}

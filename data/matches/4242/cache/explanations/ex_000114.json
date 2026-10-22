@@ -1,0 +1,76 @@
+{
+ "alternatives_considered": [
+  "pass p_048",
+  "pass p_049",
+  "pass p_050"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_3445"
+   ],
+   "kind": "minute",
+   "reject_reason": null,
+   "text": "84th minute",
+   "unit": "minute",
+   "value": 84,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3444"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Tolliver",
+   "unit": null,
+   "value": "p_021",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3445",
+    "cf_000081"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Dimitriou",
+   "unit": null,
+   "value": "p_030",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000081"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "2%",
+   "unit": "p_goal",
+   "value": 0.0219,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000081"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "2 points",
+   "unit": "win_prob_delta",
+   "value": -0.0175,
+   "verified": false
+  }
+ ],
+ "confidence": 0.92,
+ "counterfactual_id": "cf_000081",
+ "explanation_id": "ex_000114",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00114",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "9ba5117d50c21623",
+ "why": "In the 84th minute, under Tolliver's pressure, Dimitriou clears into the middle third and Verdant keep a 2% goal chance. A pass to Marchetti instead would have cut Verdant's win chance by 2 points."
+}

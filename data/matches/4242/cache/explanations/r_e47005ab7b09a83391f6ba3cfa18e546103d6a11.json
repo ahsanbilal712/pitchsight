@@ -1,5 +1,6 @@
 {
  "$schema": "model_cache.schema.json",
+ "hand_reviewed": true,
  "json": {
   "claims": [
    {
@@ -62,12 +63,12 @@
    }
   ],
   "confidence": 0.95,
-  "why": "Novacek and Okafor combine in the build-up before Okafor carries the ball 5.1 metres under pressure from Hartigan and goalkeeper Ortega-Bell to convert a 0.30 xG shot for Verdant Athletic."
+  "why": "Novacek and Okafor combine before Okafor carries 5.1 metres between Hartigan and the onrushing Ortega-Bell and finishes a 0.30 xG chance for Verdant Athletic."
  },
  "record": "model_result",
  "round": 7,
  "schema_version": "1.0.0",
- "text": "{\"why\":\"Novacek and Okafor combine in the build-up before Okafor carries the ball 5.1 metres under pressure from Hartigan and goalkeeper Ortega-Bell to convert a 0.30 xG shot for Verdant Athletic.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Novacek\",\"kind\":\"player\",\"value_text\":\"p_020\",\"unit\":\"\",\"evidence_ids\":[\"e_0926\",\"e_0929\",\"e_0931\"]},{\"text\":\"Okafor\",\"kind\":\"player\",\"value_text\":\"p_017\",\"unit\":\"\",\"evidence_ids\":[\"e_0932\",\"e_0935\",\"e_0936\"]},{\"text\":\"5.1 metres\",\"kind\":\"number\",\"value_number\":5.134,\"unit\":\"metres\",\"evidence_ids\":[\"e_0932\"]},{\"text\":\"Hartigan\",\"kind\":\"player\",\"value_text\":\"p_025\",\"unit\":\"\",\"evidence_ids\":[\"e_0933\"]},{\"text\":\"Ortega-Bell\",\"kind\":\"player\",\"value_text\":\"p_026\",\"unit\":\"\",\"evidence_ids\":[\"e_0934\"]},{\"text\":\"0.30 xG\",\"kind\":\"number\",\"value_number\":0.3,\"unit\":\"xg\",\"evidence_ids\":[\"e_0935\"]}]}",
+ "text": "{\"claims\": [{\"evidence_ids\": [\"e_0926\", \"e_0929\", \"e_0931\"], \"kind\": \"player\", \"text\": \"Novacek\", \"unit\": \"\", \"value_text\": \"p_020\"}, {\"evidence_ids\": [\"e_0932\", \"e_0935\", \"e_0936\"], \"kind\": \"player\", \"text\": \"Okafor\", \"unit\": \"\", \"value_text\": \"p_017\"}, {\"evidence_ids\": [\"e_0932\"], \"kind\": \"number\", \"text\": \"5.1 metres\", \"unit\": \"metres\", \"value_number\": 5.134}, {\"evidence_ids\": [\"e_0933\"], \"kind\": \"player\", \"text\": \"Hartigan\", \"unit\": \"\", \"value_text\": \"p_025\"}, {\"evidence_ids\": [\"e_0934\"], \"kind\": \"player\", \"text\": \"Ortega-Bell\", \"unit\": \"\", \"value_text\": \"p_026\"}, {\"evidence_ids\": [\"e_0935\"], \"kind\": \"number\", \"text\": \"0.30 xG\", \"unit\": \"xg\", \"value_number\": 0.3}], \"confidence\": 0.95, \"why\": \"Novacek and Okafor combine before Okafor carries 5.1 metres between Hartigan and the onrushing Ortega-Bell and finishes a 0.30 xG chance for Verdant Athletic.\"}",
  "verified": true,
  "via": "live"
 }

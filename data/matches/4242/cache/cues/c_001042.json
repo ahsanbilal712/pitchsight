@@ -1,0 +1,134 @@
+{
+ "clock": "76:56",
+ "cue_id": "c_001042",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "cf_000070"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "4%",
+    "unit": "p_goal",
+    "value": 0.0444,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000070"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "10%",
+    "unit": "p_goal",
+    "value": 0.1045,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000070"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "+4 points",
+    "unit": "win_prob_delta",
+    "value": 0.0374,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_046163"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "3v1 in the right middle third",
+    "unit": null,
+    "value": "overload_right_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_046163"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "74%",
+    "unit": "percent",
+    "value": 0.7402,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_046163"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "3v1 in the central middle third",
+    "unit": null,
+    "value": "overload_centre_middle_third",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000070",
+  "explanation_id": null,
+  "why": "The pundits agree that passing rather than shooting increases the goal chance to 10% and adds +4 points to win probability. They disagree on where the 3v1 overload is situated, with one placing it in the right middle third and the other in the central middle third."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.1719,
+   "label": "Verdant win chance",
+   "to": 0.2093
+  },
+  "lines": [],
+  "pitch_control_snapshot": "pc_046163",
+  "players_highlight": []
+ },
+ "kind": "sliding_doors",
+ "layer": "options_card",
+ "leverage": 0.1088,
+ "match_id": "m_4242",
+ "moment_id": "mo_00104",
+ "period": 2,
+ "priority": 0.909,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "panel",
+   "factcheck",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00104/narrator@2.a2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "chair@1",
+  "resumed_from_checkpoint": null,
+  "trace_id": "fd385d0a6be62054"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 4616900,
+ "t_out_ms": 4624900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_020"
+  ]
+ },
+ "text": {
+  "body": "Pundits debate whether the advantage sits as a 3v1 in the right middle third or a 3v1 in the central middle third. A pass yields a 74% success rate.",
+  "headline": "Passing Decision Creates Key Overload"
+ },
+ "verified": true
+}

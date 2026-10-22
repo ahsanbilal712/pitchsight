@@ -1,0 +1,115 @@
+{
+ "clock": "90:00",
+ "cue_id": "c_001254",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3460",
+     "e_3536"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Tolliver",
+    "unit": null,
+    "value": "p_021",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3460",
+     "e_3536"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3460",
+     "e_3536"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3460"
+    ],
+    "kind": "minute",
+    "reject_reason": null,
+    "text": "minute 84",
+    "unit": "minute",
+    "value": 84,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3536"
+    ],
+    "kind": "minute",
+    "reject_reason": null,
+    "text": "minute 86",
+    "unit": "minute",
+    "value": 86,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Tolliver breaks through late for Verdant against Ironvale. He scores in minute 84 and strikes again in minute 86 to seal a frantic second period."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "recap",
+ "layer": "recap_card",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00125",
+ "period": 2,
+ "priority": 0.7,
+ "producer_status": "held",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "recap",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": "gemini-4-argon",
+  "prompt_version": "recap@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "05278877fa124382"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 5400000,
+ "t_out_ms": 5415000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Tolliver breaks through late for Verdant against Ironvale. He scores in minute 84 and strikes again in minute 86 to seal a frantic second period.",
+  "headline": "Tolliver hits late double for Verdant"
+ },
+ "verified": true
+}

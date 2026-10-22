@@ -1,0 +1,86 @@
+{
+ "alternatives_considered": [
+  "clear"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_0847"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Grabowski",
+   "unit": null,
+   "value": "p_045",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_0848",
+    "cf_000023"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Fennimore",
+   "unit": null,
+   "value": "p_001",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_0848",
+    "cf_000023"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Silva",
+   "unit": null,
+   "value": "p_022",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_0848"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "52%",
+   "unit": "percent",
+   "value": 0.521,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "pc_012926"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "87%",
+   "unit": "percent",
+   "value": 0.8726,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000023"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "16%",
+   "unit": "p_goal",
+   "value": 0.159,
+   "verified": false
+  }
+ ],
+ "confidence": 0.85,
+ "counterfactual_id": "cf_000023",
+ "explanation_id": "ex_000026",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00026",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "5a9a221f7f9b6f37",
+ "why": "Under pressure from Grabowski, Fennimore passes to Silva with a 52% completion chance rather than clearing upfield. Because Verdant holds 87% control of their defensive third, playing out keeps Ironvale's goal chance at 16%, identical to the clearance option."
+}

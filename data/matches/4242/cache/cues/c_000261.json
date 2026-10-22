@@ -1,0 +1,168 @@
+{
+ "clock": "21:32",
+ "cue_id": "c_000261",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0847"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Grabowski",
+    "unit": null,
+    "value": "p_045",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0848",
+     "cf_000023"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Fennimore",
+    "unit": null,
+    "value": "p_001",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0848",
+     "cf_000023"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Silva",
+    "unit": null,
+    "value": "p_022",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0848"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "52%",
+    "unit": "percent",
+    "value": 0.521,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000023"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "16%",
+    "unit": "p_goal",
+    "value": 0.159,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000023",
+  "explanation_id": "ex_000026",
+  "why": "Grabowski and Fennimore and Silva involved. Share: 52%. Goal chance: 16%."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.086,
+   "label": "Verdant win chance",
+   "to": 0.0856
+  },
+  "ghost_trail": [
+   [
+    5.32,
+    35.18
+   ],
+   [
+    22.41,
+    37.41
+   ],
+   [
+    38.16,
+    39.88
+   ],
+   [
+    51.98,
+    42.04
+   ],
+   [
+    62.02,
+    43.62
+   ],
+   [
+    67.6,
+    44.49
+   ],
+   [
+    70.02,
+    44.87
+   ],
+   [
+    71.16,
+    45.05
+   ],
+   [
+    69.0,
+    38.85
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_012926",
+  "players_highlight": [
+   "p_001"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0562,
+ "match_id": "m_4242",
+ "moment_id": "mo_00026",
+ "period": 1,
+ "priority": 0.856,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": "template",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "5a9a221f7f9b6f37"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 1292700,
+ "t_out_ms": 1300700,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_001"
+  ]
+ },
+ "text": {
+  "body": "Grabowski and Fennimore and Silva involved. Share: 52%. Goal chance: 16%.",
+  "headline": "Sliding Doors: Grabowski"
+ },
+ "verified": true
+}

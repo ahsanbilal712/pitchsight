@@ -136,6 +136,13 @@ def test_same_kind_dedupe_90s(deps):
     assert direct(deps, draft(72, 4_095_000)) is not None                  # 95 s later
 
 
+def test_dedupe_compares_kind_and_layer(deps):
+    """A Panel's options card does not suppress the explained lower-third of the same kind (T-057 review)."""
+    assert direct(deps, draft(73, 4_400_000, layer="options_card")) is not None
+    assert direct(deps, draft(74, 4_410_000)) is not None                  # same kind, other layer
+    assert direct(deps, draft(75, 4_420_000, layer="options_card")) is None
+
+
 def test_unshown_cue_expires_after_45s(deps):
     deps.state["match_clock_ms"] = 5_050_000
     assert direct(deps, draft(80, 5_000_000)) is None                      # 50 s old by the time it is ready

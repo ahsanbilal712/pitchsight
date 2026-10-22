@@ -1,5 +1,6 @@
 {
  "$schema": "model_cache.schema.json",
+ "hand_reviewed": true,
  "json": {
   "claims": [
    {
@@ -62,12 +63,12 @@
    }
   ],
   "confidence": 0.9,
-  "why": "Bastian Sandoval pressures Zoltan Fennimore into a turnover right in front of goal after Fennimore intercepts Fintan Grabowski's pass. Sandoval immediately capitalizes by firing a 107 km/h shot from 6 metres out, converting a 0.27 xG chance to put Ironvale Forge ahead."
+  "why": "Fennimore intercepts Grabowski's pass, but Sandoval presses straight onto the loose ball and drives it in from 6 metres at 107 km/h: a 0.27 xG chance taken to put Ironvale Forge ahead."
  },
  "record": "model_result",
  "round": 7,
  "schema_version": "1.0.0",
- "text": "{\n  \"why\": \"Bastian Sandoval pressures Zoltan Fennimore into a turnover right in front of goal after Fennimore intercepts Fintan Grabowski's pass. Sandoval immediately capitalizes by firing a 107 km/h shot from 6 metres out, converting a 0.27 xG chance to put Ironvale Forge ahead.\",\n  \"confidence\": 0.9,\n  \"claims\": [\n    {\n      \"text\": \"Bastian Sandoval\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_046\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_0327\", \"e_0329\", \"e_0331\", \"e_0332\"]\n    },\n    {\n      \"text\": \"Zoltan Fennimore\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_001\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_0325\", \"e_0328\"]\n    },\n    {\n      \"text\": \"Fintan Grabowski\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_045\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_0324\"]\n    },\n    {\n      \"text\": \"107 km/h\",\n      \"kind\": \"number\",\n      \"value_number\": 106.679,\n      \"unit\": \"kmh\",\n      \"evidence_ids\": [\"e_0331\"]\n    },\n    {\n      \"text\": \"6 metres\",\n      \"kind\": \"number\",\n      \"value_number\": 5.56,\n      \"unit\": \"metres\",\n      \"evidence_ids\": [\"e_0331\"]\n    },\n    {\n      \"text\": \"0.27 xG\",\n      \"kind\": \"number\",\n      \"value_number\": 0.266,\n      \"unit\": \"xg\",\n      \"evidence_ids\": [\"e_0331\"]\n    }\n  ]\n}",
+ "text": "{\"claims\": [{\"evidence_ids\": [\"e_0327\", \"e_0329\", \"e_0331\", \"e_0332\"], \"kind\": \"player\", \"text\": \"Bastian Sandoval\", \"unit\": \"\", \"value_text\": \"p_046\"}, {\"evidence_ids\": [\"e_0325\", \"e_0328\"], \"kind\": \"player\", \"text\": \"Zoltan Fennimore\", \"unit\": \"\", \"value_text\": \"p_001\"}, {\"evidence_ids\": [\"e_0324\"], \"kind\": \"player\", \"text\": \"Fintan Grabowski\", \"unit\": \"\", \"value_text\": \"p_045\"}, {\"evidence_ids\": [\"e_0331\"], \"kind\": \"number\", \"text\": \"107 km/h\", \"unit\": \"kmh\", \"value_number\": 106.679}, {\"evidence_ids\": [\"e_0331\"], \"kind\": \"number\", \"text\": \"6 metres\", \"unit\": \"metres\", \"value_number\": 5.56}, {\"evidence_ids\": [\"e_0331\"], \"kind\": \"number\", \"text\": \"0.27 xG\", \"unit\": \"xg\", \"value_number\": 0.266}], \"confidence\": 0.9, \"why\": \"Fennimore intercepts Grabowski's pass, but Sandoval presses straight onto the loose ball and drives it in from 6 metres at 107 km/h: a 0.27 xG chance taken to put Ironvale Forge ahead.\"}",
  "verified": true,
  "via": "live"
 }

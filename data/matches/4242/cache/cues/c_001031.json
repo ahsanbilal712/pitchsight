@@ -1,0 +1,182 @@
+{
+ "clock": "76:40",
+ "cue_id": "c_001031",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3138",
+     "cf_000094"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Bolingbroke",
+    "unit": null,
+    "value": "p_023",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3138",
+     "cf_000094"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Novacek",
+    "unit": null,
+    "value": "p_020",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_046054"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "3v1 overload in the central middle third",
+    "unit": null,
+    "value": "overload_centre_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000094"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "1%",
+    "unit": "p_goal",
+    "value": 0.011,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000094"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "4%",
+    "unit": "p_goal",
+    "value": 0.0391,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000094"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "+2 points",
+    "unit": "win_prob_delta",
+    "value": 0.0174,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000094",
+  "explanation_id": "ex_000103",
+  "why": "Bolingbroke passes to Novacek instead of carrying into a 3v1 overload in the central middle third, leaving the scoring chance at 1% instead of 4% and missing a +2 points win-probability gain for Verdant."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.1508,
+   "label": "Verdant win chance",
+   "to": 0.1682
+  },
+  "ghost_trail": [
+   [
+    16.3,
+    7.97
+   ],
+   [
+    18.83,
+    21.17
+   ],
+   [
+    21.53,
+    36.31
+   ],
+   [
+    18.15,
+    31.96
+   ],
+   [
+    20.07,
+    33.06
+   ],
+   [
+    22.17,
+    28.75
+   ],
+   [
+    23.38,
+    21.07
+   ],
+   [
+    35.29,
+    28.55
+   ],
+   [
+    41.98,
+    32.53
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_046054",
+  "players_highlight": [
+   "p_021",
+   "p_038",
+   "p_023",
+   "p_020"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0416,
+ "match_id": "m_4242",
+ "moment_id": "mo_00103",
+ "period": 2,
+ "priority": 0.842,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00103/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "25926584f93da30b"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 4600900,
+ "t_out_ms": 4608900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_021",
+   "p_038",
+   "p_023",
+   "p_020"
+  ]
+ },
+ "text": {
+  "body": "Bolingbroke and Novacek face a 3v1 overload in the central middle third. The chance shifts from 1% to 4%, adding +2 points.",
+  "headline": "Bolingbroke and Novacek spark tactical shift"
+ },
+ "verified": true
+}

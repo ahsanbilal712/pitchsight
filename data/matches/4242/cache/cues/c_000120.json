@@ -1,0 +1,98 @@
+{
+ "clock": "08:21",
+ "cue_id": "c_000120",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0331"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Sandoval",
+    "unit": null,
+    "value": "p_046",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0331"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.27 xG",
+    "unit": "xg",
+    "value": 0.27,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0328"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Sandoval converts a chance worth 0.27 xG for Ironvale."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": [
+   "p_001",
+   "p_046"
+  ]
+ },
+ "kind": "goal",
+ "layer": "lower_third",
+ "leverage": 0.2639,
+ "match_id": "m_4242",
+ "moment_id": "mo_00012",
+ "period": 1,
+ "priority": 1.0,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "fast_line",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00012/fast_line@narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "00c3598de5a56bac"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 501400,
+ "t_out_ms": 509400,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_001",
+   "p_046"
+  ]
+ },
+ "text": {
+  "body": "Sandoval converts a chance worth 0.27 xG for Ironvale.",
+  "headline": "Sandoval strikes for Ironvale"
+ },
+ "verified": true
+}

@@ -1,0 +1,177 @@
+{
+ "clock": "41:34",
+ "cue_id": "c_000601",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1619",
+     "cf_000050"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Okafor",
+    "unit": null,
+    "value": "p_017",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1619",
+     "cf_000050"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Novacek",
+    "unit": null,
+    "value": "p_020",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000050"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Reyes",
+    "unit": null,
+    "value": "p_031",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_024947"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "3v1 overload on the left of the middle third",
+    "unit": null,
+    "value": "overload_left_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000050"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "1%",
+    "unit": "p_goal",
+    "value": 0.0093,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000050"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "6%",
+    "unit": "p_goal",
+    "value": 0.0612,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000050",
+  "explanation_id": "ex_000060",
+  "why": "Under pressure, Okafor forces an incomplete pass toward Novacek when switching play back to Reyes to exploit a 3v1 overload on the left of the middle third lifts goal probability from 1% to 6%."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.3172,
+   "label": "Verdant win chance",
+   "to": 0.3349
+  },
+  "ghost_trail": [
+   [
+    80.44,
+    42.63
+   ],
+   [
+    84.22,
+    55.46
+   ],
+   [
+    85.69,
+    61.08
+   ],
+   [
+    85.13,
+    54.78
+   ],
+   [
+    77.32,
+    40.48
+   ],
+   [
+    70.15,
+    27.36
+   ],
+   [
+    66.14,
+    20.89
+   ],
+   [
+    62.96,
+    20.57
+   ],
+   [
+    63.25,
+    21.6
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_024947",
+  "players_highlight": [
+   "p_017"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0555,
+ "match_id": "m_4242",
+ "moment_id": "mo_00060",
+ "period": 1,
+ "priority": 0.856,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00060/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "83d18c80d71e177d"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2494800,
+ "t_out_ms": 2502800,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_017"
+  ]
+ },
+ "text": {
+  "body": "A 3v1 overload on the left of the middle third involving Okafor, Novacek, and Reyes shifts the chance from 1% to 6%.",
+  "headline": "Overload changes goal probability"
+ },
+ "verified": true
+}

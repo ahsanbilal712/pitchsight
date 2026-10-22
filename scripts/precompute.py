@@ -22,7 +22,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packages"))
 
 from cache.manifest import CacheManifest  # noqa: E402
-from cache.precompute_models import NEWSROOM_STAGES, stage_newsroom, stage_recap, stage_replay_check  # noqa: E402
+from cache.precompute_models import (  # noqa: E402
+    NEWSROOM_STAGES,
+    stage_cue_stream,
+    stage_newsroom,
+    stage_recap,
+    stage_replay_check,
+)
 
 RULES_VERSION = "rules1"
 
@@ -412,7 +418,8 @@ STAGES = {"decision_index": stage_decision_index, "storyboard": stage_storyboard
           "fourth_official": stage_fourth_official, "oracle": stage_oracle, "dugout": stage_dugout,
           **dict.fromkeys(NEWSROOM_STAGES, stage_newsroom),       # T-042 model calls (cache/precompute_models.py)
           "recap": stage_recap,                                   # T-050 half-time and full-time recaps
-          "replay_check": stage_replay_check}                     # T-042: replay from the cache, count misses
+          "replay_check": stage_replay_check,                     # T-042: replay from the cache, count misses
+          "cue_stream": stage_cue_stream}                         # T-057: every cached cue, no model needed
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -420,7 +427,7 @@ def main(argv: list[str] | None = None) -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--seed", type=int, default=4242)
     ap.add_argument("--mode", choices=("batch", "live"), default="batch")
-    ap.add_argument("--stages", required=True, help=f"comma list of {', '.join(STAGES)}")
+    ap.add_argument("--stages", default="", help=f"comma list of {', '.join(STAGES)}")
     ap.add_argument("--hand-review", type=int, default=0, help="top K moments for hand review (T-057)")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--bucket", default=None, help="gs:// bucket for Vertex AI batch input/output (T-042)")
@@ -428,6 +435,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--repair", action="store_true", help="replay_check: cache what no model call is needed for")
     args = ap.parse_args(argv)
     stages = [s for s in args.stages.split(",") if s]
+    if args.hand_review:   # T-057: export the top moments for hand review (review/<moment_id>.md)
+        from cache.review import export_fast_lines, export_review
+
+        match_dir = ROOT / "data" / "matches" / str(args.seed)
+        manifest = open_manifest(match_dir)
+        written = export_review(manifest, args.hand_review, ROOT / "review") + \
+            export_fast_lines(manifest, ROOT / "review")
+        print(f"hand review: {len(written)} files in review/")
+        if not stages:
+            return 0
+    if not stages:
+        ap.error("--stages is required (or --hand-review N)")
     unknown = [s for s in stages if s not in STAGES]
     if unknown:
         ap.error(f"unknown stage(s) {unknown}; available: {sorted(STAGES)}")

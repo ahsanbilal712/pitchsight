@@ -1,0 +1,132 @@
+{
+ "clock": "34:36",
+ "cue_id": "c_000481",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1349",
+     "e_1354"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Zoltan Fennimore",
+    "unit": null,
+    "value": "p_001",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1348",
+     "e_1351",
+     "e_1353",
+     "e_1355"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Bastian Sandoval",
+    "unit": null,
+    "value": "p_046",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1348"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.06 xG",
+    "unit": "xg",
+    "value": 0.061,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1353",
+     "e_1355"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale Forge",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1355"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.15 xG",
+    "unit": "xg",
+    "value": 0.152,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1356",
+     "e_1357"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant Athletic",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": "ex_000048",
+  "why": "After Zoltan Fennimore saves Bastian Sandoval's initial 0.06 xG shot, Sandoval presses immediately to win the ball back for Ironvale Forge. Under pressure from Fennimore, Sandoval fires a second effort worth 0.15 xG off target, allowing Verdant Athletic to reset."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "state_change",
+ "layer": "lower_third",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00048",
+ "period": 1,
+ "priority": 0.6,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00048/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "9ff6d65b2313c043"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2076000,
+ "t_out_ms": 2084000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Zoltan Fennimore generates 0.06 xG for Ironvale Forge. Bastian Sandoval answers for Verdant Athletic with 0.15 xG.",
+  "headline": "Ironvale Forge and Verdant Athletic trade chances"
+ },
+ "verified": true
+}

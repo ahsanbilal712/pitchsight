@@ -1,0 +1,96 @@
+{
+ "clock": "85:52",
+ "cue_id": "c_001190",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3535"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Tolliver",
+    "unit": null,
+    "value": "p_021",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3535"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.11 xG",
+    "unit": "xg",
+    "value": 0.11,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3532"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Tolliver converts a chance worth 0.11 xG for Verdant."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": [
+   "p_026",
+   "p_021"
+  ]
+ },
+ "kind": "goal",
+ "layer": "lower_third",
+ "leverage": 0.1519,
+ "match_id": "m_4242",
+ "moment_id": "mo_00119",
+ "period": 2,
+ "priority": 1.0,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "fast_line",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00119/fast_line@narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "8c06a51620e8c620"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 5152300,
+ "t_out_ms": 5160300,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "casual",
+   "studio"
+  ],
+  "players": [
+   "p_026",
+   "p_021"
+  ]
+ },
+ "text": {
+  "body": "Tolliver converts a chance worth 0.11 xG for Verdant.",
+  "headline": "Tolliver again for Verdant"
+ },
+ "verified": true
+}

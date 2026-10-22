@@ -1,0 +1,132 @@
+{
+ "clock": "58:54",
+ "cue_id": "c_000861",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2328",
+     "e_2329"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Tobi Okafor",
+    "unit": null,
+    "value": "p_017",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_2328",
+     "e_2329"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_2332"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Nilo Thornbury",
+    "unit": null,
+    "value": "p_006",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_2333",
+     "e_2334",
+     "e_2336"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Fintan Grabowski",
+    "unit": null,
+    "value": "p_045",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_2336",
+     "e_2337"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Bastian Sandoval",
+    "unit": null,
+    "value": "p_046",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_2334",
+     "e_2337"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": "ex_000086",
+  "why": "After Tobi Okafor wins a tackle for Verdant, Nilo Thornbury's pass is quickly intercepted by Fintan Grabowski. Grabowski finds Bastian Sandoval, who carries the ball forward for Ironvale."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "state_change",
+ "layer": "lower_third",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00086",
+ "period": 2,
+ "priority": 0.6,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00086/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "3d20492227ae7d92"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 3534000,
+ "t_out_ms": 3542000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Ironvale and Verdant meet as Bastian Sandoval, Fintan Grabowski, Nilo Thornbury, and Tobi Okafor take the pitch.",
+  "headline": "Ironvale faces Verdant"
+ },
+ "verified": true
+}

@@ -1,0 +1,131 @@
+{
+ "clock": "47:59",
+ "cue_id": "c_000751",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1890",
+     "e_1893"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Zoltan Fennimore",
+    "unit": null,
+    "value": "p_001",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1889",
+     "e_1892",
+     "e_1894",
+     "e_1896"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Bastian Sandoval",
+    "unit": null,
+    "value": "p_046",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1889"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.04 xG",
+    "unit": "xg",
+    "value": 0.04,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1894",
+     "e_1896"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale Forge",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1896"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.14 xG",
+    "unit": "xg",
+    "value": 0.141,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1896"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "7.6 metres",
+    "unit": "metres",
+    "value": 7.61,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": "ex_000075",
+  "why": "After Zoltan Fennimore saves Bastian Sandoval's initial 0.04 xG effort, Sandoval immediately presses the clearance to regain possession for Ironvale Forge and fires a follow-up shot worth 0.14 xG from 7.6 metres out."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "state_change",
+ "layer": "lower_third",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00075",
+ "period": 2,
+ "priority": 0.6,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00075/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "f656b465ed5a4b00"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2879000,
+ "t_out_ms": 2887000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Zoltan Fennimore and Bastian Sandoval link up for Ironvale Forge from 7.6 metres out, registering 0.14 xG after a previous chance of 0.04 xG.",
+  "headline": "Ironvale Forge creates a key opportunity"
+ },
+ "verified": true
+}

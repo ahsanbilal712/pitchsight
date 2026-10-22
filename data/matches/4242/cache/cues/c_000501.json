@@ -1,0 +1,182 @@
+{
+ "clock": "36:26",
+ "cue_id": "c_000501",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1429",
+     "e_1431",
+     "e_1435"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Grabowski",
+    "unit": null,
+    "value": "p_045",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1437"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Varga",
+    "unit": null,
+    "value": "p_047",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1438",
+     "cf_000037"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Sandoval",
+    "unit": null,
+    "value": "p_046",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "9%",
+    "unit": "p_goal",
+    "value": 0.0911,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_021808"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "2v1 overload on the left in the attacking third",
+    "unit": null,
+    "value": "overload_left_attacking_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "15%",
+    "unit": "p_goal",
+    "value": 0.1454,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000037",
+  "explanation_id": "ex_000050",
+  "why": "Grabowski wins the ball and Varga sets up Sandoval inside a 2v1 overload on the left in the attacking third. Sandoval shoots off target, a 9% goal chance; carrying closer first lifts it to 15%."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.3519,
+   "label": "Verdant win chance",
+   "to": 0.3368
+  },
+  "ghost_trail": [
+   [
+    11.62,
+    37.58
+   ],
+   [
+    -2.06,
+    38.84
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.5,
+    34.0
+   ],
+   [
+    5.84,
+    33.71
+   ],
+   [
+    10.87,
+    34.14
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_021808",
+  "players_highlight": [
+   "p_045",
+   "p_046",
+   "p_047"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0617,
+ "match_id": "m_4242",
+ "moment_id": "mo_00050",
+ "period": 1,
+ "priority": 0.862,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00050/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "26392237ad280519"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2186900,
+ "t_out_ms": 2194900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_045",
+   "p_046",
+   "p_047"
+  ]
+ },
+ "text": {
+  "body": "Ironvale's press wins it and a 2v1 overload on the left in the attacking third opens. Sandoval shoots: 9% goal chance. Carrying closer first: 15%.",
+  "headline": "Sandoval shoots too soon"
+ },
+ "verified": true
+}

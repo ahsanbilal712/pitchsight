@@ -1,0 +1,79 @@
+{
+ "clock": "39:02",
+ "cue_id": "c_000552",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_023428"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "62%",
+    "unit": "percent",
+    "value": 0.62,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000042",
+  "explanation_id": null,
+  "why": "The model shows the chosen play keeps the success rate at 62%. Pundits argue whether opting for the safer pass consolidates shape or merely delays pressure without generating shots."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.3159,
+   "label": "Verdant win chance",
+   "to": 0.3055
+  },
+  "lines": [],
+  "pitch_control_snapshot": "pc_023428",
+  "players_highlight": []
+ },
+ "kind": "sliding_doors",
+ "layer": "options_card",
+ "leverage": 0.0717,
+ "match_id": "m_4242",
+ "moment_id": "mo_00055",
+ "period": 1,
+ "priority": 0.872,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "panel",
+   "factcheck",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00055/narrator@2.a2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "chair@1",
+  "resumed_from_checkpoint": null,
+  "trace_id": "620accf8dfe80964"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2342900,
+ "t_out_ms": 2350900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_026"
+  ]
+ },
+ "text": {
+  "body": "The model shows the chosen play keeps the success rate at 62%. Pundits argue whether opting for the safer pass consolidates shape or merely delays pressure without generating shots.",
+  "headline": "Debate Over Alternate Pass Decision"
+ },
+ "verified": true
+}

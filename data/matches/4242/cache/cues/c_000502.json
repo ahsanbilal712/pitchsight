@@ -1,0 +1,156 @@
+{
+ "clock": "36:26",
+ "cue_id": "c_000502",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_021808"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "2v1 on the right in the final third",
+    "unit": null,
+    "value": "overload_right_attacking_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "9%",
+    "unit": "p_goal",
+    "value": 0.0911,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "15%",
+    "unit": "p_goal",
+    "value": 0.1454,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "2 points",
+    "unit": "win_prob_delta",
+    "value": -0.0151,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_021808"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "2v1 on the left in the final third",
+    "unit": null,
+    "value": "overload_left_attacking_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "2-point",
+    "unit": "win_prob_delta",
+    "value": -0.0151,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "200",
+    "unit": "count",
+    "value": 200,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "8-second",
+    "unit": "seconds",
+    "value": 8.0,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000037",
+  "explanation_id": null,
+  "why": "The panel recognises that Sandoval opted to take an early shot rather than carrying the ball forward into space. While two pundits argue carrying the ball boosts scoring probability from 9% to 15%, the sceptic contends the 2-point swing across 200 simulations is too noisy to judge the shot."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.3519,
+   "label": "Verdant win chance",
+   "to": 0.3368
+  },
+  "lines": [],
+  "pitch_control_snapshot": "pc_021808",
+  "players_highlight": []
+ },
+ "kind": "sliding_doors",
+ "layer": "options_card",
+ "leverage": 0.0617,
+ "match_id": "m_4242",
+ "moment_id": "mo_00050",
+ "period": 1,
+ "priority": 0.862,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "panel",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "chair@1",
+  "resumed_from_checkpoint": null,
+  "trace_id": "26392237ad280519"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2186900,
+ "t_out_ms": 2194900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_045",
+   "p_046",
+   "p_047"
+  ]
+ },
+ "text": {
+  "body": "The panel recognises that Sandoval opted to take an early shot rather than carrying the ball forward into space. While two pundits argue carrying the ball boosts scoring probability from 9% to 15%, the sceptic contends the 2-point swing across 200 simulations is too noisy to",
+  "headline": "Debating Sandoval's Shot Decision"
+ },
+ "verified": true
+}

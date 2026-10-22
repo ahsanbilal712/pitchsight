@@ -1,0 +1,90 @@
+{
+ "alternatives_considered": [
+  "carry w",
+  "pass p_020",
+  "shoot"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_0677",
+    "e_0681",
+    "cf_000014"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Reyes",
+   "unit": null,
+   "value": "p_031",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_0681",
+    "cf_000014"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Okafor",
+   "unit": null,
+   "value": "p_017",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_0681",
+    "cf_000014"
+   ],
+   "kind": "team",
+   "reject_reason": null,
+   "text": "Verdant's",
+   "unit": null,
+   "value": "verdant",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000014"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "3%",
+   "unit": "p_goal",
+   "value": 0.0303,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "pc_010169"
+   ],
+   "kind": "tactical",
+   "reject_reason": null,
+   "text": "3v1 overload on the left of the middle third",
+   "unit": null,
+   "value": "overload_left_middle_third",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000014"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "7%",
+   "unit": "p_goal",
+   "value": 0.0743,
+   "verified": false
+  }
+ ],
+ "confidence": 0.9,
+ "counterfactual_id": "cf_000014",
+ "explanation_id": "ex_000020",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00020",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "8f1dadaedf06f6c5",
+ "why": "After winning an interception high up the pitch, Reyes forces an incomplete pass to Okafor that limits Verdant's scoring chance to 3%. With a 3v1 overload on the left of the middle third, switching play to Novacek raises the goal probability to 7%."
+}

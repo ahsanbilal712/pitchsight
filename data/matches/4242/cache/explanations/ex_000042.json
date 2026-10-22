@@ -1,0 +1,113 @@
+{
+ "alternatives_considered": [
+  "pass p_020",
+  "pass p_031",
+  "pass p_022"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_1207"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Zoltan Fennimore",
+   "unit": null,
+   "value": "p_001",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1207",
+    "e_1208"
+   ],
+   "kind": "team",
+   "reject_reason": null,
+   "text": "Verdant",
+   "unit": null,
+   "value": "verdant",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1208",
+    "e_1212"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Tobi Okafor",
+   "unit": null,
+   "value": "p_017",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1208"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "12.5 metres",
+   "unit": "metres",
+   "value": 12.503,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1209",
+    "e_1211",
+    "e_1213"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Otto Ainsley",
+   "unit": null,
+   "value": "p_038",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1210"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Kaito Marchetti",
+   "unit": null,
+   "value": "p_039",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1212"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Oren Novacek",
+   "unit": null,
+   "value": "p_020",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1213",
+    "e_1214"
+   ],
+   "kind": "team",
+   "reject_reason": null,
+   "text": "Ironvale",
+   "unit": null,
+   "value": "ironvale",
+   "verified": false
+  }
+ ],
+ "confidence": 0.95,
+ "counterfactual_id": null,
+ "explanation_id": "ex_000042",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00042",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "8d6ed8265d6c042e",
+ "why": "After Zoltan Fennimore's clearance for Verdant, Tobi Okafor carries the ball 12.5 metres forward under pressure from Otto Ainsley and Kaito Marchetti. Ainsley then steps in to intercept Okafor's subsequent pass toward Oren Novacek, regaining possession for Ironvale."
+}

@@ -1,5 +1,6 @@
 {
  "$schema": "model_cache.schema.json",
+ "hand_reviewed": true,
  "json": {
   "claims": [
    {
@@ -63,12 +64,12 @@
    }
   ],
   "confidence": 0.85,
-  "why": "After Zoltan Fennimore saves his initial 0.06 xG effort, Bastian Sandoval pressures the clearance to win back possession for Ironvale Forge and fires a 0.15 xG shot off target from 7 metres."
+  "why": "Fennimore saves the first 0.06 xG effort, but Sandoval chases the clearance, wins it back for Ironvale Forge and shoots again from 7 metres: a 0.15 xG chance, off target."
  },
  "record": "model_result",
  "round": 6,
  "schema_version": "1.0.0",
- "text": "{\"why\":\"After Zoltan Fennimore saves his initial 0.06 xG effort, Bastian Sandoval pressures the clearance to win back possession for Ironvale Forge and fires a 0.15 xG shot off target from 7 metres.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Zoltan Fennimore\",\"kind\":\"player\",\"value_text\":\"p_001\",\"unit\":\"\",\"evidence_ids\":[\"e_1349\",\"e_1352\"]},{\"text\":\"0.06 xG\",\"kind\":\"number\",\"value_number\":0.061,\"unit\":\"xg\",\"evidence_ids\":[\"e_1348\"]},{\"text\":\"Bastian Sandoval\",\"kind\":\"player\",\"value_text\":\"p_046\",\"unit\":\"\",\"evidence_ids\":[\"e_1348\",\"e_1351\",\"e_1353\",\"e_1355\"]},{\"text\":\"Ironvale Forge\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_1353\",\"e_1355\"]},{\"text\":\"0.15 xG\",\"kind\":\"number\",\"value_number\":0.152,\"unit\":\"xg\",\"evidence_ids\":[\"e_1355\"]},{\"text\":\"7 metres\",\"kind\":\"number\",\"value_number\":6.967,\"unit\":\"metres\",\"evidence_ids\":[\"e_1355\"]}]}",
+ "text": "{\"claims\": [{\"evidence_ids\": [\"e_1349\", \"e_1352\"], \"kind\": \"player\", \"text\": \"Zoltan Fennimore\", \"unit\": \"\", \"value_text\": \"p_001\"}, {\"evidence_ids\": [\"e_1348\"], \"kind\": \"number\", \"text\": \"0.06 xG\", \"unit\": \"xg\", \"value_number\": 0.061}, {\"evidence_ids\": [\"e_1348\", \"e_1351\", \"e_1353\", \"e_1355\"], \"kind\": \"player\", \"text\": \"Bastian Sandoval\", \"unit\": \"\", \"value_text\": \"p_046\"}, {\"evidence_ids\": [\"e_1353\", \"e_1355\"], \"kind\": \"team\", \"text\": \"Ironvale Forge\", \"unit\": \"\", \"value_text\": \"ironvale\"}, {\"evidence_ids\": [\"e_1355\"], \"kind\": \"number\", \"text\": \"0.15 xG\", \"unit\": \"xg\", \"value_number\": 0.152}, {\"evidence_ids\": [\"e_1355\"], \"kind\": \"number\", \"text\": \"7 metres\", \"unit\": \"metres\", \"value_number\": 6.967}], \"confidence\": 0.85, \"why\": \"Fennimore saves the first 0.06 xG effort, but Sandoval chases the clearance, wins it back for Ironvale Forge and shoots again from 7 metres: a 0.15 xG chance, off target.\"}",
  "verified": true,
  "via": "live"
 }

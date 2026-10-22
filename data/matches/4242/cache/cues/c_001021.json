@@ -1,0 +1,130 @@
+{
+ "clock": "76:28",
+ "cue_id": "c_001021",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3111",
+     "e_3118"
+    ],
+    "kind": "minute",
+    "reject_reason": null,
+    "text": "77th minute",
+    "unit": "minute",
+    "value": 77,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3111",
+     "e_3112"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Fintan Valcourt",
+    "unit": null,
+    "value": "p_048",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3110"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Lauro Silva",
+    "unit": null,
+    "value": "p_022",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3112",
+     "e_3118"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Ironvale Forge",
+    "unit": null,
+    "value": "ironvale",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3117",
+     "e_3118"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Kian Marchetti",
+    "unit": null,
+    "value": "p_049",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_3117"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "23-metre",
+    "unit": "metres",
+    "value": 23.3,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": "ex_000102",
+  "why": "In the 77th minute, Fintan Valcourt intercepts a pass from Lauro Silva to win possession for Ironvale Forge. After recycling play through Kaito Marchetti and Dimitar Thornbury, Kian Marchetti receives a 23-metre progressive pass and carries the ball forward."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "state_change",
+ "layer": "lower_third",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00102",
+ "period": 2,
+ "priority": 0.6,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00102/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "aad0a070dcec6cc7"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 4588000,
+ "t_out_ms": 4596000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "In the 77th minute, Fintan Valcourt combines with Lauro Silva and Kian Marchetti for Ironvale Forge from 23-metre distance.",
+  "headline": "Ironvale Forge strike in the 77th minute"
+ },
+ "verified": true
+}

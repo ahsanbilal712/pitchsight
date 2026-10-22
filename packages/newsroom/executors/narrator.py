@@ -22,6 +22,7 @@ from newsroom.templates import BODY_MAX, HEADLINE_MAX, clip, template_line
 
 ROLE = "narrator_fast"
 PROMPT = "narrator@2"
+FEWSHOT_MAX = 4          # examples in a live prompt: each one costs input tokens on every call
 SCHEMA = {"type": "object", "required": ["headline", "body", "claims"],
           "properties": {"headline": {"type": "string"}, "body": {"type": "string"},
                          "claims": {"type": "array", "items": {"type": "string"}}}}
@@ -32,7 +33,9 @@ CUE_KINDS = {"sliding_doors", "state_change", "big_chance", "goal", "tempo_shift
 def build_messages(kind: str, claims: list[dict], diff: list[dict] | None = None,
                    previous: dict | None = None) -> list[dict]:
     _, system = config.prompt(PROMPT)
-    shots = load_fewshot(config.PROMPTS / "fewshot" / "narrator.jsonl")
+    # few-shots belong to the prompt version after the hand review (T-057): narrator@2 made the golden cache
+    # without them, so loading them under the same version would change a cached prompt silently
+    shots = [] if PROMPT == "narrator@2" else load_fewshot(config.PROMPTS / "fewshot" / "narrator.jsonl")[:FEWSHOT_MAX]
     msgs = [{"role": "system", "content": system}]
     for shot in shots:
         msgs.append({"role": "user", "content": json.dumps(shot["input"])})

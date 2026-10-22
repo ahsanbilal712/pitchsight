@@ -246,8 +246,9 @@ def _check_number(claim: dict, ev: _Evidence, ids: list[str]) -> str | None:
             ok = any(_close(a, cf["baseline"]["win_prob_home"], tol)
                      and _close(b, cf["alternative_outcome"]["win_prob_home"], tol) for cf in cfs)
             return None if ok and _close(b - a, value, 2 * tol) else "text_value_mismatch"
-        n, pct = shown[0]  # "+9 points" or "+9%" or "0.09"
-        delta = n / 100.0 if (pct or n > 1) else n
+        n, pct = shown[0]  # "+9 points", "1 point", "+9%" or "0.09"
+        points = "point" in (claim.get("text") or "").lower()
+        delta = n / 100.0 if (pct or points or n > 1) else n
         return None if _close(delta, abs(value), tol) else "text_value_mismatch"
     if not any(_close(_shown_value(n, p, unit), value, tol) for n, p in shown):
         return "text_value_mismatch"

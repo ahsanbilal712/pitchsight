@@ -1,0 +1,188 @@
+{
+ "clock": "62:13",
+ "cue_id": "c_000911",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2481"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Tolliver",
+    "unit": null,
+    "value": "p_021",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_2479",
+     "e_2482"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Hartigan",
+    "unit": null,
+    "value": "p_025",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Kian Marchetti",
+    "unit": null,
+    "value": "p_049",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "1%",
+    "unit": "p_goal",
+    "value": 0.0109,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "9%",
+    "unit": "p_goal",
+    "value": 0.0923,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "+4 points",
+    "unit": "win_prob_delta",
+    "value": 0.0421,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000063",
+  "explanation_id": "ex_000091",
+  "why": "Under immediate pressure from Tolliver after winning an interception deep in his own end, Hartigan makes the safe choice to clear the ball. Attempting a risky pass out to Kian Marchetti instead would raise Verdant's goal chance from 1% to 9% and hand the hosts +4 points in win probability."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.2206,
+   "label": "Verdant win chance",
+   "to": 0.2628
+  },
+  "ghost_trail": [
+   [
+    5.6,
+    30.64
+   ],
+   [
+    21.46,
+    25.01
+   ],
+   [
+    35.68,
+    19.75
+   ],
+   [
+    45.85,
+    15.99
+   ],
+   [
+    50.98,
+    14.09
+   ],
+   [
+    53.4,
+    13.2
+   ],
+   [
+    54.79,
+    12.75
+   ],
+   [
+    48.22,
+    25.28
+   ],
+   [
+    43.55,
+    33.59
+   ]
+  ],
+  "lines": [],
+  "pitch_control_snapshot": "pc_037337",
+  "players_highlight": [
+   "p_025"
+  ]
+ },
+ "kind": "sliding_doors",
+ "layer": "lower_third",
+ "leverage": 0.0563,
+ "match_id": "m_4242",
+ "moment_id": "mo_00091",
+ "period": 2,
+ "priority": 0.856,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00091/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "a3317c9d344b7fe7"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 3733800,
+ "t_out_ms": 3741800,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_025"
+  ]
+ },
+ "text": {
+  "body": "Hartigan and Kian Marchetti boost Verdant, lifting probability from 1% to 9% and adding +4 points. Tolliver remains central to the attack.",
+  "headline": "Hartigan and Kian Marchetti open chances for Verdant"
+ },
+ "verified": true
+}

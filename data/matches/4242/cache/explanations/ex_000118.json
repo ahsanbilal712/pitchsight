@@ -1,0 +1,96 @@
+{
+ "alternatives_considered": [
+  "carry w"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_3526"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Femi Bolingbroke",
+   "unit": null,
+   "value": "p_023",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3528",
+    "cf_000082"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Sacha Tolliver",
+   "unit": null,
+   "value": "p_021",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3527"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Otto Ainsley",
+   "unit": null,
+   "value": "p_038",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3528"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "0.05 xG",
+   "unit": "xg",
+   "value": 0.05,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3529"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Anselm Ortega-Bell",
+   "unit": null,
+   "value": "p_026",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000082"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "5%",
+   "unit": "p_goal",
+   "value": 0.05,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000082"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "18%",
+   "unit": "p_goal",
+   "value": 0.1841,
+   "verified": false
+  }
+ ],
+ "confidence": 0.95,
+ "counterfactual_id": "cf_000082",
+ "explanation_id": "ex_000118",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00118",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "40f0f22139a82cde",
+ "why": "After receiving a pass from Femi Bolingbroke, Sacha Tolliver shoots under pressure from Otto Ainsley for a 0.05 xG effort that Anselm Ortega-Bell saves. Carrying closer to goal instead lifts the goal chance from 5% to 18%."
+}

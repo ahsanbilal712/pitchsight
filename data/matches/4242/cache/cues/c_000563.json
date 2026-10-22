@@ -1,0 +1,109 @@
+{
+ "clock": "39:25",
+ "cue_id": "c_000563",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1546"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Ainsley",
+    "unit": null,
+    "value": "p_038",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Contact point marked outside the penalty area, in the frame of the foul."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     105.0,
+     13.84
+    ],
+    [
+     88.5,
+     13.84
+    ]
+   ],
+   [
+    [
+     88.5,
+     13.84
+    ],
+    [
+     88.5,
+     54.16
+    ]
+   ],
+   [
+    [
+     88.5,
+     54.16
+    ],
+    [
+     105.0,
+     54.16
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_038",
+   "p_017"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": 0.012,
+ "match_id": "m_4242",
+ "moment_id": "mo_00056",
+ "period": 1,
+ "priority": 0.912,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "fourth_official",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "2dcf24c1dafd7df1"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2365700,
+ "t_out_ms": 2373700,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_038",
+   "p_017"
+  ]
+ },
+ "text": {
+  "body": "Contact outside the penalty area; Ainsley came in at speed.",
+  "headline": "Free kick: Ainsley"
+ },
+ "verified": true
+}

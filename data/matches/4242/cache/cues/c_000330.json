@@ -1,0 +1,97 @@
+{
+ "clock": "24:48",
+ "cue_id": "c_000330",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0959"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Novacek",
+    "unit": null,
+    "value": "p_020",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0959"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.42 xG",
+    "unit": "xg",
+    "value": 0.42,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0956"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "Novacek gets a Verdant opportunity rated at 0.42 xG."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": [
+   "p_030",
+   "p_020"
+  ]
+ },
+ "kind": "big_chance",
+ "layer": "lower_third",
+ "leverage": 0.3751,
+ "match_id": "m_4242",
+ "moment_id": "mo_00033",
+ "period": 1,
+ "priority": 1.0,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "fast_line",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00033/fast_line@narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "642ca39ca9d80882"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 1488400,
+ "t_out_ms": 1496400,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "studio"
+  ],
+  "players": [
+   "p_030",
+   "p_020"
+  ]
+ },
+ "text": {
+  "body": "Novacek gets a Verdant opportunity rated at 0.42 xG.",
+  "headline": "Big chance for Novacek"
+ },
+ "verified": true
+}

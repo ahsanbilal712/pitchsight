@@ -1,0 +1,133 @@
+{
+ "clock": "49:41",
+ "cue_id": "c_000781",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1956"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Nilo Thornbury",
+    "unit": null,
+    "value": "p_006",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1956",
+     "e_1957"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Cosmin Dunleavy",
+    "unit": null,
+    "value": "p_007",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1957"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "33.9 metres",
+    "unit": "metres",
+    "value": 33.882,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1957"
+    ],
+    "kind": "team",
+    "reject_reason": null,
+    "text": "Verdant Athletic",
+    "unit": null,
+    "value": "verdant",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1958",
+     "e_1960",
+     "e_1962",
+     "e_1964"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Bastian Sandoval",
+    "unit": null,
+    "value": "p_046",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_1959",
+     "e_1961",
+     "e_1963",
+     "e_1965"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Fintan Grabowski",
+    "unit": null,
+    "value": "p_045",
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": "ex_000078",
+  "why": "After receiving a pass from Nilo Thornbury, Cosmin Dunleavy carries the ball 33.9 metres upfield for Verdant Athletic, withstanding repeated pressure from Bastian Sandoval and Fintan Grabowski to settle possession."
+ },
+ "graphics": {
+  "lines": [],
+  "players_highlight": []
+ },
+ "kind": "state_change",
+ "layer": "lower_third",
+ "leverage": null,
+ "match_id": "m_4242",
+ "moment_id": "mo_00078",
+ "period": 2,
+ "priority": 0.6,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "proposer",
+   "rollout",
+   "tactician",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00078/narrator@2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "narrator@2",
+  "resumed_from_checkpoint": null,
+  "trace_id": "e4f2d768680f3f99"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2981000,
+ "t_out_ms": 2989000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "studio"
+  ],
+  "players": []
+ },
+ "text": {
+  "body": "Nilo Thornbury combines with Cosmin Dunleavy over 33.9 metres for Verdant Athletic.",
+  "headline": "Verdant Athletic on the move"
+ },
+ "verified": true
+}

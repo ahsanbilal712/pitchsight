@@ -1,0 +1,88 @@
+{
+ "clock": "74:12",
+ "cue_id": "c_000992",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_044528"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "3v0 central overload in the middle third",
+    "unit": null,
+    "value": "overload_centre_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_044528"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "24%",
+    "unit": "percent",
+    "value": 0.2367,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000064",
+  "explanation_id": null,
+  "why": "The pundits agree that evaluating Marchetti's transition decision involves weighing the chosen pass against an alternative option in the middle third. They disagree sharply on whether Marchetti should rush the transition to exploit the opponent or choose the alternative pass to consolidate control."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.1474,
+   "label": "Verdant win chance",
+   "to": 0.1498
+  },
+  "lines": [],
+  "pitch_control_snapshot": "pc_044528",
+  "players_highlight": []
+ },
+ "kind": "sliding_doors",
+ "layer": "options_card",
+ "leverage": 0.0602,
+ "match_id": "m_4242",
+ "moment_id": "mo_00099",
+ "period": 2,
+ "priority": 0.86,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "panel",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "chair@1",
+  "resumed_from_checkpoint": null,
+  "trace_id": "cba054a1a793b9f2"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 4452900,
+ "t_out_ms": 4460900,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_049"
+  ]
+ },
+ "text": {
+  "body": "The pundits agree that evaluating Marchetti's transition decision involves weighing the chosen pass against an alternative option in the middle third.",
+  "headline": "Debate Over Marchetti's Transition Pass"
+ },
+ "verified": true
+}

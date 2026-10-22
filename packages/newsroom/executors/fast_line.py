@@ -25,16 +25,32 @@ def surname(player_id: str) -> str | None:
 
 
 def claims_from_moment(moment, bb) -> list[dict]:
-    """Player, team and xG claims bound to the moment's evidence events (unverified)."""
+    """Player, team and xG claims bound to the moment's evidence events (unverified). For a goal or a big chance
+    only the scorer or shooter is named: the evidence also holds the passer, the goalkeeper and the defender who
+    lost the ball, and a one-line cue must not credit the wrong player (T-057 review)."""
     claims: list[dict] = []
     seen: set[str] = set()
     _, clubs = league_data()
+    events = []
     for eid in moment.evidence_event_ids:
         try:
-            ev = bb.get("events", eid, moment.match_id)
+            events.append((eid, bb.get("events", eid, moment.match_id)))
         except NotFound:
             continue
+    focus = {"goal": ("goal",), "big_chance": ("shot",)}.get(moment.kind)
+    if focus:
+        last = [ev.get("player") for _, ev in events if ev.get("type") in focus]
+        named = set(last[-1:])
+        shots = [(eid, ev) for eid, ev in events if ev.get("type") == "shot"]
+        events = [(eid, ev) for eid, ev in events if ev.get("player") in named and ev.get("type") in
+                  ("goal", "shot")] + shots[-1:]
+        events = list(dict(events).items())
+    if focus and moment.team is None:
+        moment.team = next((ev["team"] for _, ev in events if ev.get("team") in ("home", "away")), None)
+    for eid, ev in events:
         pid = ev.get("player")
+        if focus and pid not in named:
+            pid = None
         if isinstance(pid, str) and pid not in seen and (name := surname(pid)):
             seen.add(pid)
             claims.append({"text": name, "kind": "player", "value": pid, "unit": None, "evidence_ids": [eid],

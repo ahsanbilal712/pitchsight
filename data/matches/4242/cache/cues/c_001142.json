@@ -1,0 +1,134 @@
+{
+ "clock": "83:24",
+ "cue_id": "c_001142",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "cf_000081"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "2%",
+    "unit": "p_goal",
+    "value": 0.0219,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000081"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "2 points",
+    "unit": "win_prob_delta",
+    "value": -0.0175,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_050042"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "60%",
+    "unit": "percent",
+    "value": 0.6014,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000081"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "9%",
+    "unit": "percent",
+    "value": 0.088,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000081"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "2 point",
+    "unit": "win_prob_delta",
+    "value": -0.0175,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000081"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "8-second",
+    "unit": "seconds",
+    "value": 8.0,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000081",
+  "explanation_id": null,
+  "why": "Choosing the pass option changes the success rate to 60%."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.1095,
+   "label": "Verdant win chance",
+   "to": 0.0919
+  },
+  "lines": [],
+  "pitch_control_snapshot": "pc_050042",
+  "players_highlight": []
+ },
+ "kind": "sliding_doors",
+ "layer": "options_card",
+ "leverage": 0.0738,
+ "match_id": "m_4242",
+ "moment_id": "mo_00114",
+ "period": 2,
+ "priority": 0.874,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "panel",
+   "factcheck",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00114/narrator@2.a2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "chair@1",
+  "resumed_from_checkpoint": null,
+  "trace_id": "9ba5117d50c21623"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 5004300,
+ "t_out_ms": 5012300,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_030"
+  ]
+ },
+ "text": {
+  "body": "Choosing the pass option changes the success rate to 60%.",
+  "headline": "Clearance vs Pass Debate"
+ },
+ "verified": true
+}

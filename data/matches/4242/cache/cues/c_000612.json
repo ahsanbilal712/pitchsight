@@ -1,0 +1,134 @@
+{
+ "clock": "41:57",
+ "cue_id": "c_000612",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_025117"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "central 3v1 overload in the middle third",
+    "unit": null,
+    "value": "overload_centre_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000052"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "5%",
+    "unit": "p_goal",
+    "value": 0.0452,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000052"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "9%",
+    "unit": "p_goal",
+    "value": 0.0948,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "pc_025117"
+    ],
+    "kind": "tactical",
+    "reject_reason": null,
+    "text": "3v1 overload on the right of the middle third",
+    "unit": null,
+    "value": "overload_right_middle_third",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000052"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "1 point",
+    "unit": "win_prob_delta",
+    "value": -0.0069,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "cf_000052"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "8-second",
+    "unit": "seconds",
+    "value": 8.0,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": "cf_000052",
+  "explanation_id": null,
+  "why": "The panel assesses an attack through the midfield. The team creates a central 3v1 overload in the middle third while also setting up a 3v1 overload on the right of the middle third."
+ },
+ "graphics": {
+  "bar": {
+   "from": 0.3072,
+   "label": "Verdant win chance",
+   "to": 0.3003
+  },
+  "lines": [],
+  "pitch_control_snapshot": "pc_025117",
+  "players_highlight": []
+ },
+ "kind": "sliding_doors",
+ "layer": "options_card",
+ "leverage": 0.0604,
+ "match_id": "m_4242",
+ "moment_id": "mo_00061",
+ "period": 1,
+ "priority": 0.86,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "ingest",
+   "scout",
+   "panel",
+   "factcheck",
+   "narrator",
+   "factcheck",
+   "director",
+   "cuebus"
+  ],
+  "cache_key": "m_4242/mo_00061/narrator@2.a2/gemini-3.8-flash/s4242",
+  "mode": "replay",
+  "model": "gemini-3.8-flash",
+  "prompt_version": "chair@1",
+  "resumed_from_checkpoint": null,
+  "trace_id": "9bc2916ddb89b798"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2517800,
+ "t_out_ms": 2525800,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_046"
+  ]
+ },
+ "text": {
+  "body": "The panel assesses an attack through the midfield. The team creates a central 3v1 overload in the middle third while also setting up a 3v1 overload on the right of the middle third.",
+  "headline": "Pundits Debate Attack Options in Midfield"
+ },
+ "verified": true
+}

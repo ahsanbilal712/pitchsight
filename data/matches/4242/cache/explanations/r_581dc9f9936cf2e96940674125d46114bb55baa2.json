@@ -1,5 +1,6 @@
 {
  "$schema": "model_cache.schema.json",
+ "hand_reviewed": true,
  "json": {
   "claims": [
    {
@@ -32,15 +33,6 @@
    },
    {
     "evidence_ids": [
-     "pc_050042"
-    ],
-    "kind": "number",
-    "text": "68%",
-    "unit": "percent",
-    "value_number": 0.6769
-   },
-   {
-    "evidence_ids": [
      "cf_000081"
     ],
     "kind": "number",
@@ -59,12 +51,12 @@
    }
   ],
   "confidence": 0.92,
-  "why": "In the 84th minute, under pressure from Tolliver, Dimitriou clears the ball into the middle third where Verdant hold 68% pitch control, leaving them a 2% goal chance. Passing to Kian Marchetti instead drops Verdant's goal chance to 0% and cuts their win probability by 2 points."
+  "why": "In the 84th minute, under Tolliver's pressure, Dimitriou clears into the middle third and Verdant keep a 2% goal chance. A pass to Marchetti instead would have cut Verdant's win chance by 2 points."
  },
  "record": "model_result",
  "round": 6,
  "schema_version": "1.0.0",
- "text": "{\"why\":\"In the 84th minute, under pressure from Tolliver, Dimitriou clears the ball into the middle third where Verdant hold 68% pitch control, leaving them a 2% goal chance. Passing to Kian Marchetti instead drops Verdant's goal chance to 0% and cuts their win probability by 2 points.\",\"confidence\":0.92,\"claims\":[{\"text\":\"84th minute\",\"kind\":\"minute\",\"value_number\":84,\"unit\":\"minute\",\"evidence_ids\":[\"e_3445\"]},{\"text\":\"Tolliver\",\"kind\":\"player\",\"value_text\":\"p_021\",\"unit\":\"\",\"evidence_ids\":[\"e_3444\"]},{\"text\":\"Dimitriou\",\"kind\":\"player\",\"value_text\":\"p_030\",\"unit\":\"\",\"evidence_ids\":[\"e_3445\",\"cf_000081\"]},{\"text\":\"68%\",\"kind\":\"number\",\"value_number\":0.6769,\"unit\":\"percent\",\"evidence_ids\":[\"pc_050042\"]},{\"text\":\"2%\",\"kind\":\"number\",\"value_number\":0.0219,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000081\"]},{\"text\":\"2 points\",\"kind\":\"number\",\"value_number\":-0.0175,\"unit\":\"win_prob_delta\",\"evidence_ids\":[\"cf_000081\"]}]}",
- "verified": false,
+ "text": "{\"claims\": [{\"evidence_ids\": [\"e_3445\"], \"kind\": \"minute\", \"text\": \"84th minute\", \"unit\": \"minute\", \"value_number\": 84}, {\"evidence_ids\": [\"e_3444\"], \"kind\": \"player\", \"text\": \"Tolliver\", \"unit\": \"\", \"value_text\": \"p_021\"}, {\"evidence_ids\": [\"e_3445\", \"cf_000081\"], \"kind\": \"player\", \"text\": \"Dimitriou\", \"unit\": \"\", \"value_text\": \"p_030\"}, {\"evidence_ids\": [\"cf_000081\"], \"kind\": \"number\", \"text\": \"2%\", \"unit\": \"p_goal\", \"value_number\": 0.0219}, {\"evidence_ids\": [\"cf_000081\"], \"kind\": \"number\", \"text\": \"2 points\", \"unit\": \"win_prob_delta\", \"value_number\": -0.0175}], \"confidence\": 0.92, \"why\": \"In the 84th minute, under Tolliver's pressure, Dimitriou clears into the middle third and Verdant keep a 2% goal chance. A pass to Marchetti instead would have cut Verdant's win chance by 2 points.\"}",
+ "verified": true,
  "via": "live"
 }

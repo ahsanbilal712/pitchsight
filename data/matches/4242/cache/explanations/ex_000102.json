@@ -1,0 +1,90 @@
+{
+ "alternatives_considered": [
+  "pass p_048",
+  "pass p_050",
+  "pass p_039"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_3111",
+    "e_3118"
+   ],
+   "kind": "minute",
+   "reject_reason": null,
+   "text": "77th minute",
+   "unit": "minute",
+   "value": 77,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3111",
+    "e_3112"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Fintan Valcourt",
+   "unit": null,
+   "value": "p_048",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3110"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Lauro Silva",
+   "unit": null,
+   "value": "p_022",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3112",
+    "e_3118"
+   ],
+   "kind": "team",
+   "reject_reason": null,
+   "text": "Ironvale Forge",
+   "unit": null,
+   "value": "ironvale",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3117",
+    "e_3118"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Kian Marchetti",
+   "unit": null,
+   "value": "p_049",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_3117"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "23-metre",
+   "unit": "metres",
+   "value": 23.3,
+   "verified": false
+  }
+ ],
+ "confidence": 0.85,
+ "counterfactual_id": null,
+ "explanation_id": "ex_000102",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00102",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "aad0a070dcec6cc7",
+ "why": "In the 77th minute, Fintan Valcourt intercepts a pass from Lauro Silva to win possession for Ironvale Forge. After recycling play through Kaito Marchetti and Dimitar Thornbury, Kian Marchetti receives a 23-metre progressive pass and carries the ball forward."
+}

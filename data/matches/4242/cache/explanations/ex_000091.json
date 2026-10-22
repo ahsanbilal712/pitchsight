@@ -1,0 +1,97 @@
+{
+ "alternatives_considered": [
+  "pass p_049",
+  "pass p_047"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_2481"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Tolliver",
+   "unit": null,
+   "value": "p_021",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_2479",
+    "e_2482"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Hartigan",
+   "unit": null,
+   "value": "p_025",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000063"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Kian Marchetti",
+   "unit": null,
+   "value": "p_049",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000063"
+   ],
+   "kind": "team",
+   "reject_reason": null,
+   "text": "Verdant",
+   "unit": null,
+   "value": "verdant",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000063"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "1%",
+   "unit": "p_goal",
+   "value": 0.0109,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000063"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "9%",
+   "unit": "p_goal",
+   "value": 0.0923,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000063"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "+4 points",
+   "unit": "win_prob_delta",
+   "value": 0.0421,
+   "verified": false
+  }
+ ],
+ "confidence": 0.95,
+ "counterfactual_id": "cf_000063",
+ "explanation_id": "ex_000091",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00091",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "a3317c9d344b7fe7",
+ "why": "Under immediate pressure from Tolliver after winning an interception deep in his own end, Hartigan makes the safe choice to clear the ball. Attempting a risky pass out to Kian Marchetti instead would raise Verdant's goal chance from 1% to 9% and hand the hosts +4 points in win probability."
+}

@@ -1,0 +1,87 @@
+{
+ "alternatives_considered": [
+  "carry e",
+  "pass p_031"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_1619",
+    "cf_000050"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Okafor",
+   "unit": null,
+   "value": "p_017",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "e_1619",
+    "cf_000050"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Novacek",
+   "unit": null,
+   "value": "p_020",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000050"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Reyes",
+   "unit": null,
+   "value": "p_031",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "pc_024947"
+   ],
+   "kind": "tactical",
+   "reject_reason": null,
+   "text": "3v1 overload on the left of the middle third",
+   "unit": null,
+   "value": "overload_left_middle_third",
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000050"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "1%",
+   "unit": "p_goal",
+   "value": 0.0093,
+   "verified": false
+  },
+  {
+   "evidence_ids": [
+    "cf_000050"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "6%",
+   "unit": "p_goal",
+   "value": 0.0612,
+   "verified": false
+  }
+ ],
+ "confidence": 0.92,
+ "counterfactual_id": "cf_000050",
+ "explanation_id": "ex_000060",
+ "match_id": "m_4242",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00060",
+ "prompt_version": "tactician@3",
+ "schema_version": "1.0.0",
+ "tool_trace_id": "83d18c80d71e177d",
+ "why": "Under pressure, Okafor forces an incomplete pass toward Novacek when switching play back to Reyes to exploit a 3v1 overload on the left of the middle third lifts goal probability from 1% to 6%."
+}
