@@ -101,6 +101,10 @@ def stage_newsroom(seed: int, manifest: CacheManifest, events: list[dict], windo
     tasks, jobs = asyncio.run(go())
     cues = [c for t in tasks for c in t.result()["outputs"] if isinstance(c, dict)]
     judged = verdicts(bb, client)
+    if (manifest.cache_dir / "manifest.json").exists():
+        # a batch run takes hours: re-read the manifest so entries other stages saved meanwhile are kept
+        fresh = CacheManifest.load(manifest.cache_dir)
+        manifest.data, manifest._by_key = fresh.data, fresh._by_key
     keep = [e for e in manifest.entries if not (
         e.get("producer") in MODEL_PRODUCERS + TOOL_PRODUCERS + ("evidence",)
         or (e.get("producer") == "rollout" and e["path"].startswith("counterfactuals/x_")))]

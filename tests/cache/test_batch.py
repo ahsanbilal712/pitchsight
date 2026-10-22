@@ -79,7 +79,18 @@ def precomputed(tmp_path_factory):
     shutil.copytree(GOLDEN / "cache", d / "cache")
     manifest = CacheManifest.load(d / "cache")
     events = [json.loads(line) for line in (d / "events.jsonl").read_text().splitlines()]
-    runner = FakeRunner(fake_model)
+    seen_first = {}
+
+    def model_and_concurrent_write(r):
+        if not seen_first:   # another stage saves the manifest while the batch rounds run
+            seen_first["done"] = True
+            other = CacheManifest.load(d / "cache")
+            other.add(CacheManifest.key("m_4242", None, "decision_index", "decision_index@1", None, 4242),
+                      "analytics", {"x": 1}, "analytics/concurrent.json", producer="decision_index", seed=4242)
+            other.save()
+        return fake_model(r)
+
+    runner = FakeRunner(model_and_concurrent_write)
     args = types.SimpleNamespace(mode="batch", runner=runner, moments=",".join(MOMENTS),
                                  runtime_dir=tmp_path_factory.mktemp("runtime"))
     summary = stage_newsroom(4242, manifest, events, None, args)
@@ -108,6 +119,7 @@ def test_every_cached_line_has_a_fact_checker_verdict(precomputed):
     for e in m.find(producer="tactician"):
         assert "verified" in m.read(e)
     assert m.find(producer="evidence") and m.verify_hashes()
+    assert m.find(path="analytics/concurrent.json")       # a write made during the run survives the stage's save
 
 
 def test_replay_has_zero_cache_misses_and_the_same_cues(precomputed, tmp_path):
