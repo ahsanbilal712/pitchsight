@@ -61,3 +61,18 @@ def test_tracks_become_a_moment_with_flipped_y_velocities_and_labels(tmp_path):
     assert np.allclose(apply_h(H, [by["#8"]["image"]])[0], (78.0, 19.0), atol=0.05)
     st = to_state(m)                                                  # fills the rest by role prior and branches
     assert int(st.holder[0]) == st.labels["#8"]
+
+
+def test_keeper_without_kit_cluster_and_team_conflict_are_reported(tmp_path):
+    folder = fixture(tmp_path)
+    path = folder / "tracks" / "62.json"
+    doc = json.loads(path.read_text())
+    sample = doc["frames"][1]["players"]
+    sample[2] = {**sample[2], "team": None, "role": "other"}         # keeper: no kit cluster
+    sample[3] = {**sample[3], "team": 0}                              # an away player clustered as home
+    path.write_text(json.dumps(doc))
+    base = {**BASE, "players": [*BASE["players"], {"team": "away", "label": "C4", "x": 86.0, "y": 28.0}]}
+    m = moment_from_tracks("liverpool-mancity-2526", 875000, base, folder)
+    gk = next(p for p in m["players"] if p["label"] == "GK")
+    assert gk["team"] == "away" and gk["slot"] == "GK"               # home attacks +x: the right goal is away's
+    assert m["team_conflicts"] == [{"label": "C4", "hand_team": "away", "track": "t4", "distance_m": 0.0}]

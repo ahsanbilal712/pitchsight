@@ -22,7 +22,7 @@ from pathlib import Path
 import numpy as np
 
 from footage.clips import CLIPS, ROOT, clip_dir
-from footage.freeze import PITCH_W, moments_dir, save
+from footage.freeze import PITCH_L, PITCH_W, moments_dir, save
 from footage.tag import side
 
 FLIP = np.array([[1.0, 0.0, 0.0], [0.0, -1.0, PITCH_W], [0.0, 0.0, 1.0]])   # (x, y_far) -> (x, y_near)
@@ -67,15 +67,20 @@ def moment_from_tracks(slug: str, clip_ms: int, base: dict | None = None, folder
     dt = (now["frame"] - before["frame"]) / fps
     prev = {p["track_id"]: _flip(p["xy"]) for p in before["players"] if p.get("xy")}
     team_side = {int(k): side(v.get("name", ""), clip) for k, v in tracks["teams"].items()}
+    team_side.update({"home": "home", "away": "away"})
     players = []
     for p in now["players"]:
-        if p.get("role") == "referee" or p.get("team") is None or not p.get("xy"):
+        if p.get("role") == "referee" or not p.get("xy"):
             continue
         x, y = _flip(p["xy"])
+        if p.get("team") is None:                 # keepers come without a kit cluster: the goal they stand in
+            if not (x < 18 or x > PITCH_L - 18) or base is None:
+                continue
+            p = {**p, "role": "goalkeeper", "team": _keeper_team(base, x)}
         vx = vy = 0.0
         if dt > 0 and p["track_id"] in prev:
             vx, vy = (x - prev[p["track_id"]][0]) / dt, (y - prev[p["track_id"]][1]) / dt
-        players.append({"team": team_side[int(p["team"])], "label": f"t{p['track_id']}", "name": None,
+        players.append({"team": team_side[p["team"] if p["team"] in ("home", "away") else int(p["team"])], "label": f"t{p['track_id']}", "name": None,
                         "slot": "GK" if p.get("role") == "goalkeeper" else None, "x": round(x, 2), "y": round(y, 2),
                         "vx": round(vx, 2), "vy": round(vy, 2), "source": "tracking",
                         "image": [round(v) for v in p["foot_px"]], "track_id": p["track_id"]})
@@ -109,6 +114,19 @@ def moment_from_tracks(slug: str, clip_ms: int, base: dict | None = None, folder
     return moment
 
 
+def _keeper_team(base: dict, x: float) -> str:
+    """The team whose keeper defends the goal at this end (from the hand-marked moment's attack direction)."""
+    home_defends_left = base["home_attacks"] == "+x"
+    return "home" if (x < PITCH_L / 2) == home_defends_left else "away"
+
+
+def common_mode_velocity(players: list[dict]) -> tuple[float, float]:
+    """Mean velocity of all tracked players: a large value moving everyone the same way is homography drift
+    between the two frames, not play."""
+    v = np.array([[p["vx"], p["vy"]] for p in players if p["source"] == "tracking"]) if players else np.zeros((0, 2))
+    return (round(float(v[:, 0].mean()), 2), round(float(v[:, 1].mean()), 2)) if len(v) else (0.0, 0.0)
+
+
 def inherit_labels(moment: dict, base: dict) -> dict:
     """Each hand-marked labelled player gives his label and name to the nearest track of his team within 2.5 m; the
     ball holder follows his label. Returns {label: distance_m} for the report."""
@@ -126,6 +144,14 @@ def inherit_labels(moment: dict, base: dict) -> dict:
             moment["players"][i].update(label=h["label"], name=h.get("name"),
                                         slot=h.get("slot") if h.get("slot") == "GK" else moment["players"][i]["slot"])
             dist[h["label"]] = round(d, 2)
+            continue
+        # a track of the other team on the same spot: the kit cluster and the hand mark disagree
+        other = [(math.hypot(p["x"] - h["x"], p["y"] - h["y"]), i) for i, p in enumerate(moment["players"])
+                 if p["team"] != h["team"] and i not in taken and p["label"].startswith("t")]
+        if other and min(other)[0] <= 1.0:
+            moment.setdefault("team_conflicts", []).append(
+                {"label": h["label"], "hand_team": h["team"], "track": moment["players"][min(other)[1]]["label"],
+                 "distance_m": round(min(other)[0], 2)})
     if base["ball"].get("holder") in dist:
         moment["ball"]["holder"] = base["ball"]["holder"]
     moment["label_match_m"] = dist
@@ -150,7 +176,9 @@ def main(argv: list[str] | None = None) -> int:
     seen = {p["label"] for p in m["players"] if not p["label"].startswith("t")}
     missing = sorted({p["label"] for p in (base or {}).get("players", []) if p.get("label")} - seen)
     print(json.dumps({"players": len(m["players"]), "labels_matched_m": m.get("label_match_m"),
-                      "hand_labels_without_track": missing, "holder": m["ball"]["holder"]}, indent=1))
+                      "hand_labels_without_track": missing, "team_conflicts": m.get("team_conflicts", []),
+                      "holder": m["ball"]["holder"], "common_mode_velocity": common_mode_velocity(m["players"])},
+                     indent=1))
     if args.write:
         if base:
             (moments_dir(args.slug) / "hand").mkdir(exist_ok=True)
