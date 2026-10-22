@@ -30,7 +30,8 @@ roles:
   tactician_golden:                   # precompute only, golden match, Vertex AI batch prediction
     provider: gemini
     model: gemini-4-argon
-    effort: high
+    effort: low                       # high: all 3000 output tokens on thinking, JSON cut off, 37 s, $0.035 (T-032);
+                                      # low: valid 8-claim explanation, $0.012. Keeps the golden run under $1.50.
     max_tokens: 4000
     output_format: schemas/explanation.schema.json
     tools: []                         # batch jobs cannot run tool rounds: precompute.py pre-resolves
