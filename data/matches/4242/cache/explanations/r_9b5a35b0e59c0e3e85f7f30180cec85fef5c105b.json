@@ -1,0 +1,74 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3392",
+     "e_3396"
+    ],
+    "kind": "player",
+    "text": "Tolliver",
+    "unit": "",
+    "value_text": "p_021"
+   },
+   {
+    "evidence_ids": [
+     "e_3391"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "e_3396",
+     "e_3397"
+    ],
+    "kind": "player",
+    "text": "Bolingbroke",
+    "unit": "",
+    "value_text": "p_023"
+   },
+   {
+    "evidence_ids": [
+     "e_3392",
+     "pc_049210",
+     "cf_000108"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "pc_049210"
+    ],
+    "kind": "number",
+    "text": "14%",
+    "unit": "percent",
+    "value_number": 0.135
+   },
+   {
+    "evidence_ids": [
+     "e_3398",
+     "cf_000108"
+    ],
+    "kind": "player",
+    "text": "Valcourt",
+    "unit": "",
+    "value_text": "p_005"
+   }
+  ],
+  "confidence": 0.95,
+  "why": "After Tolliver intercepts an Ironvale pass and recycles possession through Bolingbroke, Verdant have just 14% control in the attacking third. Valcourt attempts a pass to Rosengren with a 50% completion probability that goes incomplete, though carrying the ball instead keeps Verdant's win probability at 10%."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After Tolliver intercepts an Ironvale pass and recycles possession through Bolingbroke, Verdant have just 14% control in the attacking third. Valcourt attempts a pass to Rosengren with a 50% completion probability that goes incomplete, though carrying the ball instead keeps Verdant's win probability at 10%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Tolliver\",\"kind\":\"player\",\"value_text\":\"p_021\",\"unit\":\"\",\"evidence_ids\":[\"e_3392\",\"e_3396\"]},{\"text\":\"Ironvale\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_3391\"]},{\"text\":\"Bolingbroke\",\"kind\":\"player\",\"value_text\":\"p_023\",\"unit\":\"\",\"evidence_ids\":[\"e_3396\",\"e_3397\"]},{\"text\":\"Verdant\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"e_3392\",\"pc_049210\",\"cf_000108\"]},{\"text\":\"14%\",\"kind\":\"number\",\"value_number\":0.135,\"unit\":\"percent\",\"evidence_ids\":[\"pc_049210\"]},{\"text\":\"Valcourt\",\"kind\":\"player\",\"value_text\":\"p_005\",\"unit\":\"\",\"evidence_ids\":[\"e_3398\",\"cf_000108\"]}]}",
+ "verified": false,
+ "via": "live"
+}

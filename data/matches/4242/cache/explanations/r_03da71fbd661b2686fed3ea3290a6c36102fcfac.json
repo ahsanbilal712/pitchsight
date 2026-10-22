@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1636",
+     "e_1637"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "e_1639",
+     "cf_000052"
+    ],
+    "kind": "player",
+    "text": "Bastian Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "e_1639"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "cf_000052"
+    ],
+    "kind": "number",
+    "text": "5%",
+    "unit": "p_goal",
+    "value_number": 0.0452
+   },
+   {
+    "evidence_ids": [
+     "e_1640"
+    ],
+    "kind": "player",
+    "text": "Fennimore",
+    "unit": "",
+    "value_text": "p_001"
+   },
+   {
+    "evidence_ids": [
+     "cf_000052"
+    ],
+    "kind": "number",
+    "text": "9%",
+    "unit": "p_goal",
+    "value_number": 0.0948
+   }
+  ],
+  "confidence": 0.92,
+  "why": "After exchanging passes with Grabowski, Bastian Sandoval takes an immediate shot for Ironvale that carries a 5% goal probability and is saved by Fennimore. Carrying the ball further into the penalty box instead doubles the scoring chance to 9%."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After exchanging passes with Grabowski, Bastian Sandoval takes an immediate shot for Ironvale that carries a 5% goal probability and is saved by Fennimore. Carrying the ball further into the penalty box instead doubles the scoring chance to 9%.\",\"confidence\":0.92,\"claims\":[{\"text\":\"Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"e_1636\",\"e_1637\"]},{\"text\":\"Bastian Sandoval\",\"kind\":\"player\",\"value_text\":\"p_046\",\"unit\":\"\",\"evidence_ids\":[\"e_1639\",\"cf_000052\"]},{\"text\":\"Ironvale\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_1639\"]},{\"text\":\"5%\",\"kind\":\"number\",\"value_number\":0.0452,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000052\"]},{\"text\":\"Fennimore\",\"kind\":\"player\",\"value_text\":\"p_001\",\"unit\":\"\",\"evidence_ids\":[\"e_1640\"]},{\"text\":\"9%\",\"kind\":\"number\",\"value_number\":0.0948,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000052\"]}]}",
+ "verified": true,
+ "via": "live"
+}

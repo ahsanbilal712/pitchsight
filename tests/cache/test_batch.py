@@ -77,6 +77,7 @@ def precomputed(tmp_path_factory):
     for name in ("events.jsonl", "tracking.npz"):
         (d / name).symlink_to(GOLDEN / name)
     shutil.copytree(GOLDEN / "cache", d / "cache")
+    (d / "cache" / "batches.json").unlink(missing_ok=True)       # this test's run is the only one in its log
     manifest = CacheManifest.load(d / "cache")
     events = [json.loads(line) for line in (d / "events.jsonl").read_text().splitlines()]
     seen_first = {}
@@ -115,7 +116,10 @@ def test_every_cached_line_has_a_fact_checker_verdict(precomputed):
     lines = m.find(kind="fast_line")
     assert lines
     for e in lines:
-        assert m.read(e)["verified"] in (True, False), e["key"]
+        payload = m.read(e)
+        if payload.get("error"):           # a call that failed in the golden run has no line to judge
+            continue
+        assert payload["verified"] in (True, False), e["key"]
     for e in m.find(producer="tactician"):
         assert "verified" in m.read(e)
     assert m.find(producer="evidence") and m.verify_hashes()

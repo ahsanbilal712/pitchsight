@@ -1,0 +1,54 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1440",
+     "e_1443",
+     "e_1445"
+    ],
+    "kind": "player",
+    "text": "Bastian Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "e_1442",
+     "e_1444"
+    ],
+    "kind": "player",
+    "text": "Zoltan Fennimore",
+    "unit": "",
+    "value_text": "p_001"
+   },
+   {
+    "evidence_ids": [
+     "e_1445"
+    ],
+    "kind": "number",
+    "text": "0.21 xG",
+    "unit": "xg",
+    "value_number": 0.213
+   },
+   {
+    "evidence_ids": [
+     "e_1445"
+    ],
+    "kind": "number",
+    "text": "6.3 metres",
+    "unit": "metres",
+    "value_number": 6.309
+   }
+  ],
+  "confidence": 0.9,
+  "why": "Bastian Sandoval presses Zoltan Fennimore to force a turnover after a clearance, resulting in a blocked shot worth 0.21 xG from 6.3 metres out."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Bastian Sandoval presses Zoltan Fennimore to force a turnover after a clearance, resulting in a blocked shot worth 0.21 xG from 6.3 metres out.\",\"confidence\":0.9,\"claims\":[{\"text\":\"Bastian Sandoval\",\"kind\":\"player\",\"value_text\":\"p_046\",\"unit\":\"\",\"evidence_ids\":[\"e_1440\",\"e_1443\",\"e_1445\"]},{\"text\":\"Zoltan Fennimore\",\"kind\":\"player\",\"value_text\":\"p_001\",\"unit\":\"\",\"evidence_ids\":[\"e_1442\",\"e_1444\"]},{\"text\":\"0.21 xG\",\"kind\":\"number\",\"value_number\":0.213,\"unit\":\"xg\",\"evidence_ids\":[\"e_1445\"]},{\"text\":\"6.3 metres\",\"kind\":\"number\",\"value_number\":6.309,\"unit\":\"metres\",\"evidence_ids\":[\"e_1445\"]}]}",
+ "verified": true,
+ "via": "live"
+}

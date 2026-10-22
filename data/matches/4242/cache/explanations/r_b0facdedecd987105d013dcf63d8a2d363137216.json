@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3218",
+     "cf_000074"
+    ],
+    "kind": "player",
+    "text": "Kian Marchetti",
+    "unit": "",
+    "value_text": "p_049"
+   },
+   {
+    "evidence_ids": [
+     "e_3218",
+     "cf_000074"
+    ],
+    "kind": "player",
+    "text": "Fintan Valcourt",
+    "unit": "",
+    "value_text": "p_048"
+   },
+   {
+    "evidence_ids": [
+     "e_3219"
+    ],
+    "kind": "player",
+    "text": "Jasper Cavendale",
+    "unit": "",
+    "value_text": "p_012"
+   },
+   {
+    "evidence_ids": [
+     "cf_000074"
+    ],
+    "kind": "number",
+    "text": "5%",
+    "unit": "p_goal",
+    "value_number": 0.0513
+   },
+   {
+    "evidence_ids": [
+     "pc_047161"
+    ],
+    "kind": "tactical",
+    "text": "3v0 overload in the right middle third",
+    "unit": "",
+    "value_text": "overload_right_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000074"
+    ],
+    "kind": "number",
+    "text": "12%",
+    "unit": "p_goal",
+    "value_number": 0.1175
+   }
+  ],
+  "confidence": 0.95,
+  "why": "In transition, Kian Marchetti passes toward Fintan Valcourt, which is intercepted by Jasper Cavendale and limits Ironvale's goal chance to 5%. With a 3v0 overload in the right middle third, switching play to Bram Rossiter instead lifts the goal probability to 12%."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"In transition, Kian Marchetti passes toward Fintan Valcourt, which is intercepted by Jasper Cavendale and limits Ironvale's goal chance to 5%. With a 3v0 overload in the right middle third, switching play to Bram Rossiter instead lifts the goal probability to 12%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Kian Marchetti\",\"kind\":\"player\",\"value_text\":\"p_049\",\"unit\":\"\",\"evidence_ids\":[\"e_3218\",\"cf_000074\"]},{\"text\":\"Fintan Valcourt\",\"kind\":\"player\",\"value_text\":\"p_048\",\"unit\":\"\",\"evidence_ids\":[\"e_3218\",\"cf_000074\"]},{\"text\":\"Jasper Cavendale\",\"kind\":\"player\",\"value_text\":\"p_012\",\"unit\":\"\",\"evidence_ids\":[\"e_3219\"]},{\"text\":\"5%\",\"kind\":\"number\",\"value_number\":0.0513,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000074\"]},{\"text\":\"3v0 overload in the right middle third\",\"kind\":\"tactical\",\"value_text\":\"overload_right_middle_third\",\"unit\":\"\",\"evidence_ids\":[\"pc_047161\"]},{\"text\":\"12%\",\"kind\":\"number\",\"value_number\":0.1175,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000074\"]}]}",
+ "verified": true,
+ "via": "live"
+}

@@ -1,0 +1,75 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1349",
+     "e_1354"
+    ],
+    "kind": "player",
+    "text": "Zoltan Fennimore",
+    "unit": "",
+    "value_text": "p_001"
+   },
+   {
+    "evidence_ids": [
+     "e_1348",
+     "e_1351",
+     "e_1353",
+     "e_1355"
+    ],
+    "kind": "player",
+    "text": "Bastian Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "e_1348"
+    ],
+    "kind": "number",
+    "text": "0.06 xG",
+    "unit": "xg",
+    "value_number": 0.061
+   },
+   {
+    "evidence_ids": [
+     "e_1353",
+     "e_1355"
+    ],
+    "kind": "team",
+    "text": "Ironvale Forge",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "e_1355"
+    ],
+    "kind": "number",
+    "text": "0.15 xG",
+    "unit": "xg",
+    "value_number": 0.152
+   },
+   {
+    "evidence_ids": [
+     "e_1356",
+     "e_1357"
+    ],
+    "kind": "team",
+    "text": "Verdant Athletic",
+    "unit": "",
+    "value_text": "verdant"
+   }
+  ],
+  "confidence": 0.9,
+  "why": "After Zoltan Fennimore saves Bastian Sandoval's initial 0.06 xG shot, Sandoval presses immediately to win the ball back for Ironvale Forge. Under pressure from Fennimore, Sandoval fires a second effort worth 0.15 xG off target, allowing Verdant Athletic to reset."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"After Zoltan Fennimore saves Bastian Sandoval's initial 0.06 xG shot, Sandoval presses immediately to win the ball back for Ironvale Forge. Under pressure from Fennimore, Sandoval fires a second effort worth 0.15 xG off target, allowing Verdant Athletic to reset.\",\n  \"confidence\": 0.9,\n  \"claims\": [\n    {\n      \"text\": \"Zoltan Fennimore\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_001\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1349\", \"e_1354\"]\n    },\n    {\n      \"text\": \"Bastian Sandoval\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_046\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1348\", \"e_1351\", \"e_1353\", \"e_1355\"]\n    },\n    {\n      \"text\": \"0.06 xG\",\n      \"kind\": \"number\",\n      \"value_number\": 0.061,\n      \"unit\": \"xg\",\n      \"evidence_ids\": [\"e_1348\"]\n    },\n    {\n      \"text\": \"Ironvale Forge\",\n      \"kind\": \"team\",\n      \"value_text\": \"ironvale\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1353\", \"e_1355\"]\n    },\n    {\n      \"text\": \"0.15 xG\",\n      \"kind\": \"number\",\n      \"value_number\": 0.152,\n      \"unit\": \"xg\",\n      \"evidence_ids\": [\"e_1355\"]\n    },\n    {\n      \"text\": \"Verdant Athletic\",\n      \"kind\": \"team\",\n      \"value_text\": \"verdant\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1356\", \"e_1357\"]\n    }\n  ]\n}",
+ "verified": true,
+ "via": "live"
+}

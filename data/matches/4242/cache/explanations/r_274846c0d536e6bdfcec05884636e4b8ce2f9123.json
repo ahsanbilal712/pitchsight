@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3138",
+     "cf_000094"
+    ],
+    "kind": "player",
+    "text": "Bolingbroke",
+    "unit": "",
+    "value_text": "p_023"
+   },
+   {
+    "evidence_ids": [
+     "e_3138",
+     "cf_000094"
+    ],
+    "kind": "player",
+    "text": "Novacek",
+    "unit": "",
+    "value_text": "p_020"
+   },
+   {
+    "evidence_ids": [
+     "pc_046054"
+    ],
+    "kind": "tactical",
+    "text": "3v1 overload in the central middle third",
+    "unit": "",
+    "value_text": "overload_centre_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000094"
+    ],
+    "kind": "number",
+    "text": "1%",
+    "unit": "p_goal",
+    "value_number": 0.011
+   },
+   {
+    "evidence_ids": [
+     "cf_000094"
+    ],
+    "kind": "number",
+    "text": "4%",
+    "unit": "p_goal",
+    "value_number": 0.0391
+   },
+   {
+    "evidence_ids": [
+     "cf_000094"
+    ],
+    "kind": "number",
+    "text": "+2 points",
+    "unit": "win_prob_delta",
+    "value_number": 0.0174
+   }
+  ],
+  "confidence": 0.92,
+  "why": "Bolingbroke passes to Novacek instead of carrying into a 3v1 overload in the central middle third, leaving the scoring chance at 1% instead of 4% and missing a +2 points win-probability gain for Verdant."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"Bolingbroke passes to Novacek instead of carrying into a 3v1 overload in the central middle third, leaving the scoring chance at 1% instead of 4% and missing a +2 points win-probability gain for Verdant.\",\n  \"confidence\": 0.92,\n  \"claims\": [\n    {\n      \"text\": \"Bolingbroke\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_023\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3138\", \"cf_000094\"]\n    },\n    {\n      \"text\": \"Novacek\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_020\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3138\", \"cf_000094\"]\n    },\n    {\n      \"text\": \"3v1 overload in the central middle third\",\n      \"kind\": \"tactical\",\n      \"value_text\": \"overload_centre_middle_third\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"pc_046054\"]\n    },\n    {\n      \"text\": \"1%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.011,\n      \"unit\": \"p_goal\",\n      \"evidence_ids\": [\"cf_000094\"]\n    },\n    {\n      \"text\": \"4%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.0391,\n      \"unit\": \"p_goal\",\n      \"evidence_ids\": [\"cf_000094\"]\n    },\n    {\n      \"text\": \"+2 points\",\n      \"kind\": \"number\",\n      \"value_number\": 0.0174,\n      \"unit\": \"win_prob_delta\",\n      \"evidence_ids\": [\"cf_000094\"]\n    }\n  ]\n}",
+ "verified": true,
+ "via": "live"
+}

@@ -1,0 +1,72 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3460"
+    ],
+    "kind": "minute",
+    "text": "84th minute",
+    "unit": "minute",
+    "value_number": 84
+   },
+   {
+    "evidence_ids": [
+     "e_3456",
+     "e_3459",
+     "e_3460"
+    ],
+    "kind": "player",
+    "text": "Sacha Tolliver",
+    "unit": "",
+    "value_text": "p_021"
+   },
+   {
+    "evidence_ids": [
+     "e_3455",
+     "e_3458"
+    ],
+    "kind": "player",
+    "text": "Anselm Ortega-Bell",
+    "unit": "",
+    "value_text": "p_026"
+   },
+   {
+    "evidence_ids": [
+     "e_3459"
+    ],
+    "kind": "number",
+    "text": "0.17 xG",
+    "unit": "xg",
+    "value_number": 0.167
+   },
+   {
+    "evidence_ids": [
+     "e_3459"
+    ],
+    "kind": "number",
+    "text": "110 km/h",
+    "unit": "kmh",
+    "value_number": 109.826
+   },
+   {
+    "evidence_ids": [
+     "e_3460"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   }
+  ],
+  "confidence": 0.95,
+  "why": "In the 84th minute, Sacha Tolliver intercepts an errant pass from Ironvale goalkeeper Anselm Ortega-Bell deep in the box. Under pressure from Ortega-Bell, Tolliver fires a 0.17 xG shot at 110 km/h to score for Verdant."
+ },
+ "record": "model_result",
+ "round": 7,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"In the 84th minute, Sacha Tolliver intercepts an errant pass from Ironvale goalkeeper Anselm Ortega-Bell deep in the box. Under pressure from Ortega-Bell, Tolliver fires a 0.17 xG shot at 110 km/h to score for Verdant.\",\"confidence\":0.95,\"claims\":[{\"text\":\"84th minute\",\"kind\":\"minute\",\"value_number\":84,\"unit\":\"minute\",\"evidence_ids\":[\"e_3460\"]},{\"text\":\"Sacha Tolliver\",\"kind\":\"player\",\"value_text\":\"p_021\",\"unit\":\"\",\"evidence_ids\":[\"e_3456\",\"e_3459\",\"e_3460\"]},{\"text\":\"Anselm Ortega-Bell\",\"kind\":\"player\",\"value_text\":\"p_026\",\"unit\":\"\",\"evidence_ids\":[\"e_3455\",\"e_3458\"]},{\"text\":\"0.17 xG\",\"kind\":\"number\",\"value_number\":0.167,\"unit\":\"xg\",\"evidence_ids\":[\"e_3459\"]},{\"text\":\"110 km/h\",\"kind\":\"number\",\"value_number\":109.826,\"unit\":\"kmh\",\"evidence_ids\":[\"e_3459\"]},{\"text\":\"Verdant\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"e_3460\"]}]}",
+ "verified": true,
+ "via": "live"
+}

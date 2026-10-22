@@ -1,0 +1,80 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1805",
+     "cf_000055"
+    ],
+    "kind": "player",
+    "text": "Tarik Varga",
+    "unit": "",
+    "value_text": "p_047"
+   },
+   {
+    "evidence_ids": [
+     "e_1805",
+     "cf_000055"
+    ],
+    "kind": "player",
+    "text": "Bastian Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "e_1806"
+    ],
+    "kind": "player",
+    "text": "Jasper Cavendale",
+    "unit": "",
+    "value_text": "p_012"
+   },
+   {
+    "evidence_ids": [
+     "pc_027407"
+    ],
+    "kind": "number",
+    "text": "69%",
+    "unit": "percent",
+    "value_number": 0.6929
+   },
+   {
+    "evidence_ids": [
+     "cf_000055"
+    ],
+    "kind": "player",
+    "text": "Kaito Marchetti",
+    "unit": "",
+    "value_text": "p_039"
+   },
+   {
+    "evidence_ids": [
+     "cf_000055"
+    ],
+    "kind": "number",
+    "text": "9%",
+    "unit": "percent",
+    "value_number": 0.088
+   },
+   {
+    "evidence_ids": [
+     "cf_000055"
+    ],
+    "kind": "number",
+    "text": "1%",
+    "unit": "p_goal",
+    "value_number": 0.0136
+   }
+  ],
+  "confidence": 0.85,
+  "why": "Tarik Varga's pass toward Bastian Sandoval is intercepted by Jasper Cavendale in the middle third, where Verdant hold 69% pitch control. Circulating possession back to Kaito Marchetti instead is a 9% option that nonetheless leaves Verdant with a 1% chance of scoring in the next eight seconds."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"Tarik Varga's pass toward Bastian Sandoval is intercepted by Jasper Cavendale in the middle third, where Verdant hold 69% pitch control. Circulating possession back to Kaito Marchetti instead is a 9% option that nonetheless leaves Verdant with a 1% chance of scoring in the next eight seconds.\",\n  \"confidence\": 0.85,\n  \"claims\": [\n    {\n      \"text\": \"Tarik Varga\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_047\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1805\", \"cf_000055\"]\n    },\n    {\n      \"text\": \"Bastian Sandoval\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_046\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1805\", \"cf_000055\"]\n    },\n    {\n      \"text\": \"Jasper Cavendale\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_012\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1806\"]\n    },\n    {\n      \"text\": \"69%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.6929,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"pc_027407\"]\n    },\n    {\n      \"text\": \"Kaito Marchetti\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_039\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"cf_000055\"]\n    },\n    {\n      \"text\": \"9%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.088,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"cf_000055\"]\n    },\n    {\n      \"text\": \"1%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.0136,\n      \"unit\": \"p_goal\",\n      \"evidence_ids\": [\"cf_000055\"]\n    }\n  ]\n}",
+ "verified": false,
+ "via": "live"
+}

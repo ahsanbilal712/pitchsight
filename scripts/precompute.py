@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packages"))
 
 from cache.manifest import CacheManifest  # noqa: E402
-from cache.precompute_models import NEWSROOM_STAGES, stage_newsroom  # noqa: E402
+from cache.precompute_models import NEWSROOM_STAGES, stage_newsroom, stage_recap, stage_replay_check  # noqa: E402
 
 RULES_VERSION = "rules1"
 
@@ -410,7 +410,9 @@ def stage_decision_index(seed: int, manifest: CacheManifest, events: list[dict],
 
 STAGES = {"decision_index": stage_decision_index, "storyboard": stage_storyboard, "analytics": stage_analytics, "moments": stage_moments, "counterfactuals": stage_counterfactuals,
           "fourth_official": stage_fourth_official, "oracle": stage_oracle, "dugout": stage_dugout,
-          **dict.fromkeys(NEWSROOM_STAGES, stage_newsroom)}       # T-042 model calls (cache/precompute_models.py)
+          **dict.fromkeys(NEWSROOM_STAGES, stage_newsroom),       # T-042 model calls (cache/precompute_models.py)
+          "recap": stage_recap,                                   # T-050 half-time and full-time recaps
+          "replay_check": stage_replay_check}                     # T-042: replay from the cache, count misses
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -423,6 +425,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--bucket", default=None, help="gs:// bucket for Vertex AI batch input/output (T-042)")
     ap.add_argument("--moments", default=None, help="comma list of moment ids (partial model stages, T-042)")
+    ap.add_argument("--repair", action="store_true", help="replay_check: cache what no model call is needed for")
     args = ap.parse_args(argv)
     stages = [s for s in args.stages.split(",") if s]
     unknown = [s for s in stages if s not in STAGES]

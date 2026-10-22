@@ -1,0 +1,73 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3529",
+     "e_3532"
+    ],
+    "kind": "player",
+    "text": "Ortega-Bell",
+    "unit": "",
+    "value_text": "p_026"
+   },
+   {
+    "evidence_ids": [
+     "e_3528"
+    ],
+    "kind": "number",
+    "text": "0.05 xG",
+    "unit": "xg",
+    "value_number": 0.05
+   },
+   {
+    "evidence_ids": [
+     "e_3531",
+     "e_3533",
+     "e_3535",
+     "e_3536"
+    ],
+    "kind": "player",
+    "text": "Tolliver",
+    "unit": "",
+    "value_text": "p_021"
+   },
+   {
+    "evidence_ids": [
+     "e_3535"
+    ],
+    "kind": "number",
+    "text": "106.2 km/h",
+    "unit": "kmh",
+    "value_number": 106.237
+   },
+   {
+    "evidence_ids": [
+     "e_3535"
+    ],
+    "kind": "number",
+    "text": "8.4 metres",
+    "unit": "metres",
+    "value_number": 8.424
+   },
+   {
+    "evidence_ids": [
+     "e_3535"
+    ],
+    "kind": "number",
+    "text": "0.11 xG",
+    "unit": "xg",
+    "value_number": 0.114
+   }
+  ],
+  "confidence": 0.95,
+  "why": "After Ortega-Bell saves an initial 0.05 xG effort, Tolliver immediately presses the goalkeeper and wins the ball back off a clearance. Tolliver then fires a 106.2 km/h strike from 8.4 metres out, converting a 0.11 xG chance for Verdant Athletic."
+ },
+ "record": "model_result",
+ "round": 7,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"After Ortega-Bell saves an initial 0.05 xG effort, Tolliver immediately presses the goalkeeper and wins the ball back off a clearance. Tolliver then fires a 106.2 km/h strike from 8.4 metres out, converting a 0.11 xG chance for Verdant Athletic.\",\n  \"confidence\": 0.95,\n  \"claims\": [\n    {\n      \"text\": \"Ortega-Bell\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_026\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3529\", \"e_3532\"]\n    },\n    {\n      \"text\": \"0.05 xG\",\n      \"kind\": \"number\",\n      \"value_number\": 0.05,\n      \"unit\": \"xg\",\n      \"evidence_ids\": [\"e_3528\"]\n    },\n    {\n      \"text\": \"Tolliver\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_021\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3531\", \"e_3533\", \"e_3535\", \"e_3536\"]\n    },\n    {\n      \"text\": \"106.2 km/h\",\n      \"kind\": \"number\",\n      \"value_number\": 106.237,\n      \"unit\": \"kmh\",\n      \"evidence_ids\": [\"e_3535\"]\n    },\n    {\n      \"text\": \"8.4 metres\",\n      \"kind\": \"number\",\n      \"value_number\": 8.424,\n      \"unit\": \"metres\",\n      \"evidence_ids\": [\"e_3535\"]\n    },\n    {\n      \"text\": \"0.11 xG\",\n      \"kind\": \"number\",\n      \"value_number\": 0.114,\n      \"unit\": \"xg\",\n      \"evidence_ids\": [\"e_3535\"]\n    }\n  ]\n}",
+ "verified": true,
+ "via": "live"
+}

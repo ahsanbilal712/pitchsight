@@ -148,7 +148,7 @@ class LiveClient:
         rounds = int(ctx.get("max_tool_rounds", r.max_tool_rounds))
         client = self._tool_client(r.provider, rounds) if tools else self._client(r.provider)
         timeout = ctx.get("timeout_s") or r.timeout_s
-        hedge = r.extra.get("hedge_after_s")
+        hedge = ctx["hedge_after_s"] if "hedge_after_s" in ctx else r.extra.get("hedge_after_s")
         opts = self.options(r, ctx.get("schema"), tools)
         calls = rounds + 1 if tools else 1
 

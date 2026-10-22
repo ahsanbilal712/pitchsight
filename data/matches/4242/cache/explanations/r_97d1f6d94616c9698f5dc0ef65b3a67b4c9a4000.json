@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3597"
+    ],
+    "kind": "player",
+    "text": "Kian Marchetti",
+    "unit": "",
+    "value_text": "p_049"
+   },
+   {
+    "evidence_ids": [
+     "e_3597",
+     "e_3598"
+    ],
+    "kind": "player",
+    "text": "Bram Rossiter",
+    "unit": "",
+    "value_text": "p_050"
+   },
+   {
+    "evidence_ids": [
+     "e_3597"
+    ],
+    "kind": "number",
+    "text": "42.4 m",
+    "unit": "metres",
+    "value_number": 42.352
+   },
+   {
+    "evidence_ids": [
+     "e_3597",
+     "e_3598"
+    ],
+    "kind": "team",
+    "text": "Ironvale Forge",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "e_3598"
+    ],
+    "kind": "number",
+    "text": "4.7 m",
+    "unit": "metres",
+    "value_number": 4.689
+   },
+   {
+    "evidence_ids": [
+     "e_3599"
+    ],
+    "kind": "player",
+    "text": "Bram Rosengren",
+    "unit": "",
+    "value_text": "p_024"
+   }
+  ],
+  "confidence": 0.85,
+  "why": "Kian Marchetti switches play to Bram Rossiter with a 42.4 m pass for Ironvale Forge. Rossiter carries the ball 4.7 m forward as Verdant Athletic forward Bram Rosengren applies pressure."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"Kian Marchetti switches play to Bram Rossiter with a 42.4 m pass for Ironvale Forge. Rossiter carries the ball 4.7 m forward as Verdant Athletic forward Bram Rosengren applies pressure.\",\n  \"confidence\": 0.85,\n  \"claims\": [\n    {\n      \"text\": \"Kian Marchetti\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_049\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3597\"]\n    },\n    {\n      \"text\": \"Bram Rossiter\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_050\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3597\", \"e_3598\"]\n    },\n    {\n      \"text\": \"42.4 m\",\n      \"kind\": \"number\",\n      \"value_number\": 42.352,\n      \"unit\": \"metres\",\n      \"evidence_ids\": [\"e_3597\"]\n    },\n    {\n      \"text\": \"Ironvale Forge\",\n      \"kind\": \"team\",\n      \"value_text\": \"ironvale\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3597\", \"e_3598\"]\n    },\n    {\n      \"text\": \"4.7 m\",\n      \"kind\": \"number\",\n      \"value_number\": 4.689,\n      \"unit\": \"metres\",\n      \"evidence_ids\": [\"e_3598\"]\n    },\n    {\n      \"text\": \"Bram Rosengren\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_024\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3599\"]\n    }\n  ]\n}",
+ "verified": true,
+ "via": "live"
+}

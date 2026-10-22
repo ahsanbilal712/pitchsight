@@ -1,0 +1,72 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3556"
+    ],
+    "kind": "player",
+    "text": "Bolingbroke",
+    "unit": "",
+    "value_text": "p_023"
+   },
+   {
+    "evidence_ids": [
+     "e_3556",
+     "e_3558"
+    ],
+    "kind": "player",
+    "text": "Tolliver",
+    "unit": "",
+    "value_text": "p_021"
+   },
+   {
+    "evidence_ids": [
+     "e_3558"
+    ],
+    "kind": "number",
+    "text": "8.4 metres",
+    "unit": "metres",
+    "value_number": 8.384
+   },
+   {
+    "evidence_ids": [
+     "e_3558"
+    ],
+    "kind": "number",
+    "text": "0.09 xG",
+    "unit": "xg",
+    "value_number": 0.09
+   },
+   {
+    "evidence_ids": [
+     "e_3557",
+     "e_3559"
+    ],
+    "kind": "player",
+    "text": "Ortega-Bell",
+    "unit": "",
+    "value_text": "p_026"
+   },
+   {
+    "evidence_ids": [
+     "e_3557",
+     "e_3559"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_text": "ironvale"
+   }
+  ],
+  "confidence": 0.85,
+  "why": "After receiving a pass from Bolingbroke, Tolliver fires a shot from 8.4 metres out worth 0.09 xG, but Ortega-Bell closes down the angle to block it and recover possession for Ironvale."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After receiving a pass from Bolingbroke, Tolliver fires a shot from 8.4 metres out worth 0.09 xG, but Ortega-Bell closes down the angle to block it and recover possession for Ironvale.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Bolingbroke\",\"kind\":\"player\",\"value_text\":\"p_023\",\"unit\":\"\",\"evidence_ids\":[\"e_3556\"]},{\"text\":\"Tolliver\",\"kind\":\"player\",\"value_text\":\"p_021\",\"unit\":\"\",\"evidence_ids\":[\"e_3556\",\"e_3558\"]},{\"text\":\"8.4 metres\",\"kind\":\"number\",\"value_number\":8.384,\"unit\":\"metres\",\"evidence_ids\":[\"e_3558\"]},{\"text\":\"0.09 xG\",\"kind\":\"number\",\"value_number\":0.09,\"unit\":\"xg\",\"evidence_ids\":[\"e_3558\"]},{\"text\":\"Ortega-Bell\",\"kind\":\"player\",\"value_text\":\"p_026\",\"unit\":\"\",\"evidence_ids\":[\"e_3557\",\"e_3559\"]},{\"text\":\"Ironvale\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_3557\",\"e_3559\"]}]}",
+ "verified": true,
+ "via": "live"
+}

@@ -38,11 +38,12 @@ from cache.manifest import CacheManifest
 
 log = logging.getLogger("whyline.batch")
 
-GOLDEN_ROLES = {"tactician_live": "tactician_golden", "panel_pundit": "panel_pundit_golden"}
+GOLDEN_ROLES = {"tactician_live": "tactician_golden", "panel_pundit": "panel_pundit_golden", "recap_live": "recap"}
 # replay waits this long before serving (TECH_PLAN 1.8): the measured live latency of the live role (T-032, T-041)
-LIVE_LATENCY_MS = {"proposer": 2300, "tactician": 3700, "narrator": 2100, "fast_line": 2100, "panel_pundit": 3800,
+LIVE_LATENCY_MS = {"recap": 20000, "proposer": 2300, "tactician": 3700, "narrator": 2100, "fast_line": 2100, "panel_pundit": 3800,
                    "panel_chair": 2000}
 CUSTOM_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+RECORD = {"$schema": "model_cache.schema.json", "schema_version": "1.0.0"}   # schemas/model_cache.schema.json
 
 
 def custom_id_for(key: str) -> str:
@@ -151,22 +152,28 @@ class LiveRunner:
         self.client = client or LiveClient(mode="precompute")
         self.sem = asyncio.Semaphore(concurrency)
         self.budget_usd = budget_usd          # the ticket's limit: no call starts once this much is spent
-        self.spent = 0.0
+        guard = getattr(self.client, "guard", None)
+        self._ledger_start = guard.total if guard is not None else None
+
+    def spent(self) -> float:
+        """Ledger spend since this runner started, worst-case rows for abandoned calls included."""
+        guard = getattr(self.client, "guard", None)
+        return 0.0 if guard is None or self._ledger_start is None else guard.total - self._ledger_start
 
     async def one(self, r: BatchRequest) -> BatchResult:
         from newsroom.llm import LLMError
 
         async with self.sem:
-            if self.budget_usd is not None and self.spent >= self.budget_usd:
+            if self.budget_usd is not None and self.spent() >= self.budget_usd:
                 return BatchResult("", None, 0, 0, 0.0, "live", error=f"precompute budget ${self.budget_usd:.2f} spent")
             try:
                 res = await self.client.complete(r.role, r.messages, None, match_id=r.ctx.get("match_id"),
-                                                 schema=r.schema, timeout_s=120, max_tool_rounds=0)
+                                                 schema=r.schema, timeout_s=120, max_tool_rounds=0,
+                                                 hedge_after_s=None)   # no viewer waiting: no duplicate requests
             except LLMError as exc:
                 return BatchResult("", None, 0, 0, 0.0, "live", error=str(exc))
             except Exception as exc:  # SpendCapReached: a failed request, never a crashed run
                 return BatchResult("", None, 0, 0, 0.0, "live", error=f"{type(exc).__name__}: {exc}")
-            self.spent += res["cost_usd"]
             return BatchResult(res["text"], res["json"], res["tokens_in"], res["tokens_out"], res["cost_usd"], "live")
 
     async def run(self, requests: list[BatchRequest]) -> tuple[dict[str, BatchResult], list[dict]]:
@@ -352,6 +359,8 @@ class RecordingTools:
                     out = await self.local.call(name, args)
                     if isinstance(out, dict) and "counterfactual_id" in out:
                         self.new_cfs[out["counterfactual_id"]] = out
+                    else:   # the engine could not play it: cache the error so replay skips it the same way
+                        self.calls[tool_key(args.get("match_id", ""), name, args, self.cache.seed)] = (name, args, out)
                 return out
             out = await self.local.call(name, args)
             key = tool_key(args.get("match_id", ""), name, args, self.cache.seed)
@@ -388,17 +397,18 @@ def record_entries(manifest: CacheManifest, client: BatchingClient, tools: Recor
                    seed: int) -> dict:
     """Write every recorded model result, tool result and new counterfactual into the manifest."""
     dirs = {"tactician": "explanations", "proposer": "proposals", "narrator": "fast_lines", "fast_line": "fast_lines",
-            "panel": "panel"}
+            "panel": "panel", "recap": "recaps"}
     kinds = {"tactician": "explanation", "proposer": "analytics", "narrator": "fast_line", "fast_line": "fast_line",
-             "panel": "panel"}
+             "panel": "panel", "recap": "recap"}
     counts: dict[str, int] = {}
     for rec in client.records.values():
         r, res = rec.request, rec.result
-        if res.error:
-            continue
         producer = r.ctx.get("producer") or PRODUCER_BY_ROLE.get(r.live_role, r.live_role)
-        payload = {"text": res.text, "json": res.json, "round": rec.round, "via": res.via,
-                   "verified": verdicts.get(r.key)}
+        payload = {**RECORD, "record": "model_result", "text": res.text, "json": res.json, "round": rec.round,
+                   "via": res.via, "verified": verdicts.get(r.key)}
+        if res.error:   # a failed call is cached as failed: replay takes the same fallback the golden run took
+            payload = {**RECORD, "record": "model_result", "error": res.error, "round": rec.round, "via": res.via,
+                       "verified": None}
         latency = LIVE_LATENCY_MS.get(r.live_role if r.live_role.startswith("panel") else producer, 2000)
         manifest.add(r.key, kinds.get(producer, "analytics"), payload, f"{dirs.get(producer, 'models')}/{r.custom_id}.json",
                      moment_id=r.ctx.get("moment_id"), producer=producer,
@@ -407,7 +417,8 @@ def record_entries(manifest: CacheManifest, client: BatchingClient, tools: Recor
                      cost_usd=res.cost_usd, batch_id=res.batch_id)
         counts[producer] = counts.get(producer, 0) + 1
     for key, (name, _args, out) in tools.calls.items():
-        manifest.add(key, "analytics", {"result": out}, f"tools/{custom_id_for(key)}.json", producer=name,
+        manifest.add(key, "analytics", {**RECORD, "record": "tool_result", "result": out},
+                     f"tools/{custom_id_for(key)}.json", producer=name,
                      seed=seed, simulated_latency_ms=50)
     for cid, cf in tools.new_cfs.items():
         alt = cf["alternative"]
@@ -427,7 +438,13 @@ class BatchLog:
     jobs: list[dict] = field(default_factory=list)
     custom_ids: dict[str, str] = field(default_factory=dict)
 
-    def save(self, path: Path, client: BatchingClient, extra: dict | None = None) -> None:
+    def save(self, path: Path, client: BatchingClient, extra: dict | None = None, merge: bool = False) -> None:
+        """Write batches.json; `merge` keeps an earlier run's jobs and custom ids (a partial re-run)."""
         self.custom_ids = {cid: rec.request.key for cid, rec in sorted(client.records.items())}
-        path.write_text(json.dumps({"jobs": self.jobs, "custom_ids": self.custom_ids, **(extra or {})}, indent=1,
-                                   sort_keys=True, default=str) + "\n")
+        data = {**RECORD, "record": "batches", "jobs": [], "custom_ids": {}}
+        if merge and path.exists():
+            data = json.loads(path.read_text())
+        data["jobs"] = data.get("jobs", []) + self.jobs
+        data["custom_ids"] = {**data.get("custom_ids", {}), **self.custom_ids}
+        data.update(extra or {})
+        path.write_text(json.dumps(data, indent=1, sort_keys=True, default=str) + "\n")

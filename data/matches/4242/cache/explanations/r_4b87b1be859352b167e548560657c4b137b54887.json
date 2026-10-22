@@ -1,0 +1,80 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_023327"
+    ],
+    "kind": "team",
+    "text": "Verdant Athletic",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "pc_023327"
+    ],
+    "kind": "number",
+    "text": "66%",
+    "unit": "percent",
+    "value_number": 0.6575
+   },
+   {
+    "evidence_ids": [
+     "e_1525",
+     "cf_000038"
+    ],
+    "kind": "player",
+    "text": "Tarik Varga",
+    "unit": "",
+    "value_text": "p_047"
+   },
+   {
+    "evidence_ids": [
+     "e_1525",
+     "cf_000038"
+    ],
+    "kind": "player",
+    "text": "Dimitar Thornbury",
+    "unit": "",
+    "value_text": "p_029"
+   },
+   {
+    "evidence_ids": [
+     "cf_000038"
+    ],
+    "kind": "player",
+    "text": "Bastian Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "cf_000038"
+    ],
+    "kind": "number",
+    "text": "12%",
+    "unit": "percent",
+    "value_number": 0.1245
+   },
+   {
+    "evidence_ids": [
+     "cf_000038"
+    ],
+    "kind": "number",
+    "text": "9%",
+    "unit": "percent",
+    "value_number": 0.0877
+   }
+  ],
+  "confidence": 0.85,
+  "why": "With Verdant Athletic controlling 66% of the middle third, Tarik Varga recycles the ball backward to Dimitar Thornbury instead of finding Bastian Sandoval centrally. While passing to Sandoval is the 12% likely option, Varga's safer 9% choice settles possession."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"With Verdant Athletic controlling 66% of the middle third, Tarik Varga recycles the ball backward to Dimitar Thornbury instead of finding Bastian Sandoval centrally. While passing to Sandoval is the 12% likely option, Varga's safer 9% choice settles possession.\",\n  \"confidence\": 0.85,\n  \"claims\": [\n    {\n      \"text\": \"Verdant Athletic\",\n      \"kind\": \"team\",\n      \"value_text\": \"verdant\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"pc_023327\"]\n    },\n    {\n      \"text\": \"66%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.6575,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"pc_023327\"]\n    },\n    {\n      \"text\": \"Tarik Varga\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_047\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1525\", \"cf_000038\"]\n    },\n    {\n      \"text\": \"Dimitar Thornbury\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_029\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1525\", \"cf_000038\"]\n    },\n    {\n      \"text\": \"Bastian Sandoval\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_046\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"cf_000038\"]\n    },\n    {\n      \"text\": \"12%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.1245,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"cf_000038\"]\n    },\n    {\n      \"text\": \"9%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.0877,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"cf_000038\"]\n    }\n  ]\n}",
+ "verified": false,
+ "via": "live"
+}

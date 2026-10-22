@@ -1,0 +1,72 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0158",
+     "pc_002376"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "pc_002376"
+    ],
+    "kind": "number",
+    "text": "89%",
+    "unit": "percent",
+    "value_number": 0.89
+   },
+   {
+    "evidence_ids": [
+     "e_0158",
+     "cf_000004"
+    ],
+    "kind": "player",
+    "text": "Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_0158",
+     "cf_000004"
+    ],
+    "kind": "player",
+    "text": "Cavendale",
+    "unit": "",
+    "value_text": "p_012"
+   },
+   {
+    "evidence_ids": [
+     "cf_000004"
+    ],
+    "kind": "number",
+    "text": "1%",
+    "unit": "p_goal",
+    "value_number": 0.01
+   },
+   {
+    "evidence_ids": [
+     "cf_000004"
+    ],
+    "kind": "player",
+    "text": "Novacek",
+    "unit": "",
+    "value_text": "p_020"
+   }
+  ],
+  "confidence": 0.85,
+  "why": "With Verdant holding 89% control of their defensive third, Okafor passes backward to Cavendale, leaving Ironvale with a 1% goal chance. Switching play to Novacek instead cuts Ironvale's goal chance to 0%."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"With Verdant holding 89% control of their defensive third, Okafor passes backward to Cavendale, leaving Ironvale with a 1% goal chance. Switching play to Novacek instead cuts Ironvale's goal chance to 0%.\",\n  \"confidence\": 0.85,\n  \"claims\": [\n    {\n      \"text\": \"Verdant\",\n      \"kind\": \"team\",\n      \"value_text\": \"verdant\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_0158\", \"pc_002376\"]\n    },\n    {\n      \"text\": \"89%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.89,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"pc_002376\"]\n    },\n    {\n      \"text\": \"Okafor\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_017\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_0158\", \"cf_000004\"]\n    },\n    {\n      \"text\": \"Cavendale\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_012\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_0158\", \"cf_000004\"]\n    },\n    {\n      \"text\": \"1%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.01,\n      \"unit\": \"p_goal\",\n      \"evidence_ids\": [\"cf_000004\"]\n    },\n    {\n      \"text\": \"Novacek\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_020\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"cf_000004\"]\n    }\n  ]\n}",
+ "verified": false,
+ "via": "live"
+}

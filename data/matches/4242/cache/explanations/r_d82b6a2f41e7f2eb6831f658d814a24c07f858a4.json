@@ -1,0 +1,72 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1562",
+     "e_1565"
+    ],
+    "kind": "player",
+    "text": "Strand",
+    "unit": "",
+    "value_text": "p_013"
+   },
+   {
+    "evidence_ids": [
+     "e_1566",
+     "pc_024046"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "e_1566",
+     "cf_000046"
+    ],
+    "kind": "player",
+    "text": "Thornbury",
+    "unit": "",
+    "value_text": "p_006"
+   },
+   {
+    "evidence_ids": [
+     "pc_024046"
+    ],
+    "kind": "number",
+    "text": "90%",
+    "unit": "percent",
+    "value_number": 0.9019
+   },
+   {
+    "evidence_ids": [
+     "cf_000046"
+    ],
+    "kind": "player",
+    "text": "Reyes",
+    "unit": "",
+    "value_text": "p_031"
+   },
+   {
+    "evidence_ids": [
+     "cf_000046"
+    ],
+    "kind": "number",
+    "text": "31%",
+    "unit": "win_prob",
+    "value_number": 0.3083
+   }
+  ],
+  "confidence": 0.85,
+  "why": "After Strand wins possession back for Verdant, Thornbury plays a conservative pass back to goalkeeper Fennimore, where Verdant holds 90% control of their defensive third. Spreading the ball out to Reyes on the left flank is a 13% option that advances play while keeping the win probability steady at 31%."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After Strand wins possession back for Verdant, Thornbury plays a conservative pass back to goalkeeper Fennimore, where Verdant holds 90% control of their defensive third. Spreading the ball out to Reyes on the left flank is a 13% option that advances play while keeping the win probability steady at 31%.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Strand\",\"kind\":\"player\",\"value_text\":\"p_013\",\"unit\":\"\",\"evidence_ids\":[\"e_1562\",\"e_1565\"]},{\"text\":\"Verdant\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"e_1566\",\"pc_024046\"]},{\"text\":\"Thornbury\",\"kind\":\"player\",\"value_text\":\"p_006\",\"unit\":\"\",\"evidence_ids\":[\"e_1566\",\"cf_000046\"]},{\"text\":\"90%\",\"kind\":\"number\",\"value_number\":0.9019,\"unit\":\"percent\",\"evidence_ids\":[\"pc_024046\"]},{\"text\":\"Reyes\",\"kind\":\"player\",\"value_text\":\"p_031\",\"unit\":\"\",\"evidence_ids\":[\"cf_000046\"]},{\"text\":\"31%\",\"kind\":\"number\",\"value_number\":0.3083,\"unit\":\"win_prob\",\"evidence_ids\":[\"cf_000046\"]}]}",
+ "verified": false,
+ "via": "live"
+}

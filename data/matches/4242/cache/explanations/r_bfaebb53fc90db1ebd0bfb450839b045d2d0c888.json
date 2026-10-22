@@ -1,0 +1,73 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0742"
+    ],
+    "kind": "player",
+    "text": "Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_0741",
+     "e_0743",
+     "cf_000018"
+    ],
+    "kind": "player",
+    "text": "Ainsley",
+    "unit": "",
+    "value_text": "p_038"
+   },
+   {
+    "evidence_ids": [
+     "e_0743",
+     "cf_000018"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "pc_011008",
+     "cf_000018"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "pc_011008"
+    ],
+    "kind": "number",
+    "text": "65%",
+    "unit": "percent",
+    "value_number": 0.6487
+   },
+   {
+    "evidence_ids": [
+     "cf_000018"
+    ],
+    "kind": "player",
+    "text": "Varga",
+    "unit": "",
+    "value_text": "p_047"
+   }
+  ],
+  "confidence": 0.85,
+  "why": "Under pressure from Okafor, Ainsley passes to Grabowski in a midfield where Verdant holds 65% of the middle third. Switching play to Varga instead cuts Verdant's goal chance from 1% to 0% over the next 8 seconds."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Under pressure from Okafor, Ainsley passes to Grabowski in a midfield where Verdant holds 65% of the middle third. Switching play to Varga instead cuts Verdant's goal chance from 1% to 0% over the next 8 seconds.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Okafor\",\"kind\":\"player\",\"value_text\":\"p_017\",\"unit\":\"\",\"evidence_ids\":[\"e_0742\"]},{\"text\":\"Ainsley\",\"kind\":\"player\",\"value_text\":\"p_038\",\"unit\":\"\",\"evidence_ids\":[\"e_0741\",\"e_0743\",\"cf_000018\"]},{\"text\":\"Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"e_0743\",\"cf_000018\"]},{\"text\":\"Verdant\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"pc_011008\",\"cf_000018\"]},{\"text\":\"65%\",\"kind\":\"number\",\"value_number\":0.6487,\"unit\":\"percent\",\"evidence_ids\":[\"pc_011008\"]},{\"text\":\"Varga\",\"kind\":\"player\",\"value_text\":\"p_047\",\"unit\":\"\",\"evidence_ids\":[\"cf_000018\"]}]}",
+ "verified": false,
+ "via": "live"
+}

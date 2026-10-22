@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_044528"
+    ],
+    "kind": "tactical",
+    "text": "3v1 overload on the right in the middle third",
+    "unit": "",
+    "value_text": "overload_right_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "e_3025",
+     "cf_000065"
+    ],
+    "kind": "player",
+    "text": "Kian Marchetti",
+    "unit": "",
+    "value_text": "p_049"
+   },
+   {
+    "evidence_ids": [
+     "e_3025",
+     "cf_000065"
+    ],
+    "kind": "player",
+    "text": "Fintan Valcourt",
+    "unit": "",
+    "value_text": "p_048"
+   },
+   {
+    "evidence_ids": [
+     "e_3026"
+    ],
+    "kind": "player",
+    "text": "Kian Strand",
+    "unit": "",
+    "value_text": "p_013"
+   },
+   {
+    "evidence_ids": [
+     "e_3025"
+    ],
+    "kind": "number",
+    "text": "57%",
+    "unit": "percent",
+    "value_number": 0.57
+   },
+   {
+    "evidence_ids": [
+     "cf_000065"
+    ],
+    "kind": "number",
+    "text": "4%",
+    "unit": "p_goal",
+    "value_number": 0.0379
+   }
+  ],
+  "confidence": 0.9,
+  "why": "With a 3v1 overload on the right in the middle third, Kian Marchetti opts to pass to Fintan Valcourt instead of carrying down the flank. Although Kian Strand intercepts the 57% pass, attempting the pass carries a 4% goal chance for Ironvale compared to 2% from carrying."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"With a 3v1 overload on the right in the middle third, Kian Marchetti opts to pass to Fintan Valcourt instead of carrying down the flank. Although Kian Strand intercepts the 57% pass, attempting the pass carries a 4% goal chance for Ironvale compared to 2% from carrying.\",\n  \"confidence\": 0.9,\n  \"claims\": [\n    {\n      \"text\": \"3v1 overload on the right in the middle third\",\n      \"kind\": \"tactical\",\n      \"value_text\": \"overload_right_middle_third\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"pc_044528\"]\n    },\n    {\n      \"text\": \"Kian Marchetti\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_049\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3025\", \"cf_000065\"]\n    },\n    {\n      \"text\": \"Fintan Valcourt\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_048\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3025\", \"cf_000065\"]\n    },\n    {\n      \"text\": \"Kian Strand\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_013\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3026\"]\n    },\n    {\n      \"text\": \"57%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.57,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"e_3025\"]\n    },\n    {\n      \"text\": \"4%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.0379,\n      \"unit\": \"p_goal\",\n      \"evidence_ids\": [\"cf_000065\"]\n    }\n  ]\n}",
+ "verified": true,
+ "via": "live"
+}

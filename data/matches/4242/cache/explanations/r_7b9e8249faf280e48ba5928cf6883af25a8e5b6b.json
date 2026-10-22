@@ -1,0 +1,89 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1567",
+     "cf_000047"
+    ],
+    "kind": "player",
+    "text": "Fennimore",
+    "unit": "",
+    "value_text": "p_001"
+   },
+   {
+    "evidence_ids": [
+     "e_1567",
+     "cf_000047"
+    ],
+    "kind": "player",
+    "text": "Silva",
+    "unit": "",
+    "value_text": "p_022"
+   },
+   {
+    "evidence_ids": [
+     "cf_000047"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "cf_000047"
+    ],
+    "kind": "number",
+    "text": "5%",
+    "unit": "p_goal",
+    "value_number": 0.0522
+   },
+   {
+    "evidence_ids": [
+     "cf_000047"
+    ],
+    "kind": "player",
+    "text": "Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "cf_000047"
+    ],
+    "kind": "number",
+    "text": "0%",
+    "unit": "p_goal",
+    "value_number": 0.0022
+   },
+   {
+    "evidence_ids": [
+     "cf_000047"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "cf_000047"
+    ],
+    "kind": "number",
+    "text": "1 point",
+    "unit": "win_prob_delta",
+    "value_number": 0.0097
+   }
+  ],
+  "confidence": 0.88,
+  "why": "Fennimore passes short to Silva in a contested middle third, leaving Ironvale with a 5% chance to score on the counter. Playing a direct ball forward to Okafor bypasses the press, dropping Ironvale's goal probability to 0% and adding +1 point to Verdant's win probability."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Fennimore passes short to Silva in a contested middle third, leaving Ironvale with a 5% chance to score on the counter. Playing a direct ball forward to Okafor bypasses the press, dropping Ironvale's goal probability to 0% and adding +1 point to Verdant's win probability.\",\"confidence\":0.88,\"claims\":[{\"text\":\"Fennimore\",\"kind\":\"player\",\"value_text\":\"p_001\",\"unit\":\"\",\"evidence_ids\":[\"e_1567\",\"cf_000047\"]},{\"text\":\"Silva\",\"kind\":\"player\",\"value_text\":\"p_022\",\"unit\":\"\",\"evidence_ids\":[\"e_1567\",\"cf_000047\"]},{\"text\":\"Ironvale\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"cf_000047\"]},{\"text\":\"5%\",\"kind\":\"number\",\"value_number\":0.0522,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000047\"]},{\"text\":\"Okafor\",\"kind\":\"player\",\"value_text\":\"p_017\",\"unit\":\"\",\"evidence_ids\":[\"cf_000047\"]},{\"text\":\"0%\",\"kind\":\"number\",\"value_number\":0.0022,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000047\"]},{\"text\":\"Verdant\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"cf_000047\"]},{\"text\":\"1 point\",\"kind\":\"number\",\"value_number\":0.0097,\"unit\":\"win_prob_delta\",\"evidence_ids\":[\"cf_000047\"]}]}",
+ "verified": false,
+ "via": "live"
+}

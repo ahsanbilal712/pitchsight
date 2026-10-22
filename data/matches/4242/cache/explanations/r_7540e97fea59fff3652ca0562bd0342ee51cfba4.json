@@ -1,0 +1,73 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3111",
+     "e_3118"
+    ],
+    "kind": "minute",
+    "text": "77th minute",
+    "unit": "minute",
+    "value_number": 77
+   },
+   {
+    "evidence_ids": [
+     "e_3111",
+     "e_3112"
+    ],
+    "kind": "player",
+    "text": "Fintan Valcourt",
+    "unit": "",
+    "value_text": "p_048"
+   },
+   {
+    "evidence_ids": [
+     "e_3110"
+    ],
+    "kind": "player",
+    "text": "Lauro Silva",
+    "unit": "",
+    "value_text": "p_022"
+   },
+   {
+    "evidence_ids": [
+     "e_3112",
+     "e_3118"
+    ],
+    "kind": "team",
+    "text": "Ironvale Forge",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "e_3117",
+     "e_3118"
+    ],
+    "kind": "player",
+    "text": "Kian Marchetti",
+    "unit": "",
+    "value_text": "p_049"
+   },
+   {
+    "evidence_ids": [
+     "e_3117"
+    ],
+    "kind": "number",
+    "text": "23-metre",
+    "unit": "metres",
+    "value_number": 23.3
+   }
+  ],
+  "confidence": 0.85,
+  "why": "In the 77th minute, Fintan Valcourt intercepts a pass from Lauro Silva to win possession for Ironvale Forge. After recycling play through Kaito Marchetti and Dimitar Thornbury, Kian Marchetti receives a 23-metre progressive pass and carries the ball forward."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"In the 77th minute, Fintan Valcourt intercepts a pass from Lauro Silva to win possession for Ironvale Forge. After recycling play through Kaito Marchetti and Dimitar Thornbury, Kian Marchetti receives a 23-metre progressive pass and carries the ball forward.\",\"confidence\":0.85,\"claims\":[{\"text\":\"77th minute\",\"kind\":\"minute\",\"value_number\":77,\"unit\":\"minute\",\"evidence_ids\":[\"e_3111\",\"e_3118\"]},{\"text\":\"Fintan Valcourt\",\"kind\":\"player\",\"value_text\":\"p_048\",\"unit\":\"\",\"evidence_ids\":[\"e_3111\",\"e_3112\"]},{\"text\":\"Lauro Silva\",\"kind\":\"player\",\"value_text\":\"p_022\",\"unit\":\"\",\"evidence_ids\":[\"e_3110\"]},{\"text\":\"Ironvale Forge\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_3112\",\"e_3118\"]},{\"text\":\"Kian Marchetti\",\"kind\":\"player\",\"value_text\":\"p_049\",\"unit\":\"\",\"evidence_ids\":[\"e_3117\",\"e_3118\"]},{\"text\":\"23-metre\",\"kind\":\"number\",\"value_number\":23.3,\"unit\":\"metres\",\"evidence_ids\":[\"e_3117\"]}]}",
+ "verified": true,
+ "via": "live"
+}

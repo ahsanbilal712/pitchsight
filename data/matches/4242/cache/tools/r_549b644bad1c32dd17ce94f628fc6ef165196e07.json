@@ -1,0 +1,150 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": [
+  {
+   "attrs": {
+    "angle_deg": 71.373,
+    "height": "ground",
+    "length_m": 22.458,
+    "pass_completion_p": 0.693,
+    "pass_difficulty": 0.307,
+    "progressive_m": 7.173,
+    "recipient": "p_007"
+   },
+   "clock": "09:37",
+   "end_location": [
+    14.33,
+    68.16
+   ],
+   "id": "e_0358",
+   "idx": 358,
+   "location": [
+    10.81,
+    41.35
+   ],
+   "match_id": "m_4242",
+   "outcome": "incomplete",
+   "period": 1,
+   "player": "p_001",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 577400,
+   "team": "home",
+   "type": "pass",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "kind": "throw_in"
+   },
+   "clock": "09:43",
+   "end_location": null,
+   "id": "e_0359",
+   "idx": 359,
+   "location": [
+    14.33,
+    67.7
+   ],
+   "match_id": "m_4242",
+   "outcome": "n/a",
+   "period": 1,
+   "player": "p_045",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 583700,
+   "team": "away",
+   "type": "set_piece",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "angle_deg": 82.312,
+    "height": "ground",
+    "length_m": 23.54,
+    "pass_completion_p": 0.685,
+    "pass_difficulty": 0.315,
+    "progressive_m": 3.149,
+    "recipient": "p_046"
+   },
+   "clock": "09:44",
+   "end_location": [
+    14.5,
+    45.46
+   ],
+   "id": "e_0360",
+   "idx": 360,
+   "location": [
+    14.33,
+    67.7
+   ],
+   "match_id": "m_4242",
+   "outcome": "complete",
+   "period": 1,
+   "player": "p_045",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 584200,
+   "team": "away",
+   "type": "pass",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "closing_speed_ms": 1.708,
+    "duration_ms": 300
+   },
+   "clock": "09:46",
+   "end_location": null,
+   "id": "e_0361",
+   "idx": 361,
+   "location": [
+    16.44,
+    43.21
+   ],
+   "match_id": "m_4242",
+   "outcome": "n/a",
+   "period": 1,
+   "player": "p_012",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 586200,
+   "team": "home",
+   "type": "pressure",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "angle_deg": 18.36,
+    "body_part": "left_foot",
+    "defenders_in_cone": 1,
+    "distance_m": 18.032,
+    "on_target": false,
+    "shot_speed_kmh": 103.609,
+    "xg": 0.018
+   },
+   "clock": "09:46",
+   "end_location": [
+    -0.6,
+    38.16
+   ],
+   "id": "e_0362",
+   "idx": 362,
+   "location": [
+    14.14,
+    45.2
+   ],
+   "match_id": "m_4242",
+   "outcome": "off_target",
+   "period": 1,
+   "player": "p_046",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 586500,
+   "team": "away",
+   "type": "shot",
+   "under_pressure": true
+  }
+ ],
+ "schema_version": "1.0.0"
+}

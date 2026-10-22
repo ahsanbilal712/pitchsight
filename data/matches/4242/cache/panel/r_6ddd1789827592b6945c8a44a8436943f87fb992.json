@@ -1,0 +1,60 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "text": "8-second",
+    "unit": "seconds",
+    "value_number": 8.0
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "text": "200",
+    "unit": "count",
+    "value_number": 200
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "text": "-1 point",
+    "unit": "win_prob_delta",
+    "value_number": -0.0073
+   },
+   {
+    "evidence_ids": [
+     "pc_005864"
+    ],
+    "kind": "number",
+    "text": "55%",
+    "unit": "percent",
+    "value_number": 0.5534
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "text": "35%",
+    "unit": "percent",
+    "value_number": 0.3545
+   }
+  ],
+  "stance": "nuance",
+  "take": "You two are treating this carry like a guaranteed breakthrough, but the model only tracks an 8-second window across 200 replays and barely moves the home win chance by -1 point. With the home side still holding 55% of their defensive third, carrying into traffic only picks up the away policy's backing 35% of the time for a reason."
+ },
+ "record": "model_result",
+ "round": 4,
+ "schema_version": "1.0.0",
+ "text": "{\"take\": \"You two are treating this carry like a guaranteed breakthrough, but the model only tracks an 8-second window across 200 replays and barely moves the home win chance by -1 point. With the home side still holding 55% of their defensive third, carrying into traffic only picks up the away policy's backing 35% of the time for a reason.\", \"stance\": \"nuance\", \"claims\": [{\"text\": \"8-second\", \"kind\": \"number\", \"value_number\": 8.0, \"unit\": \"seconds\", \"evidence_ids\": [\"cf_000010\"]}, {\"text\": \"200\", \"kind\": \"number\", \"value_number\": 200, \"unit\": \"count\", \"evidence_ids\": [\"cf_000010\"]}, {\"text\": \"-1 point\", \"kind\": \"number\", \"value_number\": -0.0073, \"unit\": \"win_prob_delta\", \"evidence_ids\": [\"cf_000010\"]}, {\"text\": \"55%\", \"kind\": \"number\", \"value_number\": 0.5534, \"unit\": \"percent\", \"evidence_ids\": [\"pc_005864\"]}, {\"text\": \"35%\", \"kind\": \"number\", \"value_number\": 0.3545, \"unit\": \"percent\", \"evidence_ids\": [\"cf_000010\"]}]}",
+ "verified": null,
+ "via": "live"
+}

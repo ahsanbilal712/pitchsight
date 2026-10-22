@@ -1,0 +1,50 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "contested_frac": 0.0771,
+  "grid_path": "data/runtime/precompute/pitch_control/m_4242/pc_021808.npz",
+  "home_share": 0.2263,
+  "match_id": "m_4242",
+  "overloads": [
+   {
+    "attackers": 3,
+    "channel": "centre",
+    "count": "3v1",
+    "defenders": 1,
+    "label": "overload_centre_middle_third",
+    "third": "middle_third"
+   },
+   {
+    "attackers": 2,
+    "channel": "left",
+    "count": "2v1",
+    "defenders": 1,
+    "label": "overload_left_attacking_third",
+    "third": "attacking_third"
+   },
+   {
+    "attackers": 2,
+    "channel": "right",
+    "count": "2v1",
+    "defenders": 1,
+    "label": "overload_right_attacking_third",
+    "third": "attacking_third"
+   }
+  ],
+  "period": 1,
+  "snapshot_id": "pc_021808",
+  "t_ms": 2180800,
+  "team_in_possession": "away",
+  "zones": {
+   "contested_frac": 0.0771,
+   "home_attacking_third": 0.0,
+   "home_defensive_third": 0.5654,
+   "middle_third": 0.101,
+   "overload_centre_middle_third": "3v1",
+   "overload_left_attacking_third": "2v1",
+   "overload_right_attacking_third": "2v1"
+  }
+ },
+ "schema_version": "1.0.0"
+}

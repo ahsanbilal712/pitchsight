@@ -1,0 +1,72 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1429",
+     "e_1431",
+     "e_1435"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "e_1437"
+    ],
+    "kind": "player",
+    "text": "Varga",
+    "unit": "",
+    "value_text": "p_047"
+   },
+   {
+    "evidence_ids": [
+     "e_1438",
+     "cf_000037"
+    ],
+    "kind": "player",
+    "text": "Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "text": "9%",
+    "unit": "p_goal",
+    "value_number": 0.0911
+   },
+   {
+    "evidence_ids": [
+     "pc_021808"
+    ],
+    "kind": "tactical",
+    "text": "2v1 overload on the left in the attacking third",
+    "unit": "",
+    "value_text": "overload_left_attacking_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000037"
+    ],
+    "kind": "number",
+    "text": "15%",
+    "unit": "p_goal",
+    "value_number": 0.1454
+   }
+  ],
+  "confidence": 0.92,
+  "why": "After Grabowski wins the ball and Varga sets him up, Sandoval shoots off target with a 9% goal chance despite a 2v1 overload on the left in the attacking third. Carrying closer toward goal instead lifts Ironvale's scoring probability to 15%."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After Grabowski wins the ball and Varga sets him up, Sandoval shoots off target with a 9% goal chance despite a 2v1 overload on the left in the attacking third. Carrying closer toward goal instead lifts Ironvale's scoring probability to 15%.\",\"confidence\":0.92,\"claims\":[{\"text\":\"Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"e_1429\",\"e_1431\",\"e_1435\"]},{\"text\":\"Varga\",\"kind\":\"player\",\"value_text\":\"p_047\",\"unit\":\"\",\"evidence_ids\":[\"e_1437\"]},{\"text\":\"Sandoval\",\"kind\":\"player\",\"value_text\":\"p_046\",\"unit\":\"\",\"evidence_ids\":[\"e_1438\",\"cf_000037\"]},{\"text\":\"9%\",\"kind\":\"number\",\"value_number\":0.0911,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000037\"]},{\"text\":\"2v1 overload on the left in the attacking third\",\"kind\":\"tactical\",\"value_text\":\"overload_left_attacking_third\",\"unit\":\"\",\"evidence_ids\":[\"pc_021808\"]},{\"text\":\"15%\",\"kind\":\"number\",\"value_number\":0.1454,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000037\"]}]}",
+ "verified": true,
+ "via": "live"
+}

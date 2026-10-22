@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3152",
+     "cf_000070"
+    ],
+    "kind": "player",
+    "text": "Novacek",
+    "unit": "",
+    "value_text": "p_020"
+   },
+   {
+    "evidence_ids": [
+     "e_3152"
+    ],
+    "kind": "number",
+    "text": "0.02 xG",
+    "unit": "xg",
+    "value_number": 0.02
+   },
+   {
+    "evidence_ids": [
+     "cf_000070"
+    ],
+    "kind": "number",
+    "text": "4%",
+    "unit": "p_goal",
+    "value_number": 0.0444
+   },
+   {
+    "evidence_ids": [
+     "cf_000070"
+    ],
+    "kind": "player",
+    "text": "Bolingbroke",
+    "unit": "",
+    "value_text": "p_023"
+   },
+   {
+    "evidence_ids": [
+     "cf_000070"
+    ],
+    "kind": "number",
+    "text": "10%",
+    "unit": "p_goal",
+    "value_number": 0.1045
+   },
+   {
+    "evidence_ids": [
+     "e_3152",
+     "cf_000070"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   }
+  ],
+  "confidence": 0.95,
+  "why": "Novacek takes a low-value 0.02 xG shot that gets saved, leaving Verdant with only a 4% goal chance. Passing across the box to Bolingbroke raises the scoring probability to 10% and boosts their win probability by +4 points."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Novacek takes a low-value 0.02 xG shot that gets saved, leaving Verdant with only a 4% goal chance. Passing across the box to Bolingbroke raises the scoring probability to 10% and boosts their win probability by +4 points.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Novacek\",\"kind\":\"player\",\"value_text\":\"p_020\",\"unit\":\"\",\"evidence_ids\":[\"e_3152\",\"cf_000070\"]},{\"text\":\"0.02 xG\",\"kind\":\"number\",\"value_number\":0.02,\"unit\":\"xg\",\"evidence_ids\":[\"e_3152\"]},{\"text\":\"4%\",\"kind\":\"number\",\"value_number\":0.0444,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000070\"]},{\"text\":\"Bolingbroke\",\"kind\":\"player\",\"value_text\":\"p_023\",\"unit\":\"\",\"evidence_ids\":[\"cf_000070\"]},{\"text\":\"10%\",\"kind\":\"number\",\"value_number\":0.1045,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000070\"]},{\"text\":\"Verdant\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"e_3152\",\"cf_000070\"]}]}",
+ "verified": true,
+ "via": "live"
+}

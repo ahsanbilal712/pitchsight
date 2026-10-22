@@ -1,0 +1,81 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2328",
+     "e_2329"
+    ],
+    "kind": "player",
+    "text": "Tobi Okafor",
+    "unit": "",
+    "value_number": 0,
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_2328",
+     "e_2329"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_number": 0,
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "e_2332"
+    ],
+    "kind": "player",
+    "text": "Nilo Thornbury",
+    "unit": "",
+    "value_number": 0,
+    "value_text": "p_006"
+   },
+   {
+    "evidence_ids": [
+     "e_2333",
+     "e_2334",
+     "e_2336"
+    ],
+    "kind": "player",
+    "text": "Fintan Grabowski",
+    "unit": "",
+    "value_number": 0,
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "e_2336",
+     "e_2337"
+    ],
+    "kind": "player",
+    "text": "Bastian Sandoval",
+    "unit": "",
+    "value_number": 0,
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "e_2334",
+     "e_2337"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_number": 0,
+    "value_text": "ironvale"
+   }
+  ],
+  "confidence": 0.9,
+  "why": "After Tobi Okafor wins a tackle for Verdant, Nilo Thornbury's pass is quickly intercepted by Fintan Grabowski. Grabowski finds Bastian Sandoval, who carries the ball forward for Ironvale."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"After Tobi Okafor wins a tackle for Verdant, Nilo Thornbury's pass is quickly intercepted by Fintan Grabowski. Grabowski finds Bastian Sandoval, who carries the ball forward for Ironvale.\",\n  \"confidence\": 0.9,\n  \"claims\": [\n    {\n      \"text\": \"Tobi Okafor\",\n      \"kind\": \"player\",\n      \"value_number\": 0,\n      \"value_text\": \"p_017\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_2328\", \"e_2329\"]\n    },\n    {\n      \"text\": \"Verdant\",\n      \"kind\": \"team\",\n      \"value_number\": 0,\n      \"value_text\": \"verdant\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_2328\", \"e_2329\"]\n    },\n    {\n      \"text\": \"Nilo Thornbury\",\n      \"kind\": \"player\",\n      \"value_number\": 0,\n      \"value_text\": \"p_006\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_2332\"]\n    },\n    {\n      \"text\": \"Fintan Grabowski\",\n      \"kind\": \"player\",\n      \"value_number\": 0,\n      \"value_text\": \"p_045\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_2333\", \"e_2334\", \"e_2336\"]\n    },\n    {\n      \"text\": \"Bastian Sandoval\",\n      \"kind\": \"player\",\n      \"value_number\": 0,\n      \"value_text\": \"p_046\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_2336\", \"e_2337\"]\n    },\n    {\n      \"text\": \"Ironvale\",\n      \"kind\": \"team\",\n      \"value_number\": 0,\n      \"value_text\": \"ironvale\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_2334\", \"e_2337\"]\n    }\n  ]\n}",
+ "verified": true,
+ "via": "live"
+}

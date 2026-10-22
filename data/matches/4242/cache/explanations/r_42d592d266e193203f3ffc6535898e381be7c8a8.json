@@ -1,0 +1,70 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1121"
+    ],
+    "kind": "player",
+    "text": "Kian Strand",
+    "unit": "",
+    "value_text": "p_013"
+   },
+   {
+    "evidence_ids": [
+     "e_1122",
+     "e_1125"
+    ],
+    "kind": "player",
+    "text": "Tobi Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_1122"
+    ],
+    "kind": "number",
+    "text": "4.8 metres",
+    "unit": "metres",
+    "value_number": 4.813
+   },
+   {
+    "evidence_ids": [
+     "e_1125"
+    ],
+    "kind": "number",
+    "text": "0.08 xG",
+    "unit": "xg",
+    "value_number": 0.078
+   },
+   {
+    "evidence_ids": [
+     "e_1124"
+    ],
+    "kind": "player",
+    "text": "Jonah Jaramillo",
+    "unit": "",
+    "value_text": "p_037"
+   },
+   {
+    "evidence_ids": [
+     "e_1126"
+    ],
+    "kind": "player",
+    "text": "Fintan Dimitriou",
+    "unit": "",
+    "value_text": "p_030"
+   }
+  ],
+  "confidence": 0.85,
+  "why": "After receiving a pass from Kian Strand, Tobi Okafor carries the ball 4.8 metres forward before taking a 0.08 xG shot under pressure from Jonah Jaramillo, which Fintan Dimitriou blocks to turn over possession."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\": \"After receiving a pass from Kian Strand, Tobi Okafor carries the ball 4.8 metres forward before taking a 0.08 xG shot under pressure from Jonah Jaramillo, which Fintan Dimitriou blocks to turn over possession.\", \"confidence\": 0.85, \"claims\": [{\"text\": \"Kian Strand\", \"kind\": \"player\", \"value_text\": \"p_013\", \"unit\": \"\", \"evidence_ids\": [\"e_1121\"]}, {\"text\": \"Tobi Okafor\", \"kind\": \"player\", \"value_text\": \"p_017\", \"unit\": \"\", \"evidence_ids\": [\"e_1122\", \"e_1125\"]}, {\"text\": \"4.8 metres\", \"kind\": \"number\", \"value_number\": 4.813, \"unit\": \"metres\", \"evidence_ids\": [\"e_1122\"]}, {\"text\": \"0.08 xG\", \"kind\": \"number\", \"value_number\": 0.078, \"unit\": \"xg\", \"evidence_ids\": [\"e_1125\"]}, {\"text\": \"Jonah Jaramillo\", \"kind\": \"player\", \"value_text\": \"p_037\", \"unit\": \"\", \"evidence_ids\": [\"e_1124\"]}, {\"text\": \"Fintan Dimitriou\", \"kind\": \"player\", \"value_text\": \"p_030\", \"unit\": \"\", \"evidence_ids\": [\"e_1126\"]}]}",
+ "verified": true,
+ "via": "live"
+}

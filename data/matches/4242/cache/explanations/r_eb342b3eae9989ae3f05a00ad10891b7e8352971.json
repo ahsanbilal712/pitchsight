@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_005864"
+    ],
+    "kind": "tactical",
+    "text": "2v1 overload on the right in the middle third",
+    "unit": "",
+    "value_text": "overload_right_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "e_0362",
+     "cf_000010"
+    ],
+    "kind": "player",
+    "text": "Bastian Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "e_0361"
+    ],
+    "kind": "player",
+    "text": "Jasper Cavendale",
+    "unit": "",
+    "value_text": "p_012"
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "text": "1%",
+    "unit": "p_goal",
+    "value_number": 0.0122
+   },
+   {
+    "evidence_ids": [
+     "e_0362",
+     "cf_000010"
+    ],
+    "kind": "team",
+    "text": "Ironvale Forge",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "cf_000010"
+    ],
+    "kind": "number",
+    "text": "8%",
+    "unit": "p_goal",
+    "value_number": 0.0784
+   }
+  ],
+  "confidence": 0.95,
+  "why": "With a 2v1 overload on the right in the middle third, Bastian Sandoval shoots off target under pressure from Jasper Cavendale for just a 1% goal chance. Carrying the ball into space instead lifts Ironvale Forge's scoring probability to 8%."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"With a 2v1 overload on the right in the middle third, Bastian Sandoval shoots off target under pressure from Jasper Cavendale for just a 1% goal chance. Carrying the ball into space instead lifts Ironvale Forge's scoring probability to 8%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"2v1 overload on the right in the middle third\",\"kind\":\"tactical\",\"value_text\":\"overload_right_middle_third\",\"unit\":\"\",\"evidence_ids\":[\"pc_005864\"]},{\"text\":\"Bastian Sandoval\",\"kind\":\"player\",\"value_text\":\"p_046\",\"unit\":\"\",\"evidence_ids\":[\"e_0362\",\"cf_000010\"]},{\"text\":\"Jasper Cavendale\",\"kind\":\"player\",\"value_text\":\"p_012\",\"unit\":\"\",\"evidence_ids\":[\"e_0361\"]},{\"text\":\"1%\",\"kind\":\"number\",\"value_number\":0.0122,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000010\"]},{\"text\":\"Ironvale Forge\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_0362\",\"cf_000010\"]},{\"text\":\"8%\",\"kind\":\"number\",\"value_number\":0.0784,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000010\"]}]}",
+ "verified": true,
+ "via": "live"
+}

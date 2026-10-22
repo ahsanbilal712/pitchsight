@@ -1,0 +1,63 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0650",
+     "e_0654"
+    ],
+    "kind": "player",
+    "text": "Tobi Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_0649",
+     "e_0653"
+    ],
+    "kind": "player",
+    "text": "Valter Hartigan",
+    "unit": "",
+    "value_text": "p_025"
+   },
+   {
+    "evidence_ids": [
+     "e_0650",
+     "e_0654"
+    ],
+    "kind": "team",
+    "text": "Verdant Athletic",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "e_0654"
+    ],
+    "kind": "number",
+    "text": "0.19 xG",
+    "unit": "xg",
+    "value_number": 0.187
+   },
+   {
+    "evidence_ids": [
+     "e_0654"
+    ],
+    "kind": "number",
+    "text": "99 km/h",
+    "unit": "kmh",
+    "value_number": 98.76
+   }
+  ],
+  "confidence": 0.85,
+  "why": "Tobi Okafor intercepts Valter Hartigan's pass for Verdant Athletic, evades a tackle, and fires an off-target shot worth 0.19 xG at 99 km/h."
+ },
+ "record": "model_result",
+ "round": 6,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Tobi Okafor intercepts Valter Hartigan's pass for Verdant Athletic, evades a tackle, and fires an off-target shot worth 0.19 xG at 99 km/h.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Tobi Okafor\",\"kind\":\"player\",\"value_text\":\"p_017\",\"unit\":\"\",\"evidence_ids\":[\"e_0650\",\"e_0654\"]},{\"text\":\"Valter Hartigan\",\"kind\":\"player\",\"value_text\":\"p_025\",\"unit\":\"\",\"evidence_ids\":[\"e_0649\",\"e_0653\"]},{\"text\":\"Verdant Athletic\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"e_0650\",\"e_0654\"]},{\"text\":\"0.19 xG\",\"kind\":\"number\",\"value_number\":0.187,\"unit\":\"xg\",\"evidence_ids\":[\"e_0654\"]},{\"text\":\"99 km/h\",\"kind\":\"number\",\"value_number\":98.76,\"unit\":\"kmh\",\"evidence_ids\":[\"e_0654\"]}]}",
+ "verified": true,
+ "via": "live"
+}

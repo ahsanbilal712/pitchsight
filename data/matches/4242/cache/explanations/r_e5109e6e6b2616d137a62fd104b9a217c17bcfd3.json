@@ -1,0 +1,79 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2481"
+    ],
+    "kind": "player",
+    "text": "Tolliver",
+    "unit": "",
+    "value_text": "p_021"
+   },
+   {
+    "evidence_ids": [
+     "e_2479",
+     "e_2482"
+    ],
+    "kind": "player",
+    "text": "Hartigan",
+    "unit": "",
+    "value_text": "p_025"
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "player",
+    "text": "Kian Marchetti",
+    "unit": "",
+    "value_text": "p_049"
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "number",
+    "text": "1%",
+    "unit": "p_goal",
+    "value_number": 0.0109
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "number",
+    "text": "9%",
+    "unit": "p_goal",
+    "value_number": 0.0923
+   },
+   {
+    "evidence_ids": [
+     "cf_000063"
+    ],
+    "kind": "number",
+    "text": "+4 points",
+    "unit": "win_prob_delta",
+    "value_number": 0.0421
+   }
+  ],
+  "confidence": 0.95,
+  "why": "Under immediate pressure from Tolliver after winning an interception deep in his own end, Hartigan makes the safe choice to clear the ball. Attempting a risky pass out to Kian Marchetti instead would raise Verdant's goal chance from 1% to 9% and hand the hosts +4 points in win probability."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Under immediate pressure from Tolliver after winning an interception deep in his own end, Hartigan makes the safe choice to clear the ball. Attempting a risky pass out to Kian Marchetti instead would raise Verdant's goal chance from 1% to 9% and hand the hosts +4 points in win probability.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Tolliver\",\"kind\":\"player\",\"value_text\":\"p_021\",\"unit\":\"\",\"evidence_ids\":[\"e_2481\"]},{\"text\":\"Hartigan\",\"kind\":\"player\",\"value_text\":\"p_025\",\"unit\":\"\",\"evidence_ids\":[\"e_2479\",\"e_2482\"]},{\"text\":\"Kian Marchetti\",\"kind\":\"player\",\"value_text\":\"p_049\",\"unit\":\"\",\"evidence_ids\":[\"cf_000063\"]},{\"text\":\"Verdant\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"cf_000063\"]},{\"text\":\"1%\",\"kind\":\"number\",\"value_number\":0.0109,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000063\"]},{\"text\":\"9%\",\"kind\":\"number\",\"value_number\":0.0923,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000063\"]},{\"text\": \"+4 points\",\"kind\":\"number\",\"value_number\":0.0421,\"unit\":\"win_prob_delta\",\"evidence_ids\":[\"cf_000063\"]}]}",
+ "verified": true,
+ "via": "live"
+}

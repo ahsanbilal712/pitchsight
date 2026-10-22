@@ -1,0 +1,89 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1267"
+    ],
+    "kind": "player",
+    "text": "Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_1268"
+    ],
+    "kind": "player",
+    "text": "Reyes",
+    "unit": "",
+    "value_text": "p_031"
+   },
+   {
+    "evidence_ids": [
+     "pc_019415"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "pc_019415"
+    ],
+    "kind": "number",
+    "text": "64%",
+    "unit": "percent",
+    "value_number": 0.6404
+   },
+   {
+    "evidence_ids": [
+     "e_1269",
+     "cf_000036"
+    ],
+    "kind": "player",
+    "text": "Jaramillo",
+    "unit": "",
+    "value_text": "p_037"
+   },
+   {
+    "evidence_ids": [
+     "e_1269",
+     "cf_000036"
+    ],
+    "kind": "player",
+    "text": "Thornbury",
+    "unit": "",
+    "value_text": "p_029"
+   },
+   {
+    "evidence_ids": [
+     "cf_000036"
+    ],
+    "kind": "number",
+    "text": "14%",
+    "unit": "percent",
+    "value_number": 0.1392
+   },
+   {
+    "evidence_ids": [
+     "cf_000036"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   }
+  ],
+  "confidence": 0.9,
+  "why": "Pressured by Okafor and Reyes while Verdant control the middle third at 64%, Jaramillo recycles the ball back to Thornbury rather than forcing the 14% pass down the wing to Grabowski."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"Pressured by Okafor and Reyes while Verdant control the middle third at 64%, Jaramillo recycles the ball back to Thornbury rather than forcing the 14% pass down the wing to Grabowski.\",\n  \"confidence\": 0.9,\n  \"claims\": [\n    {\n      \"text\": \"Okafor\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_017\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1267\"]\n    },\n    {\n      \"text\": \"Reyes\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_031\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1268\"]\n    },\n    {\n      \"text\": \"Verdant\",\n      \"kind\": \"team\",\n      \"value_text\": \"verdant\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"pc_019415\"]\n    },\n    {\n      \"text\": \"64%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.6404,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"pc_019415\"]\n    },\n    {\n      \"text\": \"Jaramillo\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_037\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1269\", \"cf_000036\"]\n    },\n    {\n      \"text\": \"Thornbury\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_029\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1269\", \"cf_000036\"]\n    },\n    {\n      \"text\": \"14%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.1392,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"cf_000036\"]\n    },\n    {\n      \"text\": \"Grabowski\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_045\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"cf_000036\"]\n    }\n  ]\n}",
+ "verified": false,
+ "via": "live"
+}

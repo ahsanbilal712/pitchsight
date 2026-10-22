@@ -1,0 +1,82 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_2276",
+     "e_2277"
+    ],
+    "kind": "player",
+    "text": "Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_2277",
+     "e_2280"
+    ],
+    "kind": "player",
+    "text": "Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "e_2280",
+     "cf_000059"
+    ],
+    "kind": "player",
+    "text": "Penhallow",
+    "unit": "",
+    "value_text": "p_032"
+   },
+   {
+    "evidence_ids": [
+     "e_2280",
+     "pc_034329"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "pc_034329"
+    ],
+    "kind": "tactical",
+    "text": "5v1 overload in the central middle third",
+    "unit": "",
+    "value_text": "overload_centre_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000059"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "cf_000059"
+    ],
+    "kind": "number",
+    "text": "14%",
+    "unit": "percent",
+    "value_number": 0.1379
+   }
+  ],
+  "confidence": 0.9,
+  "why": "After winning back possession from Okafor, Sandoval plays a pass backward to Penhallow despite Ironvale holding a 5v1 overload in the central middle third. Spreading the ball wide to Grabowski instead is a 14% option that keeps the attack moving forward."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After winning back possession from Okafor, Sandoval plays a pass backward to Penhallow despite Ironvale holding a 5v1 overload in the central middle third. Spreading the ball wide to Grabowski instead is a 14% option that keeps the attack moving forward.\",\"confidence\":0.9,\"claims\":[{\"text\":\"Okafor\",\"kind\":\"player\",\"value_text\":\"p_017\",\"unit\":\"\",\"evidence_ids\":[\"e_2276\",\"e_2277\"]},{\"text\":\"Sandoval\",\"kind\":\"player\",\"value_text\":\"p_046\",\"unit\":\"\",\"evidence_ids\":[\"e_2277\",\"e_2280\"]},{\"text\":\"Penhallow\",\"kind\":\"player\",\"value_text\":\"p_032\",\"unit\":\"\",\"evidence_ids\":[\"e_2280\",\"cf_000059\"]},{\"text\":\"Ironvale\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_2280\",\"pc_034329\"]},{\"text\":\"5v1 overload in the central middle third\",\"kind\":\"tactical\",\"value_text\":\"overload_centre_middle_third\",\"unit\":\"\",\"evidence_ids\":[\"pc_034329\"]},{\"text\":\"Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"cf_000059\"]},{\"text\":\"14%\",\"kind\":\"number\",\"value_number\":0.1379,\"unit\":\"percent\",\"evidence_ids\":[\"cf_000059\"]}]}",
+ "verified": false,
+ "via": "live"
+}

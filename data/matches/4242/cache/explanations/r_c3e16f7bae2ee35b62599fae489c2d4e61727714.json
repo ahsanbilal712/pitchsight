@@ -1,0 +1,73 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3446",
+     "e_3448"
+    ],
+    "kind": "player",
+    "text": "Silva",
+    "unit": "",
+    "value_text": "p_022"
+   },
+   {
+    "evidence_ids": [
+     "e_3448",
+     "e_3451",
+     "e_3452"
+    ],
+    "kind": "player",
+    "text": "Tolliver",
+    "unit": "",
+    "value_text": "p_021"
+   },
+   {
+    "evidence_ids": [
+     "e_3451",
+     "e_3452"
+    ],
+    "kind": "player",
+    "text": "Bolingbroke",
+    "unit": "",
+    "value_text": "p_023"
+   },
+   {
+    "evidence_ids": [
+     "e_3452"
+    ],
+    "kind": "number",
+    "text": "19.5 m",
+    "unit": "metres",
+    "value_number": 19.511
+   },
+   {
+    "evidence_ids": [
+     "e_3452"
+    ],
+    "kind": "number",
+    "text": "58%",
+    "unit": "percent",
+    "value_number": 0.58
+   },
+   {
+    "evidence_ids": [
+     "e_3452"
+    ],
+    "kind": "team",
+    "text": "Verdant",
+    "unit": "",
+    "value_text": "verdant"
+   }
+  ],
+  "confidence": 0.75,
+  "why": "After Silva wins back possession and finds Tolliver, Tolliver switches play to Bolingbroke. Bolingbroke attempts a 19.5 m return pass into the box for Tolliver with a 58% completion chance, but the pass is incomplete and the Verdant attack breaks down."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"After Silva wins back possession and finds Tolliver, Tolliver switches play to Bolingbroke. Bolingbroke attempts a 19.5 m return pass into the box for Tolliver with a 58% completion chance, but the pass is incomplete and the Verdant attack breaks down.\",\n  \"confidence\": 0.75,\n  \"claims\": [\n    {\n      \"text\": \"Silva\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_022\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3446\", \"e_3448\"]\n    },\n    {\n      \"text\": \"Tolliver\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_021\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3448\", \"e_3451\", \"e_3452\"]\n    },\n    {\n      \"text\": \"Bolingbroke\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_023\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3451\", \"e_3452\"]\n    },\n    {\n      \"text\": \"19.5 m\",\n      \"kind\": \"number\",\n      \"value_number\": 19.511,\n      \"unit\": \"metres\",\n      \"evidence_ids\": [\"e_3452\"]\n    },\n    {\n      \"text\": \"58%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.58,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\"e_3452\"]\n    },\n    {\n      \"text\": \"Verdant\",\n      \"kind\": \"team\",\n      \"value_text\": \"verdant\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_3452\"]\n    }\n  ]\n}",
+ "verified": true,
+ "via": "live"
+}

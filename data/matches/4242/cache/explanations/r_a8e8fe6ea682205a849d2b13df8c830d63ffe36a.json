@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0847"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "e_0848",
+     "cf_000023"
+    ],
+    "kind": "player",
+    "text": "Fennimore",
+    "unit": "",
+    "value_text": "p_001"
+   },
+   {
+    "evidence_ids": [
+     "e_0848",
+     "cf_000023"
+    ],
+    "kind": "player",
+    "text": "Silva",
+    "unit": "",
+    "value_text": "p_022"
+   },
+   {
+    "evidence_ids": [
+     "e_0848"
+    ],
+    "kind": "number",
+    "text": "52%",
+    "unit": "percent",
+    "value_number": 0.521
+   },
+   {
+    "evidence_ids": [
+     "pc_012926"
+    ],
+    "kind": "number",
+    "text": "87%",
+    "unit": "percent",
+    "value_number": 0.8726
+   },
+   {
+    "evidence_ids": [
+     "cf_000023"
+    ],
+    "kind": "number",
+    "text": "16%",
+    "unit": "p_goal",
+    "value_number": 0.159
+   }
+  ],
+  "confidence": 0.85,
+  "why": "Under pressure from Grabowski, Fennimore passes to Silva with a 52% completion chance rather than clearing upfield. Because Verdant holds 87% control of their defensive third, playing out keeps Ironvale's goal chance at 16%, identical to the clearance option."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Under pressure from Grabowski, Fennimore passes to Silva with a 52% completion chance rather than clearing upfield. Because Verdant holds 87% control of their defensive third, playing out keeps Ironvale's goal chance at 16%, identical to the clearance option.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"e_0847\"]},{\"text\":\"Fennimore\",\"kind\":\"player\",\"value_text\":\"p_001\",\"unit\":\"\",\"evidence_ids\":[\"e_0848\",\"cf_000023\"]},{\"text\":\"Silva\",\"kind\":\"player\",\"value_text\":\"p_022\",\"unit\":\"\",\"evidence_ids\":[\"e_0848\",\"cf_000023\"]},{\"text\":\"52%\",\"kind\":\"number\",\"value_number\":0.521,\"unit\":\"percent\",\"evidence_ids\":[\"e_0848\"]},{\"text\":\"87%\",\"kind\":\"number\",\"value_number\":0.8726,\"unit\":\"percent\",\"evidence_ids\":[\"pc_012926\"]},{\"text\":\"16%\",\"kind\":\"number\",\"value_number\":0.159,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000023\"]}]}",
+ "verified": false,
+ "via": "live"
+}

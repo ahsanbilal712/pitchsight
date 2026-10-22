@@ -1,0 +1,42 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "pc_050042"
+    ],
+    "kind": "number",
+    "text": "60%",
+    "unit": "percent",
+    "value_number": 0.6014
+   },
+   {
+    "evidence_ids": [
+     "pc_050042"
+    ],
+    "kind": "number",
+    "text": "68%",
+    "unit": "percent",
+    "value_number": 0.6769
+   },
+   {
+    "evidence_ids": [
+     "cf_000081"
+    ],
+    "kind": "number",
+    "text": "2 points",
+    "unit": "win_prob_delta",
+    "value_number": -0.0175
+   }
+  ],
+  "stance": "agree",
+  "take": "You cannot just punt the ball away when the home side already commands 60% of the pitch and 68% of the middle third, because you are surrendering structure right back to them. Retaining possession through that simple pass keeps your defensive shape intact and shaves 2 points off the home team's win probability."
+ },
+ "record": "model_result",
+ "round": 3,
+ "schema_version": "1.0.0",
+ "text": "{\"take\": \"You cannot just punt the ball away when the home side already commands 60% of the pitch and 68% of the middle third, because you are surrendering structure right back to them. Retaining possession through that simple pass keeps your defensive shape intact and shaves 2 points off the home team's win probability.\", \"stance\": \"agree\", \"claims\": [{\"text\": \"60%\", \"kind\": \"number\", \"value_number\": 0.6014, \"unit\": \"percent\", \"evidence_ids\": [\"pc_050042\"]}, {\"text\": \"68%\", \"kind\": \"number\", \"value_number\": 0.6769, \"unit\": \"percent\", \"evidence_ids\": [\"pc_050042\"]}, {\"text\": \"2 points\", \"kind\": \"number\", \"value_number\": -0.0175, \"unit\": \"win_prob_delta\", \"evidence_ids\": [\"cf_000081\"]}]}",
+ "verified": null,
+ "via": "live"
+}

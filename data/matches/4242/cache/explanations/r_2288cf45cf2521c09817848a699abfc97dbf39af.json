@@ -1,0 +1,72 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0265",
+     "pc_004105"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "pc_004105"
+    ],
+    "kind": "tactical",
+    "text": "3v2 overload in the centre of the middle third",
+    "unit": "",
+    "value_text": "overload_centre_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "e_0265",
+     "cf_000007"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "e_0265",
+     "cf_000007"
+    ],
+    "kind": "player",
+    "text": "Thornbury",
+    "unit": "",
+    "value_text": "p_029"
+   },
+   {
+    "evidence_ids": [
+     "cf_000007"
+    ],
+    "kind": "player",
+    "text": "Jaramillo",
+    "unit": "",
+    "value_text": "p_037"
+   },
+   {
+    "evidence_ids": [
+     "cf_000007"
+    ],
+    "kind": "number",
+    "text": "32%",
+    "unit": "percent",
+    "value_number": 0.3244
+   }
+  ],
+  "confidence": 0.85,
+  "why": "Ironvale have a 3v2 overload in the centre of the middle third, yet Grabowski attempts a pass back toward Thornbury that goes incomplete. Playing inside to Jaramillo instead is a 32% option that lifts expected threat gain from 0.0056 xT to 0.0084 xT."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Ironvale have a 3v2 overload in the centre of the middle third, yet Grabowski attempts a pass back toward Thornbury that goes incomplete. Playing inside to Jaramillo instead is a 32% option that lifts expected threat gain from 0.0056 xT to 0.0084 xT.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Ironvale\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_0265\",\"pc_004105\"]},{\"text\":\"3v2 overload in the centre of the middle third\",\"kind\":\"tactical\",\"value_text\":\"overload_centre_middle_third\",\"unit\":\"\",\"evidence_ids\":[\"pc_004105\"]},{\"text\":\"Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"e_0265\",\"cf_000007\"]},{\"text\":\"Thornbury\",\"kind\":\"player\",\"value_text\":\"p_029\",\"unit\":\"\",\"evidence_ids\":[\"e_0265\",\"cf_000007\"]},{\"text\":\"Jaramillo\",\"kind\":\"player\",\"value_text\":\"p_037\",\"unit\":\"\",\"evidence_ids\":[\"cf_000007\"]},{\"text\":\"32%\",\"kind\":\"number\",\"value_number\":0.3244,\"unit\":\"percent\",\"evidence_ids\":[\"cf_000007\"]}]}",
+ "verified": false,
+ "via": "live"
+}

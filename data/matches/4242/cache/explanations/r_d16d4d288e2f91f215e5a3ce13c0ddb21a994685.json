@@ -1,0 +1,82 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0425",
+     "e_0426"
+    ],
+    "kind": "player",
+    "text": "Strand",
+    "unit": "",
+    "value_text": "p_013"
+   },
+   {
+    "evidence_ids": [
+     "e_0427",
+     "cf_000012"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "e_0427",
+     "cf_000012"
+    ],
+    "kind": "player",
+    "text": "Thornbury",
+    "unit": "",
+    "value_text": "p_029"
+   },
+   {
+    "evidence_ids": [
+     "e_0427",
+     "cf_000012"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "cf_000012"
+    ],
+    "kind": "number",
+    "text": "0%",
+    "unit": "p_goal",
+    "value_number": 0.0034
+   },
+   {
+    "evidence_ids": [
+     "cf_000012"
+    ],
+    "kind": "player",
+    "text": "Varga",
+    "unit": "",
+    "value_text": "p_047"
+   },
+   {
+    "evidence_ids": [
+     "cf_000012"
+    ],
+    "kind": "number",
+    "text": "1%",
+    "unit": "p_goal",
+    "value_number": 0.0106
+   }
+  ],
+  "confidence": 0.85,
+  "why": "Under pressure from Strand, Grabowski plays a safe pass back to Thornbury that leaves Ironvale with a 0% goal chance. Switching play to Varga on the far flank instead increases their goal chance to 1%."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Under pressure from Strand, Grabowski plays a safe pass back to Thornbury that leaves Ironvale with a 0% goal chance. Switching play to Varga on the far flank instead increases their goal chance to 1%.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Strand\",\"kind\":\"player\",\"value_text\":\"p_013\",\"unit\":\"\",\"evidence_ids\":[\"e_0425\",\"e_0426\"]},{\"text\":\"Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"e_0427\",\"cf_000012\"]},{\"text\":\"Thornbury\",\"kind\":\"player\",\"value_text\":\"p_029\",\"unit\":\"\",\"evidence_ids\":[\"e_0427\",\"cf_000012\"]},{\"text\":\"Ironvale\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_0427\",\"cf_000012\"]},{\"text\":\"0%\",\"kind\":\"number\",\"value_number\":0.0034,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000012\"]},{\"text\":\"Varga\",\"kind\":\"player\",\"value_text\":\"p_047\",\"unit\":\"\",\"evidence_ids\":[\"cf_000012\"]},{\"text\":\"1%\",\"kind\":\"number\",\"value_number\":0.0106,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000012\"]}]}",
+ "verified": true,
+ "via": "live"
+}

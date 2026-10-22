@@ -1,0 +1,361 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": [
+  {
+   "attrs": {
+    "angle_deg": -27.368,
+    "height": "lofted",
+    "length_m": 35.08,
+    "pass_completion_p": 0.443,
+    "pass_difficulty": 0.557,
+    "progressive_m": 31.153,
+    "recipient": "p_045"
+   },
+   "clock": "39:52",
+   "end_location": [
+    62.55,
+    59.78
+   ],
+   "id": "e_1554",
+   "idx": 1554,
+   "location": [
+    92.69,
+    43.45
+   ],
+   "match_id": "m_4242",
+   "outcome": "complete",
+   "period": 1,
+   "player": "p_030",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 2392500,
+   "team": "away",
+   "type": "pass",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "angle_deg": 65.139,
+    "height": "ground",
+    "length_m": 20.657,
+    "pass_completion_p": 0.706,
+    "pass_difficulty": 0.294,
+    "progressive_m": 8.685,
+    "recipient": "p_046"
+   },
+   "clock": "39:56",
+   "end_location": [
+    54.07,
+    47.73
+   ],
+   "id": "e_1555",
+   "idx": 1555,
+   "location": [
+    59.71,
+    59.1
+   ],
+   "match_id": "m_4242",
+   "outcome": "incomplete",
+   "period": 1,
+   "player": "p_045",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 2396100,
+   "team": "away",
+   "type": "pass",
+   "under_pressure": false
+  },
+  {
+   "attrs": {},
+   "clock": "39:56",
+   "end_location": null,
+   "id": "e_1556",
+   "idx": 1556,
+   "location": [
+    54.07,
+    47.73
+   ],
+   "match_id": "m_4242",
+   "outcome": "won",
+   "period": 1,
+   "player": "p_013",
+   "related_event_ids": [
+    "e_1555"
+   ],
+   "schema_version": "1.0.0",
+   "t_ms": 2396800,
+   "team": "home",
+   "type": "interception",
+   "under_pressure": false
+  },
+  {
+   "attrs": {},
+   "clock": "39:56",
+   "end_location": null,
+   "id": "e_1557",
+   "idx": 1557,
+   "location": [
+    54.07,
+    47.73
+   ],
+   "match_id": "m_4242",
+   "outcome": "n/a",
+   "period": 1,
+   "player": "p_013",
+   "related_event_ids": [
+    "e_1556"
+   ],
+   "schema_version": "1.0.0",
+   "t_ms": 2396800,
+   "team": "home",
+   "type": "possession_change",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "angle_deg": -53.835,
+    "height": "ground",
+    "length_m": 28.013,
+    "pass_completion_p": 0.65,
+    "pass_difficulty": 0.35,
+    "progressive_m": 16.531,
+    "recipient": "p_020"
+   },
+   "clock": "39:57",
+   "end_location": [
+    65.55,
+    29.3
+   ],
+   "id": "e_1558",
+   "idx": 1558,
+   "location": [
+    52.65,
+    47.17
+   ],
+   "match_id": "m_4242",
+   "outcome": "incomplete",
+   "period": 1,
+   "player": "p_013",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 2397800,
+   "team": "home",
+   "type": "pass",
+   "under_pressure": false
+  },
+  {
+   "attrs": {},
+   "clock": "39:59",
+   "end_location": null,
+   "id": "e_1559",
+   "idx": 1559,
+   "location": [
+    65.55,
+    29.3
+   ],
+   "match_id": "m_4242",
+   "outcome": "won",
+   "period": 1,
+   "player": "p_039",
+   "related_event_ids": [
+    "e_1558"
+   ],
+   "schema_version": "1.0.0",
+   "t_ms": 2399000,
+   "team": "away",
+   "type": "interception",
+   "under_pressure": false
+  },
+  {
+   "attrs": {},
+   "clock": "39:59",
+   "end_location": null,
+   "id": "e_1560",
+   "idx": 1560,
+   "location": [
+    65.55,
+    29.3
+   ],
+   "match_id": "m_4242",
+   "outcome": "n/a",
+   "period": 1,
+   "player": "p_039",
+   "related_event_ids": [
+    "e_1559"
+   ],
+   "schema_version": "1.0.0",
+   "t_ms": 2399000,
+   "team": "away",
+   "type": "possession_change",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "angle_deg": -53.276,
+    "height": "ground",
+    "length_m": 22.818,
+    "pass_completion_p": 0.69,
+    "pass_difficulty": 0.31,
+    "progressive_m": 13.644,
+    "recipient": "p_045"
+   },
+   "clock": "39:59",
+   "end_location": [
+    52.38,
+    45.63
+   ],
+   "id": "e_1561",
+   "idx": 1561,
+   "location": [
+    65.41,
+    29.26
+   ],
+   "match_id": "m_4242",
+   "outcome": "incomplete",
+   "period": 1,
+   "player": "p_039",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 2399400,
+   "team": "away",
+   "type": "pass",
+   "under_pressure": false
+  },
+  {
+   "attrs": {},
+   "clock": "40:00",
+   "end_location": null,
+   "id": "e_1562",
+   "idx": 1562,
+   "location": [
+    52.38,
+    45.63
+   ],
+   "match_id": "m_4242",
+   "outcome": "won",
+   "period": 1,
+   "player": "p_013",
+   "related_event_ids": [
+    "e_1561"
+   ],
+   "schema_version": "1.0.0",
+   "t_ms": 2400800,
+   "team": "home",
+   "type": "interception",
+   "under_pressure": false
+  },
+  {
+   "attrs": {},
+   "clock": "40:00",
+   "end_location": null,
+   "id": "e_1563",
+   "idx": 1563,
+   "location": [
+    52.38,
+    45.63
+   ],
+   "match_id": "m_4242",
+   "outcome": "n/a",
+   "period": 1,
+   "player": "p_013",
+   "related_event_ids": [
+    "e_1562"
+   ],
+   "schema_version": "1.0.0",
+   "t_ms": 2400800,
+   "team": "home",
+   "type": "possession_change",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "closing_speed_ms": 2.005,
+    "duration_ms": 500
+   },
+   "clock": "40:01",
+   "end_location": null,
+   "id": "e_1564",
+   "idx": 1564,
+   "location": [
+    51.38,
+    48.4
+   ],
+   "match_id": "m_4242",
+   "outcome": "n/a",
+   "period": 1,
+   "player": "p_045",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 2401200,
+   "team": "away",
+   "type": "pressure",
+   "under_pressure": false
+  },
+  {
+   "attrs": {
+    "angle_deg": 179.677,
+    "height": "ground",
+    "length_m": 24.92,
+    "pass_completion_p": 0.674,
+    "pass_difficulty": 0.326,
+    "progressive_m": -24.919,
+    "recipient": "p_006"
+   },
+   "clock": "40:01",
+   "end_location": [
+    29.26,
+    45.09
+   ],
+   "id": "e_1565",
+   "idx": 1565,
+   "location": [
+    52.95,
+    45.37
+   ],
+   "match_id": "m_4242",
+   "outcome": "complete",
+   "period": 1,
+   "player": "p_013",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 2401700,
+   "team": "home",
+   "type": "pass",
+   "under_pressure": true
+  },
+  {
+   "attrs": {
+    "angle_deg": -160.316,
+    "height": "ground",
+    "length_m": 24.468,
+    "pass_completion_p": 0.678,
+    "pass_difficulty": 0.322,
+    "progressive_m": -23.038,
+    "recipient": "p_001"
+   },
+   "clock": "40:04",
+   "end_location": [
+    6.35,
+    36.73
+   ],
+   "id": "e_1566",
+   "idx": 1566,
+   "location": [
+    29.31,
+    44.97
+   ],
+   "match_id": "m_4242",
+   "outcome": "complete",
+   "period": 1,
+   "player": "p_006",
+   "related_event_ids": [],
+   "schema_version": "1.0.0",
+   "t_ms": 2404700,
+   "team": "home",
+   "type": "pass",
+   "under_pressure": false
+  }
+ ],
+ "schema_version": "1.0.0"
+}

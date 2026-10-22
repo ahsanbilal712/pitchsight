@@ -5,6 +5,29 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-042 Golden precompute, part 2: model calls (track B) — live, owner decisions
+
+- Owner decisions: no new GCP resources, so no Vertex batch bucket; the golden precompute ran live with
+  gemini-4-argon for the Tactician and pundits; T-042 limit raised from $1.50 to **$2.00** (TASKS.md).
+  `--mode batch` without a bucket now runs live and says so.
+- Golden run: 125 moments, 8 rounds, **302 requests** (1 failed at the provider), 21 extra counterfactuals for
+  model-proposed alternatives, 133 tool results, evidence.jsonl (83 documents), batches.json with the custom_id map.
+  Fact Checker: 113 of 154 lines verified first time; rejected ones were rewritten (max two rewrites).
+  Spend **$1.42** (limit $2.00): $1.11 reported usage and $0.30 worst-case rows for abandoned hedge duplicates
+  (hedging is now off in the precompute). Match m_4242 now at $2.31 of its $2.50 cap.
+- New `replay_check` stage replays every moment from the cache with no model call: first pass 27 counterfactual and
+  3 model misses (alternatives the engine cannot play, and one failed Narrator call, both unrecorded); `--repair`
+  caches the engine's errors and the failed call as failed, so replay takes the golden run's own fallbacks. Now
+  **0 misses, 46 cues, all verified**, 1 template (the failed call). The precompute ran its moments concurrently,
+  so its Director let more cues through (59); the sequential replay's 46 are the real count.
+- `schemas/model_cache.schema.json` (cached model results, tool results, batches.json) so `validate_schemas.py`
+  covers every cache file: OK, 8 schemas, 4,975 documents. `simulated_latency_ms` is the measured live latency of
+  each live role (proposer 2.3 s, Tactician 3.7 s, Narrator 2.1 s, pundit 3.8 s, chair 2.0 s, recap 20 s).
+- `pytest tests/cache/test_batch.py -q`: 4 passed; my suites 204 passed. Correction to the T-050 entry: recap
+  spend is $0.135, not $0.16.
+
+---
+
 ## 2026-10-22 · T-050 Recap with producer approval; top_moments and timeline (track B)
 
 - `executors/recap.py` (role `recap_live`, golden `recap`, both gemini-4-argon; inputs from MCP `top_moments`,

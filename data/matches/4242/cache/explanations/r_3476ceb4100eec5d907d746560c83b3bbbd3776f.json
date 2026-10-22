@@ -1,0 +1,79 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_3526"
+    ],
+    "kind": "player",
+    "text": "Femi Bolingbroke",
+    "unit": "",
+    "value_text": "p_023"
+   },
+   {
+    "evidence_ids": [
+     "e_3528",
+     "cf_000082"
+    ],
+    "kind": "player",
+    "text": "Sacha Tolliver",
+    "unit": "",
+    "value_text": "p_021"
+   },
+   {
+    "evidence_ids": [
+     "e_3527"
+    ],
+    "kind": "player",
+    "text": "Otto Ainsley",
+    "unit": "",
+    "value_text": "p_038"
+   },
+   {
+    "evidence_ids": [
+     "e_3528"
+    ],
+    "kind": "number",
+    "text": "0.05 xG",
+    "unit": "xg",
+    "value_number": 0.05
+   },
+   {
+    "evidence_ids": [
+     "e_3529"
+    ],
+    "kind": "player",
+    "text": "Anselm Ortega-Bell",
+    "unit": "",
+    "value_text": "p_026"
+   },
+   {
+    "evidence_ids": [
+     "cf_000082"
+    ],
+    "kind": "number",
+    "text": "5%",
+    "unit": "p_goal",
+    "value_number": 0.05
+   },
+   {
+    "evidence_ids": [
+     "cf_000082"
+    ],
+    "kind": "number",
+    "text": "18%",
+    "unit": "p_goal",
+    "value_number": 0.1841
+   }
+  ],
+  "confidence": 0.95,
+  "why": "After receiving a pass from Femi Bolingbroke, Sacha Tolliver shoots under pressure from Otto Ainsley for a 0.05 xG effort that Anselm Ortega-Bell saves. Carrying closer to goal instead lifts the goal chance from 5% to 18%."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After receiving a pass from Femi Bolingbroke, Sacha Tolliver shoots under pressure from Otto Ainsley for a 0.05 xG effort that Anselm Ortega-Bell saves. Carrying closer to goal instead lifts the goal chance from 5% to 18%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Femi Bolingbroke\",\"kind\":\"player\",\"value_text\":\"p_023\",\"unit\":\"\",\"evidence_ids\":[\"e_3526\"]},{\"text\":\"Sacha Tolliver\",\"kind\":\"player\",\"value_text\":\"p_021\",\"unit\":\"\",\"evidence_ids\":[\"e_3528\",\"cf_000082\"]},{\"text\":\"Otto Ainsley\",\"kind\":\"player\",\"value_text\":\"p_038\",\"unit\":\"\",\"evidence_ids\":[\"e_3527\"]},{\"text\":\"0.05 xG\",\"kind\":\"number\",\"value_number\":0.05,\"unit\":\"xg\",\"evidence_ids\":[\"e_3528\"]},{\"text\":\"Anselm Ortega-Bell\",\"kind\":\"player\",\"value_text\":\"p_026\",\"unit\":\"\",\"evidence_ids\":[\"e_3529\"]},{\"text\":\"5%\",\"kind\":\"number\",\"value_number\":0.05,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000082\"]},{\"text\":\"18%\",\"kind\":\"number\",\"value_number\":0.1841,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000082\"]}]}",
+ "verified": true,
+ "via": "live"
+}

@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1003",
+     "cf_000029"
+    ],
+    "kind": "player",
+    "text": "Reyes",
+    "unit": "",
+    "value_text": "p_031"
+   },
+   {
+    "evidence_ids": [
+     "e_1003",
+     "cf_000029"
+    ],
+    "kind": "player",
+    "text": "Cavendale",
+    "unit": "",
+    "value_text": "p_012"
+   },
+   {
+    "evidence_ids": [
+     "pc_015481"
+    ],
+    "kind": "tactical",
+    "text": "a 3v0 overload on the left of the middle third",
+    "unit": "",
+    "value_text": "overload_left_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000029"
+    ],
+    "kind": "player",
+    "text": "Novacek",
+    "unit": "",
+    "value_text": "p_020"
+   },
+   {
+    "evidence_ids": [
+     "cf_000029"
+    ],
+    "kind": "number",
+    "text": "from 5% to 15%",
+    "unit": "p_goal",
+    "value_number": 0.1465
+   },
+   {
+    "evidence_ids": [
+     "cf_000029"
+    ],
+    "kind": "number",
+    "text": "+2 points",
+    "unit": "win_prob_delta",
+    "value_number": 0.0203
+   }
+  ],
+  "confidence": 0.92,
+  "why": "Reyes plays a backward pass to Cavendale instead of exploiting a 3v0 overload on the left of the middle third. A cross-field pass to Novacek raises the goal probability from 5% to 15% and adds +2 points of win probability."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"Reyes plays a backward pass to Cavendale instead of exploiting a 3v0 overload on the left of the middle third. A cross-field pass to Novacek raises the goal probability from 5% to 15% and adds +2 points of win probability.\",\n  \"confidence\": 0.92,\n  \"claims\": [\n    {\n      \"text\": \"Reyes\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_031\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1003\", \"cf_000029\"]\n    },\n    {\n      \"text\": \"Cavendale\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_012\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"e_1003\", \"cf_000029\"]\n    },\n    {\n      \"text\": \"a 3v0 overload on the left of the middle third\",\n      \"kind\": \"tactical\",\n      \"value_text\": \"overload_left_middle_third\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"pc_015481\"]\n    },\n    {\n      \"text\": \"Novacek\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_020\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\"cf_000029\"]\n    },\n    {\n      \"text\": \"from 5% to 15%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.1465,\n      \"unit\": \"p_goal\",\n      \"evidence_ids\": [\"cf_000029\"]\n    },\n    {\n      \"text\": \"+2 points\",\n      \"kind\": \"number\",\n      \"value_number\": 0.0203,\n      \"unit\": \"win_prob_delta\",\n      \"evidence_ids\": [\"cf_000029\"]\n    }\n  ]\n}",
+ "verified": true,
+ "via": "live"
+}

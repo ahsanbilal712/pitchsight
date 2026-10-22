@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whyline.dev/schemas/model_cache.schema.json",
+  "title": "ModelCacheRecord",
+  "description": "A replay-cache file written by the golden precompute of model calls (T-042): a model result (the parsed output of one call under its cache key, with the Fact Checker's verdict; a failed call keeps its error so replay takes the same fallback), a tool result (the MCP tool's output for one call), or the batch log (batches.json: jobs per round and the custom_id to cache-key map).",
+  "type": "object",
+  "required": ["schema_version", "record"],
+  "properties": {
+    "$schema": { "type": "string", "description": "Names this schema; the validator uses it to pick the schema." },
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "record": { "type": "string", "enum": ["model_result", "tool_result", "batches"] },
+    "text": { "type": "string" },
+    "json": {},
+    "error": { "type": ["string", "null"] },
+    "verified": { "type": ["boolean", "null"], "description": "Fact Checker verdict on the line or explanation built from this result." },
+    "round": { "type": "integer", "minimum": 1 },
+    "via": { "type": "string", "enum": ["batch", "live", "fake", "missing"] },
+    "result": {},
+    "jobs": { "type": "array" },
+    "custom_ids": { "type": "object", "additionalProperties": { "type": "string" } }
+  },
+  "allOf": [
+    { "if": { "properties": { "record": { "const": "model_result" } } }, "then": { "anyOf": [ { "required": ["json"] }, { "required": ["error"] } ] } },
+    { "if": { "properties": { "record": { "const": "tool_result" } } }, "then": { "required": ["result"] } },
+    { "if": { "properties": { "record": { "const": "batches" } } }, "then": { "required": ["jobs", "custom_ids"] } }
+  ],
+  "examples": [
+    { "$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "model_result", "text": "{\"headline\": \"Okafor shoots\"}", "json": { "headline": "Okafor shoots", "body": "A 0.06 xG chance.", "claims": ["0.06 xG"] }, "round": 3, "via": "live", "verified": true },
+    { "$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result", "result": { "error": "no player in control at 1378500", "code": "invalid_alternative" } }
+  ]
+}

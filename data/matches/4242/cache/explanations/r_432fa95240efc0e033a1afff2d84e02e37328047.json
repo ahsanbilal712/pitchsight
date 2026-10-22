@@ -1,0 +1,66 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1666",
+     "e_1667",
+     "e_1668"
+    ],
+    "kind": "player",
+    "text": "Nilo Thornbury",
+    "unit": "",
+    "value_text": "p_006"
+   },
+   {
+    "evidence_ids": [
+     "e_1666",
+     "e_1667",
+     "e_1670"
+    ],
+    "kind": "team",
+    "text": "Verdant Athletic",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "e_1668",
+     "e_1669"
+    ],
+    "kind": "player",
+    "text": "Lauro Silva",
+    "unit": "",
+    "value_text": "p_022"
+   },
+   {
+    "evidence_ids": [
+     "e_1669",
+     "e_1670"
+    ],
+    "kind": "player",
+    "text": "Teo Reyes",
+    "unit": "",
+    "value_text": "p_031"
+   },
+   {
+    "evidence_ids": [
+     "e_1670"
+    ],
+    "kind": "number",
+    "text": "16.71m",
+    "unit": "metres",
+    "value_number": 16.714
+   }
+  ],
+  "confidence": 0.85,
+  "why": "After Nilo Thornbury intercepts the ball for Verdant Athletic, Lauro Silva plays a pass to Teo Reyes, who drives the transition forward with a 16.71m carry."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After Nilo Thornbury intercepts the ball for Verdant Athletic, Lauro Silva plays a pass to Teo Reyes, who drives the transition forward with a 16.71m carry.\",\"confidence\":0.85,\"claims\":[{\"text\":\"Nilo Thornbury\",\"kind\":\"player\",\"value_text\":\"p_006\",\"unit\":\"\",\"evidence_ids\":[\"e_1666\",\"e_1667\",\"e_1668\"]},{\"text\":\"Verdant Athletic\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"e_1666\",\"e_1667\",\"e_1670\"]},{\"text\":\"Lauro Silva\",\"kind\":\"player\",\"value_text\":\"p_022\",\"unit\":\"\",\"evidence_ids\":[\"e_1668\",\"e_1669\"]},{\"text\":\"Teo Reyes\",\"kind\":\"player\",\"value_text\":\"p_031\",\"unit\":\"\",\"evidence_ids\":[\"e_1669\",\"e_1670\"]},{\"text\":\"16.71m\",\"kind\":\"number\",\"value_number\":16.714,\"unit\":\"metres\",\"evidence_ids\":[\"e_1670\"]}]}",
+ "verified": true,
+ "via": "live"
+}

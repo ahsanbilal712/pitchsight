@@ -1,0 +1,32 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "contested_frac": 0.061,
+  "grid_path": "data/runtime/precompute/pitch_control/m_4242/pc_005864.npz",
+  "home_share": 0.2244,
+  "match_id": "m_4242",
+  "overloads": [
+   {
+    "attackers": 2,
+    "channel": "right",
+    "count": "2v1",
+    "defenders": 1,
+    "label": "overload_right_middle_third",
+    "third": "middle_third"
+   }
+  ],
+  "period": 1,
+  "snapshot_id": "pc_005864",
+  "t_ms": 586400,
+  "team_in_possession": "away",
+  "zones": {
+   "contested_frac": 0.061,
+   "home_attacking_third": 0.0,
+   "home_defensive_third": 0.5534,
+   "middle_third": 0.1073,
+   "overload_right_middle_third": "2v1"
+  }
+ },
+ "schema_version": "1.0.0"
+}

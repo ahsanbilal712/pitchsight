@@ -112,6 +112,10 @@ class CacheClient:
             raise CacheMiss(key)
         stored = self.manifest.read(entry)
         ms = await self._wait(entry)
+        if stored.get("error"):   # the golden run's call failed: replay fails the same way (same fallback)
+            from newsroom.llm import LLMError
+
+            raise LLMError(f"cached failure: {stored['error']}")
         return {**stored, "role": role, "model": entry.get("model") or stored.get("model"), "cache_hit": True,
                 "cache_key": entry["key"], "latency_ms": ms, "cost_usd": 0.0,
                 "tokens_in": entry.get("tokens_in") or 0, "tokens_out": entry.get("tokens_out") or 0}
@@ -130,7 +134,11 @@ class CacheClient:
             alt = args.get("alternative") or {}
             k = cf_key(args.get("t_ms", 0), alt, args.get("n", 200), args.get("horizon_s", 8))
             hit = self._cf.get(k) if self.manifest and self.manifest.data["match_id"] == match_id else None
-            if hit is None:
+            if hit is None:   # an alternative the engine could not play is cached as its error
+                entry = self.manifest.get(tool_key(match_id, name, args, self.seed)) if self.manifest else None
+                if entry is not None:
+                    await self._wait(entry)
+                    return self.manifest.read(entry)["result"]
                 self._miss(f"{match_id}/simulate_counterfactual/{k}")
                 return {"error": f"no cached counterfactual for {k}", "code": "cache_miss"}
             await self._wait(hit["entry"])

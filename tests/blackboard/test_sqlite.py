@@ -24,6 +24,7 @@ def arun(coro):
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_COLLECTIONS = {"cue": "cues", "explanation": "explanations", "counterfactual": "counterfactuals",
                       "event": "events", "viewer_profile": "viewer_profiles", "cache_manifest": "manifests"}
+CACHE_ONLY = {"analytics", "model_cache"}   # replay-cache files, never blackboard documents
 
 
 @pytest.fixture
@@ -36,6 +37,8 @@ def bb(tmp_path):
 def _examples():
     for path in sorted((ROOT / "schemas").glob("*.schema.json")):
         name = path.name.removesuffix(".schema.json")
+        if name in CACHE_ONLY:
+            continue
         for i, ex in enumerate(json.loads(path.read_text()).get("examples", [])):
             yield pytest.param(name, ex, id=f"{name}-{i}")
 

@@ -1,0 +1,70 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1160"
+    ],
+    "kind": "player",
+    "text": "Teo Reyes",
+    "unit": "",
+    "value_text": "p_031"
+   },
+   {
+    "evidence_ids": [
+     "e_1161"
+    ],
+    "kind": "team",
+    "text": "Ironvale",
+    "unit": "",
+    "value_text": "ironvale"
+   },
+   {
+    "evidence_ids": [
+     "e_1161",
+     "cf_000031"
+    ],
+    "kind": "player",
+    "text": "Fintan Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "pc_017884"
+    ],
+    "kind": "tactical",
+    "text": "a 2v1 overload on the right in the middle third",
+    "unit": "",
+    "value_text": "overload_right_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000031"
+    ],
+    "kind": "player",
+    "text": "Bastian Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "cf_000031"
+    ],
+    "kind": "number",
+    "text": "13%",
+    "unit": "percent",
+    "value_number": 0.1281
+   }
+  ],
+  "confidence": 0.9,
+  "why": "Under pressure from Teo Reyes, Ironvale forward Fintan Grabowski plays a backward pass to Dimitar Penhallow instead of exploiting a 2v1 overload on the right in the middle third. Finding Bastian Sandoval is the 13% policy choice over the 9% actual pass, maintaining positive threat for Ironvale."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Under pressure from Teo Reyes, Ironvale forward Fintan Grabowski plays a backward pass to Dimitar Penhallow instead of exploiting a 2v1 overload on the right in the middle third. Finding Bastian Sandoval is the 13% policy choice over the 9% actual pass, maintaining positive threat for Ironvale.\",\"confidence\":0.9,\"claims\":[{\"text\":\"Teo Reyes\",\"kind\":\"player\",\"value_text\":\"p_031\",\"unit\":\"\",\"evidence_ids\":[\"e_1160\"]},{\"text\":\"Ironvale\",\"kind\":\"team\",\"value_text\":\"ironvale\",\"unit\":\"\",\"evidence_ids\":[\"e_1161\"]},{\"text\":\"Fintan Grabowski\",\"kind\":\"player\",\"value_text\":\"p_045\",\"unit\":\"\",\"evidence_ids\":[\"e_1161\",\"cf_000031\"]},{\"text\":\"a 2v1 overload on the right in the middle third\",\"kind\":\"tactical\",\"value_text\":\"overload_right_middle_third\",\"unit\":\"\",\"evidence_ids\":[\"pc_017884\"]},{\"text\":\"Bastian Sandoval\",\"kind\":\"player\",\"value_text\":\"p_046\",\"unit\":\"\",\"evidence_ids\":[\"cf_000031\"]},{\"text\":\"13%\",\"kind\":\"number\",\"value_number\":0.1281,\"unit\":\"percent\",\"evidence_ids\":[\"cf_000031\"]}]}",
+ "verified": false,
+ "via": "live"
+}

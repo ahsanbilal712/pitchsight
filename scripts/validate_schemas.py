@@ -30,7 +30,8 @@ MATCHES = ROOT / "data" / "matches"
 MESSAGE_SCHEMAS = {"event": "event.schema.json", "cue": "cue.schema.json", "counterfactual": "counterfactual.schema.json"}
 SCHEMALESS_MESSAGES = {"hello", "tracking_frame", "fact", "moment", "cue_remove", "trace", "request_info", "mode",
                        "spend", "oracle"}
-CACHE_PREFIXES = {"cf_": "counterfactual.schema.json", "ex_": "explanation.schema.json", "c_": "cue.schema.json"}
+CACHE_PREFIXES = {"cf_": "counterfactual.schema.json", "ex_": "explanation.schema.json", "c_": "cue.schema.json",
+                  "x_cf_": "counterfactual.schema.json", "x_r": "counterfactual.schema.json"}   # T-042 extra rollouts
 
 
 class Validators:

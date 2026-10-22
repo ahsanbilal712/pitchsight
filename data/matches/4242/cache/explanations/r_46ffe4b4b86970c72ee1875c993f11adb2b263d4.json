@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0909"
+    ],
+    "kind": "player",
+    "text": "Grabowski",
+    "unit": "",
+    "value_text": "p_045"
+   },
+   {
+    "evidence_ids": [
+     "e_0911",
+     "cf_000024"
+    ],
+    "kind": "player",
+    "text": "Sandoval",
+    "unit": "",
+    "value_text": "p_046"
+   },
+   {
+    "evidence_ids": [
+     "e_0911",
+     "cf_000024"
+    ],
+    "kind": "player",
+    "text": "Varga",
+    "unit": "",
+    "value_text": "p_047"
+   },
+   {
+    "evidence_ids": [
+     "cf_000024"
+    ],
+    "kind": "number",
+    "text": "94%",
+    "unit": "percent",
+    "value_number": 0.9438
+   },
+   {
+    "evidence_ids": [
+     "pc_013774"
+    ],
+    "kind": "tactical",
+    "text": "3v1 overload in the central middle third",
+    "unit": "",
+    "value_text": "overload_centre_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000024"
+    ],
+    "kind": "number",
+    "text": "7%",
+    "unit": "p_goal",
+    "value_number": 0.0663
+   }
+  ],
+  "confidence": 0.85,
+  "why": "After receiving a pass from Grabowski, Sandoval opts to pass toward Varga rather than shoot, turning down a 94% shot option. Despite Ironvale holding a 3v1 overload in the central middle third, the pass goes incomplete, though shooting directly carries a similar 7% goal probability compared to the 6% baseline."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\n  \"why\": \"After receiving a pass from Grabowski, Sandoval opts to pass toward Varga rather than shoot, turning down a 94% shot option. Despite Ironvale holding a 3v1 overload in the central middle third, the pass goes incomplete, though shooting directly carries a similar 7% goal probability compared to the 6% baseline.\",\n  \"confidence\": 0.85,\n  \"claims\": [\n    {\n      \"text\": \"Grabowski\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_045\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\n        \"e_0909\"\n      ]\n    },\n    {\n      \"text\": \"Sandoval\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_046\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\n        \"e_0911\",\n        \"cf_000024\"\n      ]\n    },\n    {\n      \"text\": \"Varga\",\n      \"kind\": \"player\",\n      \"value_text\": \"p_047\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\n        \"e_0911\",\n        \"cf_000024\"\n      ]\n    },\n    {\n      \"text\": \"94%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.9438,\n      \"unit\": \"percent\",\n      \"evidence_ids\": [\n        \"cf_000024\"\n      ]\n    },\n    {\n      \"text\": \"3v1 overload in the central middle third\",\n      \"kind\": \"tactical\",\n      \"value_text\": \"overload_centre_middle_third\",\n      \"unit\": \"\",\n      \"evidence_ids\": [\n        \"pc_013774\"\n      ]\n    },\n    {\n      \"text\": \"7%\",\n      \"kind\": \"number\",\n      \"value_number\": 0.0663,\n      \"unit\": \"p_goal\",\n      \"evidence_ids\": [\n        \"cf_000024\"\n      ]\n    }\n  ]\n}",
+ "verified": false,
+ "via": "live"
+}

@@ -1,0 +1,71 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1619",
+     "cf_000050"
+    ],
+    "kind": "player",
+    "text": "Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_1619",
+     "cf_000050"
+    ],
+    "kind": "player",
+    "text": "Novacek",
+    "unit": "",
+    "value_text": "p_020"
+   },
+   {
+    "evidence_ids": [
+     "cf_000050"
+    ],
+    "kind": "player",
+    "text": "Reyes",
+    "unit": "",
+    "value_text": "p_031"
+   },
+   {
+    "evidence_ids": [
+     "pc_024947"
+    ],
+    "kind": "tactical",
+    "text": "3v1 overload on the left of the middle third",
+    "unit": "",
+    "value_text": "overload_left_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000050"
+    ],
+    "kind": "number",
+    "text": "1%",
+    "unit": "p_goal",
+    "value_number": 0.0093
+   },
+   {
+    "evidence_ids": [
+     "cf_000050"
+    ],
+    "kind": "number",
+    "text": "6%",
+    "unit": "p_goal",
+    "value_number": 0.0612
+   }
+  ],
+  "confidence": 0.92,
+  "why": "Under pressure, Okafor forces an incomplete pass toward Novacek when switching play back to Reyes to exploit a 3v1 overload on the left of the middle third lifts goal probability from 1% to 6%."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Under pressure, Okafor forces an incomplete pass toward Novacek when switching play back to Reyes to exploit a 3v1 overload on the left of the middle third lifts goal probability from 1% to 6%.\",\"confidence\":0.92,\"claims\":[{\"text\":\"Okafor\",\"kind\":\"player\",\"value_text\":\"p_017\",\"unit\":\"\",\"evidence_ids\":[\"e_1619\",\"cf_000050\"]},{\"text\":\"Novacek\",\"kind\":\"player\",\"value_text\":\"p_020\",\"unit\":\"\",\"evidence_ids\":[\"e_1619\",\"cf_000050\"]},{\"text\":\"Reyes\",\"kind\":\"player\",\"value_text\":\"p_031\",\"unit\":\"\",\"evidence_ids\":[\"cf_000050\"]},{\"text\":\"3v1 overload on the left of the middle third\",\"kind\":\"tactical\",\"value_text\":\"overload_left_middle_third\",\"unit\":\"\",\"evidence_ids\":[\"pc_024947\"]},{\"text\":\"1%\",\"kind\":\"number\",\"value_number\":0.0093,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000050\"]},{\"text\":\"6%\",\"kind\":\"number\",\"value_number\":0.0612,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000050\"]}]}",
+ "verified": true,
+ "via": "live"
+}

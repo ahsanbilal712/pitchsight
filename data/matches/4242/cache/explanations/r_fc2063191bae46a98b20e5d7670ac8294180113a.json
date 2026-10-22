@@ -1,0 +1,73 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0677",
+     "e_0681",
+     "cf_000014"
+    ],
+    "kind": "player",
+    "text": "Reyes",
+    "unit": "",
+    "value_text": "p_031"
+   },
+   {
+    "evidence_ids": [
+     "e_0681",
+     "cf_000014"
+    ],
+    "kind": "player",
+    "text": "Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_0681",
+     "cf_000014"
+    ],
+    "kind": "team",
+    "text": "Verdant's",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "cf_000014"
+    ],
+    "kind": "number",
+    "text": "3%",
+    "unit": "p_goal",
+    "value_number": 0.0303
+   },
+   {
+    "evidence_ids": [
+     "pc_010169"
+    ],
+    "kind": "tactical",
+    "text": "3v1 overload on the left of the middle third",
+    "unit": "",
+    "value_text": "overload_left_middle_third"
+   },
+   {
+    "evidence_ids": [
+     "cf_000014"
+    ],
+    "kind": "number",
+    "text": "7%",
+    "unit": "p_goal",
+    "value_number": 0.0743
+   }
+  ],
+  "confidence": 0.9,
+  "why": "After winning an interception high up the pitch, Reyes forces an incomplete pass to Okafor that limits Verdant's scoring chance to 3%. With a 3v1 overload on the left of the middle third, switching play to Novacek raises the goal probability to 7%."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"After winning an interception high up the pitch, Reyes forces an incomplete pass to Okafor that limits Verdant's scoring chance to 3%. With a 3v1 overload on the left of the middle third, switching play to Novacek raises the goal probability to 7%.\",\"confidence\":0.9,\"claims\":[{\"text\":\"Reyes\",\"kind\":\"player\",\"value_text\":\"p_031\",\"unit\":\"\",\"evidence_ids\":[\"e_0677\",\"e_0681\",\"cf_000014\"]},{\"text\":\"Okafor\",\"kind\":\"player\",\"value_text\":\"p_017\",\"unit\":\"\",\"evidence_ids\":[\"e_0681\",\"cf_000014\"]},{\"text\":\"Verdant's\",\"kind\":\"team\",\"value_text\":\"verdant\",\"unit\":\"\",\"evidence_ids\":[\"e_0681\",\"cf_000014\"]},{\"text\":\"3%\",\"kind\":\"number\",\"value_number\":0.0303,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000014\"]},{\"text\":\"3v1 overload on the left of the middle third\",\"kind\":\"tactical\",\"value_text\":\"overload_left_middle_third\",\"unit\":\"\",\"evidence_ids\":[\"pc_010169\"]},{\"text\":\"7%\",\"kind\":\"number\",\"value_number\":0.0743,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000014\"]}]}",
+ "verified": true,
+ "via": "live"
+}

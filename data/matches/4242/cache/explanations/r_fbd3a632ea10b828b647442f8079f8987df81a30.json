@@ -1,0 +1,74 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_1129",
+     "e_1130",
+     "e_1132"
+    ],
+    "kind": "player",
+    "text": "Teo Reyes",
+    "unit": "",
+    "value_text": "p_031"
+   },
+   {
+    "evidence_ids": [
+     "e_1129",
+     "e_1130"
+    ],
+    "kind": "team",
+    "text": "Verdant Athletic",
+    "unit": "",
+    "value_text": "verdant"
+   },
+   {
+    "evidence_ids": [
+     "e_1132",
+     "e_1133"
+    ],
+    "kind": "player",
+    "text": "Oren Novacek",
+    "unit": "",
+    "value_text": "p_020"
+   },
+   {
+    "evidence_ids": [
+     "e_1133",
+     "e_1135"
+    ],
+    "kind": "player",
+    "text": "Tobi Okafor",
+    "unit": "",
+    "value_text": "p_017"
+   },
+   {
+    "evidence_ids": [
+     "e_1134"
+    ],
+    "kind": "player",
+    "text": "Otto Ainsley",
+    "unit": "",
+    "value_text": "p_038"
+   },
+   {
+    "evidence_ids": [
+     "e_1135"
+    ],
+    "kind": "number",
+    "text": "0.03 xG",
+    "unit": "xg",
+    "value_number": 0.031
+   }
+  ],
+  "confidence": 0.9,
+  "why": "Teo Reyes wins possession for Verdant Athletic and initiates a quick transition through Oren Novacek. Novacek sets up Tobi Okafor, who fires an off-target shot under pressure from Otto Ainsley worth 0.03 xG."
+ },
+ "record": "model_result",
+ "round": 2,
+ "schema_version": "1.0.0",
+ "text": "{\"why\": \"Teo Reyes wins possession for Verdant Athletic and initiates a quick transition through Oren Novacek. Novacek sets up Tobi Okafor, who fires an off-target shot under pressure from Otto Ainsley worth 0.03 xG.\", \"confidence\": 0.9, \"claims\": [{\"text\": \"Teo Reyes\", \"kind\": \"player\", \"value_text\": \"p_031\", \"unit\": \"\", \"evidence_ids\": [\"e_1129\", \"e_1130\", \"e_1132\"]}, {\"text\": \"Verdant Athletic\", \"kind\": \"team\", \"value_text\": \"verdant\", \"unit\": \"\", \"evidence_ids\": [\"e_1129\", \"e_1130\"]}, {\"text\": \"Oren Novacek\", \"kind\": \"player\", \"value_text\": \"p_020\", \"unit\": \"\", \"evidence_ids\": [\"e_1132\", \"e_1133\"]}, {\"text\": \"Tobi Okafor\", \"kind\": \"player\", \"value_text\": \"p_017\", \"unit\": \"\", \"evidence_ids\": [\"e_1133\", \"e_1135\"]}, {\"text\": \"Otto Ainsley\", \"kind\": \"player\", \"value_text\": \"p_038\", \"unit\": \"\", \"evidence_ids\": [\"e_1134\"]}, {\"text\": \"0.03 xG\", \"kind\": \"number\", \"value_number\": 0.031, \"unit\": \"xg\", \"evidence_ids\": [\"e_1135\"]}]}",
+ "verified": true,
+ "via": "live"
+}

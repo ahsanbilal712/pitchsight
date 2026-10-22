@@ -1,0 +1,31 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "alternatives": [
+   {
+    "actor": "p_046",
+    "kind": "carry",
+    "reason": "Carry the ball forward into open space rather than passing backward.",
+    "target": "e"
+   },
+   {
+    "actor": "p_046",
+    "kind": "pass",
+    "reason": "Switch play across the pitch to find an advanced forward option.",
+    "target": "p_045"
+   },
+   {
+    "actor": "p_046",
+    "kind": "pass",
+    "reason": "Release the ball quickly to the flank forward to keep attacking momentum.",
+    "target": "p_047"
+   }
+  ]
+ },
+ "record": "model_result",
+ "round": 1,
+ "schema_version": "1.0.0",
+ "text": "{\"alternatives\": [{\"kind\": \"carry\", \"actor\": \"p_046\", \"target\": \"e\", \"reason\": \"Carry the ball forward into open space rather than passing backward.\"}, {\"kind\": \"pass\", \"actor\": \"p_046\", \"target\": \"p_045\", \"reason\": \"Switch play across the pitch to find an advanced forward option.\"}, {\"kind\": \"pass\", \"actor\": \"p_046\", \"target\": \"p_047\", \"reason\": \"Release the ball quickly to the flank forward to keep attacking momentum.\"}]}",
+ "verified": null,
+ "via": "live"
+}

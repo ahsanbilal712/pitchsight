@@ -1,0 +1,51 @@
+{
+ "$schema": "model_cache.schema.json",
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "cf_000048"
+    ],
+    "kind": "number",
+    "text": "8%",
+    "unit": "percent",
+    "value_number": 0.0823
+   },
+   {
+    "evidence_ids": [
+     "cf_000048"
+    ],
+    "kind": "number",
+    "text": "12%",
+    "unit": "percent",
+    "value_number": 0.1195
+   },
+   {
+    "evidence_ids": [
+     "cf_000048"
+    ],
+    "kind": "number",
+    "text": "8 seconds",
+    "unit": "seconds",
+    "value_number": 8.0
+   },
+   {
+    "evidence_ids": [
+     "cf_000048"
+    ],
+    "kind": "number",
+    "text": "200 replays",
+    "unit": "count",
+    "value_number": 200
+   }
+  ],
+  "stance": "disagree",
+  "take": "You both treat that alternative pass to p_020 as an easy out, yet the model gives it just an 8% selection probability compared to 12% for the actual choice. Furthermore, judging safety over a narrow 8 seconds across 200 replays ignores what happens once the away press resets."
+ },
+ "record": "model_result",
+ "round": 4,
+ "schema_version": "1.0.0",
+ "text": "{\"take\": \"You both treat that alternative pass to p_020 as an easy out, yet the model gives it just an 8% selection probability compared to 12% for the actual choice. Furthermore, judging safety over a narrow 8 seconds across 200 replays ignores what happens once the away press resets.\", \"stance\": \"disagree\", \"claims\": [{\"text\": \"8%\", \"kind\": \"number\", \"value_number\": 0.0823, \"unit\": \"percent\", \"evidence_ids\": [\"cf_000048\"]}, {\"text\": \"12%\", \"kind\": \"number\", \"value_number\": 0.1195, \"unit\": \"percent\", \"evidence_ids\": [\"cf_000048\"]}, {\"text\": \"8 seconds\", \"kind\": \"number\", \"value_number\": 8.0, \"unit\": \"seconds\", \"evidence_ids\": [\"cf_000048\"]}, {\"text\": \"200 replays\", \"kind\": \"number\", \"value_number\": 200, \"unit\": \"count\", \"evidence_ids\": [\"cf_000048\"]}]}",
+ "verified": null,
+ "via": "live"
+}
