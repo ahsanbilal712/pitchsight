@@ -5,6 +5,25 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-042 part 1: batched golden precompute of model calls, code and tests (track B)
+
+- `packages/cache/batch.py` (BatchingClient, RecordingTools, VertexBatchRunner / LiveRunner / FakeRunner,
+  custom_id = hash of the cache key), `packages/cache/precompute_models.py` (the stages fast_lines, tactician,
+  narrator, panel, factcheck in one pass), three lines in `scripts/precompute.py` to register them.
+- Design: the real newsroom graph runs every golden moment; each model call parks until every workflow waits on
+  one, then all parked calls leave as one batch per model (a round) and come back matched by custom_id. The Fact
+  Checker and its rewrites run in the graph, so every line is cached with its verdict, under exactly the key
+  replay looks up. Tool results and any counterfactual outside proposer_rule are recorded too; the evidence the
+  Fact Checker saw goes to `evidence.jsonl`, which the replay worker now preloads (same verdicts, same rewrites).
+  Golden roles: Tactician and pundits on gemini-4-argon (`tactician_golden`, `panel_pundit_golden`).
+- `pytest tests/cache/test_batch.py -q`: 4 passed. On four golden moments with a fake model (answers returned in
+  reverse order): 8 rounds, 18 requests, every line verified 7/7, and a replay of the same moments through
+  CacheClient has zero cache misses and identical cues.
+- Waiting: the real golden run (`python scripts/precompute.py --seed 4242 --mode batch --bucket gs://...`) needs a
+  Cloud Storage bucket for Vertex batch I/O; asked the owner (only buckets of other workloads exist in ffc-19484).
+
+---
+
 ## 2026-10-22 · T-037, T-039, T-046, T-047 done; heads, encoder and policy rebuilt (track A)
 
 - T-037 gate (`gate.json`): **scripted_v1**. top-1 kind 0.810 (pass), **top-3 kind+target 0.505 vs 0.80 (fail)**,

@@ -170,7 +170,8 @@ async def run_panel(deps: Deps, msg: Envelope) -> dict:
         spent["timings"]["total_s"] = round(time.perf_counter() - t0, 2)
         return {"takes": takes, "chair": chair, "claims": claims, "evidence": evidence, "spent": spent}
 
-    return await asyncio.wait_for(go(), timeout=BUDGET_S)
+    budget = deps.state.get("panel_budget_s", BUDGET_S)   # None in the golden precompute: rounds are batches
+    return await (go() if budget is None else asyncio.wait_for(go(), timeout=budget))
 
 
 class PanelExecutor(NewsroomExecutor):

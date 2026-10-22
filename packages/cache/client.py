@@ -144,3 +144,24 @@ class CacheClient:
             return await self.inner.call(name, args)
         self._miss(tool_key(match_id, name, args, self.seed))
         return {"error": f"no cached {name} result", "code": "cache_miss"}
+
+
+EVIDENCE_COLLECTIONS = ("counterfactuals", "pitch_control", "facts")
+
+
+def preload_evidence(bb, manifest: CacheManifest | None, store=None) -> int:
+    """Replay start: put the evidence the golden precompute's Fact Checker saw into the blackboard (the match events
+    through `store`, and the `evidence.jsonl` documents: counterfactuals, pitch-control snapshots, facts), so every
+    verdict, and with it every rewrite, is the same as when the cache was made. Returns the documents loaded."""
+    n = 0
+    if manifest is None:
+        return n
+    if store is not None:
+        store.match(manifest.data["match_id"])
+    for e in manifest.find(producer="evidence"):
+        for line in (manifest.cache_dir / e["path"]).read_text().splitlines():
+            if line.strip():
+                doc = json.loads(line)
+                bb.put(doc.pop("_collection"), doc)
+                n += 1
+    return n

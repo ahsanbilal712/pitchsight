@@ -202,6 +202,10 @@ async def explain(deps: Deps, msg: Envelope, decision: dict | None, cf: dict | N
             pc = {k: v for k, v in pc.items() if k != "grid_path"}
         except KeyError:
             pc = None
+        if pc is None and deps.rollout is not None:   # a cached counterfactual: fetch (and record) its snapshot
+            got = await deps.rollout.call("get_pitch_control", {"match_id": m.match_id, "t_ms": int(cf["t_ms"])})
+            pc = {k: v for k, v in got.items() if k != "grid_path"} if isinstance(got, dict) and "snapshot_id" in got \
+                else None
     role = config.role(ROLE)
     trace: list = []
     tools = make_tools(deps, trace) if deps.rollout is not None else None
