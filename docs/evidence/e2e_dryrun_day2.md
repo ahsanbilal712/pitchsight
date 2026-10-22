@@ -65,3 +65,14 @@ Trace rows for mo_00060: ingest, scout, proposer (cache_miss), rollout, tacticia
 interrupted** (written at kill time), narrator, factcheck verified, director, cuebus delivered. The four TECH_PLAN 1.7
 log lines appear in order. At x10 the same run had not reached the Tactician before the window ended (the Proposer
 cache miss took 12 s); the recording plays this beat at x1.
+
+## Full-match rehearsal dry run at x10 (22 Oct, after T-042/T-050)
+
+00:00 → 90:00 at x10 with the demo script (x1 from 76:52 to 77:10), current golden cache:
+- **0 cache misses**; no tracebacks; no screen errors; replay evidence preloaded (83 documents); kill → restart →
+  resume worked.
+- **The newsroom fell ~20 minutes behind**: 53 of 125 moments run by 90:00, so the kill hit mo_00032 instead of
+  mo_00060 and the half-time recap request never existed for the 45:15 veto. Runs took 12.6 s median (p90 32 s)
+  because simulated latencies use WHYLINE_REPLAY_SPEED read at worker start, not the live speed.
+- Fix in progress: the api publishes the clock to blackboard `replay/<match_id>` (9e14a91); the worker reading it
+  is track B's. Until then a rehearsal must start the worker with WHYLINE_REPLAY_SPEED equal to the speed played.
