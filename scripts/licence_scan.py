@@ -27,7 +27,7 @@ FORBIDDEN = re.compile(r"(^|[^A-Z])(A?GPL|LGPL)|NON-?COMMERCIAL|(^|-)NC(-|$)|CC-
 NORMALISE = {
     "mit license": "MIT", "mit": "MIT", "the mit license": "MIT", "expat": "MIT",
     "apache software license": "Apache-2.0", "apache 2.0": "Apache-2.0", "apache license 2.0": "Apache-2.0",
-    "apache-2.0": "Apache-2.0", "apache license, version 2.0": "Apache-2.0",
+    "apache-2.0": "Apache-2.0", "apache license, version 2.0": "Apache-2.0", "apache 2.0 license": "Apache-2.0",
     "bsd license": "BSD", "bsd": "BSD", "new bsd license": "BSD-3-Clause", "3-clause bsd": "BSD-3-Clause",
     "python software foundation license": "PSF-2.0", "psf": "PSF-2.0", "psf-2.0": "PSF-2.0",
     "mozilla public license 2.0 (mpl 2.0)": "MPL-2.0", "mpl-2.0 and mit": "MPL-2.0 AND MIT", "isc license (iscl)": "ISC", "isc license": "ISC",
@@ -55,13 +55,27 @@ def load_allowlist(path: Path = ALLOWLIST) -> tuple[set[str], dict[str, str]]:
     return allowed, packages
 
 
+def unwrap(text: str) -> str:
+    """Drop surrounding spaces and outer parentheses that enclose the whole text, never a parenthesis that belongs
+    to a name such as "ISC License (ISCL)"."""
+    text = text.strip()
+    while text.startswith("(") and text.endswith(")"):
+        depth = 0
+        for i, ch in enumerate(text):
+            depth += (ch == "(") - (ch == ")")
+            if depth == 0 and i < len(text) - 1:
+                return text                      # the first "(" closes before the end: not an outer pair
+        text = text[1:-1].strip()
+    return text
+
+
 def allowed_expr(expr: str, allowed: set[str]) -> bool:
     """SPDX-ish expression check: AND binds tighter than OR; pip's '; ' lists alternatives."""
     if not expr.strip() or FORBIDDEN.search(expr):
         return False
-    expr = re.sub(r"\s+WITH\s+[\w.-]+", "", expr.strip("() "))
+    expr = re.sub(r"\s+WITH\s+[\w.-]+", "", unwrap(expr))
     for alternative in re.split(r"\s+OR\s+|;\s*", expr):
-        parts = [p.strip("() ") for p in re.split(r"\s+AND\s+", alternative.strip("() ")) if p.strip("() ")]
+        parts = [unwrap(p) for p in re.split(r"\s+AND\s+", unwrap(alternative)) if unwrap(p)]
         if parts and all(norm(p) in allowed for p in parts):
             return True
     return False
