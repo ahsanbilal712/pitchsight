@@ -5,6 +5,17 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-070 Front-end bug bash and clean-load check (track C)
+
+- Clean `npm ci` + build of all three apps; `pytest tests/apps -q` **41 passed**. New `scripts/frontend_sweep.py`:
+  10 pages against a local replay + newsroom at every golden_moments beat: **0 page errors, 0 console errors, 0 failed
+  requests, 0 phone overflow** (360/390/430 px). Fixed: replay docs from the golden cache (71a20ce), fan frame fills
+  phones, PCF shadows in /replay3d. Open P1/P2 with owners in `docs/evidence/frontend_bugbash_v0.1.md`.
+- Not done: the hosted Static Web Apps check; Azure is deferred by owner direction.
+- Also: T-061 finished (74317bf) with the golden_moments clocks (kill 41:54, speed 1 76:52, speed 10 77:10).
+
+---
+
 ## 2026-10-22 · T-042 part 1: batched golden precompute of model calls, code and tests (track B)
 
 - `packages/cache/batch.py` (BatchingClient, RecordingTools, VertexBatchRunner / LiveRunner / FakeRunner,
