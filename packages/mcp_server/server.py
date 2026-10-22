@@ -12,12 +12,13 @@ from typing import Any
 from mcp.server.mcpserver import MCPServer
 
 from mcp_server import tools_core as core
+from mcp_server import tools_recap as recap
 from mcp_server.errors import guarded
 
 INSTRUCTIONS = ("WHYLINE match data for one fictional football match. Cite the ids these tools return "
                 "(e_, cf_, f_, pc_) as evidence for every claim.")
 TOOLS = ("query_events", "get_state", "get_pitch_control", "simulate_counterfactual", "player_stats",
-         "verify_claims", "get_budget", "similar_moments")
+         "verify_claims", "get_budget", "similar_moments", "top_moments", "timeline")
 
 
 def build_server(store: core.MatchStore) -> MCPServer:
@@ -75,5 +76,17 @@ def build_server(store: core.MatchStore) -> MCPServer:
         """The k moments of the golden season most like this one (other matches), each with its phase name."""
         from mcp_server import tools_similar
         return tools_similar.similar_moments(store, match_id, t_ms, k)
+
+    @mcp.tool(structured_output=True)
+    @guarded
+    def top_moments(match_id: str, period: int | None = None, k: int = 5) -> list[dict[str, Any]]:
+        """The k highest-leverage moments of the match (or one period), in match order."""
+        return recap.top_moments(store, match_id, period, k)
+
+    @mcp.tool(structured_output=True)
+    @guarded
+    def timeline(match_id: str) -> dict[str, Any]:
+        """Chaos, home pitch control and expected-threat difference every 30 s, plus the goals."""
+        return recap.timeline(store, match_id)
 
     return mcp

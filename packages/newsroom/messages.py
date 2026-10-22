@@ -97,5 +97,18 @@ class CueOut(Envelope):
     cue: dict
 
 
-for _cls in (Moment, Envelope, MomentIn, Routed, Proposals, RolloutDone, Explained, Draft, CueOut):
+class ProducerApproval(Envelope):
+    """Director -> producer (request_info): a recap cue waiting for approval (TECH_PLAN 1.7 "Producer veto")."""
+
+    cue: dict
+
+
+class ProducerDecision(BaseModel):
+    """Producer -> Director (the response): approved, vetoed or held."""
+
+    status: Literal["approved", "vetoed", "held"]
+
+
+for _cls in (Moment, Envelope, MomentIn, Routed, Proposals, RolloutDone, Explained, Draft, CueOut, ProducerApproval,
+             ProducerDecision):
     register_checkpoint_type(_cls)

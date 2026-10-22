@@ -33,10 +33,10 @@ class LocalTools:
         self.store = store
 
     async def call(self, name: str, args: dict) -> Any:
-        from mcp_server import tools_core
+        from mcp_server import tools_core, tools_recap
         from mcp_server.errors import guarded
 
-        fn = guarded(getattr(tools_core, name))
+        fn = guarded(getattr(tools_core, name, None) or getattr(tools_recap, name))
         return await asyncio.to_thread(fn, self.store, **args)
 
 

@@ -111,7 +111,7 @@ roles:
   recap:
     provider: gemini
     model: gemini-4-argon
-    effort: high
+    effort: low                       # high: all 6000 output tokens on thinking, empty text (T-050 golden run)
     max_tokens: 6000
     output_format: inline_json        # recap_card list
     timeout_s: 90
@@ -121,7 +121,7 @@ roles:
   recap_live:
     provider: gemini
     model: gemini-4-argon
-    effort: medium
+    effort: low                       # medium maps to thinking high on Argon (empty or cut-off output)
     max_tokens: 4000
     timeout_s: 45
 

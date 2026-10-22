@@ -15,13 +15,13 @@ from __future__ import annotations
 
 import time
 
-from agent_framework import WorkflowContext, handler
+from agent_framework import WorkflowContext, handler, response_handler
 
 from blackboard.ids import format_id, parse_id
 from newsroom.config import load_budgets
 from newsroom.executors.base import Deps, NewsroomExecutor
 from newsroom.factcheck import league_data, verify_claims
-from newsroom.messages import CueOut, Draft
+from newsroom.messages import CueOut, Draft, ProducerApproval, ProducerDecision
 from newsroom.templates import clip, template_line
 
 BRANCH_INDEX = {"fast": 0, "explained": 1, "panel": 2, "referee": 3, "recap": 4}
@@ -215,7 +215,26 @@ class DirectorExecutor(NewsroomExecutor):
                            "model": "template" if red else msg.model, "prompt_version": msg.prompt_version,
                            "cache_key": msg.cache_key},
         }
+        envelope = out.model_dump(include=set(CueOut.model_fields) - {"cue"})
+        if kind == "recap":   # TECH_PLAN 1.7 "Producer veto": a recap waits for the producer
+            self.trace(out, started, status="awaiting_producer", cue_id=cue["cue_id"], t_in_ms=t_in,
+                       model=cue["provenance"]["model"])
+            await self.handle_recap(cue, envelope, ctx)
+            return
         self.trace(out, started, status=red or "ok", cue_id=cue["cue_id"], t_in_ms=t_in, moved=moved,
                    excluded=why_not, model=cue["provenance"]["model"])
-        await ctx.send_message(CueOut(**out.model_dump(include=set(CueOut.model_fields) - {"cue"}), cue=cue))
+        await ctx.send_message(CueOut(**envelope, cue=cue))
+
+    async def handle_recap(self, cue: dict, envelope: dict, ctx: WorkflowContext[CueOut]) -> None:
+        await ctx.request_info(request_data=ProducerApproval(**envelope, cue=cue), response_type=ProducerDecision)
+
+    @response_handler
+    async def on_decision(self, original_request: ProducerApproval, response: ProducerDecision,
+                          ctx: WorkflowContext[CueOut]) -> None:
+        started = time.perf_counter()
+        cue = {**original_request.cue, "producer_status": response.status}
+        self.trace(original_request, started, status=f"producer_{response.status}", cue_id=cue["cue_id"])
+        if response.status != "vetoed":
+            envelope = original_request.model_dump(include=set(CueOut.model_fields) - {"cue"})
+            await ctx.send_message(CueOut(**envelope, cue=cue))
 

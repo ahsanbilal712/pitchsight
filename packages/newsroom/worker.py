@@ -80,7 +80,7 @@ async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asy
                 on_result=None) -> None:
     """Resume runs a kill interrupted (T-051), then watch `moments` and run each new one. A moment is marked
     `running` before its run and `done` after; the run itself is tracked in blackboard `runs`."""
-    from newsroom.resume import mark_run, resume_pending
+    from newsroom.resume import mark_run, publish_requests, resume_decisions, resume_pending
 
     workflow = build_workflow(deps, storage=storage)
     if hasattr(deps.llm, "warm"):
@@ -101,6 +101,8 @@ async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asy
         # poll the blackboard sequence (the same mechanism as bb.watch); a wait_for around an async generator's
         # __anext__ would close the generator on its first timeout and end the loop
         if not pending:
+            if storage is not None:
+                await resume_decisions(deps, storage)   # recaps the producer has approved or vetoed meanwhile
             batch = deps.bb.changes_since("moments", seq, match_id)
             if not batch:
                 await asyncio.sleep(0.05)
@@ -117,6 +119,14 @@ async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asy
         deps.bb.put("moments", {**doc, "status": "running"})
         mark_run(deps.bb, msg, "running")
         result = await run_moment(workflow, msg)
+        if result["requests"]:   # paused for the producer: the run finishes when the decision arrives
+            await publish_requests(deps, workflow, storage, msg, result["requests"])
+            workflow = build_workflow(deps, storage=storage)   # the paused instance keeps its pending request
+            mark_run(deps.bb, msg, "awaiting_producer")
+            deps.bb.put("moments", {**doc, "status": "done"})
+            if on_result:
+                on_result(msg, result)
+            continue
         mark_run(deps.bb, msg, "done", cues=[c.get("cue_id") for c in result["outputs"] if isinstance(c, dict)])
         deps.bb.put("moments", {**doc, "status": "done"})
         if on_result:

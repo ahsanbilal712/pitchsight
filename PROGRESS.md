@@ -5,6 +5,25 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-050 Recap with producer approval; top_moments and timeline (track B)
+
+- `executors/recap.py` (role `recap_live`, golden `recap`, both gemini-4-argon; inputs from MCP `top_moments`,
+  `timeline` and `player_stats`, resolved before one structured call; template on failure),
+  `prompts/recap@2.md`, `mcp_server/tools_recap.py` (both tools registered on the MCP server), Director
+  `handle_recap` with `ctx.request_info` and `@response_handler on_decision` (TECH_PLAN 1.7, a veto never reaches the
+  CueBus), worker publishing `{request_id, cue}` to blackboard `requests` and resuming from the pause checkpoint
+  with `responses=` when `POST /producer/decision` writes the decision, without blocking other moments.
+- `recap` and `recap_live` thinking low: at high the golden full-time recap spent all 6,000 output tokens on
+  thinking and returned no text. Recap inputs now name scorers and clubs (the first run wrote "p_046" on screen).
+- Golden recaps (via `--stages recap`): half-time "Okafor cancels out Sandoval's early opener", full-time
+  "Tolliver hits late double for Verdant"; both pass the Fact Checker. Recap spend **$0.16** (limit $0.30): $0.12
+  for the first attempt (high thinking, one empty, one rejected), $0.014 for the kept run.
+- `pytest tests/newsroom/test_recap_veto.py -q`: 4 passed (veto never reaches the CueBus; approval delivers with
+  `producer_status: approved`; resume uses `workflow.run(stream=True, responses=..., checkpoint_id=...,
+  checkpoint_storage=storage)`; worker round trip; both tools).
+
+---
+
 
 ## 2026-10-22 · T-036 policy_v1 decision-only rollout path and MPS performance test (track A)
 

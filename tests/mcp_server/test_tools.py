@@ -46,7 +46,7 @@ def call(server, name, args):
     return res.structured_content
 
 
-def test_server_lists_the_seven_core_tools(server):
+def test_server_lists_the_core_and_recap_tools(server):
     names = [t.name for t in arun(server.list_tools())]
     assert names == list(TOOLS)
 

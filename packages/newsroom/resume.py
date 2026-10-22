@@ -90,3 +90,45 @@ async def resume_pending(deps, storage, run_moment_fn=None, on_result=None) -> l
             moment = Moment.model_validate(deps.bb.get("moments", run["moment_id"], run["match_id"]))
             on_result(MomentIn(run_id=run["id"], moment=moment), {"outputs": outputs, "requests": [], "events": []})
     return resumed
+
+
+async def publish_requests(deps, workflow, storage, msg, requests: list) -> list[dict]:
+    """A run paused on request_info (a recap waiting for the producer, TECH_PLAN 1.7): write {request_id, cue}
+    to blackboard `requests` (the api broadcasts it to the studio) with the checkpoint to resume from."""
+    out = []
+    for ev in requests:
+        rid = ev.request_id
+        cp = None
+        if storage is not None:
+            cp = await workflow.resolve_pause_checkpoint_id([rid], checkpoint_storage=storage)
+        doc = {"id": rid, "request_id": rid, "match_id": msg.moment.match_id, "moment_id": msg.moment.moment_id,
+               "run_id": msg.run_id, "checkpoint_id": cp, "cue": getattr(ev.data, "cue", None), "status": "waiting"}
+        deps.bb.put("requests", doc)
+        out.append(doc)
+    return out
+
+
+async def resume_decisions(deps, storage, on_result=None) -> list[str]:
+    """Resume every waiting request whose producer decision (blackboard `decisions`, POST /producer/decision)
+    has arrived: workflow.run(stream=True, responses=..., checkpoint_id=..., checkpoint_storage=storage)."""
+    from newsroom.graph import build_workflow
+    from newsroom.messages import ProducerDecision
+
+    done = []
+    for req in deps.bb.query("requests", status="waiting"):
+        decision = next(iter(deps.bb.query("decisions", request_id=req["request_id"])), None)
+        if decision is None or not req.get("checkpoint_id"):
+            continue
+        workflow = build_workflow(deps, storage=storage)
+        outputs = []
+        async for event in workflow.run(stream=True, responses={req["request_id"]: ProducerDecision(
+                status=decision["decision"])}, checkpoint_id=req["checkpoint_id"], checkpoint_storage=storage):
+            if event.type == "output":
+                outputs.append(event.data)
+        deps.bb.put("requests", {**req, "status": decision["decision"], "resolved_at": time.time()})
+        deps.bb.put("runs", {"id": req["run_id"], "match_id": req["match_id"], "moment_id": req["moment_id"],
+                             "status": "done", "producer": decision["decision"], "updated_at": time.time()})
+        done.append(req["request_id"])
+        if on_result:
+            on_result(req, {"outputs": outputs, "requests": [], "events": []})
+    return done
