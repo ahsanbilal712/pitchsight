@@ -76,3 +76,21 @@ cache miss took 12 s); the recording plays this beat at x1.
   because simulated latencies use WHYLINE_REPLAY_SPEED read at worker start, not the live speed.
 - Fix in progress: the api publishes the clock to blackboard `replay/<match_id>` (9e14a91); the worker reading it
   is track B's. Until then a rehearsal must start the worker with WHYLINE_REPLAY_SPEED equal to the speed played.
+
+## Full-match rehearsal dry run at x10, after 2ad97dc (worker follows the live replay speed)
+
+00:00 → 90:00 at x10 with the demo script, same setup:
+- **124 of 125 moments run** by 90:00 (was 53); the 125th is the full-time recap, held for the producer.
+- **55 cues, 0 cache misses**, no tracebacks, no screen errors.
+- Kill beat:
+```
+2026-10-22T17:21:37.025 demo action=kill at=41:37 clock=41:37 {'started': True}
+2026-10-22T17:21:37.757 kill target=newsroom run_id=run_m_4242_mo_00060 at_executor=tactician
+2026-10-22T17:21:37.811 restart pid=91926
+2026-10-22T17:21:38.750 resume run_id=run_m_4242_mo_00060 checkpoint_id=3359b479-be64-46e4-8bd5-5de3b097f0d2
+2026-10-22T17:21:39.007 cue c_000601 delivered resumed_from_checkpoint=3359b479-be64-46e4-8bd5-5de3b097f0d2
+```
+- Veto beat: the half-time recap request (45:00) was vetoed by the demo script at 45:15 (decision `vetoed`); the
+  full-time recap request stays pending.
+- Red rows left: 4 `error` rows, all `narrator_fast: invalid_json (no headline/body)`, cached failures from the
+  golden model run (track B, T-057 regeneration). T-062 records only with zero red rows.
