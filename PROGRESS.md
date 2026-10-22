@@ -5,6 +5,16 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-057 follow-up: banned word in a cached Panel chair line (track B)
+
+- Track C's T-062 scan (`scan_banned.py data/matches/4242/cache apps/*/src`) found betting 'Odds' in mo_00104's
+  cached chair headline. New `review/chair_<moment>.md` import (gated by the rule-7 matcher): headline now
+  "Passing Over Shooting: the Better Chance"; consensus and dissent unchanged.
+- Visible change: the chair line now passes the Fact Checker, so c_001042 shows the chair's debate instead of the
+  Narrator's rewrite. Replay 55/55 verified, 0 templates; scan **0 hits**; check_cue_evidence OK. No model call.
+
+---
+
 ## 2026-10-22 · T-057 follow-up: seven cue lines the T-056 judge flagged, hand-reviewed (track B)
 
 - The judge (31344a9) flagged factual swaps of actual and alternative: c_000201 (the alternative's 7% credited to

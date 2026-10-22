@@ -247,6 +247,22 @@ def import_review(manifest: CacheManifest, review_dir: Path) -> dict:
         (manifest.cache_dir / e["path"]).write_bytes(raw)
         e["sha256"], e["hand_reviewed"] = hashlib.sha256(raw).hexdigest(), True
         imported.append(f"fast:{mid}")
+    from newsroom.factcheck import banned_matcher
+
+    for path in sorted(Path(review_dir).glob("chair_mo_*.md")):   # a Panel chair's {consensus, dissent, headline}
+        doc = json.loads(BLOCK.search(path.read_text()).group(1))
+        chair = doc["chair"]
+        hits = [h for v in chair.values() for h in banned_matcher().find(v)]
+        if hits or not chair.get("headline") or set(chair) != {"consensus", "dissent", "headline"}:
+            refused[path.name] = hits or "needs consensus, dissent and headline"
+            continue
+        e = manifest.get(CacheManifest.key(match_id, doc["moment_id"], "panel", "chair@1", "gemini-3.8-flash",
+                                           manifest.data["match_seed"]))
+        payload = {**manifest.read(e), "json": chair, "text": json.dumps(chair, indent=2), "hand_reviewed": True}
+        raw = (json.dumps(payload, indent=1, sort_keys=True) + "\n").encode()
+        (manifest.cache_dir / e["path"]).write_bytes(raw)
+        e["sha256"], e["hand_reviewed"] = hashlib.sha256(raw).hexdigest(), True
+        imported.append(f"chair:{doc['moment_id']}")
     lines = sorted(Path(review_dir).glob("line_mo_*.md"))
     inputs = narrator_inputs(manifest) if lines else {}
     for path in lines:
