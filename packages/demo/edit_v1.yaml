@@ -53,13 +53,7 @@ clips:
     from: 0.0
     to: 9.0
     captions:
-      - {from: 0.3, to: 8.8, text: "It sees danger before it happens..."}
-
-  - shot: dugout
-    from: 0.0
-    to: 6.0
-    captions:
-      - {from: 0.0, to: 5.8, text: "...and tells the studio what the manager should do."}
+      - {from: 0.3, to: 8.8, text: "It sees danger before it happens."}
 
   - layout: split3
     shots: [split_analyst, split_casual, split_player_cam]
@@ -101,4 +95,6 @@ sources:
 #   "Seven agents on Microsoft Agent Framework", "Cloud-native on Azure", "Measured in Foundry" -> no third-party
 #     marks in the video (TECH_PLAN 1.12), Azure deferred, Foundry not used (TECH_PLAN 1.14 #1)
 #   "shot in the next 10 s: 34%", "Ten minutes later, he does it" -> no oracle cue or Dugout-called-it cue is shown
+#   Dugout beat ("tells the studio what the manager should do") -> cut from v1: the golden cue stream has no dugout
+#     cue, so the 60:00 shot showed a plain pitch under that line (frame review, T-069)
 #   "ninety-seven percent grounded" -> replaced by the measured 141 of 141
