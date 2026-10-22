@@ -135,7 +135,7 @@ def test_shot_list_covers_every_storyboard_beat():
     assert {s.beat for s in shots} == BEATS
     by = {s.shot: s for s in shots}
     assert by["sliding_doors_3d_player"].route == "/replay3d?cf=cf_000077&cam=player"
-    assert by["split_player_cam"].player == "p_031" and by["split_player_cam"].app == "fan"
+    assert by["split_player_cam"].player == "p_017" and by["split_player_cam"].app == "fan"   # the actor
     assert by["sliding_doors_2d"].clock_in == 1_868_000 and by["sliding_doors_2d"].keyframes[0] == 1_874_000
     assert {s.viewer for s in shots if s.beat == "split_modes" and s.app != "studio"} == {"analyst", "casual",
                                                                                           "player_cam"}

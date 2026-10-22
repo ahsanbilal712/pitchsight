@@ -1,6 +1,8 @@
 // Referee lines layer (TECH_PLAN 1.9, T-045): a `referee_line` cue's graphics.lines ([[x1,y1],[x2,y2]] in
-// metres) drawn over 0.6 s of match time from t_in_ms, with the margin between the first two lines labelled
-// ("0.4 m"). The cue's text is captioned by the LowerThird.
+// metres) drawn over 0.6 s of match time from t_in_ms, with the margin labelled ("0.4 m"): the gap between the first
+// two lines, or, for a single line (an offside line alone), the cue's verified claim in metres. The cue's text is
+// captioned by the LowerThird.
+import type { Cue } from "../../stream/types";
 import { layerStats, registerLayer, type LayerFn } from "../layers";
 
 const DRAW_MS = 600;
@@ -15,6 +17,13 @@ export function margin(a: Line, b: Line): number {
   const [dx, dy] = [a[1][0] - a[0][0], a[1][1] - a[0][1]];
   const len = Math.hypot(dx, dy) || 1;
   return Math.abs(((bx - ax) * -dy + (by - ay) * dx) / len); // component of the gap normal to line a
+}
+
+/** The first verified claim in metres on the cue (Fourth Official margins), or null. */
+function metresClaim(cue: Cue): number | null {
+  const claims = ((cue.explain as { claims?: { unit?: string | null; value?: unknown; verified?: boolean }[] })
+    ?.claims ?? []).filter((c) => c.unit === "metres" && c.verified !== false && typeof c.value === "number");
+  return claims.length ? (claims[0].value as number) : null;
 }
 
 export const drawRefereeLines: LayerFn = (ctx, frame, cues, _facts, toCanvas) => {
@@ -43,10 +52,12 @@ export const drawRefereeLines: LayerFn = (ctx, frame, cues, _facts, toCanvas) =>
     }
   }
   let m = 0;
-  if (lines.length >= 2 && progress >= 1) {
-    m = margin(lines[0], lines[1]);
+  const claimed = metresClaim(cue);
+  if (progress >= 1 && (lines.length >= 2 || claimed !== null)) {
+    m = lines.length >= 2 ? margin(lines[0], lines[1]) : (claimed as number);
     const label = `${m.toFixed(1)} m`;
-    const mx = (lines[0][0][0] + lines[0][1][0] + lines[1][0][0] + lines[1][1][0]) / 4;
+    const used = lines.slice(0, 2);
+    const mx = used.reduce((a, l) => a + l[0][0] + l[1][0], 0) / (2 * used.length);
     const [lx, ly] = toCanvas(mx, 40); // mid-height: clear of the score bug, chaos meter and lower-third
     ctx.font = "700 24px ui-monospace, Menlo, monospace";
     const w = ctx.measureText(label).width + 20;

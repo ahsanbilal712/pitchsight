@@ -5,13 +5,16 @@
 The body is MCP `player_stats` (packages/mcp_server/tools_core.py: touches, passes, completion, xT, shots, xG,
 sprints, top speed, decision_index), called on the same code, plus:
 - `distance_m`: metres covered while on the pitch, from tracking.npz (rows follow substitutions);
-- `decision_index` from the latest blackboard fact `{name: decision_index, player}` while the MCP value is null
-  (the Decision Index precompute is T-048), with `decision_index_source` saying which.
+- `decision_index` while the MCP value is null: the latest blackboard fact `{name: decision_index, player}`, else
+  the golden cache's rollout index (cache/analytics/decision_index.json `players[pid].index`, T-048), with
+  `decision_index_source` saying which (players with fewer than 5 decisions have none).
 Numbers cover the whole recorded match, as MCP's do.
 """
 
 from __future__ import annotations
 
+import functools
+import json
 import threading
 
 import numpy as np
@@ -74,4 +77,20 @@ def player_stats(request: Request, match_id: str, player_id: str) -> dict:
         if facts:
             stats["decision_index"] = facts[-1]["value"]
             stats["decision_index_source"] = "fact"
+        else:
+            index = cached_decision_index(mid).get(player_id)
+            if index is not None:
+                stats["decision_index"], stats["decision_index_source"] = index, "cache"
     return stats
+
+
+@functools.lru_cache(maxsize=8)
+def cached_decision_index(match_id: str) -> dict[str, float]:
+    """{player: Decision Index 0-100} from the golden cache (T-048), or {}."""
+    from api.replay import match_dir
+
+    path = match_dir(match_id) / "cache" / "analytics" / "decision_index.json"
+    if not path.exists():
+        return {}
+    players = json.loads(path.read_text()).get("players", {})
+    return {pid: v["index"] for pid, v in players.items() if isinstance(v, dict) and "index" in v}

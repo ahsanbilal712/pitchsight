@@ -132,3 +132,16 @@ def test_heatmap_redraw_under_8ms_p95(page, overlay_url):
           f"{build:.2f} ms")
     assert page.evaluate("() => window.__whyline.layerStats().heatmap.drawn") == 1
     assert p95 < 8.0 and build < 8.0
+
+
+def test_single_offside_line_labels_the_claimed_margin(page, overlay_url):
+    """The golden offside call carries one line (the offside line); the margin label comes from its verified
+    metres claim (found recording T-062)."""
+    open_mode(page, overlay_url, "casual", REFEREE)
+    page.evaluate("""() => window.__whyline.inject({type: 'cue', payload: {cue_id: 'c_900200', t_in_ms: 1900000,
+        t_out_ms: 1908000, layer: 'referee_line', kind: 'fourth_official', priority: 1, clock: '31:40',
+        targets: {modes: ['casual'], clubs: ['any'], players: []},
+        text: {headline: 'Offside: 1.1 m', body: ''}, graphics: {lines: [[[30.17, 0], [30.17, 68]]]},
+        explain: {why: '', claims: [{text: '1.1 m', kind: 'number', value: 1.1, unit: 'metres',
+                                      evidence_ids: ['e_8816'], verified: true}]}}})""")
+    page.wait_for_function("() => window.__whyline.layerStats().referee_lines.margin_m === 1.1", timeout=2000)

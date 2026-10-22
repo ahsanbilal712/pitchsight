@@ -110,21 +110,23 @@
   app: fan
   route: "/"
   viewer: player_cam
-  player: "{sliding_doors.alternative_target}"
+  player: "{sliding_doors.actor}"  # the Director lists the actor in targets.players; Player-Cam shows only those
   clock_in: "@sliding_doors-4s"
   clock_out: "@sliding_doors+8s"
   speed: 1
   keyframes: ["@sliding_doors+4s"]
 
+# the half-time recap run takes ~20 s at x1 (simulated Recap latency), so its approval request appears around
+# 45:20; the demo script's 45:15 veto waits for it
 - shot: veto_studio
   beat: split_modes
   app: studio
   route: "/"
   viewer: studio
-  clock_in: "45:00"
-  clock_out: "45:00+20s"
+  clock_in: "44:58"
+  clock_out: "45:00+35s"
   speed: 1
-  keyframes: ["45:00+16s"]
+  keyframes: ["45:00+10s", "45:00+30s"]
 
 - shot: architecture
   beat: architecture

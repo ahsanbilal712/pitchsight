@@ -94,6 +94,8 @@ export default function Replay3D() {
     const h = window.__whyline;
     if (!h) return;
     h.gate = () => cf !== null && rendered;
+    // the recorder opens the scene with the replay paused: no stream message re-evaluates readiness, so do it here
+    h.ready = Boolean(state.frame && state.hello && cf !== null && rendered);
     h.camera = (name: string) => setCam(name === "player" ? "player" : "wide");
     h.fps = (windowMs: number) => {
       const s = stamps.current;
@@ -102,7 +104,7 @@ export default function Replay3D() {
       return inWindow.length / (windowMs / 1000);
     };
     h.scene = () => ({ cam, cf: cf?.counterfactual_id ?? null, rendered });
-  }, [cf, rendered, cam]);
+  }, [cf, rendered, cam, state.frame, state.hello]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

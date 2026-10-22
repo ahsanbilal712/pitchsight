@@ -75,12 +75,18 @@ def test_endpoint_matches_mcp_player_stats_dump(api_server):
     want = json.loads(DUMP.read_text())["players"]
     for pid, stats in want.items():
         got = get(api_server.base, f"/match/m_4242/players/{pid}/stats")
-        assert {k: got[k] for k in stats} == stats, pid
+        same = [k for k in stats if k != "decision_index"]   # MCP has none yet; the api adds the cached one
+        assert {k: got[k] for k in same} == {k: stats[k] for k in same}, pid
         print(f"\n{pid}: touches {got['touches']}, sprints {got['sprints']}, top {got['top_speed_kmh']} km/h, "
               f"distance {got['distance_m'] / 1000:.1f} km")
         assert 3_000 < got["distance_m"] < 14_000
     with pytest.raises(urllib.error.HTTPError):
         get(api_server.base, "/match/m_4242/players/p_999/stats")
+    # no blackboard fact for this player: the golden cache's rollout Decision Index (T-048)
+    cache = json.loads((ROOT / "data" / "matches" / "4242" / "cache" / "analytics" / "decision_index.json")
+                       .read_text())["players"]
+    got = get(api_server.base, f"/match/m_4242/players/{OTHER}/stats")
+    assert got["decision_index"] == cache[OTHER]["index"] and got["decision_index_source"] == "cache"
 
 
 def test_card_numbers_equal_player_stats(browser, fan_url, api_server, cam_setup, out_dir):

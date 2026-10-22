@@ -1,4 +1,5 @@
-// Moment cards (TECH_PLAN 1.9 fan app, cue contract): recap cards and dugout options as swipeable cards.
+// Moment cards (TECH_PLAN 1.9 fan app, cue contract): recap cards, dugout options and Panel debates (options_card)
+// as swipeable cards.
 import { useStream } from "../stream/StreamProvider";
 import { CARD_LAYERS } from "./CueFeed";
 
@@ -11,7 +12,7 @@ export default function MomentCards() {
       {cards.map((c) => (
         <article key={c.cue_id} className="moment-card" data-cue-id={c.cue_id} data-kind={c.kind}>
           <small>
-            {c.clock} · {c.kind === "dugout" ? "dugout" : "recap"}
+            {c.clock} · {c.kind === "dugout" ? "dugout" : c.layer === "recap_card" ? "recap" : "the panel"}
           </small>
           <h3>{c.text.headline}</h3>
           <p>{c.text.body}</p>

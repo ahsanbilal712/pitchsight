@@ -105,6 +105,13 @@ export const drawGhostTrail: LayerFn = (ctx, frame, cues, _facts, toCanvas, stat
   let paths = 0;
   let pointsPerPath = 0;
   ctx.save();
+  // futures that leave the pitch (ball out for a throw-in) stop at the lines plus a 2 m run-off, so they never
+  // streak across the score bug or the lower-third
+  const [lx, ty] = toCanvas(-2, 70);
+  const [rx, by] = toCanvas(107, -2);
+  ctx.beginPath();
+  ctx.rect(lx, ty, rx - lx, by - ty);
+  ctx.clip();
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   if (cf && alpha > 0) {

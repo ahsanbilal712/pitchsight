@@ -62,3 +62,28 @@ def test_20s_records_at_30fps(gpu_browser, overlay_url):
         assert not errors, errors
     finally:
         ctx.close()
+
+
+def test_ready_while_the_replay_is_paused(gpu_browser, overlay_url, api_server):
+    """The recorder pauses the replay before opening a shot; the scene must still report ready (T-062 found it did
+    not: readiness was only re-evaluated on stream messages)."""
+    import json
+    import urllib.request
+    from pathlib import Path
+
+    req = urllib.request.Request(f"{api_server.base}/replay/control", data=json.dumps({"action": "pause"}).encode(),
+                                 headers={"Content-Type": "application/json"}, method="POST")
+    urllib.request.urlopen(req, timeout=5).read()
+    schema = Path(__file__).resolve().parents[2] / "schemas" / "counterfactual.schema.json"
+    api_server.bb.put("counterfactuals", json.loads(schema.read_text())["examples"][0])
+    ctx = gpu_browser.new_context(viewport={"width": 1920, "height": 1080}, device_scale_factor=1)
+    page = ctx.new_page()
+    try:
+        page.goto(f"{overlay_url}?record=1&view=replay3d&cf=cf_000077&api=127.0.0.1:{api_server.port}")
+        page.wait_for_function(READY, timeout=15000)
+        assert page.evaluate("() => window.__whyline.scene().rendered") is True
+    finally:
+        ctx.close()
+        req = urllib.request.Request(f"{api_server.base}/replay/control", data=json.dumps({"action": "play"}).encode(),
+                                     headers={"Content-Type": "application/json"}, method="POST")
+        urllib.request.urlopen(req, timeout=5).read()
