@@ -16,7 +16,7 @@
    "n": 100,
    "caught": 100,
    "catch_rate": 1.0,
-   "sources": 38,
+   "sources": 42,
    "caught_by": {
     "rule 3": 100
    }
@@ -25,7 +25,7 @@
    "n": 100,
    "caught": 100,
    "catch_rate": 1.0,
-   "sources": 37,
+   "sources": 40,
    "caught_by": {
     "rule 4": 100
    }
@@ -34,7 +34,7 @@
    "n": 100,
    "caught": 100,
    "catch_rate": 1.0,
-   "sources": 38,
+   "sources": 42,
    "caught_by": {
     "rule 6": 100
    }
@@ -43,7 +43,7 @@
    "n": 100,
    "caught": 100,
    "catch_rate": 1.0,
-   "sources": 38,
+   "sources": 42,
    "caught_by": {
     "rule 7": 100
    }
@@ -70,23 +70,107 @@
   "n": 500,
   "rejected": 0,
   "rate": 0.0,
-  "unique_outputs": 40,
+  "unique_outputs": 43,
   "unique_rejected": 0,
   "reasons": [],
   "check": "claims (the golden verdict's call)"
  },
  "why_text": {
-  "explanations": 40,
-  "why_passes": 38,
+  "explanations": 43,
+  "why_passes": 42,
   "note": "a why with a number no claim binds is rejected by rule 6 and dropped by the Narrator; planted errors use only explanations whose why passes"
  },
  "stress": {
   "wrong_number_widened": {
    "n": 100,
-   "caught": 94,
-   "catch_rate": 0.94,
-   "sources": 16,
+   "caught": 86,
+   "catch_rate": 0.86,
+   "sources": 20,
    "missed": [
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00122",
+     "claim": 4,
+     "from": "4.7 m",
+     "to": "4.1 m",
+     "change": -0.1277,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00122",
+     "claim": 4,
+     "from": "4.7 m",
+     "to": "4.1 m",
+     "change": -0.1277,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00114",
+     "claim": 3,
+     "from": "2%",
+     "to": "0%",
+     "change": -1.0,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00015",
+     "claim": 4,
+     "from": "0%",
+     "to": "2%",
+     "change": null,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00055",
+     "claim": 3,
+     "from": "3%",
+     "to": "1%",
+     "change": -0.6667,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00114",
+     "claim": 3,
+     "from": "2%",
+     "to": "0%",
+     "change": -1.0,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00055",
+     "claim": 3,
+     "from": "3%",
+     "to": "1%",
+     "change": -0.6667,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
     {
      "error": "wrong_number_widened",
      "moment_id": "mo_00122",
@@ -113,11 +197,35 @@
     },
     {
      "error": "wrong_number_widened",
+     "moment_id": "mo_00122",
+     "claim": 4,
+     "from": "4.7 m",
+     "to": "4.1 m",
+     "change": -0.1277,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
      "moment_id": "mo_00020",
      "claim": 3,
      "from": "3%",
      "to": "1%",
      "change": -0.6667,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00032",
+     "claim": 2,
+     "from": "5.1 metres",
+     "to": "4.5 metres",
+     "change": -0.1176,
      "widened": true,
      "caught": false,
      "reasons": [],
@@ -137,23 +245,11 @@
     },
     {
      "error": "wrong_number_widened",
-     "moment_id": "mo_00015",
-     "claim": 4,
-     "from": "0%",
-     "to": "2%",
-     "change": null,
-     "widened": true,
-     "caught": false,
-     "reasons": [],
-     "rule": null
-    },
-    {
-     "error": "wrong_number_widened",
-     "moment_id": "mo_00015",
-     "claim": 4,
-     "from": "0%",
-     "to": "2%",
-     "change": null,
+     "moment_id": "mo_00055",
+     "claim": 3,
+     "from": "3%",
+     "to": "1%",
+     "change": -0.6667,
      "widened": true,
      "caught": false,
      "reasons": [],
@@ -163,10 +259,10 @@
   }
  },
  "source": {
-  "verified_explanations": 40,
+  "verified_explanations": 43,
   "sampled_with_replacement": true,
   "seed": 4242,
-  "note": "only 40 verified golden explanations exist; the 500 planted and 500 clean outputs are sampled from them with replacement"
+  "note": "only 43 verified golden explanations exist; the 500 planted and 500 clean outputs are sampled from them with replacement"
  },
  "thresholds": {
   "catch_rate_min": 1.0,
@@ -190,10 +286,10 @@
   },
   {
    "error": "wrong_player",
-   "moment_id": "mo_00035",
+   "moment_id": "mo_00038",
    "claim": 0,
-   "from": "p_031",
-   "to": "p_037",
+   "from": "p_013",
+   "to": "p_036",
    "caught": true,
    "reasons": [
     "player_not_in_evidence"
@@ -217,7 +313,7 @@
   },
   {
    "error": "unbound_number",
-   "moment_id": "mo_00035",
+   "moment_id": "mo_00038",
    "added": "He had 10 metres of space.",
    "caught": true,
    "reasons": [
@@ -227,7 +323,7 @@
   },
   {
    "error": "banned_word",
-   "moment_id": "mo_00074",
+   "moment_id": "mo_00075",
    "added": "the bookies will be paying out on that",
    "caught": true,
    "reasons": [

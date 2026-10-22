@@ -86,11 +86,9 @@ jobs:
         if: hashFiles('packages/evals/gate.py') != ''
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      - name: thresholds from TECH_PLAN 1.11 on committed artefacts
+      - name: thresholds from TECH_PLAN 1.11 on committed artefacts (gate.py is standard library only)
         if: hashFiles('packages/evals/gate.py') != ''
-        run: |
-          pip install -r requirements.lock --index-url "$TORCH_INDEX" --extra-index-url https://pypi.org/simple
-          PYTHONPATH=packages python -m evals.gate
+        run: PYTHONPATH=packages python -m evals.gate packages/evals/results.json
 
   licence-scan:
     runs-on: ubuntu-latest

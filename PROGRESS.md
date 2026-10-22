@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+
+## 2026-10-22 · T-056 Evals: latency, groundedness, cost; run_evals and results.md; evals-gate (track A)
+
+- `packages/evals/{run_evals,latency,groundedness,cost,gate,judge}.py`, `newsroom/prompts/judge@1.md`,
+  `packages/evals/results.{md,json}`, `tests/evals/test_gate.py`; CI `evals-gate` now runs the stdlib-only gate.
+- results.md has every 1.11 row. Measured and passing: state F1 0.772, Brier 0.0629, placebo 0.987, planted errors
+  500/500, false rejects 0/500, **groundedness 141/141 = 1.000** (55 golden cues from a replay of the committed
+  cache), golden match $2.31 of $2.50, project $2.32 + judge. Cut line: policy metrics (top-3 0.505 vs 0.80, T-037,
+  scripted_v1 ships). Pending with owner: live latency and cost per match (T-080; interim explained p95 12.9 s from
+  the T-032 probe), realism (T-073), resume 20 runs (T-091).
+- Groundedness first found 37 ungrounded numbers, all in my Fourth Official cues (closing speed in m/s, contact
+  coordinates); fixed in 3193723 (T-049), stage re-run with track B's agreement.
+- CI judge (gemini-4-argon via SpendGuard, no match id): **76% plausible** of 25 judged explained cues (1 timeout,
+  4 no verdict); judge spend **$0.37** in total (<= $0.50). Its rejections include cues that swap the actual and the
+  alternative action (c_000201, c_001181): reported to track B with the rule-2 finding.
+- Verification: `python -m evals.run_evals --seeds 1..50 --out packages/evals/results.md && python -m evals.gate
+  packages/evals/results.json` exits 0 (PYTHONPATH=packages).
+
+---
+
 ## 2026-10-22 · T-038 follow-up: replay latency follows the live replay clock; error trace reasons (track B)
 
 - Track C's x10 rehearsal fell ~20 min behind: CacheClient divided simulated latency by WHYLINE_REPLAY_SPEED read

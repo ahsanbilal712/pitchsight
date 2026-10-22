@@ -1,0 +1,226 @@
+{
+ "n": 30,
+ "judged": 25,
+ "pool": 32,
+ "errors": 1,
+ "plausibility_rate": 0.76,
+ "cost_usd": 0.1962,
+ "judge_total_usd": 0.3692,
+ "max_usd": 0.5,
+ "prompt": "judge@1",
+ "seed": 4242,
+ "rows": [
+  {
+   "cue_id": "c_000462",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Debating whether to take an immediate shot in transition or pass to retain possession is standard and coherent tactical analysis.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000120",
+   "kind": "goal",
+   "plausible": true,
+   "reason": "Describing a goal converted from a 0.27 xG chance is completely straightforward and plausible football commentary.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000122",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Debating the trade-off between taking an immediate shot to exploit a transition versus making an extra pass to retain control is standard and logical tactical analysis.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000330",
+   "kind": "big_chance",
+   "plausible": true,
+   "reason": "An opportunity rated at 0.42 xG is standardly considered a big chance in football analytics, making the headline and description consistent.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000412",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Debating whether a key player should take an immediate shot or retain possession to build the attack is standard, sensible football analysis.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000382",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Debating whether a player should take an early shot or recycle possession to maintain offensive structure is a coherent and standard tactical dilemma.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000551",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "The explanation coherently links the risky short pass under pressure to an increased opponent scoring chance, while correctly framing the long pass as the safer alternative that reduces the opponent's win probability.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000612",
+   "kind": "sliding_doors",
+   "plausible": false,
+   "reason": "The cue merely lists two midfield overloads as decoration without providing a causal story connecting them to the actual shot, the alternative carry, or the resulting goal probabilities.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000552",
+   "kind": "sliding_doors",
+   "plausible": null,
+   "reason": null,
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_001141",
+   "kind": "sliding_doors",
+   "plausible": null,
+   "reason": null,
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000992",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Weighing a direct transition pass that offers higher immediate scoring upside against an alternative pass into a central overload to consolidate control is sound football reasoning that aligns with the counterfactual.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000332",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Debating whether to shoot immediately in transition or make an extra pass to sustain control represents standard, coherent football analysis.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000132",
+   "kind": "sliding_doors",
+   "plausible": false,
+   "reason": "The cue contradicts the counterfactual by claiming the actual action was turning back rather than shooting, and vaguely cites a 22% chance instead of the 8% goal probability.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_001160",
+   "kind": "goal",
+   "plausible": true,
+   "reason": "The cue provides a straightforward and consistent summary of the goal and its xG value without overstating certainty or contradicting the claims.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000201",
+   "kind": "sliding_doors",
+   "plausible": false,
+   "reason": "The headline and body contradict the counterfactual and the explanation by claiming the actual pass to Okafor exploited the overload to reach a 7% goal probability, whereas the pass to Okafor actually resulted in a 3% chance and the 7% came from the unplayed alternative to Novacek.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000601",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "The explanation logically connects exploiting a 3v1 overload via the alternative pass to the increase in goal probability from 1% to 6% without contradiction or overstatement.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000261",
+   "kind": "sliding_doors",
+   "plausible": false,
+   "reason": "The cue merely lists player names and raw percentages without any causal explanation connecting the pass, the alternative clearance, or the counterfactual outcome.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000991",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "The explanation logically connects a 3v1 numerical overload in the middle third to having extra space to progress the ball forward, without contradicting the data or overstating certainty.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000501",
+   "kind": "sliding_doors",
+   "plausible": null,
+   "reason": null,
+   "error": "LLMTimeout"
+  },
+  {
+   "cue_id": "c_001190",
+   "kind": "goal",
+   "plausible": true,
+   "reason": "The cue makes a straightforward, consistent factual statement about a player converting a 0.11 xG chance.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_001042",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "The explanation logically connects the higher expected goal and win probabilities of passing over shooting to the presence of a 3v1 overload and a high pass completion rate.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000302",
+   "kind": "sliding_doors",
+   "plausible": false,
+   "reason": "The explanation lacks any supporting match claims or concrete tactical reasoning, instead offering an unsupported meta-summary of arguing pundits.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000192",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Debating whether to shoot immediately in transition after a turnover versus recycling possession to establish attacking shape is a classic, coherent tactical dilemma.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000911",
+   "kind": "sliding_doors",
+   "plausible": null,
+   "reason": null,
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000742",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Deciding whether to shoot immediately or make an extra pass after a high turnover is a standard, logical tactical dilemma.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000131",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Carrying the ball to exploit a 2v1 overload in the middle third rather than taking a low-percentage shot from distance under pressure is sound football reasoning supported by the counterfactual.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_001192",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "Debating whether to shoot early in transition versus recycling possession to create a higher-percentage chance is standard, sensible football analysis.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_000502",
+   "kind": "sliding_doors",
+   "plausible": true,
+   "reason": "The explanation accurately reflects the counterfactual data, noting that carrying the ball increases scoring probability from 9% to 15% while acknowledging the small win-probability swing.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_001181",
+   "kind": "sliding_doors",
+   "plausible": false,
+   "reason": "The body contradicts the why and counterfactual by claiming Otto Ainsley shot instead of passing to Sacha Tolliver, when actually Tolliver shot and the alternative was carrying the ball.",
+   "model": "gemini-4-argon"
+  },
+  {
+   "cue_id": "c_001142",
+   "kind": "sliding_doors",
+   "plausible": null,
+   "reason": null,
+   "model": "gemini-4-argon"
+  }
+ ],
+ "threshold": null,
+ "note": "reported only (TECH_PLAN 1.11 has no judge threshold)"
+}

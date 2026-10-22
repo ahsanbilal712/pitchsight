@@ -1,0 +1,154 @@
+{
+ "rows": [
+  {
+   "id": "state_detection",
+   "number": "State-detection precision/recall/F1 vs hidden truth",
+   "measured": "F1 0.772 (P 0.771, R 0.774)",
+   "threshold": "F1 >= 0.75",
+   "status": "pass",
+   "script": "evals/state_detection.py",
+   "data": "50 Kickoff matches, seeds 1-50, 269,950 s",
+   "detail": "evals/out/state_confusion.png"
+  },
+  {
+   "id": "calibration_brier",
+   "number": "Counterfactual calibration (Brier, reliability diagram)",
+   "measured": "Brier 0.0629 (base rate 0.090, log-loss 0.213)",
+   "threshold": "Brier <= 0.18",
+   "status": "pass",
+   "script": "evals/calibration.py",
+   "data": "300 held-out matches, 9,226 explained moments, n=200, 8 s, scripted_v1",
+   "detail": "evals/out/calibration.png"
+  },
+  {
+   "id": "calibration_placebo",
+   "number": "Placebo test (forcing the actual action reproduces the baseline)",
+   "measured": "0.987 of 8,420 moments within the 95% interval",
+   "threshold": ">= 0.95",
+   "status": "pass",
+   "script": "evals/calibration.py",
+   "data": "same moments",
+   "detail": null
+  },
+  {
+   "id": "policy_metrics",
+   "number": "Policy metrics (table in TECH_PLAN 1.6)",
+   "measured": "top3_kind_target_accuracy 0.5050 misses >= 0.8",
+   "threshold": "TECH_PLAN 1.6 gates",
+   "status": "cut",
+   "script": "policy/evaluate.py",
+   "data": "test split + 20 rollouts",
+   "detail": "cut line applied (T-037): scripted_v1 serves every counterfactual; docs/evidence/policy_gate_day4.md"
+  },
+  {
+   "id": "planted_errors",
+   "number": "Fact Checker planted errors caught",
+   "measured": "500/500 = 100.0%",
+   "threshold": "100% caught",
+   "status": "pass",
+   "script": "evals/planted_errors.py",
+   "data": "500 outputs, one injected error each (5 kinds x 100) from 43 verified golden explanations, sampled with replacement",
+   "detail": "per-rule catch table in evals/out/planted_errors.json; stress set (not gated): 86% of numbers moved just past tolerance"
+  },
+  {
+   "id": "false_rejects",
+   "number": "Fact Checker false rejects",
+   "measured": "0/500 = 0.0%",
+   "threshold": "<= 2%",
+   "status": "pass",
+   "script": "evals/planted_errors.py",
+   "data": "500 golden verified outputs (43 unique, sampled with replacement)",
+   "detail": null
+  },
+  {
+   "id": "latency_live",
+   "number": "Cue latency p50/p95 (live)",
+   "measured": "pending T-080 (3 live matches)",
+   "threshold": "fast <= 3 s p95; explained <= 15 s p95",
+   "status": "pending",
+   "script": "evals/latency.py",
+   "data": "3 live matches",
+   "detail": "interim: explained p95 12.9 s over 6 golden moments (T-032 probe D, docs/evidence/latency_probe_day3.md)"
+  },
+  {
+   "id": "latency_replay",
+   "number": "Cue latency (replay, simulated)",
+   "measured": "fast n=5; explained n=21; panel n=16; referee n=13",
+   "threshold": "none (replay is not gated)",
+   "status": "reported",
+   "script": "evals/latency.py --source replay",
+   "data": "golden match from the cache",
+   "detail": null
+  },
+  {
+   "id": "cost_per_match",
+   "number": "Cost per match",
+   "measured": "pending T-080 (3 live matches)",
+   "threshold": "<= $2.50",
+   "status": "pending",
+   "script": "evals/cost.py (ledger)",
+   "data": "same 3 matches",
+   "detail": null
+  },
+  {
+   "id": "cost_golden",
+   "number": "Cost, golden match (all modes)",
+   "measured": "$2.31 (dev $0.34, live $0.42, precompute $1.55)",
+   "threshold": "<= $2.50",
+   "status": "pass",
+   "script": "evals/cost.py (ledger)",
+   "data": "m_4242",
+   "detail": null
+  },
+  {
+   "id": "cost_project",
+   "number": "Project spend",
+   "measured": "$2.68 over 634 calls",
+   "threshold": "<= $50",
+   "status": "pass",
+   "script": "evals/cost.py (ledger)",
+   "data": "data/spend/ledger.jsonl",
+   "detail": null
+  },
+  {
+   "id": "groundedness",
+   "number": "Groundedness (own evaluator: numbers on screen bound to verified claims)",
+   "measured": "141/141 = 1.000",
+   "threshold": ">= 0.95",
+   "status": "pass",
+   "script": "evals/groundedness.py",
+   "data": "55 golden cues (500 once the demo season lands, T-085); Foundry optional (T-086)",
+   "detail": null
+  },
+  {
+   "id": "realism",
+   "number": "Realism (Kickoff vs SkillCorner/DFL marginals)",
+   "measured": "pending T-073",
+   "threshold": "plots published; no threshold",
+   "status": "pending",
+   "script": "evals/realism.py",
+   "data": "SkillCorner/DFL marginals",
+   "detail": null
+  },
+  {
+   "id": "resume",
+   "number": "Resume (kill switch)",
+   "measured": "pending T-091 (20-run chaos test)",
+   "threshold": "0 cues lost in 20 runs",
+   "status": "pending",
+   "script": "tests/chaos/test_resume.py",
+   "data": "20 runs",
+   "detail": "interim: the one-run CI test (T-051) resumes with the same cue id; docs/evidence/kill_resume.log"
+  },
+  {
+   "id": "judge",
+   "number": "CI judge plausibility (reported only)",
+   "measured": "76% of 25 explained cues ($0.20)",
+   "threshold": "none",
+   "status": "reported",
+   "script": "evals/judge.py",
+   "data": "30 random explained golden cues, prompts/judge@1.md",
+   "detail": null
+  }
+ ]
+}
