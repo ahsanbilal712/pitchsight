@@ -133,6 +133,45 @@ def export_fast_lines(manifest: CacheManifest, out_dir: Path) -> list[str]:
     return written
 
 
+def broken_rewrites(manifest: CacheManifest) -> list[dict]:
+    """Cached Narrator rewrites (narrator@2.a2, .a3) that replay as a red trace row: the golden call failed or
+    returned no headline/body."""
+    out = []
+    for e in manifest.find(producer="narrator"):
+        if ".a" not in (e.get("version") or ""):
+            continue
+        doc = manifest.read(e)
+        body = doc.get("json")
+        if doc.get("error") or not (isinstance(body, dict) and isinstance(body.get("headline"), str)
+                                    and isinstance(body.get("body"), str)):
+            out.append(e)
+    return sorted(out, key=lambda e: e["key"])
+
+
+def export_rewrites(manifest: CacheManifest, out_dir: Path) -> list[str]:
+    """review/rewrite_<moment_id>_a<n>.md for every broken cached rewrite, with the claims the Narrator may use
+    (the explanation's claims that pass the Fact Checker; the rewrite drops the why)."""
+    bb, _ = evidence_board(manifest)
+    written = []
+    for e in broken_rewrites(manifest):
+        mid, attempt = e["moment_id"], int(e["version"].rsplit(".a", 1)[1])
+        exp = manifest.read(_entry(manifest, mid, "tactician", "tactician@3"))["json"]
+        good, _, _ = check_reviewed(bb, manifest.data["match_id"], exp, {})
+        first = manifest.read(_entry(manifest, mid, "narrator", "narrator@2"))["json"]
+        stored = manifest.read(e)
+        body = (f"# rewrite {mid} attempt {attempt}\n\nKey: `{e['key']}`. Cached result: "
+                f"`{(stored.get('error') or stored.get('text') or '')[:80]}`. First attempt: `{json.dumps(first)}`."
+                f"\n\nWhy (dropped in the rewrite): {exp.get('why', '')}\n\nClaims it may use: "
+                + ", ".join(f"`{c['text']}`" for c in good) + "\n\n```json\n"
+                + json.dumps({"moment_id": mid, "attempt": attempt,
+                              "line": {"headline": "", "body": "", "claims": []}}, indent=1) + "\n```\n")
+        path = out_dir / f"rewrite_{mid}_a{attempt}.md"
+        path.write_text(body)
+        written.append(str(path))
+    bb.close()
+    return written
+
+
 # ---------------------------------------------------------------------------------------------------- import
 
 def check_reviewed(bb, match_id: str, explanation: dict, line: dict) -> tuple[list[dict], list[dict], list[dict]]:
@@ -181,6 +220,25 @@ def import_review(manifest: CacheManifest, review_dir: Path) -> dict:
         (manifest.cache_dir / e["path"]).write_bytes(raw)
         e["sha256"], e["hand_reviewed"] = hashlib.sha256(raw).hexdigest(), True
         imported.append(f"fast:{mid}")
+    for path in sorted(Path(review_dir).glob("rewrite_mo_*.md")):
+        doc = json.loads(BLOCK.search(path.read_text()).group(1))
+        mid, attempt, line = doc["moment_id"], int(doc["attempt"]), doc["line"]
+        exp = manifest.read(_entry(manifest, mid, "tactician", "tactician@3"))["json"]
+        good, _, _ = check_reviewed(bb, match_id, exp, {})
+        used = [c for c in good if c["text"] in line["headline"] or c["text"] in line["body"]]
+        check = verify_claims(match_id, used, bb, {"headline": line["headline"], "body": line["body"]})
+        if check["diff"] or not line["headline"] or len(line["headline"]) > 60 or len(line["body"]) > 280:
+            refused[path.name] = check["diff"] or "empty or too long"
+            continue
+        e = manifest.get(CacheManifest.key(match_id, mid, "narrator", f"narrator@2.a{attempt}", "gemini-3.8-flash",
+                                           manifest.data["match_seed"]))
+        line = {**line, "claims": [c["text"] for c in used]}
+        payload = {k: v for k, v in manifest.read(e).items() if k != "error"}
+        payload.update(json=line, text=json.dumps(line), verified=True, hand_reviewed=True)
+        raw = (json.dumps(payload, indent=1, sort_keys=True) + "\n").encode()
+        (manifest.cache_dir / e["path"]).write_bytes(raw)
+        e["sha256"], e["hand_reviewed"] = hashlib.sha256(raw).hexdigest(), True
+        imported.append(f"rewrite:{mid}:a{attempt}")
     for path in sorted(Path(review_dir).glob("mo_*.md")):
         block = BLOCK.search(path.read_text())
         if not block:

@@ -5,6 +5,23 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-057 follow-up: three broken cached rewrites hand-reviewed, golden replay has no red rows (track B)
+
+- Track C's x10 rehearsal showed 4 red `error` trace rows: the golden run cached three Narrator rewrites
+  (narrator@2.a2) as broken output (mo_00026 a truncated `{"`, mo_00034 prose around a code fence, mo_00040 a
+  failed call); the Director's row for mo_00026 followed from the first.
+- `cache.review.export_rewrites` / import of `review/rewrite_<moment>_a<n>.md`: each line uses only the claims that
+  pass the Fact Checker and is gated by it. All 3 imported (48 entries `hand_reviewed`). mo_00026's first line had
+  the pass backwards ("Grabowski finds Fennimore"); the rewrite follows the evidence (Fennimore to Silva under
+  Grabowski's pressure). No model call; spend unchanged by this.
+- Golden replay: **0 `error` / `cache_miss` rows**, 55 cues + 2 held, 55 verified, **0 templates** (was 1).
+  Test `tests/cache/test_review.py` fails if a broken cached rewrite comes back.
+- Verification: `python scripts/import_review.py review/ && python scripts/check_cue_evidence.py --seed 4242 &&
+  python scripts/validate_schemas.py && python scripts/check_spend.py` exits 0. Spend total $2.6815: the $0.36
+  since the last entry is track A's T-056 judge evals.
+
+---
+
 
 ## 2026-10-22 · T-056 Evals: latency, groundedness, cost; run_evals and results.md; evals-gate (track A)
 
