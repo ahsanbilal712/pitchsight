@@ -5,6 +5,30 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-037, T-039, T-046, T-047 done; heads, encoder and policy rebuilt (track A)
+
+- T-037 gate (`gate.json`): **scripted_v1**. top-1 kind 0.810 (pass), **top-3 kind+target 0.505 vs 0.80 (fail)**,
+  4 s FDE 21.4 m vs 31.8 m baseline, teleports 0, shape collapse 0.2%, offsides 0.001. The rule's own probabilities
+  reach only ~0.44 top-3, so the gate is unreachable for an imitation of this engine. Evidence:
+  `docs/evidence/policy_gate_day4.md`, 20 clip strips.
+- Rebuilt on the regenerated corpus: heads v1 (all gates pass: xG ECE 0.0088, pass 0.0044, win prob 0.0262,
+  goal-8 s 0.0001, chaos AUC 0.764), MomentEncoder (purity **0.715**; names from one Gemini call, $0.0014; naming is
+  now its own step after an expired credential lost a run), policy_v1 (8 epochs, val loss 2.753, kind acc 0.815).
+- Found: LightGBM *training* segfaults with torch loaded; `heads` no longer imports torch, `rollout` imports
+  `policy` (torch) first.
+- T-039: golden cache (analytics for 54,001 frames, 125 moments / 60 explained with pitch-control snapshots,
+  82 counterfactuals, scripted_v1) and `packages/demo/golden_moments.yaml`: Sliding Doors **76:56** (p_020 shoots,
+  pass to p_023 was on: win chance 17.2% -> 20.9%), offside 66:05, cards 60:50 and 75:04, Oracle 83:30 (59%,
+  confirmed), Dugout 60:00, kill 41:54. Track C to move `demo_script.yaml` clocks (76:52, 41:54).
+- T-046 Oracle: 2,700 forecasts every 2 s at n = 200; `api/oracle.py` feeds C's replay feed. T-047 Dugout at
+  90 s scripted: Verdant "keep the ball" +0.46 pts, matched 60:00-70:00 (caption allowed); Ironvale tie, no call.
+- T-036: determinism passes (MPS twice, MPS vs CPU). Budgets **missed by ~9%**: policy 200x8 s 0.31-0.33 s on MPS
+  (0.30; the GPU forward alone is 23 ms x 16 calls), scripted 200x90 s 1.42 s (1.3). Policy path is unused
+  (gate = scripted_v1). 200x60 s 0.92 s and policy on CPU 0.46-0.51 s pass.
+- Running: T-040 calibration (seeds 51-350), then T-048 Decision Index.
+
+---
+
 ## 2026-10-22 · T-061 Demo script runner, shot list and Playwright recorder (track C)
 
 - Finished on top of part 1 (963361d) once `golden_moments.yaml` landed (T-039, dd6f339). `demo_script.yaml`: the four
