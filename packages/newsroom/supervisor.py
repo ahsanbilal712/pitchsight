@@ -35,7 +35,8 @@ class Supervisor:
         self.restarts = 0
 
     def start(self) -> int:
-        self.proc = subprocess.Popen(self.args, cwd=ROOT, env={**os.environ, "PYTHONPATH": str(ROOT / "packages")})
+        path = os.pathsep.join(p for p in (str(ROOT / "packages"), os.environ.get("PYTHONPATH")) if p)
+        self.proc = subprocess.Popen(self.args, cwd=ROOT, env={**os.environ, "PYTHONPATH": path})   # keeps T-064's guard
         path = pidfile()
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(str(self.proc.pid))
