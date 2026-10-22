@@ -5,6 +5,24 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+
+## 2026-10-22 · T-055 Evals: state detection and planted-error suite (track A)
+
+- State detection (part 1, d8f4db8) re-run: macro **F1 0.772** (>= 0.75), accuracy 0.778, seeds 1-50.
+- `packages/evals/planted_errors.py`: copies of the golden match's verified Tactician explanations (T-042, 0f62f8c;
+  only **40** exist, 38 with a `why` that also passes, so outputs are **sampled with replacement**, said in the JSON),
+  one injected error each, checked against the evidence replay preloads. **500 planted, 100% caught**, each type by
+  its own rule: wrong number +-10% (rule 2), wrong player (3), wrong minute (4), unbound number (6), banned word (7).
+  **False rejects 0 / 500** (0 / 40 unique) with the golden verdict's call.
+- Finding for track B (reported, not gated): where +-10% is inside the tolerance and the number is pushed to the
+  smallest visible change, **94 / 100** are caught. Rule 2 accepts any same-unit value of the cited evidence, so a
+  number swapped for another of the same counterfactual (the alternative's 2% for the shot's 4%) passes.
+  2 of 40 explanations have a `why` with an unbound number (rule 6 rejects it; the Narrator drops that why).
+- Same numbers with track B's uncommitted factcheck.py edit and with the committed one.
+- Verification: `python -m evals.state_detection --seeds 1..50 && python -m evals.planted_errors --n 500` exits 0.
+
+---
+
 ## 2026-10-22 · T-042 Golden precompute, part 2: model calls (track B) — live, owner decisions
 
 - Owner decisions: no new GCP resources, so no Vertex batch bucket; the golden precompute ran live with

@@ -1,0 +1,241 @@
+{
+ "n_planted": 500,
+ "caught": 500,
+ "catch_rate": 1.0,
+ "by_error": {
+  "wrong_number": {
+   "n": 100,
+   "caught": 100,
+   "catch_rate": 1.0,
+   "sources": 27,
+   "caught_by": {
+    "rule 2": 100
+   }
+  },
+  "wrong_player": {
+   "n": 100,
+   "caught": 100,
+   "catch_rate": 1.0,
+   "sources": 38,
+   "caught_by": {
+    "rule 3": 100
+   }
+  },
+  "wrong_minute": {
+   "n": 100,
+   "caught": 100,
+   "catch_rate": 1.0,
+   "sources": 37,
+   "caught_by": {
+    "rule 4": 100
+   }
+  },
+  "unbound_number": {
+   "n": 100,
+   "caught": 100,
+   "catch_rate": 1.0,
+   "sources": 38,
+   "caught_by": {
+    "rule 6": 100
+   }
+  },
+  "banned_word": {
+   "n": 100,
+   "caught": 100,
+   "catch_rate": 1.0,
+   "sources": 38,
+   "caught_by": {
+    "rule 7": 100
+   }
+  }
+ },
+ "catch_table_by_rule": {
+  "rule 2": {
+   "wrong_number": 100
+  },
+  "rule 3": {
+   "wrong_player": 100
+  },
+  "rule 4": {
+   "wrong_minute": 100
+  },
+  "rule 6": {
+   "unbound_number": 100
+  },
+  "rule 7": {
+   "banned_word": 100
+  }
+ },
+ "false_rejects": {
+  "n": 500,
+  "rejected": 0,
+  "rate": 0.0,
+  "unique_outputs": 40,
+  "unique_rejected": 0,
+  "reasons": [],
+  "check": "claims (the golden verdict's call)"
+ },
+ "why_text": {
+  "explanations": 40,
+  "why_passes": 38,
+  "note": "a why with a number no claim binds is rejected by rule 6 and dropped by the Narrator; planted errors use only explanations whose why passes"
+ },
+ "stress": {
+  "wrong_number_widened": {
+   "n": 100,
+   "caught": 94,
+   "catch_rate": 0.94,
+   "sources": 16,
+   "missed": [
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00122",
+     "claim": 4,
+     "from": "4.7 m",
+     "to": "4.1 m",
+     "change": -0.1277,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00032",
+     "claim": 2,
+     "from": "5.1 metres",
+     "to": "4.5 metres",
+     "change": -0.1176,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00020",
+     "claim": 3,
+     "from": "3%",
+     "to": "1%",
+     "change": -0.6667,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00103",
+     "claim": 4,
+     "from": "4%",
+     "to": "2%",
+     "change": -0.5,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00015",
+     "claim": 4,
+     "from": "0%",
+     "to": "2%",
+     "change": null,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    },
+    {
+     "error": "wrong_number_widened",
+     "moment_id": "mo_00015",
+     "claim": 4,
+     "from": "0%",
+     "to": "2%",
+     "change": null,
+     "widened": true,
+     "caught": false,
+     "reasons": [],
+     "rule": null
+    }
+   ]
+  }
+ },
+ "source": {
+  "verified_explanations": 40,
+  "sampled_with_replacement": true,
+  "seed": 4242,
+  "note": "only 40 verified golden explanations exist; the 500 planted and 500 clean outputs are sampled from them with replacement"
+ },
+ "thresholds": {
+  "catch_rate_min": 1.0,
+  "false_reject_max": 0.02
+ },
+ "examples": [
+  {
+   "error": "wrong_number",
+   "moment_id": "mo_00050",
+   "claim": 5,
+   "from": "15%",
+   "to": "13%",
+   "change": -0.1333,
+   "widened": false,
+   "caught": true,
+   "reasons": [
+    "value_out_of_tolerance",
+    "unbound_number"
+   ],
+   "rule": 2
+  },
+  {
+   "error": "wrong_player",
+   "moment_id": "mo_00035",
+   "claim": 0,
+   "from": "p_031",
+   "to": "p_037",
+   "caught": true,
+   "reasons": [
+    "player_not_in_evidence"
+   ],
+   "rule": 3
+  },
+  {
+   "error": "wrong_minute",
+   "moment_id": "mo_00013",
+   "claim": 6,
+   "evidence": "e_0362",
+   "true_minute": 9,
+   "to": 13,
+   "planted_claim": true,
+   "caught": true,
+   "reasons": [
+    "minute_out_of_range",
+    "unbound_number"
+   ],
+   "rule": 4
+  },
+  {
+   "error": "unbound_number",
+   "moment_id": "mo_00035",
+   "added": "He had 10 metres of space.",
+   "caught": true,
+   "reasons": [
+    "unbound_number"
+   ],
+   "rule": 6
+  },
+  {
+   "error": "banned_word",
+   "moment_id": "mo_00074",
+   "added": "the bookies will be paying out on that",
+   "caught": true,
+   "reasons": [
+    "banned_content"
+   ],
+   "rule": 7
+  }
+ ],
+ "missed": [],
+ "passed": true
+}
