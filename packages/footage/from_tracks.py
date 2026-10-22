@@ -136,9 +136,7 @@ def inherit_labels(moment: dict, base: dict) -> dict:
             continue
         cands = [(math.hypot(p["x"] - h["x"], p["y"] - h["y"]), i) for i, p in enumerate(moment["players"])
                  if p["team"] == h["team"] and i not in taken]
-        if not cands:
-            continue
-        d, i = min(cands)
+        d, i = min(cands) if cands else (math.inf, -1)
         if d <= MATCH_RADIUS_M:
             taken.add(i)
             moment["players"][i].update(label=h["label"], name=h.get("name"),
