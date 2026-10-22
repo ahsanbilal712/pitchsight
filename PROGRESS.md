@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · T-107 part 2: Pitchwatch tracking -> moment files; licence scan fix (track B)
+
+- `python -m footage.from_tracks <slug> <clip_ms> [--write]` reads track A's Pitchwatch format v1 (shots.json,
+  calib/<shot>.json, tracks/<shot>.json): the usable shot containing the frame, the nearest trusted homography,
+  players and ball at the nearest tracking sample, velocities from the 1 s difference, y flipped to the near-side
+  origin (homography composed with the flip). Labels, names, clock, score and the real action come from the
+  hand-marked moment (nearest track of the same team within 2.5 m); it reports how far tracking and hand marks
+  disagree, and with --write keeps the hand file in moments/hand/. Waiting for tracks/62.json (Liverpool 13:22-14:51,
+  which holds the 86:23 featured frame) to run it for real.
+- T-066 follow-up (73d7e40): the licence scan stripped the closing parenthesis of "ISC License (ISCL)" and did not
+  know "Apache 2.0 License" (track A, T-105 stack); fixed, track A's two exceptions removed, 219 entries 0 offenders.
+- Verification: `pytest tests/footage tests/tooling/test_licence_scan.py`.
+
+---
+
 ## 2026-10-23 · T-109 Featured real-clip moments: select and precompute (track B)
 
 - Four Sliding Doors moments, one per clip, each frozen from a 1080p frame inside a steady wide shot and
