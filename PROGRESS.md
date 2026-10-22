@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-062 Rehearsal and v1 recording (track C) — provisional
+
+- **Provisional** (coordinator's call, option a): recorded on the golden cache at 405fd91, before the T-057 prompt
+  bump/regeneration that waits on the owner's per-match cap decision; if approved, re-record only shots whose cue text
+  changed.
+- Rehearsal, whole golden match at x10 with the demo script: **0 cache_miss, 0 error**, 55/55 cues verified, one
+  scripted `interrupted` row; kill on mo_00060 with the four TECH_PLAN 1.7 lines; half-time recap vetoed.
+- **13 shots** in `packages/demo/out/` (git-ignored) plus 16 keyframes; kill and veto takes on a fresh blackboard with
+  the demo script armed. Fixed on the way: /replay3d ready while paused, offside margin label from the claim, ghost
+  clip, Player-Cam Decision Index (T-048 cache) and actor, Panel card label.
+- Verification: `check_cue_evidence` OK (57 cues, 201 claims), `scan_banned` 0 hits, `ls packages/demo/out/*.webm`
+  13 files: exit 0. Evidence: `docs/evidence/rehearsal_day6.md`.
+
+---
+
 ## 2026-10-22 · T-057 follow-up: banned word in a cached Panel chair line (track B)
 
 - Track C's T-062 scan (`scan_banned.py data/matches/4242/cache apps/*/src`) found betting 'Odds' in mo_00104's
