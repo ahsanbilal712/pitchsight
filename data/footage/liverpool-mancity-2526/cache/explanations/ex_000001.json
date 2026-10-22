@@ -1,0 +1,87 @@
+{
+ "alternatives_considered": [
+  "pass p_911"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_0033",
+    "cf_000001",
+    "f_000001"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Szoboszlai",
+   "unit": null,
+   "value": "p_912",
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "f_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "31 metres",
+   "unit": "metres",
+   "value": 30.9,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "3%",
+   "unit": "p_goal",
+   "value": 0.0303,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001",
+    "f_000002"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Salah",
+   "unit": null,
+   "value": "p_911",
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "8%",
+   "unit": "p_goal",
+   "value": 0.0766,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "4 points",
+   "unit": "win_prob_delta",
+   "value": 0.0415,
+   "verified": true
+  }
+ ],
+ "confidence": 0.95,
+ "counterfactual_id": "cf_000001",
+ "explanation_id": "ex_000001",
+ "match_id": "m_9001",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00001",
+ "prompt_version": "tactician_footage@1",
+ "schema_version": "1.0.0",
+ "tool_trace_id": null,
+ "why": "Szoboszlai shoots from 31 metres and the shot is blocked: a 3% goal chance. Salah is free on the right, and the pass to him makes it 8% and adds 4 points to the win chance."
+}

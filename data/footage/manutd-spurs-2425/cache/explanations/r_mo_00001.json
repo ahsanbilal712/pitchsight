@@ -1,0 +1,64 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.006626,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_000001"
+    ],
+    "kind": "number",
+    "text": "21.1 metres",
+    "unit": "metres",
+    "value_number": 21.1
+   },
+   {
+    "evidence_ids": [
+     "e_0030",
+     "cf_000001"
+    ],
+    "kind": "player",
+    "text": "Werner",
+    "unit": "",
+    "value_text": "p_960"
+   },
+   {
+    "evidence_ids": [
+     "e_0031"
+    ],
+    "kind": "player",
+    "text": "Onana",
+    "unit": "",
+    "value_text": "p_962"
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "3%",
+    "unit": "p_goal",
+    "value_number": 0.0304
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "1%",
+    "unit": "p_goal",
+    "value_number": 0.0115
+   }
+  ],
+  "confidence": 0.9,
+  "why": "From 21.1 metres out, Werner takes the shot that Onana saves, and the simulation shows shooting is the better option here. The strike carries a 3% goal chance, whereas carrying the ball instead drops that chance to 1%."
+ },
+ "latency_ms": 12465,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"From 21.1 metres out, Werner takes the shot that Onana saves, and the simulation shows shooting is the better option here. The strike carries a 3% goal chance, whereas carrying the ball instead drops that chance to 1%.\",\"confidence\":0.9,\"claims\":[{\"text\":\"21.1 metres\",\"kind\":\"number\",\"value_number\":21.1,\"unit\":\"metres\",\"evidence_ids\":[\"f_000001\"]},{\"text\":\"Werner\",\"kind\":\"player\",\"value_text\":\"p_960\",\"unit\":\"\",\"evidence_ids\":[\"e_0030\",\"cf_000001\"]},{\"text\":\"Onana\",\"kind\":\"player\",\"value_text\":\"p_962\",\"unit\":\"\",\"evidence_ids\":[\"e_0031\"]},{\"text\":\"3%\",\"kind\":\"number\",\"value_number\":0.0304,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"1%\",\"kind\":\"number\",\"value_number\":0.0115,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]}]}",
+ "tokens_in": 1968,
+ "tokens_out": 269,
+ "via": "live"
+}

@@ -5,6 +5,37 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · T-109 Featured real-clip moments: select and precompute (track B)
+
+- Four Sliding Doors moments, one per clip, each frozen from a 1080p frame inside a steady wide shot and
+  hand-marked (homography from box/goal landmarks, RMS 0.19-0.21 m; missing players by role prior). Tracking (T-105)
+  can replace the hand marks later through the same moment files.
+- `python -m footage.featured`: 200 rollouts x 8 s of the real action and the alternative from the same state and
+  seeds (scripted_v1), pitch-control snapshot, evidence (tagged events with the real action as anchor, facts,
+  match_metadata with the clip's roster and clubs), gemini-4-argon explanation (prompts/tactician_footage@1.md,
+  live, SpendGuard per clip match id, $0.10 per moment limit), Fact Checker; cache per clip in
+  `data/footage/<slug>/cache/` (manifest + evidence.jsonl). `python -m footage.review export|import`: hand review
+  gated by the Fact Checker; 4 imported, 0 refused (explanation@reviewed + footage_line@1, hand_reviewed).
+
+  | clip, clock | real action | alternative | goal chance real -> alt | win chance |
+  |---|---|---|---|---|
+  | Liverpool v Man City 86:23 | Szoboszlai shoots, 31 m, blocked | pass to Salah | 3% -> 8% | +4 points |
+  | Man Utd v Man City 56:41 | Amad shoots, 18 m, saved | pass to #19 in the box | 2% -> 2% | shot was right |
+  | Arsenal v Chelsea 79:10 | Eze shoots, 19 m, saved | back to Saka | 2% -> 12% | +1 point |
+  | Man Utd v Spurs 38:02 | Werner shoots, 21 m, saved | round the keeper | 3% -> 1% | shot was right |
+
+- Fact Checker: a footage match lists its real players and clubs in match_metadata (`roster`, `clubs`); exactly
+  those names pass rules 3 and 7 for that match, any other real name is still banned; synthetic matches unchanged
+  (golden replay 55/55 verified, 0 misses). 3 of 4 model explanations verified first time; Man Utd v Man City
+  said "the number 19" (an unbound number), fixed in review.
+- **Spend: $0.0294** (4 Argon calls, ~$0.007 each). Footage total so far $0.6367.
+- Engine caveat for the README (T-111): outcomes come from the synthetic engine replaying a frozen frame; e.g.
+  Werner's one-on-one is a 3% goal chance there, far below what a real 1v1 is worth.
+- Also: `to_state` refuses a label used twice (Eze and Chelsea's #10 collided); validate_schemas covers
+  data/footage (5357 documents OK). Verification: `pytest tests/footage tests/newsroom/test_factcheck.py` 77 passed.
+
+---
+
 
 ## 2026-10-23 · T-064 Clean-machine replay test and one-command demo (track A)
 

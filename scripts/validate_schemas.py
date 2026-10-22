@@ -7,7 +7,7 @@ TECH_PLAN 1.3 versioning rule: a document is validated against the schema it nam
 - a `$schema` field holding a schema file name or `$id` (any JSON document);
 - the stream envelope {"type", "payload"} of TECH_PLAN 1.9 (JSONL lines): the message type names it,
   e.g. `event` -> event.schema.json, `cue` -> cue.schema.json, `hello.payload.viewer_profile`;
-- under data/matches/*/: `events.jsonl` lines are events; in `cache/`, `manifest.json` is a cache
+- under data/matches/*/ and data/footage/*/: `events.jsonl` lines are events; in `cache/`, `manifest.json` is a cache
   manifest and files named `cf_*`, `ex_*`, `c_*` are counterfactuals, explanations and cues.
 A fixture JSON file that names no schema is an error, so nothing passes silently.
 """
@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = ROOT / "schemas"
 FIXTURES = ROOT / "tests" / "fixtures"
 MATCHES = ROOT / "data" / "matches"
+FOOTAGE = ROOT / "data" / "footage"     # real clips (FOOTAGE_ADDENDUM.md): tagged events and featured-moment caches
 
 # TECH_PLAN 1.9 message types; those without a JSON schema are checked for shape only.
 MESSAGE_SCHEMAS = {"event": "event.schema.json", "cue": "cue.schema.json", "counterfactual": "counterfactual.schema.json"}
@@ -139,7 +140,9 @@ def main() -> int:
         if path.suffix in (".json", ".jsonl"):
             e, n = check_file(v, path)
             errors, n_docs = errors + e, n_docs + n
-    for match in sorted(MATCHES.glob("*/")) if MATCHES.exists() else []:
+    matches = [*(sorted(MATCHES.glob("*/")) if MATCHES.exists() else []),
+               *(sorted(FOOTAGE.glob("*/")) if FOOTAGE.exists() else [])]
+    for match in matches:
         if (match / "events.jsonl").exists():
             e, n = check_file(v, match / "events.jsonl", default="event.schema.json")
             errors, n_docs = errors + e, n_docs + n

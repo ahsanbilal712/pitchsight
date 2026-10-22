@@ -88,3 +88,10 @@ def test_frozen_state_branches_deterministically():
     assert a.invalid_reason is None and a.digest() == b.digest()
     base = rollout(st, None, 40, 4.0, 7, decide_now=True, events=[])
     assert 0.0 <= base.outcome()["p_goal_home"] <= 1.0
+
+
+def test_duplicate_labels_are_refused():
+    m = moment()
+    m["players"][-1]["label"] = "#8"
+    with pytest.raises(ValueError, match="used twice"):
+        to_state(m)

@@ -239,3 +239,27 @@ def test_one_point_is_a_hundredth(evidence_bb):
     ok = claim("-1 point", value=-0.0103, unit="win_prob_delta", ids=["cf_000078"])
     assert one(evidence_bb, ok)[0] is None
     assert one(evidence_bb, {**ok, "text": "-3 points"})[0] == "text_value_mismatch"
+
+
+def test_footage_match_allows_only_its_roster_names(tmp_path):
+    """A real-clip match (T-109) lists its players and clubs in match_metadata: those real names pass rules 3 and 7,
+    any other real name is still banned, and synthetic matches are unchanged."""
+    from blackboard import SqliteBlackboard
+
+    bb = SqliteBlackboard(tmp_path / "f.sqlite")
+    fm = "m_9001"
+    bb.put("events", {"id": "e_0000", "match_id": fm, "t_ms": 0, "type": "match_metadata", "player": None,
+                      "attrs": {"home": "liverpool", "away": "man_city",
+                                "lineups": {"home": {"starting": ["p_911"]}, "away": {"starting": []}},
+                                "roster": {"p_911": "Mohamed Salah"},
+                                "clubs": {"liverpool": {"name": "Liverpool", "short_name": "Liverpool"},
+                                          "man_city": {"name": "Manchester City", "short_name": "Man City"}}}})
+    bb.put("events", {"id": "e_0033", "match_id": fm, "t_ms": 5_185_000, "type": "pass", "team": "home",
+                      "player": "p_911", "attrs": {}})
+    claims = [{"text": "Mohamed Salah", "kind": "player", "value": "p_911", "evidence_ids": ["e_0033"]},
+              {"text": "Liverpool", "kind": "team", "value": "liverpool", "evidence_ids": ["e_0033"]}]
+    ok = verify_claims(fm, claims, bb, {"body": "Liverpool look for Mohamed Salah."})
+    assert ok["verified"], ok["diff"]
+    bad = verify_claims(fm, claims, bb, {"body": "Salah, not Erling Haaland."})
+    assert [d["phrase"] for d in bad["diff"]] == ["Erling Haaland"]
+    bb.close()

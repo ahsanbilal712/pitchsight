@@ -293,9 +293,24 @@ def _players_in(doc: dict, coll: str) -> set[str]:
     return found
 
 
+def _allowed_names(meta: dict) -> set[str]:
+    """A real-clip match (FOOTAGE_ADDENDUM.md) lists its real players (`roster`) and clubs (`clubs`) in its
+    match_metadata; those names, and only those, pass rules 3 and 7 for that match."""
+    names = {str(n).lower() for n in (meta.get("roster") or {}).values()}
+    for club in (meta.get("clubs") or {}).values():
+        names |= {str(club.get("name", "")).lower(), str(club.get("short_name", "")).lower()}
+    return names - {""}
+
+
+def _banned_hits(banned: BannedMatcher, text: str, allowed: set[str]) -> list[tuple[str, str]]:
+    return [(cat, phrase) for cat, phrase in banned.find(text)
+            if not any(phrase.lower() in name for name in allowed)]
+
+
 def _check_player(claim: dict, ev: _Evidence, ids: list[str], meta: dict) -> str | None:
     pid = claim.get("value")
     players, _ = league_data()
+    players = {**players, **{p: {"name": n} for p, n in (meta.get("roster") or {}).items()}}
     if not isinstance(pid, str) or pid not in players:
         return "unknown_player"
     lineups = meta.get("lineups", {})
@@ -321,6 +336,7 @@ def _check_player(claim: dict, ev: _Evidence, ids: list[str], meta: dict) -> str
 
 def _check_team(claim: dict, meta: dict) -> str | None:
     _, clubs = league_data()
+    clubs = {**clubs, **(meta.get("clubs") or {})}
     value = claim.get("value")
     sides = {"home": meta.get("home"), "away": meta.get("away")}
     club_id = sides.get(value, value)
@@ -366,7 +382,8 @@ def _check_tactical(claim: dict, ev: _Evidence, ids: list[str]) -> str | None:
 def verify_claims(match_id: str, claims: list[dict], bb, text: dict[str, str] | None = None) -> dict:
     """Apply rules 1-8. Returns {verified, claims (copies with verified/reject_reason), diff}."""
     ev = _Evidence(bb, match_id)
-    meta: dict | None = None
+    meta = _metadata(bb, match_id)
+    allowed = _allowed_names(meta)
     banned = banned_matcher()
     out_claims, diff = [], []
     for i, claim in enumerate(claims):
@@ -383,13 +400,12 @@ def verify_claims(match_id: str, claims: list[dict], bb, text: dict[str, str] | 
             elif kind == "minute":
                 reason = _check_minute(claim, ev, ids)
             elif kind in ("player", "team"):
-                meta = meta if meta is not None else _metadata(bb, match_id)
                 reason = _check_player(claim, ev, ids, meta) if kind == "player" else _check_team(claim, meta)
             elif kind == "tactical":
                 reason = _check_tactical(claim, ev, ids)
             else:
                 reason = "unknown_kind"
-        if reason is None and banned.find(claim.get("text") or ""):
+        if reason is None and _banned_hits(banned, claim.get("text") or "", allowed):
             reason = "banned_content"
         out = {**claim, "verified": reason is None, "reject_reason": reason}
         out_claims.append(out)
@@ -398,15 +414,15 @@ def verify_claims(match_id: str, claims: list[dict], bb, text: dict[str, str] | 
             if reason == "evidence_not_found":
                 entry["missing"] = missing
             diff.append(entry)
-    allowed: set[str] = set()
+    bound: set[str] = set()
     for c in out_claims:
         if c["verified"]:
-            allowed |= _token_keys(c.get("text", ""))
+            bound |= _token_keys(c.get("text", ""))
     for field, value in (text or {}).items():
         if not value:
             continue
-        for tok in sorted(_token_keys(value) - allowed):
+        for tok in sorted(_token_keys(value) - bound):
             diff.append({"where": field, "token": tok, "reject_reason": "unbound_number"})
-        for category, phrase in banned.find(value):
+        for category, phrase in _banned_hits(banned, value, allowed):
             diff.append({"where": field, "phrase": phrase, "category": category, "reject_reason": "banned_content"})
     return {"verified": not diff, "claims": out_claims, "diff": diff}

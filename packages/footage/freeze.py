@@ -176,6 +176,8 @@ def to_state(moment: dict, seed: int | None = None):
         facing = math.atan2(vy, vx) if math.hypot(vx, vy) > 0.3 else (0.0 if attack > 0 else math.pi)
         eng.S[0, row] = [x, y, vx, vy, stamina, facing]
         if p.get("label"):
+            if p["label"] in rows:
+                raise ValueError(f"label {p['label']!r} is used twice; labels name one player each")
             rows[p["label"]] = row
     bx, by, _, _ = put(float(m["ball"]["x"]), float(m["ball"]["y"]), 0.0, 0.0)
     eng.S[0, 22, 0:4] = [bx, by, 0.0, 0.0]

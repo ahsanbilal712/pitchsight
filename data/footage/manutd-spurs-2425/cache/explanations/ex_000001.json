@@ -1,0 +1,74 @@
+{
+ "alternatives_considered": [
+  "carry sw"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "f_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "21 metres",
+   "unit": "metres",
+   "value": 21.1,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "e_0030",
+    "cf_000001"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Werner",
+   "unit": null,
+   "value": "p_960",
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "e_0031"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Onana",
+   "unit": null,
+   "value": "p_962",
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "3%",
+   "unit": "p_goal",
+   "value": 0.0304,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "1%",
+   "unit": "p_goal",
+   "value": 0.0115,
+   "verified": true
+  }
+ ],
+ "confidence": 0.9,
+ "counterfactual_id": "cf_000001",
+ "explanation_id": "ex_000001",
+ "match_id": "m_9004",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00001",
+ "prompt_version": "tactician_footage@1",
+ "schema_version": "1.0.0",
+ "tool_trace_id": null,
+ "why": "Werner is through and shoots from 21 metres; Onana saves. The shot is a 3% goal chance, and taking the ball round the keeper instead drops it to 1%, so shooting is the better choice."
+}

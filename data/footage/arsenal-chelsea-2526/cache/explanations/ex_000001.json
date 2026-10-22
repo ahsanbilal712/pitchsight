@@ -1,0 +1,86 @@
+{
+ "alternatives_considered": [
+  "pass p_952"
+ ],
+ "attempt": 1,
+ "claims": [
+  {
+   "evidence_ids": [
+    "e_0046",
+    "cf_000001"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Eberechi Eze",
+   "unit": null,
+   "value": "p_948",
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "f_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "19 metres",
+   "unit": "metres",
+   "value": 19.4,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "2%",
+   "unit": "p_goal",
+   "value": 0.0221,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "e_0045",
+    "cf_000001"
+   ],
+   "kind": "player",
+   "reject_reason": null,
+   "text": "Bukayo Saka",
+   "unit": null,
+   "value": "p_952",
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "12%",
+   "unit": "p_goal",
+   "value": 0.1219,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "cf_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "+1 point",
+   "unit": "win_prob_delta",
+   "value": 0.013,
+   "verified": true
+  }
+ ],
+ "confidence": 0.95,
+ "counterfactual_id": "cf_000001",
+ "explanation_id": "ex_000001",
+ "match_id": "m_9003",
+ "model": "gemini-4-argon",
+ "moment_id": "mo_00001",
+ "prompt_version": "tactician_footage@1",
+ "schema_version": "1.0.0",
+ "tool_trace_id": null,
+ "why": "Eberechi Eze shoots from 19 metres and the shot is saved: a 2% goal chance. Bukayo Saka is still free on the right of the box; returning the pass lifts it to 12% and adds +1 point of win chance."
+}

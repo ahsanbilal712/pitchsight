@@ -1,0 +1,74 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.007732,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0046",
+     "cf_000001"
+    ],
+    "kind": "player",
+    "text": "Eberechi Eze",
+    "unit": "",
+    "value_text": "p_948"
+   },
+   {
+    "evidence_ids": [
+     "f_000001"
+    ],
+    "kind": "number",
+    "text": "19.4 metres",
+    "unit": "metres",
+    "value_number": 19.4
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "2%",
+    "unit": "p_goal",
+    "value_number": 0.0221
+   },
+   {
+    "evidence_ids": [
+     "e_0045",
+     "cf_000001"
+    ],
+    "kind": "player",
+    "text": "Bukayo Saka",
+    "unit": "",
+    "value_text": "p_952"
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "12%",
+    "unit": "p_goal",
+    "value_number": 0.1219
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "+1 points",
+    "unit": "win_prob_delta",
+    "value_number": 0.013
+   }
+  ],
+  "confidence": 0.95,
+  "why": "Eberechi Eze shoots from 19.4 metres and sees his effort saved, an option that carries just a 2% goal chance. Returning the pass to Bukayo Saka lifts the goal chance to 12% and improves the win probability by +1 points."
+ },
+ "latency_ms": 9361,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Eberechi Eze shoots from 19.4 metres and sees his effort saved, an option that carries just a 2% goal chance. Returning the pass to Bukayo Saka lifts the goal chance to 12% and improves the win probability by +1 points.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Eberechi Eze\",\"kind\":\"player\",\"value_text\":\"p_948\",\"unit\":\"\",\"evidence_ids\":[\"e_0046\",\"cf_000001\"]},{\"text\":\"19.4 metres\",\"kind\":\"number\",\"value_number\":19.4,\"unit\":\"metres\",\"evidence_ids\":[\"f_000001\"]},{\"text\":\"2%\",\"kind\":\"number\",\"value_number\":0.0221,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"Bukayo Saka\",\"kind\":\"player\",\"value_text\":\"p_952\",\"unit\":\"\",\"evidence_ids\":[\"e_0045\",\"cf_000001\"]},{\"text\":\"12%\",\"kind\":\"number\",\"value_number\":0.1219,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"\\u002B1 points\",\"kind\":\"number\",\"value_number\":0.013,\"unit\":\"win_prob_delta\",\"evidence_ids\":[\"cf_000001\"]}]}",
+ "tokens_in": 2191,
+ "tokens_out": 335,
+ "via": "live"
+}

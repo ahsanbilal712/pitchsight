@@ -9,8 +9,24 @@ tagger:
   fps_encode: 5
   fps_sample: 1                 # frames per second Gemini reads
   max_usd_per_clip: 0.40
+  max_usd_per_moment: 0.10      # T-109 explanation (gemini-4-argon) per featured moment
 clips:
-  liverpool-mancity-2526: { match_id: m_9001, home: Liverpool, away: Manchester City, period_hint: 2 }
-  manutd-mancity-2526:    { match_id: m_9002, home: Manchester United, away: Manchester City }
-  arsenal-chelsea-2526:   { match_id: m_9003, home: Arsenal, away: Chelsea }
-  manutd-spurs-2425:      { match_id: m_9004, home: Manchester United, away: Tottenham Hotspur }
+  liverpool-mancity-2526: { match_id: m_9001, home: Liverpool, away: Manchester City, home_id: liverpool,
+                            away_id: man_city, home_short: Liverpool, away_short: Man City }
+  manutd-mancity-2526:    { match_id: m_9002, home: Manchester United, away: Manchester City, home_id: man_utd,
+                            away_id: man_city, home_short: Man Utd, away_short: Man City }
+  arsenal-chelsea-2526:   { match_id: m_9003, home: Arsenal, away: Chelsea, home_id: arsenal, away_id: chelsea,
+                            home_short: Arsenal, away_short: Chelsea }
+  manutd-spurs-2425:      { match_id: m_9004, home: Manchester United, away: Tottenham Hotspur, home_id: man_utd,
+                            away_id: tottenham, home_short: Man Utd, away_short: Spurs }
+# T-109: one Sliding Doors moment per clip (frozen frame in moments/<clip_ms>.json; the real action is its
+# `actual`; the alternative's pass target is a label in that file, a carry direction is in the file's coordinates)
+featured:
+  - { slug: liverpool-mancity-2526, clip_ms: 875000, moment_id: mo_00001, alternative: { kind: pass, target: "#11" },
+      real_outcome: "shot blocked by a defender" }
+  - { slug: manutd-mancity-2526, clip_ms: 877000, moment_id: mo_00001, alternative: { kind: pass, target: "#19" },
+      real_outcome: "shot saved by Donnarumma" }
+  - { slug: arsenal-chelsea-2526, clip_ms: 1300500, moment_id: mo_00001, alternative: { kind: pass, target: "#7" },
+      real_outcome: "shot saved by Sánchez" }
+  - { slug: manutd-spurs-2425, clip_ms: 682800, moment_id: mo_00001,
+      alternative: { kind: carry, direction: [-0.8, -0.6] }, real_outcome: "shot saved by Onana" }

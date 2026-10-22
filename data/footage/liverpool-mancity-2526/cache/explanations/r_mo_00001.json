@@ -1,0 +1,75 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.007634,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0033",
+     "cf_000001",
+     "f_000001"
+    ],
+    "kind": "player",
+    "text": "Szoboszlai",
+    "unit": "",
+    "value_text": "p_912"
+   },
+   {
+    "evidence_ids": [
+     "f_000001"
+    ],
+    "kind": "number",
+    "text": "31 metres",
+    "unit": "metres",
+    "value_number": 30.9
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "3%",
+    "unit": "p_goal",
+    "value_number": 0.0303
+   },
+   {
+    "evidence_ids": [
+     "cf_000001",
+     "f_000002"
+    ],
+    "kind": "player",
+    "text": "Salah",
+    "unit": "",
+    "value_text": "p_911"
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "8%",
+    "unit": "p_goal",
+    "value_number": 0.0766
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "4 points",
+    "unit": "win_prob_delta",
+    "value_number": 0.0415
+   }
+  ],
+  "confidence": 0.95,
+  "why": "Szoboszlai takes a shot from 31 metres that gets blocked, carrying a 3% goal chance. Passing to Salah raises the goal chance to 8% and adds +4 points to the win probability."
+ },
+ "latency_ms": 14762,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Szoboszlai takes a shot from 31 metres that gets blocked, carrying a 3% goal chance. Passing to Salah raises the goal chance to 8% and adds +4 points to the win probability.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Szoboszlai\",\"kind\":\"player\",\"value_text\":\"p_912\",\"unit\":\"\",\"evidence_ids\":[\"e_0033\",\"cf_000001\",\"f_000001\"]},{\"text\":\"31 metres\",\"kind\":\"number\",\"value_number\":30.9,\"unit\":\"metres\",\"evidence_ids\":[\"f_000001\"]},{\"text\":\"3%\",\"kind\":\"number\",\"value_number\":0.0303,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"Salah\",\"kind\":\"player\",\"value_text\":\"p_911\",\"unit\":\"\",\"evidence_ids\":[\"cf_000001\",\"f_000002\"]},{\"text\":\"8%\",\"kind\":\"number\",\"value_number\":0.0766,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"4 points\",\"kind\":\"number\",\"value_number\":0.0415,\"unit\":\"win_prob_delta\",\"evidence_ids\":[\"cf_000001\"]}]}",
+ "tokens_in": 2197,
+ "tokens_out": 324,
+ "via": "live"
+}

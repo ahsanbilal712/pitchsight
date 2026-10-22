@@ -1,0 +1,73 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.007452,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0036",
+     "cf_000001"
+    ],
+    "kind": "player",
+    "text": "Amad",
+    "unit": "",
+    "value_text": "p_928"
+   },
+   {
+    "evidence_ids": [
+     "f_000001"
+    ],
+    "kind": "number",
+    "text": "18 metres",
+    "unit": "metres",
+    "value_number": 18.0
+   },
+   {
+    "evidence_ids": [
+     "e_0037"
+    ],
+    "kind": "player",
+    "text": "Gianluigi Donnarumma",
+    "unit": "",
+    "value_text": "p_926"
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "2%",
+    "unit": "p_goal",
+    "value_number": 0.0219
+   },
+   {
+    "evidence_ids": [
+     "f_000002"
+    ],
+    "kind": "number",
+    "text": "11.9 metres",
+    "unit": "metres",
+    "value_number": 11.9
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "2%",
+    "unit": "p_goal",
+    "value_number": 0.0164
+   }
+  ],
+  "confidence": 0.9,
+  "why": "Amad shoots from 18 metres out, seeing his effort saved by Gianluigi Donnarumma. Taking the shot carries a 2% goal chance, whereas passing to the number 19 at 11.9 metres drops that chance to 2%."
+ },
+ "latency_ms": 9708,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"why\":\"Amad shoots from 18 metres out, seeing his effort saved by Gianluigi Donnarumma. Taking the shot carries a 2% goal chance, whereas passing to the number 19 at 11.9 metres drops that chance to 2%.\",\"confidence\":0.9,\"claims\":[{\"text\":\"Amad\",\"kind\":\"player\",\"value_text\":\"p_928\",\"unit\":\"\",\"evidence_ids\":[\"e_0036\",\"cf_000001\"]},{\"text\":\"18 metres\",\"kind\":\"number\",\"value_number\":18.0,\"unit\":\"metres\",\"evidence_ids\":[\"f_000001\"]},{\"text\":\"Gianluigi Donnarumma\",\"kind\":\"player\",\"value_text\":\"p_926\",\"unit\":\"\",\"evidence_ids\":[\"e_0037\"]},{\"text\":\"2%\",\"kind\":\"number\",\"value_number\":0.0219,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"11.9 metres\",\"kind\":\"number\",\"value_number\":11.9,\"unit\":\"metres\",\"evidence_ids\":[\"f_000002\"]},{\"text\":\"2%\",\"kind\":\"number\",\"value_number\":0.0164,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]}]}",
+ "tokens_in": 2151,
+ "tokens_out": 315,
+ "via": "live"
+}

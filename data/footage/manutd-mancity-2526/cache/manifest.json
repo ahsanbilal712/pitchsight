@@ -1,0 +1,101 @@
+{
+ "created_at": "2026-10-22T20:29:02Z",
+ "engine_hash": "d9e1bf248ee8796443a01c80d39e68dab9fdc21b",
+ "entries": [
+  {
+   "created_at": "2026-10-22T20:36:06Z",
+   "hand_reviewed": false,
+   "key": "m_9002/match/evidence@factcheck/none/s9002",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "evidence.jsonl",
+   "producer": "evidence",
+   "seed": 9002,
+   "sha256": "697992cf65dad5799bbc97211e2d31975ba64bc2f2289016cdfc2fc6c5f69a14",
+   "version": "factcheck"
+  },
+  {
+   "created_at": "2026-10-22T20:36:08Z",
+   "hand_reviewed": true,
+   "key": "m_9002/mo_00001/explanation@reviewed/gemini-4-argon/s9002",
+   "kind": "explanation",
+   "model": "gemini-4-argon",
+   "moment_id": "mo_00001",
+   "path": "explanations/ex_000001.json",
+   "producer": "explanation",
+   "seed": 9002,
+   "sha256": "a2ef339a2bfffd18dade963caeca6fc322970fe39628cda7ae19405d139a5a6e",
+   "version": "explanation@reviewed"
+  },
+  {
+   "created_at": "2026-10-22T20:36:08Z",
+   "hand_reviewed": true,
+   "key": "m_9002/mo_00001/narrator@footage_line@1/none/s9002",
+   "kind": "fast_line",
+   "model": null,
+   "moment_id": "mo_00001",
+   "path": "lines/mo_00001.json",
+   "producer": "narrator",
+   "seed": 9002,
+   "sha256": "189ac025a87eca5dbd7366f96f80016dbce6bda71afc5c19857d67dcba17d99f",
+   "version": "footage_line@1"
+  },
+  {
+   "created_at": "2026-10-22T20:36:06Z",
+   "hand_reviewed": false,
+   "key": "m_9002/mo_00001/pitch_control@pc@1/none/s9002",
+   "kind": "pitch_control",
+   "model": null,
+   "moment_id": "mo_00001",
+   "path": "pitch_control/pc_000001.npz",
+   "producer": "pitch_control",
+   "seed": 9002,
+   "sha256": "c1205a502e97549e60275bfbd2afebcc1464b56e9709a6553951194cbe220629",
+   "version": "pc@1"
+  },
+  {
+   "created_at": "2026-10-22T20:36:06Z",
+   "hand_reviewed": false,
+   "key": "m_9002/mo_00001/rollout@scripted_v1/scripted/s9002",
+   "kind": "counterfactual",
+   "model": "scripted",
+   "moment_id": "mo_00001",
+   "path": "counterfactuals/cf_000001.json",
+   "producer": "rollout",
+   "seed": 9002,
+   "sha256": "d588306d35913c565bf842e3cd15deea0ab1abf09029fdb92c5478d3de2778fc",
+   "simulated_latency_ms": 1200,
+   "version": "scripted_v1"
+  },
+  {
+   "cost_usd": 0.007452,
+   "created_at": "2026-10-22T20:29:44Z",
+   "hand_reviewed": false,
+   "key": "m_9002/mo_00001/tactician@tactician_footage@1/gemini-4-argon/s9002",
+   "kind": "explanation",
+   "model": "gemini-4-argon",
+   "moment_id": "mo_00001",
+   "path": "explanations/r_mo_00001.json",
+   "producer": "tactician",
+   "seed": 9002,
+   "sha256": "4be06517bbce89086f4d2668f7dd92faa1b489e561d31d9891b5d47f00d82731",
+   "simulated_latency_ms": 9708,
+   "tokens_in": 2151,
+   "tokens_out": 315,
+   "version": "tactician_footage@1"
+  }
+ ],
+ "events_sha256": "470ba06e3321e509c0c932365d72c2b4188748d64c4c2c0ec50e0b61bfc8eb37",
+ "frozen": false,
+ "match_id": "m_9002",
+ "match_seed": 9002,
+ "schema_version": "1.0.0",
+ "totals": {
+  "cost_usd": 0.007452,
+  "entries": 6,
+  "tokens_in": 2151,
+  "tokens_out": 315
+ },
+ "tracking_sha256": "580b4d1830cae4cd5f8bd0206213d0e2eab7162d5a0f53a688efebcc57f2122d"
+}
