@@ -199,7 +199,12 @@ def test_model_error_or_cache_miss_gives_template_and_red_trace(deps, evidence_b
     cue = direct(deps, draft(150, 10_000_000, status="cache_miss"))
     assert cue["provenance"]["model"] == "template" and cue["text"]["body"] == "Chance quality: 0.06 xG."
     row = evidence_bb.query("traces", executor="director", moment_id="mo_00150")[0]
-    assert row["status"] == "cache_miss"
+    assert row["status"] == "cache_miss" and row["reason"] == "cache_miss"
+    failed = draft(151, 10_200_000, kind="goal", status="error").model_copy(
+        update={"reason": "narrator_fast: LLMError: 503"})
+    direct(deps, failed)
+    row = evidence_bb.query("traces", executor="director", moment_id="mo_00151")[0]
+    assert row["status"] == "error" and row["reason"] == "narrator_fast: LLMError: 503"
 
 
 def test_third_rejection_uses_template_from_verified_claims(deps, evidence_bb):

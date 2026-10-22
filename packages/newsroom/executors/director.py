@@ -223,7 +223,9 @@ class DirectorExecutor(NewsroomExecutor):
             await self.handle_recap(cue, envelope, ctx)
             return
         self.trace(out, started, status=red or "ok", cue_id=cue["cue_id"], t_in_ms=t_in, moved=moved,
-                   excluded=why_not, model=cue["provenance"]["model"])
+                   excluded=why_not, model=cue["provenance"]["model"],
+                   reason=(msg.reason or msg.status) if red in ("error", "cache_miss", "timeout") else
+                   ("rejected three times by the Fact Checker" if red else None))
         await ctx.send_message(CueOut(**envelope, cue=cue))
 
     async def handle_recap(self, cue: dict, envelope: dict, ctx: WorkflowContext[CueOut]) -> None:

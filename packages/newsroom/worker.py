@@ -71,7 +71,7 @@ def make_deps(mode: str) -> Deps:
     from cache import CacheClient
     from cache.client import preload_evidence
 
-    cache = CacheClient(inner_tools=tools)
+    cache = CacheClient(inner_tools=tools, clock_bb=bb)   # simulated latencies follow the api's replay clock
     log.info("replay evidence preloaded: %d documents", preload_evidence(bb, cache.manifest, store))
     return Deps(bb=bb, llm=cache, mode=mode, store=store, rollout=cache, panel_enabled=panel)
 

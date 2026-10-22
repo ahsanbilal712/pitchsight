@@ -72,6 +72,44 @@ def test_hit_waits_simulated_latency_over_replay_speed(manifest, monkeypatch):
     assert res["cache_key"] == "m_4242/mo_00077/narrator@2/gemini-3.8-flash/s4242" and res["cost_usd"] == 0.0
 
 
+def timed_hit(client):
+    t0 = time.perf_counter()
+    arun(client.complete("narrator_fast", [], match_id="m_4242", moment_id="mo_00077", prompt_version="narrator@2"))
+    return time.perf_counter() - t0
+
+
+def test_speed_follows_the_replay_clock_on_the_blackboard(manifest, monkeypatch, tmp_path):
+    """Track C rehearsal: the api's speed changes (studio, demo script, recorder) reach the worker's waits."""
+    monkeypatch.setenv("WHYLINE_REPLAY_SPEED", "1")
+    bb = SqliteBlackboard(tmp_path / "bb.sqlite")
+    client = CacheClient(manifest, clock_bb=bb)
+    assert client.current_speed() == (1.0, True)                         # no clock document: the env var
+    assert timed_hit(client) >= 0.38                                     # 400 ms / speed 1
+    bb.put("replay", {"id": "m_4242", "match_id": "m_4242", "speed": 10, "playing": True, "t_ms": 0})
+    client._clock = None
+    assert client.current_speed() == (10.0, True)
+    assert timed_hit(client) < 0.3                                       # 400 ms / speed 10
+    bb.close()
+
+
+def test_pause_holds_a_wait_until_play(manifest, tmp_path):
+    bb = SqliteBlackboard(tmp_path / "bb.sqlite")
+    bb.put("replay", {"id": "m_4242", "match_id": "m_4242", "speed": 10, "playing": False, "t_ms": 0})
+    client = CacheClient(manifest, clock_bb=bb)
+
+    async def scenario():
+        task = asyncio.create_task(client.complete("narrator_fast", [], match_id="m_4242", moment_id="mo_00077",
+                                                   prompt_version="narrator@2"))
+        await asyncio.sleep(0.8)
+        held = not task.done()
+        bb.put("replay", {"id": "m_4242", "match_id": "m_4242", "speed": 10, "playing": True, "t_ms": 0})
+        await asyncio.wait_for(task, 2)
+        return held
+
+    assert arun(scenario()) is True
+    bb.close()
+
+
 def test_rewrite_attempts_have_their_own_entries(manifest):
     res = arun(CacheClient(manifest, speed=1e6).complete("narrator_fast", [], match_id="m_4242",
                                                          moment_id="mo_00077", prompt_version="narrator@2",

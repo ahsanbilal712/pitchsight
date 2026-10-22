@@ -4,8 +4,10 @@
     CacheClient.call(name, args)                         # same signature as newsroom.tools.McpTools
 
 A model call's key comes from the context the executor passes (match, moment, producer, prompt version, attempt)
-and the manifest's seed. The entry's stored result is served after `simulated_latency_ms / WHYLINE_REPLAY_SPEED`, so
-the studio's trace panel animates with the real timings. A miss raises CacheMiss (the executors turn it into a
+and the manifest's seed. The entry's stored result is served after `simulated_latency_ms / speed`, so the studio's
+trace panel animates with the real timings. The speed is the live replay clock the api publishes to blackboard
+`replay/<match_id>` {speed, playing} (studio buttons, demo script, recorder), read at most every 0.5 s; while the
+replay is paused no simulated time passes. Without that document, WHYLINE_REPLAY_SPEED. A miss raises CacheMiss (the executors turn it into a
 template line and a red `cache_miss` trace row; never silent).
 
 Tool calls: counterfactuals are found by content (t_ms, alternative kind/actor/target, n, horizon), so a cached
@@ -21,12 +23,16 @@ import hashlib
 import json
 import logging
 import os
+import time
 from pathlib import Path
 
 from cache.errors import CacheMiss
 from cache.manifest import CacheManifest, default_cache_dir
 
 log = logging.getLogger("whyline.cache")
+
+CLOCK_TTL_S = 0.5     # how stale the replay clock may be
+SLICE_S = 0.25        # longest single sleep, so a speed change or pause applies within a wait
 
 PRODUCER_BY_ROLE = {"tactician_live": "tactician", "tactician_golden": "tactician", "narrator_fast": "narrator",
                     "proposer": "proposer", "panel_pundit": "panel", "panel_chair": "panel", "recap": "recap",
@@ -56,13 +62,15 @@ def cf_key(t_ms: int, alternative: dict, n: int, horizon_s: float) -> tuple:
 
 class CacheClient:
     def __init__(self, manifest: CacheManifest | None = None, cache_dir: str | Path | None = None,
-                 speed: float | None = None, inner_tools=None) -> None:
+                 speed: float | None = None, inner_tools=None, clock_bb=None) -> None:
         if manifest is None:
             cache_dir = Path(cache_dir or default_cache_dir())
             manifest = CacheManifest.load(cache_dir) if (cache_dir / "manifest.json").exists() else None
         self.manifest = manifest
         self.speed = speed
         self.inner = inner_tools
+        self.clock_bb = clock_bb
+        self._clock: tuple[float, float, bool] | None = None   # (read at, speed, playing)
         self.misses: list[str] = []
         self._cf: dict[tuple, dict] = {}
         if manifest is not None:
@@ -75,10 +83,34 @@ class CacheClient:
     def seed(self) -> int:
         return int(self.manifest.data["match_seed"]) if self.manifest else 0
 
+    def current_speed(self) -> tuple[float, bool]:
+        """(speed, playing): a fixed speed if one was given, else the live replay clock, else the env var."""
+        if self.speed:
+            return self.speed, True
+        now = time.monotonic()
+        if self._clock is None or now - self._clock[0] > CLOCK_TTL_S:
+            speed, playing = replay_speed(), True
+            if self.clock_bb is not None and self.manifest is not None:
+                from blackboard import NotFound
+
+                try:
+                    doc = self.clock_bb.get("replay", self.manifest.data["match_id"])
+                    speed = max(float(doc.get("speed") or speed), 1e-6)
+                    playing = doc.get("playing", True) is not False
+                except (NotFound, TypeError, ValueError):
+                    pass
+            self._clock = (now, speed, playing)
+        return self._clock[1], self._clock[2]
+
     async def _wait(self, entry: dict) -> int:
         ms = int(entry.get("simulated_latency_ms") or 0)
-        if ms:
-            await asyncio.sleep(ms / 1000.0 / (self.speed or replay_speed()))
+        left = ms / 1000.0   # simulated seconds still to pass
+        while left > 1e-6:
+            speed, playing = self.current_speed()
+            step = SLICE_S if not playing else min(left / speed, SLICE_S)
+            await asyncio.sleep(step)
+            if playing:
+                left -= step * speed
         return ms
 
     def _miss(self, key: str) -> None:

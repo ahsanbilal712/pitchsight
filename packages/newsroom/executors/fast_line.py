@@ -80,8 +80,9 @@ class FastLineExecutor(NewsroomExecutor):
         out = Draft(**msg.hop(self.id).model_dump(), kind=kind,
                     layer="player_tag" if kind == "player_tag" else "lower_third",
                     headline=line["headline"], body=line["body"], claims=claims, model=line.get("model"),
-                    prompt_version=line["prompt_version"], cache_key=line.get("cache_key"), status=line["status"])
+                    prompt_version=line["prompt_version"], cache_key=line.get("cache_key"), status=line["status"],
+                    reason=line.get("reason"))
         self.trace(out, started, status=line["status"], model=line.get("model"), tokens_in=line.get("tokens_in", 0),
                    tokens_out=line.get("tokens_out", 0), cost_usd=line.get("cost_usd", 0.0),
-                   cache_hit=line.get("cache_hit"))
+                   cache_hit=line.get("cache_hit"), reason=line.get("reason"))
         await ctx.send_message(out)

@@ -25,7 +25,7 @@ from blackboard.ids import format_id, parse_id
 from newsroom import config
 from newsroom.executors.base import Deps, NewsroomExecutor
 from newsroom.factcheck import league_data
-from newsroom.llm import CacheMiss, LLMError, LLMTimeout
+from newsroom.llm import CacheMiss, LLMTimeout
 from newsroom.messages import Envelope, Explained, RolloutDone
 from newsroom.templates import tactician_template
 
@@ -218,35 +218,35 @@ async def explain(deps: Deps, msg: Envelope, decision: dict | None, cf: dict | N
     ctx = {"match_id": m.match_id, "moment_id": m.moment_id, "schema": RESPONSE_SCHEMA, "prompt_version": PROMPT,
            "producer": "tactician",
            "timeout_s": role.timeout_s, "max_tool_rounds": deps.state.get("max_tool_rounds", role.max_tool_rounds)}
-    status, spent = "template", {"cost_usd": 0.0, "tokens_in": 0, "tokens_out": 0}
+    status, reason, spent = "template", None, {"cost_usd": 0.0, "tokens_in": 0, "tokens_out": 0}
     for _attempt in range(2):
         try:
             res = await deps.llm.complete(ROLE, messages, tools, **ctx)
-        except CacheMiss:
-            return template, {"status": "cache_miss", "model": "template"}
-        except LLMTimeout:
-            status = "timeout"
+        except CacheMiss as exc:
+            return template, {"status": "cache_miss", "model": "template", "reason": str(exc)}
+        except LLMTimeout as exc:
+            status, reason = "timeout", str(exc)
             continue
-        except LLMError:
-            status = "error"
-            continue
-        except Exception as exc:
+        except Exception as exc:  # LLMError and anything unexpected; SpendCapReached degrades
             if type(exc).__name__ == "SpendCapReached":
                 deps.state["degraded"] = True
-                return template, {"status": "degraded", "model": "template"}
-            status = "error"
+                return template, {"status": "degraded", "model": "template", "reason": str(exc)}
+            status, reason = "error", f"{type(exc).__name__}: {exc}"[:300]
             continue
         for k in spent:
             spent[k] += res.get(k, 0) or 0
         body = res.get("json") if isinstance(res.get("json"), dict) else {}
         claims = [c for c in (to_claim(x) for x in body.get("claims", []) if isinstance(x, dict)) if c]
+        reason = "no claims or why"
         if claims and body.get("why"):
             exp = finish(msg, {**body, "claims": claims}, res.get("model"), cf, alternatives)
-            if not valid(exp):
+            problems = valid(exp)
+            if not problems:
                 return exp, {"status": "ok", "model": res.get("model"), "tools": trace,
                              "cache_hit": res.get("cache_hit"), **spent}
+            reason = f"schema: {problems}"[:300]
         status = "invalid_output"
-    return template, {"status": status, "model": "template", "tools": trace, **spent}
+    return template, {"status": status, "model": "template", "tools": trace, "reason": reason, **spent}
 
 
 class TacticianExecutor(NewsroomExecutor):
@@ -260,5 +260,5 @@ class TacticianExecutor(NewsroomExecutor):
         self.trace(out, started, status=info["status"], model=info.get("model"), cost_usd=info.get("cost_usd", 0.0),
                    tokens_in=info.get("tokens_in", 0), tokens_out=info.get("tokens_out", 0),
                    cache_hit=info.get("cache_hit"), tool_calls=[t["tool"] for t in info.get("tools", [])],
-                   explanation_id=exp["explanation_id"])
+                   explanation_id=exp["explanation_id"], reason=info.get("reason"))
         await ctx.send_message(out)

@@ -86,6 +86,7 @@ def test_second_failure_and_bad_json_fall_back_to_template(evidence_bb, explanat
     out = line(Deps(bb=evidence_bb, llm=FakeClient({"narrator_fast": [LLMError("a"), {"json": None,
                                                                                      "text": "nope"}]})), claims)
     assert out["status"] == "error" and out["model"] == "template"
+    assert out["reason"] == "narrator_fast: invalid_json (no headline/body)"   # the trace drawer shows why
 
 
 def test_cache_miss_and_spend_cap_use_template(evidence_bb, explanation_example):

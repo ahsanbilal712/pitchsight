@@ -17,7 +17,7 @@ from agent_framework import WorkflowContext, handler
 from newsroom import config
 from newsroom.decision import attach_options, decision_point, proposer_rule, valid_alternatives
 from newsroom.executors.base import Deps, NewsroomExecutor
-from newsroom.llm import CacheMiss, LLMError
+from newsroom.llm import CacheMiss
 from newsroom.messages import Envelope, Proposals, Routed
 
 ROLE, PROMPT = "proposer", "proposer@1"
@@ -44,20 +44,17 @@ async def propose(deps: Deps, msg: Envelope, decision: dict) -> tuple[list[dict]
     ctx = {"match_id": msg.moment.match_id, "moment_id": msg.moment.moment_id, "schema": SCHEMA,
            "prompt_version": PROMPT, "timeout_s": role.timeout_s, "producer": "proposer"}
     messages = build_messages(decision, msg.moment.kind)
-    status = "rule"
+    status, reason = "rule", None
     for _attempt in range(2):
         try:
             res = await deps.llm.complete(ROLE, messages, None, **ctx)
-        except CacheMiss:
-            return rule, {"status": "cache_miss", "model": "proposer_rule"}
-        except LLMError:
-            status = "error"
-            continue
-        except Exception as exc:
+        except CacheMiss as exc:
+            return rule, {"status": "cache_miss", "model": "proposer_rule", "reason": str(exc)}
+        except Exception as exc:  # LLMError and anything unexpected; SpendCapReached degrades
             if type(exc).__name__ == "SpendCapReached":
                 deps.state["degraded"] = True
-                return rule, {"status": "degraded", "model": "proposer_rule"}
-            status = "error"
+                return rule, {"status": "degraded", "model": "proposer_rule", "reason": str(exc)}
+            status, reason = "error", f"{type(exc).__name__}: {exc}"[:300]
             continue
         out = res.get("json") if isinstance(res.get("json"), dict) else {}
         alts = valid_alternatives(decision, out.get("alternatives"))
@@ -65,8 +62,8 @@ async def propose(deps: Deps, msg: Envelope, decision: dict) -> tuple[list[dict]
             return alts, {"status": "ok", "model": res.get("model"), "cost_usd": res.get("cost_usd", 0.0),
                           "tokens_in": res.get("tokens_in", 0), "tokens_out": res.get("tokens_out", 0),
                           "cache_hit": res.get("cache_hit")}
-        status = "invalid_output"
-    return rule, {"status": status, "model": "proposer_rule"}
+        status, reason = "invalid_output", "no valid alternatives"
+    return rule, {"status": status, "model": "proposer_rule", "reason": reason}
 
 
 class ProposerExecutor(NewsroomExecutor):
@@ -101,5 +98,5 @@ class ProposerExecutor(NewsroomExecutor):
         out = Proposals(**msg.hop(self.id).model_dump(), alternatives=alts, decision=decision)
         self.trace(out, started, status=info["status"], model=info.get("model"), cost_usd=info.get("cost_usd", 0.0),
                    tokens_in=info.get("tokens_in", 0), tokens_out=info.get("tokens_out", 0),
-                   cache_hit=info.get("cache_hit"), alternatives=len(alts))
+                   cache_hit=info.get("cache_hit"), alternatives=len(alts), reason=info.get("reason"))
         await ctx.send_message(out)

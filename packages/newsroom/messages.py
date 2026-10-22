@@ -91,6 +91,7 @@ class Draft(Envelope):
     prompt_version: str | None = None
     cache_key: str | None = None
     status: str = "ok"            # ok | template | cache_miss | error
+    reason: str | None = None     # why a non-ok status: the exception or "invalid_json" (studio trace drawer)
 
 
 class CueOut(Envelope):

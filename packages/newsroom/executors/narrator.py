@@ -16,7 +16,7 @@ from agent_framework import WorkflowContext, handler
 from newsroom import config
 from newsroom.executors.base import Deps, NewsroomExecutor
 from newsroom.factcheck import verify_claims
-from newsroom.llm import CacheMiss, LLMError, LLMTimeout, load_fewshot
+from newsroom.llm import CacheMiss, LLMTimeout, load_fewshot
 from newsroom.messages import Draft, Envelope, Explained
 from newsroom.templates import BODY_MAX, HEADLINE_MAX, clip, template_line
 
@@ -60,26 +60,23 @@ async def write_line(deps: Deps, msg: Envelope, kind: str, claims: list[dict], d
     ctx = {"match_id": msg.moment.match_id, "moment_id": msg.moment.moment_id, "schema": SCHEMA,
            "prompt_version": PROMPT, "attempt": attempt, "timeout_s": role.timeout_s, "producer": producer}
     messages = build_messages(kind, verified, diff, previous)
-    status = "template"
+    status, reason = "template", None
     for name in roles:
         try:
             res = await deps.llm.complete(name, messages, None, **ctx)
-        except CacheMiss:
-            return {**fallback, "status": "cache_miss"}
-        except LLMTimeout:
-            return {**fallback, "status": "timeout"}
-        except LLMError:
-            status = "error"
-            continue
-        except Exception as exc:  # SpendCapReached and anything unexpected: template, degraded for SpendCap
+        except CacheMiss as exc:
+            return {**fallback, "status": "cache_miss", "reason": f"{name}: {exc}"}
+        except LLMTimeout as exc:
+            return {**fallback, "status": "timeout", "reason": f"{name}: {exc}"}
+        except Exception as exc:  # LLMError, SpendCapReached, anything unexpected: template (degraded on SpendCap)
             if type(exc).__name__ == "SpendCapReached":
                 deps.state["degraded"] = True
-                return {**fallback, "status": "degraded"}
-            status = "error"
+                return {**fallback, "status": "degraded", "reason": str(exc)}
+            status, reason = "error", f"{name}: {type(exc).__name__}: {exc}"[:300]
             continue
         out = res.get("json") if isinstance(res.get("json"), dict) else None
         if not out or not isinstance(out.get("headline"), str) or not isinstance(out.get("body"), str):
-            status = "error"
+            status, reason = "error", f"{name}: invalid_json (no headline/body)"
             continue
         by_text = {c["text"]: c for c in verified}
         used = [by_text[t] for t in out.get("claims", []) if isinstance(t, str) and t in by_text]
@@ -89,7 +86,7 @@ async def write_line(deps: Deps, msg: Envelope, kind: str, claims: list[dict], d
                 "cache_key": res.get("cache_key"), "cost_usd": res.get("cost_usd", 0.0),
                 "tokens_in": res.get("tokens_in", 0), "tokens_out": res.get("tokens_out", 0),
                 "cache_hit": res.get("cache_hit")}
-    return {**fallback, "status": status}
+    return {**fallback, "status": status, "reason": reason}
 
 
 def draft_kind(moment_kind: str, counterfactual: dict | None) -> str:
@@ -102,7 +99,8 @@ class NarratorExecutor(NewsroomExecutor):
     async def _emit(self, ctx, out: Draft, line: dict, started: float) -> None:
         self.trace(out, started, status=line["status"], model=line.get("model"),
                    tokens_in=line.get("tokens_in", 0), tokens_out=line.get("tokens_out", 0),
-                   cost_usd=line.get("cost_usd", 0.0), cache_hit=line.get("cache_hit"), attempt=out.attempt)
+                   cost_usd=line.get("cost_usd", 0.0), cache_hit=line.get("cache_hit"), attempt=out.attempt,
+                   reason=line.get("reason"))
         await ctx.send_message(out)
 
     @handler
@@ -117,7 +115,7 @@ class NarratorExecutor(NewsroomExecutor):
         out = Draft(**base, kind=kind, headline=line["headline"], body=line["body"], why=exp.get("why", ""),
                     claims=checked, explanation=exp, counterfactual=msg.counterfactual, attempt=1,
                     model=line.get("model"), prompt_version=line["prompt_version"], cache_key=line.get("cache_key"),
-                    status=line["status"])
+                    status=line["status"], reason=line.get("reason"))
         await self._emit(ctx, out, line, started)
 
     @handler
@@ -131,5 +129,5 @@ class NarratorExecutor(NewsroomExecutor):
             why = ""  # the Tactician's why carried the rejected content; the drawer falls back to the body
         out = msg.hop(self.id, headline=line["headline"], body=line["body"], why=why, attempt=attempt,
                       checked=False, verified=False, model=line.get("model"), status=line["status"],
-                      cache_key=line.get("cache_key"))
+                      reason=line.get("reason"), cache_key=line.get("cache_key"))
         await self._emit(ctx, out, line, started)

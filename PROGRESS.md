@@ -5,6 +5,20 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-038 follow-up: replay latency follows the live replay clock; error trace reasons (track B)
+
+- Track C's x10 rehearsal fell ~20 min behind: CacheClient divided simulated latency by WHYLINE_REPLAY_SPEED read
+  once at start. It now reads the api's clock `replay/<match_id>` {speed, playing} (9e14a91, track C) at most every
+  0.5 s and sleeps in 0.25 s slices, so a speed change or a pause also applies to a wait already in progress; the
+  env var stays the fallback. The worker passes its blackboard (`CacheClient(clock_bb=bb)`).
+- Trace rows with a non-ok status now carry `reason` (narrator, fast line, Director red rows, Tactician, Proposer;
+  `Draft.reason`): golden replay has 30 such rows, 0 without a reason. Replay output unchanged (55 cues + 2 held,
+  55 verified, 0 misses).
+- Verification: `pytest tests/newsroom tests/cache tests/chaos tests/mcp_server tests/blackboard tests/tooling`
+  244 passed, 4 skipped.
+
+---
+
 ## 2026-10-22 · T-057 Hand-review export/import, few-shots and cue stream (track B) — partial, no regeneration
 
 - `--hand-review 20` exports the 20 highest-leverage moments (`review/mo_*.md`) and the 5 cached fast lines for
