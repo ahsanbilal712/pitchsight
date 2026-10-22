@@ -5,6 +5,29 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · T-108 Real-frame compositing, part 1 (track C)
+
+- `demo.footage`: broadcast camera = homography + one radial lens term k1, fitted from >= 4 hand landmarks and
+  refined ICP-style against the frame's own paint (white top-hat on blue, players masked, boards cut by a sloped
+  `top`); the pitch model draws line centres (Laws dimensions are to the outer edge of 12 cm lines, ~2 px here).
+  `drift_px` = offset along the normal from projected model line to marking centre, pooled over lines found along
+  >= 50% of their visible length; every line's figure kept.
+- `python -m demo.composite <moment> [--png] [--clip] [--standin]` (moments in `packages/demo/footage_moments.yaml`,
+  players from T-107's moment file): freeze grade with the two players lit, ground rings and tags, 200 ghost futures
+  (baseline white, alternative orange, Catmull-Rom, clamped to pitch + 2 m), dashed alternative pass, referee lines,
+  swing card with n/horizon/seed; PNG and a 14 s clip (4 s real, 7 s freeze, 3 s resume). Outputs git-ignored in
+  `packages/demo/out/footage/`.
+- **Measured, Liverpool v Man City 86:23 (clip 875 s):** k1 +0.039; drift **median 0.65 px, p95 1.76 px** (675
+  samples: penalty box, goal box, goal line, penalty arc); far touchline left out (found on 3% of it under the
+  boards). A referee line drawn along the box edge through the painter lands on the paint at median 0.77 px, p95
+  2.19 px (a smooth S along that 40 m line; no lens model does better). H alone: p95 2.20; k1+k2: 1.90. Synthetic
+  frame from a known camera: k1 recovered 0.0346 of 0.035, drift p95 0.38 px.
+- **Pending:** T-109's counterfactual for the moment (until then `--standin` re-anchors cf_000070, watermarked,
+  never in the video); T-104's per-frame camera when it lands. Verification: `pytest tests/demo/test_footage.py`
+  8 passed (2 need the clip on this machine).
+
+---
+
 ## 2026-10-23 · T-107 Moment freeze and hand-correction, part 1 (track B)
 
 - `footage.freeze`: a moment file `data/footage/<slug>/moments/<clip_ms>.json` (players and ball in pitch metres,

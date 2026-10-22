@@ -1,0 +1,32 @@
+# Featured real-clip moments for the compositor (T-108). Clips are the four downloaded data/footage/*/clip.mp4
+# (sources and permission: data/footage/SOURCES.md); nothing here is media. Composites go to packages/demo/out/footage/.
+#
+#   python -m demo.composite <moment> [--png] [--clip] [--standin]
+#
+# camera: hand landmarks on the freeze frame (pitch metres <-> pixels, >= 4) and the markings the fit refines
+#   against; `top` is the advertising boards' lower edge as a polyline of pixels (nothing above it is pitch).
+#   Track A's per-frame calibration (T-104) replaces the hand fit when it lands.
+# actor/target: `player` is a label in the moment file (players and ball in pitch metres); `label` is the tag drawn.
+# Pitch metres: x 0..105 towards the goal the attacking side faces, y 0..68 with y = 0 the touchline nearest
+# the main camera. Pixels are 1920x1080 frames.
+# counterfactual: the precomputed rollout for the moment (T-109, track B). Until it exists, --standin draws the
+# golden match's cf_000070 futures re-anchored on the players, watermarked, for checking the look only; a
+# stand-in never goes in the video.
+
+moments:
+  lfc_sliding_doors:
+    clip: liverpool-mancity-2526
+    t_s: 875.0                       # broadcast clock 86:23; e_0033 (clip_ms 875000): the shot is blocked
+    shot: [802.6, 891.0]             # the steady wide shot it sits in (shots.json)
+    camera:
+      landmarks:
+        pitch: [[105, 68], [105, 54.16], [88.5, 54.16], [88.5, 13.84], [99.5, 43.16], [99.5, 24.84]]
+        pixel: [[920, 205], [1150, 268], [578, 313], [1540, 705], [1195, 345], [1688, 495]]
+      lines: [penalty_box_right, goal_box_right, goal_line_right, touchline_far, penalty_arc_right]
+      top: [[0, 249], [915, 208], [916, 200], [1919, 200]]
+    moment_file: liverpool-mancity-2526/moments/875000.json    # T-107 hand-marked frame (track A, a152373)
+    actor: {player: "#8", feet: [728, 705], label: "Shoots"}    # feet: fallback without the moment file
+    ball: [832, 682]
+    target: {player: "#11", feet: [1700, 797], label: "Free"}
+    counterfactual: null             # T-109
+    swing_label: "Win chance if he passes"
