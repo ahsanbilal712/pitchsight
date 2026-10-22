@@ -991,9 +991,9 @@ class Engine:
         """Formation targets for both teams at once ([B, 2, 11]: axis 1 is the team, each in its own frame)."""
         S, B = self.S, self.B
         bx, by = S[:, 22, 0], S[:, 22, 1]
-        pos_dir = np.array([self.home_dir > 0, self.home_dir < 0])                     # team attacks +x
-        bu = np.where(pos_dir[None, :], bx[:, None], PITCH_L - bx[:, None])             # [B, 2]
-        bv = np.where(pos_dir[None, :], by[:, None], PITCH_W - by[:, None])
+        pos_dir = (self.home_dir > 0, self.home_dir < 0)                               # team attacks +x
+        bu = np.stack([bx if d else PITCH_L - bx for d in pos_dir], axis=1)            # [B, 2]
+        bv = np.stack([by if d else PITCH_W - by for d in pos_dir], axis=1)
         styles = self.eff_styles                                                       # [B, 2, 5]
         in_poss = self.possession[:, None] == np.array([0, 1])[None, :]
         line = np.where(in_poss, np.minimum(np.maximum(bu - 32 + LINE_IN_POSS * styles[..., 4], 12), 58),
@@ -1001,9 +1001,9 @@ class Engine:
         wscale = np.where(in_poss, 0.85 + 0.35 * styles[..., 2], 0.6 + 0.15 * styles[..., 2])
         u = line[..., None] + SLOT_U
         v = GOAL_Y + (SLOT_V - GOAL_Y) * wscale[..., None] + 0.3 * (bv[..., None] - GOAL_Y)
-        opp_x = np.stack([S[:, 11:22, 0], S[:, 0:11, 0]], axis=1)                         # each team's opponents
-        ou = np.where(pos_dir[None, :, None], opp_x, PITCH_L - opp_x)
-        offside_line = np.maximum(np.sort(ou, axis=2)[..., -2], bu)
+        ou = np.stack([S[:, 11:22, 0] if pos_dir[0] else PITCH_L - S[:, 11:22, 0],     # each team's opponents
+                       S[:, 0:11, 0] if pos_dir[1] else PITCH_L - S[:, 0:11, 0]], axis=1)
+        offside_line = np.maximum(np.partition(ou, 9, axis=2)[..., 9], bu)            # second-deepest opponent
         # forwards time their runs: each drifts up to RUN_AMP_M either side of the line on a 7 s cycle
         run = RUN_AMP_M * np.sin(2 * np.pi * self.t_ms / 7000.0 + np.array([0.0, 2.1, 4.2]))
         # and push up onto that line when it is within FWD_REACH_M of the ball
@@ -1014,14 +1014,17 @@ class Engine:
         v[..., 0] = GOAL_Y + 0.25 * (bv - GOAL_Y)
         u, v = np.minimum(np.maximum(u, 1.0), PITCH_L - 1.0), np.minimum(np.maximum(v, 1.5), PITCH_W - 1.5)
         kick_off = self.dead & (self.wa.restart_code == 0)
-        u = np.where(kick_off[:, None, None], np.minimum(u, 49.0), u)
-        x = np.where(pos_dir[None, :, None], u, PITCH_L - u)
-        y = np.where(pos_dir[None, :, None], v, PITCH_W - v)
-        targets = np.stack([x.reshape(B, 22), y.reshape(B, 22)], axis=2)
+        if kick_off.any():
+            u = np.where(kick_off[:, None, None], np.minimum(u, 49.0), u)
+        targets = np.empty((B, 22, 2))
+        for k, d in enumerate(pos_dir):
+            targets[:, 11 * k:11 * k + 11, 0] = u[:, k] if d else PITCH_L - u[:, k]
+            targets[:, 11 * k:11 * k + 11, 1] = v[:, k] if d else PITCH_W - v[:, k]
         stam = 0.85 + 0.15 * S[:, :22, 4]
-        vmax = np.where(self.dead[:, None], 0.75 * JOG, FORMATION_VMAX) * stam
+        vmax = (np.where(self.dead[:, None], 0.75 * JOG, FORMATION_VMAX) * stam if self.dead.any()
+                else FORMATION_VMAX * stam)
         special = np.zeros((B, 22), dtype=bool)
-        self._special_targets_all(targets, vmax, special)
+        self._special_targets_all(targets, vmax, special, stam)
         pos = S[:, :22, 0:2]
         vel = S[:, :22, 2:4]
         desired = (targets - pos) * FORMATION_GAIN
@@ -1030,21 +1033,27 @@ class Engine:
             ease = np.minimum(np.maximum((gap - FORMATION_DEADZONE) / FORMATION_DEADZONE, 0.0), 1.0)
             ease[:, KEEPER_ROWS] = 1.0         # keepers keep tracking the ball across their goal
             ease[special] = 1.0
-            desired *= ease[..., None]
+            desired[..., 0] *= ease
+            desired[..., 1] *= ease
         sp = np.hypot(desired[..., 0], desired[..., 1])
         scale = np.minimum(1.0, vmax / np.maximum(sp, 1e-9))
-        desired *= scale[..., None]
+        desired[..., 0] *= scale             # per axis (same products, cheaper than a [..., None] broadcast)
+        desired[..., 1] *= scale
         dv = desired - vel
         dvn = np.hypot(dv[..., 0], dv[..., 1])
-        dv *= np.minimum(1.0, ACCEL * DT / np.maximum(dvn, 1e-9))[..., None]
+        lim = np.minimum(1.0, ACCEL * DT / np.maximum(dvn, 1e-9))
+        dv[..., 0] *= lim
+        dv[..., 1] *= lim
         vel = vel + dv
         S[:, :22, 2:4] = vel
-        S[:, :22, 0:2] = np.minimum(np.maximum(pos + vel * DT, -3.0), MOVE_HI)
+        for k in (0, 1):                      # per axis: broadcasting the two-element bound costs as much as the step
+            S[:, :22, k] = np.minimum(np.maximum(S[:, :22, k] + vel[..., k] * DT, -3.0), MOVE_HI[k])
 
-    def _special_targets_all(self, targets: np.ndarray, vmax: np.ndarray, special: np.ndarray) -> None:
+    def _special_targets_all(self, targets: np.ndarray, vmax: np.ndarray, special: np.ndarray,
+                             stam: np.ndarray) -> None:
         """Vectorised `_special_targets` for every world (same values, same overwrite order)."""
         S, a = self.S, self.wa
-        sprint = self.vtop * (0.85 + 0.15 * S[:, :22, 4])                 # [B, 22], each player's own top speed
+        sprint = self.vtop * stam                                          # [B, 22], each player's own top speed
         bx, by = S[:, 22, 0], S[:, 22, 1]
         idx = np.flatnonzero(self.dead)
         if idx.size:
@@ -1302,8 +1311,7 @@ class Engine:
         S = self.S
         sp = np.hypot(S[:, :22, 2], S[:, :22, 3])
         S[:, :22, 4] = np.maximum(0.0, S[:, :22, 4] - STAMINA_COST * sp * sp)
-        moving = sp > 0.5
-        S[:, :22, 5] = np.where(moving, np.arctan2(S[:, :22, 3], S[:, :22, 2]), S[:, :22, 5])
+        np.arctan2(S[:, :22, 3], S[:, :22, 2], out=S[:, :22, 5], where=sp > 0.5)     # heading of moving players
         if not np.isfinite(S.sum() + self.ball_z.sum()):        # any NaN or inf makes the sum non-finite
             raise EngineError(f"non-finite state at t_ms={self.t_ms} (seed {self.seed})")
 

@@ -6,6 +6,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 ---
 
 
+## 2026-10-22 · T-036 policy_v1 decision-only rollout path and MPS performance test (track A)
+
+- Code was in 0562d76 (policy_engine, loader guard, tests); budgets were missed by ~9% after T-014's per-player
+  speeds. Now met by value-preserving engine speed-ups (`kickoff/engine.py`, `kickoff/rules.py`): per-team
+  frame flips instead of `np.where` over a constant mask, `np.partition` for the second-deepest opponent, per-axis
+  position clamp and steering scales instead of broadcasting a two-element array, the heading written in place,
+  kick-off and dead-ball branches only when some world needs them. Golden 4242 regenerates byte-identical
+  (events, tracking, truth) and a B=200 x 60 s branch hashes the same.
+- Measured (load avg 5-30 from macOS storage services): policy_v1 200 x 8 s **0.281-0.287 s on MPS** (<= 0.30),
+  **0.42-0.43 s on CPU** (<= 1.2); scripted 200 x 90 s **1.254-1.263 s** CPU (<= 1.3), 200 x 60 s 0.84 s (<= 1.2).
+- Verification: `pytest tests/rollout/test_policy_perf.py tests/rollout/test_policy_determinism.py -q` 4 passed
+  three times; `tests/rollout/test_perf.py` passes; tests/kickoff and tests/rollout green.
+
+---
+
 ## 2026-10-22 · T-048 Decision Index precompute (track A)
 
 - `packages/rollout/decision_index.py`: value = p_goal(actual) - max p_goal(engine's top-3 other options), n = 50,

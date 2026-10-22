@@ -107,7 +107,7 @@ class ScriptedRule:
         gain = threat(mu, mv) + 0.01 * directness[:, None] * np.maximum(0.0, mu - u0[:, None]) / 10.0
         loss = 0.5 * threat(PITCH_L - u0, PITCH_W - v0)
         value_pass = pc * gain - (1.0 - pc) * loss[:, None]
-        second_last = np.sort(ou, axis=1)[:, -2]
+        second_last = np.partition(ou, 9, axis=1)[:, 9]
         line = np.maximum(np.maximum(second_last, u0), PITCH_L / 2)
         value_pass = value_pass + self.through_ball_bias * (mu > line[:, None] + 0.2)
         value_pass[:, 0] -= 0.01                                                            # back to the keeper
