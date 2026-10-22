@@ -137,7 +137,7 @@ export default function Replay3D() {
       <Canvas
         className="r3d-canvas"
         dpr={canvasDpr()}
-        shadows
+        shadows="percentage"
         gl={{ antialias: true, preserveDrawingBuffer: RECORD }}
         camera={{ fov: 34, near: 0.5, far: 600, position: [0, 40, 78] }}
       >

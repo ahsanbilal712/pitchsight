@@ -1,4 +1,4 @@
-/* Fan app (T-043): a 390x844 phone frame; full width on a real phone. Tokens from tokens.css. */
+/* Fan app (T-043): phone-shaped, recorded at 390x844, full width on a real phone. Tokens from tokens.css. */
 html,
 body,
 #root {
@@ -14,10 +14,12 @@ body,
   box-sizing: border-box;
 }
 
+/* the frame fills a phone (any width up to 480 px, full height); 390x844 is the recording size */
 .phone {
-  width: 390px;
-  max-width: 100%;
-  height: 844px;
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
+  height: 100dvh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -128,8 +130,9 @@ body,
 /* ------------------------------------------------------------------ mini-pitch */
 .mini-pitch {
   display: block;
-  width: 358px;
-  max-width: calc(100% - 32px);
+  width: calc(100% - 32px);
+  max-width: 448px;
+  height: auto;
   margin: var(--sp-3) auto;
   border-radius: var(--radius-sm);
 }
