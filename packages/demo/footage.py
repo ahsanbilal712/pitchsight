@@ -89,6 +89,22 @@ class Camera:
         return cls(np.asarray(doc["h"], float), float(doc.get("k1", 0.0)), tuple(doc.get("size", (1920, 1080))))
 
 
+# Pitchwatch (track A, T-104) maps pixels to pitch metres with y from the FAR touchline; this module's y runs from the
+# near one (event schema, T-107 moment files). The flip is its own inverse.
+FLIP_Y = np.array([[1.0, 0.0, 0.0], [0.0, -1.0, PITCH_W], [0.0, 0.0, 1.0]])
+
+
+def from_pitchwatch(calib: dict, frame: int) -> Camera:
+    """The camera for one frame of a Pitchwatch `calib/<shot>.json` (H: pixels -> pitch, far-touchline y; no lens
+    term), or the nearest frame whose fit is trusted."""
+    frames = {int(k): v for k, v in calib["frames"].items() if v.get("ok")}
+    if not frames:
+        raise ValueError(f"calib shot {calib.get('shot_id')}: no trusted frame")
+    near = min(frames, key=lambda f: abs(f - frame))
+    h = np.linalg.inv(np.asarray(frames[near]["H"], float)) @ FLIP_Y
+    return Camera(h / h[2, 2], size=tuple(calib.get("image_size", (1920, 1080))))
+
+
 def as_camera(cam) -> Camera:
     return cam if isinstance(cam, Camera) else Camera(np.asarray(cam, float))
 

@@ -12,12 +12,14 @@ from scipy import ndimage as ndi
 
 from demo import composite as C
 from demo.footage import (
+    FLIP_Y,
     LINE_W,
     Camera,
     _targets,
     dlt,
     drift_px,
     fit_from_lines,
+    from_pitchwatch,
     line_response,
     model_lines,
     occluders,
@@ -134,6 +136,20 @@ def test_ghosts_are_clamped_to_the_pitch_and_standin_is_marked():
     assert C.stem(MOMENT, True).endswith("_standin")
     with pytest.raises(SystemExit, match="T-109"):
         C.load_futures({**MOMENT, "counterfactual": None}, TRUE, standin=False)
+
+
+def test_pitchwatch_calibration_flips_y():
+    """Track A's H maps pixels to pitch metres with y from the far touchline; the camera built from it projects
+    this module's (near-touchline y) points to the same pixels as the camera it was made from."""
+    pw_h = np.linalg.inv(TRUE.h @ FLIP_Y)                       # pixels -> far-touchline metres
+    calib = {"shot_id": 62, "image_size": [1920, 1080],
+             "frames": {"43749": {"H": pw_h.tolist(), "ok": False}, "43750": {"H": pw_h.tolist(), "ok": True}}}
+    cam = from_pitchwatch(calib, 43749)
+    pts = np.array([[88.5, 13.84], [105, 68], [77.9, 19.2]])
+    assert np.abs(cam.project(pts) - Camera(TRUE.h).project(pts)).max() < 1e-6
+    far = np.c_[pts[:, 0], 68 - pts[:, 1]]
+    back = np.c_[pw_h @ np.c_[Camera(TRUE.h).project(pts), np.ones(3)].T].T
+    assert np.allclose(back[:, :2] / back[:, 2:], far)
 
 
 def test_catmull_rom_passes_through_its_points():

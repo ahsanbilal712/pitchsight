@@ -36,7 +36,7 @@ from matplotlib.figure import Figure  # noqa: E402
 from matplotlib.patches import Polygon  # noqa: E402
 from PIL import Image, ImageDraw, ImageFilter, ImageFont  # noqa: E402
 
-from demo.footage import Camera, Drift, fit_from_lines  # noqa: E402
+from demo.footage import Camera, Drift, drift_px, fit_from_lines, from_pitchwatch  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 FOOTAGE = ROOT / "data" / "footage"
@@ -89,6 +89,18 @@ def top_rows(poly) -> np.ndarray:
     """Per-column first pitch row from the boards' lower-edge polyline."""
     p = np.asarray(poly, float)
     return np.ceil(np.interp(np.arange(W), p[:, 0], p[:, 1])).astype(int)
+
+
+def pitchwatch_camera(m: dict, frame: np.ndarray) -> tuple[Camera, Drift] | None:
+    """Track A's per-frame calibration (T-104) for the freeze instant, measured the same way, if published."""
+    shots = json.loads((FOOTAGE / m["clip"] / "shots.json").read_text())["shots"]
+    shot = next((s["id"] for s in shots if s.get("usable") and s["start"] <= m["t_s"] <= s["end"]), None)
+    path = FOOTAGE / m["clip"] / "calib" / f"{shot}.json"
+    if shot is None or not path.exists():
+        return None
+    calib = json.loads(path.read_text())
+    cam = from_pitchwatch(calib, int(round(m["t_s"] * calib.get("fps", 50.0))))
+    return cam, drift_px(cam, frame, m["camera"]["lines"], top=top_rows(m["camera"]["top"]))
 
 
 def camera_for(m: dict, frame: np.ndarray, refit: bool = False) -> tuple[Camera, Drift]:
@@ -462,6 +474,12 @@ def main(argv: list[str] | None = None) -> int:
           f"p95 {drift.p95} px, {drift.samples} samples")
     for name, v in drift.per_line.items():
         print(f"  {name:<20} median {v['median']:5} p95 {v['p95']:5} coverage {v['coverage']}")
+    pw = pitchwatch_camera(m, frame)
+    if pw:
+        print(f"track A calibration (no lens term): drift median {pw[1].median} px, p95 {pw[1].p95} px over "
+              f"{', '.join(pw[1].lines)}" + ("; using it" if pw[1].p95 <= drift.p95 else "; keeping the line fit"))
+        if pw[1].p95 <= drift.p95:
+            cam, drift = pw
     fut = load_futures(m, cam, args.standin)
     p = Painter(m, frame, cam, fut)
     s = stem(m, fut.standin)

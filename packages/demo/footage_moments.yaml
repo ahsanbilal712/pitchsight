@@ -5,7 +5,8 @@
 #
 # camera: hand landmarks on the freeze frame (pitch metres <-> pixels, >= 4) and the markings the fit refines
 #   against; `top` is the advertising boards' lower edge as a polyline of pixels (nothing above it is pitch).
-#   Track A's per-frame calibration (T-104) replaces the hand fit when it lands.
+#   Track A's per-frame calibration (T-104: calib/<shot>.json for the usable shot holding t_s) is measured the
+#   same way and used when its drift is no worse.
 # actor/target: `player` is a label in the moment file (players and ball in pitch metres); `label` is the tag drawn.
 # Pitch metres: x 0..105 towards the goal the attacking side faces, y 0..68 with y = 0 the touchline nearest
 # the main camera. Pixels are 1920x1080 frames.
