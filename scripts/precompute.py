@@ -241,7 +241,9 @@ def stage_counterfactuals(seed: int, manifest: CacheManifest, events: list[dict]
     runtime.mkdir(parents=True, exist_ok=True)
     store = MatchStore(SqliteBlackboard(runtime / f"bb_{seed}.sqlite"), runtime_dir=runtime)
     ref = MatchRef(seed, match_dir=match_dir)
-    manifest.data["entries"] = [e for e in manifest.entries if e.get("producer") != "rollout"]
+    # replace this stage's own entries; keep the extra alternatives T-042 adds (counterfactuals/x_*.json)
+    manifest.data["entries"] = [e for e in manifest.entries if e.get("producer") != "rollout"
+                                or e["path"].startswith("counterfactuals/x_")]
     made, skipped, n_cf = 0, [], 0
     for m in sorted(explained, key=lambda m: m["t_ms"]):
         dec = decision_point(store, m)
@@ -283,8 +285,8 @@ def stage_storyboard(seed: int, manifest: CacheManifest, events: list[dict], win
     Doors = the home team's counterfactual with the largest win-probability gain whose alternative the engine gives
     >= 5%, preferring "shot, but the pass was on"; Fourth Official = every offside, then fouls with a card; Oracle =
     the highest forecast in 0.30-0.60 that the match then confirms with a shot by that side within 10 s (home
-    preferred); Dugout = 60:00, the home team; kill = 3 s after the last explained decision moment before 44:10, so the
-    worker dies while that Sliding Doors run is in flight (TECH_PLAN 1.7 kill-switch)."""
+    preferred); Dugout = 60:00, the home team; kill = 3 s after the last explained decision moment before 44:10 whose
+    cue survives the Director's same-kind dedupe, so the worker dies while that run is in flight (TECH_PLAN 1.7)."""
     import yaml
 
     from newsroom.scout_rules import is_explained
@@ -316,8 +318,7 @@ def stage_storyboard(seed: int, manifest: CacheManifest, events: list[dict], win
     best, side = max(called, key=lambda c: (c[1] == "home", c[0]["p_shot_10s"][c[1]]))
     lines = (manifest.cache_dir / manifest.find(producer="scout")[0]["path"]).read_text(encoding="utf-8").splitlines()
     moments = [json.loads(line) for line in lines if line.strip()]
-    kill = max((m for m in moments if is_explained(m) and m["kind"] == "decision" and m["t_ms"] <= KILL_BY_MS),
-               key=lambda m: m["t_ms"])
+    kill = _kill_moment(moments, is_explained)
     dug = manifest.read(manifest.find(producer="dugout", version="dugout@1-home")[0])
     out = {
         "sliding_doors": {"clock": _clock(sd["t_ms"] + 100), "t_ms": int(sd["t_ms"]) + 100, "branch_t_ms": int(sd["t_ms"]),
@@ -343,13 +344,71 @@ def stage_storyboard(seed: int, manifest: CacheManifest, events: list[dict], win
     return {k: (v["clock"] if isinstance(v, dict) else [x["clock"] for x in v]) for k, v in out.items()}
 
 
+def _kill_moment(moments: list[dict], is_explained) -> dict:
+    """The last explained decision moment before 44:10 whose Sliding Doors cue reaches the screen: the Director drops
+    a cue of the same kind within dedupe_same_kind_window_s of the last one it showed (budgets.yaml), so walk the
+    explained decisions in time order keeping the ones that would be shown (a kill on a dropped cue shows nothing)."""
+    import yaml
+    window_ms = int(yaml.safe_load((ROOT / "config" / "budgets.yaml").read_text())["director"]["hard_rules"]
+                    ["dedupe_same_kind_window_s"]) * 1000
+    shown, last = [], -10**9
+    for m in sorted((m for m in moments if is_explained(m) and m["kind"] == "decision"), key=lambda m: m["t_ms"]):
+        if m["t_ms"] - last >= window_ms:
+            shown.append(m)
+            last = m["t_ms"]
+    return max((m for m in shown if m["t_ms"] <= KILL_BY_MS), key=lambda m: m["t_ms"])
+
+
 def _side_players(events: list[dict], side: str) -> set[str]:
     meta = next(e for e in events if e["type"] == "match_metadata")["attrs"]["lineups"][side]
     subs = {e["attrs"]["player_on"] for e in events if e["type"] == "substitution" and e["team"] == side}
     return set(meta["starting"]) | subs
 
 
-STAGES = {"storyboard": stage_storyboard, "analytics": stage_analytics, "moments": stage_moments, "counterfactuals": stage_counterfactuals,
+def _decision_chunk(args: tuple[int, list[dict], str]) -> list[dict]:
+    from dataclasses import asdict
+
+    from rollout import MatchRef
+    from rollout.decision_index import decision_values
+
+    seed, chunk, engine = args
+    match = MatchRef(seed, match_dir=ROOT / "data" / "matches" / str(seed))
+    return [asdict(v) for v in decision_values(match, chunk, seed=seed, engine=engine)]
+
+
+def stage_decision_index(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
+    """A rollout value for every on-ball decision of the match and the per-player Decision Index (T-048)."""
+    from multiprocessing import Pool
+
+    from rollout.decision_index import DECISIONS, HORIZON_S, N, live_values, player_index, spearman
+
+    engine = gate_engine()
+    started = time.perf_counter()
+    dec = sorted((e for e in events if e["type"] in DECISIONS and e.get("player")), key=lambda e: e["t_ms"])
+    k = max(1, args.workers * 3)
+    chunks = [dec[i * len(dec) // k:(i + 1) * len(dec) // k] for i in range(k)]
+    with Pool(args.workers) as pool:
+        values = [v for part in pool.map(_decision_chunk, [(seed, c, engine) for c in chunks]) for v in part]
+    values.sort(key=lambda v: v["t_ms"])
+    index = player_index([(v["player"], v["value"]) for v in values])
+    live = player_index(live_values(events, window))
+    rho = spearman(index, live)
+    match_id = events[0]["match_id"]
+    doc = {"$schema": "analytics.schema.json", "schema_version": "1.0.0", "producer": "decision_index",
+           "match_id": match_id, "seed": seed, "engine": engine, "n": N, "horizon_s": HORIZON_S,
+           "formula": "value = p_goal(actual) - max p_goal(engine's top-3 other options); index = percentile of the "
+                      "player's mean value among players with >= 5 decisions",
+           "decisions": values, "players": index, "live_players": live, "spearman_live_vs_rollout": round(rho, 4),
+           "minutes": round((time.perf_counter() - started) / 60, 1)}
+    key = CacheManifest.key(match_id, None, "decision_index", "decision_index@1", engine, seed)
+    manifest.data["entries"] = [e for e in manifest.entries if e.get("producer") != "decision_index"]
+    manifest.add(key, "analytics", doc, "analytics/decision_index.json", producer="decision_index",
+                 version="decision_index@1", model=engine, seed=seed, simulated_latency_ms=50)
+    return {"decisions": len(dec), "valued": len(values), "players": sum(1 for p in index.values() if p["index"] is not None),
+            "spearman_live_vs_rollout": round(rho, 3), "minutes": doc["minutes"]}
+
+
+STAGES = {"decision_index": stage_decision_index, "storyboard": stage_storyboard, "analytics": stage_analytics, "moments": stage_moments, "counterfactuals": stage_counterfactuals,
           "fourth_official": stage_fourth_official, "oracle": stage_oracle, "dugout": stage_dugout,
           **dict.fromkeys(NEWSROOM_STAGES, stage_newsroom)}       # T-042 model calls (cache/precompute_models.py)
 
