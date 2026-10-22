@@ -27,23 +27,25 @@ BEATS = {"opener", "sliding_doors", "fourth_official", "panel_kill", "oracle_dug
 
 # ---------------------------------------------------------------- demo_script.yaml
 def test_demo_script_is_exactly_the_tech_plan_entries():
+    """The four TECH_PLAN 1.8 actions in 1.8 order (kill, veto of the recap 15 s after half-time, speed 1 before the
+    Sliding Doors moment, speed 10 after it); clocks follow golden_moments.yaml (next test)."""
     rows = yaml.safe_load(SCRIPT.read_text())
-    core = [{k: v for k, v in r.items() if k != "ref"} for r in rows]
-    assert core == [
-        {"at_clock": "44:10", "action": "kill", "target": "newsroom"},
-        {"at_clock": "45:00+15s", "action": "veto", "cue_kind": "recap"},
-        {"at_clock": "31:10", "action": "speed", "value": 1},
-        {"at_clock": "33:00", "action": "speed", "value": 10},
-    ]
-    assert [a.at_ms for a in load_script(SCRIPT)] == [2_650_000, 2_715_000, 1_870_000, 1_980_000]
+    assert [(r["action"], r.get("target"), r.get("cue_kind"), r.get("value")) for r in rows] == [
+        ("kill", "newsroom", None, None), ("veto", None, "recap", None), ("speed", None, None, 1),
+        ("speed", None, None, 10)]
+    assert rows[1]["at_clock"] == "45:00+15s"
+    assert [r.get("ref") for r in rows] == ["@kill", None, "@sliding_doors-4s", "@sliding_doors+14s"]
+    at = [a.at_ms for a in load_script(SCRIPT)]
+    assert at[1] == 2_715_000 and at[2] < at[3]
 
 
 def test_demo_script_clocks_come_from_golden_moments():
-    """Each entry with a `ref` must match golden_moments.yaml (T-039 writes it)."""
+    """Each entry with a `ref` must match golden_moments.yaml (T-039 writes it), to the second the clock is written in
+    (golden_moments has exact t_ms, the script whole-second clocks)."""
     moments = load_moments()                              # raises until the golden precompute has run
     for row in yaml.safe_load(SCRIPT.read_text()):
         if "ref" in row:
-            assert resolve(row["ref"], moments) == resolve(row["at_clock"]), row
+            assert resolve(row["ref"], moments) // 1000 == resolve(row["at_clock"]) // 1000, row
 
 
 # ---------------------------------------------------------------- clocks
@@ -80,16 +82,12 @@ def stage(tmp_path):
 
 
 def test_runner_applies_actions_on_the_clock(stage):
+    kill_ms, _veto, slow_ms, fast_ms = (a.at_ms for a in stage.runner.actions)
     stage.runner.tick()
-    stage.advance(1_869_500)
-    assert stage.clock.speed == 1
-    stage.clock.set_speed(4)
-    stage.advance(1_871_000)
-    assert stage.clock.speed == 1                          # speed 1 at 31:10
-    stage.advance(1_981_000)
-    assert stage.clock.speed == 10                         # speed 10 at 33:00
-    stage.advance(2_651_000)
-    assert stage.kills == ["newsroom"]                     # kill at 44:10, once
+    stage.advance(kill_ms - 500)
+    assert stage.kills == []
+    stage.advance(kill_ms + 1000)
+    assert stage.kills == ["newsroom"]                     # kill at its clock, once
     stage.bb.put("requests", {"id": "req_recap", "request_id": "req_recap", "match_id": "m_4242",
                               "cue": {"kind": "recap", "cue_id": "c_000234"}})
     stage.bb.put("requests", {"id": "req_other", "request_id": "req_other", "match_id": "m_4242",
@@ -97,6 +95,13 @@ def test_runner_applies_actions_on_the_clock(stage):
     stage.advance(2_716_000)
     assert stage.bb.get("decisions", "req_recap")["decision"] == "vetoed"
     assert not stage.bb.query("decisions", request_id="req_other")
+    stage.clock.set_speed(4)
+    stage.advance(slow_ms - 500, step_ms=200)
+    assert stage.clock.speed == 4
+    stage.advance(slow_ms + 500, step_ms=200)
+    assert stage.clock.speed == 1                          # speed 1 before the Sliding Doors moment
+    stage.advance(fast_ms + 500, step_ms=200)
+    assert stage.clock.speed == 10                         # speed 10 after it
     assert [a.fired for a in stage.runner.actions] == [True, True, True, True]
     assert stage.kills == ["newsroom"]
 
@@ -113,12 +118,14 @@ def test_runner_waits_for_a_late_recap_request(stage):
 
 
 def test_seek_back_rearms_and_seek_forward_skips(stage):
+    kill_ms = stage.runner.actions[0].at_ms
+    stage.clock.seek(kill_ms - 120_000)
     stage.runner.tick()
-    stage.clock.seek(2_700_000)                            # jump over 44:10: the kill is skipped
-    stage.advance(2_701_000)
+    stage.clock.seek(kill_ms + 30_000)                     # jump over the kill: it is skipped
+    stage.advance(kill_ms + 31_000)
     assert stage.kills == []
-    stage.clock.seek(2_640_000)                            # back before 44:10: armed again
-    stage.advance(2_652_000)
+    stage.clock.seek(kill_ms - 10_000)                     # back before it: armed again
+    stage.advance(kill_ms + 2_000)
     assert stage.kills == ["newsroom"]
 
 
@@ -174,7 +181,8 @@ def test_records_a_shot_with_video_and_keyframes(tmp_path):
     bb = SqliteBlackboard(Path(tempfile.mkdtemp()) / "bb.sqlite")
     server = uvicorn.Server(uvicorn.Config(create_app(seed=4242, speed=1, bb=bb), host="127.0.0.1", port=port,
                                            log_level="warning"))
-    threading.Thread(target=server.run, daemon=True).start()
+    thread = threading.Thread(target=server.run, daemon=True)
+    thread.start()
     deadline = time.time() + 20
     while not server.started:
         assert time.time() < deadline
@@ -194,6 +202,7 @@ def test_records_a_shot_with_video_and_keyframes(tmp_path):
     finally:
         http.shutdown()
         server.should_exit = True
+        thread.join(timeout=10)                            # lifespan tasks stop before the board closes
         bb.close()
     video, png = tmp_path / "smoke.webm", tmp_path / f"smoke_{fmt(601_000).replace(':', '')}.png"
     print(f"\nrecorded smoke.webm {video.stat().st_size // 1024} KB, ready after {marks['ready_s']:.1f} s")
