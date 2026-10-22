@@ -5,6 +5,18 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-061 Demo script runner, shot list and Playwright recorder (track C)
+
+- Finished on top of part 1 (963361d) once `golden_moments.yaml` landed (T-039, dd6f339). `demo_script.yaml`: the four
+  1.8 actions at the golden beats: kill 41:54 (`@kill`), veto 45:00+15s (half-time recap), speed 1 at 76:52
+  (`@sliding_doors-4s`), speed 10 at 77:10 (`@sliding_doors+14s`). TECH_PLAN's 44:10/31:10/33:00 were the draft match's.
+- Verification: `pytest tests/demo/test_demo_script.py -q` **9 passed** (clocks agree with golden_moments to the second;
+  runner fires each action once, waits for a late recap request, re-arms on seek back); `python -m demo.record_demo
+  --shots packages/demo/shot_list.yaml --dry-run` exits 0 with **14 shots** over the 8 beats (architecture page comes
+  with T-063). A real 2.5 s GPU recording writes `.webm` + keyframe PNG.
+
+---
+
 ## 2026-10-22 · T-029 follow-up 2: contested passages on the regenerated golden match (track B)
 
 - Track A's regenerated golden 4242 (movement realism, 0353e09; heads v1 498119e) gave 136 moments, **69 explained**
