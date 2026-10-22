@@ -120,8 +120,13 @@ class Hub:
         if cf_id not in self._cf_cache:
             try:
                 self._cf_cache[cf_id] = self.bb.get("counterfactuals", cf_id, match_id=cue.get("match_id"))
-            except KeyError:  # NotFound: the screen hides the swing bar until it exists
-                return None
+            except KeyError:  # not in the blackboard: the golden cache, else the screen hides the swing bar
+                from api.docs import cache_doc
+
+                doc = cache_doc(cue.get("match_id") or self.match_id, "counterfactuals", cf_id)
+                if doc is None:
+                    return None
+                self._cf_cache[cf_id] = doc
         return self._cf_cache[cf_id]
 
     def lines_for(self, client: Client, msgs: list[dict]) -> list[str]:

@@ -220,6 +220,14 @@ def test_doc_endpoint_whitelist(env):
     assert client.get("/match/m_4242/doc/cues/c_000001").status_code == 404          # not whitelisted
     assert client.get("/match/m_4242/doc/decisions/x").status_code == 404
     assert client.get("/match/m_4242/doc/explanations/ex_999999").status_code == 404
+    # replay: counterfactuals and pitch-control snapshots come from the golden cache when the blackboard lacks them
+    cache = ROOT / "data" / "matches" / "4242" / "cache"
+    cf_id = sorted(cache.glob("counterfactuals/cf_*.json"))[0].stem
+    cf = client.get(f"/match/m_4242/doc/{cf_id}").json()
+    assert cf["counterfactual_id"] == cf_id and len(cf["futures_sample"]) == cf["n"]
+    pc_id = sorted(cache.glob("pitch_control/pc_*.npz"))[0].stem
+    pc = client.get(f"/match/m_4242/doc/{pc_id}").json()
+    assert pc["snapshot_id"] == pc_id and len(pc["grid"]) == 34 and len(pc["grid"][0]) == 53
 
 
 def test_spend_and_kill_stub(env):
