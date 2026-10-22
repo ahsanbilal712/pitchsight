@@ -47,3 +47,21 @@ Still open for the recording:
   cue is delivered.
 - No `interrupted` trace row was written for the killed run, so the studio cannot show it red (T-051 step 2).
 - The studio now colours `error` rows red as well as cache_miss and interrupted.
+
+## Kill beat on the chosen moment (22 Oct, after 7d4395f)
+
+golden_moments.yaml now puts the kill at 41:37 on mo_00060 (41:34, whose Sliding Doors cue the Director shows);
+demo_script.yaml follows. Played 41:20 → 42:40 at x1 with the demo script armed:
+
+```
+2026-10-22T15:30:20.413 demo action=kill at=41:37 clock=41:37 {'started': True}
+2026-10-22T15:30:33.047 kill target=newsroom run_id=run_m_4242_mo_00060 at_executor=tactician
+2026-10-22T15:30:33.091 restart pid=53957
+2026-10-22T15:30:33.700 resume run_id=run_m_4242_mo_00060 checkpoint_id=f87c2127-dd09-42b4-b20a-e15bab7f8ef8
+2026-10-22T15:30:33.756 cue c_000601 delivered resumed_from_checkpoint=f87c2127-dd09-42b4-b20a-e15bab7f8ef8
+```
+
+Trace rows for mo_00060: ingest, scout, proposer (cache_miss), rollout, tactician (cache_miss), **narrator
+interrupted** (written at kill time), narrator, factcheck verified, director, cuebus delivered. The four TECH_PLAN 1.7
+log lines appear in order. At x10 the same run had not reached the Tactician before the window ended (the Proposer
+cache miss took 12 s); the recording plays this beat at x1.
