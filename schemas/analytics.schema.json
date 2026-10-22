@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whyline.dev/schemas/analytics.schema.json",
+  "title": "AnalyticsDocument",
+  "description": "A precomputed analytics document in the replay cache (manifest kind \"analytics\"): Oracle forecasts, Dugout options, Decision Index values. The producer names the layout; every number keeps its n, horizon and seed so the screen can show them (TECH_PLAN 1.5, 1.8).",
+  "type": "object",
+  "required": ["schema_version", "producer", "match_id", "seed", "engine"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "producer": { "type": "string", "enum": ["oracle", "dugout", "decision_index"] },
+    "match_id": { "type": "string", "pattern": "^m_[0-9]+$" },
+    "seed": { "type": "integer" },
+    "engine": { "type": "string", "enum": ["scripted_v1", "policy_v1", "policy_v2"] },
+    "n": { "type": "integer", "minimum": 1 },
+    "horizon_s": { "type": "number", "minimum": 0, "maximum": 90 },
+    "t_ms": { "type": "integer", "minimum": 0 },
+    "team": { "type": "string", "enum": ["home", "away"] }
+  },
+  "examples": [
+    { "schema_version": "1.0.0", "producer": "dugout", "match_id": "m_4242", "seed": 4242, "engine": "scripted_v1",
+      "n": 100, "horizon_s": 90, "t_ms": 3600000, "team": "home", "options": [] }
+  ]
+}

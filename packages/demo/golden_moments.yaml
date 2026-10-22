@@ -1,0 +1,49 @@
+# Written by scripts/precompute.py --stages storyboard (T-039). Storyboard beats of the golden match,
+# chosen from the cache; the demo script and shot list reference them as @key (packages/demo/clocks.py).
+sliding_doors:
+  clock: '76:56'
+  t_ms: 4616400
+  branch_t_ms: 4616300
+  moment_id: mo_00104
+  counterfactual_id: cf_000070
+  actor: p_020
+  actual_kind: shoot
+  alternative_kind: pass
+  alternative_target: p_023
+  delta_win_prob_home: 0.0374
+  policy_prob: 0.1619
+  engine: scripted_v1
+fourth_official:
+- clock: '66:05'
+  t_ms: 3965000
+  cue_kind: offside
+  event_id: e_2662
+  cue_id: c_902662
+- clock: '60:50'
+  t_ms: 3650600
+  cue_kind: card
+  event_id: e_2417
+  cue_id: c_902417
+- clock: '75:04'
+  t_ms: 4504600
+  cue_kind: card
+  event_id: e_3069
+  cue_id: c_903069
+oracle:
+  clock: '83:30'
+  t_ms: 5010000
+  team: home
+  p_shot_10s: 0.5936
+  likely_shooter: p_021
+  likely_zone: outside_box
+dugout:
+  clock: '60:00'
+  t_ms: 3600000
+  team: home
+  recommendation: keep the ball
+kill:
+  clock: '41:54'
+  t_ms: 2514800
+  moment_id: mo_00061
+  moment_clock: '41:51'
+  target: newsroom
