@@ -145,21 +145,28 @@ class FakeRunner:
 class LiveRunner:
     """Live calls through LiveClient (SpendGuard records each), `concurrency` at a time."""
 
-    def __init__(self, client=None, concurrency: int = 8) -> None:
+    def __init__(self, client=None, concurrency: int = 8, budget_usd: float | None = None) -> None:
         from newsroom.llm import LiveClient
 
         self.client = client or LiveClient(mode="precompute")
         self.sem = asyncio.Semaphore(concurrency)
+        self.budget_usd = budget_usd          # the ticket's limit: no call starts once this much is spent
+        self.spent = 0.0
 
     async def one(self, r: BatchRequest) -> BatchResult:
         from newsroom.llm import LLMError
 
         async with self.sem:
+            if self.budget_usd is not None and self.spent >= self.budget_usd:
+                return BatchResult("", None, 0, 0, 0.0, "live", error=f"precompute budget ${self.budget_usd:.2f} spent")
             try:
                 res = await self.client.complete(r.role, r.messages, None, match_id=r.ctx.get("match_id"),
                                                  schema=r.schema, timeout_s=120, max_tool_rounds=0)
             except LLMError as exc:
                 return BatchResult("", None, 0, 0, 0.0, "live", error=str(exc))
+            except Exception as exc:  # SpendCapReached: a failed request, never a crashed run
+                return BatchResult("", None, 0, 0, 0.0, "live", error=f"{type(exc).__name__}: {exc}")
+            self.spent += res["cost_usd"]
             return BatchResult(res["text"], res["json"], res["tokens_in"], res["tokens_out"], res["cost_usd"], "live")
 
     async def run(self, requests: list[BatchRequest]) -> tuple[dict[str, BatchResult], list[dict]]:

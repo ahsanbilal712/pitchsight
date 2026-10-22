@@ -895,7 +895,7 @@ Unplanned hours are buffer. Days 8–14 carry deliberate slack because "flawless
 - **Acceptance criteria:**
   - Results are matched by `custom_id`, never by position; `custom_id` is a hash of the cache key (letters, digits, `_`, `-`, ≤ 64 chars) with the mapping in `batches.json`.
   - Every cached explanation and line has `verified` set by the Fact Checker; rejected ones were re-queued with the diff at most twice.
-  - Golden precompute spend ≤ $1.50 in the ledger ($50 plan §3); `simulated_latency_ms` comes from the measured live latency of the same role, or 4–8 s for Opus (1.8).
+  - Golden precompute spend ≤ $2.00 in the ledger (was $1.50, $50 plan §3; raised by the owner on 22 Oct: no new GCP resources, so no Vertex batch bucket, so live calls at full price with gemini-4-argon for the Tactician and pundits; still under the $2.50 per-match cap); `simulated_latency_ms` comes from the measured live latency of the same role, or 4–8 s for Opus (1.8).
 - **Verification:** `python scripts/precompute.py --seed 4242 --mode batch --stages fast_lines,tactician,narrator,panel,factcheck && pytest tests/cache/test_batch.py -q && python scripts/check_spend.py`
 - **Brief:**
   ```text

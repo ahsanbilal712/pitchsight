@@ -17,6 +17,7 @@ from pathlib import Path
 from cache.manifest import CacheManifest
 
 ROOT = Path(__file__).resolve().parents[2]
+BUDGET_USD = 2.00   # T-042 limit, raised from $1.50 by the owner on 22 Oct (no batch bucket: live calls)
 NEWSROOM_STAGES = ("fast_lines", "tactician", "narrator", "panel", "factcheck")
 MODEL_PRODUCERS = ("tactician", "proposer", "narrator", "fast_line", "panel")
 TOOL_PRODUCERS = ("get_state", "get_pitch_control", "query_events", "player_stats")
@@ -88,9 +89,9 @@ def stage_newsroom(seed: int, manifest: CacheManifest, events: list[dict], windo
             bucket = getattr(args, "bucket", None) or os.environ.get("WHYLINE_BATCH_BUCKET")
             if not bucket:
                 raise SystemExit("--mode batch needs --bucket gs://... or WHYLINE_BATCH_BUCKET (Vertex AI batch I/O)")
-            runner = VertexBatchRunner(bucket, live=LiveRunner())
+            runner = VertexBatchRunner(bucket, live=LiveRunner(budget_usd=BUDGET_USD))
         else:
-            runner = LiveRunner()
+            runner = LiveRunner(budget_usd=BUDGET_USD)
     for m in moments:
         bb.put("moments", m)
 
