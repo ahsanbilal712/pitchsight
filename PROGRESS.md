@@ -5,6 +5,18 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-063 Video v1 edit (track C) — provisional
+
+- `packages/demo/{edit_v1.yaml,assemble.py,captions_v1.srt}`, `docs/video/architecture.html`. 12 clips, captions in a
+  band below the picture, no music, no voice. Every caption number has a source in the edit list (results.md, the
+  Sliding Doors counterfactual and its verified cue); unmeasured storyboard lines dropped (trained policy, Azure,
+  Foundry, latency seconds, vendor names, oracle %).
+- Verification: `python packages/demo/assemble.py packages/demo/edit_v1.yaml && ffprobe …` → **110.33 s** (limit 120).
+  `tests/demo`: 12 passed. Video: `packages/demo/out/final_v1.mp4` (git-ignored, 21 MB).
+- Provisional with T-062: recorded on the cache at 405fd91, before the T-057 regeneration.
+
+---
+
 ## 2026-10-22 · T-062 Rehearsal and v1 recording (track C) — provisional
 
 - **Provisional** (coordinator's call, option a): recorded on the golden cache at 405fd91, before the T-057 prompt
