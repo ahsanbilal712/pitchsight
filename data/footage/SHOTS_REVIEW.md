@@ -36,7 +36,19 @@ the main broadcast camera. That confirms it as the primary clip.
    because stands and benches along the bottom edge formed one large blob.
 3. Only tall blobs count as close-ups, at least 4 players: the version above.
 
-## Next
+## T-103: `python -m evals.pitchwatch.shots` (23 Oct 2026)
 
-- T-103 proper: move this into `pitchwatch.shots`, add replay-wipe detection, and write the manual review file.
-- T-104: start calibration on the five long Liverpool windows above.
+Same wide-shot rules, plus replay detection. The score graphic and its clock stay on screen through replays, and a
+replay is often reframed, so neither the graphic nor matching against earlier frames finds them (tried both). Every
+replay package opens and closes with a full-frame white wipe card with the league lion: wipe samples are paired in
+order (in, out) within 100 s, and shots inside a pair are replays. Per-clip review files: `<slug>/shots_review.md`.
+
+| clip | usable wide shots | usable wide time | wide replays dropped | replay segments | unpaired wipes |
+|---|---|---|---|---|---|
+| liverpool-mancity-2526 | 27 | 15:42 | 7 | 12 | 29:29 |
+| manutd-mancity-2526 | 15 | 6:00 | 12 | 14 | 02:49, 20:46, 22:45 |
+| arsenal-chelsea-2526 | 18 | 6:09 | 18 | 17 | 19:14, 23:59 |
+| manutd-spurs-2425 | 19 | 6:27 | 13 | 14 | 02:47, 15:15, 24:23 |
+
+The five long Liverpool windows (13:22, 07:15, 10:35, 09:18, 26:34) contain no replay. The seven dropped Liverpool
+shots were checked on thumbnails: all replay angles (free-kick re-runs, reverse and high cameras).
