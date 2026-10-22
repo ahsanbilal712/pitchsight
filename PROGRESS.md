@@ -5,6 +5,18 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-22 · T-069 part 1 Video v1 final pass (track C) — waiting for the human steps
+
+- Manifest unchanged since the takes → no re-record. Machine frame review: no real marks or names; Dugout clip cut (no
+  dugout cue in the golden cue stream). Captions: 0 banned hits. **final_v1.mp4 104.37 s**
+  (`packages/demo/out/final_v1.mp4`, sha256 98a21523…).
+- `docs/video/VERSION` = 1; `docs/video/v1.md` with manifest_sha256 48fed423…, caption → source table. Verification
+  command passes.
+- **Human steps open:** a person watches it frame by frame and signs `docs/video/v1.md`, then uploads (YouTube unlisted or
+  a GitHub release asset) and pastes the link. Provisional until the T-057 regeneration decision.
+
+---
+
 ## 2026-10-22 · T-063 Video v1 edit (track C) — provisional
 
 - `packages/demo/{edit_v1.yaml,assemble.py,captions_v1.srt}`, `docs/video/architecture.html`. 12 clips, captions in a
