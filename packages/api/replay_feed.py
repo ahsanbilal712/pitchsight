@@ -21,6 +21,7 @@ from pathlib import Path
 
 import numpy as np
 
+from api import oracle as api_oracle
 from api.models import envelope
 
 INDEX_FACTS = {"chaos": ("chaos_index", "index_0_100"), "control_home": ("control_home", "share"),
@@ -61,9 +62,13 @@ class ReplayFeed:
         oracle = cache_dir / "analytics" / "oracle.json"
         if oracle.exists():
             raw = json.loads(oracle.read_text())
-            docs = raw.get("docs", raw.get("oracle", raw)) if isinstance(raw, dict) else raw
-            self.oracle = sorted((self.oracle_message(d) for d in docs if isinstance(d, dict) and "t_ms" in d),
-                                 key=lambda o: o["t_ms"])
+            if api_oracle.is_forecast_file(raw):          # the golden precompute's per-team forecasts (T-046)
+                period_at = lambda t: int(self.data.period[self.data.index_at(t)])  # noqa: E731
+                self.oracle = [api_oracle.message(f, self.match_id, ZONES, period_at) for f in raw["forecasts"]]
+            else:
+                docs = raw.get("docs", raw.get("oracle", raw)) if isinstance(raw, dict) else raw
+                self.oracle = sorted((self.oracle_message(d) for d in docs if isinstance(d, dict) and "t_ms" in d),
+                                     key=lambda o: o["t_ms"])
         self.oracle_t = [o["t_ms"] for o in self.oracle]
         self.moments: list[dict] = []
         path = cache_dir / "moments.jsonl"
