@@ -72,6 +72,7 @@ class LiveState:
 
 class Hub:
     def __init__(self, data: MatchData, clock: ReplayClock, mode: str = "replay", bb=None, feed=None) -> None:
+        self.recorded = bool(getattr(data, "recorded", False))   # a real-clip run served from its blackboard
         self.data = data
         self.clock = clock
         self.mode = mode
@@ -108,7 +109,7 @@ class Hub:
             speed = 1.0
         else:
             extra = {"t_ms": t_ms, "score": self.data.score_at(t_ms), "player_ids": self.data.lineup_at(t_ms),
-                     "clubs": self.data.clubs}
+                     "clubs": self.data.clubs, **({"roster": self.data.roster} if self.data.roster else {})}
             speed = self.clock.speed
         return envelope("hello", {"match_id": self.match_id, "mode": self.mode, "replay_speed": speed,
                                   "viewer_profile": client.profile, **extra})
@@ -176,6 +177,11 @@ class Hub:
                 if coll == "cues" and doc.get("producer_status") == "vetoed":
                     continue
                 out.append((doc_time(doc) or until_ms, envelope(kind, doc)))
+        if self.recorded:                    # a recorded run: its traces and requests play on the clock too
+            for doc in self.bb.query("traces", match_id=self.match_id, t_from_ms=after_ms + 1, t_to_ms=until_ms):
+                out.append((doc_time(doc) or until_ms, envelope("trace", doc)))
+            for doc in self.bb.query("requests", match_id=self.match_id, t_from_ms=after_ms + 1, t_to_ms=until_ms):
+                out.append((doc_time(doc) or until_ms, envelope("request_info", request_payload(doc))))
         return out
 
     def snapshot(self, client: Client, t_ms: int) -> list[dict]:
@@ -193,10 +199,11 @@ class Hub:
         if is_studio(client.profile):
             msgs += [envelope("moment", m) for m in
                      self.bb.query("moments", match_id=mid, t_to_ms=t_ms)[-MOMENT_SNAPSHOT:]]
-            msgs += [envelope("trace", r) for r in self.bb.query("traces", match_id=mid)[-TRACE_SNAPSHOT:]]
+            upto = {"t_to_ms": t_ms} if self.recorded else {}  # a recorded run shows only what happened by now
+            msgs += [envelope("trace", r) for r in self.bb.query("traces", match_id=mid, **upto)[-TRACE_SNAPSHOT:]]
             decided = {d.get("request_id") for d in self.bb.query("decisions", match_id=mid)
                        if d.get("decision") in ("approved", "vetoed")}  # held requests stay pending
-            msgs += [envelope("request_info", request_payload(r)) for r in self.bb.query("requests", match_id=mid)
+            msgs += [envelope("request_info", request_payload(r)) for r in self.bb.query("requests", match_id=mid, **upto)
                      if request_payload(r)["request_id"] not in decided]
         for cue in self.bb.query("cues", match_id=mid, t_to_ms=t_ms):
             if cue.get("producer_status") != "vetoed" and int(cue.get("t_out_ms", 0)) > t_ms:

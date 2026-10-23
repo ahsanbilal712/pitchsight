@@ -78,7 +78,8 @@ def encode_args(fps: int) -> list[str]:
     return ["-r", str(fps), "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p", "-an"]
 
 
-def cut(shot: str, start: float, dur: float, w: int, h: int, fps: int, dst: Path) -> None:
+def cut(shot: str, start: float, dur: float, w: int, h: int, fps: int, dst: Path, crop=None) -> None:
+    """One clip of a take; `crop` [x, y, w, h] frames part of the screen first (a sparse studio panel set)."""
     m = marks(shot)
     src = m["src"]
     if m["start"] + start + dur > m.get("end_s", 1e9) + 0.05:
@@ -86,6 +87,8 @@ def cut(shot: str, start: float, dur: float, w: int, h: int, fps: int, dst: Path
                         f"{m['end_s'] - m['start']:.1f} s")
     vf = (f"scale={w}:{h}:force_original_aspect_ratio=decrease,pad={w}:{h}:(ow-iw)/2:(oh-ih)/2:color={BG},"
           f"fps={fps},setsar=1")
+    if crop:
+        vf = f"crop={crop[2]}:{crop[3]}:{crop[0]}:{crop[1]}," + vf
     run(["ffmpeg", "-v", "error", "-y", "-ss", f"{m['start'] + start:.3f}", "-i", str(src), "-t", f"{dur:.3f}",
          "-vf", vf, *encode_args(fps), str(dst)])
 
@@ -182,7 +185,7 @@ def assemble(edit_path: Path, keep: bool = False) -> Path:
             split3(clip["shots"], clip["labels"], float(clip["from"]), dur, w, h, fps, seg)
         else:
             dur = float(clip["to"]) - float(clip["from"])
-            cut(clip["shot"], float(clip["from"]), dur, w, h, fps, seg)
+            cut(clip["shot"], float(clip["from"]), dur, w, h, fps, seg, clip.get("crop"))
         for cap in clip.get("captions", []):
             if not 0 <= cap["from"] < cap["to"] <= dur + 1e-6:
                 raise EditError(f"clip {i}: caption {cap['text']!r} outside the clip (0-{dur:.1f} s)")

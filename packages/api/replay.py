@@ -42,6 +42,7 @@ class MatchData:
     subs: list[tuple[int, int, str]]  # (t_ms, row, player_id), sorted by time
     events: list[dict]
     event_t: list[int] = field(default_factory=list)
+    recorded: bool = False      # served from a recorded blackboard run (from_blackboard): no live newsroom
 
     @classmethod
     def load(cls, seed: int | str) -> MatchData:
@@ -63,12 +64,18 @@ class MatchData:
         """A real-clip match with no tracking (video v3 studio): the clock spans the blackboard's timed documents
         (moments, cues, events) plus `pad_ms` each side; events (goals for the score, match_metadata for the
         clubs) come from the blackboard's `events` and `match_metadata` collections. Tracking frames are empty: the
-        studio shows no pitch."""
+        studio shows no pitch. The run is `recorded`: its traces and requests play on the clock like its cues."""
         events = sorted(bb.query("events", match_id=match_id), key=lambda e: int(e["t_ms"]))
         meta = next(iter(bb.query("match_metadata", match_id=match_id)), None)
         if meta:
             events.insert(0, {"type": "match_metadata", "t_ms": 0, "match_id": match_id,
                               "attrs": {k: meta[k] for k in ("home", "away") if k in meta}})
+        for e in events:                     # real clubs are not in the league file: hello carries their names
+            names = (e.get("attrs") or {}).get("clubs") if e.get("type") == "match_metadata" else None
+            if names:
+                e["attrs"] = {**e["attrs"], **{side: (names.get(e["attrs"][side]) or {}).get("short_name",
+                                                                                         e["attrs"][side])
+                                               for side in ("home", "away") if side in e["attrs"]}}
         times = [int(d["t_ms"]) for coll in ("moments", "cues", "events")
                  for d in bb.query(coll, match_id=match_id) if d.get("t_ms") is not None]
         times += [int(d["t_in_ms"]) for d in bb.query("cues", match_id=match_id) if d.get("t_in_ms") is not None]
@@ -79,7 +86,7 @@ class MatchData:
         data = cls(match_id=match_id, t_ms=t, period=np.full(n, 2 if min(times) >= 45 * 60_000 else 1, np.int8),
                    S=np.zeros((n, 23, 6), np.float32), ball_z=np.zeros(n, np.float32),
                    holder=np.full(n, -1, np.int16), possession=np.full(n, -1, np.int8), player_ids=[], subs=[],
-                   events=events)
+                   events=events, recorded=True)
         data.event_t = [int(e["t_ms"]) for e in events]
         return data
 
@@ -89,6 +96,12 @@ class MatchData:
         meta = next((e for e in self.events[:5] if e["type"] == "match_metadata"), None)
         attrs = meta["attrs"] if meta else {}
         return {"home": attrs["home"], "away": attrs["away"]} if "home" in attrs and "away" in attrs else None
+
+    @property
+    def roster(self) -> dict | None:
+        """{player_id: name} from the match_metadata event (real clips: their players are not in the league)."""
+        meta = next((e for e in self.events[:5] if e["type"] == "match_metadata"), None)
+        return (meta or {}).get("attrs", {}).get("roster") or None
 
     @property
     def end_ms(self) -> int:

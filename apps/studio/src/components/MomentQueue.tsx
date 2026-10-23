@@ -19,7 +19,7 @@ export default function MomentQueue() {
             <span className="kind">{m.kind.replace(/_/g, " ")}</span>
             {m.fast ? <span className="tag">fast</span> : null}
             <span className="lev">{typeof m.leverage === "number" ? `${Math.round(m.leverage * 100)}%` : ""}</span>
-            <span className="who">{(m.players ?? []).slice(0, 2).map((p) => playerName(lg, p)).join(", ")}</span>
+            <span className="who">{(m.players ?? []).slice(0, 2).map((p) => playerName(lg, p, state.hello?.roster)).join(", ")}</span>
             <span className="status">{m.status ?? "new"}</span>
           </li>
         ))}

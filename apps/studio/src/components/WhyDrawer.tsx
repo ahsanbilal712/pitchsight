@@ -64,12 +64,13 @@ function PitchThumb({ doc }: { doc: Doc }) {
 
 function CfChart({ doc }: { doc: Doc }) {
   const lg = useLeague();
+  const { state } = useStream();
   const base = doc.baseline as Outcome;
   const alt = doc.alternative_outcome as Outcome;
   const actual = doc.actual as { kind: string; actor: string; target: string | null };
   const alternative = doc.alternative as { kind: string; actor: string; target: string | null };
   const action = (a: { kind: string; target: string | null }) =>
-    `${a.kind}${a.target ? ` to ${a.target.startsWith("p_") ? playerName(lg, a.target) : a.target}` : ""}`;
+    `${a.kind}${a.target ? ` to ${a.target.startsWith("p_") ? playerName(lg, a.target, state.hello?.roster) : a.target}` : ""}`;
   const W = 300;
   const rows: [string, number, number, [number, number] | undefined, [number, number] | undefined][] = [
     ["win chance (home)", base.win_prob_home, alt.win_prob_home, base.ci95_win_prob_home, alt.ci95_win_prob_home],

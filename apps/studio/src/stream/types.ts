@@ -14,6 +14,8 @@ export interface Hello {
   t_ms?: number;
   score?: [number, number];
   clubs?: { home: string; away: string } | null;
+  /** {player_id: name} for a real-clip match, whose players are not in the league file. */
+  roster?: Record<string, string>;
 }
 
 export type Mode = "replay" | "live" | "degraded";

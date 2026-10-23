@@ -8,7 +8,8 @@
 # run (speed gun); the keeper cone and the ghost defender sit between the freezes; the river closes. Cut: the
 # offside line (track A's corrected Law 11 line puts every tracked pass well onside; no decisive moment) and the
 # Man Utd v City "right call" freeze (same match as the ghost defender, time for the studio).
-# Still to come: the studio on the real-clip replay (track B), grounded claims on the real cues.
+# Studio: track B's recorded real-clip newsroom run (be08c6a), recorded by scripts/record_v3_studio.sh.
+# Still to come: grounded claims on the real cues (measurement card).
 
 out: packages/demo/out/final_v3.mp4
 size: [1920, 1080]
@@ -31,11 +32,11 @@ clips:
       - {from: 0.2, to: 4.8, text: "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%."}
 
   - shot: footage/tot_speed_gun        # seconds later: Van de Ven wins it and runs (shots 23 and 25, a close-up between)
-    from: 0.3
+    from: 1.3
     to: 22.5
     captions:
       - {from: 0.2, to: 6.0, text: "The ball is lost. Van de Ven takes it, and the speed gun follows him through the camera cuts."}
-      - {from: 15.0, to: 22.0, text: "37.0 km/h at the top, at least 91 m end to end."}
+      - {from: 14.0, to: 21.0, text: "37.0 km/h at the top, at least 91 m end to end."}
 
   - shot: footage/ars_sliding_doors
     from: 2.0
@@ -64,6 +65,20 @@ clips:
     captions:
       - {from: 0.2, to: 3.4, text: "Man Utd v Man City: one second before Dorgu scores."}
       - {from: 3.6, to: 7.4, text: "City's defender needed 6.5 m and could cover 7.0. There, the goal chance falls from 26% to 19%."}
+
+  - shot: v3/studio_lfc                # the producer console on the recorded real-clip newsroom run (track B)
+    from: 6.0
+    to: 14.0
+    crop: [0, 0, 1580, 889]          # moments and the agent trace: the run is one moment
+    captions:
+      - {from: 0.2, to: 7.8, text: "The newsroom behind it: every agent step traced, every line checked before air."}
+
+  - shot: v3/veto_lfc
+    from: 3.4
+    to: 11.4
+    crop: [340, 0, 1580, 889]        # the trace and the producer
+    captions:
+      - {from: 0.2, to: 7.8, text: "At full time the recap waits for the producer. Vetoed: it never airs."}
 
   - layout: split3
     shots: [footage/lfc_sliding_doors_analyst, footage/lfc_sliding_doors_casual, footage/lfc_sliding_doors_player_cam]

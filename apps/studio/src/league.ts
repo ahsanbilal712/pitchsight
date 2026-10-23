@@ -24,7 +24,9 @@ export function useLeague(): LeagueWeb | null {
   return league;
 }
 
-export function playerName(lg: LeagueWeb | null, id: string): string {
+export function playerName(lg: LeagueWeb | null, id: string, roster?: Record<string, string>): string {
   const p = lg?.players[id];
-  return p ? p.name.split(" ").slice(-1)[0] : id;
+  if (p) return p.name.split(" ").slice(-1)[0];
+  const real = roster?.[id]; // a real-clip match: names from its match metadata
+  return real ? real.split(" ").slice(-1)[0] : id;
 }

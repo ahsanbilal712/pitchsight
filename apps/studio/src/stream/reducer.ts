@@ -73,8 +73,11 @@ export function reducer(state: StudioState, action: Action): StudioState {
       score[e.team === "home" ? 0 : 1] += 1;
       return { ...state, score };
     }
-    case "fact":
-      return { ...state, facts: { ...state.facts, [msg.payload.name]: msg.payload } };
+    case "fact": {
+      // real-clip facts carry a label and a fact_id, not a name
+      const name = msg.payload.name ?? (msg.payload.label as string | undefined) ?? String(msg.payload.fact_id ?? "");
+      return { ...state, facts: { ...state.facts, [name]: { ...msg.payload, name } } };
+    }
     case "moment":
       return { ...state, moments: { ...state.moments, [msg.payload.moment_id]: msg.payload } };
     case "cue": {

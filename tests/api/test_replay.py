@@ -166,7 +166,9 @@ def test_real_clip_match_from_the_blackboard_alone(tmp_path):
     bb.put("match_metadata", {"id": "m_9001", "match_id": "m_9001", "home": "Liverpool", "away": "Manchester City"})
     bb.put("events", {"id": "e_0006", "match_id": "m_9001", "t_ms": 4406000, "type": "goal", "team": "home"})
     bb.put("moments", {"id": "mo_00001", "moment_id": "mo_00001", "match_id": "m_9001", "t_ms": 5183000})
+    bb.put("traces", {"id": "tr_1", "match_id": "m_9001", "executor": "narrator", "status": "ok", "t_ms": 5184500})
     data = MatchData.from_blackboard(bb, "m_9001")
+    assert data.recorded
     assert data.t_ms[0] == 4406000 - 60_000 and data.t_ms[-1] >= 5183000 + 59_000
     assert data.clubs == {"home": "Liverpool", "away": "Manchester City"}
     assert data.score_at(5183000) == [1, 0]
@@ -177,3 +179,19 @@ def test_real_clip_match_from_the_blackboard_alone(tmp_path):
             assert hello["type"] == "hello"
             assert hello["payload"]["match_id"] == "m_9001"
             assert hello["payload"]["clubs"] == {"home": "Liverpool", "away": "Manchester City"}
+        hub = c.app.state.hub                            # a recorded run's traces play on the clock
+        assert all(m["type"] != "trace" for _, m in hub.timed_between(5183000, 5184000))
+        assert any(m["type"] == "trace" for _, m in hub.timed_between(5184000, 5185000))
+
+
+def test_real_clip_clubs_are_display_names(tmp_path):
+    """Track B's match_metadata carries club ids and their names; the studio header gets the names."""
+    from api.replay import MatchData
+
+    bb = SqliteBlackboard(tmp_path / "bb.sqlite")
+    bb.put("events", {"id": "e_0000", "match_id": "m_9001", "t_ms": 0, "type": "match_metadata",
+                      "attrs": {"home": "liverpool", "away": "man_city",
+                                "clubs": {"liverpool": {"short_name": "Liverpool"},
+                                          "man_city": {"short_name": "Man City"}}}})
+    bb.put("moments", {"id": "mo_1", "match_id": "m_9001", "t_ms": 5183000})
+    assert MatchData.from_blackboard(bb, "m_9001").clubs == {"home": "Liverpool", "away": "Man City"}

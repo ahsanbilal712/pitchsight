@@ -1,0 +1,23 @@
+# Video v3 studio takes (T-110 follow-up): the producer console on track B's recorded real-clip newsroom run
+# (data/footage/<slug>/cache/studio/blackboard.sqlite, be08c6a), served by `api.replay --match m_9001`. Real
+# names only. Recorded by scripts/record_v3_studio.sh.
+
+- shot: studio_lfc
+  beat: studio
+  app: studio
+  route: "/"
+  viewer: studio
+  clock_in: "86:16"
+  clock_out: "86:34"                 # the Sliding Doors moment at 86:23: trace rows, the verified cue at 86:25.7
+  speed: 1
+  keyframes: ["86:24", "86:30"]
+
+- shot: veto_lfc
+  beat: veto
+  app: studio
+  route: "/"
+  viewer: studio
+  clock_in: "104:38"
+  clock_out: "104:52"                # the full-time recap held at 104:41.9, vetoed at 104:45 (demo_script_v3.yaml)
+  speed: 1
+  keyframes: ["104:44", "104:48"]
