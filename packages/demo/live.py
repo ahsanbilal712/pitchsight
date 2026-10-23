@@ -34,7 +34,9 @@ FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 FONT_REG = "/System/Library/Fonts/Supplemental/Arial.ttf"
 ORANGE, WHITE, YELLOW, PANEL, MUTED = (255, 122, 26), (236, 242, 248), (255, 214, 10), (12, 16, 22), (169, 180, 194)
 PANEL_W = 540
-GHOST_DIM = 0.25         # ghost future: the players the story is not about
+GHOST_DIM = 0.40         # ghost future: the players the story is not about
+GHOST_NEAR = 7           # ghost future: the players nearest the ball, drawn bright
+GHOST_DARKEN = 0.40      # ghost future: how far the real frame is darkened under the other timeline
 GHOST_TRAIL_MS = 800      # ghost future: each player's short motion trail
 RUNNER_RING_M = 0.65    # the speed gun's ring: tight, since a detector box can sit half a metre off a sprinting player
 APPARENT_HEIGHT_M = 1.42          # demo.composite: a player's height in the picture over the grass scale across it
@@ -1079,7 +1081,7 @@ class GhostFuture(Still):
         return max(0.0, (self.tau(t) - 0.6) * 1000 * float(self.m.get("speed", 1.6)))
 
     def dim(self, t):
-        return 0.30 * window(self.tau(t), 0.0, 0.5)
+        return GHOST_DARKEN * window(self.tau(t), 0.0, 0.5)
 
     def at(self, ms: float) -> dict:
         fr, step = self.data["frames"], self.data.get("step_ms", 100)
@@ -1108,20 +1110,25 @@ class GhostFuture(Still):
         now = self.at(ms)
         past = self.at(max(0.0, ms - GHOST_TRAIL_MS))
         pairs = list(zip(now["players"], past["players"], strict=False))   # same order every frame (labels repeat)
-        for p, q in sorted(pairs, key=lambda pq: pq[0]["label"] in keys):    # key players drawn last
+        ball = np.asarray(now["ball"], float)
+        near = sorted(range(len(pairs)), key=lambda k: np.hypot(pairs[k][0]["x"] - ball[0], pairs[k][0]["y"] - ball[1]))
+        bright = set(near[:GHOST_NEAR]) | {k for k, (p, _) in enumerate(pairs) if p["label"] in keys}
+        order = sorted(range(len(pairs)), key=lambda k: k in bright)          # bright players drawn last
+        for k in order:
+            p, q = pairs[k]
             col = np.array(kits.get(p.get("team", "home"), WHITE)) / 255
-            key = p["label"] in keys
+            key = k in bright
             a = 1.0 if key else GHOST_DIM
             seg = cam.project(np.linspace([q["x"], q["y"]], [p["x"], p["y"]], 8))
             ax.plot(seg[:, 0], seg[:, 1], color=(*col, 0.55 * a), lw=5 if key else 3, solid_capstyle="round")
-            disc = cam.project(ground_circle([p["x"], p["y"]], 0.9 if key else 0.7, 40))
-            ax.add_patch(Polygon(disc, closed=True, fc=(*col, 0.85 * a), ec=(1, 1, 1, 0.9 * a), lw=2.5 if key else 1))
+            disc = cam.project(ground_circle([p["x"], p["y"]], 1.1 if key else 0.8, 40))
+            ax.add_patch(Polygon(disc, closed=True, fc=(*col, 0.95 * a), ec=(1, 1, 1, a), lw=3 if key else 1.2))
         trail = np.array([self.at(x)["ball"] for x in np.arange(max(0, ms - 2000), ms + 1, 100)])
         if len(trail) > 1:
             px = cam.project(trail)
             o = np.array(ORANGE) / 255
-            ax.plot(px[:, 0], px[:, 1], color=(*o, 0.25), lw=16, solid_capstyle="round")      # glow
-            ax.plot(px[:, 0], px[:, 1], color=(*o, 1.0), lw=5, solid_capstyle="round")
+            ax.plot(px[:, 0], px[:, 1], color=(*o, 0.30), lw=22, solid_capstyle="round")      # glow
+            ax.plot(px[:, 0], px[:, 1], color=(*o, 1.0), lw=6, solid_capstyle="round")
 
     def panels(self, im, cam, t):
         tau = self.tau(t)
@@ -1137,13 +1144,16 @@ class GhostFuture(Still):
         ms = min(self.sim_ms(t), horizon_ms)
         state = self.at(ms)
         kits = self.m.get("kits") or {}
-        recv = self.m.get("receiver")
+        tags = {self.m.get("receiver"): (self.m.get("receiver_tag"), ORANGE),
+                self.m.get("passer"): (self.m.get("passer_tag"), WHITE)}
         for p in state["players"]:
-            if p["label"] == recv and self.m.get("receiver_tag"):
-                self.tag(d, cam, [p["x"], p["y"]], self.m["receiver_tag"].upper(), ORANGE, font_size=26)
+            text, colour = tags.get(p["label"], (None, None))
+            if text:
+                self.tag(d, cam, [p["x"], p["y"]], text.upper(), colour, font_size=30)
         b = cam.project([state["ball"]])[0]
-        d.ellipse((b[0] - 14, b[1] - 14, b[0] + 14, b[1] + 14), fill=(*ORANGE, 90))
-        d.ellipse((b[0] - 8, b[1] - 8, b[0] + 8, b[1] + 8), fill=(255, 255, 255, 255), outline=(*ORANGE, 255),
+        for r, al in ((26, 70), (17, 130)):                # a bright ball with a glow
+            d.ellipse((b[0] - r, b[1] - r, b[0] + r, b[1] + r), fill=(*ORANGE, al))
+        d.ellipse((b[0] - 10, b[1] - 10, b[0] + 10, b[1] + 10), fill=(255, 255, 255, 255), outline=(*ORANGE, 255),
                   width=3)
         d.text((W / 2, 120), f"THE OTHER TIMELINE  +{ms / 1000:.1f} s", font=self.font[34], fill=(255, 255, 255, 235),
                anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, 200))

@@ -52,19 +52,19 @@ clips:
     from: 9.8
     to: 12.8
 
-  - shot: v3/studio_lfc                # the newsroom putting that line on air (track B's v5 run, cf0d598)
-    from: 8.0
-    to: 14.0
-    crop: [0, 0, 1522, 856]
-    captions:
-      - {from: 0.2, to: 5.8, text: "Behind every line, the newsroom: each agent step traced, every number checked before air."}
-
   - shot: footage/mci_amad_v5_v5        # Man Utd v Man City 56:41
     from: 1.2
     to: 9.1
     captions:
       - {from: 0.2, to: 3.6, text: "Man Utd v Man City. Amad shoots from here: 0.06 xG."}
       - {from: 3.8, to: 7.8, text: "The pass into the box was worth 0.11, almost twice as much."}
+
+  - shot: v5/studio_mci                # the newsroom putting Amad's line on air (track B's v5 run, 528ac3f)
+    from: 6.0
+    to: 12.0
+    crop: [258, 60, 1110, 624]       # the agent trace and the cue on air (16:9), nothing else
+    captions:
+      - {from: 0.2, to: 5.8, text: "Behind it, the newsroom: each agent step traced, the line checked before it airs."}
 
   - shot: footage/mci_ghost_v5          # the other timeline after the pass to #19: the most typical of 2,000
     from: 0.0

@@ -389,7 +389,7 @@ moments:
     actor: {player: "#16", label: "Amad"}
     target: null
     xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json
-    # lower-third off until track B's line gives the freeze value (lead: card on 0.06, 'Shot from here')
+    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_877000.json   # track B, on the freeze value (528ac3f)
 
   mci_mbeumo_v5:                     # the strike (shots_0: 0.10 xG, the same as the decision file)
     clip: manutd-mancity-2526
@@ -517,8 +517,9 @@ moments:
     team: home
     speed: 2.0
     passer: "#16"
+    passer_tag: "Amad"
     receiver: "#19"
-    receiver_tag: "Man Utd · in the box"
+    receiver_tag: "#19 · in the box"
     kits: {home: [218, 41, 28], away: [120, 182, 232]}
 
   lfc_watching_v5:                   # the threat zone live before the shot, no number (track B's window)
