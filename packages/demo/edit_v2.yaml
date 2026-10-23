@@ -1,0 +1,71 @@
+# Video v2 edit decision list (T-110), DRAFT 1. FOOTAGE_ADDENDUM §2: the match on screen is a real Premier League
+# clip with WHYLINE drawn on it. Assembled by
+#   python packages/demo/assemble.py packages/demo/edit_v2.yaml
+# Real-clip shots (`footage/<moment>`) are demo.composite's freeze clips in packages/demo/out/footage/: 4 s of the
+# clip, a 7 s freeze where the overlay builds and fades, 3 s of the clip resuming; times are seconds into that clip.
+# Clips: only the four data/footage/*/clip.mp4 listed in data/footage/SOURCES.md (Premier League channel uploads,
+# under the written permission in docs/permissions/). Synthetic shots come from the v1 takes (T-062).
+# Captions only, English, no voice, no music. Every number in a caption has a source below.
+#
+# Fixed from v1 (frame review): no studio take with empty panels ("No cues yet"); the architecture page joins once
+# it is fully built (no blank fade-in); the Oracle take (plain pitch until its last second) is out.
+# Open (storyboard scenes 3 and 5 on real clips): no featured referee call or Oracle moment on the real clips yet,
+# so the Fourth Official beat is the synthetic take and the Oracle beat is out.
+
+out: packages/demo/out/final_v2.mp4
+size: [1920, 1080]
+fps: 30
+caption_band: 120
+
+clips:
+  - shot: footage/lfc_sliding_doors
+    from: 0.0
+    to: 14.0
+    captions:
+      - {from: 0.2, to: 3.9, text: "Football broadcasts tell you what happened. Nobody tells you why it mattered."}
+      - {from: 4.1, to: 10.6, text: "WHYLINE freezes the real frame, reads the players and replays the moment 200 times."}
+      - {from: 10.8, to: 13.9, text: "Szoboszlai shot. The pass to Salah was worth 2 more points of win chance."}
+
+  - shot: footage/ars_sliding_doors
+    from: 2.0
+    to: 13.0
+    captions:
+      - {from: 0.2, to: 5.8, text: "Every line is drawn on the real pitch, through the broadcast camera."}
+      - {from: 6.0, to: 10.9, text: "Eze shot. Going back to Saka was the better ball."}
+
+  - shot: footage/mun_mci_right_call
+    from: 3.0
+    to: 13.0
+    captions:
+      - {from: 0.2, to: 9.9, text: "And it says when the player got it right: the pass into the box was no better."}
+
+  - shot: fourth_official
+    from: 1.0
+    to: 9.0
+    captions:
+      - {from: 0.3, to: 7.8, text: "Every refereeing call explained, with the lines drawn."}
+
+  - layout: split3
+    shots: [split_analyst, split_casual, split_player_cam]
+    labels: [Analyst, Casual, Player-Cam]
+    from: 0.0
+    to: 12.0
+    captions:
+      - {from: 0.3, to: 11.8, text: "The same intelligence becomes an analyst's breakdown, a casual fan's line, and a player's story."}
+
+  - shot: architecture
+    from: 9.0
+    to: 18.0
+    captions:
+      - {from: 0.3, to: 8.8, text: "Measured, not claimed: 141 of 141 on-screen numbers grounded, 500 of 500 planted errors caught."}
+
+  - card: end
+    duration: 4.0
+    title: "WHYLINE"
+    lines: ["Every line on screen has a why.", "Premier League clips used with permission · simulations run in a synthetic league"]
+
+sources:
+  "200": "counterfactual cf_000001 of liverpool-mancity-2526 (data/footage/liverpool-mancity-2526/cache/counterfactuals/cf_000001.json) n = 200; the card prints 'n = 200, 8 s, seed 9001'"
+  "2": "cf_000001 (liverpool-mancity-2526): win_prob_home 0.0837 shot -> 0.1035 pass (delta 0.0198, +2 pts); reviewed line mo_00001 'adds 2 points of win chance'"
+  "141": "packages/evals/results.md, Groundedness: 141/141 = 1.000"
+  "500": "packages/evals/results.md, Fact Checker planted errors caught: 500/500 = 100.0%"

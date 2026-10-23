@@ -2,7 +2,8 @@
 
     python packages/demo/assemble.py packages/demo/edit_v1.yaml [--keep]
 
-Reads packages/demo/out/<shot>.webm and <shot>.json (trim marks from the recorder), cuts each clip relative to the
+Reads packages/demo/out/<shot>.webm and <shot>.json (trim marks from the recorder) and real-clip composites
+(`shot: footage/<moment>`, packages/demo/out/footage/<moment>.mp4 from demo.composite), cuts each clip relative to the
 take's play mark, composes split screens and the end card, concatenates, and burns the captions. With
 `caption_band: <px>` the picture is scaled (16:9 kept) above a band of that height where the captions sit, so they
 never cover the screens (score bug, lower-thirds and studio header fill the frame's edges). Writes the
@@ -51,11 +52,19 @@ def check_sources(edit: dict) -> None:
 
 
 def marks(shot: str) -> dict:
+    """Trim marks of a recorded shot (<shot>.json from the recorder), or of a composite clip under out/
+    (`footage/<moment>`: demo.composite's freeze clip, which starts at 0 and has no marks file)."""
+    if shot.startswith("footage/"):
+        src = OUT / f"{shot}.mp4"
+        if not src.exists():
+            raise EditError(f"{shot}: no {src.relative_to(ROOT)} (python -m demo.composite <moment> --clip, T-108)")
+        return {"start": 0.0, "end_s": duration(src), "src": src}
     path = OUT / f"{shot}.json"
     if not path.exists():
         raise EditError(f"{shot}: no {path.relative_to(ROOT)} (record it first, T-062)")
     m = json.loads(path.read_text())
     m["start"] = m.get("play_s", m["ready_s"])
+    m["src"] = OUT / f"{shot}.webm"
     return m
 
 
@@ -71,7 +80,7 @@ def encode_args(fps: int) -> list[str]:
 
 def cut(shot: str, start: float, dur: float, w: int, h: int, fps: int, dst: Path) -> None:
     m = marks(shot)
-    src = OUT / f"{shot}.webm"
+    src = m["src"]
     if m["start"] + start + dur > m.get("end_s", 1e9) + 0.05:
         raise EditError(f"{shot}: clip ends {start + dur:.1f} s after play but the take ends at "
                         f"{m['end_s'] - m['start']:.1f} s")
@@ -89,7 +98,7 @@ def split3(shots: list[str], labels: list[str], start: float, dur: float, w: int
     boxes = [(960, 540, 60, 0), (960, 540, 60, 540), (pw, h, 1020 + (w - 1020 - pw) // 2, 0)]
     for i, shot in enumerate(shots):
         m = marks(shot)
-        inputs += ["-ss", f"{m['start'] + start:.3f}", "-t", f"{dur:.3f}", "-i", str(OUT / f"{shot}.webm")]
+        inputs += ["-ss", f"{m['start'] + start:.3f}", "-t", f"{dur:.3f}", "-i", str(m["src"])]
         bw, bh, _, _ = boxes[i]
         chains.append(f"[{i}:v]scale={bw}:{bh}:force_original_aspect_ratio=decrease,fps={fps},setsar=1[v{i}]")
     layout = f"color=c={BG}:s={w}x{h}:r={fps}:d={dur:.3f}[bg]"
