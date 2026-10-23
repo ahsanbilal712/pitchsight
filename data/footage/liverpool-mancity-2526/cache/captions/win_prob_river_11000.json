@@ -1,0 +1,66 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.009592,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_800005",
+     "f_800006"
+    ],
+    "kind": "team",
+    "text": "Liverpool",
+    "unit": "",
+    "value_text": "liverpool"
+   },
+   {
+    "evidence_ids": [
+     "f_800012"
+    ],
+    "kind": "team",
+    "text": "Man City",
+    "unit": "",
+    "value_text": "man_city"
+   },
+   {
+    "evidence_ids": [
+     "e_0006",
+     "f_800002"
+    ],
+    "kind": "player",
+    "text": "Szoboszlai",
+    "unit": "",
+    "value_text": "p_912"
+   },
+   {
+    "evidence_ids": [
+     "f_800005"
+    ],
+    "kind": "number",
+    "text": "91%",
+    "unit": "win_prob",
+    "value_number": 0.9093
+   },
+   {
+    "evidence_ids": [
+     "f_800012"
+    ],
+    "kind": "number",
+    "text": "96%",
+    "unit": "win_prob",
+    "value_number": 0.9647
+   }
+  ],
+  "confidence": 0.95,
+  "headline": "Liverpool reach 91% win chance before Man City rally",
+  "why": "After Szoboszlai scores, Liverpool see their win chance estimate climb to 91% before the equaliser drops it to 9%. Man City later take the lead, sending their win chance estimate to 96%."
+ },
+ "latency_ms": 10406,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"headline\":\"Liverpool reach 91% win chance before Man City rally\",\"why\":\"After Szoboszlai scores, Liverpool see their win chance estimate climb to 91% before the equaliser drops it to 9%. Man City later take the lead, sending their win chance estimate to 96%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Liverpool\",\"kind\":\"team\",\"value_text\":\"liverpool\",\"unit\":\"\",\"evidence_ids\":[\"f_800005\",\"f_800006\"]},{\"text\":\"Man City\",\"kind\":\"team\",\"value_text\":\"man_city\",\"unit\":\"\",\"evidence_ids\":[\"f_800012\"]},{\"text\":\"Szoboszlai\",\"kind\":\"player\",\"value_text\":\"p_912\",\"unit\":\"\",\"evidence_ids\":[\"e_0006\",\"f_800002\"]},{\"text\":\"91%\",\"kind\":\"number\",\"value_number\":0.9093,\"unit\":\"win_prob\",\"evidence_ids\":[\"f_800005\"]},{\"text\":\"96%\",\"kind\":\"number\",\"value_number\":0.9647,\"unit\":\"win_prob\",\"evidence_ids\":[\"f_800012\"]}]}",
+ "tokens_in": 3371,
+ "tokens_out": 285,
+ "via": "live"
+}

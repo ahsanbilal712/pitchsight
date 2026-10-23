@@ -1,0 +1,64 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.007346,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_800004"
+    ],
+    "kind": "player",
+    "text": "David Raya",
+    "unit": "",
+    "value_text": "p_955"
+   },
+   {
+    "evidence_ids": [
+     "f_800001"
+    ],
+    "kind": "number",
+    "text": "39%",
+    "unit": "percent",
+    "value_number": 0.393
+   },
+   {
+    "evidence_ids": [
+     "f_800004"
+    ],
+    "kind": "number",
+    "text": "4.5 metres",
+    "unit": "metres",
+    "value_number": 4.5
+   },
+   {
+    "evidence_ids": [
+     "f_800003"
+    ],
+    "kind": "number",
+    "text": "1.8 metres",
+    "unit": "metres",
+    "value_number": 1.77
+   },
+   {
+    "evidence_ids": [
+     "f_800002"
+    ],
+    "kind": "number",
+    "text": "100%",
+    "unit": "percent",
+    "value_number": 1.0
+   }
+  ],
+  "confidence": 0.9,
+  "headline": "David Raya covers 39% of the goal mouth",
+  "why": "From his actual position, David Raya covers an estimated 39% share of the goal mouth on a shot 4.5 metres from the goal line. Stepping 1.8 metres to the best point on the bisector increases the share of the goal he covers to 100%."
+ },
+ "latency_ms": 10724,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"headline\":\"David Raya covers 39% of the goal mouth\",\"why\":\"From his actual position, David Raya covers an estimated 39% share of the goal mouth on a shot 4.5 metres from the goal line. Stepping 1.8 metres to the best point on the bisector increases the share of the goal he covers to 100%.\",\"confidence\":0.9,\"claims\":[{\"text\":\"David Raya\",\"kind\":\"player\",\"value_text\":\"p_955\",\"unit\":\"\",\"evidence_ids\":[\"f_800004\"]},{\"text\":\"39%\",\"kind\":\"number\",\"value_number\":0.393,\"unit\":\"percent\",\"evidence_ids\":[\"f_800001\"]},{\"text\":\"4.5 metres\",\"kind\":\"number\",\"value_number\":4.5,\"unit\":\"metres\",\"evidence_ids\":[\"f_800004\"]},{\"text\":\"1.8 metres\",\"kind\":\"number\",\"value_number\":1.77,\"unit\":\"metres\",\"evidence_ids\":[\"f_800003\"]},{\"text\":\"100%\",\"kind\":\"number\",\"value_number\":1.0,\"unit\":\"percent\",\"evidence_ids\":[\"f_800002\"]}]}",
+ "tokens_in": 2248,
+ "tokens_out": 285,
+ "via": "live"
+}

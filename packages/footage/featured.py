@@ -57,16 +57,22 @@ def roster(slug: str) -> dict:
                 key = f"{p['team']}:{p['label']}"
                 seen[key] = seen.get(key) or p.get("name")
     path = clip_dir(slug) / "roster.json"
-    ids = json.loads(path.read_text())["ids"] if path.exists() else \
+    saved = json.loads(path.read_text()) if path.exists() else {}
+    for key, name in (saved.get("named") or {}).items():   # players named outside the moment files (goal scorers)
+        seen[key] = seen.get(key) or name
+    ids = saved["ids"] if saved else \
         {key: f"p_{ID_BASE + 20 * k + i:03d}" for i, key in enumerate(sorted(seen))}
     for key in seen:
         if key not in ids and not key.split(":", 1)[1].startswith("t"):
-            n = max([int(v[2:]) for v in ids.values()], default=ID_BASE + 20 * k - 1) + 1
-            if n >= ID_BASE + 20 * (k + 1):
-                raise ValueError(f"{slug}: more than 20 player ids")
-            ids[key] = f"p_{n:03d}"
-    if not path.exists() or json.loads(path.read_text())["ids"] != ids:
-        path.write_text(json.dumps({"slug": slug, "ids": ids}, indent=1) + "\n")
+            used = {int(v[2:]) for v in ids.values()}
+            block = [n for n in range(ID_BASE + 20 * k, ID_BASE + 20 * (k + 1)) if n not in used]
+            spare = [n for n in range(980, 1000) if n not in used]     # overflow: ids are unique per match
+            if not block and not spare:
+                raise ValueError(f"{slug}: no free player id")
+            ids[key] = f"p_{(block or spare)[0]:03d}"
+    if not path.exists() or saved.get("ids") != ids:
+        path.write_text(json.dumps({"slug": slug, "ids": ids, **({"named": saved["named"]} if saved.get("named")
+                                                                   else {})}, indent=1) + "\n")
     names = {ids[key]: name for key, name in seen.items() if name and key in ids}
     clip = CLIPS[slug]
     clubs = {clip["home_id"]: {"name": clip["home"], "short_name": clip["home_short"]},

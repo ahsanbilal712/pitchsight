@@ -1,0 +1,193 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "away": "Manchester City",
+  "beat": "recap",
+  "caption": {
+   "claims": [
+    {
+     "evidence_ids": [
+      "f_800002"
+     ],
+     "kind": "team",
+     "reject_reason": null,
+     "text": "Manchester City",
+     "unit": null,
+     "value": "man_city",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800001"
+     ],
+     "kind": "team",
+     "reject_reason": null,
+     "text": "Liverpool",
+     "unit": null,
+     "value": "liverpool",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "e_0048",
+      "f_800002"
+     ],
+     "kind": "player",
+     "reject_reason": null,
+     "text": "Erling Haaland",
+     "unit": null,
+     "value": "p_980",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800002"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "3",
+     "unit": "count",
+     "value": 3,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800001"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "1",
+     "unit": "count",
+     "value": 1,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "e_0027"
+     ],
+     "kind": "player",
+     "reject_reason": null,
+     "text": "Bernardo Silva",
+     "unit": null,
+     "value": "p_919",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "e_0073"
+     ],
+     "kind": "player",
+     "reject_reason": null,
+     "text": "Rayan Cherki",
+     "unit": null,
+     "value": "p_981",
+     "verified": true
+    }
+   ],
+   "facts": [
+    {
+     "fact_id": "f_800001",
+     "label": "final score, Liverpool goals",
+     "match_id": "m_9001",
+     "players": [
+      "p_912",
+      "p_919",
+      "p_980",
+      "p_981"
+     ],
+     "source": "events.jsonl (T-106 Gemini tags of the broadcast) via cache/evidence.jsonl",
+     "unit": "count",
+     "value": 1
+    },
+    {
+     "fact_id": "f_800002",
+     "label": "final score, Manchester City goals",
+     "match_id": "m_9001",
+     "players": [
+      "p_912",
+      "p_919",
+      "p_980",
+      "p_981"
+     ],
+     "source": "events.jsonl (T-106 Gemini tags of the broadcast) via cache/evidence.jsonl",
+     "unit": "count",
+     "value": 3
+    }
+   ],
+   "hand_reviewed": true,
+   "headline": "Manchester City rally past Liverpool",
+   "model": "gemini-4-argon",
+   "prompt_version": "insight_footage@2",
+   "why": "Manchester City finish with 3 goals against 1 for Liverpool. Bernardo Silva, Erling Haaland, and Rayan Cherki score the goals in the turnaround."
+  },
+  "clip_ms": 1971000,
+  "clock": "104:41",
+  "final_score": [
+   1,
+   3
+  ],
+  "goals": [
+   {
+    "clock": "73:26",
+    "event_id": "e_0006",
+    "name": "Dominik Szoboszlai",
+    "pid": "p_912",
+    "score_after": [
+     1,
+     0
+    ],
+    "team": "home"
+   },
+   {
+    "clock": "83:37",
+    "event_id": "e_0027",
+    "name": "Bernardo Silva",
+    "pid": "p_919",
+    "score_after": [
+     1,
+     1
+    ],
+    "team": "away"
+   },
+   {
+    "clock": "92:43",
+    "event_id": "e_0048",
+    "name": "Haaland",
+    "pid": "p_980",
+    "score_after": [
+     1,
+     2
+    ],
+    "team": "away"
+   },
+   {
+    "clock": "99:21",
+    "event_id": "e_0073",
+    "name": "Cherki",
+    "pid": "p_981",
+    "score_after": [
+     1,
+     3
+    ],
+    "team": "away"
+   }
+  ],
+  "home": "Liverpool",
+  "match_id": "m_9001",
+  "red_cards": [
+   {
+    "clock": "102:28",
+    "event_id": "e_0075",
+    "name": "Szoboszlai",
+    "pid": "p_912",
+    "team": "home"
+   }
+  ],
+  "slug": "liverpool-mancity-2526",
+  "source": "events.jsonl (T-106 Gemini tags of the broadcast) via cache/evidence.jsonl",
+  "t_ms": 6281000,
+  "window": "the final 20 minutes in the clip (72:00 to full time)"
+ },
+ "schema_version": "1.0.0"
+}

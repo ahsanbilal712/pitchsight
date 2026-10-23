@@ -1,0 +1,65 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.007594,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_800001",
+     "f_800002"
+    ],
+    "kind": "player",
+    "text": "Patrick Dorgu",
+    "unit": "",
+    "value_text": "p_935"
+   },
+   {
+    "evidence_ids": [
+     "f_800001"
+    ],
+    "kind": "number",
+    "text": "26%",
+    "unit": "p_goal",
+    "value_number": 0.2581
+   },
+   {
+    "evidence_ids": [
+     "f_800002"
+    ],
+    "kind": "number",
+    "text": "19%",
+    "unit": "p_goal",
+    "value_number": 0.1929
+   },
+   {
+    "evidence_ids": [
+     "f_800003"
+    ],
+    "kind": "number",
+    "text": "6.5 metres",
+    "unit": "metres",
+    "value_number": 6.5
+   },
+   {
+    "evidence_ids": [
+     "f_800004"
+    ],
+    "kind": "number",
+    "text": "7.0 metres",
+    "unit": "metres",
+    "value_number": 7.0
+   }
+  ],
+  "confidence": 0.95,
+  "headline": "Ghost spot cuts Dorgu goal chance from 26% to 19%",
+  "why": "Moving 6.5 metres into the shooting cone is within the 7.0 metres the defender can cover at top speed. In the engine's replay, reaching the ghost spot drops the goal chance on the Patrick Dorgu shot from 26% to 19%."
+ },
+ "latency_ms": 9988,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"headline\":\"Ghost spot cuts Dorgu goal chance from 26% to 19%\",\"why\":\"Moving 6.5 metres into the shooting cone is within the 7.0 metres the defender can cover at top speed. In the engine's replay, reaching the ghost spot drops the goal chance on the Patrick Dorgu shot from 26% to 19%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Patrick Dorgu\",\"kind\":\"player\",\"value_text\":\"p_935\",\"unit\":\"\",\"evidence_ids\":[\"f_800001\",\"f_800002\"]},{\"text\":\"26%\",\"kind\":\"number\",\"value_number\":0.2581,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_800001\"]},{\"text\":\"19%\",\"kind\":\"number\",\"value_number\":0.1929,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_800002\"]},{\"text\":\"6.5 metres\",\"kind\":\"number\",\"value_number\":6.5,\"unit\":\"metres\",\"evidence_ids\":[\"f_800003\"]},{\"text\":\"7.0 metres\",\"kind\":\"number\",\"value_number\":7.0,\"unit\":\"metres\",\"evidence_ids\":[\"f_800004\"]}]}",
+ "tokens_in": 2257,
+ "tokens_out": 308,
+ "via": "live"
+}

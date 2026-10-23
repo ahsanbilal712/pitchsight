@@ -1,0 +1,65 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.006152,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_800002"
+    ],
+    "kind": "team",
+    "text": "Manchester City",
+    "unit": "",
+    "value_text": "man_city"
+   },
+   {
+    "evidence_ids": [
+     "f_800001"
+    ],
+    "kind": "team",
+    "text": "Liverpool",
+    "unit": "",
+    "value_text": "liverpool"
+   },
+   {
+    "evidence_ids": [
+     "f_800002"
+    ],
+    "kind": "number",
+    "text": "3",
+    "unit": "",
+    "value_number": 3
+   },
+   {
+    "evidence_ids": [
+     "f_800001"
+    ],
+    "kind": "number",
+    "text": "1",
+    "unit": "",
+    "value_number": 1
+   },
+   {
+    "evidence_ids": [
+     "e_0048",
+     "f_800002"
+    ],
+    "kind": "player",
+    "text": "Erling Haaland",
+    "unit": "",
+    "value_text": "p_980"
+   }
+  ],
+  "confidence": 0.95,
+  "headline": "Manchester City rally past Liverpool",
+  "why": "Manchester City finish with 3 goals against 1 for Liverpool. Bernardo Silva, Erling Haaland, and Rayan Cherki score the goals in the turnaround."
+ },
+ "latency_ms": 8826,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"headline\":\"Manchester City rally past Liverpool\",\"why\":\"Manchester City finish with 3 goals against 1 for Liverpool. Bernardo Silva, Erling Haaland, and Rayan Cherki score the goals in the turnaround.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Manchester City\",\"kind\":\"team\",\"value_text\":\"man_city\",\"unit\":\"\",\"evidence_ids\":[\"f_800002\"]},{\"text\":\"Liverpool\",\"kind\":\"team\",\"value_text\":\"liverpool\",\"unit\":\"\",\"evidence_ids\":[\"f_800001\"]},{\"text\":\"3\",\"kind\":\"number\",\"value_number\":3,\"unit\":\"\",\"evidence_ids\":[\"f_800002\"]},{\"text\":\"1\",\"kind\":\"number\",\"value_number\":1,\"unit\":\"\",\"evidence_ids\":[\"f_800001\"]},{\"text\":\"Erling Haaland\",\"kind\":\"player\",\"value_text\":\"p_980\",\"unit\":\"\",\"evidence_ids\":[\"e_0048\",\"f_800002\"]}]}",
+ "tokens_in": 1921,
+ "tokens_out": 231,
+ "via": "live"
+}

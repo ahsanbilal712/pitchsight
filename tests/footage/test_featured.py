@@ -29,7 +29,9 @@ def validator(name):
 def test_roster_ids_are_stable_and_named_players_only():
     ros = roster(SLUG)
     assert roster(SLUG)["ids"] == ros["ids"] and all(p.startswith("p_9") for p in ros["ids"].values())
-    assert set(ros["names"].values()) == {"Dominik Szoboszlai", "Mohamed Salah"}
+    assert ros["ids"]["home:#8"] == "p_912" and ros["ids"]["home:#11"] == "p_911"     # frozen once given
+    assert set(ros["names"].values()) == {"Dominik Szoboszlai", "Mohamed Salah", "Bernardo Silva", "Erling Haaland",
+                                          "Rayan Cherki"}                                # + named goal scorers
     block = footage_block(SLUG, ros)
     assert "Mohamed Salah" in block and "[not a claim]" in block
 

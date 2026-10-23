@@ -5,6 +5,35 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v3 item 5, option (c): real newsroom executors over the real-clip moments, cached (track B)
+
+- `python -m footage.studio`: per clip, the real Tactician, Narrator, Fact Checker, Director and CueBus executors run
+  in-process over the featured moment (and Spurs' Fourth Official cue through Director and CueBus), against the
+  clip's evidence; model calls answered from the cache by the reviewed gemini-4-argon outputs (no spend); the
+  precomputed steps (ingest, scout, proposer, rollout) are trace rows saying so. Output per clip:
+  `data/footage/<slug>/cache/studio/stream.jsonl` ({seq, clip_ms, t_ms, collection, doc}: moments, counterfactuals,
+  traces, explanations, cues) for track C's studio replay. 4 verified Sliding Doors cues + the Fourth Official cue;
+  no synthetic league name in any cue, why or explanation; bar labels from the real clubs.
+- Product changes: the Director shows a producer-selected moment (`selected_by: "producer"`) below the Sliding
+  Doors leverage floor and records `floor_waived` in its trace (test); its swing-bar label uses a real clip's clubs;
+  the Tactician's prompt version can be set per run (`deps.state["tactician_prompt"]`) so a replay records the
+  prompt that really wrote the text. Leverage is the Scout's measure on the real tracked frames (Liverpool 0.003,
+  Man Utd v City 0.012, Spurs 0.021: waived; Arsenal 0.052: above the floor).
+- Kill-resume stays a golden-match feature (lead's decision for v3).
+- Track C's container: one blackboard sqlite per clip, `data/footage/<slug>/cache/studio/blackboard.sqlite`
+  (api shapes: events with match_metadata incl. real clubs and kits, facts, pitch_control, moments,
+  counterfactuals, traces, explanations, cues, requests), timed on the match clock: moment at its t_ms, traces
+  0.3 s apart after it, the cue after the last trace. Every cue verifies inside its own sqlite.
+- Veto: a full-time recap of Liverpool v Man City (`footage.recap_beat` from the tagged goals and red card;
+  Argon caption "Manchester City rally past Liverpool", $0.0080; review added the count and scorer claims) goes
+  through the Director, which holds it: `requests` doc req_m_9001_recap_0 at t_ms 6,281,900 (104:41.9).
+  Goal scorers named outside the moment files are kept in roster.json `named` (ids frozen; overflow ids p_98x).
+- Keeper beat: the coverage assumptions are in its source line and a `small_print` field (lead's request).
+- Cached caption answers moved from `insights/` (git-ignored by track A's rule) to `captions/`, so a clean
+  checkout never pays twice. Red-card cost: dropped from v3 (lead), kept as an honest negative result.
+
+---
+
 ## 2026-10-23 · Video v3 item 2: ghost defender on Mbeumo's and Dorgu's goals (track B)
 
 - `python -m footage.ghost_beat`: shot frames from track A's tracks (127: Mbeumo, track 25, clip 1079.36 s; 137:

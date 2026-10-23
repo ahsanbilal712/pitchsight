@@ -82,6 +82,11 @@ def facts_for(beat: dict) -> list[dict]:
         out = [_fact(1, mid, "closing speed toward the fouled player (assessment)", beat["closing_speed_kmh"], "kmh",
                      beat["source"], players=[beat["fouler"]["pid"], beat["fouled"]["pid"]],
                      event_id=beat["foul_event_id"])]
+    elif kind == "recap":
+        h, a = beat["final_score"]
+        scorers = [g["pid"] for g in beat["goals"] if g.get("pid")]
+        out = [_fact(1, mid, f"final score, {beat['home']} goals", h, "count", beat["source"], players=scorers),
+               _fact(2, mid, f"final score, {beat['away']} goals", a, "count", beat["source"], players=scorers)]
     elif kind == "red_card_cost":
         out = [_fact(1, mid, "win chance 11 v 11 (engine estimate)", beat["win_prob_11v11"], "win_prob",
                      beat["source"]),
@@ -154,7 +159,7 @@ def run(slug: str, beat_path: Path, dry_run: bool = False) -> dict:
                "via": "live", **{k: res.get(k) for k in ("json", "text", "model", "tokens_in", "tokens_out",
                                                           "cost_usd", "latency_ms")}}
         manifest.add(CacheManifest.key(match_id, None, "insight", version, res["model"], int(match_id[2:])),
-                     "analytics", res, f"insights/{beat_path.stem}.json", producer="insight", version=version,
+                     "analytics", res, f"captions/{beat_path.stem}.json", producer="insight", version=version,
                      model=res["model"], seed=int(match_id[2:]), cost_usd=res.get("cost_usd"),
                      tokens_in=res.get("tokens_in"), tokens_out=res.get("tokens_out"))
         manifest.save()

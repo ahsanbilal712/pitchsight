@@ -79,7 +79,7 @@
      "fact_id": "f_800001",
      "label": "share of the goal covered, actual position",
      "match_id": "m_9003",
-     "source": "moments/1382650.json + footage.keeper",
+     "source": "moments/1382650.json + footage.keeper (reach 1.0 m + dive 3.5 m/s after 0.25 s, max 2.6 m; shot 26 m/s; shots uniform between the posts)",
      "unit": "percent",
      "value": 0.393
     },
@@ -87,7 +87,7 @@
      "fact_id": "f_800002",
      "label": "share of the goal covered, best point on the bisector",
      "match_id": "m_9003",
-     "source": "moments/1382650.json + footage.keeper",
+     "source": "moments/1382650.json + footage.keeper (reach 1.0 m + dive 3.5 m/s after 0.25 s, max 2.6 m; shot 26 m/s; shots uniform between the posts)",
      "unit": "percent",
      "value": 1.0
     },
@@ -95,7 +95,7 @@
      "fact_id": "f_800003",
      "label": "metres to the best point",
      "match_id": "m_9003",
-     "source": "moments/1382650.json + footage.keeper",
+     "source": "moments/1382650.json + footage.keeper (reach 1.0 m + dive 3.5 m/s after 0.25 s, max 2.6 m; shot 26 m/s; shots uniform between the posts)",
      "unit": "metres",
      "value": 1.77
     },
@@ -106,7 +106,7 @@
      "players": [
       "p_955"
      ],
-     "source": "moments/1382650.json + footage.keeper",
+     "source": "moments/1382650.json + footage.keeper (reach 1.0 m + dive 3.5 m/s after 0.25 s, max 2.6 m; shot 26 m/s; shots uniform between the posts)",
      "unit": "metres",
      "value": 4.5
     }
@@ -256,7 +256,8 @@
   ],
   "shot_id": 190,
   "slug": "arsenal-chelsea-2526",
-  "source": "moments/1382650.json + footage.keeper"
+  "small_print": "Coverage assumes a 1.0 m standing reach plus a dive at 3.5 m/s after a 0.25 s reaction, up to 2.6 m, against a 26 m/s shot, with shots spread evenly between the posts. Geometry, not a save probability.",
+  "source": "moments/1382650.json + footage.keeper (reach 1.0 m + dive 3.5 m/s after 0.25 s, max 2.6 m; shot 26 m/s; shots uniform between the posts)"
  },
  "schema_version": "1.0.0"
 }

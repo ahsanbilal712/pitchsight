@@ -1,0 +1,46 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.004926,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_800001"
+    ],
+    "kind": "player",
+    "text": "Bruno Fernandes",
+    "unit": "",
+    "value_text": "p_966"
+   },
+   {
+    "evidence_ids": [
+     "f_800001"
+    ],
+    "kind": "player",
+    "text": "James Maddison",
+    "unit": "",
+    "value_text": "p_965"
+   },
+   {
+    "evidence_ids": [
+     "f_800001"
+    ],
+    "kind": "number",
+    "text": "15.3 km/h",
+    "unit": "kmh",
+    "value_number": 15.3
+   }
+  ],
+  "confidence": 0.95,
+  "headline": "Bruno Fernandes red card: closing speed at 15.3 km/h",
+  "why": "Bruno Fernandes receives a red card for a foul on James Maddison. Tracking estimates his closing speed toward the fouled player at 15.3 km/h; this is an assessment, not a ruling."
+ },
+ "latency_ms": 9150,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"headline\":\"Bruno Fernandes red card: closing speed at 15.3 km/h\",\"why\":\"Bruno Fernandes receives a red card for a foul on James Maddison. Tracking estimates his closing speed toward the fouled player at 15.3 km/h; this is an assessment, not a ruling.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Bruno Fernandes\",\"kind\":\"player\",\"value_text\":\"p_966\",\"unit\":\"\",\"evidence_ids\":[\"f_800001\"]},{\"text\":\"James Maddison\",\"kind\":\"player\",\"value_text\":\"p_965\",\"unit\":\"\",\"evidence_ids\":[\"f_800001\"]},{\"text\":\"15.3 km/h\",\"kind\":\"number\",\"value_number\":15.3,\"unit\":\"kmh\",\"evidence_ids\":[\"f_800001\"]}]}",
+ "tokens_in": 1458,
+ "tokens_out": 201,
+ "via": "live"
+}

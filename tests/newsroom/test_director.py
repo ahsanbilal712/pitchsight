@@ -155,6 +155,15 @@ def test_sliding_doors_needs_leverage_004(deps):
     assert direct(deps, draft(91, 6_000_000, kind="sliding_doors", branch="explained", leverage=0.05)) is not None
 
 
+def test_producer_selected_moment_skips_the_leverage_floor(deps, evidence_bb):
+    """A real-clip moment picked by the producer is shown below the floor, and the trace says the floor was waived."""
+    d = draft(91, 7_000_000, kind="sliding_doors", leverage=0.01, selected_by="producer")
+    assert direct(deps, d) is not None
+    row = evidence_bb.query("traces", executor="director", moment_id="mo_00091")[0]
+    assert "producer-selected" in row["floor_waived"]
+    assert direct(deps, draft(92, 7_200_000, kind="sliding_doors", leverage=0.01)) is None
+
+
 def test_oracle_needs_p_shot_030(deps):
     assert direct(deps, draft(100, 6_500_000, kind="oracle", p_shot=0.25)) is None
     cue = direct(deps, draft(101, 6_500_000, kind="oracle", p_shot=0.35))

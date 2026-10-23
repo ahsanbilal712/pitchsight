@@ -138,7 +138,8 @@ class DirectorExecutor(NewsroomExecutor):
     def _drop_reason(self, kind: str, msg: Draft, t_in: int) -> str | None:
         hard = self.budgets.hard
         m = msg.moment
-        if kind == "sliding_doors" and (m.leverage or 0) < hard["leverage_floor_for_sliding_doors"]:
+        if kind == "sliding_doors" and (m.leverage or 0) < hard["leverage_floor_for_sliding_doors"] \
+                and getattr(m, "selected_by", None) != "producer":   # a producer-picked moment is shown anyway
             return "leverage_below_floor"
         if kind == "oracle" and float(getattr(m, "p_shot", 0) or 0) < hard["oracle_min_p_shot"]:
             return "oracle_p_shot_below_floor"
@@ -173,6 +174,7 @@ class DirectorExecutor(NewsroomExecutor):
                 g["ghost_trail"] = sample
             meta = self.deps.bb.query("events", match_id=m.match_id, type="match_metadata", limit=1)
             _, clubs = league_data()
+            clubs = {**clubs, **(meta[0]["attrs"].get("clubs") or {})} if meta else clubs   # real clips: their clubs
             home = clubs.get(meta[0]["attrs"]["home"], {}).get("short_name", "Home") if meta else "Home"
             g["bar"] = {"label": f"{home} win chance", "from": cf["baseline"]["win_prob_home"],
                         "to": cf["alternative_outcome"]["win_prob_home"]}
@@ -225,7 +227,11 @@ class DirectorExecutor(NewsroomExecutor):
         self.trace(out, started, status=red or "ok", cue_id=cue["cue_id"], t_in_ms=t_in, moved=moved,
                    excluded=why_not, model=cue["provenance"]["model"],
                    reason=(msg.reason or msg.status) if red in ("error", "cache_miss", "timeout") else
-                   ("rejected three times by the Fact Checker" if red else None))
+                   ("rejected three times by the Fact Checker" if red else None),
+                   **({"floor_waived": "producer-selected moment (leverage "
+                       f"{msg.moment.leverage or 0:.3f} below the Sliding Doors floor)"}
+                      if kind == "sliding_doors" and getattr(msg.moment, "selected_by", None) == "producer"
+                      and (msg.moment.leverage or 0) < self.budgets.hard["leverage_floor_for_sliding_doors"] else {}))
         await ctx.send_message(CueOut(**envelope, cue=cue))
 
     async def handle_recap(self, cue: dict, envelope: dict, ctx: WorkflowContext[CueOut]) -> None:

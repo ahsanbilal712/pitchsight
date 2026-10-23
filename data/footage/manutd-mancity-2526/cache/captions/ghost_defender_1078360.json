@@ -1,0 +1,66 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.007644,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_800001"
+    ],
+    "kind": "number",
+    "text": "5%",
+    "unit": "p_goal",
+    "value_number": 0.0532
+   },
+   {
+    "evidence_ids": [
+     "f_800002"
+    ],
+    "kind": "number",
+    "text": "4%",
+    "unit": "p_goal",
+    "value_number": 0.0378
+   },
+   {
+    "evidence_ids": [
+     "f_800001",
+     "f_800002",
+     "f_800003"
+    ],
+    "kind": "player",
+    "text": "Bryan Mbeumo",
+    "unit": "",
+    "value_text": "p_932"
+   },
+   {
+    "evidence_ids": [
+     "f_800003"
+    ],
+    "kind": "number",
+    "text": "10.7 metres",
+    "unit": "metres",
+    "value_number": 10.7
+   },
+   {
+    "evidence_ids": [
+     "f_800004"
+    ],
+    "kind": "number",
+    "text": "7.0 metres",
+    "unit": "metres",
+    "value_number": 7.0
+   }
+  ],
+  "confidence": 0.9,
+  "headline": "Mbeumo's shot has a 5% goal chance in the engine",
+  "why": "To trim the goal chance in the engine's replay from 5% to 4% on Bryan Mbeumo's shot, the defender needs 10.7 metres, beyond the 7.0 metres he can cover at top speed in the time available."
+ },
+ "latency_ms": 10205,
+ "model": "gemini-4-argon",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"headline\":\"Mbeumo's shot has a 5% goal chance in the engine\",\"why\":\"To trim the goal chance in the engine's replay from 5% to 4% on Bryan Mbeumo's shot, the defender needs 10.7 metres, beyond the 7.0 metres he can cover at top speed in the time available.\",\"confidence\":0.9,\"claims\":[{\"text\":\"5%\",\"kind\":\"number\",\"value_number\":0.0532,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_800001\"]},{\"text\":\"4%\",\"kind\":\"number\",\"value_number\":0.0378,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_800002\"]},{\"text\":\"Bryan Mbeumo\",\"kind\":\"player\",\"value_text\":\"p_932\",\"unit\":\"\",\"evidence_ids\":[\"f_800001\",\"f_800002\",\"f_800003\"]},{\"text\":\"10.7 metres\",\"kind\":\"number\",\"value_number\":10.7,\"unit\":\"metres\",\"evidence_ids\":[\"f_800003\"]},{\"text\":\"7.0 metres\",\"kind\":\"number\",\"value_number\":7.0,\"unit\":\"metres\",\"evidence_ids\":[\"f_800004\"]}]}",
+ "tokens_in": 2267,
+ "tokens_out": 311,
+ "via": "live"
+}

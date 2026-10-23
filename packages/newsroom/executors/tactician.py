@@ -170,14 +170,15 @@ def explanation_id_for(moment_id: str) -> str:
     return format_id("explanations", parse_id(moment_id)[1])
 
 
-def finish(msg: Envelope, body: dict, model: str, cf: dict | None, alternatives: list[dict]) -> dict:
+def finish(msg: Envelope, body: dict, model: str, cf: dict | None, alternatives: list[dict],
+           prompt_version: str = PROMPT) -> dict:
     m = msg.moment
     return {"schema_version": "1.0.0", "explanation_id": explanation_id_for(m.moment_id), "match_id": m.match_id,
             "moment_id": m.moment_id, "why": str(body.get("why", ""))[:400], "claims": body["claims"][:8],
             "counterfactual_id": cf["counterfactual_id"] if cf else None,
             "alternatives_considered": [f"{a.get('kind')} {a.get('target') or ''}".strip() for a in alternatives],
             "confidence": max(0.0, min(1.0, float(body.get("confidence", 0.5) or 0.5))), "model": model,
-            "prompt_version": PROMPT, "tool_trace_id": msg.trace_id or None, "attempt": 1}
+            "prompt_version": prompt_version, "tool_trace_id": msg.trace_id or None, "attempt": 1}
 
 
 def valid(explanation: dict) -> list[str]:
@@ -215,7 +216,8 @@ async def explain(deps: Deps, msg: Envelope, decision: dict | None, cf: dict | N
                                                        "t_to_ms": m.t_ms + 1000})
         recent = [e for e in out if isinstance(e, dict) and "id" in e][-RECENT_N:] if isinstance(out, list) else []
     messages = build_messages(meta, m, decision, cf, pc, alternatives, recent)
-    ctx = {"match_id": m.match_id, "moment_id": m.moment_id, "schema": RESPONSE_SCHEMA, "prompt_version": PROMPT,
+    prompt = deps.state.get("tactician_prompt", PROMPT)       # a real-clip replay answers from tactician_footage@1
+    ctx = {"match_id": m.match_id, "moment_id": m.moment_id, "schema": RESPONSE_SCHEMA, "prompt_version": prompt,
            "producer": "tactician",
            "timeout_s": role.timeout_s, "max_tool_rounds": deps.state.get("max_tool_rounds", role.max_tool_rounds)}
     status, reason, spent = "template", None, {"cost_usd": 0.0, "tokens_in": 0, "tokens_out": 0}
@@ -239,7 +241,7 @@ async def explain(deps: Deps, msg: Envelope, decision: dict | None, cf: dict | N
         claims = [c for c in (to_claim(x) for x in body.get("claims", []) if isinstance(x, dict)) if c]
         reason = "no claims or why"
         if claims and body.get("why"):
-            exp = finish(msg, {**body, "claims": claims}, res.get("model"), cf, alternatives)
+            exp = finish(msg, {**body, "claims": claims}, res.get("model"), cf, alternatives, prompt)
             problems = valid(exp)
             if not problems:
                 return exp, {"status": "ok", "model": res.get("model"), "tools": trace,

@@ -58,7 +58,11 @@ def run() -> dict:
                        "growing with the time the ball takes to reach him); geometry, not a save probability",
             "assumptions": a["assumptions"], "engine": "geometry (footage.keeper)", "n": None, "seed": None,
             "homography": moment["homography"], "error_note": f"hand-marked; homography RMS {rms:.2f} m",
-            "source": f"moments/{CLIP_MS}.json + footage.keeper"}
+            "small_print": "Coverage assumes a 1.0 m standing reach plus a dive at 3.5 m/s after a 0.25 s reaction, "
+                           "up to 2.6 m, against a 26 m/s shot, with shots spread evenly between the posts. "
+                           "Geometry, not a save probability.",
+            "source": f"moments/{CLIP_MS}.json + footage.keeper (reach 1.0 m + dive 3.5 m/s after 0.25 s, max "
+                      "2.6 m; shot 26 m/s; shots uniform between the posts)"}
     write_beat(SLUG, "keeper_cone", CLIP_MS, beat)
     return {k: beat[k] for k in ("shot_from", "keeper", "best", "coverage_actual", "coverage_best", "move_m")}
 
