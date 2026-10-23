@@ -14,6 +14,8 @@ Labels: a verified name, else a shirt number, else none. Every printed number is
 
 from __future__ import annotations
 
+import json
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
@@ -23,6 +25,7 @@ from demo.live import (
     MUTED,
     ORANGE,
     PANEL,
+    ROOT,
     WHITE,
     H,
     Live,
@@ -55,7 +58,23 @@ def fmt_xg(v: float | None) -> str:
 
 
 class LiveHUD(Live):
-    """The live analytics layer over a playing attacking passage."""
+    """The live analytics layer over a playing attacking passage (track A's live_<start>.json, 10 Hz frames; the
+    shared note track-a-v6-live-format.md). A frame that is not trusted, or has no holder, draws nothing."""
+
+    def __init__(self, m: dict):
+        super().__init__(m)
+        d = self.data
+        if "frames" in d and "samples" not in d:          # track A's layout -> the fields drawn here
+            d["samples"] = [{**f, "carrier": f.get("holder") if f.get("trusted") else None}
+                            for f in d["frames"]]
+        lo, hi = m.get("t0"), m.get("t1")
+        if lo is not None or hi is not None:
+            d["samples"] = [x for x in d["samples"] if (lo or 0) <= x["clip_ms"] / 1000 <= (hi or 1e9)]
+            d["start_clip_ms"], d["end_clip_ms"] = d["samples"][0]["clip_ms"], d["samples"][-1]["clip_ms"]
+        race = m.get("race")
+        if race:
+            doc = json.loads((ROOT / race).read_text())
+            self.m["race_doc"] = {**doc.get("result", doc), **m.get("race_labels", {})}
 
     def span(self):
         return (self.data["start_clip_ms"] / 1000 - float(self.m.get("pre_s", 0.3)),
@@ -68,6 +87,8 @@ class LiveHUD(Live):
         x = s[i]
         if abs(x["clip_ms"] - t * 1000) > 2 * float(self.data.get("step_ms", 200)) or not x.get("carrier"):
             return None
+        if x.get("shot_now_xg") is None and not any(o.get("xg_after_pass") is not None for o in x.get("options", [])):
+            return None                                    # own half or no analytics: nothing on screen
         return x
 
     def ranked(self, x: dict) -> list[dict]:
