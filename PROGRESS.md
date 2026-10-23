@@ -5,6 +5,17 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v8 grounding: 1,297 of 1,297 on draft 1 (track B)
+
+- `python -m footage.grounding` on track C's committed edit_v8.yaml (b4fdce6): **1,297 of 1,297 on-screen numbers
+  bound to verified evidence (1,318 of 1,318 claims verified)**. The VERIFY counter, "1,295 of 1,295 on-screen
+  numbers checked against the data.", equals the count of everything else (it is excluded from its own count) and
+  its own two numbers are bound: 1,295 + 2 = 1,297. No WHYLINE in the 21 captions and card lines.
+  data/footage/v8_grounding.json committed.
+- No model call.
+
+---
+
 ## 2026-10-23 · Video v8 grounding on track C's draft: 1,295 of 1,295 (track B)
 
 - Sources for draft 1's intro wording (the pass-model line with a trailing comma; "plus a published xG model built on
