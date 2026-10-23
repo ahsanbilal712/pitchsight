@@ -183,7 +183,7 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
     edit = yaml.safe_load((edit_path or ROOT / "packages" / "demo" / f"edit_{version}.yaml").read_text())
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
     sources = {"v3": caption_sources, "v4": v4_caption_sources, "v5": v5_caption_sources,
-               "v6": v6_caption_sources, "v7": v7_caption_sources, "v8": v7_caption_sources}[version]()
+               "v6": v6_caption_sources, "v7": v7_caption_sources, "v8": v8_caption_sources}[version]()
     rows = []
     for n_caption, text in enumerate(shown, 1):
         if not DIGITS.search(text):
@@ -826,6 +826,28 @@ def v8_screen_text(edit: Path) -> list[dict]:
     return [{"group": "v8 name", "item": f"{len(texts)} captions and card lines", "claims": len(texts),
              "claims_verified": len(texts) - len(bad), "numbers": 0, "numbers_bound": 0,
              "diff": [f"says WHYLINE: {t!r}" for t in bad], "rejected": []}]
+
+
+def v8_caption_sources() -> dict[str, list[tuple]]:
+    """v7's sources plus the intro's corrected claims (track A's cache/v8/intro_facts_0.json `use` wordings): the
+    pass model's training size from its own metrics (packages/heads/artifacts/metrics.json), the published xG
+    model's sample from its citation (the v5 formula line)."""
+    out = dict(v7_caption_sources())
+    metrics = json.loads((ROOT / "packages" / "heads" / "artifacts" / "metrics.json").read_text())
+    passes, matches = metrics["pass"]["rows"]["train"], metrics["_data"]["matches_per_split"]["train"]
+    src = "packages/heads/artifacts/metrics.json"
+    lfc = "liverpool-mancity-2526"
+    model = [("2.1 million", "number", "count", round(passes / 1e6, 1),           # millions of training passes
+              (lfc, f"{src} pass.rows.train {passes:,} (2.1 million)", "fact")),
+             ("1,600", "number", "count", matches, (lfc, f"{src} _data.matches_per_split.train", "fact"))]
+    shots = [("8,451", "number", "count", 8451, (lfc, "v8 intro_facts_0: Soccermatics, 8,451 PL shots", "fact")),
+             ("2017", "number", "count", 2017, (lfc, "v8 intro_facts_0: 2017/18 season (Wyscout)", "fact")),
+             ("18", "number", "count", 18, (lfc, "v8 intro_facts_0: 2017/18 season (Wyscout)", "fact"))]
+    for text, spec in (("A pass model we trained on 2.1 million passes from 1,600 simulated matches", model),
+                       ("A published xG model (Soccermatics), fitted on 8,451 Premier League shots from 2017/18 "
+                        "(Wyscout data)", shots)):
+        out[text] = out[text + "."] = spec
+    return out
 
 
 def _counter_rows(counters: list[dict], total: dict) -> list[dict]:

@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v8: intro caption sources; How-it-works checked against the graph (track B)
+
+- v8 caption sources (`footage.grounding.v8_caption_sources`): track A's corrected intro wordings
+  (cache/v8/intro_facts_0.json): "A pass model we trained on 2.1 million passes from 1,600 simulated matches" bound
+  to packages/heads/artifacts/metrics.json (pass.rows.train 2,146,079; 1,600 training matches) and "A published xG
+  model (Soccermatics), fitted on 8,451 Premier League shots from 2017/18 (Wyscout data)" to the published
+  model's citation.
+- Answered track C: the newsroom's real order (graph.py, explained branch) is Ingest > Scout > Proposer > Rollout >
+  Tactician > Narrator > Fact Checker (> Narrator on a rewrite) > Director > CueBus; on screen "Model" for the xG
+  step (no rollouts on real clips); the VERIFY counter excludes itself (implemented in 6930b18); "Next (not built
+  yet): an Azure AI Foundry deployment ...".
+- No model call. Verification: `pytest tests/footage/test_grounding.py` (exit 0).
+
+---
+
 ## 2026-10-23 · Video v8 grounding ready: VERIFY counter and the product name (track B)
 
 - `python -m footage.grounding --edit packages/demo/edit_v8.yaml` (once the edit exists): v7's checks plus
