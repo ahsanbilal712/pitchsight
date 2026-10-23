@@ -199,9 +199,93 @@ def xray10(slug: str, t0: float, t1: float, clock_at_t0: str, period: int, score
             "source": {"tracks": f"{slug}/tracks/*.json", "converter": "footage.from_tracks.moment_from_tracks"}}
 
 
+def _near(P: np.ndarray, mirrored: bool) -> np.ndarray:
+    """Engine frame -> moment-file frame (y from the near touchline)."""
+    return np.stack([105.0 - P[..., 0], 68.0 - P[..., 1]], axis=-1) if mirrored else P
+
+
+def _branch(state, moment: dict, spec: dict, n: int, seed: int) -> dict:
+    """Median ball path and 25-75% spread band every 0.5 s, the medoid world, and its outcome time."""
+    from kickoff.engine import TICK_MS
+    goals, paths = run_option(state, moment, spec, n, seed, record=True)          # [n, T, 23, 2]
+    team = int(state.source.holder[0]) // 11
+    P = _near(paths.astype(np.float64), state.mirrored)
+    ball = P[:, :, 22, :]
+    every = 500 // TICK_MS
+    med = np.median(ball[:, ::every], axis=0)
+    rad = np.percentile(np.linalg.norm(ball[:, ::every] - med[None], axis=2), 75, axis=0)
+    dist = np.array([np.linalg.norm(ball - ball[i], axis=2).mean(axis=1).sum() for i in range(n)])
+    k = int(np.argmin(dist))
+    return {"goals": goals[:, team] > 0, "median": med, "band": rad, "world": k, "paths": P[k], "team": team}
+
+
+def c_format(slug: str, clip_ms: int, n: int = N, seed: int = SEED) -> tuple[dict, dict]:
+    """Track C's v4 goal10_<clip_ms> and ghost_future_<clip_ms> from the committed decision."""
+    from evals.pitchwatch.insights import FOOTAGE
+    from footage.freeze import load, to_state
+    from kickoff.engine import TICK_MS
+    dec = json.loads((FOOTAGE / slug / "cache" / "v4" / f"goal10_decision_{clip_ms}.json").read_text())["result"]
+    moment = load(slug, clip_ms)
+    state = to_state(moment, seed=seed)
+    names = {p.get("label"): p.get("name") for p in moment["players"] if p.get("label")}
+    valued = [o for o in dec["options"][1:] if "error" not in o]
+    better = [o for o in valued if o["diff_vs_actual"]["verdict"] == "better"]
+    alt = max(better or valued, key=lambda o: o["p_goal_10s"])
+
+    def label(spec):
+        if spec["kind"] == "pass":
+            return f"Pass to {names.get(spec['target']) or spec['target']}"
+        return {"shoot": "Shot", "carry": "Carry on", "actual": None}.get(spec["kind"], spec["kind"])
+    act_spec = dec["options"][0]["option"]
+    a = _branch(state, moment, act_spec, n, seed)
+    b = _branch(state, moment, alt["option"], n, seed)
+    for br, row in ((a, dec["options"][0]), (b, alt)):        # same seeds, same worlds: must match the decision
+        assert abs(float(br["goals"].mean()) - row["p_goal_10s"]) < 1e-9, "decision and branch disagree"
+    actual_kind = moment["actual"]["kind"]
+    common = {"n": n, "horizon_s": HORIZON_S, "seed": seed, "engine": "scripted_v1",
+              "source": {"decision": f"{slug}/cache/v4/goal10_decision_{clip_ms}.json",
+                         "moment": f"{slug}/moments/{clip_ms}.json"}}
+    goal10 = {"clip_ms": clip_ms, "clock": dec["clock"], "team": dec["team"], "holder": dec["holder"],
+              "actual": {"kind": actual_kind, "label": label({"kind": actual_kind, **moment["actual"]}),
+                         "target": moment["actual"].get("target"), "p": dec["options"][0]["p_goal_10s"],
+                         "ci95": dec["options"][0]["ci95"]},
+              "alternative": {"kind": alt["option"]["kind"], "label": label(alt["option"]),
+                              "target": alt["option"].get("target"), "p": alt["p_goal_10s"], "ci95": alt["ci95"]},
+              "difference": alt["diff_vs_actual"],
+              "median_paths": {k: [[round(float(x), 2), round(float(y), 2)] for x, y in br["median"]]
+                               for k, br in (("actual", a), ("alternative", b))},
+              "band": {k: [[round(float(x), 2), round(float(y), 2), round(float(r), 2)]
+                           for (x, y), r in zip(br["median"], br["band"], strict=True)]
+                       for k, br in (("actual", a), ("alternative", b))},
+              "band_note": "radius = 75th percentile of the worlds' ball distance from the median, every 0.5 s",
+              **common}
+    inv = {row: lab for lab, row in state.labels.items()}
+    P = b["paths"]
+    frames = [{"t_ms": i * TICK_MS, "ball": [round(float(P[i, 22, 0]), 2), round(float(P[i, 22, 1]), 2)],
+               "players": [{"label": inv.get(r), "name": names.get(inv.get(r)), "team": "home" if r < 11 else "away",
+                            "x": round(float(P[i, r, 0]), 2), "y": round(float(P[i, r, 1]), 2)} for r in range(22)]}
+              for i in range(P.shape[0])]
+    scored = bool(b["goals"][b["world"]])
+    ghost = {"clip_ms": clip_ms, "branch": "alternative", "option": alt["option"], "label": label(alt["option"]),
+             "step_ms": TICK_MS, "horizon_s": HORIZON_S, "frames": frames,
+             "outcome": {"label": "goal" if scored else "no goal within 10 s", "at_ms": None},
+             "share_of_worlds_scoring": alt["p_goal_10s"], **common,
+             "representative": {"which": "medoid", "world": b["world"], "world_seed": seed + b["world"]},
+             "note": "The most typical of the n futures (medoid by ball path), not the likeliest outcome; players "
+                     "without a label were placed by role prior at the freeze."}
+    return goal10, ghost
+
+
 def main(argv: list[str] | None = None) -> int:
     from evals.pitchwatch.v3 import write
     kind = (argv or sys.argv[1:])[0]
+    if kind == "cformat":
+        for slug, moments in DECISION_MOMENTS.items():
+            for clip_ms in moments:
+                g10, gh = c_format(slug, clip_ms)
+                print(write(slug, "goal10", clip_ms, g10, version="v4"))
+                print(write(slug, "ghost_future", clip_ms, gh, version="v4"))
+        return 0
     if kind == "xray":
         res = xray10("manutd-spurs-2425", 240.0, 242.5, "02:13", 1, [0, 0])
         print(write("manutd-spurs-2425", "pass_xray_goal10", 240000, res, version="v4"))
