@@ -29,10 +29,10 @@ def ms(t: float) -> int:
 
 
 def write(slug: str, beat: str, clip_ms: int, result: dict) -> Path:
-    out = FOOTAGE / slug / "cache" / "v3" / f"{beat}_{clip_ms}.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({"record": "tool_result", "result": result}, indent=1) + "\n")
-    return out
+    """Through track B's footage.v3.write_beat: the model_cache envelope ($schema, schema_version, record) and an
+    entry in the clip's cache manifest, so validate_schemas and the replay index see it."""
+    from footage.v3 import write_beat
+    return Path(write_beat(slug, beat, clip_ms, result))
 
 
 def speed_gun_beat() -> Path:
