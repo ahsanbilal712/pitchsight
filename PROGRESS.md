@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+
+## 2026-10-23 · T-065 Day-7 bug bash (track A) — not closed
+
+- Every Verification command of T-001..T-064 run in order (adapted where it would spend money, rewrite the frozen
+  cache, re-run hour-long jobs or need Azure): **52 pass, 2 fail on machine load, 2 not built (Azure T-058/T-059)**.
+  Table, adaptations and P1 list: `docs/evidence/bugbash_v0.1.md`. No P0.
+- `make ci`: 465 passed; 3 timing budgets fail under load (load avg 25-160, not project jobs; passed idle) and 3
+  test_batch errors (asyncio.run after Playwright; filed to track B with the fix). Clean replay --runs 1: PASS, same
+  hash as T-064.
+- Also today (footage, owner priority): T-103 replay/trim/overrides, T-105 recall 0.993, tracks for the four
+  featured frames and the Bruno Fernandes foul (contact frame 23172) handed to track B; T-104 gate still open
+  (refined max 2.21 m vs 1.5 m).
+
+---
+
 ## 2026-10-23 · Video v2: Fourth Official on Bruno Fernandes' red-card foul (track B)
 
 - Contact found in the live wide shot (shot 90, clip 772.4 s, 40:57; the score bug confirms it): track 3 (Spurs,
