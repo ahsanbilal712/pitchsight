@@ -1014,7 +1014,7 @@
    1920,
    1080
   ],
-  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; each only within the linked track's identity span (same kit team, no jump over 12 m/s); label/track_id are internal ids, never shown",
+  "labels": "on screen: name, else shirt, else nothing; both only from track B's names_live_0.json within its window; label/track_id are internal ids, never shown",
   "match_id": "m_9004",
   "period": 2,
   "rules": {
@@ -1035,7 +1035,7 @@
   "source": {
    "ball": "manutd-spurs-2425/tracks/xe_0044.ball_tiled.json (tiled) + the full-frame detection",
    "calib": "manutd-spurs-2425/calib/xe_0044.json",
-   "names": "track B's names_live_0.json and names_verified.json",
+   "names": "track B's names_live_0.json",
    "pass_model": "packages/heads/artifacts/pass",
    "shot_model": "evals.pitchwatch.shotxg.reference_xg",
    "tracks": "manutd-spurs-2425/tracks/xe_0044.json"

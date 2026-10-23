@@ -102,68 +102,23 @@ def identity_span(F: list[dict], tid: int, t_link: float) -> tuple[float, float]
     return obs[lo][0], obs[hi][0]
 
 
-def _hand(slug: str, shot_id, F: list[dict]) -> tuple[dict[int, list], dict[int, str]]:
+def _hand(slug: str, shot_id) -> tuple[dict[int, list], dict[int, str]]:
     """track id -> [(t0, t1, name, shirt)] and track id -> fix ("referee" | "home" | "away" | "<side>:goalkeeper").
-    First track B's names_live_0.json (crop reads per track and window, used exactly within its window); then
-    names_verified.json ("names" links and verified "shots"), each within the linked track's identity span: a link
-    to a moment in this camera shot names that moment's track (with its "#NN" shirt), an event link names the
-    shooter at that shot's reviewed strike (his strike-window track, or the player within 1.5 m of his spot at the
-    strike frame). Fixes from moments/overrides.json."""
-    import re
-
+    Names and shirts come only from track B's names_live_0.json (crop reads per track and window, used exactly
+    within its window), the one source track C grounds live labels on. Fixes from moments/overrides.json for
+    moments in this camera shot (track ids are unique per shot)."""
     from footage.freeze import load
     from footage.from_tracks import overrides
-    nv = json.loads((FOOTAGE / slug / "names_verified.json").read_text())
-    links = [(name, link) for name, v in nv["names"].items() for link in v["links"]]
-    links += [(v["name"], {"event": ev}) for ev, v in (nv.get("shots") or {}).items() if v.get("name")]
-    moments, fixes = {}, {}
-    for p in (FOOTAGE / slug / "moments").glob("[0-9]*.json"):
-        m = load(slug, int(p.stem))
-        if (m.get("tracking") or {}).get("shot_id") == shot_id:
-            moments[int(p.stem)] = m
-            fixes.update({int(k): v for k, v in overrides(FOOTAGE / slug, int(p.stem)).items()})
-    rows = {r["event_id"]: r for r in json.loads((FOOTAGE / "insights" / "shots_xg.json").read_text())["shots"]
-            if r["slug"] == slug and r.get("release_clip_ms")}
     labels: dict[int, list] = {}
-    live = FOOTAGE / slug / "cache" / "v6" / "names_live_0.json"   # track B's per-window reads come first
+    live = FOOTAGE / slug / "cache" / "v6" / "names_live_0.json"
     for q in (json.loads(live.read_text())["result"]["players"] if live.exists() else []):
         if q["tracks"] == f"tracks/{shot_id}.json" and (q.get("name") or q.get("shirt")):
             labels.setdefault(q["track_id"], []).append((q["from_clip_ms"] / 1000, q["to_clip_ms"] / 1000,
                                                          q.get("name"), q.get("shirt")))
-    tagged = []                                       # (track id, link time, name, shirt)
-    for name, link in links:
-        if "event" not in link:
-            m = moments.get(link.get("clip_ms"))
-            q = m and next((q for q in m["players"] if q.get("label") == link.get("label") and "track_id" in q), None)
-            if q:
-                shirt = int(q["label"][1:]) if re.fullmatch(r"#\d+", q["label"]) else None
-                tagged.append((q["track_id"], link["clip_ms"] / 1000, name, shirt))
-            continue
-        r = rows.get(link["event"])
-        if not r:
-            continue
-        t = r["release_clip_ms"] / 1000
-        if f"x{r['event_id']}" == str(shot_id):       # the strike window's own track ids
-            tid = r.get("shooter_track")
-            if tid is None and re.fullmatch(r"t\d+", link.get("label") or ""):
-                tid = int(link["label"][1:])
-            if tid is not None:
-                tagged.append((tid, t, name, None))
-            continue
-        fr = min(F, key=lambda f: abs(f["t"] - t))
-        if abs(fr["t"] - t) > 0.1 or not fr["calib_ok"]:
-            continue
-        sx, sy = r["shooter_xy_near"]
-        near = [(math.hypot(q["xy"][0] - sx, (W - q["xy"][1]) - sy), q["track_id"]) for q in fr["players"] if q["xy"]]
-        if near and min(near)[0] <= 1.5:
-            tagged.append((min(near)[1], t, name, None))
-    read = set(labels)                               # a track with a window read is labelled by it alone
-    for tid, t, name, shirt in tagged:
-        if tid in read:
-            continue
-        span = identity_span(F, tid, t)
-        if span:
-            labels.setdefault(tid, []).append((*span, name, shirt))
+    fixes = {}
+    for p in (FOOTAGE / slug / "moments").glob("[0-9]*.json"):
+        if (load(slug, int(p.stem)).get("tracking") or {}).get("shot_id") == shot_id:
+            fixes.update({int(k): v for k, v in overrides(FOOTAGE / slug, int(p.stem)).items()})
     return labels, fixes
 
 
@@ -230,7 +185,7 @@ def live_shot(slug: str, shot_id) -> dict:
     fps, F = tracks["fps"], tracks["frames"]
     team_side = {int(k): side(v.get("name", ""), META[slug]) for k, v in tracks["teams"].items()}
     keepers = keeper_tracks(tracks)
-    labels, fixes = _hand(slug, shot_id, F)
+    labels, fixes = _hand(slug, shot_id)
     start, end = F[0]["t"], F[-1]["t"]
     period = _period(slug, int(start * 1000))
     home_plus = HOME_ATTACKS_P2[slug] * (1 if period == 2 else -1) > 0
@@ -408,16 +363,15 @@ def live_shot(slug: str, shot_id) -> dict:
             "step_ms": 1000 // HZ, "start_clip_ms": frames[0]["clip_ms"], "end_clip_ms": frames[-1]["clip_ms"],
             "image_size": _image_size(slug, shot_id), "formula": SOURCE, "rules": RULES, "threat_def": THREAT_DEF,
             "states": STATES,
-            "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; "
-                      "each only within the linked track's identity span (same kit team, no jump over "
-                      f"{PLAYER_VMAX:.0f} m/s); label/track_id are internal ids, never shown",
+            "labels": "on screen: name, else shirt, else nothing; both only from track B's names_live_0.json within "
+                      "its window; label/track_id are internal ids, never shown",
             "coordinates": "pitch metres, x from the left goal line, y from the NEAR touchline (moment-file frame); "
                            "px = image pixel (feet / ball centre)",
             "frames": frames,
             "source": {"tracks": f"{slug}/tracks/{shot_id}.json", "calib": f"{slug}/calib/{shot_id}.json",
                        "ball": f"{slug}/tracks/{shot_id}.ball_tiled.json (tiled) + the full-frame detection",
                        "pass_model": "packages/heads/artifacts/pass", "shot_model": "evals.pitchwatch.shotxg.reference_xg",
-                       "names": "track B's names_live_0.json and names_verified.json"}}
+                       "names": "track B's names_live_0.json"}}
 
 
 def _image_size(slug: str, shot_id) -> list[int] | None:
