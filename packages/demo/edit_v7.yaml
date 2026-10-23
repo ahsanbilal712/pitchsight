@@ -52,11 +52,17 @@ clips:
     captions:
       - {from: 0.1, to: 6.3, text: "Szoboszlai shoots from 29 m: 0.02 xG. Blocked."}
 
-  - shot: footage/ars_live_v7          # Arsenal v Chelsea
+  - shot: footage/ars_eze_live_v7      # Arsenal v Chelsea 79:07-79:11: Eze wins it back, into his strike
     from: 0.3
-    to: 5.1
+    to: 4.3
     captions:
-      - {from: 0.2, to: 4.8, text: "Arsenal v Chelsea: as the ball moves forward, the top pass option climbs to 0.19 xG."}
+      - {from: 0.1, to: 4.0, text: "Arsenal v Chelsea: Eze wins it back, and Arsenal's share of the danger zone climbs."}
+
+  - shot: footage/ars_v6_v6             # the strike (from the moment its graphics are up)
+    from: 2.7
+    to: 9.1
+    captions:
+      - {from: 0.1, to: 6.3, text: "Eze from 16 m: 0.08 xG. Saved."}
 
   - shot: footage/tot_live_v7          # Man Utd v Spurs: Werner's run, live
     from: 0.3
@@ -104,6 +110,12 @@ clips:
     from: 11.8
     to: 13.8
 
+  - shot: footage/mci_city_live_v7     # stoppage time: City keep it (91:13-91:21)
+    from: 0.3
+    to: 8.3
+    captions:
+      - {from: 0.1, to: 7.9, text: "Stoppage time: City keep the ball, and their share of the danger zone creeps up."}
+
   - shot: footage/mci_late_live_v7     # stoppage time: the threat meter climbs as Man Utd close in
     from: 0.3
     to: 2.8
@@ -135,11 +147,12 @@ sources:
   "86": "the Liverpool clip's broadcast clock 86:15-86:25 (live_802600, shots_0 875560)"
   "29": "shots_0 (liverpool-mancity-2526) strike 875560 distance_m 28.8"
   "0.02": "shots_0 (liverpool-mancity-2526) strike 875560 xg 0.02 (blocked)"
-  "0.19": "cache/v6/live_823600 (arsenal-chelsea-2526) frame 834800 best xg_after_pass 0.19"
+  "16": "shots_0 (arsenal-chelsea-2526) strike 1301080 distance_m 16.4 (Eze)"
   "0.28": "shots_0 (liverpool-mancity-2526) 83:37 xg 0.28 (Silva, goal)"
   "0.32": "shots_0 (manutd-mancity-2526) 56:44 xg 0.32 (saved)"
   "0.76": "shots_0 (liverpool-mancity-2526) 92:43 penalty 0.76"
   "15": "shots_0 (manutd-mancity-2526) 64:27 strike distance (Mbeumo), lines_1079360 display '15 m'"
+  "0.08": "shots_0 (arsenal-chelsea-2526) strike 1301080 xg 0.08 (Eze, saved)"
   "0.10": "shots_0 (manutd-mancity-2526) 64:27 xg 0.1 (Mbeumo, goal)"
   "4.5": "shots_0 (manutd-mancity-2526) 75:30 strike, 4.5 m (Dorgu; track A ca8eef7)"
   "0.48": "shots_0 (manutd-mancity-2526) 75:30 xg 0.48 (Dorgu, goal)"

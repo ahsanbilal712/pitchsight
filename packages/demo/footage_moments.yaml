@@ -691,6 +691,7 @@ moments:
   shot_lfc_haaland_v6:               # Haaland's penalty, 92:43: 0.76 (the penalty constant), no trusted wide view
     clip: liverpool-mancity-2526
     kind: shot_xg
+    penalty: true                    # the fixed card says so (no trusted camera: never projected)
     data: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json
     clip_ms: 1253000
     team: away
@@ -887,6 +888,34 @@ moments:
     shot_id: 160
     t0: 1412.5
     t1: 1415.0
+    team: home
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
+
+  ars_eze_live_v7:                   # Eze wins it back and Arsenal's danger share climbs, into his strike (run 1296.8-1306.9)
+    clip: arsenal-chelsea-2526
+    kind: always_on
+    data: data/footage/arsenal-chelsea-2526/cache/v6/live_1272000.json
+    always: data/footage/arsenal-chelsea-2526/cache/v7/always_1272000.json
+    shot_id: 177
+    t0: 1297.0
+    t1: 1301.0
+    team: home
+    kits: {away: [3, 70, 148], home: [219, 0, 7]}
+    names_live: data/footage/arsenal-chelsea-2526/cache/v6/names_live_0.json
+    race: data/footage/arsenal-chelsea-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: CHE, home_short: ARS}
+
+  mci_city_live_v7:                  # stoppage time: City keep the ball, their danger share creeping up (run 1395.9-1406.2)
+    clip: manutd-mancity-2526
+    kind: always_on
+    data: data/footage/manutd-mancity-2526/cache/v6/live_1390000.json
+    always: data/footage/manutd-mancity-2526/cache/v7/always_1390000.json
+    shot_id: 160
+    t0: 1397.0
+    t1: 1405.0
     team: home
     kits: {away: [120, 182, 232], home: [218, 41, 28]}
     names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json

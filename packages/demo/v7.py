@@ -173,11 +173,9 @@ class AlwaysOn(LiveHUD):
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))
         d.rectangle((x0, y0, x0 + w, y0 + 8), fill=(*ACCENT, al))
-        f_small, f_label = ImageFont.truetype(FONT, 26), ImageFont.truetype(FONT_REG, 32)
+        f_label = ImageFont.truetype(FONT_REG, 32)
         f_value = ImageFont.truetype(FONT, 56)
-        d.text((x0 + 28, y0 + 26), "THEIR SHAPE", font=f_small, fill=(*MUTED, al))
-        if state:
-            d.text((x0 + w - 28, y0 + 26), state, font=f_small, fill=(255, 214, 10, al), anchor="ra")
+        self._header(d, x0, y0, w, "THEIR SHAPE", state, (255, 214, 10), al)
         rows = [("Width", sh.get("width_m")), ("Depth", sh.get("depth_m")),
                 ("Line gap", sh.get("back_to_mid_m", sh.get("line_gap_m")))]
         for k, (label, v) in enumerate(rows):

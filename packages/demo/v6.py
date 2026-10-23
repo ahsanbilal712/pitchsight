@@ -264,23 +264,21 @@ class LiveHUD(Live):
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))
         d.rectangle((x0, y0, x0 + w, y0 + 8), fill=(*ACCENT, al))
-        f_small, f_label = ImageFont.truetype(FONT, 26), ImageFont.truetype(FONT_REG, 32)
+        f_label = ImageFont.truetype(FONT_REG, 32)
         f_value = ImageFont.truetype(FONT, 72)
-        d.text((x0 + 28, y0 + 26), "LIVE ANALYTICS", font=f_small, fill=(*MUTED, al))
-        if state:                                          # the tracking's own state, top right
-            d.text((x0 + w - 28, y0 + 26), state, font=f_small, fill=(255, 214, 10, al), anchor="ra")
+        right = state
+        if not right and x is not None:
+            age_ = age if age is not None else None
+            nm = who(x["carrier"])
+            right = f"{age_:.1f} s ago" if age_ is not None else (f"ON THE BALL  {nm}" if nm else "ON THE BALL")
+        self._header(d, x0, y0, w, "LIVE ANALYTICS", right, (255, 214, 10) if state else
+                     (MUTED if age is not None else (255, 255, 255)), al)
         if x is None:
             d.text((x0 + 28, y0 + 90), "waiting for a carrier in the attacking half", font=f_label, fill=(*MUTED, al))
             return
         vis = al
         if age is not None:                                # a held value fades after HOLD_FADE_S
             vis = int(al * max(0.35, 1 - max(0.0, age - HOLD_FADE_S)))
-        name = who(x["carrier"])
-        if age is not None and not state:                  # a held value, never presented as live
-            d.text((x0 + w - 28, y0 + 26), f"{age:.1f} s ago", font=f_small, fill=(*MUTED, al), anchor="ra")
-        elif not state:
-            d.text((x0 + w - 28, y0 + 26), f"ON THE BALL  {name}" if name else "ON THE BALL", font=f_small,
-                   fill=(255, 255, 255, al), anchor="ra")
         best = (self.ranked(x) or [None])[0]
         cols = [("Shot now", x.get("shot_now_xg"), WHITE)]
         if best is not None:
@@ -300,6 +298,22 @@ class LiveHUD(Live):
             frac = min(1.0, threat / THREAT_FULL)
             d.rounded_rectangle((bx0, y + 8, bx0 + max(24, (bx1 - bx0) * frac), y + 32), radius=12,
                                 fill=(*threat_colour(frac), al))
+
+    @staticmethod
+    def _header(d, x0, y0, w, left: str, right: str | None, colour, al: int) -> None:
+        """The panel's top line: its title left, the state right; a long state shrinks to fit beside the title, and
+        takes the whole line (no title) before it would ever overlap or be cut."""
+        f = ImageFont.truetype(FONT, 26)
+        if not right:
+            d.text((x0 + 28, y0 + 26), left, font=f, fill=(*MUTED, al))
+            return
+        room = w - 56 - d.textlength(left, font=f) - 24
+        if d.textlength(right, font=ImageFont.truetype(FONT, 20)) <= room:
+            d.text((x0 + 28, y0 + 26), left, font=f, fill=(*MUTED, al))
+            rf = shrink(d, right, FONT, 26, room)
+        else:
+            rf = shrink(d, right, FONT, 26, w - 56)
+        d.text((x0 + w - 28, y0 + 26 + (26 - rf.size) / 2), right, font=rf, fill=(*colour, al), anchor="ra")
 
     def _score(self, d: ImageDraw.ImageDraw, t: float, a: float) -> None:
         """Top strip under the broadcast score bug: each team's cumulative xG so far (xg_race_0)."""

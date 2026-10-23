@@ -1006,6 +1006,25 @@ class ShotXG(Live):
         end = t + self.outcome_after() + float(self.m.get("post_s", 0.9))
         return t - float(self.m.get("pre_s", 1.6)), end
 
+    def _fixed_card(self, d, s: dict, tau: float, pop: float) -> None:
+        """A shot with no trusted camera: a fixed lower-left card, '0.76 xG · Haaland, penalty', with the outcome put
+        in front once it is known ('GOAL · ...')."""
+        o = window(tau, self.outcome_after(), self.outcome_after() + 0.12)
+        name = (s.get("shooter") or {}).get("name")
+        last = name.split()[-1] if name else None
+        what = ", penalty" if (s.get("penalty") or self.m.get("penalty")) and last else ""
+        tag = f"{s['xg']:.2f} xG" + (f" · {last}{what}" if last else "")
+        if o > 0:
+            tag = f"{s['outcome'].upper()} · " + tag
+        goal = s["outcome"] == "goal" and o > 0
+        colour = tuple(int(v * 255) for v in self.kit) if goal else (196, 204, 214)
+        f = self.font[34]
+        w = d.textlength(tag, font=f) + 44
+        x0, y0 = 96 - int((1 - pop) * 40), H - 96 - 64
+        d.rounded_rectangle((x0, y0, x0 + w, y0 + 64), radius=10, fill=(*PANEL, int(235 * pop)))
+        d.rectangle((x0, y0, x0 + 8, y0 + 64), fill=(*colour, int(255 * pop)))
+        d.text((x0 + 28, y0 + 32), tag, font=f, fill=(255, 255, 255, int(255 * pop)), anchor="lm")
+
     def panels(self, im, cam, t):
         s = self.shot
         tau = t - s["clip_ms"] / 1000
@@ -1020,6 +1039,10 @@ class ShotXG(Live):
             return
         v6 = self.m.get("style") == "v6"
         text = f"{s['xg']:.2f} xG" if v6 else f"{s['xg'] * window(tau, 0.0, 0.6):.2f} xG"   # v6: no count-up
+        if v6 and not (cam is not None and s.get("camera_ok", True)):   # no trusted camera: never projected, a card
+            self._fixed_card(d, s, tau, pop)
+            im.paste(layer, (0, 0), layer)
+            return
         if cam is not None and s.get("camera_ok", True):
             at = cam.project([[s["x"], s["y"]]])[0]
             at = at - [0, APPARENT_HEIGHT_M * lateral_px_per_m(cam, [s["x"], s["y"]]) + 70]
