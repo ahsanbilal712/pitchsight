@@ -1,0 +1,47 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.00577,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "player",
+    "text": "Bryan Mbeumo",
+    "unit": "",
+    "value_text": "p_932"
+   },
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "number",
+    "text": "3.8%",
+    "unit": "p_goal",
+    "value_number": 0.0375
+   },
+   {
+    "evidence_ids": [
+     "f_607933"
+    ],
+    "kind": "number",
+    "text": "10",
+    "unit": "seconds",
+    "value_number": 10.0
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Bryan Mbeumo scores from a 3.8% chance",
+  "why": "Bryan Mbeumo scores from here with a 3.8% goal chance in the next 10 seconds."
+ },
+ "latency_ms": 10732,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1079360,\"clock\":\"64:27\",\"team\":\"Man Utd\",\"verdict\":\"finishing\",\"real_outcome\":\"Mbeumo scores\",\"holder\":{\"name\":\"Bryan Mbeumo\",\"pid\":\"p_932\",\"describe\":\"the team-mate in the box, on the left\"},\"actual\":{\"choice\":\"shoot\",\"p_goal_10s\":0.0375,\"ci95\":[0.03,0.0468],\"fact\":\"f_607931\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"From here\",\"alternative\":null},\"n\":2000,\"horizon_s\":10.0,\"engine\":\"scripted_v1\",\"seed\":4242},\"FACTS\":[{\"fact_id\":\"f_607931\",\"match_id\":\"m_9002\",\"label\":\"goal chance in the next 10 s, actual choice (shoot)\",\"value\":0.0375,\"unit\":\"p_goal\",\"display\":\"3.8%\",\"source\":\"cache/v4/goal10_decision_1079360.json\",\"players\":[\"p_932\"],\"ci95\":[0.03,0.0468],\"role\":\"actual\"},{\"fact_id\":\"f_607933\",\"match_id\":\"m_9002\",\"label\":\"seconds after the choice that count\",\"value\":10.0,\"unit\":\"seconds\",\"display\":\"10\",\"source\":\"cache/v4/goal10_decision_1079360.json\",\"role\":\"horizon\"},{\"fact_id\":\"f_607934\",\"match_id\":\"m_9002\",\"label\":\"replays of the frozen frame per option\",\"value\":2000,\"unit\":\"count\",\"display\":\"2,000\",\"source\":\"cache/v4/goal10_decision_1079360.json\",\"role\":\"n\"},{\"fact_id\":\"f_607935\",\"match_id\":\"m_9002\",\"label\":\"95% interval low, actual choice\",\"value\":0.03,\"unit\":\"p_goal\",\"display\":\"3.0%\",\"source\":\"cache/v4/goal10_decision_1079360.json\",\"role\":\"actual_ci_low\"},{\"fact_id\":\"f_607936\",\"match_id\":\"m_9002\",\"label\":\"95% interval high, actual choice\",\"value\":0.0468,\"unit\":\"p_goal\",\"display\":\"4.7%\",\"source\":\"cache/v4/goal10_decision_1079360.json\",\"role\":\"actual_ci_high\"},{\"fact_id\":\"f_607939\",\"match_id\":\"m_9002\",\"label\":\"random seed of the replays\",\"value\":4242,\"unit\":\"count\",\"display\":\"4242\",\"source\":\"cache/v4/goal10_decision_1079360.json\",\"role\":\"seed\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Bryan Mbeumo scores from a 3.8% chance\",\"why\":\"Bryan Mbeumo scores from here with a 3.8% goal chance in the next 10 seconds.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Bryan Mbeumo\",\"kind\":\"player\",\"value_text\":\"p_932\",\"unit\":\"\",\"evidence_ids\":[\"f_607931\"]},{\"text\":\"3.8%\",\"kind\":\"number\",\"value_number\":0.0375,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_607931\"]},{\"text\":\"10\",\"kind\":\"number\",\"value_number\":10.0,\"unit\":\"seconds\",\"evidence_ids\":[\"f_607933\"]}]}",
+ "tokens_in": 1970,
+ "tokens_out": 183,
+ "via": "live"
+}

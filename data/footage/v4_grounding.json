@@ -3,11 +3,11 @@
  "schema_version": "1.0.0",
  "record": "tool_result",
  "result": {
-  "card_line": "152 of 158 on-screen numbers bound to verified evidence (146 of 146 claims verified)",
-  "claims": 146,
-  "claims_verified": 146,
-  "numbers": 158,
-  "numbers_bound": 152,
+  "card_line": "143 of 149 on-screen numbers bound to verified evidence (138 of 138 claims verified)",
+  "claims": 138,
+  "claims_verified": 138,
+  "numbers": 149,
+  "numbers_bound": 143,
   "groups": {
    "studio cue": {
     "items": 2,
@@ -18,17 +18,17 @@
    },
    "v4 line": {
     "items": 6,
-    "numbers": 34,
-    "numbers_bound": 34,
-    "claims": 24,
-    "claims_verified": 24
+    "numbers": 31,
+    "numbers_bound": 31,
+    "claims": 22,
+    "claims_verified": 22
    },
    "v4 overlay": {
     "items": 7,
-    "numbers": 94,
-    "numbers_bound": 88,
-    "claims": 94,
-    "claims_verified": 94
+    "numbers": 88,
+    "numbers_bound": 82,
+    "claims": 88,
+    "claims_verified": 88
    },
    "video caption": {
     "items": 10,
@@ -83,22 +83,22 @@
    },
    {
     "group": "v4 line",
-    "item": "manutd-mancity-2526 64:27 (close_call)",
+    "item": "manutd-mancity-2526 64:27 (finishing)",
     "file": "data/footage/manutd-mancity-2526/cache/v4/lines_1079360.json",
-    "claims": 4,
-    "claims_verified": 4,
-    "numbers": 5,
-    "numbers_bound": 5,
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
     "rejected": []
    },
    {
     "group": "v4 line",
-    "item": "manutd-mancity-2526 75:28 (alternative_better)",
+    "item": "manutd-mancity-2526 75:28 (finishing)",
     "file": "data/footage/manutd-mancity-2526/cache/v4/lines_1189840.json",
-    "claims": 4,
-    "claims_verified": 4,
-    "numbers": 6,
-    "numbers_bound": 6,
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
     "rejected": []
    },
    {
@@ -151,10 +151,10 @@
     "group": "v4 overlay",
     "item": "manutd-mancity-2526 64:27 decision card",
     "file": "data/footage/manutd-mancity-2526/cache/v4/lines_1079360.json",
-    "claims": 8,
-    "claims_verified": 8,
-    "numbers": 8,
-    "numbers_bound": 7,
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 5,
+    "numbers_bound": 4,
     "diff": [
      "2000 vs 2,000"
     ],
@@ -164,10 +164,10 @@
     "group": "v4 overlay",
     "item": "manutd-mancity-2526 75:28 decision card",
     "file": "data/footage/manutd-mancity-2526/cache/v4/lines_1189840.json",
-    "claims": 8,
-    "claims_verified": 8,
-    "numbers": 8,
-    "numbers_bound": 7,
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 5,
+    "numbers_bound": 4,
     "diff": [
      "2000 vs 2,000"
     ],
@@ -249,7 +249,7 @@
    },
    {
     "group": "video caption",
-    "item": "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s.",
+    "item": "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.",
     "sources": [
      "pass_xray_goal10_240000 240000 t6 p_goal_10s",
      "pass_xray_goal10_240000 242000 t30 p_goal_10s",
@@ -337,6 +337,7 @@
     "rejected": []
    }
   ],
-  "pending": []
+  "pending": [],
+  "edit": "packages/demo/edit_v4.yaml"
  }
 }

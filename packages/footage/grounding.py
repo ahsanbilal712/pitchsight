@@ -1,8 +1,8 @@
 """Grounded-claims count for the video's "Measured on this footage" card: every on-screen number and claim of the
 real-clip cues and captions, checked by the Fact Checker (newsroom.factcheck.verify_claims) against its evidence.
 
-    python -m footage.grounding        # v3 -> data/footage/v3_grounding.json (model_cache tool_result, under result)
-    python -m footage.grounding v4     # v4 -> data/footage/v4_grounding.json
+    python -m footage.grounding [--edit packages/demo/edit_v4.yaml]   # default: the latest edit_vN.yaml
+    # -> data/footage/vN_grounding.json (model_cache tool_result, under result); N from the edit's name
 
 v3 reads the studio sqlites as the v3 final cut recorded them (git, V3_FINAL), so its record stays reproducible
 after the studio is re-recorded. v4 (goal chance in the next 10 s; no win chance) counts the re-recorded studio
@@ -171,11 +171,19 @@ def caption_sources() -> dict[str, list[tuple]]:
     }
 
 
-def video_captions(version: str = "v3") -> list[dict]:
+def latest_edit() -> Path:
+    return max((ROOT / "packages" / "demo").glob("edit_v*.yaml"), key=lambda p: int(p.stem.split("_v")[1]))
+
+
+def version_of(edit: Path) -> str:
+    return "v" + Path(edit).stem.split("_v")[1]
+
+
+def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[dict]:
     from footage.insights import evidence_board
     from footage.names import unverified_in
 
-    edit = yaml.safe_load((ROOT / "packages" / "demo" / f"edit_{version}.yaml").read_text())
+    edit = yaml.safe_load((edit_path or ROOT / "packages" / "demo" / f"edit_{version}.yaml").read_text())
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
     sources = caption_sources() if version == "v3" else v4_caption_sources()
     rows = []
@@ -217,9 +225,9 @@ def video_captions(version: str = "v3") -> list[dict]:
 
 
 def _line_facts(slug: str, clip_ms: int) -> dict[str, dict]:
-    """A v4 line's facts by role: actual, alternative, horizon, n."""
+    """A v4 line's facts by role (actual, alternative, horizon, n, ...; a finishing line has no alternative)."""
     facts = json.loads((clip_dir(slug) / "cache" / "v4" / f"lines_{clip_ms}.json").read_text())["result"]["facts"]
-    return dict(zip(("actual", "alternative", "horizon", "n"), facts[:4], strict=True))
+    return {f["role"]: f for f in facts}
 
 
 def v4_caption_sources() -> dict[str, list[tuple]]:
@@ -245,7 +253,7 @@ def v4_caption_sources() -> dict[str, list[tuple]]:
             [line("2,000", L["n"], lfc)],
         "Shot: a 1.1% chance of a goal in the next 10 s. The pass to the edge of the box: 3.3%.":
             [line("1.1%", L["actual"], lfc), line("10", L["horizon"], lfc), line("3.3%", L["alternative"], lfc)],
-        "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s.":
+        "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.":
             [("11%", "number", "p_goal", top[0]["p_goal_10s"],
               (tot, f"pass_xray_goal10_240000 240000 {top[0]['label']} p_goal_10s", "fact")),
              ("21%", "number", "p_goal", top[1]["p_goal_10s"],
@@ -314,11 +322,13 @@ def v4_overlay() -> list[dict]:
     return rows
 
 
-def run(version: str = "v3") -> dict:
+def run(version: str = "v3", edit: Path | None = None) -> dict:
+    """Count for one video version; `edit` defaults to packages/demo/edit_<version>.yaml."""
+    edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
     if version == "v4":
-        captions = video_captions("v4") if (ROOT / "packages" / "demo" / "edit_v4.yaml").exists() else []
-        return _write(studio_cues("v4") + v4_lines() + v4_overlay() + v4_xray_overlay() + captions, version)
-    return _write(studio_cues() + beat_captions() + video_captions(), version)
+        captions = video_captions("v4", edit) if edit.exists() else []
+        return _write(studio_cues("v4") + v4_lines() + v4_overlay() + v4_xray_overlay() + captions, version, edit)
+    return _write(studio_cues() + beat_captions() + video_captions("v3", edit), version, edit)
 
 
 def v4_xray_overlay() -> list[dict]:
@@ -336,7 +346,7 @@ def v4_xray_overlay() -> list[dict]:
              "diff": drift, "rejected": []}]
 
 
-def _write(rows: list[dict], version: str) -> dict:
+def _write(rows: list[dict], version: str, edit: Path) -> dict:
     total = {k: sum(r[k] for r in rows) for k in ("claims", "claims_verified", "numbers", "numbers_bound")}
     groups = {}
     for r in rows:
@@ -354,8 +364,8 @@ def _write(rows: list[dict], version: str) -> dict:
     if version == "v4":
         result["scope"] = ("text and numbers that reach the screen in video v4: the re-recorded studio cue, the v4 "
                            "lines, the v4 decision card, burnt-in captions (edit_v4.yaml)")
-        result["pending"] = [] if (ROOT / "packages" / "demo" / "edit_v4.yaml").exists() else \
-            ["burnt-in captions: packages/demo/edit_v4.yaml does not exist yet"]
+        result["pending"] = [] if edit.exists() else [f"burnt-in captions: {edit.name} does not exist yet"]
+    result["edit"] = str(edit.relative_to(ROOT)) if edit.is_relative_to(ROOT) else str(edit)
     out = OUT if version == "v3" else FOOTAGE / f"{version}_grounding.json"
     out.write_text(json.dumps({"$schema": "model_cache.schema.json", "schema_version": "1.0.0",
                                "record": "tool_result", "result": result}, indent=1, ensure_ascii=False) + "\n")
@@ -364,7 +374,13 @@ def _write(rows: list[dict], version: str) -> dict:
 
 if __name__ == "__main__":
     sys.path.insert(0, str(ROOT / "packages"))
-    r = run(sys.argv[1] if len(sys.argv) > 1 else "v3")
+    import argparse
+
+    ap = argparse.ArgumentParser(description="Grounded on-screen numbers for one video edit")
+    ap.add_argument("--edit", type=Path, default=None, help="packages/demo/edit_vN.yaml (default: the latest)")
+    args = ap.parse_args()
+    edit = (args.edit if args.edit is None or args.edit.is_absolute() else ROOT / args.edit) or latest_edit()
+    r = run(version_of(edit), edit)
     print(r["card_line"])
     print(json.dumps(r["groups"], indent=1))
     for row in r["rows"]:

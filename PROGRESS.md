@@ -5,6 +5,25 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v4: finishing lines for the two goals; grounding takes the edit file (track B)
+
+- **Mbeumo 64:27 and Dorgu 75:28 (both scored):** lead ruling, a goal never implies a better option. New verdict
+  `finishing` (prompt `insight_footage@5`): the line gives the goal chance from here and that he scored, and the
+  gate refuses any other option. Argon, Fact Checker, hand review: "Mbeumo scores from a 3.8% chance (goal in
+  10 s)", "Dorgu scores from a 17% chance (goal in 10 s)". These replace the close-call / carry-on lines in
+  `lines_1079360.json` / `lines_1189840.json` (`lower_third`, `why`; no alternative facts, overlay label
+  "From here").
+- **Liverpool 86:23** stays on track A's final decision (16141fe, after the L3/L4 fix): pass 3.3% v shot 1.1%;
+  L3 has no readable shirt number in the nearby frames, so he stays unnamed ("the team-mate at the edge of the box").
+- **Grounding:** `python -m footage.grounding [--edit packages/demo/edit_vN.yaml]`, default the latest edit;
+  version from the file name. v4 now **143 of 149** (the six decision cards print "n = 2000" against the caption's
+  "2,000"; track C is changing the card); v3 unchanged at 75 of 75 (adds the `edit` field).
+- Facts carry a `role` (actual, alternative, horizon, n, interval ends, seed).
+- **Spend:** 2 Argon calls, $0.0115; v4 total $0.0732; project $3.4759 of $50.
+- Verification: `pytest tests/footage tests/newsroom/test_director.py` 66 passed; ruff clean.
+
+---
+
 ## 2026-10-23 · Video v4: the six goal-in-10s lines, studio re-recorded, v4 grounding (track B)
 
 - **Lines** `data/footage/<slug>/cache/v4/lines_<clip_ms>.json` for Liverpool 86:23, Arsenal 79:10, Man Utd v City

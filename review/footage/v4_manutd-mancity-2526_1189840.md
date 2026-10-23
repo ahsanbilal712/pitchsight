@@ -1,15 +1,15 @@
-# v4 line · manutd-mancity-2526 75:28 · alternative_better
+# v4 line · manutd-mancity-2526 75:28 · finishing
 
 Model draft (gemini-4-argon). Fact Checker: verified. Gates: pass.
-Facts: f_608981 goal chance in the next 10 s, actual choice (shoot) = 17.1%; f_608982 goal chance in the next 10 s, alternative (carry the ball on) = 31.6%; f_608983 seconds after the choice that count = 10; f_608984 replays of the frozen frame per option = 2000
+Facts: f_608981 goal chance in the next 10 s, actual choice (shoot) = 17%; f_608983 seconds after the choice that count = 10; f_608984 replays of the frozen frame per option = 2,000; f_608985 95% interval low, actual choice = 15%; f_608986 95% interval high, actual choice = 19%; f_608989 random seed of the replays = 4242
 
 ```json
 {
  "slug": "manutd-mancity-2526",
  "clip_ms": 1189840,
- "verdict": "alternative_better",
- "lower_third": "Dorgu: shot 17%, carry on 32% (goal in 10 s)",
- "why": "Dorgu scores; in the replays, carrying the ball on gives a 32% chance of a goal in the next 10 seconds, higher than 17% for the shot.",
+ "verdict": "finishing",
+ "lower_third": "Dorgu scores from a 17% chance (goal in 10 s)",
+ "why": "From here the replays give a 17% chance of a goal in the next 10 seconds, and Dorgu scores.",
  "claims": [
   {
    "text": "Dorgu",
@@ -17,8 +17,7 @@ Facts: f_608981 goal chance in the next 10 s, actual choice (shoot) = 17.1%; f_6
    "value": "p_935",
    "unit": null,
    "evidence_ids": [
-    "f_608981",
-    "f_608982"
+    "f_608981"
    ]
   },
   {
@@ -28,15 +27,6 @@ Facts: f_608981 goal chance in the next 10 s, actual choice (shoot) = 17.1%; f_6
    "unit": "p_goal",
    "evidence_ids": [
     "f_608981"
-   ]
-  },
-  {
-   "text": "32%",
-   "kind": "number",
-   "value": 0.3155,
-   "unit": "p_goal",
-   "evidence_ids": [
-    "f_608982"
    ]
   },
   {
@@ -51,11 +41,11 @@ Facts: f_608981 goal chance in the next 10 s, actual choice (shoot) = 17.1%; f_6
  ],
  "confidence": 0.95,
  "model": "gemini-4-argon",
- "cost_usd": 0.006182,
- "prompt_version": "insight_footage@4",
- "cache_key": "m_9002/match/insight@insight_footage@4.goal10_1189840.n2000s4242/gemini-4-argon/s9002",
+ "cost_usd": 0.005772,
+ "prompt_version": "insight_footage@5",
+ "cache_key": "m_9002/match/insight@insight_footage@5.goal10_1189840.n2000s4242/gemini-4-argon/s9002",
  "decision_source": "cache/v4/goal10_decision_1189840.json n=2000 seed=4242",
  "hand_reviewed": true,
- "review_note": "track B hand review: one format for all six lines; keepers unnamed; displays as facts; Dorgu's displays follow the overlay (whole percent from 10%)"
+ "review_note": "track B hand review: finishing line (lead: a goal never implies a better option)"
 }
 ```

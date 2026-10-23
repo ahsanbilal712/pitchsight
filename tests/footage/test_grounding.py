@@ -1,7 +1,7 @@
 """Grounded-claims count (video v3 and v4 metrics cards): every on-screen number bound, and the check bites."""
 
 from footage.clips import CLIPS
-from footage.grounding import _check, run
+from footage.grounding import _check, latest_edit, run, version_of
 from footage.insights import evidence_board
 
 FACT = {"fact_id": "f_799901", "match_id": "m_9002", "label": "ghost goal chance", "value": 0.2581, "unit": "p_goal"}
@@ -26,7 +26,8 @@ def test_a_wrong_number_is_caught():
 
 
 def test_v4_lines_studio_and_captions_are_bound_and_the_overlay_is_checked():
-    r = run("v4")
+    assert version_of(latest_edit()) == "v4"
+    r = run("v4", latest_edit())
     for g in ("studio cue", "v4 line", "video caption"):
         x = r["groups"][g]
         assert x["numbers_bound"] == x["numbers"] > 0 and x["claims_verified"] == x["claims"], (g, x)

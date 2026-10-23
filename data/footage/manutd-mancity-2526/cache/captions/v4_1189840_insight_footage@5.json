@@ -1,0 +1,47 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.005772,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "player",
+    "text": "Patrick Dorgu",
+    "unit": "",
+    "value_text": "p_935"
+   },
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "number",
+    "text": "17%",
+    "unit": "p_goal",
+    "value_number": 0.1705
+   },
+   {
+    "evidence_ids": [
+     "f_608983"
+    ],
+    "kind": "number",
+    "text": "10",
+    "unit": "seconds",
+    "value_number": 10.0
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Patrick Dorgu scores: 17% goal chance from here",
+  "why": "Patrick Dorgu scores from a position with a 17% goal chance in the next 10 seconds."
+ },
+ "latency_ms": 12471,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1189840,\"clock\":\"75:28\",\"team\":\"Man Utd\",\"verdict\":\"finishing\",\"real_outcome\":\"Dorgu scores\",\"holder\":{\"name\":\"Patrick Dorgu\",\"pid\":\"p_935\",\"describe\":\"the team-mate in the box, central\"},\"actual\":{\"choice\":\"shoot\",\"p_goal_10s\":0.1705,\"ci95\":[0.1547,0.1876],\"fact\":\"f_608981\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"From here\",\"alternative\":null},\"n\":2000,\"horizon_s\":10.0,\"engine\":\"scripted_v1\",\"seed\":4242},\"FACTS\":[{\"fact_id\":\"f_608981\",\"match_id\":\"m_9002\",\"label\":\"goal chance in the next 10 s, actual choice (shoot)\",\"value\":0.1705,\"unit\":\"p_goal\",\"display\":\"17%\",\"source\":\"cache/v4/goal10_decision_1189840.json\",\"players\":[\"p_935\"],\"ci95\":[0.1547,0.1876],\"role\":\"actual\"},{\"fact_id\":\"f_608983\",\"match_id\":\"m_9002\",\"label\":\"seconds after the choice that count\",\"value\":10.0,\"unit\":\"seconds\",\"display\":\"10\",\"source\":\"cache/v4/goal10_decision_1189840.json\",\"role\":\"horizon\"},{\"fact_id\":\"f_608984\",\"match_id\":\"m_9002\",\"label\":\"replays of the frozen frame per option\",\"value\":2000,\"unit\":\"count\",\"display\":\"2,000\",\"source\":\"cache/v4/goal10_decision_1189840.json\",\"role\":\"n\"},{\"fact_id\":\"f_608985\",\"match_id\":\"m_9002\",\"label\":\"95% interval low, actual choice\",\"value\":0.1547,\"unit\":\"p_goal\",\"display\":\"15%\",\"source\":\"cache/v4/goal10_decision_1189840.json\",\"role\":\"actual_ci_low\"},{\"fact_id\":\"f_608986\",\"match_id\":\"m_9002\",\"label\":\"95% interval high, actual choice\",\"value\":0.1876,\"unit\":\"p_goal\",\"display\":\"19%\",\"source\":\"cache/v4/goal10_decision_1189840.json\",\"role\":\"actual_ci_high\"},{\"fact_id\":\"f_608989\",\"match_id\":\"m_9002\",\"label\":\"random seed of the replays\",\"value\":4242,\"unit\":\"count\",\"display\":\"4242\",\"source\":\"cache/v4/goal10_decision_1189840.json\",\"role\":\"seed\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Patrick Dorgu scores: 17% goal chance from here\",\"why\":\"Patrick Dorgu scores from a position with a 17% goal chance in the next 10 seconds.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Patrick Dorgu\",\"kind\":\"player\",\"value_text\":\"p_935\",\"unit\":\"\",\"evidence_ids\":[\"f_608981\"]},{\"text\":\"17%\",\"kind\":\"number\",\"value_number\":0.1705,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_608981\"]},{\"text\":\"10\",\"kind\":\"number\",\"value_number\":10.0,\"unit\":\"seconds\",\"evidence_ids\":[\"f_608983\"]}]}",
+ "tokens_in": 1971,
+ "tokens_out": 183,
+ "via": "live"
+}

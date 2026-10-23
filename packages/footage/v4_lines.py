@@ -26,7 +26,7 @@ from decimal import ROUND_HALF_UP, Decimal
 
 from footage.clips import CLIPS, ROOT, clip_dir
 
-PROMPT, ROLE = "insight_footage@4", "tactician_golden"     # @3: no real outcome in the payload
+PROMPT, ROLE = "insight_footage@5", "tactician_golden"     # @3: no real outcome; @4: no finishing verdict
 REVIEW_DIR = ROOT / "review" / "footage"
 BLOCK = re.compile(r"```json\n(.*?)\n```", re.S)
 LOWER_MAX, WHY_MAX = 60, 160
@@ -37,7 +37,7 @@ SCHEMA = {"type": "object", "required": ["lower_third", "why", "claims", "confid
         "text": {"type": "string"}, "kind": {"type": "string", "enum": ["number", "player", "team", "minute"]},
         "value_number": {"type": "number"}, "value_text": {"type": "string"}, "unit": {"type": "string"},
         "evidence_ids": {"type": "array", "items": {"type": "string"}}}}}}}
-CLOSE, BETTER, BEST = "close_call", "alternative_better", "actual_best"
+CLOSE, BETTER, BEST, FINISH = "close_call", "alternative_better", "actual_best", "finishing"
 
 
 # ---------------------------------------------------------------------------------------------------- numbers
@@ -158,6 +158,10 @@ def overlay_label(o: dict, who: dict | None) -> str:
 
 # ---------------------------------------------------------------------------------------------------- facts
 
+ROLES = ("actual", "alternative", "horizon", "n", "actual_ci_low", "actual_ci_high", "alternative_ci_low",
+         "alternative_ci_high", "seed")
+
+
 def _fact(n: int, mid: str, label: str, value: float, unit: str, display: str, source: str, **extra) -> dict:
     return {"fact_id": f"f_6{n:05d}", "match_id": mid, "label": label, "value": value, "unit": unit,
             "display": display, "source": source, **extra}
@@ -166,6 +170,9 @@ def _fact(n: int, mid: str, label: str, value: float, unit: str, display: str, s
 def facts_for(slug: str, clip_ms: int) -> tuple[list[dict], dict]:
     d, m = decision(slug, clip_ms), moment(slug, clip_ms)
     s = story(d)
+    real = outcome(slug, clip_ms)
+    if real and real.endswith(" scores"):     # a goal went in: the line is about the finish, never another option
+        s = {**s, "verdict": FINISH}
     mid, src = d["match_id"], f"cache/v4/goal10_decision_{clip_ms}.json"
     holder = person(slug, m, d["holder"])
     target = person(slug, m, s["alternative"]["option"].get("target"))
@@ -184,15 +191,21 @@ def facts_for(slug: str, clip_ms: int) -> tuple[list[dict], dict]:
              _fact(k + 7, mid, "95% interval low, alternative", b["ci95"][0], "p_goal", pct(b["ci95"][0]), src),
              _fact(k + 8, mid, "95% interval high, alternative", b["ci95"][1], "p_goal", pct(b["ci95"][1]), src),
              _fact(k + 9, mid, "random seed of the replays", d["seed"], "count", str(d["seed"]), src)]   # small print
+    for f, role in zip(facts, ROLES, strict=True):
+        f["role"] = role
+    if s["verdict"] == FINISH:
+        facts = [f for f in facts if "alternative" not in f["role"]]
     view = {"clip_ms": clip_ms, "clock": d["clock"], "team": CLIPS[slug][d["team"] + "_short"],
-            "verdict": s["verdict"], "real_outcome": outcome(slug, clip_ms),
+            "verdict": s["verdict"], "real_outcome": real,
             "holder": {k2: holder.get(k2) for k2 in ("name", "pid", "describe")} if holder else None,
             "actual": {"choice": option_text(a, None), "p_goal_10s": a["p_goal_10s"], "ci95": a["ci95"],
                        "fact": facts[0]["fact_id"]},
-            "alternative": {"choice": option_text(b, target), "p_goal_10s": b["p_goal_10s"], "ci95": b["ci95"],
-                            "fact": facts[1]["fact_id"],
-                            "target": {k2: target.get(k2) for k2 in ("name", "pid", "describe")} if target else None},
-            "overlay_labels": {"actual": overlay_label(a, None), "alternative": overlay_label(b, target)},
+            "alternative": None if s["verdict"] == FINISH else
+            {"choice": option_text(b, target), "p_goal_10s": b["p_goal_10s"], "ci95": b["ci95"],
+             "fact": facts[1]["fact_id"],
+             "target": {k2: target.get(k2) for k2 in ("name", "pid", "describe")} if target else None},
+            "overlay_labels": {"actual": "From here", "alternative": None} if s["verdict"] == FINISH else
+            {"actual": overlay_label(a, None), "alternative": overlay_label(b, target)},
             "n": d["n"], "horizon_s": d["horizon_s"], "engine": d["engine"], "seed": d["seed"]}
     return facts, view
 
@@ -223,6 +236,9 @@ def gates(slug: str, body: dict, facts: list[dict], view: dict) -> list[str]:
         problems.append("alternative better: no blame, and not a close call")
     if v == BEST and re.search(r"\b(should have|mistake|wrong|close call)\b", text, re.I):
         problems.append("actual best: the line must not suggest another option")
+    if v == FINISH and (not re.search(r"\bscor", text, re.I)
+                        or re.search(r"\b(better|close call|instead|carry|carrying|pass|passing)\b", text, re.I)):
+        problems.append("finishing: say he scored, and mention no other option")
     if len(body.get("lower_third", "")) > LOWER_MAX or not body.get("lower_third"):
         problems.append(f"lower_third empty or over {LOWER_MAX} characters")
     if len(body.get("why", "")) > WHY_MAX or not body.get("why"):
@@ -257,7 +273,7 @@ def messages(slug: str, facts: list[dict], view: dict) -> list[dict]:
 
     _, system = config.prompt(PROMPT)
     ros = roster(slug)
-    named = {x["pid"] for x in (view["holder"], view["alternative"]["target"]) if x and x.get("pid")}
+    named = {x["pid"] for x in (view["holder"], (view["alternative"] or {}).get("target")) if x and x.get("pid")}
     ros = {**ros, "ids": {k: v for k, v in ros["ids"].items() if v in named},
            "names": {k: v for k, v in ros["names"].items() if k in named}}
     return [{"role": "system", "content": footage_block(slug, ros) + "\n\n" + system},

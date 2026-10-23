@@ -3,12 +3,11 @@
  "record": "tool_result",
  "result": {
   "beat": "v4_line",
-  "cache_key": "m_9002/match/insight@insight_footage@4.goal10_1189840.n2000s4242/gemini-4-argon/s9002",
+  "cache_key": "m_9002/match/insight@insight_footage@5.goal10_1189840.n2000s4242/gemini-4-argon/s9002",
   "claims": [
    {
     "evidence_ids": [
-     "f_608981",
-     "f_608982"
+     "f_608981"
     ],
     "kind": "player",
     "reject_reason": null,
@@ -26,17 +25,6 @@
     "text": "17%",
     "unit": "p_goal",
     "value": 0.1705,
-    "verified": true
-   },
-   {
-    "evidence_ids": [
-     "f_608982"
-    ],
-    "kind": "number",
-    "reject_reason": null,
-    "text": "32%",
-    "unit": "p_goal",
-    "value": 0.3155,
     "verified": true
    },
    {
@@ -64,16 +52,7 @@
     "fact": "f_608981",
     "p_goal_10s": 0.1705
    },
-   "alternative": {
-    "choice": "carry the ball on",
-    "ci95": [
-     0.2955,
-     0.3362
-    ],
-    "fact": "f_608982",
-    "p_goal_10s": 0.3155,
-    "target": null
-   },
+   "alternative": null,
    "clip_ms": 1189840,
    "clock": "75:28",
    "engine": "scripted_v1",
@@ -85,23 +64,20 @@
    "horizon_s": 10.0,
    "n": 2000,
    "overlay_labels": {
-    "actual": "Shot",
-    "alternative": "Carry on"
+    "actual": "From here",
+    "alternative": null
    },
    "real_outcome": "Dorgu scores",
    "seed": 4242,
    "team": "Man Utd",
-   "verdict": "alternative_better"
+   "verdict": "finishing"
   },
   "display": {
    "f_608981": "17%",
-   "f_608982": "32%",
    "f_608983": "10",
    "f_608984": "2,000",
    "f_608985": "15%",
    "f_608986": "19%",
-   "f_608987": "30%",
-   "f_608988": "34%",
    "f_608989": "4242"
   },
   "facts": [
@@ -117,31 +93,17 @@
     "players": [
      "p_935"
     ],
+    "role": "actual",
     "source": "cache/v4/goal10_decision_1189840.json",
     "unit": "p_goal",
     "value": 0.1705
-   },
-   {
-    "ci95": [
-     0.2955,
-     0.3362
-    ],
-    "display": "32%",
-    "fact_id": "f_608982",
-    "label": "goal chance in the next 10 s, alternative (carry the ball on)",
-    "match_id": "m_9002",
-    "players": [
-     "p_935"
-    ],
-    "source": "cache/v4/goal10_decision_1189840.json",
-    "unit": "p_goal",
-    "value": 0.3155
    },
    {
     "display": "10",
     "fact_id": "f_608983",
     "label": "seconds after the choice that count",
     "match_id": "m_9002",
+    "role": "horizon",
     "source": "cache/v4/goal10_decision_1189840.json",
     "unit": "seconds",
     "value": 10.0
@@ -151,6 +113,7 @@
     "fact_id": "f_608984",
     "label": "replays of the frozen frame per option",
     "match_id": "m_9002",
+    "role": "n",
     "source": "cache/v4/goal10_decision_1189840.json",
     "unit": "count",
     "value": 2000
@@ -160,6 +123,7 @@
     "fact_id": "f_608985",
     "label": "95% interval low, actual choice",
     "match_id": "m_9002",
+    "role": "actual_ci_low",
     "source": "cache/v4/goal10_decision_1189840.json",
     "unit": "p_goal",
     "value": 0.1547
@@ -169,47 +133,31 @@
     "fact_id": "f_608986",
     "label": "95% interval high, actual choice",
     "match_id": "m_9002",
+    "role": "actual_ci_high",
     "source": "cache/v4/goal10_decision_1189840.json",
     "unit": "p_goal",
     "value": 0.1876
-   },
-   {
-    "display": "30%",
-    "fact_id": "f_608987",
-    "label": "95% interval low, alternative",
-    "match_id": "m_9002",
-    "source": "cache/v4/goal10_decision_1189840.json",
-    "unit": "p_goal",
-    "value": 0.2955
-   },
-   {
-    "display": "34%",
-    "fact_id": "f_608988",
-    "label": "95% interval high, alternative",
-    "match_id": "m_9002",
-    "source": "cache/v4/goal10_decision_1189840.json",
-    "unit": "p_goal",
-    "value": 0.3362
    },
    {
     "display": "4242",
     "fact_id": "f_608989",
     "label": "random seed of the replays",
     "match_id": "m_9002",
+    "role": "seed",
     "source": "cache/v4/goal10_decision_1189840.json",
     "unit": "count",
     "value": 4242
    }
   ],
   "hand_reviewed": true,
-  "lower_third": "Dorgu: shot 17%, carry on 32% (goal in 10 s)",
+  "lower_third": "Dorgu scores from a 17% chance (goal in 10 s)",
   "match_id": "m_9002",
   "model": "gemini-4-argon",
-  "prompt_version": "insight_footage@4",
+  "prompt_version": "insight_footage@5",
   "slug": "manutd-mancity-2526",
   "source": "cache/v4/goal10_decision_1189840.json",
-  "verdict": "alternative_better",
-  "why": "Dorgu scores; in the replays, carrying the ball on gives a 32% chance of a goal in the next 10 seconds, higher than 17% for the shot."
+  "verdict": "finishing",
+  "why": "From here the replays give a 17% chance of a goal in the next 10 seconds, and Dorgu scores."
  },
  "schema_version": "1.0.0"
 }

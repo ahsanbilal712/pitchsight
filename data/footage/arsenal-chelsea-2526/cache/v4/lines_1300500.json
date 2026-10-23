@@ -121,6 +121,7 @@
     "players": [
      "p_948"
     ],
+    "role": "actual",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "p_goal",
     "value": 0.026
@@ -137,6 +138,7 @@
     "players": [
      "p_948"
     ],
+    "role": "alternative",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "p_goal",
     "value": 0.057
@@ -146,6 +148,7 @@
     "fact_id": "f_600053",
     "label": "seconds after the choice that count",
     "match_id": "m_9003",
+    "role": "horizon",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "seconds",
     "value": 10.0
@@ -155,6 +158,7 @@
     "fact_id": "f_600054",
     "label": "replays of the frozen frame per option",
     "match_id": "m_9003",
+    "role": "n",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "count",
     "value": 2000
@@ -164,6 +168,7 @@
     "fact_id": "f_600055",
     "label": "95% interval low, actual choice",
     "match_id": "m_9003",
+    "role": "actual_ci_low",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "p_goal",
     "value": 0.0199
@@ -173,6 +178,7 @@
     "fact_id": "f_600056",
     "label": "95% interval high, actual choice",
     "match_id": "m_9003",
+    "role": "actual_ci_high",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "p_goal",
     "value": 0.0339
@@ -182,6 +188,7 @@
     "fact_id": "f_600057",
     "label": "95% interval low, alternative",
     "match_id": "m_9003",
+    "role": "alternative_ci_low",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "p_goal",
     "value": 0.0477
@@ -191,6 +198,7 @@
     "fact_id": "f_600058",
     "label": "95% interval high, alternative",
     "match_id": "m_9003",
+    "role": "alternative_ci_high",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "p_goal",
     "value": 0.068
@@ -200,6 +208,7 @@
     "fact_id": "f_600059",
     "label": "random seed of the replays",
     "match_id": "m_9003",
+    "role": "seed",
     "source": "cache/v4/goal10_decision_1300500.json",
     "unit": "count",
     "value": 4242
