@@ -94,7 +94,8 @@ def precomputed(tmp_path_factory):
     runner = FakeRunner(model_and_concurrent_write)
     args = types.SimpleNamespace(mode="batch", runner=runner, moments=",".join(MOMENTS),
                                  runtime_dir=tmp_path_factory.mktemp("runtime"))
-    summary = stage_newsroom(4242, manifest, events, None, args)
+    with ThreadPoolExecutor(1) as pool:   # stage_newsroom calls asyncio.run: off the main thread (Playwright loop)
+        summary = pool.submit(stage_newsroom, 4242, manifest, events, None, args).result()
     manifest.save()
     return {"dir": d, "manifest": CacheManifest.load(d / "cache"), "summary": summary, "runner": runner}
 
