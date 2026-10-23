@@ -410,6 +410,19 @@ class Painter:
             return []
         return [hero]
 
+    def verified_names(self) -> dict[str, str]:
+        """{label: name} from track B's names_verified.json, for links at this moment (clip_ms) only."""
+        if not hasattr(self, "_names"):
+            self._names = {}
+            path = FOOTAGE / self.m["clip"] / "names_verified.json"
+            ms = int(round(float(self.m.get("moment_ms", self.m["t_s"] * 1000))))
+            if path.exists():
+                for name, v in json.loads(path.read_text())["names"].items():
+                    for link in v.get("links", []):
+                        if link.get("label") and abs(int(link.get("clip_ms", -1e9)) - ms) <= 200:
+                            self._names[str(link["label"])] = name
+        return self._names
+
     def area_label(self, x: float, y: float) -> str:
         """Where a player stands, for an unnamed receiver: in the box, on its edge (within 2 m) or outside it."""
         gx = 105.0 if self.m.get("attacks", "+x") == "+x" else 0.0
@@ -425,8 +438,14 @@ class Painter:
         and where he stands. Never an internal id."""
         if o.get("name"):
             return o["name"].split()[-1]
-        if self.v6:
-            return f"#{o['shirt']}" if o.get("shirt") else None
+        if self.v6:                                        # a verified name for this label at this moment
+            name = self.verified_names().get(str(o.get("label")))
+            if name:
+                return name.split()[-1]
+        if self.v6:                                        # a shirt number, from `shirt` or a '#19' label
+            if o.get("shirt"):
+                return f"#{o['shirt']}"
+            return o["label"] if str(o.get("label", "")).startswith("#") else None
         return f"{self.m.get('team_name', 'Teammate')} · {self.area_label(o['x'], o['y'])}"
 
     def _v5_geometry(self) -> dict:

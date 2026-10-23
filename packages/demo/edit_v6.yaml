@@ -1,0 +1,139 @@
+# Video v6 edit decision list, DRAFT 1 (owner, 23 Oct: broadcast-grade live analytics; no cartoon, no placeholders;
+# the agent pipeline shown as it works). Assembled by
+#   python packages/demo/assemble.py packages/demo/edit_v6.yaml
+# Live analytics: track A cache/v6 (2305ca9): every frame's carrier, shot-now xG and pass options (P(complete), xG
+# after the pass) from tracking, nulls where tracking is not trusted (the panel holds a value up to 2 s with its age).
+# Pipeline: track B pipeline_877000. Freezes: demo.composite --style v6. Labels: a verified name, else a shirt number,
+# else none. v5 draft 3 (edit_v5.yaml) is the fallback.
+
+out: packages/demo/out/final_v6.mp4
+size: [1920, 1080]
+fps: 30
+caption_band: 120
+
+clips:
+  - shot: footage/mci_live_v6          # hook: Amad's passage, every pass priced live (56:38-56:41)
+    from: 2.0
+    to: 5.3
+    captions:
+      - {from: 0.1, to: 3.2, text: "Man Utd v Man City. Every option, priced live from the tracking."}
+
+  - shot: footage/mci_amad_v6_v6       # the decision freeze (slow-motion ramp, punch-in)
+    from: 1.2
+    to: 9.1
+    captions:
+      - {from: 0.2, to: 3.6, text: "Amad shoots from here: 0.06 xG."}
+      - {from: 3.8, to: 7.8, text: "The pass to Mbeumo, arriving 84% of the time, was worth 0.11."}
+
+  - shot: footage/mci_pipeline_v6      # the newsroom, node by node, putting the line on air
+    from: 0.0
+    to: 8.6
+    captions:
+      - {from: 0.2, to: 8.4, text: "Behind the line: the agents flag it, price every option, draft it, check every number, and put it on air."}
+
+  - shot: footage/mci_amad_v6_v6
+    from: 9.8
+    to: 12.3
+
+  - shot: footage/lfc_live_v6          # Liverpool v Man City 86:15-86:24, live
+    from: 0.3
+    to: 8.6
+    captions:
+      - {from: 0.2, to: 8.0, text: "Liverpool v Man City, 86th minute. The pass options update as the play moves."}
+
+  - shot: footage/lfc_v6_v6            # the strike
+    from: 1.2
+    to: 9.1
+    captions:
+      - {from: 0.2, to: 7.8, text: "Szoboszlai shoots from 29 m: 0.02 xG. Blocked."}
+
+  - shot: footage/ars_live_v6          # Arsenal v Chelsea
+    from: 0.3
+    to: 6.8
+    captions:
+      - {from: 0.2, to: 6.2, text: "Arsenal v Chelsea: as the ball moves forward, the best pass climbs to 0.19 xG."}
+
+  - shot: footage/tot_live_v6          # Man Utd v Spurs: Werner's run, live
+    from: 0.3
+    to: 3.9
+    captions:
+      - {from: 0.2, to: 3.5, text: "Man Utd v Spurs: Werner carries it into the box."}
+
+  - shot: footage/shot_tot_werner_v6
+    from: 0.4
+    to: 2.9
+
+  - shot: footage/shot_lfc_silva_v6    # the montage: real shots, their xG at the strike
+    from: 0.4
+    to: 3.1
+    captions:
+      - {from: 0.1, to: 2.6, text: "Silva: 0.28 xG."}
+
+  - shot: footage/shot_lfc_haaland_v6
+    from: 0.4
+    to: 3.0
+    captions:
+      - {from: 0.1, to: 2.5, text: "Haaland's penalty: 0.76."}
+
+  - shot: footage/shot_mci_save_v6
+    from: 0.4
+    to: 2.9
+
+  - shot: footage/mci_mbeumo_live_v6   # Man Utd v Man City: the move into Mbeumo's goal
+    from: 0.3
+    to: 2.7
+
+  - shot: footage/mci_mbeumo_v6_v6
+    from: 1.2
+    to: 7.9
+    captions:
+      - {from: 0.2, to: 6.5, text: "Mbeumo from 15 m: 0.10 xG."}
+
+  - shot: footage/mci_mbeumo_v6_v6
+    from: 9.8
+    to: 14.8
+
+  - shot: footage/mci_dorgu_v6_v6
+    from: 1.2
+    to: 7.9
+    captions:
+      - {from: 0.2, to: 6.5, text: "Dorgu from 4.5 m: 0.48 xG."}
+
+  - shot: footage/mci_dorgu_v6_v6
+    from: 9.8
+    to: 13.8
+
+  - shot: footage/mci_shotmap_v6       # every measured shot of the clip, on the real pitch
+    from: 0.0
+    to: 5.0
+    captions:
+      - {from: 0.2, to: 4.8, text: "Every measured shot of the match, sized by its xG."}
+
+  - shot: footage/lfc_xg_race_v5       # the close
+    from: 0.0
+    to: 9.0
+    captions:
+      - {from: 0.3, to: 8.7, text: "Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20."}
+
+  - card: end
+    duration: 3.5
+    title: "WHYLINE"
+    lines: ["Every line on screen has a why.", "Premier League clips used with permission"]
+
+sources:
+  "0.06": "xg_decision_877000 actual xg 0.06 (Amad, the decision freeze; 'from here')"
+  "84%": "xg_decision_877000 best_alternative p_pass 0.84"
+  "0.11": "xg_decision_877000 best_alternative xg_after_pass 0.11"
+  "86": "the Liverpool clip's broadcast clock 86:15-86:25 (live_802600, shots_0 875560)"
+  "29": "shots_0 (liverpool-mancity-2526) strike 875560 distance_m 28.8"
+  "0.02": "shots_0 (liverpool-mancity-2526) strike 875560 xg 0.02 (blocked)"
+  "0.19": "cache/v6/live_823600 (arsenal-chelsea-2526) frame 834800 best xg_after_pass 0.19"
+  "0.28": "shots_0 (liverpool-mancity-2526) 83:37 xg 0.28 (Silva, goal)"
+  "0.76": "shots_0 (liverpool-mancity-2526) 92:43 penalty 0.76"
+  "15": "shots_0 (manutd-mancity-2526) 64:27 strike distance (Mbeumo), lines_1079360 display '15 m'"
+  "0.10": "shots_0 (manutd-mancity-2526) 64:27 xg 0.1 (Mbeumo, goal)"
+  "4.5": "shots_0 (manutd-mancity-2526) 75:30 strike, 4.5 m (Dorgu; track A ca8eef7)"
+  "0.48": "shots_0 (manutd-mancity-2526) 75:30 xg 0.48 (Dorgu, goal)"
+  "20": "xg_race_0 (liverpool-mancity-2526) over the clip's final 20 minutes"
+  "1.21": "xg_race_0 (liverpool-mancity-2526) final away_xg 1.21"
+  "0.20": "xg_race_0 (liverpool-mancity-2526) final home_xg 0.20"

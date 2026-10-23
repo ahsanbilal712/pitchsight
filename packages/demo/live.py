@@ -1018,7 +1018,8 @@ class ShotXG(Live):
         if s.get("xg") is None:                           # unmeasured: no number (track A)
             im.paste(layer, (0, 0), layer)
             return
-        text = f"{s['xg'] * window(tau, 0.0, 0.6):.2f} xG"   # counts up to the value at the strike
+        v6 = self.m.get("style") == "v6"
+        text = f"{s['xg']:.2f} xG" if v6 else f"{s['xg'] * window(tau, 0.0, 0.6):.2f} xG"   # v6: no count-up
         if cam is not None and s.get("camera_ok", True):
             at = cam.project([[s["x"], s["y"]]])[0]
             at = at - [0, APPARENT_HEIGHT_M * lateral_px_per_m(cam, [s["x"], s["y"]]) + 70]
@@ -1036,7 +1037,16 @@ class ShotXG(Live):
                    anchor="mt", stroke_width=3, stroke_fill=(0, 0, 0, int(200 * pop)))
         out_t = self.outcome_after()
         o = window(tau, out_t, out_t + 0.12)
-        if o > 0:
+        if o > 0 and v6:                                  # a small broadcast tag, bottom left
+            colour = tuple(int(v * 255) for v in self.kit) if s["outcome"] == "goal" else (196, 204, 214)
+            tag = f"{s['outcome'].upper()} · {s['xg']:.2f} xG"
+            f = self.font[34]
+            w = d.textlength(tag, font=f) + 44
+            x0, y0 = 96 - int((1 - o) * 40), H - 96 - 64
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + 64), radius=10, fill=(*PANEL, int(235 * o)))
+            d.rectangle((x0, y0, x0 + 8, y0 + 64), fill=(*colour, int(255 * o)))
+            d.text((x0 + 28, y0 + 32), tag, font=f, fill=(255, 255, 255, int(255 * o)), anchor="lm")
+        elif o > 0:
             goal = s["outcome"] == "goal"
             word = "GOAL" if goal else s["outcome"].upper()
             if goal and self.m.get("tag_line", True):

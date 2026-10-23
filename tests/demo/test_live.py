@@ -101,6 +101,7 @@ def test_v6_labels_never_placeholders():
     """Owner (v6): a verified name, else a shirt number, else no label at all."""
     from demo.v6 import who
     assert who({"name": "Bruno Fernandes"}) == "Fernandes"
-    assert who({"name": None, "shirt": 19}) == "#19"
+    assert who({"name": None, "shirt": 19}, shirts=True) == "#19"
+    assert who({"name": None, "shirt": 19}) is None            # live shirts wait for track B's verified list
     assert who({"name": None, "shirt": None, "track_id": 7}) is None
     assert who(None) is None

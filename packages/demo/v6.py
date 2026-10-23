@@ -39,17 +39,27 @@ from demo.live import (
 ACCENT = (255, 122, 26)
 GOOD = (64, 220, 140)
 LINE_MIN_ALPHA = 0.18          # the weakest option's line
+FRESH_S = 0.3                  # a sample this recent is live: lines on the pitch
+THREAT_FULL = 0.30             # the threat meter is full at 0.30 xG (shot now or the best pass)
+HOLD_FADE_S = 1.0              # a held value starts fading after this
+STATES = {"ball loose": "BALL LOOSE", "ball out of play": "OUT OF PLAY", "dead ball after the goal": "OUT OF PLAY",
+          "ball not detected": "TRACKING THE BALL…", "camera fit not trusted": "CAMERA MOVING…",
+          "possession unsettled": "CONTESTED", "own half": "BUILDING FROM THE BACK"}
+HOLD_S = 2.0                   # the panel holds the last value this long, with its age
 BEST_GLOW = 0.30
 
 
-def who(p: dict | None) -> str | None:
-    """A verified name (surname), else a shirt number, else nothing (owner: no placeholders)."""
+SHIRTS_VERIFIED = False        # track B: print a live shirt number only once their per-passage list is in
+
+
+def who(p: dict | None, shirts: bool | None = None) -> str | None:
+    """A verified name (surname), else a verified shirt number, else nothing (owner: no placeholders)."""
     if not p:
         return None
     if p.get("name"):
         return p["name"].split()[-1]
-    if p.get("shirt"):
-        return f"#{p['shirt']}"
+    if p.get("shirt") and (SHIRTS_VERIFIED if shirts is None else shirts):
+        return f"#{str(p['shirt']).lstrip('#')}"
     return None
 
 
@@ -80,16 +90,20 @@ class LiveHUD(Live):
         return (self.data["start_clip_ms"] / 1000 - float(self.m.get("pre_s", 0.3)),
                 self.data["end_clip_ms"] / 1000 + float(self.m.get("post_s", 0.3)))
 
-    def sample(self, t: float) -> dict | None:
-        """The latest sample at or before t (printed numbers are samples, never interpolations)."""
-        s = self.data["samples"]
-        i, _, _ = bracket(s, t * 1000)
-        x = s[i]
-        if abs(x["clip_ms"] - t * 1000) > 2 * float(self.data.get("step_ms", 200)) or not x.get("carrier"):
+    def valued(self) -> list[dict]:
+        if not hasattr(self, "_valued"):
+            self._valued = [x for x in self.data["samples"] if x.get("carrier") and (
+                x.get("shot_now_xg") is not None or any(o.get("xg_after_pass") is not None
+                                                        for o in x.get("options", [])))]
+        return self._valued
+
+    def sample(self, t: float, max_age_s: float = FRESH_S) -> dict | None:
+        """The latest valued sample at or before t, if it is at most max_age_s old (printed numbers are samples,
+        never interpolations; a held value shows its age)."""
+        v = [x for x in self.valued() if x["clip_ms"] <= t * 1000 + 1]
+        if not v or t * 1000 - v[-1]["clip_ms"] > max_age_s * 1000:
             return None
-        if x.get("shot_now_xg") is None and not any(o.get("xg_after_pass") is not None for o in x.get("options", [])):
-            return None                                    # own half or no analytics: nothing on screen
-        return x
+        return v[-1]
 
     def ranked(self, x: dict) -> list[dict]:
         return sorted((o for o in x.get("options", []) if o.get("xg_after_pass") is not None
@@ -125,6 +139,7 @@ class LiveHUD(Live):
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         x = self.sample(t)
+        held = self.sample(t, HOLD_S)
         a = window(t, self.span()[0], self.span()[0] + 0.3)
         if x is not None and cam is not None:
             opts = self.ranked(x)
@@ -140,11 +155,26 @@ class LiveHUD(Live):
                 d.rounded_rectangle((x0, y0, x0 + w, y0 + 30), radius=6, fill=(*PANEL, 215),
                                     outline=(*col, 255 if k == 0 else 120), width=2)
                 d.text((x0 + w / 2, y0 + 15), text, font=small, fill=(*col, 255), anchor="mm")
-        self._hud(d, x, a)
+        age = (t * 1000 - held["clip_ms"]) / 1000 if held is not None else None
+        state = self.state(t) if x is None else None
+        self._hud(d, held, a, age if age is not None and age > FRESH_S else None, state)
         self._score(d, t, a)
         im.paste(layer, (0, 0), layer)
 
-    def _hud(self, d: ImageDraw.ImageDraw, x: dict | None, a: float) -> None:
+    def state(self, t: float) -> str | None:
+        """What the tracking says now when there is no live value: the frame's null reason as a broadcast state,
+        with the receiver for a pass in flight (the next frame's holder, if named or numbered)."""
+        s = self.data["samples"]
+        i, _, _ = bracket(s, t * 1000)
+        reason = s[i].get("null_reason")
+        if reason == "ball in flight" or reason == "ball speed not measurable":
+            nxt = next((x for x in s[i:] if x.get("carrier")), None)
+            name = who(nxt["carrier"]) if nxt else None
+            return f"PASS IN FLIGHT → {name}" if name else "BALL IN FLIGHT"
+        return STATES.get(reason)
+
+    def _hud(self, d: ImageDraw.ImageDraw, x: dict | None, a: float, age: float | None = None,
+             state: str | None = None) -> None:
         """Bottom-right broadcast panel: carrier, shot now, best pass, threat meter."""
         w, h = 560, 210
         x0, y0 = W - 96 - w, H - 96 - h
@@ -153,12 +183,19 @@ class LiveHUD(Live):
         d.rectangle((x0, y0, x0 + w, y0 + 6), fill=(*ACCENT, al))
         f22, f30, f26 = ImageFont.truetype(FONT, 22), ImageFont.truetype(FONT, 30), ImageFont.truetype(FONT_REG, 24)
         d.text((x0 + 24, y0 + 20), "LIVE ANALYTICS", font=f22, fill=(*MUTED, al))
+        if state:                                          # the tracking's own state, top right
+            d.text((x0 + w - 24, y0 + 18), state, font=f22, fill=(255, 214, 10, al), anchor="ra")
         if x is None:
-            d.text((x0 + 24, y0 + 64), "no ball carrier in view", font=f26, fill=(*MUTED, al))
+            d.text((x0 + 24, y0 + 64), "waiting for a carrier in the attacking half", font=f26, fill=(*MUTED, al))
             return
+        if age is not None:                                # a held value fades after HOLD_FADE_S
+            al = int(al * max(0.35, 1 - max(0.0, age - HOLD_FADE_S)))
         name = who(x["carrier"])
-        d.text((x0 + w - 24, y0 + 18), f"ON THE BALL  {name}" if name else "ON THE BALL", font=f22,
-               fill=(255, 255, 255, al), anchor="ra")
+        if age is not None and not state:                  # a held value, never presented as live
+            d.text((x0 + w - 24, y0 + 18), f"{age:.1f} s ago", font=f22, fill=(*MUTED, al), anchor="ra")
+        elif not state:
+            d.text((x0 + w - 24, y0 + 18), f"ON THE BALL  {name}" if name else "ON THE BALL", font=f22,
+                   fill=(255, 255, 255, al), anchor="ra")
         rows = [("Shot now", fmt_xg(x.get("shot_now_xg")) + " xG", WHITE)]
         best = (self.ranked(x) or [None])[0]
         if best is not None:
@@ -174,8 +211,9 @@ class LiveHUD(Live):
             d.text((x0 + 24, y - 4), "Threat", font=f26, fill=(230, 236, 242, al))
             bx0, bx1 = x0 + 150, x0 + w - 24
             d.rounded_rectangle((bx0, y + 4, bx1, y + 18), radius=7, fill=(255, 255, 255, int(30 * a)))
-            col = GOOD if thr < 0.33 else (255, 214, 10) if thr < 0.66 else (235, 60, 60)
-            d.rounded_rectangle((bx0, y + 4, bx0 + max(14, (bx1 - bx0) * thr), y + 18), radius=7, fill=(*col, al))
+            col = GOOD if thr < 0.05 else (255, 214, 10) if thr < 0.15 else (235, 60, 60)
+            d.rounded_rectangle((bx0, y + 4, bx0 + max(14, (bx1 - bx0) * min(1.0, thr / THREAT_FULL)), y + 18), radius=7,
+                                fill=(*col, al))
 
     def _score(self, d: ImageDraw.ImageDraw, t: float, a: float) -> None:
         """Top strip under the broadcast score bug: each team's cumulative xG so far (xg_race_0)."""
@@ -245,12 +283,64 @@ class ShotMap(Still):
         im.paste(layer, (0, 0), layer)
 
 
+def _opt_label(o: dict) -> str | None:
+    """An option on screen: a verified name, else a shirt label ('#19'), else nothing (never 'U5', 't4')."""
+    if o.get("name"):
+        return o["name"].split()[-1]
+    lab = str(o.get("label") or "")
+    return lab if lab.startswith("#") else None
+
+
+def nodes_from_track_b(doc: dict) -> list[dict]:
+    """Track B's pipeline_<clip_ms>.json (node / what / outputs / timing) -> the lines each node shows: only values
+    present in the file, the timing only where it was measured or recorded."""
+    out = []
+    for n in doc["nodes"]:
+        o, name = n.get("outputs") or {}, n["node"]
+        tm = n.get("timing") or {}
+        ms = tm.get("ms") if tm.get("source") in ("measured re-run", "recorded live", "replay") else None
+        node = {"agent": name, "latency_ms": None if ms is None else (round(ms) if ms >= 1 else "<1"),
+                "timing_source": {"measured re-run": "re-run", "recorded live": "live",
+                                  "replay": "replay"}.get(tm.get("source"))}
+        if name == "Freeze":
+            node["says"] = f"{o.get('players_in_view')} players in view, {o.get('holder')} on the ball"
+        elif name == "Scout":
+            node["says"] = f"flags a {str(o.get('kind', '')).replace('_', ' ')}"
+        elif name == "Proposer":
+            opts = [x for x in o.get("options", []) if _opt_label(x)]
+            node["says"] = "  ·  ".join(f"{_opt_label(x)} {x['xg_after_pass']:.2f}" for x in opts[:3]) or n["what"]
+        elif name == "Model":
+            node["says"] = f"xG for the shot and {o.get('options_computed')} passes, the published PL model"
+        elif name == "Tactician":
+            node["says"] = f"drafts: \u201c{o.get('lower_third')}\u201d"
+            if tm.get("tokens_in"):
+                node["latency_ms"] = round(ms) if ms else None
+        elif name == "Fact Checker":
+            node["claims"] = [{"text": c["text"], "ok": bool(c.get("verified"))} for c in o.get("claims", [])]
+        elif name == "Producer review":
+            node["says"] = f"approves: \u201c{(o.get('final') or {}).get('lower_third')}\u201d"
+        elif name == "Director":
+            node["says"] = f"{str(o.get('layer', '')).replace('_', ' ')}, {(o['t_out_ms'] - o['t_in_ms']) // 1000} s"
+        elif name == "On air":
+            node["line"] = o.get("headline")
+        else:
+            node["says"] = n.get("what")
+        out.append(node)
+    return out
+
+
 class Pipeline(Still):
     """The newsroom's real run for one moment, as an animated flow on the right of the frozen frame (dimmed): each
-    agent node lights up in turn with what it did, the claims tick, and the line goes on air."""
+    agent node lights up in turn with what it did, the claims tick, and the line goes on air (track B's
+    pipeline_<clip_ms>.json)."""
 
     needs_camera = False
-    STEP_S = 0.9
+    STEP_S = 0.75
+
+    def __init__(self, m: dict):
+        super().__init__(m)
+        if self.data.get("nodes") and "node" in self.data["nodes"][0]:
+            self.data = {**self.data, "nodes": nodes_from_track_b(self.data)}
 
     def dim(self, t):
         return 0.55 * window(self.tau(t), 0.0, 0.4)
@@ -264,10 +354,10 @@ class Pipeline(Still):
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         f_title = ImageFont.truetype(FONT, 22)
-        f_agent = ImageFont.truetype(FONT, 26)
-        f_says = ImageFont.truetype(FONT_REG, 22)
-        x0, w = W - 96 - 760, 760
-        y = 230                                            # below the broadcast's own logo
+        f_agent = ImageFont.truetype(FONT, 22)
+        f_says = ImageFont.truetype(FONT_REG, 20)
+        x0, w = W - 64 - 800, 800
+        y = 200                                            # below the broadcast's own logo
         d.text((x0, y - 50), "THE NEWSROOM, LIVE ON THIS MOMENT", font=f_title, fill=(*MUTED, 255))
         for k, n in enumerate(nodes):
             on = window(tau, k * self.STEP_S, k * self.STEP_S + 0.3)
@@ -275,29 +365,33 @@ class Pipeline(Still):
                 break
             lit = tau < (k + 1) * self.STEP_S or k == len(nodes) - 1
             lines = self._lines(n)
-            h = 50 + 30 * len(lines)
+            h = 40 + 26 * len(lines)
             col = ACCENT if lit else (110, 120, 132)
             d.rounded_rectangle((x0, y, x0 + w, y + h), radius=10, fill=(*PANEL, int(235 * on)),
                                 outline=(*col, int(255 * on)), width=3 if lit else 1)
-            d.ellipse((x0 + 18, y + 18, x0 + 34, y + 34), fill=(*col, int(255 * on)))
-            d.text((x0 + 48, y + 14), n["agent"].upper(), font=f_agent, fill=(255, 255, 255, int(255 * on)))
-            if n.get("latency_ms") is not None:
-                d.text((x0 + w - 18, y + 16), f"{n['latency_ms']} ms", font=f_says,
+            d.ellipse((x0 + 16, y + 14, x0 + 30, y + 28), fill=(*col, int(255 * on)))
+            d.text((x0 + 44, y + 10), n["agent"].upper(), font=f_agent, fill=(255, 255, 255, int(255 * on)))
+            lat = n.get("latency_ms")
+            if lat is not None:
+                text = f"{lat / 1000:.1f} s" if isinstance(lat, int | float) and lat >= 1000 else f"{lat} ms"
+                if n.get("timing_source"):                 # where the number comes from, beside it
+                    text += f" · {n['timing_source']}"
+                d.text((x0 + w - 16, y + 12), text, font=f_says,
                        fill=(*MUTED, int(255 * on)), anchor="ra")
             for j, (text, colour, mark) in enumerate(lines):
-                tx = x0 + 48
+                tx = x0 + 44
                 if mark is not None:                       # a drawn tick or cross (the fonts have no glyph)
-                    yy = y + 50 + 30 * j + 12
+                    yy = y + 40 + 26 * j + 11
                     if mark:
                         d.line((tx, yy, tx + 6, yy + 6, tx + 16, yy - 6), fill=(*GOOD, int(255 * on)), width=4)
                     else:
                         d.line((tx, yy - 6, tx + 12, yy + 6), fill=(*ORANGE, int(255 * on)), width=4)
                         d.line((tx, yy + 6, tx + 12, yy - 6), fill=(*ORANGE, int(255 * on)), width=4)
                     tx += 26
-                d.text((tx, y + 50 + 30 * j), text, font=f_says, fill=(*colour, int(255 * on)))
-            y += h + 14
+                d.text((tx, y + 40 + 26 * j), text, font=f_says, fill=(*colour, int(255 * on)))
+            y += h + 10
             if k < len(nodes) - 1:
-                d.line((x0 + 26, y - 14, x0 + 26, y), fill=(*col, int(200 * on)), width=3)
+                d.line((x0 + 23, y - 10, x0 + 23, y), fill=(*col, int(200 * on)), width=3)
         im.paste(layer, (0, 0), layer)
 
     @staticmethod
@@ -305,9 +399,11 @@ class Pipeline(Still):
         out = []
         if n.get("says"):
             out.append((n["says"], (230, 236, 242), None))
-        for c in n.get("claims", []):
-            out.append((c["text"] + (f"  ({c['evidence']})" if c.get("evidence") else ""),
-                        GOOD if c.get("ok") else ORANGE, bool(c.get("ok"))))
+        claims = n.get("claims", [])
+        if claims:                                        # one row: every claim with its tick
+            ok = all(c.get("ok") for c in claims)
+            out.append(("   ".join(c["text"] for c in claims) + ("  all verified" if ok else ""),
+                        GOOD if ok else ORANGE, ok))
         if n.get("line"):
-            out.append((f"ON AIR: {n['line']}", ACCENT, None))
+            out.append((n["line"], ACCENT, None))
         return out

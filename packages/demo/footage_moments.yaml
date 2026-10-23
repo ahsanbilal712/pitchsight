@@ -532,3 +532,228 @@ moments:
     team: home
     kits: {home: [214, 32, 52], away: [120, 182, 232]}
     label: "WHYLINE is watching: where Liverpool's next shot will come from"
+
+  # ------------------------------------------------------------------ video v6 (owner, 23 Oct): live analytics on the
+  # playing clip (track A cache/v6, 2305ca9), the agent pipeline (track B pipeline_*.json), no cartoon, no placeholders.
+  mci_live_v6:                       # Amad's passage 56:37-56:41 playing, live HUD and pass lines
+    clip: manutd-mancity-2526
+    kind: live_hud
+    data: data/footage/manutd-mancity-2526/cache/v6/live_869000.json
+    shot_id: 104
+    t0: 872.0
+    t1: 877.0
+    team: home
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {home_short: "MUN", away_short: "MCI"}
+
+  mci_pipeline_v6:                   # the newsroom on Amad's moment (track B, pipeline_877000)
+    clip: manutd-mancity-2526
+    kind: pipeline
+    data: data/footage/manutd-mancity-2526/cache/v6/pipeline_877000.json
+    clip_ms: 877000
+    pre_s: 0.0
+    hold_s: 8.6
+
+  # v6 freezes: v5's drawing under v6 rules (no count-up, no placeholders, a small goal tag)
+
+  lfc_v6:                           # a shot-only beat at the reviewed strike (lead: no better pass here)
+    clip: liverpool-mancity-2526
+    style: v6
+    shot_only: true
+    strike: {file: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json, clip_ms: 875560}
+    card_note: "Blocked."
+    t_s: 875.56
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: liverpool-mancity-2526/moments/875000.json
+    attacks: "+x"
+    team_name: "Liverpool"
+    actor: {player: "#8", label: "Szoboszlai"}
+    target: null
+    xg: data/footage/liverpool-mancity-2526/cache/v5/xg_decision_875000.json
+    line_v5: data/footage/liverpool-mancity-2526/cache/v5/lines_875000.json   # track B's reviewed strike line
+
+  ars_v6:                           # a shot-only beat at the reviewed strike (lead: no better pass here)
+    clip: arsenal-chelsea-2526
+    style: v6
+    shot_only: true
+    strike: {file: data/footage/arsenal-chelsea-2526/cache/v5/shots_0.json, clip_ms: 1301080}
+    card_note: "Saved."
+    t_s: 1301.08
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: arsenal-chelsea-2526/moments/1300500.json
+    attacks: "+x"
+    team_name: "Arsenal"
+    actor: {player: "#10", label: "Eze"}
+    target: null
+    xg: data/footage/arsenal-chelsea-2526/cache/v5/xg_decision_1300500.json
+    line_v5: data/footage/arsenal-chelsea-2526/cache/v5/lines_1300500.json   # track B's reviewed strike line
+
+  mci_amad_v6:
+    clip: manutd-mancity-2526
+    style: v6
+    t_s: 877.0
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/877000.json
+    attacks: "-x"
+    team_name: "Man Utd"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    actor: {player: "#16", label: "Amad"}
+    target: null
+    xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json
+    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_877000.json   # track B, on the freeze value (528ac3f)
+
+  mci_mbeumo_v6:                     # the strike (shots_0: 0.10 xG, the same as the decision file)
+    clip: manutd-mancity-2526
+    style: v6
+    strike: {file: data/footage/manutd-mancity-2526/cache/v5/shots_0.json, clip_ms: 1079360}
+    goal_clip_s: 1080.2              # the ball crosses the line (read off the frames)
+    t_s: 1079.36
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/1079360.json
+    attacks: "-x"
+    team_name: "Man Utd"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    actor: {player: "Mbeumo", label: "Mbeumo"}
+    target: null
+    xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_1079360.json
+    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_1079360.json   # track B's reviewed v5 lower-third
+    finishing: true
+
+  mci_dorgu_v6:                      # frozen at the strike (shots_0: 0.48 xG from 4.3 m), not the decision 1 s before
+    clip: manutd-mancity-2526
+    style: v6
+    strike: {file: data/footage/manutd-mancity-2526/cache/v5/shots_0.json, clip_ms: 1190880}
+    goal_clip_s: 1191.0              # the ball crosses the line (read off the frames)
+    t_s: 1190.88
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/1189840.json
+    attacks: "-x"
+    team_name: "Man Utd"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    actor: {player: "Dorgu", label: "Dorgu"}
+    target: null
+    xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_1189840.json
+    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_1189840.json   # track B's reviewed v5 lower-third
+    finishing: true
+
+  shot_lfc_fk_v6:                    # Szoboszlai's free kick, 73:26: a goal from 0.02 xG
+    clip: liverpool-mancity-2526
+    kind: shot_xg
+    data: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json
+    clip_ms: 96500
+    team: home
+    pre_s: 1.2
+    outcome_after_s: 1.1
+    post_s: 1.4
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    style: v6
+
+  shot_lfc_silva_v6:                 # Silva, 83:37: 0.28 xG
+    clip: liverpool-mancity-2526
+    kind: shot_xg
+    data: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json
+    clip_ms: 708080
+    team: away
+    pre_s: 1.2
+    outcome_after_s: 0.5
+    post_s: 1.4
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    style: v6
+
+  shot_lfc_haaland_v6:               # Haaland's penalty, 92:43: 0.76 (the penalty constant), no trusted wide view
+    clip: liverpool-mancity-2526
+    kind: shot_xg
+    data: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json
+    clip_ms: 1253000
+    team: away
+    pre_s: 1.0
+    outcome_after_s: 0.6
+    post_s: 1.4
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    style: v6
+
+  shot_mci_save_v6:                  # Man Utd v Man City 56:44: 0.32 xG, saved
+    clip: manutd-mancity-2526
+    kind: shot_xg
+    data: data/footage/manutd-mancity-2526/cache/v5/shots_0.json
+    clip_ms: 880080
+    team: away
+    pre_s: 1.2
+    outcome_after_s: 0.5
+    post_s: 1.2
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    style: v6
+
+  shot_tot_werner_v6:                # Man Utd v Spurs 38:03: Werner, 0.08 xG, saved (shots_0, 115f6a0)
+    clip: manutd-spurs-2425
+    kind: shot_xg
+    data: data/footage/manutd-spurs-2425/cache/v5/shots_0.json
+    clip_ms: 683600
+    team: away
+    pre_s: 1.2
+    outcome_after_s: 0.5
+    post_s: 1.2
+    kits: {home: [218, 41, 28], away: [235, 238, 245]}
+    style: v6
+
+  lfc_live_v6:                       # Liverpool 86:15-86:24, live into Szoboszlai's strike
+    clip: liverpool-mancity-2526
+    kind: live_hud
+    data: data/footage/liverpool-mancity-2526/cache/v6/live_802600.json
+    shot_id: 62
+    t0: 867.2
+    t1: 875.5
+    team: home
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    race: data/footage/liverpool-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {home_short: "LIV", away_short: "MCI"}
+
+  ars_live_v6:                       # Arsenal v Chelsea 52:? passage, threat up to 0.19
+    clip: arsenal-chelsea-2526
+    kind: live_hud
+    data: data/footage/arsenal-chelsea-2526/cache/v6/live_823600.json
+    t0: 829.5
+    t1: 836.0
+    team: home
+    kits: {home: [219, 0, 7], away: [3, 70, 148]}
+    race: data/footage/arsenal-chelsea-2526/cache/v6/xg_running_0.json
+    race_labels: {home_short: "ARS", away_short: "CHE"}
+
+  tot_live_v6:                       # Man Utd v Spurs: Werner's run into his shot (38:03)
+    clip: manutd-spurs-2425
+    kind: live_hud
+    data: data/footage/manutd-spurs-2425/cache/v6/live_662600.json
+    t0: 679.8
+    t1: 683.4
+    team: away
+    kits: {home: [218, 41, 28], away: [235, 238, 245]}
+    race: data/footage/manutd-spurs-2425/cache/v6/xg_running_0.json
+    race_labels: {home_short: "MUN", away_short: "TOT"}
+
+  mci_mbeumo_live_v6:                # Man Utd v Man City: the move into Mbeumo's goal (64:2x)
+    clip: manutd-mancity-2526
+    kind: live_hud
+    data: data/footage/manutd-mancity-2526/cache/v6/live_1062200.json
+    t0: 1074.8
+    t1: 1077.2
+    team: home
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {home_short: "MUN", away_short: "MCI"}
+
+  mci_shotmap_v6:                    # Man Utd v Man City: every measured shot, on the real pitch after Dorgu's goal
+    clip: manutd-mancity-2526
+    kind: shot_map
+    data: data/footage/manutd-mancity-2526/cache/v6/shot_map_0.json
+    clip_ms: 1192000
+    shot_id: 137
+    pre_s: 0.0
+    hold_s: 5.0
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    label: "Man Utd v Man City · every measured shot"
