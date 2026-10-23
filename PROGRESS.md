@@ -5,6 +5,27 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · T-110 video v3 (real footage only) and T-111 README and JUDGES (track C)
+
+- **Video v3 final cut** `packages/demo/out/final_v3.mp4` (git-ignored), **116.3 s**, captions only, real Premier
+  League footage and names only (owner direction): Liverpool Sliding Doors freeze; Man Utd v Spurs pass X-ray into
+  Van de Ven's speed gun (37.0 km/h, at least 91 m); Arsenal freeze; Fourth Official; Raya keeper cone; Dorgu ghost
+  defender; the studio and a veto on track B's recorded real-clip run; viewer modes; the measured card; the
+  win-probability river. Edit `packages/demo/edit_v3.yaml`, captions `captions_v3.srt`, every number sourced;
+  `footage.grounding` 75 of 75 on-screen numbers bound. v2 draft 3 (edit_v2.yaml) and v1 kept as fallbacks.
+- Built for it: `demo.live` (overlays on the playing clip through each frame's camera, across camera cuts; freeze
+  beats pick their camera by measured paint drift), `demo.v3_data` (track A insight adapters), `demo.refine_calib`
+  on every featured shot, `api.replay --match` (a recorded real-clip run on the clock, real clubs and roster),
+  studio fixes for real-clip facts and names, `scripts/record_v3_studio.sh`.
+- **T-111:** `README.md` (pitch, the video, permission and sources, what never enters the repository, the footage
+  pipeline with its measures, limits, how to run) and `docs/JUDGES.md` (watch first, the footage note, local replay in
+  three commands, the real-clip studio). T-067/T-068 (track B) can extend both with the evidence table and
+  architecture. The permission `.eml` is not committed yet (held by the owner).
+- **Not done:** docs/video/VERSION stays until the owner approves; the upload is a human step.
+  Verification: `pytest tests/demo tests/api` 59 passed; studio tests 8 passed; README/JUDGES relative links resolve.
+
+---
+
 ## 2026-10-23 · Video v3 metrics card: grounded on-screen numbers (track B)
 
 - `python -m footage.grounding` -> `data/footage/v3_grounding.json` (`result.card_line`): every number that reaches
