@@ -74,3 +74,24 @@ def test_each_beat_previews_on_the_real_clip(tmp_path):
         L.Image.fromarray(img).save(tmp_path / f"live_{name}.png")
         card = img[L.H - 300:L.H - 100, 120:600].astype(int)    # the card darkens the bottom left
         assert card.mean() < 90, (name, card.mean())
+
+
+@pytest.mark.skipif(not HAS_CLIP, reason="clip or refined calibration not on this machine")
+def test_v4_beats_render(tmp_path):
+    """The xG bubble, the ghost future and the xG race render from data in the shared v4 formats."""
+    shots = {"shots": [{"clip_ms": 875900, "shot_id": 62, "shooter": {"label": "#8", "name": "Test Shooter"},
+                        "x": 79.3, "y": 19.1, "xg": 0.03, "outcome": "goal", "outcome_clip_ms": 876300,
+                        "camera_ok": True}]}
+    img = np.asarray(scene(L.ShotXG, tmp_path, "shot", shots, index=0, team="home").preview(876.6))
+    assert img.shape == (L.H, L.W, 3)
+    frames = [{"t_ms": k * 100, "ball": [80.0 + k * 0.5, 20.0],
+               "players": [{"label": "#8", "team": "home", "x": 78.0 + k * 0.3, "y": 19.0}]} for k in range(30)]
+    gf = scene(L.GhostFuture, tmp_path, "ghost", {"clip_ms": 875000, "step_ms": 100, "frames": frames,
+                                                 "outcome": {"label": "goal", "at_ms": 2000},
+                                                 "source": {"n": 200, "seed": 1}}, shot_id=62, team="home")
+    assert np.allclose(gf.at(150)["ball"], [80.75, 20.0])
+    assert gf.preview(875.0 + 0.6 + 1.0).size == (L.W, L.H)
+    race = {"home": "A", "away": "B", "series": [{"clip_ms": 11000, "clock": "72:00", "home_xg": 0.1, "away_xg": 0.0},
+                                                 {"clip_ms": 900000, "clock": "87:00", "home_xg": 1.2,
+                                                  "away_xg": 0.4}], "events": []}
+    assert scene(L.XGRace, tmp_path, "race", race, t0=1.0).preview(9.0).size == (L.W, L.H)

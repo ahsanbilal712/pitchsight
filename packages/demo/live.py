@@ -909,5 +909,212 @@ class RiverStrip(Live):
         im.paste(layer, (0, 0), layer)
 
 
-SCENES = {"oracle": Oracle, "metrics": Metrics, "river_strip": RiverStrip, "speed_gun": SpeedGun, "pass_xray": PassXray, "offside": Offside,
+class ShotXG(Live):
+    """One real shot for the xG montage (track A's shots_<slug>.json, entry `index` or the one at `clip_ms`): the
+    clip runs into the strike, an xG bubble pops on the shooter at the strike, then the outcome stamps (GOAL in the
+    team colour, else SAVED / BLOCKED / WIDE). Through the frame's camera when the shot's camera is trusted, else the
+    bubble sits beside the score bug."""
+
+    def _calib(self) -> dict:
+        shots, m = self.data["shots"], self.m              # the shot first: the camera follows from it
+        self.shot = shots[m["index"]] if "index" in m else min(shots, key=lambda s: abs(s["clip_ms"] - m["clip_ms"]))
+        self.data = {**self.data, "shot_id": self.shot.get("shot_id")}
+        try:
+            return super()._calib()
+        except (FileNotFoundError, StopIteration):
+            return {}
+
+    needs_camera = False
+
+    def span(self):
+        s = self.shot
+        t = s["clip_ms"] / 1000
+        end = max(s.get("outcome_clip_ms", s["clip_ms"]) / 1000, t) + float(self.m.get("post_s", 0.9))
+        return t - float(self.m.get("pre_s", 1.6)), end
+
+    def panels(self, im, cam, t):
+        s = self.shot
+        tau = t - s["clip_ms"] / 1000
+        if tau < -0.15:
+            return
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        pop = window(tau, -0.15, 0.15)
+        size = int(34 + 30 * pop)
+        text = f"xG {s['xg']:.2f}"
+        if cam is not None and s.get("camera_ok", True):
+            at = cam.project([[s["x"], s["y"]]])[0]
+            at = at - [0, APPARENT_HEIGHT_M * lateral_px_per_m(cam, [s["x"], s["y"]]) + 70]
+        else:
+            at = np.array([W / 2, 200.0])
+        font = ImageFont.truetype(FONT, size)
+        w = d.textlength(text, font=font) + 40
+        box = (at[0] - w / 2, at[1] - size / 2 - 14, at[0] + w / 2, at[1] + size / 2 + 14)
+        d.rounded_rectangle((box[0] - 6, box[1] - 6, box[2] + 6, box[3] + 6), radius=20, fill=(*ORANGE, int(90 * pop)))
+        d.rounded_rectangle(box, radius=16, fill=(*PANEL, int(235 * pop)), outline=(*ORANGE, int(255 * pop)), width=4)
+        d.text((at[0], at[1]), text, font=font, fill=(255, 255, 255, int(255 * pop)), anchor="mm")
+        name = (s.get("shooter") or {}).get("name")
+        if name:
+            d.text((at[0], box[3] + 18), name.upper(), font=self.font[26], fill=(255, 255, 255, int(255 * pop)),
+                   anchor="mt", stroke_width=3, stroke_fill=(0, 0, 0, int(200 * pop)))
+        out_t = (s.get("outcome_clip_ms", s["clip_ms"] + 600) - s["clip_ms"]) / 1000
+        o = window(tau, out_t, out_t + 0.12)
+        if o > 0:
+            goal = s["outcome"] == "goal"
+            word = "GOAL" if goal else s["outcome"].upper()
+            col = tuple(int(v * 255) for v in self.kit) if goal else WHITE
+            f = ImageFont.truetype(FONT, int(150 if goal else 96))
+            scale_in = 1 + 0.25 * (1 - o)
+            f = ImageFont.truetype(FONT, int((150 if goal else 96) * scale_in))
+            d.text((W / 2, H / 2 - 40), word, font=f, fill=(*col, int(255 * o)), anchor="mm", stroke_width=8,
+                   stroke_fill=(0, 0, 0, int(220 * o)))
+        im.paste(layer, (0, 0), layer)
+
+
+class GhostFuture(Still):
+    """The alternative timeline on the real pitch (track A's ghost_future_<clip_ms>.json): over the frozen frame,
+    after a rewind tint, translucent ghost players and a ghost ball move along the median rollout for its horizon;
+    then the outcome stamps and it hands back to what really happened (the next clip)."""
+
+    def span(self):
+        t = self.at_ms() / 1000
+        dur = len(self.data["frames"]) * self.data.get("step_ms", 100) / 1000
+        return t - float(self.m.get("pre_s", 0.0)), t + 0.6 + dur / float(self.m.get("speed", 1.6)) + 1.2
+
+    def sim_ms(self, t: float) -> float:
+        """Rollout time shown at clip time t (played at `speed` x, after a 0.6 s rewind tint)."""
+        return max(0.0, (self.tau(t) - 0.6) * 1000 * float(self.m.get("speed", 1.6)))
+
+    def dim(self, t):
+        return 0.30 * window(self.tau(t), 0.0, 0.5)
+
+    def at(self, ms: float) -> dict:
+        fr, step = self.data["frames"], self.data.get("step_ms", 100)
+        i = min(int(ms // step), len(fr) - 1)
+        j = min(i + 1, len(fr) - 1)
+        f = (ms - i * step) / step if j > i else 0.0
+        pa, pb = fr[i], fr[j]
+        ball = np.array(pa["ball"]) + (np.array(pb["ball"]) - np.array(pa["ball"])) * f
+        nxt = {p["label"]: p for p in pb["players"]}
+        players = [{**p, "x": p["x"] + (nxt.get(p["label"], p)["x"] - p["x"]) * f,
+                    "y": p["y"] + (nxt.get(p["label"], p)["y"] - p["y"]) * f} for p in pa["players"]]
+        return {"ball": ball, "players": players}
+
+    def ground(self, ax, cam, t):
+        if self.tau(t) < 0.6:
+            return
+        ms = self.sim_ms(t)
+        trail = [self.at(x)["ball"] for x in np.arange(max(0, ms - 1500), ms + 1, 100)]
+        if len(trail) > 1:
+            px = cam.project(np.array(trail))
+            ax.plot(px[:, 0], px[:, 1], color=(*(np.array(ORANGE) / 255), 0.9), lw=4, solid_capstyle="round")
+
+    def panels(self, im, cam, t):
+        tau = self.tau(t)
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        if tau < 0.6:
+            a = window(tau, 0.0, 0.3)
+            d.text((W / 2, 120), "◀◀  THE OTHER TIMELINE", font=self.font[34], fill=(255, 255, 255, int(255 * a)),
+                   anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, int(200 * a)))
+            im.paste(layer, (0, 0), layer)
+            return
+        ms = self.sim_ms(t)
+        state = self.at(ms)
+        kits = self.m.get("kits") or {}
+        for p in state["players"]:
+            col = tuple(kits.get(p.get("team", "home"), WHITE))
+            ghost_figure(d, cam, [p["x"], p["y"]], col, 0.85)
+        b = cam.project([state["ball"]])[0]
+        d.ellipse((b[0] - 9, b[1] - 9, b[0] + 9, b[1] + 9), fill=(255, 255, 255, 240), outline=(*ORANGE, 255),
+                  width=3)
+        d.text((W / 2, 120), f"THE OTHER TIMELINE  +{ms / 1000:.1f} s", font=self.font[34], fill=(255, 255, 255, 235),
+               anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, 200))
+        out = self.data.get("outcome") or {}
+        if out and ms >= out.get("at_ms", 1e12):
+            o = window(ms / 1000, out["at_ms"] / 1000, out["at_ms"] / 1000 + 0.15)
+            word = out["label"].upper()
+            col = tuple(kits.get(self.m.get("team", "home"), ORANGE)) if out["label"] == "goal" else WHITE
+            d.text((W / 2, H / 2 - 60), word, font=ImageFont.truetype(FONT, 140), fill=(*col, int(255 * o)),
+                   anchor="mm", stroke_width=8, stroke_fill=(0, 0, 0, int(220 * o)))
+        src = self.data.get("source") or {}
+        d.text((W - 96, H - 60), f"the median of {src.get('n', '?')} replays, seed {src.get('seed', '?')}",
+               font=self.reg[22], fill=(*MUTED, 230), anchor="rb")
+        im.paste(layer, (0, 0), layer)
+
+
+class XGRace(RiverStrip):
+    """Cumulative xG for both teams across a stretch of the match, as two step lines in the lower-third strip
+    over the playing clip, goals marked (track A's xg_race_<slug>.json)."""
+
+    def curve(self):
+        s = self.data["series"]
+        return np.array([p["clip_ms"] for p in s], float), None
+
+    def ground(self, ax, cam, t):
+        from matplotlib.patches import FancyBboxPatch
+        a = window(t - self.span()[0], 0.0, 0.5)
+        x0, y0, x1, y1 = self.BOX
+        ax.add_patch(FancyBboxPatch((x0, y0), x1 - x0, y1 - y0, boxstyle="round,pad=0,rounding_size=12",
+                                    fc=(*(np.array(PANEL) / 255), 0.82 * a), ec="none"))
+        s = self.data["series"]
+        X = self.geometry()[0]
+        top_xg = max(max(p["home_xg"], p["away_xg"]) for p in s) * 1.08 or 1.0
+        bottom, top = y1 - 24, y0 + 104
+        Y = lambda v: bottom - v / top_xg * (bottom - top)  # noqa: E731
+        p = self.progress(t)
+        if p <= 0:
+            return
+        now = s[0]["clip_ms"] + (s[-1]["clip_ms"] - s[0]["clip_ms"]) * p
+        for side in ("home", "away"):
+            col = np.array((self.m.get("kits") or {}).get(side, ORANGE)) / 255
+            pts = [(q["clip_ms"], q[f"{side}_xg"]) for q in s if q["clip_ms"] <= now]
+            if not pts:
+                continue
+            xs = [X(pts[0][0])]
+            ys = [Y(pts[0][1])]
+            for (_, v_prev), (ms, v) in zip(pts, pts[1:], strict=False):   # a step: xG jumps at each shot
+                xs += [X(ms), X(ms)]
+                ys += [Y(v_prev), Y(v)]
+            xs.append(X(now))
+            ys.append(ys[-1])
+            ax.plot(xs, ys, color=(*col, 0.25), lw=14, solid_capstyle="round")
+            ax.plot(xs, ys, color=(*col, 1.0), lw=4.5, solid_capstyle="round")
+        for e in self.data.get("events", []):
+            if e.get("kind") == "goal" and e["clip_ms"] <= now:
+                side = e.get("team", "home")
+                col = np.array((self.m.get("kits") or {}).get(side, ORANGE)) / 255
+                v = max((q[f"{side}_xg"] for q in s if q["clip_ms"] <= e["clip_ms"]), default=0)
+                ax.scatter([X(e["clip_ms"])], [Y(v)], s=160, color=(*col, 1.0), edgecolors="white", linewidths=2.5,
+                           zorder=6)
+
+    def panels(self, im, cam, t):
+        a = window(t - self.span()[0], 0.0, 0.5)
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        x0, y0, x1, y1 = self.BOX
+        al = int(255 * a)
+        d.text((x0 + 28, y0 + 18), self.m.get("label", "Expected goals").upper(), font=self.font[26],
+               fill=(255, 255, 255, al))
+        s = self.data["series"]
+        p = self.progress(t)
+        now = s[0]["clip_ms"] + (s[-1]["clip_ms"] - s[0]["clip_ms"]) * p
+        cur = [q for q in s if q["clip_ms"] <= now] or s[:1]
+        for k, side in enumerate(("home", "away")):
+            col = tuple((self.m.get("kits") or {}).get(side, ORANGE))
+            d.text((x0 + 28, y0 + 120 + 70 * k), f"{self.data[side]}  {cur[-1][f'{side}_xg']:.2f}", font=self.font[30],
+                   fill=(*col, al))
+        X = self.geometry()[0]
+        shown = [e for e in self.data.get("events", []) if e.get("kind") == "goal" and e["clip_ms"] <= now]
+        for k, e in enumerate(shown):
+            text = f"{e['clock']}  {e['label']}"
+            half = d.textlength(text, font=self.font[22]) / 2
+            ex = min(max(X(e["clip_ms"]), x0 + 24 + half), x1 - 24 - half)
+            d.text((ex, y0 + 66 + 26 * (k % 2)), text, font=self.font[22], fill=(255, 255, 255, al), anchor="mm")
+        d.text((x1 - 24, y0 + 18), self.m.get("foot", ""), font=self.reg[20], fill=(*MUTED, al), anchor="ra")
+        im.paste(layer, (0, 0), layer)
+
+
+SCENES = {"oracle": Oracle, "metrics": Metrics, "river_strip": RiverStrip, "shot_xg": ShotXG,
+          "ghost_future": GhostFuture, "xg_race": XGRace, "speed_gun": SpeedGun, "pass_xray": PassXray, "offside": Offside,
           "ghost_defender": GhostDefender, "keeper_cone": KeeperCone, "red_card_cost": RedCardCost, "river": River}
