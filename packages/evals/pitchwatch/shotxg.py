@@ -32,7 +32,9 @@ from evals.pitchwatch.insights import FOOTAGE, GOAL_Y, L, W, keeper_tracks
 
 CLIPS = ("liverpool-mancity-2526", "manutd-mancity-2526", "arsenal-chelsea-2526", "manutd-spurs-2425")
 HOME_ATTACKS_P2 = {"liverpool-mancity-2526": 1, "manutd-mancity-2526": -1, "arsenal-chelsea-2526": 1,
-                   "manutd-spurs-2425": 1}          # +1: home attacks +x (x from the left goal line) in the 2nd half
+                   "manutd-spurs-2425": -1}         # +1: home attacks +x (x from the left goal line) in the 2nd half
+# Spurs: Man Utd defend the left goal at 02:13 (frame 241.5 s) and every reviewed strike (19:23, 38:03, 59:55, 91:06)
+# sits at x < 15 m, so Man Utd attack +x in the 1st half and -x in the 2nd (was +1, corrected 23 Oct 2026).
 PRE_S, POST_S = 3.0, 2.0
 RELEASE_S = 1.5
 HEADER_WORDS = ("header", "headed", "heads", "head")

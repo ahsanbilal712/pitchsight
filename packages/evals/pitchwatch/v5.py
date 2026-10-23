@@ -53,8 +53,10 @@ def team_frame(xy, attacks_plus: bool) -> tuple[float, float]:
     return (xy[0], xy[1]) if attacks_plus else (L - xy[0], W - xy[1])
 
 
-def shot_xg(u: float, v: float) -> float:
-    return reference_xg(L - u, abs(v - GOAL_Y))
+def shot_xg(u: float, v: float) -> float | None:
+    """None in the team's own half: the fit has no shots there and its quadratic term turns the curve back up (0.05
+    at 91 m), so no value is shown rather than an extrapolated one."""
+    return reference_xg(L - u, abs(v - GOAL_Y)) if u >= L / 2 else None
 
 
 def options_xg(holder: dict, mates: list[dict], opps: list[dict], attacks_plus: bool) -> list[dict]:
@@ -89,13 +91,19 @@ def options_xg(holder: dict, mates: list[dict], opps: list[dict], attacks_plus: 
     out = []
     for (m, _t, ua, va), pc in zip(meta, p, strict=True):
         xa = shot_xg(min(ua, L - 0.5), va)
+        if xa is None:
+            out.append({"label": m.get("label"), "name": m.get("name"), "x": m["x"], "y": m["y"],
+                        "p_pass": round(float(pc), 2), "xg_receiver": None, "gate": None,
+                        "onside_margin_m": None, "offside_risk": False, "xg_after_pass": None,
+                        "xg_after_pass_exact": None, "xg_note": "receiver in his own half: outside the model's range"})
+            continue
         out.append({"label": m.get("label"), "name": m.get("name"), "x": m["x"], "y": m["y"],
                     "p_pass": round(float(pc), 2), "xg_receiver": round(xa, 2),
                     "gate": gate_value(xa, L - min(ua, L - 0.5), abs(va - GOAL_Y)),
                     "onside_margin_m": round(line_u - ua, 2),
                     "offside_risk": bool(line_u - ua < OFFSIDE_ERROR_M),
                     "xg_after_pass": round(float(pc) * xa, 2), "xg_after_pass_exact": round(float(pc) * xa, 4)})
-    return sorted(out, key=lambda o: -o["xg_after_pass_exact"])
+    return sorted(out, key=lambda o: -(o["xg_after_pass_exact"] if o["xg_after_pass_exact"] is not None else -1))
 
 
 def linked_shot(slug: str, clip_ms: int, team: str) -> dict:
@@ -132,7 +140,7 @@ def decision(slug: str, clip_ms: int) -> dict:
     u0, v0 = team_frame((holder["x"], holder["y"]), attacks_plus)
     shot = shot_xg(u0, v0)
     opts = options_xg(holder, mates, opps, attacks_plus)
-    best = next((o for o in opts if not o["offside_risk"]), None)
+    best = next((o for o in opts if not o["offside_risk"] and o["xg_after_pass"] is not None), None)
     strike = linked_shot(slug, clip_ms, team)
     return {"clip_ms": clip_ms, "clock": m["clock"], "team": team, "holder": holder_label,
             "holder_name": holder.get("name"),
@@ -175,7 +183,7 @@ def xray(slug: str = "manutd-spurs-2425", t0: float = 240.0, t1: float = 242.0) 
         opps = [p for p in seen if p["team"] != team]
         u0, v0 = team_frame((holder["x"], holder["y"]), attacks_plus)
         samples.append({"clip_ms": clip_ms, "holder": holder["label"], "team": team,
-                        "holder_xy": [holder["x"], holder["y"]], "shoot_now_xg": round(shot_xg(u0, v0), 2),
+                        "holder_xy": [holder["x"], holder["y"]], "shoot_now_xg": None if shot_xg(u0, v0) is None else round(shot_xg(u0, v0), 2),
                         "options": options_xg(holder, mates, opps, attacks_plus)})
     return {"slug": slug, "samples": samples, "formula": SOURCE, "deterministic": True,
             "source": {"tracks": f"{slug}/tracks/23.json", "calib": f"{slug}/calib/23.json"}}

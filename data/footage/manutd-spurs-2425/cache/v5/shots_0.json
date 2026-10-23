@@ -1,0 +1,478 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "shots",
+  "decimals": 2,
+  "frame_role": "strike: the reviewed frame the ball is struck (or the named moment file where stated in source.position)",
+  "match_id": "m_9004",
+  "model": {
+   "penalty": "0.76 (Wyscout's fixed penalty value)",
+   "url": "https://soccermatics.readthedocs.io/en/latest/gallery/lesson2/plot_xGModelFit.html",
+   "xg": "Soccermatics combined logistic model, 8,451 non-penalty PL 2017/18 shots (Wyscout), at the strike point from tracking"
+  },
+  "note": "xg null where the strike has no trusted wide view (and it is not a penalty); names only from names_verified.json",
+  "shots": [
+   {
+    "camera_ok": false,
+    "clip_ms": 261000,
+    "clock": "02:34",
+    "disallowed": null,
+    "event_id": "e_0007",
+    "goal": true,
+    "outcome": "goal",
+    "penalty": false,
+    "reason": "the tap-in is not among the wide-view candidates (the candidate at 261.9 s is Van de Ven's cross from the byline)",
+    "shooter": {
+     "label": null,
+     "name": "Brennan Johnson",
+     "name_source": "score_bug goal"
+    },
+    "source": {
+     "event": "e_0007"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 358000,
+    "clock": "10:16",
+    "disallowed": null,
+    "event_id": "e_0012",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0012"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 414667,
+    "clock": "19:23",
+    "disallowed": null,
+    "distance_m": 16.5,
+    "event_id": "e_0016",
+    "frame": 12440,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "blocked",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t10",
+     "name": null,
+     "name_source": null
+    },
+    "shot_id": 38,
+    "source": {
+     "calib": "manutd-spurs-2425/calib/xe_0016.json",
+     "event": "e_0016",
+     "position": "manutd-spurs-2425/tracks/xe_0016.json"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "x": 11.95,
+    "xg": 0.07,
+    "y": 45.39
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 454000,
+    "clock": "21:52",
+    "disallowed": null,
+    "event_id": "e_0018",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0018"
+    },
+    "team": "home",
+    "team_name": "Manchester United",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 588000,
+    "clock": "32:36",
+    "disallowed": null,
+    "event_id": "e_0024",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0024"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 637000,
+    "clock": "36:33",
+    "disallowed": null,
+    "event_id": "e_0027",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "no ball detection at the strike in the wide view",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0027"
+    },
+    "team": "home",
+    "team_name": "Manchester United",
+    "xg": null
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 683600,
+    "clock": "38:03",
+    "disallowed": null,
+    "distance_m": 16.4,
+    "event_id": "e_0030",
+    "frame": 20508,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t1",
+     "name": "Timo Werner",
+     "name_source": "moments/hand/682800.json (holder shoots)"
+    },
+    "shot_id": 84,
+    "source": {
+     "calib": "manutd-spurs-2425/calib/xe_0030.json",
+     "event": "e_0030",
+     "position": "manutd-spurs-2425/tracks/xe_0030.json"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "x": 14.23,
+    "xg": 0.08,
+    "y": 25.84
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 739000,
+    "clock": "38:58",
+    "disallowed": null,
+    "event_id": "e_0035",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0035"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1034000,
+    "clock": "46:56",
+    "disallowed": null,
+    "event_id": "e_0044",
+    "goal": true,
+    "outcome": "goal",
+    "penalty": false,
+    "reason": "no trusted camera frames in the strike window",
+    "shooter": {
+     "label": null,
+     "name": "Dejan Kulusevski",
+     "name_source": "score_bug goal"
+    },
+    "source": {
+     "event": "e_0044"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1088000,
+    "clock": "47:49",
+    "disallowed": null,
+    "event_id": "e_0047",
+    "goal": true,
+    "outcome": "goal",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0047"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1132000,
+    "clock": "52:49",
+    "disallowed": null,
+    "event_id": "e_0050",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no trusted camera frames in the strike window",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0050"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1159000,
+    "clock": "55:48",
+    "disallowed": null,
+    "event_id": "e_0053",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0053"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 1203800,
+    "clock": "59:55",
+    "disallowed": null,
+    "distance_m": 10.8,
+    "event_id": "e_0057",
+    "frame": 36114,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "blocked",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t18",
+     "name": null,
+     "name_source": null
+    },
+    "shot_id": 145,
+    "source": {
+     "calib": "manutd-spurs-2425/calib/xe_0057.json",
+     "event": "e_0057",
+     "position": "manutd-spurs-2425/tracks/xe_0057.json"
+    },
+    "team": "home",
+    "team_name": "Manchester United",
+    "x": 10.75,
+    "xg": 0.18,
+    "y": 33.04
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1255000,
+    "clock": "68:41",
+    "disallowed": null,
+    "event_id": "e_0059",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0059"
+    },
+    "team": "home",
+    "team_name": "Manchester United",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1268000,
+    "clock": "68:54",
+    "disallowed": null,
+    "event_id": "e_0061",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "no ball detection at the strike in the wide view",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0061"
+    },
+    "team": "home",
+    "team_name": "Manchester United",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1330000,
+    "clock": "76:52",
+    "disallowed": null,
+    "event_id": "e_0067",
+    "goal": true,
+    "outcome": "goal",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": "Solanke",
+     "name_source": "score_bug goal"
+    },
+    "source": {
+     "event": "e_0067"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1410000,
+    "clock": "90:01",
+    "disallowed": null,
+    "event_id": "e_0070",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0070"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1412000,
+    "clock": "90:03",
+    "disallowed": null,
+    "event_id": "e_0072",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0072"
+    },
+    "team": "away",
+    "team_name": "Tottenham Hotspur",
+    "xg": null
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 1456500,
+    "clock": "91:06",
+    "disallowed": null,
+    "distance_m": 10.3,
+    "event_id": "e_0075",
+    "frame": 43695,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t18",
+     "name": null,
+     "name_source": null
+    },
+    "shot_id": 181,
+    "source": {
+     "calib": "manutd-spurs-2425/calib/xe_0075.json",
+     "event": "e_0075",
+     "position": "manutd-spurs-2425/tracks/xe_0075.json"
+    },
+    "team": "home",
+    "team_name": "Manchester United",
+    "x": 7.12,
+    "xg": 0.18,
+    "y": 26.62
+   }
+  ],
+  "slug": "manutd-spurs-2425"
+ },
+ "schema_version": "1.0.0"
+}
