@@ -1,0 +1,57 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.006266,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607701",
+     "f_607702"
+    ],
+    "kind": "player",
+    "text": "Amad",
+    "unit": "",
+    "value_text": "p_928"
+   },
+   {
+    "evidence_ids": [
+     "f_607702"
+    ],
+    "kind": "number",
+    "text": "4.5%",
+    "unit": "p_goal",
+    "value_number": 0.045
+   },
+   {
+    "evidence_ids": [
+     "f_607701"
+    ],
+    "kind": "number",
+    "text": "2.5%",
+    "unit": "p_goal",
+    "value_number": 0.0245
+   },
+   {
+    "evidence_ids": [
+     "f_607703"
+    ],
+    "kind": "number",
+    "text": "10",
+    "unit": "seconds",
+    "value_number": 10.0
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Amad: Central pass gives 4.5% goal chance vs 2.5% shot",
+  "why": "Amad has his shot saved, though passing to the team-mate in the box, central gives a 4.5% goal chance in the next 10 seconds compared to 2.5% for shooting."
+ },
+ "latency_ms": 16257,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":877000,\"clock\":\"56:41\",\"team\":\"Man Utd\",\"verdict\":\"alternative_better\",\"real_outcome\":\"shot saved by Donnarumma\",\"holder\":{\"name\":\"Amad\",\"pid\":\"p_928\",\"describe\":\"the team-mate in the box, on the right\"},\"actual\":{\"choice\":\"shoot\",\"p_goal_10s\":0.0245,\"ci95\":[0.0186,0.0322],\"fact\":\"f_607701\"},\"alternative\":{\"choice\":\"pass to the team-mate in the box, central\",\"p_goal_10s\":0.045,\"ci95\":[0.0368,0.055],\"fact\":\"f_607702\",\"target\":{\"name\":null,\"pid\":null,\"describe\":\"the team-mate in the box, central\"}},\"n\":2000,\"horizon_s\":10.0,\"engine\":\"scripted_v1\",\"seed\":4242},\"FACTS\":[{\"fact_id\":\"f_607701\",\"match_id\":\"m_9002\",\"label\":\"goal chance in the next 10 s, actual choice (shoot)\",\"value\":0.0245,\"unit\":\"p_goal\",\"display\":\"2.5%\",\"source\":\"cache/v4/goal10_decision_877000.json\",\"players\":[\"p_928\"],\"ci95\":[0.0186,0.0322]},{\"fact_id\":\"f_607702\",\"match_id\":\"m_9002\",\"label\":\"goal chance in the next 10 s, alternative (pass to the team-mate in the box, central)\",\"value\":0.045,\"unit\":\"p_goal\",\"display\":\"4.5%\",\"source\":\"cache/v4/goal10_decision_877000.json\",\"players\":[\"p_928\"],\"ci95\":[0.0368,0.055]},{\"fact_id\":\"f_607703\",\"match_id\":\"m_9002\",\"label\":\"seconds after the choice that count\",\"value\":10.0,\"unit\":\"seconds\",\"display\":\"10\",\"source\":\"cache/v4/goal10_decision_877000.json\"},{\"fact_id\":\"f_607704\",\"match_id\":\"m_9002\",\"label\":\"replays of the frozen frame per option\",\"value\":2000,\"unit\":\"count\",\"display\":\"2000\",\"source\":\"cache/v4/goal10_decision_877000.json\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Amad: Central pass gives 4.5% goal chance vs 2.5% shot\",\"why\":\"Amad has his shot saved, though passing to the team-mate in the box, central gives a 4.5% goal chance in the next 10 seconds compared to 2.5% for shooting.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Amad\",\"kind\":\"player\",\"value_text\":\"p_928\",\"unit\":\"\",\"evidence_ids\":[\"f_607701\",\"f_607702\"]},{\"text\":\"4.5%\",\"kind\":\"number\",\"value_number\":0.045,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_607702\"]},{\"text\":\"2.5%\",\"kind\":\"number\",\"value_number\":0.0245,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_607701\"]},{\"text\":\"10\",\"kind\":\"number\",\"value_number\":10.0,\"unit\":\"seconds\",\"evidence_ids\":[\"f_607703\"]}]}",
+ "tokens_in": 1843,
+ "tokens_out": 258,
+ "via": "live"
+}

@@ -1,0 +1,215 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "v4_line",
+  "cache_key": "m_9004/match/insight@insight_footage@4.goal10_682800.n2000s4242/gemini-4-argon/s9004",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608281",
+     "f_608282"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Werner",
+    "unit": null,
+    "value": "p_960",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_608281"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "1.4%",
+    "unit": "p_goal",
+    "value": 0.014,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_608282"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.6%",
+    "unit": "p_goal",
+    "value": 0.006,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_608283"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "10",
+    "unit": "seconds",
+    "value": 10.0,
+    "verified": true
+   }
+  ],
+  "clip_ms": 682800,
+  "clock": "38:02",
+  "confidence": 0.95,
+  "decision": {
+   "actual": {
+    "choice": "shoot",
+    "ci95": [
+     0.0097,
+     0.0202
+    ],
+    "fact": "f_608281",
+    "p_goal_10s": 0.014
+   },
+   "alternative": {
+    "choice": "carry the ball on",
+    "ci95": [
+     0.0034,
+     0.0105
+    ],
+    "fact": "f_608282",
+    "p_goal_10s": 0.006,
+    "target": null
+   },
+   "clip_ms": 682800,
+   "clock": "38:02",
+   "engine": "scripted_v1",
+   "holder": {
+    "describe": "the team-mate at the edge of the box, on the left",
+    "name": "Timo Werner",
+    "pid": "p_960"
+   },
+   "horizon_s": 10.0,
+   "n": 2000,
+   "overlay_labels": {
+    "actual": "Shot",
+    "alternative": "Carry on"
+   },
+   "real_outcome": "shot saved by Onana",
+   "seed": 4242,
+   "team": "Spurs",
+   "verdict": "close_call"
+  },
+  "display": {
+   "f_608281": "1.4%",
+   "f_608282": "0.6%",
+   "f_608283": "10",
+   "f_608284": "2,000",
+   "f_608285": "1.0%",
+   "f_608286": "2.0%",
+   "f_608287": "0.3%",
+   "f_608288": "1.1%",
+   "f_608289": "4242"
+  },
+  "facts": [
+   {
+    "ci95": [
+     0.0097,
+     0.0202
+    ],
+    "display": "1.4%",
+    "fact_id": "f_608281",
+    "label": "goal chance in the next 10 s, actual choice (shoot)",
+    "match_id": "m_9004",
+    "players": [
+     "p_960"
+    ],
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "p_goal",
+    "value": 0.014
+   },
+   {
+    "ci95": [
+     0.0034,
+     0.0105
+    ],
+    "display": "0.6%",
+    "fact_id": "f_608282",
+    "label": "goal chance in the next 10 s, alternative (carry the ball on)",
+    "match_id": "m_9004",
+    "players": [
+     "p_960"
+    ],
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "p_goal",
+    "value": 0.006
+   },
+   {
+    "display": "10",
+    "fact_id": "f_608283",
+    "label": "seconds after the choice that count",
+    "match_id": "m_9004",
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "seconds",
+    "value": 10.0
+   },
+   {
+    "display": "2,000",
+    "fact_id": "f_608284",
+    "label": "replays of the frozen frame per option",
+    "match_id": "m_9004",
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "count",
+    "value": 2000
+   },
+   {
+    "display": "1.0%",
+    "fact_id": "f_608285",
+    "label": "95% interval low, actual choice",
+    "match_id": "m_9004",
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "p_goal",
+    "value": 0.0097
+   },
+   {
+    "display": "2.0%",
+    "fact_id": "f_608286",
+    "label": "95% interval high, actual choice",
+    "match_id": "m_9004",
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "p_goal",
+    "value": 0.0202
+   },
+   {
+    "display": "0.3%",
+    "fact_id": "f_608287",
+    "label": "95% interval low, alternative",
+    "match_id": "m_9004",
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "p_goal",
+    "value": 0.0034
+   },
+   {
+    "display": "1.1%",
+    "fact_id": "f_608288",
+    "label": "95% interval high, alternative",
+    "match_id": "m_9004",
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "p_goal",
+    "value": 0.0105
+   },
+   {
+    "display": "4242",
+    "fact_id": "f_608289",
+    "label": "random seed of the replays",
+    "match_id": "m_9004",
+    "source": "cache/v4/goal10_decision_682800.json",
+    "unit": "count",
+    "value": 4242
+   }
+  ],
+  "hand_reviewed": true,
+  "lower_third": "Werner: shot 1.4%, carry on 0.6%, a close call",
+  "match_id": "m_9004",
+  "model": "gemini-4-argon",
+  "prompt_version": "insight_footage@4",
+  "slug": "manutd-spurs-2425",
+  "source": "cache/v4/goal10_decision_682800.json",
+  "verdict": "close_call",
+  "why": "Werner's shot is saved; shooting gives a 1.4% chance of a goal in the next 10 seconds and carrying on 0.6%, a close call."
+ },
+ "schema_version": "1.0.0"
+}

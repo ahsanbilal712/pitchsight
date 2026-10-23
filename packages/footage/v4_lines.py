@@ -22,10 +22,11 @@ import asyncio
 import json
 import re
 import sys
+from decimal import ROUND_HALF_UP, Decimal
 
 from footage.clips import CLIPS, ROOT, clip_dir
 
-PROMPT, ROLE = "insight_footage@3", "tactician_golden"
+PROMPT, ROLE = "insight_footage@4", "tactician_golden"     # @3: no real outcome in the payload
 REVIEW_DIR = ROOT / "review" / "footage"
 BLOCK = re.compile(r"```json\n(.*?)\n```", re.S)
 LOWER_MAX, WHY_MAX = 60, 160
@@ -42,8 +43,11 @@ CLOSE, BETTER, BEST = "close_call", "alternative_better", "actual_best"
 # ---------------------------------------------------------------------------------------------------- numbers
 
 def pct(p: float) -> str:
-    """The one display form of a goal chance: a percentage with one decimal ("4.2%", "0.9%", "31.6%")."""
-    return f"{p * 100:.1f}%"
+    """The one display form of a goal chance, as the v4 overlay prints it (demo.composite.fmt_pct): one decimal
+    under 10% ("4.2%", "0.9%"), whole percent from 10% ("17%"); halves round up."""
+    v = Decimal(str(p)) * 100
+    step = Decimal("0.1") if v < 10 else Decimal("1")
+    return f"{v.quantize(step, rounding=ROUND_HALF_UP)}%"
 
 
 def decision(slug: str, clip_ms: int) -> dict:
@@ -119,6 +123,22 @@ def person(slug: str, m: dict, label: str | None) -> dict | None:
             "x": p["x"], "y": p["y"]}
 
 
+def outcome(slug: str, clip_ms: int) -> str | None:
+    """What really happened after the choice: the featured moment's reviewed outcome, or a goal the score bug
+    confirms (footage.names) within 5 s."""
+    from footage.clips import load_config
+    from footage.names import verified
+
+    for f in load_config()["featured"]:
+        if f["slug"] == slug and f["clip_ms"] == clip_ms:
+            return f.get("real_outcome")
+    for name, e in verified(slug).items():
+        if any(src["kind"] == "score_bug" for src in e["sources"]) and \
+                any(lk.get("event") and -2000 <= lk["clip_ms"] - clip_ms <= 5000 for lk in e["links"]):
+            return f"{name.split()[-1]} scores"
+    return None
+
+
 def option_text(o: dict, who: dict | None) -> str:
     k = o["option"]["kind"]
     if k == "shoot":
@@ -126,6 +146,14 @@ def option_text(o: dict, who: dict | None) -> str:
     if k == "carry":
         return "carry the ball on"
     return f"pass to {who['name'] if who and who['name'] else (who or {}).get('describe', 'a team-mate')}"
+
+
+def overlay_label(o: dict, who: dict | None) -> str:
+    """The short label on the graphic: a verified name or none, never an internal label ("L3", "#19", "A7")."""
+    k = o["option"]["kind"]
+    if k == "pass":
+        return f"Pass to {who['name'].split()[-1]}" if who and who.get("name") else "Pass"
+    return {"shoot": "Shot", "carry": "Carry on"}.get(k, k.capitalize())
 
 
 # ---------------------------------------------------------------------------------------------------- facts
@@ -150,15 +178,21 @@ def facts_for(slug: str, clip_ms: int) -> tuple[list[dict], dict]:
                    b["p_goal_10s"], "p_goal", pct(b["p_goal_10s"]), src, players=who, ci95=b["ci95"]),
              _fact(k + 3, mid, "seconds after the choice that count", d["horizon_s"], "seconds",
                    f"{d['horizon_s']:g}", src),
-             _fact(k + 4, mid, "replays of the frozen frame per option", d["n"], "count", str(d["n"]), src)]
+             _fact(k + 4, mid, "replays of the frozen frame per option", d["n"], "count", f"{d['n']:,}", src),
+             _fact(k + 5, mid, "95% interval low, actual choice", a["ci95"][0], "p_goal", pct(a["ci95"][0]), src),
+             _fact(k + 6, mid, "95% interval high, actual choice", a["ci95"][1], "p_goal", pct(a["ci95"][1]), src),
+             _fact(k + 7, mid, "95% interval low, alternative", b["ci95"][0], "p_goal", pct(b["ci95"][0]), src),
+             _fact(k + 8, mid, "95% interval high, alternative", b["ci95"][1], "p_goal", pct(b["ci95"][1]), src),
+             _fact(k + 9, mid, "random seed of the replays", d["seed"], "count", str(d["seed"]), src)]   # small print
     view = {"clip_ms": clip_ms, "clock": d["clock"], "team": CLIPS[slug][d["team"] + "_short"],
-            "verdict": s["verdict"],
+            "verdict": s["verdict"], "real_outcome": outcome(slug, clip_ms),
             "holder": {k2: holder.get(k2) for k2 in ("name", "pid", "describe")} if holder else None,
             "actual": {"choice": option_text(a, None), "p_goal_10s": a["p_goal_10s"], "ci95": a["ci95"],
                        "fact": facts[0]["fact_id"]},
             "alternative": {"choice": option_text(b, target), "p_goal_10s": b["p_goal_10s"], "ci95": b["ci95"],
                             "fact": facts[1]["fact_id"],
                             "target": {k2: target.get(k2) for k2 in ("name", "pid", "describe")} if target else None},
+            "overlay_labels": {"actual": overlay_label(a, None), "alternative": overlay_label(b, target)},
             "n": d["n"], "horizon_s": d["horizon_s"], "engine": d["engine"], "seed": d["seed"]}
     return facts, view
 
@@ -259,7 +293,7 @@ def run(slug: str, clip_ms: int, dry_run: bool = False) -> dict:
                **{k: out.get(k) for k in ("json", "text", "model", "tokens_in", "tokens_out", "cost_usd",
                                           "latency_ms")}}
         manifest.add(CacheManifest.key(match_id, None, "insight", version, res["model"], int(match_id[2:])),
-                     "analytics", res, f"captions/v4_{clip_ms}.json", producer="insight", version=version,
+                     "analytics", res, f"captions/v4_{clip_ms}_{PROMPT}.json", producer="insight", version=version,
                      model=res["model"], seed=int(match_id[2:]), cost_usd=res.get("cost_usd"),
                      tokens_in=res.get("tokens_in"), tokens_out=res.get("tokens_out"))
         manifest.save()

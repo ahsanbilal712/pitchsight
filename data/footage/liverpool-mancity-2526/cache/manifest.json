@@ -48,6 +48,22 @@
    "version": "insight_footage@2.recap_1971000"
   },
   {
+   "cost_usd": 0.006462,
+   "created_at": "2026-10-23T10:07:15Z",
+   "hand_reviewed": false,
+   "key": "m_9001/match/insight@insight_footage@4.goal10_875000.n2000s4242/gemini-4-argon/s9001",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "captions/v4_875000_insight_footage@4.json",
+   "producer": "insight",
+   "seed": 9001,
+   "sha256": "4a6b7e19f690865c791b9c5009d92e0bd6a41bde015b587e71adf6955e8b095d",
+   "tokens_in": 1866,
+   "tokens_out": 273,
+   "version": "insight_footage@4.goal10_875000.n2000s4242"
+  },
+  {
    "created_at": "2026-10-23T07:16:53Z",
    "hand_reviewed": false,
    "key": "m_9001/match/oracle@window_867000/scripted/s9001",
@@ -100,7 +116,7 @@
    "version": "win_prob_river_11000"
   },
   {
-   "created_at": "2026-10-23T09:51:43Z",
+   "created_at": "2026-10-23T10:00:45Z",
    "hand_reviewed": false,
    "key": "m_9001/match/v4@ghost_future_875000/none/s9001",
    "kind": "analytics",
@@ -109,11 +125,24 @@
    "path": "v4/ghost_future_875000.json",
    "producer": "v4",
    "seed": 9001,
-   "sha256": "e6e05fb72bb7fb20f223edc6be14105870effcf3587820fb607783e4be9512c4",
+   "sha256": "41997d8b5c0d885268e6d4cabb0835ec83c61c02135415a0cb1408c53cbc6c1c",
    "version": "ghost_future_875000"
   },
   {
-   "created_at": "2026-10-23T09:50:49Z",
+   "created_at": "2026-10-23T10:00:45Z",
+   "hand_reviewed": false,
+   "key": "m_9001/match/v4@goal10_875000/none/s9001",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v4/goal10_875000.json",
+   "producer": "v4",
+   "seed": 9001,
+   "sha256": "4a2a8e857ef38ff25ed3d9b3c5364c94f0a7e0b7ca66bfa7c14aa4847aa78a08",
+   "version": "goal10_875000"
+  },
+  {
+   "created_at": "2026-10-23T09:59:25Z",
    "hand_reviewed": false,
    "key": "m_9001/match/v4@goal10_decision_875000/none/s9001",
    "kind": "analytics",
@@ -122,8 +151,34 @@
    "path": "v4/goal10_decision_875000.json",
    "producer": "v4",
    "seed": 9001,
-   "sha256": "bfd814a4dfaef89e536ea89a9eaea6b7121075c8d4e8b18ce315b89e600de35b",
+   "sha256": "acd1f551787912dd43019c1908c94c76a9fb78adcb61b1eb97b74deb6ff4185e",
    "version": "goal10_decision_875000"
+  },
+  {
+   "created_at": "2026-10-23T10:16:15Z",
+   "hand_reviewed": true,
+   "key": "m_9001/match/v4@line_875000/none/s9001",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v4/lines_875000.json",
+   "producer": "v4",
+   "seed": 9001,
+   "sha256": "d48033da808875a2d1ad0810995e8c4f3114b2340ffcbab3f468c323fa82f2aa",
+   "version": "line_875000"
+  },
+  {
+   "created_at": "2026-10-23T10:16:51Z",
+   "hand_reviewed": false,
+   "key": "m_9001/match/v4@oracle_goal10_867000/none/s9001",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v4/oracle_goal10_867000.json",
+   "producer": "v4",
+   "seed": 9001,
+   "sha256": "cf8439b87d2595043ebeb40670389ea99c324380718ab6cca01a5a0e34c69a39",
+   "version": "oracle_goal10_867000"
   },
   {
    "created_at": "2026-10-23T08:35:42Z",
@@ -202,10 +257,10 @@
  "match_seed": 9001,
  "schema_version": "1.0.0",
  "totals": {
-  "cost_usd": 0.023386,
-  "entries": 14,
-  "tokens_in": 7493,
-  "tokens_out": 840
+  "cost_usd": 0.029848,
+  "entries": 18,
+  "tokens_in": 9359,
+  "tokens_out": 1113
  },
  "tracking_sha256": "e7c7245acf18abcf8859255e10223215a63a86e93a57d93eb8b813df9a07aa1e"
 }

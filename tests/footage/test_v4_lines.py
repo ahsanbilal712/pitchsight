@@ -11,8 +11,8 @@ def alt(p, lo, hi, kind="pass", target="L3"):
             "diff_vs_actual": {"verdict": "better"}}
 
 
-def test_display_is_one_decimal_percent():
-    assert (pct(0.033), pct(0.0065), pct(0.3155), pct(0.17)) == ("3.3%", "0.7%", "31.6%", "17.0%")
+def test_display_matches_the_overlay():
+    assert (pct(0.033), pct(0.0065), pct(0.0245), pct(0.3155), pct(0.1705)) == ("3.3%", "0.7%", "2.5%", "32%", "17%")
 
 
 def test_better_only_when_the_intervals_are_clear():

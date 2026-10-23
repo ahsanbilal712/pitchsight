@@ -1,0 +1,57 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.006176,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608281",
+     "f_608282"
+    ],
+    "kind": "player",
+    "text": "Timo Werner",
+    "unit": "",
+    "value_text": "p_960"
+   },
+   {
+    "evidence_ids": [
+     "f_608281"
+    ],
+    "kind": "number",
+    "text": "1.4%",
+    "unit": "p_goal",
+    "value_number": 0.014
+   },
+   {
+    "evidence_ids": [
+     "f_608282"
+    ],
+    "kind": "number",
+    "text": "0.6%",
+    "unit": "p_goal",
+    "value_number": 0.006
+   },
+   {
+    "evidence_ids": [
+     "f_608283"
+    ],
+    "kind": "number",
+    "text": "10",
+    "unit": "seconds",
+    "value_number": 10.0
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Close call: Timo Werner shoots (1.4%) vs carries on (0.6%)",
+  "why": "Timo Werner's shot is saved, and it is a close call on goal chance in the next 10 seconds between shooting at 1.4% and carrying on at 0.6%."
+ },
+ "latency_ms": 9218,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":682800,\"clock\":\"38:02\",\"team\":\"Spurs\",\"verdict\":\"close_call\",\"real_outcome\":\"shot saved by Onana\",\"holder\":{\"name\":\"Timo Werner\",\"pid\":\"p_960\",\"describe\":\"the team-mate at the edge of the box, on the left\"},\"actual\":{\"choice\":\"shoot\",\"p_goal_10s\":0.014,\"ci95\":[0.0097,0.0202],\"fact\":\"f_608281\"},\"alternative\":{\"choice\":\"carry the ball on\",\"p_goal_10s\":0.006,\"ci95\":[0.0034,0.0105],\"fact\":\"f_608282\",\"target\":null},\"n\":2000,\"horizon_s\":10.0,\"engine\":\"scripted_v1\",\"seed\":4242},\"FACTS\":[{\"fact_id\":\"f_608281\",\"match_id\":\"m_9004\",\"label\":\"goal chance in the next 10 s, actual choice (shoot)\",\"value\":0.014,\"unit\":\"p_goal\",\"display\":\"1.4%\",\"source\":\"cache/v4/goal10_decision_682800.json\",\"players\":[\"p_960\"],\"ci95\":[0.0097,0.0202]},{\"fact_id\":\"f_608282\",\"match_id\":\"m_9004\",\"label\":\"goal chance in the next 10 s, alternative (carry the ball on)\",\"value\":0.006,\"unit\":\"p_goal\",\"display\":\"0.6%\",\"source\":\"cache/v4/goal10_decision_682800.json\",\"players\":[\"p_960\"],\"ci95\":[0.0034,0.0105]},{\"fact_id\":\"f_608283\",\"match_id\":\"m_9004\",\"label\":\"seconds after the choice that count\",\"value\":10.0,\"unit\":\"seconds\",\"display\":\"10\",\"source\":\"cache/v4/goal10_decision_682800.json\"},{\"fact_id\":\"f_608284\",\"match_id\":\"m_9004\",\"label\":\"replays of the frozen frame per option\",\"value\":2000,\"unit\":\"count\",\"display\":\"2000\",\"source\":\"cache/v4/goal10_decision_682800.json\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Close call: Timo Werner shoots (1.4%) vs carries on (0.6%)\",\"why\":\"Timo Werner's shot is saved, and it is a close call on goal chance in the next 10 seconds between shooting at 1.4% and carrying on at 0.6%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Timo Werner\",\"kind\":\"player\",\"value_text\":\"p_960\",\"unit\":\"\",\"evidence_ids\":[\"f_608281\",\"f_608282\"]},{\"text\":\"1.4%\",\"kind\":\"number\",\"value_number\":0.014,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_608281\"]},{\"text\":\"0.6%\",\"kind\":\"number\",\"value_number\":0.006,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_608282\"]},{\"text\":\"10\",\"kind\":\"number\",\"value_number\":10.0,\"unit\":\"seconds\",\"evidence_ids\":[\"f_608283\"]}]}",
+ "tokens_in": 1813,
+ "tokens_out": 255,
+ "via": "live"
+}

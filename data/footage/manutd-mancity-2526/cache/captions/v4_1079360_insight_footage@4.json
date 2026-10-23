@@ -1,0 +1,57 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.006204,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607931",
+     "f_607932"
+    ],
+    "kind": "player",
+    "text": "Bryan Mbeumo",
+    "unit": "",
+    "value_text": "p_932"
+   },
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "number",
+    "text": "3.8%",
+    "unit": "p_goal",
+    "value_number": 0.0375
+   },
+   {
+    "evidence_ids": [
+     "f_607933"
+    ],
+    "kind": "number",
+    "text": "10",
+    "unit": "seconds",
+    "value_number": 10.0
+   },
+   {
+    "evidence_ids": [
+     "f_607932"
+    ],
+    "kind": "number",
+    "text": "4.5%",
+    "unit": "p_goal",
+    "value_number": 0.0445
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Close call: shoot at 3.8% or carry on at 4.5%",
+  "why": "Bryan Mbeumo scores, and it is a close call as shooting gives a 3.8% goal chance in the next 10 seconds while carrying the ball on gives 4.5%."
+ },
+ "latency_ms": 10301,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1079360,\"clock\":\"64:27\",\"team\":\"Man Utd\",\"verdict\":\"close_call\",\"real_outcome\":\"Mbeumo scores\",\"holder\":{\"name\":\"Bryan Mbeumo\",\"pid\":\"p_932\",\"describe\":\"the team-mate in the box, on the left\"},\"actual\":{\"choice\":\"shoot\",\"p_goal_10s\":0.0375,\"ci95\":[0.03,0.0468],\"fact\":\"f_607931\"},\"alternative\":{\"choice\":\"carry the ball on\",\"p_goal_10s\":0.0445,\"ci95\":[0.0363,0.0544],\"fact\":\"f_607932\",\"target\":null},\"n\":2000,\"horizon_s\":10.0,\"engine\":\"scripted_v1\",\"seed\":4242},\"FACTS\":[{\"fact_id\":\"f_607931\",\"match_id\":\"m_9002\",\"label\":\"goal chance in the next 10 s, actual choice (shoot)\",\"value\":0.0375,\"unit\":\"p_goal\",\"display\":\"3.8%\",\"source\":\"cache/v4/goal10_decision_1079360.json\",\"players\":[\"p_932\"],\"ci95\":[0.03,0.0468]},{\"fact_id\":\"f_607932\",\"match_id\":\"m_9002\",\"label\":\"goal chance in the next 10 s, alternative (carry the ball on)\",\"value\":0.0445,\"unit\":\"p_goal\",\"display\":\"4.5%\",\"source\":\"cache/v4/goal10_decision_1079360.json\",\"players\":[\"p_932\"],\"ci95\":[0.0363,0.0544]},{\"fact_id\":\"f_607933\",\"match_id\":\"m_9002\",\"label\":\"seconds after the choice that count\",\"value\":10.0,\"unit\":\"seconds\",\"display\":\"10\",\"source\":\"cache/v4/goal10_decision_1079360.json\"},{\"fact_id\":\"f_607934\",\"match_id\":\"m_9002\",\"label\":\"replays of the frozen frame per option\",\"value\":2000,\"unit\":\"count\",\"display\":\"2000\",\"source\":\"cache/v4/goal10_decision_1079360.json\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Close call: shoot at 3.8% or carry on at 4.5%\",\"why\":\"Bryan Mbeumo scores, and it is a close call as shooting gives a 3.8% goal chance in the next 10 seconds while carrying the ball on gives 4.5%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Bryan Mbeumo\",\"kind\":\"player\",\"value_text\":\"p_932\",\"unit\":\"\",\"evidence_ids\":[\"f_607931\",\"f_607932\"]},{\"text\":\"3.8%\",\"kind\":\"number\",\"value_number\":0.0375,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_607931\"]},{\"text\":\"10\",\"kind\":\"number\",\"value_number\":10.0,\"unit\":\"seconds\",\"evidence_ids\":[\"f_607933\"]},{\"text\":\"4.5%\",\"kind\":\"number\",\"value_number\":0.0445,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_607932\"]}]}",
+ "tokens_in": 1817,
+ "tokens_out": 257,
+ "via": "live"
+}

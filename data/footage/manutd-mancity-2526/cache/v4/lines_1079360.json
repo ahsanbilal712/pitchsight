@@ -1,0 +1,215 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "v4_line",
+  "cache_key": "m_9002/match/insight@insight_footage@4.goal10_1079360.n2000s4242/gemini-4-argon/s9002",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607931",
+     "f_607932"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Mbeumo",
+    "unit": null,
+    "value": "p_932",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "3.8%",
+    "unit": "p_goal",
+    "value": 0.0375,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_607932"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "4.5%",
+    "unit": "p_goal",
+    "value": 0.0445,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_607933"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "10",
+    "unit": "seconds",
+    "value": 10.0,
+    "verified": true
+   }
+  ],
+  "clip_ms": 1079360,
+  "clock": "64:27",
+  "confidence": 0.95,
+  "decision": {
+   "actual": {
+    "choice": "shoot",
+    "ci95": [
+     0.03,
+     0.0468
+    ],
+    "fact": "f_607931",
+    "p_goal_10s": 0.0375
+   },
+   "alternative": {
+    "choice": "carry the ball on",
+    "ci95": [
+     0.0363,
+     0.0544
+    ],
+    "fact": "f_607932",
+    "p_goal_10s": 0.0445,
+    "target": null
+   },
+   "clip_ms": 1079360,
+   "clock": "64:27",
+   "engine": "scripted_v1",
+   "holder": {
+    "describe": "the team-mate in the box, on the left",
+    "name": "Bryan Mbeumo",
+    "pid": "p_932"
+   },
+   "horizon_s": 10.0,
+   "n": 2000,
+   "overlay_labels": {
+    "actual": "Shot",
+    "alternative": "Carry on"
+   },
+   "real_outcome": "Mbeumo scores",
+   "seed": 4242,
+   "team": "Man Utd",
+   "verdict": "close_call"
+  },
+  "display": {
+   "f_607931": "3.8%",
+   "f_607932": "4.5%",
+   "f_607933": "10",
+   "f_607934": "2,000",
+   "f_607935": "3.0%",
+   "f_607936": "4.7%",
+   "f_607937": "3.6%",
+   "f_607938": "5.4%",
+   "f_607939": "4242"
+  },
+  "facts": [
+   {
+    "ci95": [
+     0.03,
+     0.0468
+    ],
+    "display": "3.8%",
+    "fact_id": "f_607931",
+    "label": "goal chance in the next 10 s, actual choice (shoot)",
+    "match_id": "m_9002",
+    "players": [
+     "p_932"
+    ],
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "p_goal",
+    "value": 0.0375
+   },
+   {
+    "ci95": [
+     0.0363,
+     0.0544
+    ],
+    "display": "4.5%",
+    "fact_id": "f_607932",
+    "label": "goal chance in the next 10 s, alternative (carry the ball on)",
+    "match_id": "m_9002",
+    "players": [
+     "p_932"
+    ],
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "p_goal",
+    "value": 0.0445
+   },
+   {
+    "display": "10",
+    "fact_id": "f_607933",
+    "label": "seconds after the choice that count",
+    "match_id": "m_9002",
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "seconds",
+    "value": 10.0
+   },
+   {
+    "display": "2,000",
+    "fact_id": "f_607934",
+    "label": "replays of the frozen frame per option",
+    "match_id": "m_9002",
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "count",
+    "value": 2000
+   },
+   {
+    "display": "3.0%",
+    "fact_id": "f_607935",
+    "label": "95% interval low, actual choice",
+    "match_id": "m_9002",
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "p_goal",
+    "value": 0.03
+   },
+   {
+    "display": "4.7%",
+    "fact_id": "f_607936",
+    "label": "95% interval high, actual choice",
+    "match_id": "m_9002",
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "p_goal",
+    "value": 0.0468
+   },
+   {
+    "display": "3.6%",
+    "fact_id": "f_607937",
+    "label": "95% interval low, alternative",
+    "match_id": "m_9002",
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "p_goal",
+    "value": 0.0363
+   },
+   {
+    "display": "5.4%",
+    "fact_id": "f_607938",
+    "label": "95% interval high, alternative",
+    "match_id": "m_9002",
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "p_goal",
+    "value": 0.0544
+   },
+   {
+    "display": "4242",
+    "fact_id": "f_607939",
+    "label": "random seed of the replays",
+    "match_id": "m_9002",
+    "source": "cache/v4/goal10_decision_1079360.json",
+    "unit": "count",
+    "value": 4242
+   }
+  ],
+  "hand_reviewed": true,
+  "lower_third": "Mbeumo: shot 3.8%, carry on 4.5%, a close call",
+  "match_id": "m_9002",
+  "model": "gemini-4-argon",
+  "prompt_version": "insight_footage@4",
+  "slug": "manutd-mancity-2526",
+  "source": "cache/v4/goal10_decision_1079360.json",
+  "verdict": "close_call",
+  "why": "Mbeumo scores; shooting gives a 3.8% chance of a goal in the next 10 seconds and carrying on 4.5%, a close call."
+ },
+ "schema_version": "1.0.0"
+}

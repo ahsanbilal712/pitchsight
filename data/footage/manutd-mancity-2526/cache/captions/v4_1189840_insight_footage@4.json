@@ -1,0 +1,57 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.006182,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608981",
+     "f_608982"
+    ],
+    "kind": "player",
+    "text": "Patrick Dorgu",
+    "unit": "",
+    "value_text": "p_935"
+   },
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "number",
+    "text": "17.1%",
+    "unit": "p_goal",
+    "value_number": 0.1705
+   },
+   {
+    "evidence_ids": [
+     "f_608983"
+    ],
+    "kind": "number",
+    "text": "10",
+    "unit": "seconds",
+    "value_number": 10.0
+   },
+   {
+    "evidence_ids": [
+     "f_608982"
+    ],
+    "kind": "number",
+    "text": "31.6%",
+    "unit": "p_goal",
+    "value_number": 0.3155
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Patrick Dorgu scores, though carrying on gives 31.6%",
+  "why": "Patrick Dorgu scores from the shot (17.1% goal chance in the next 10 seconds), while carrying the ball on gives a 31.6% chance."
+ },
+ "latency_ms": 9802,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1189840,\"clock\":\"75:28\",\"team\":\"Man Utd\",\"verdict\":\"alternative_better\",\"real_outcome\":\"Dorgu scores\",\"holder\":{\"name\":\"Patrick Dorgu\",\"pid\":\"p_935\",\"describe\":\"the team-mate in the box, central\"},\"actual\":{\"choice\":\"shoot\",\"p_goal_10s\":0.1705,\"ci95\":[0.1547,0.1876],\"fact\":\"f_608981\"},\"alternative\":{\"choice\":\"carry the ball on\",\"p_goal_10s\":0.3155,\"ci95\":[0.2955,0.3362],\"fact\":\"f_608982\",\"target\":null},\"n\":2000,\"horizon_s\":10.0,\"engine\":\"scripted_v1\",\"seed\":4242},\"FACTS\":[{\"fact_id\":\"f_608981\",\"match_id\":\"m_9002\",\"label\":\"goal chance in the next 10 s, actual choice (shoot)\",\"value\":0.1705,\"unit\":\"p_goal\",\"display\":\"17.1%\",\"source\":\"cache/v4/goal10_decision_1189840.json\",\"players\":[\"p_935\"],\"ci95\":[0.1547,0.1876]},{\"fact_id\":\"f_608982\",\"match_id\":\"m_9002\",\"label\":\"goal chance in the next 10 s, alternative (carry the ball on)\",\"value\":0.3155,\"unit\":\"p_goal\",\"display\":\"31.6%\",\"source\":\"cache/v4/goal10_decision_1189840.json\",\"players\":[\"p_935\"],\"ci95\":[0.2955,0.3362]},{\"fact_id\":\"f_608983\",\"match_id\":\"m_9002\",\"label\":\"seconds after the choice that count\",\"value\":10.0,\"unit\":\"seconds\",\"display\":\"10\",\"source\":\"cache/v4/goal10_decision_1189840.json\"},{\"fact_id\":\"f_608984\",\"match_id\":\"m_9002\",\"label\":\"replays of the frozen frame per option\",\"value\":2000,\"unit\":\"count\",\"display\":\"2000\",\"source\":\"cache/v4/goal10_decision_1189840.json\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Patrick Dorgu scores, though carrying on gives 31.6%\",\"why\":\"Patrick Dorgu scores from the shot (17.1% goal chance in the next 10 seconds), while carrying the ball on gives a 31.6% chance.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Patrick Dorgu\",\"kind\":\"player\",\"value_text\":\"p_935\",\"unit\":\"\",\"evidence_ids\":[\"f_608981\",\"f_608982\"]},{\"text\":\"17.1%\",\"kind\":\"number\",\"value_number\":0.1705,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_608981\"]},{\"text\":\"10\",\"kind\":\"number\",\"value_number\":10.0,\"unit\":\"seconds\",\"evidence_ids\":[\"f_608983\"]},{\"text\":\"31.6%\",\"kind\":\"number\",\"value_number\":0.3155,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_608982\"]}]}",
+ "tokens_in": 1821,
+ "tokens_out": 254,
+ "via": "live"
+}

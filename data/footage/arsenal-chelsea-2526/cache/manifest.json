@@ -32,6 +32,22 @@
    "version": "insight_footage@2.keeper_cone_1382650"
   },
   {
+   "cost_usd": 0.006304,
+   "created_at": "2026-10-23T10:07:26Z",
+   "hand_reviewed": false,
+   "key": "m_9003/match/insight@insight_footage@4.goal10_1300500.n2000s4242/gemini-4-argon/s9003",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "captions/v4_1300500_insight_footage@4.json",
+   "producer": "insight",
+   "seed": 9003,
+   "sha256": "7a0e1b8625acc61dbb880fbf6c709ccb7ea6a2f986e2acbcefa75cb9b2aade54",
+   "tokens_in": 1852,
+   "tokens_out": 260,
+   "version": "insight_footage@4.goal10_1300500.n2000s4242"
+  },
+  {
    "created_at": "2026-10-23T09:05:21Z",
    "hand_reviewed": true,
    "key": "m_9003/match/v3@keeper_cone_1382650/none/s9003",
@@ -45,7 +61,7 @@
    "version": "keeper_cone_1382650"
   },
   {
-   "created_at": "2026-10-23T09:51:46Z",
+   "created_at": "2026-10-23T10:03:54Z",
    "hand_reviewed": false,
    "key": "m_9003/match/v4@ghost_future_1300500/none/s9003",
    "kind": "analytics",
@@ -54,11 +70,24 @@
    "path": "v4/ghost_future_1300500.json",
    "producer": "v4",
    "seed": 9003,
-   "sha256": "0d65a7b6a5778630ff9077d1fe4a45cb7a5e125b84be3d2ed92a2fa05b080d47",
+   "sha256": "33e354d2a2ffe3073b6a04f35292c7027408165086d0dff44667ed07a65cce88",
    "version": "ghost_future_1300500"
   },
   {
-   "created_at": "2026-10-23T09:51:38Z",
+   "created_at": "2026-10-23T10:03:54Z",
+   "hand_reviewed": false,
+   "key": "m_9003/match/v4@goal10_1300500/none/s9003",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v4/goal10_1300500.json",
+   "producer": "v4",
+   "seed": 9003,
+   "sha256": "1c4ace4b76b3831b0a20efd9a88055b46d6f15b069ba30405dcfe5de274e3c7d",
+   "version": "goal10_1300500"
+  },
+  {
+   "created_at": "2026-10-23T09:59:57Z",
    "hand_reviewed": false,
    "key": "m_9003/match/v4@goal10_decision_1300500/none/s9003",
    "kind": "analytics",
@@ -69,6 +98,19 @@
    "seed": 9003,
    "sha256": "5b001e60574b6433c4921112271c6b79b6c3e1d49561df1003d3ecd1fb3c48a5",
    "version": "goal10_decision_1300500"
+  },
+  {
+   "created_at": "2026-10-23T10:16:15Z",
+   "hand_reviewed": true,
+   "key": "m_9003/match/v4@line_1300500/none/s9003",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v4/lines_1300500.json",
+   "producer": "v4",
+   "seed": 9003,
+   "sha256": "b59f299d88898632ae5f351156de3404918a4e22d71f1ed085d865a9b2e0a148",
+   "version": "line_1300500"
   },
   {
    "created_at": "2026-10-23T08:35:42Z",
@@ -147,10 +189,10 @@
  "match_seed": 9003,
  "schema_version": "1.0.0",
  "totals": {
-  "cost_usd": 0.016068,
-  "entries": 10,
-  "tokens_in": 4444,
-  "tokens_out": 718
+  "cost_usd": 0.022372,
+  "entries": 13,
+  "tokens_in": 6296,
+  "tokens_out": 978
  },
  "tracking_sha256": "726e408da715fb49f7d3497bdea3f2d3fc5c2da46bbad6362d6e525f726da515"
 }

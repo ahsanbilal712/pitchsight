@@ -1,0 +1,57 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.006304,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_600051",
+     "f_600052"
+    ],
+    "kind": "player",
+    "text": "Eberechi Eze",
+    "unit": "",
+    "value_text": "p_948"
+   },
+   {
+    "evidence_ids": [
+     "f_600052"
+    ],
+    "kind": "number",
+    "text": "5.7%",
+    "unit": "p_goal",
+    "value_number": 0.057
+   },
+   {
+    "evidence_ids": [
+     "f_600053"
+    ],
+    "kind": "number",
+    "text": "10",
+    "unit": "seconds",
+    "value_number": 10.0
+   },
+   {
+    "evidence_ids": [
+     "f_600051"
+    ],
+    "kind": "number",
+    "text": "2.6%",
+    "unit": "p_goal",
+    "value_number": 0.026
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Eberechi Eze shoots (2.6%) vs pass into the box (5.7%)",
+  "why": "Eberechi Eze has his shot saved, though passing to the team-mate in the box, central gives a 5.7% goal chance in the next 10 seconds versus 2.6% for shooting."
+ },
+ "latency_ms": 8682,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1300500,\"clock\":\"79:10\",\"team\":\"Arsenal\",\"verdict\":\"alternative_better\",\"real_outcome\":\"shot saved by S\u00e1nchez\",\"holder\":{\"name\":\"Eberechi Eze\",\"pid\":\"p_948\",\"describe\":\"the team-mate at the edge of the box, on the right\"},\"actual\":{\"choice\":\"shoot\",\"p_goal_10s\":0.026,\"ci95\":[0.0199,0.0339],\"fact\":\"f_600051\"},\"alternative\":{\"choice\":\"pass to the team-mate in the box, central\",\"p_goal_10s\":0.057,\"ci95\":[0.0477,0.068],\"fact\":\"f_600052\",\"target\":{\"name\":null,\"pid\":null,\"describe\":\"the team-mate in the box, central\"}},\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":\"Pass\"},\"n\":2000,\"horizon_s\":10.0,\"engine\":\"scripted_v1\",\"seed\":4242},\"FACTS\":[{\"fact_id\":\"f_600051\",\"match_id\":\"m_9003\",\"label\":\"goal chance in the next 10 s, actual choice (shoot)\",\"value\":0.026,\"unit\":\"p_goal\",\"display\":\"2.6%\",\"source\":\"cache/v4/goal10_decision_1300500.json\",\"players\":[\"p_948\"],\"ci95\":[0.0199,0.0339]},{\"fact_id\":\"f_600052\",\"match_id\":\"m_9003\",\"label\":\"goal chance in the next 10 s, alternative (pass to the team-mate in the box, central)\",\"value\":0.057,\"unit\":\"p_goal\",\"display\":\"5.7%\",\"source\":\"cache/v4/goal10_decision_1300500.json\",\"players\":[\"p_948\"],\"ci95\":[0.0477,0.068]},{\"fact_id\":\"f_600053\",\"match_id\":\"m_9003\",\"label\":\"seconds after the choice that count\",\"value\":10.0,\"unit\":\"seconds\",\"display\":\"10\",\"source\":\"cache/v4/goal10_decision_1300500.json\"},{\"fact_id\":\"f_600054\",\"match_id\":\"m_9003\",\"label\":\"replays of the frozen frame per option\",\"value\":2000,\"unit\":\"count\",\"display\":\"2000\",\"source\":\"cache/v4/goal10_decision_1300500.json\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Eberechi Eze shoots (2.6%) vs pass into the box (5.7%)\",\"why\":\"Eberechi Eze has his shot saved, though passing to the team-mate in the box, central gives a 5.7% goal chance in the next 10 seconds versus 2.6% for shooting.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Eberechi Eze\",\"kind\":\"player\",\"value_text\":\"p_948\",\"unit\":\"\",\"evidence_ids\":[\"f_600051\",\"f_600052\"]},{\"text\":\"5.7%\",\"kind\":\"number\",\"value_number\":0.057,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_600052\"]},{\"text\":\"10\",\"kind\":\"number\",\"value_number\":10.0,\"unit\":\"seconds\",\"evidence_ids\":[\"f_600053\"]},{\"text\":\"2.6%\",\"kind\":\"number\",\"value_number\":0.026,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_600051\"]}]}",
+ "tokens_in": 1852,
+ "tokens_out": 260,
+ "via": "live"
+}

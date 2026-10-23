@@ -14,14 +14,16 @@ def test_real_executors_give_a_verified_cue_with_only_real_names(restore_clip_ca
     restore_clip_cache("liverpool-mancity-2526")
     with ThreadPoolExecutor(1) as pool:            # run() uses asyncio.run: off the main thread (Playwright loop)
         out = pool.submit(run, "liverpool-mancity-2526").result()
-    assert [c[1:] for c in out["cues"]] == [("sliding_doors", "Szoboszlai shoots, Salah was free", True)]
+    assert [c[1:] for c in out["cues"]] == [("sliding_doors", "Szoboszlai: shot 1.1%, pass 3.3% (goal in 10 s)", True)]
     lines = [json.loads(line) for line in (ROOT / out["path"]).read_text().splitlines()]
     execs = [r["doc"]["executor"] for r in lines if r["collection"] == "traces" and r["doc"]["moment_id"] == "mo_00001"]
     assert execs == ["ingest", "scout", "proposer", "rollout", "tactician", "narrator", "factcheck", "director",
                      "cuebus"]
     exp = next(r["doc"] for r in lines if r["collection"] == "explanations")
     cue = next(r["doc"] for r in lines if r["collection"] == "cues")
-    assert exp["prompt_version"] == "tactician_footage@1" and cue["graphics"]["bar"]["label"] == "Liverpool win chance"
+    assert exp["prompt_version"] == "insight_footage@4" and exp["counterfactual_id"] is None      # video v4
+    assert cue["graphics"]["bar"] == {"label": "Liverpool goal chance, next 10 s", "from": 0.011, "to": 0.033}
+    assert "win" not in json.dumps([r["doc"] for r in lines if r["doc"].get("moment_id") == "mo_00001"]).lower()
     league = json.loads((ROOT / "data" / "league" / "players.json").read_text())
     surnames = {p["name"].split()[-1] for p in league if len(p["name"].split()[-1]) > 3}
     shown = " ".join([cue["text"]["headline"], cue["text"]["body"], cue["explain"]["why"], exp["why"]])

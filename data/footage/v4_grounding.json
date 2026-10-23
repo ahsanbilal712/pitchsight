@@ -1,0 +1,342 @@
+{
+ "$schema": "model_cache.schema.json",
+ "schema_version": "1.0.0",
+ "record": "tool_result",
+ "result": {
+  "card_line": "152 of 158 on-screen numbers bound to verified evidence (146 of 146 claims verified)",
+  "claims": 146,
+  "claims_verified": 146,
+  "numbers": 158,
+  "numbers_bound": 152,
+  "groups": {
+   "studio cue": {
+    "items": 2,
+    "numbers": 13,
+    "numbers_bound": 13,
+    "claims": 11,
+    "claims_verified": 11
+   },
+   "v4 line": {
+    "items": 6,
+    "numbers": 34,
+    "numbers_bound": 34,
+    "claims": 24,
+    "claims_verified": 24
+   },
+   "v4 overlay": {
+    "items": 7,
+    "numbers": 94,
+    "numbers_bound": 88,
+    "claims": 94,
+    "claims_verified": 94
+   },
+   "video caption": {
+    "items": 10,
+    "numbers": 17,
+    "numbers_bound": 17,
+    "claims": 17,
+    "claims_verified": 17
+   }
+  },
+  "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
+  "scope": "text and numbers that reach the screen in video v4: the re-recorded studio cue, the v4 lines, the v4 decision card, burnt-in captions (edit_v4.yaml)",
+  "rows": [
+   {
+    "group": "studio cue",
+    "item": "liverpool-mancity-2526 sliding_doors (cue)",
+    "cue_id": "c_000011",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 9,
+    "numbers_bound": 9,
+    "rejected": []
+   },
+   {
+    "group": "studio cue",
+    "item": "liverpool-mancity-2526 recap (held recap)",
+    "cue_id": "c_000094",
+    "claims": 7,
+    "claims_verified": 7,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v4 line",
+    "item": "arsenal-chelsea-2526 79:10 (alternative_better)",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v4/lines_1300500.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "v4 line",
+    "item": "liverpool-mancity-2526 86:23 (alternative_better)",
+    "file": "data/footage/liverpool-mancity-2526/cache/v4/lines_875000.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "v4 line",
+    "item": "manutd-mancity-2526 64:27 (close_call)",
+    "file": "data/footage/manutd-mancity-2526/cache/v4/lines_1079360.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "v4 line",
+    "item": "manutd-mancity-2526 75:28 (alternative_better)",
+    "file": "data/footage/manutd-mancity-2526/cache/v4/lines_1189840.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "v4 line",
+    "item": "manutd-mancity-2526 56:41 (alternative_better)",
+    "file": "data/footage/manutd-mancity-2526/cache/v4/lines_877000.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "v4 line",
+    "item": "manutd-spurs-2425 38:02 (close_call)",
+    "file": "data/footage/manutd-spurs-2425/cache/v4/lines_682800.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "v4 overlay",
+    "item": "arsenal-chelsea-2526 79:10 decision card",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v4/lines_1300500.json",
+    "claims": 8,
+    "claims_verified": 8,
+    "numbers": 8,
+    "numbers_bound": 7,
+    "diff": [
+     "2000 vs 2,000"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "v4 overlay",
+    "item": "liverpool-mancity-2526 86:23 decision card",
+    "file": "data/footage/liverpool-mancity-2526/cache/v4/lines_875000.json",
+    "claims": 8,
+    "claims_verified": 8,
+    "numbers": 8,
+    "numbers_bound": 7,
+    "diff": [
+     "2000 vs 2,000"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "v4 overlay",
+    "item": "manutd-mancity-2526 64:27 decision card",
+    "file": "data/footage/manutd-mancity-2526/cache/v4/lines_1079360.json",
+    "claims": 8,
+    "claims_verified": 8,
+    "numbers": 8,
+    "numbers_bound": 7,
+    "diff": [
+     "2000 vs 2,000"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "v4 overlay",
+    "item": "manutd-mancity-2526 75:28 decision card",
+    "file": "data/footage/manutd-mancity-2526/cache/v4/lines_1189840.json",
+    "claims": 8,
+    "claims_verified": 8,
+    "numbers": 8,
+    "numbers_bound": 7,
+    "diff": [
+     "2000 vs 2,000"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "v4 overlay",
+    "item": "manutd-mancity-2526 56:41 decision card",
+    "file": "data/footage/manutd-mancity-2526/cache/v4/lines_877000.json",
+    "claims": 8,
+    "claims_verified": 8,
+    "numbers": 8,
+    "numbers_bound": 7,
+    "diff": [
+     "2000 vs 2,000"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "v4 overlay",
+    "item": "manutd-spurs-2425 38:02 decision card",
+    "file": "data/footage/manutd-spurs-2425/cache/v4/lines_682800.json",
+    "claims": 8,
+    "claims_verified": 8,
+    "numbers": 8,
+    "numbers_bound": 7,
+    "diff": [
+     "2000 vs 2,000"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "v4 overlay",
+    "item": "Man Utd v Spurs pass X-ray tags",
+    "file": "data/footage/manutd-spurs-2425/cache/v4/pass_xray_goal10_240000.json",
+    "claims": 46,
+    "claims_verified": 46,
+    "numbers": 46,
+    "numbers_bound": 46,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Liverpool v Man City, 86th minute, all square. Liverpool are coming.",
+    "sources": [
+     "e_0033"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Szoboszlai shoots. WHYLINE freezes the real frame and replays the moment 2,000 times.",
+    "sources": [
+     "f_607504"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Shot: a 1.1% chance of a goal in the next 10 s. The pass to the edge of the box: 3.3%.",
+    "sources": [
+     "f_607501",
+     "f_607503",
+     "f_607502"
+    ],
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s.",
+    "sources": [
+     "pass_xray_goal10_240000 240000 t6 p_goal_10s",
+     "pass_xray_goal10_240000 242000 t30 p_goal_10s",
+     "pass_xray_goal10_240000 horizon_s"
+    ],
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "37.0 km/h at the top, at least 91 m end to end.",
+    "sources": [
+     "speed_gun_242700 top_speed_kmh",
+     "speed_gun_242700 distance_m"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Arsenal v Chelsea. Eze shoots: 2.6%.",
+    "sources": [
+     "f_600051"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "The pass into the box was worth 5.7%.",
+    "sources": [
+     "f_600052"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Man Utd v Man City. Amad shoots at 2.5%; the pass into the box was worth 4.5%.",
+    "sources": [
+     "f_607701",
+     "f_607702"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Mbeumo from here: a 3.8% chance of a goal in the next 10 s.",
+    "sources": [
+     "f_607931",
+     "f_607933"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Dorgu from here: 17%.",
+    "sources": [
+     "f_608981"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   }
+  ],
+  "pending": []
+ }
+}

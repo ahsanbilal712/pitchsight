@@ -25,3 +25,11 @@ def test_unverified_names_in_a_line_are_caught():
     assert unverified_in("liverpool-mancity-2526", "Szoboszlai shoots; Salah was free") == []
     assert unverified_in("liverpool-mancity-2526", "Van Dijk heads clear from Szoboszlai") == ["Virgil van Dijk"]
     assert unverified_in("manutd-mancity-2526", "Mount makes it three") == ["Mason Mount"]
+
+
+def test_a_shot_is_named_only_when_that_shot_is_verified():
+    shots = verify("liverpool-mancity-2526")["shots"]
+    assert shots["e_0006"]["name"] == "Dominik Szoboszlai" and shots["e_0006"]["source"] == "score_bug goal"
+    assert shots["e_0033"]["source"] == "moments/hand/875000.json (holder shoots)"
+    haaland_blocked = next(s for s in shots.values() if s["clip_ms"] == 707000)
+    assert haaland_blocked["tagger_name"] and haaland_blocked["name"] is None   # verified player, unverified shot

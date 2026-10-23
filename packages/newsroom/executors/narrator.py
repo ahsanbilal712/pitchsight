@@ -89,8 +89,10 @@ async def write_line(deps: Deps, msg: Envelope, kind: str, claims: list[dict], d
     return {**fallback, "status": status, "reason": reason}
 
 
-def draft_kind(moment_kind: str, counterfactual: dict | None) -> str:
-    if counterfactual:
+def draft_kind(moment_kind: str, comparison: dict | None) -> str:
+    """A comparison of the real choice with an alternative (a counterfactual, or a real clip's goal-in-10s decision)
+    is a Sliding Doors cue."""
+    if comparison:
         return "sliding_doors"
     return moment_kind if moment_kind in CUE_KINDS else "fast_line"
 
@@ -109,7 +111,7 @@ class NarratorExecutor(NewsroomExecutor):
         exp = msg.explanation
         checked = [c for c in verify_claims(msg.moment.match_id, exp.get("claims", []), self.deps.bb)["claims"]
                    if c["verified"]]  # the Narrator only ever sees verified claims
-        kind = draft_kind(msg.moment.kind, msg.counterfactual)
+        kind = draft_kind(msg.moment.kind, msg.counterfactual or getattr(msg.moment, "goal_in_10s", None))
         line = await write_line(self.deps, msg, kind, checked, attempt=1)
         base = msg.hop(self.id).model_dump(exclude={"explanation", "counterfactual"})
         out = Draft(**base, kind=kind, headline=line["headline"], body=line["body"], why=exp.get("why", ""),

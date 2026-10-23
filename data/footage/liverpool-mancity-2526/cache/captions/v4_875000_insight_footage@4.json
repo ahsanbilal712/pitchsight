@@ -1,0 +1,57 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.006462,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607501",
+     "f_607502"
+    ],
+    "kind": "player",
+    "text": "Dominik Szoboszlai",
+    "unit": "",
+    "value_text": "p_912"
+   },
+   {
+    "evidence_ids": [
+     "f_607502"
+    ],
+    "kind": "number",
+    "text": "3.3%",
+    "unit": "p_goal",
+    "value_number": 0.033
+   },
+   {
+    "evidence_ids": [
+     "f_607501"
+    ],
+    "kind": "number",
+    "text": "1.1%",
+    "unit": "p_goal",
+    "value_number": 0.011
+   },
+   {
+    "evidence_ids": [
+     "f_607503"
+    ],
+    "kind": "number",
+    "text": "10",
+    "unit": "seconds",
+    "value_number": 10.0
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Dominik Szoboszlai: pass gives 3.3% vs 1.1% for shot",
+  "why": "Dominik Szoboszlai has his shot blocked by a defender, while a pass to the team-mate at the edge of the box, on the left gives a 3.3% goal chance in the next 10 seconds versus 1.1%."
+ },
+ "latency_ms": 10395,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":875000,\"clock\":\"86:23\",\"team\":\"Liverpool\",\"verdict\":\"alternative_better\",\"real_outcome\":\"shot blocked by a defender\",\"holder\":{\"name\":\"Dominik Szoboszlai\",\"pid\":\"p_912\",\"describe\":\"the team-mate further out, on the right\"},\"actual\":{\"choice\":\"shoot\",\"p_goal_10s\":0.011,\"ci95\":[0.0073,0.0166],\"fact\":\"f_607501\"},\"alternative\":{\"choice\":\"pass to the team-mate at the edge of the box, on the left\",\"p_goal_10s\":0.033,\"ci95\":[0.026,0.0418],\"fact\":\"f_607502\",\"target\":{\"name\":null,\"pid\":null,\"describe\":\"the team-mate at the edge of the box, on the left\"}},\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":\"Pass\"},\"n\":2000,\"horizon_s\":10.0,\"engine\":\"scripted_v1\",\"seed\":4242},\"FACTS\":[{\"fact_id\":\"f_607501\",\"match_id\":\"m_9001\",\"label\":\"goal chance in the next 10 s, actual choice (shoot)\",\"value\":0.011,\"unit\":\"p_goal\",\"display\":\"1.1%\",\"source\":\"cache/v4/goal10_decision_875000.json\",\"players\":[\"p_912\"],\"ci95\":[0.0073,0.0166]},{\"fact_id\":\"f_607502\",\"match_id\":\"m_9001\",\"label\":\"goal chance in the next 10 s, alternative (pass to the team-mate at the edge of the box, on the left)\",\"value\":0.033,\"unit\":\"p_goal\",\"display\":\"3.3%\",\"source\":\"cache/v4/goal10_decision_875000.json\",\"players\":[\"p_912\"],\"ci95\":[0.026,0.0418]},{\"fact_id\":\"f_607503\",\"match_id\":\"m_9001\",\"label\":\"seconds after the choice that count\",\"value\":10.0,\"unit\":\"seconds\",\"display\":\"10\",\"source\":\"cache/v4/goal10_decision_875000.json\"},{\"fact_id\":\"f_607504\",\"match_id\":\"m_9001\",\"label\":\"replays of the frozen frame per option\",\"value\":2000,\"unit\":\"count\",\"display\":\"2000\",\"source\":\"cache/v4/goal10_decision_875000.json\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Dominik Szoboszlai: pass gives 3.3% vs 1.1% for shot\",\"why\":\"Dominik Szoboszlai has his shot blocked by a defender, while a pass to the team-mate at the edge of the box, on the left gives a 3.3% goal chance in the next 10 seconds versus 1.1%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Dominik Szoboszlai\",\"kind\":\"player\",\"value_text\":\"p_912\",\"unit\":\"\",\"evidence_ids\":[\"f_607501\",\"f_607502\"]},{\"text\":\"3.3%\",\"kind\":\"number\",\"value_number\":0.033,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_607502\"]},{\"text\":\"1.1%\",\"kind\":\"number\",\"value_number\":0.011,\"unit\":\"p_goal\",\"evidence_ids\":[\"f_607501\"]},{\"text\":\"10\",\"kind\":\"number\",\"value_number\":10.0,\"unit\":\"seconds\",\"evidence_ids\":[\"f_607503\"]}]}",
+ "tokens_in": 1866,
+ "tokens_out": 273,
+ "via": "live"
+}

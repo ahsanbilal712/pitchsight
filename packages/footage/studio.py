@@ -189,13 +189,13 @@ def v4_line(slug: str, clip_ms: int) -> dict | None:
 
 
 def ghost_trail(slug: str, clip_ms: int) -> list[list[float]]:
-    """The ball path of track A's most typical future of the alternative (10 Hz), at 1 Hz for the cue."""
+    """The ball path of track A's most typical future of the alternative (a frame every step_ms), at 1 Hz."""
     path = clip_dir(slug) / "cache" / "v4" / f"ghost_future_{clip_ms}.json"
     if not path.exists():
         return []
     g = json.loads(path.read_text())["result"]
-    step = int(g.get("hz", 10))
-    return [[round(float(b[0]), 2), round(float(b[1]), 2)] for b in g["ball"][::step]]
+    step = max(1, 1000 // int(g.get("step_ms", 100)))
+    return [[round(float(f["ball"][0]), 2), round(float(f["ball"][1]), 2)] for f in g["frames"][::step]]
 
 
 async def run_moment_v4(deps, f: dict, line: dict) -> None:
@@ -347,6 +347,10 @@ def write_sqlite(slug: str, out: list[dict], evidence_lines: list[str], path) ->
             for fact in (json.loads(f.read_text())["result"].get("caption") or {}).get("facts", []):
                 bb.put("facts", fact)
                 n += 1
+    for f in (clip_dir(slug) / "cache" / "v4").glob("lines_*.json"):       # video v4: the facts a v4 cue cites
+        for fact in json.loads(f.read_text())["result"]["facts"]:
+            bb.put("facts", fact)
+            n += 1
     fo = clip_dir(slug) / "cache" / "fourth_official" / "evidence_772400.jsonl"
     if fo.exists():
         for line in fo.read_text().splitlines():

@@ -5,6 +5,34 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v4: the six goal-in-10s lines, studio re-recorded, v4 grounding (track B)
+
+- **Lines** `data/footage/<slug>/cache/v4/lines_<clip_ms>.json` for Liverpool 86:23, Arsenal 79:10, Man Utd v City
+  56:41 / 64:27 (Mbeumo) / 75:28 (Dorgu), Spurs 38:02 (Werner): gemini-4-argon (`insight_footage@4`, with the real
+  outcome in the payload), Fact Checker, gates, hand review (one format: "Name: shot X%, alternative Y%"; keepers
+  unnamed). Verdicts from the 95% intervals: alternative better at 86:23 (pass 3.3% v shot 1.1%), 79:10 (5.7% v
+  2.6%), 56:41 (4.5% v 2.5%), 75:28 (carry 32% v 17%, he scored); close call at 64:27 (3.8% v 4.5%, he scored) and
+  38:02 (1.4% v 0.6%). Each file carries `display` (one string per number, track C's fmt_pct rule, halves up),
+  `overlay_labels` (verified names only) and the facts for the card's small print.
+- **Names:** `names_verified.json` now has `shots`: a shooter is named only where that shot is verified (score-bug
+  goal, or a hand-marked frame whose named holder shoots): 14 of 56.
+- **Studio:** Liverpool re-recorded on the v4 line: sliding_doors cue, bar "Liverpool goal chance, next 10 s"
+  0.011 -> 0.033, ghost trail from track A's ghost future, no win chance in the moment's stream (Director reads
+  `goal_in_10s` on the moment; Narrator treats it as a Sliding Doors comparison). Recap unchanged.
+- **Grounding:** `python -m footage.grounding v4` -> `data/footage/v4_grounding.json`: studio cue, v4 lines,
+  every decision-card number as track C's fmt_pct prints it, the pass X-ray tags, the burnt-in captions of
+  edit_v4.yaml (declared sources, verified names). Now **152 of 158**: the six cards print "n = 2000" while the
+  caption says "2,000" (asked track C). v3 grounding reads the studio as the v3 final recorded it (git 14d7679):
+  still 75 of 75.
+- **Fixed on the way:** @4 runs wrote to the same cache path as @3, overwriting four @3 records; caption records are
+  now versioned by prompt, the four @3 manifest entries were dropped (their $0.0240 stays in the ledger).
+- **Spend:** 10 Argon calls, **$0.0616** (m_9001 $0.0065, m_9002 $0.0368, m_9003 $0.0063, m_9004 $0.0121);
+  project $3.4643 of $50. No new GCP resource; quota project ffc-19484.
+- Verification: `pytest tests/footage tests/newsroom tests/cache` 220 passed, 4 skipped; ruff clean;
+  validate_schemas OK (5408 documents); check_spend OK.
+
+---
+
 ## 2026-10-23 · Video v4: line writer on goal-in-10s, Director bar, studio v4 path (track B, code)
 
 - `footage.v4_lines` (+ prompt `insight_footage@3`): lower-third (<= 60 chars) and one-sentence explanation per

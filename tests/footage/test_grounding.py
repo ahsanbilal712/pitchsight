@@ -1,4 +1,4 @@
-"""Grounded-claims count (video v3 metrics card): every on-screen number bound, and the check bites."""
+"""Grounded-claims count (video v3 and v4 metrics cards): every on-screen number bound, and the check bites."""
 
 from footage.clips import CLIPS
 from footage.grounding import _check, run
@@ -23,3 +23,12 @@ def test_a_wrong_number_is_caught():
     assert ok["numbers_bound"] == ok["numbers"] == 1 and ok["claims_verified"] == 1
     assert bad["claims_verified"] == 0 and bad["numbers_bound"] == 0
     assert unclaimed["numbers"] == 2 and unclaimed["numbers_bound"] == 1
+
+
+def test_v4_lines_studio_and_captions_are_bound_and_the_overlay_is_checked():
+    r = run("v4")
+    for g in ("studio cue", "v4 line", "video caption"):
+        x = r["groups"][g]
+        assert x["numbers_bound"] == x["numbers"] > 0 and x["claims_verified"] == x["claims"], (g, x)
+    assert r["groups"]["v4 overlay"]["items"] == 7                  # six decision cards and the pass X-ray tags
+    assert "win" not in " ".join(row["item"] for row in r["rows"]).lower()

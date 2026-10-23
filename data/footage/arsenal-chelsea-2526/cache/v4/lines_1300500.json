@@ -1,0 +1,219 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "v4_line",
+  "cache_key": "m_9003/match/insight@insight_footage@4.goal10_1300500.n2000s4242/gemini-4-argon/s9003",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_600051",
+     "f_600052"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Eze",
+    "unit": null,
+    "value": "p_948",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_600051"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "2.6%",
+    "unit": "p_goal",
+    "value": 0.026,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_600052"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "5.7%",
+    "unit": "p_goal",
+    "value": 0.057,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_600053"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "10",
+    "unit": "seconds",
+    "value": 10.0,
+    "verified": true
+   }
+  ],
+  "clip_ms": 1300500,
+  "clock": "79:10",
+  "confidence": 0.95,
+  "decision": {
+   "actual": {
+    "choice": "shoot",
+    "ci95": [
+     0.0199,
+     0.0339
+    ],
+    "fact": "f_600051",
+    "p_goal_10s": 0.026
+   },
+   "alternative": {
+    "choice": "pass to the team-mate in the box, central",
+    "ci95": [
+     0.0477,
+     0.068
+    ],
+    "fact": "f_600052",
+    "p_goal_10s": 0.057,
+    "target": {
+     "describe": "the team-mate in the box, central",
+     "name": null,
+     "pid": null
+    }
+   },
+   "clip_ms": 1300500,
+   "clock": "79:10",
+   "engine": "scripted_v1",
+   "holder": {
+    "describe": "the team-mate at the edge of the box, on the right",
+    "name": "Eberechi Eze",
+    "pid": "p_948"
+   },
+   "horizon_s": 10.0,
+   "n": 2000,
+   "overlay_labels": {
+    "actual": "Shot",
+    "alternative": "Pass"
+   },
+   "real_outcome": "shot saved by S\u00e1nchez",
+   "seed": 4242,
+   "team": "Arsenal",
+   "verdict": "alternative_better"
+  },
+  "display": {
+   "f_600051": "2.6%",
+   "f_600052": "5.7%",
+   "f_600053": "10",
+   "f_600054": "2,000",
+   "f_600055": "2.0%",
+   "f_600056": "3.4%",
+   "f_600057": "4.8%",
+   "f_600058": "6.8%",
+   "f_600059": "4242"
+  },
+  "facts": [
+   {
+    "ci95": [
+     0.0199,
+     0.0339
+    ],
+    "display": "2.6%",
+    "fact_id": "f_600051",
+    "label": "goal chance in the next 10 s, actual choice (shoot)",
+    "match_id": "m_9003",
+    "players": [
+     "p_948"
+    ],
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "p_goal",
+    "value": 0.026
+   },
+   {
+    "ci95": [
+     0.0477,
+     0.068
+    ],
+    "display": "5.7%",
+    "fact_id": "f_600052",
+    "label": "goal chance in the next 10 s, alternative (pass to the team-mate in the box, central)",
+    "match_id": "m_9003",
+    "players": [
+     "p_948"
+    ],
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "p_goal",
+    "value": 0.057
+   },
+   {
+    "display": "10",
+    "fact_id": "f_600053",
+    "label": "seconds after the choice that count",
+    "match_id": "m_9003",
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "seconds",
+    "value": 10.0
+   },
+   {
+    "display": "2,000",
+    "fact_id": "f_600054",
+    "label": "replays of the frozen frame per option",
+    "match_id": "m_9003",
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "count",
+    "value": 2000
+   },
+   {
+    "display": "2.0%",
+    "fact_id": "f_600055",
+    "label": "95% interval low, actual choice",
+    "match_id": "m_9003",
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "p_goal",
+    "value": 0.0199
+   },
+   {
+    "display": "3.4%",
+    "fact_id": "f_600056",
+    "label": "95% interval high, actual choice",
+    "match_id": "m_9003",
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "p_goal",
+    "value": 0.0339
+   },
+   {
+    "display": "4.8%",
+    "fact_id": "f_600057",
+    "label": "95% interval low, alternative",
+    "match_id": "m_9003",
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "p_goal",
+    "value": 0.0477
+   },
+   {
+    "display": "6.8%",
+    "fact_id": "f_600058",
+    "label": "95% interval high, alternative",
+    "match_id": "m_9003",
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "p_goal",
+    "value": 0.068
+   },
+   {
+    "display": "4242",
+    "fact_id": "f_600059",
+    "label": "random seed of the replays",
+    "match_id": "m_9003",
+    "source": "cache/v4/goal10_decision_1300500.json",
+    "unit": "count",
+    "value": 4242
+   }
+  ],
+  "hand_reviewed": true,
+  "lower_third": "Eze: shot 2.6%, pass 5.7% (goal in 10 s)",
+  "match_id": "m_9003",
+  "model": "gemini-4-argon",
+  "prompt_version": "insight_footage@4",
+  "slug": "arsenal-chelsea-2526",
+  "source": "cache/v4/goal10_decision_1300500.json",
+  "verdict": "alternative_better",
+  "why": "Eze's shot is saved; a pass to the team-mate in the middle of the box gives a 5.7% chance of a goal in the next 10 seconds, against 2.6%."
+ },
+ "schema_version": "1.0.0"
+}

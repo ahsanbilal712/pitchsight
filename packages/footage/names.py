@@ -142,14 +142,46 @@ def verify(slug: str) -> dict:
         add(a["player_name"], team, {"kind": "score_bug", "ref": f"score_bug.json {r['clip_ms']} + {e['id']}"},
             {"clip_ms": a["clip_ms"], "event": e["id"]})
 
+    shots = shot_names(slug, names)
     ok = {n for n in names}
     rejected = [r for r in rejected if not any(_same(r["name"], n) for n in ok)] + \
                [{"name": n, "why": "tagger only"} for n in sorted(candidates(slug))
                 if not any(_same(n, k) for k in ok) and not any(r["name"] == n for r in rejected)]
-    doc = {"slug": slug, "names": dict(sorted(names.items())), "rejected": rejected,
+    doc = {"slug": slug, "names": dict(sorted(names.items())), "shots": shots, "rejected": rejected,
            "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"}
     (clip_dir(slug) / "names_verified.json").write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
     return doc
+
+
+def shot_names(slug: str, names: dict[str, dict]) -> dict[str, dict]:
+    """Who took each tagged shot, only where that shot is verified: a goal the score bug confirms for the tagger's
+    scorer (a score_bug link to this event), or a hand-marked frame whose named holder shoots (moments/hand, the
+    real action "shoot") within 3 s before the tagged shot. A verified player is not enough: the attribution of
+    this shot has to be. Else the name is None and the shot is shown without one."""
+    hand = []
+    for path in sorted((clip_dir(slug) / "moments" / "hand").glob("*.json")):
+        m = json.loads(path.read_text())
+        holder = next((p for p in m["players"] if p.get("label") == m["ball"].get("holder")), None)
+        if holder and holder.get("name") and (m.get("actual") or {}).get("kind") == "shoot":
+            hand.append((int(path.stem), holder["name"], path.name))
+    out = {}
+    for e in _events(slug):
+        a = e.get("attrs") or {}
+        if e["type"] != "shot":
+            continue
+        name, source = None, None
+        for n, entry in names.items():
+            if any(lk.get("event") and abs(lk["clip_ms"] - a["clip_ms"]) <= 2000 for lk in entry["links"]) \
+                    and any(s["kind"] == "score_bug" for s in entry["sources"]) and a.get("player_name") \
+                    and _same(a["player_name"], n):
+                name, source = n, "score_bug goal"
+        for ms, n, f in hand:
+            if name is None and 0 <= a["clip_ms"] - ms <= 3000 and a.get("player_name") and \
+                    _same(a["player_name"], n):
+                name, source = n, f"moments/hand/{f} (holder shoots)"
+        out[e["id"]] = {"clip_ms": a["clip_ms"], "tagger_name": a.get("player_name"), "name": name,
+                        "source": source}
+    return out
 
 
 def verified(slug: str) -> dict[str, dict]:
