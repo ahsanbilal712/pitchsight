@@ -3,11 +3,11 @@
  "schema_version": "1.0.0",
  "record": "tool_result",
  "result": {
-  "card_line": "113 of 113 on-screen numbers bound to verified evidence (103 of 103 claims verified)",
-  "claims": 103,
-  "claims_verified": 103,
-  "numbers": 113,
-  "numbers_bound": 113,
+  "card_line": "115 of 115 on-screen numbers bound to verified evidence (105 of 105 claims verified)",
+  "claims": 105,
+  "claims_verified": 105,
+  "numbers": 115,
+  "numbers_bound": 115,
   "groups": {
    "studio cue": {
     "items": 3,
@@ -24,11 +24,11 @@
     "claims_verified": 19
    },
    "v5 overlay": {
-    "items": 13,
-    "numbers": 50,
-    "numbers_bound": 50,
-    "claims": 50,
-    "claims_verified": 50
+    "items": 14,
+    "numbers": 52,
+    "numbers_bound": 52,
+    "claims": 52,
+    "claims_verified": 52
    },
    "video caption": {
     "items": 14,
@@ -262,6 +262,16 @@
     "rejected": []
    },
    {
+    "group": "v5 overlay",
+    "item": "mci_ghost_v5: ghost future footer (n 2,000, seed 4242)",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/ghost_future_877000.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
     "group": "video caption",
     "item": "Liverpool v Man City. Szoboszlai's free kick: 0.02 xG. In.",
     "sources": [
@@ -326,7 +336,7 @@
     "group": "video caption",
     "item": "Man Utd v Man City. Amad shoots from here: 0.06 xG.",
     "sources": [
-     "f_607701"
+     "v5 xg_decision_877000 actual.xg (freeze)"
     ],
     "claims": 1,
     "claims_verified": 1,
@@ -400,7 +410,7 @@
     "group": "video caption",
     "item": "Mbeumo from here: 0.10 xG.",
     "sources": [
-     "f_607931"
+     "v5 xg_decision_1079360 actual.xg (freeze)"
     ],
     "claims": 1,
     "claims_verified": 1,

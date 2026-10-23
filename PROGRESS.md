@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v5 grounding: 115 of 115, "from here" binds the freeze (track B)
+
+- Lead's ruling as a checker rule (`footage.grounding.v5_caption_sources.shot_xg`): a shot number said "from here"
+  binds to the freeze value (xg_decision, frame_role freeze; Amad 0.06), any other to the reviewed strike (shots_0,
+  frame_role strike; Eze 0.08). The decision card follows the same split ("Shot from here" on decision freezes).
+- The ghost future footer ("the most typical of 2,000 simulated futures, seed 4242") is counted for every ghost
+  beat in the edit, from its data file.
+- `python -m footage.grounding` on track C's v5 draft 2 (066f06f): **115 of 115 on-screen numbers bound to verified
+  evidence (105 of 105 claims verified)**: studio cues 18/18 (Liverpool shot-only, Amad), v5 lines 25/25, overlays
+  52/52, captions 20/20. v3 73 of 73, v4 121 of 121 (Spurs pass X-ray withdrawn).
+- Already in 528ac3f: Amad's studio cue on the v5 line (t_in_ms 3,403,700), the Liverpool and Eze strike lines.
+- No model call. Verification: `pytest tests/footage tests/newsroom tests/cache` 225 passed, 4 skipped (exit 0).
+
+---
+
 ## 2026-10-23 · Video v5: Amad compared at the freeze, Amad studio, grounding 113 of 113 (track B)
 
 - **Amad 56:41** (track C's point, lead's rule 3): a decision freeze compares the shot and the pass at the same

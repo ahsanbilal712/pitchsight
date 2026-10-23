@@ -48,3 +48,13 @@ def test_v5_lines_studio_and_captions_are_bound():
     assert r["numbers"] - r["numbers_bound"] == sum(
         row["numbers"] - row["numbers_bound"] for row in r["rows"] if row["item"] in {u["item"] for u in r["unbound"]})
     assert "win" not in " ".join(row["item"] for row in r["rows"]).lower()
+
+
+def test_v5_from_here_binds_the_freeze_and_any_other_shot_the_strike():
+    from footage.grounding import v5_caption_sources
+
+    src = v5_caption_sources()
+    (amad,) = src["Man Utd v Man City. Amad shoots from here: 0.06 xG."]
+    assert amad[3] == 0.0635 and "freeze" in amad[4][1]                    # strike would be 0.07
+    eze = src["Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved."][1]
+    assert eze[3] == 0.08 and "shots_0 e_0046" in eze[4][1]                # strike; the freeze was 0.05

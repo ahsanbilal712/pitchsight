@@ -279,6 +279,15 @@ def v5_caption_sources() -> dict[str, list[tuple]]:
         f = {f["role"]: f for f in _v5(slug, f"lines_{ms}.json")["facts"]}[role]
         return (tok, "number", f["unit"], f, (slug, f["fact_id"], "line"))
 
+    def shot_xg(tok, slug, ms, caption):
+        """Lead's ruling: a shot number said "from here" is the freeze value (xg_decision, frame_role freeze),
+        any other the reviewed strike (shots_0, frame_role strike)."""
+        d = _v5(slug, f"xg_decision_{ms}.json")
+        if "from here" in caption.lower():
+            return (tok, "number", "xg", d["actual"].get("xg_exact", d["actual"]["xg"]),
+                    (slug, f"v5 xg_decision_{ms} actual.xg (freeze)", "fact"))
+        return xg_of(tok, slug, d["actual"]["event_id"])
+
     race = _v5(lfc, "xg_race_0.json")["series"][-1]
     title = json.loads((clip_dir(lfc) / "description.json").read_text())["title"]
     return {
@@ -288,12 +297,13 @@ def v5_caption_sources() -> dict[str, list[tuple]]:
         "86th minute, all square. Szoboszlai shoots from 29 m.":
             [("86th minute", "minute", "minute", 86, (lfc, "e_0033", "event")), dist_of("29 m", lfc, "e_0033")],
         "0.02 xG: the keeper, the cone, the bodies in the way. Blocked.": [xg_of("0.02", lfc, "e_0033")],
-        "Man Utd v Man City. Amad shoots from here: 0.06 xG.": [line("0.06", mci, 877000, "actual")],   # the freeze
+        "Man Utd v Man City. Amad shoots from here: 0.06 xG.":
+            [shot_xg("0.06", mci, 877000, "Amad shoots from here")],
         "The pass into the box was worth 0.11, almost twice as much.": [line("0.11", mci, 877000, "alternative")],
         "Seconds later, 0.32 xG: saved.": [xg_of("0.32", mci, "e_0038")],
         "Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved.":
             [dist_of("16 m", ars, "e_0046"), xg_of("0.08", ars, "e_0046")],
-        "Mbeumo from here: 0.10 xG.": [line("0.10", mci, 1079360, "actual")],
+        "Mbeumo from here: 0.10 xG.": [shot_xg("0.10", mci, 1079360, "Mbeumo from here")],
         "Dorgu, from 4.5 m: 0.48 xG.": [dist_of("4.5 m", mci, "e_0054"), line("0.48", mci, 1189840, "actual")],
         "It replays the pass 2,000 times. This is the most typical future, on the real pitch.":
             [("2,000", "number", "count", _beat_v4(mci, "ghost_future_877000.json")["n"],
@@ -368,8 +378,8 @@ def run(version: str = "v3", edit: Path | None = None) -> dict:
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
     if version == "v5":
         captions = video_captions("v5", edit) if edit.exists() else []
-        return _write(studio_cues("v5") + v5_lines() + v5_decisions() + v5_shots_and_race() + captions, version,
-                      edit)
+        return _write(studio_cues("v5") + v5_lines() + v5_decisions() + v5_shots_and_race() + v5_ghost_footer(edit)
+                      + captions, version, edit)
     if version == "v4":
         captions = video_captions("v4", edit) if edit.exists() else []
         return _write(studio_cues("v4") + v4_lines() + v4_overlay() + v4_small_print() + captions, version, edit)
@@ -432,6 +442,24 @@ def _edit_decisions(edit: Path | None = None) -> set[str]:
              if c.get("shot")}
     return {f"data/footage/{beats[b]['xg'].removeprefix('data/footage/')}" for b in shots
             if isinstance(beats.get(b), dict) and beats[b].get("xg")}
+
+
+def v5_ghost_footer(edit: Path | None = None) -> list[dict]:
+    """A ghost-future beat of the edit prints "the most typical of <n> simulated futures, seed <seed>" (demo.live):
+    both from its data file."""
+    edit = edit or ROOT / "packages" / "demo" / "edit_v5.yaml"
+    beats = yaml.safe_load((ROOT / "packages" / "demo" / "footage_moments.yaml").read_text())["moments"]
+    shots = {c["shot"].split("/")[-1] for c in yaml.safe_load(edit.read_text())["clips"] if c.get("shot")}
+    rows = []
+    for name in sorted(shots):
+        b = beats.get(name) or beats.get(name.removesuffix("_v5")) or {}
+        if b.get("kind") != "ghost_future":
+            continue
+        g = json.loads((ROOT / b["data"]).read_text())["result"]
+        ok = isinstance(g.get("n"), int) and isinstance(g.get("seed"), int)
+        rows.append(_row("v5 overlay", f"{name}: ghost future footer (n {g.get('n'):,}, seed {g.get('seed')})",
+                         b["data"], 2, 2 if ok else 0, [] if ok else ["n or seed missing in the file"]))
+    return rows
 
 
 def v5_shots_and_race() -> list[dict]:
