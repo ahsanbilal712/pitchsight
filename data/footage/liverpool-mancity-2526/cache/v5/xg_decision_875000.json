@@ -25,6 +25,10 @@
     "offside_risk": true,
     "onside_margin_m": -0.43,
     "p_pass": 0.46,
+    "run_to": [
+     92.61,
+     40.67
+    ],
     "x": 90.42,
     "xg_after_pass": 0.03,
     "xg_after_pass_exact": 0.0341,
@@ -38,6 +42,10 @@
     "offside_risk": false,
     "onside_margin_m": 3.67,
     "p_pass": 0.56,
+    "run_to": [
+     87.56,
+     39.82
+    ],
     "x": 86.32,
     "xg_after_pass": 0.03,
     "xg_after_pass_exact": 0.0327,
@@ -51,6 +59,10 @@
     "offside_risk": false,
     "onside_margin_m": 9.53,
     "p_pass": 0.72,
+    "run_to": [
+     84.19,
+     36.63
+    ],
     "x": 80.46,
     "xg_after_pass": 0.03,
     "xg_after_pass_exact": 0.0254,
@@ -64,6 +76,7 @@
     "offside_risk": false,
     "onside_margin_m": 2.8,
     "p_pass": 0.37,
+    "run_to": null,
     "x": 87.19,
     "xg_after_pass": 0.02,
     "xg_after_pass_exact": 0.0215,
@@ -77,6 +90,10 @@
     "offside_risk": false,
     "onside_margin_m": 2.61,
     "p_pass": 0.96,
+    "run_to": [
+     88.51,
+     7.36
+    ],
     "x": 87.38,
     "xg_after_pass": 0.02,
     "xg_after_pass_exact": 0.0202,
@@ -90,6 +107,10 @@
     "offside_risk": false,
     "onside_margin_m": 15.85,
     "p_pass": 0.89,
+    "run_to": [
+     75.11,
+     34.9
+    ],
     "x": 74.14,
     "xg_after_pass": 0.02,
     "xg_after_pass_exact": 0.02,
@@ -103,6 +124,10 @@
     "offside_risk": false,
     "onside_margin_m": 5.93,
     "p_pass": 0.41,
+    "run_to": [
+     82.99,
+     50.1
+    ],
     "x": 84.06,
     "xg_after_pass": 0.01,
     "xg_after_pass_exact": 0.0117,
@@ -118,6 +143,10 @@
    "offside_risk": false,
    "onside_margin_m": 3.67,
    "p_pass": 0.56,
+   "run_to": [
+    87.56,
+    39.82
+   ],
    "x": 86.32,
    "xg_after_pass": 0.03,
    "xg_after_pass_exact": 0.0327,
@@ -136,6 +165,8 @@
   "holder_name": "Dominik Szoboszlai",
   "match_id": "m_9001",
   "players_seen": 19,
+  "run_rule": "run_to = the receiver's tracked spot 1.0 s after the freeze (same camera shot); drawn as an arrow only, not part of any number; null where the track breaks",
+  "run_s": 1.0,
   "slug": "liverpool-mancity-2526",
   "source": {
    "moment": "liverpool-mancity-2526/moments/875000.json",

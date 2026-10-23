@@ -25,6 +25,10 @@
     "offside_risk": false,
     "onside_margin_m": 0.75,
     "p_pass": 0.84,
+    "run_to": [
+     9.81,
+     28.59
+    ],
     "x": 11.46,
     "xg_after_pass": 0.11,
     "xg_after_pass_exact": 0.1137,
@@ -38,6 +42,10 @@
     "offside_risk": false,
     "onside_margin_m": 6.84,
     "p_pass": 0.83,
+    "run_to": [
+     16.83,
+     34.11
+    ],
     "x": 17.55,
     "xg_after_pass": 0.07,
     "xg_after_pass_exact": 0.0669,
@@ -51,6 +59,10 @@
     "offside_risk": false,
     "onside_margin_m": 7.11,
     "p_pass": 0.74,
+    "run_to": [
+     13.1,
+     39.39
+    ],
     "x": 17.82,
     "xg_after_pass": 0.04,
     "xg_after_pass_exact": 0.0426,
@@ -64,6 +76,10 @@
     "offside_risk": false,
     "onside_margin_m": 6.55,
     "p_pass": 0.52,
+    "run_to": [
+     12.16,
+     22.85
+    ],
     "x": 17.26,
     "xg_after_pass": 0.02,
     "xg_after_pass_exact": 0.0218,
@@ -79,6 +95,10 @@
    "offside_risk": false,
    "onside_margin_m": 0.75,
    "p_pass": 0.84,
+   "run_to": [
+    9.81,
+    28.59
+   ],
    "x": 11.46,
    "xg_after_pass": 0.11,
    "xg_after_pass_exact": 0.1137,
@@ -97,6 +117,8 @@
   "holder_name": "Amad",
   "match_id": "m_9002",
   "players_seen": 12,
+  "run_rule": "run_to = the receiver's tracked spot 1.0 s after the freeze (same camera shot); drawn as an arrow only, not part of any number; null where the track breaks",
+  "run_s": 1.0,
   "slug": "manutd-mancity-2526",
   "source": {
    "moment": "manutd-mancity-2526/moments/877000.json",

@@ -25,6 +25,10 @@
     "offside_risk": false,
     "onside_margin_m": 14.45,
     "p_pass": 0.87,
+    "run_to": [
+     15.39,
+     35.18
+    ],
     "x": 16.04,
     "xg_after_pass": 0.08,
     "xg_after_pass_exact": 0.0801,
@@ -38,6 +42,10 @@
     "offside_risk": false,
     "onside_margin_m": 9.39,
     "p_pass": 0.79,
+    "run_to": [
+     8.0,
+     41.5
+    ],
     "x": 10.98,
     "xg_after_pass": 0.07,
     "xg_after_pass_exact": 0.0677,
@@ -51,6 +59,10 @@
     "offside_risk": false,
     "onside_margin_m": 15.34,
     "p_pass": 0.8,
+    "run_to": [
+     16.46,
+     39.56
+    ],
     "x": 16.93,
     "xg_after_pass": 0.05,
     "xg_after_pass_exact": 0.0474,
@@ -64,6 +76,7 @@
     "offside_risk": false,
     "onside_margin_m": 31.21,
     "p_pass": 0.63,
+    "run_to": null,
     "x": 32.8,
     "xg_after_pass": 0.01,
     "xg_after_pass_exact": 0.01,
@@ -79,6 +92,10 @@
    "offside_risk": false,
    "onside_margin_m": 14.45,
    "p_pass": 0.87,
+   "run_to": [
+    15.39,
+    35.18
+   ],
    "x": 16.04,
    "xg_after_pass": 0.08,
    "xg_after_pass_exact": 0.0801,
@@ -97,6 +114,8 @@
   "holder_name": "Patrick Dorgu",
   "match_id": "m_9002",
   "players_seen": 14,
+  "run_rule": "run_to = the receiver's tracked spot 1.0 s after the freeze (same camera shot); drawn as an arrow only, not part of any number; null where the track breaks",
+  "run_s": 1.0,
   "slug": "manutd-mancity-2526",
   "source": {
    "moment": "manutd-mancity-2526/moments/1189840.json",

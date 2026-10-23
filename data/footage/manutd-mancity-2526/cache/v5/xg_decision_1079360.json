@@ -25,6 +25,10 @@
     "offside_risk": false,
     "onside_margin_m": 4.46,
     "p_pass": 0.98,
+    "run_to": [
+     10.92,
+     21.51
+    ],
     "x": 16.84,
     "xg_after_pass": 0.05,
     "xg_after_pass_exact": 0.0459,
@@ -38,6 +42,10 @@
     "offside_risk": false,
     "onside_margin_m": 10.23,
     "p_pass": 0.97,
+    "run_to": [
+     17.88,
+     35.5
+    ],
     "x": 22.61,
     "xg_after_pass": 0.05,
     "xg_after_pass_exact": 0.0454,
@@ -51,6 +59,10 @@
     "offside_risk": false,
     "onside_margin_m": 3.64,
     "p_pass": 0.41,
+    "run_to": [
+     10.64,
+     40.64
+    ],
     "x": 16.02,
     "xg_after_pass": 0.03,
     "xg_after_pass_exact": 0.0258,
@@ -66,6 +78,10 @@
    "offside_risk": false,
    "onside_margin_m": 4.46,
    "p_pass": 0.98,
+   "run_to": [
+    10.92,
+    21.51
+   ],
    "x": 16.84,
    "xg_after_pass": 0.05,
    "xg_after_pass_exact": 0.0459,
@@ -84,6 +100,8 @@
   "holder_name": "Bryan Mbeumo",
   "match_id": "m_9002",
   "players_seen": 9,
+  "run_rule": "run_to = the receiver's tracked spot 1.0 s after the freeze (same camera shot); drawn as an arrow only, not part of any number; null where the track breaks",
+  "run_s": 1.0,
   "slug": "manutd-mancity-2526",
   "source": {
    "moment": "manutd-mancity-2526/moments/1079360.json",

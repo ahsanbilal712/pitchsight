@@ -25,6 +25,10 @@
     "offside_risk": false,
     "onside_margin_m": 1.41,
     "p_pass": 0.58,
+    "run_to": [
+     93.2,
+     33.73
+    ],
     "x": 89.94,
     "xg_after_pass": 0.06,
     "xg_after_pass_exact": 0.0614,
@@ -38,6 +42,10 @@
     "offside_risk": false,
     "onside_margin_m": 8.36,
     "p_pass": 0.84,
+    "run_to": [
+     88.63,
+     40.81
+    ],
     "x": 82.99,
     "xg_after_pass": 0.04,
     "xg_after_pass_exact": 0.0381,
@@ -51,6 +59,10 @@
     "offside_risk": false,
     "onside_margin_m": 2.45,
     "p_pass": 0.65,
+    "run_to": [
+     93.81,
+     22.31
+    ],
     "x": 88.9,
     "xg_after_pass": 0.02,
     "xg_after_pass_exact": 0.0194,
@@ -64,6 +76,10 @@
     "offside_risk": false,
     "onside_margin_m": 19.65,
     "p_pass": 0.92,
+    "run_to": [
+     73.48,
+     11.83
+    ],
     "x": 71.7,
     "xg_after_pass": 0.01,
     "xg_after_pass_exact": 0.0145,
@@ -77,6 +93,10 @@
     "offside_risk": false,
     "onside_margin_m": 21.2,
     "p_pass": 0.9,
+    "run_to": [
+     72.1,
+     19.1
+    ],
     "x": 70.15,
     "xg_after_pass": 0.01,
     "xg_after_pass_exact": 0.0125,
@@ -90,6 +110,10 @@
     "offside_risk": false,
     "onside_margin_m": 11.88,
     "p_pass": 0.66,
+    "run_to": [
+     82.28,
+     13.8
+    ],
     "x": 79.47,
     "xg_after_pass": 0.01,
     "xg_after_pass_exact": 0.0125,
@@ -105,6 +129,10 @@
    "offside_risk": false,
    "onside_margin_m": 1.41,
    "p_pass": 0.58,
+   "run_to": [
+    93.2,
+    33.73
+   ],
    "x": 89.94,
    "xg_after_pass": 0.06,
    "xg_after_pass_exact": 0.0614,
@@ -123,6 +151,8 @@
   "holder_name": "Eberechi Eze",
   "match_id": "m_9003",
   "players_seen": 15,
+  "run_rule": "run_to = the receiver's tracked spot 1.0 s after the freeze (same camera shot); drawn as an arrow only, not part of any number; null where the track breaks",
+  "run_s": 1.0,
   "slug": "arsenal-chelsea-2526",
   "source": {
    "moment": "arsenal-chelsea-2526/moments/1300500.json",

@@ -35,6 +35,7 @@ L, W, GOAL_Y = 105.0, 68.0, 34.0
 PENALTY_XG = 0.76
 OFFSIDE_ERROR_M = 0.5          # tracking error: a receiver within this of the line may be offside
 CLOSE_CALL_XG = 0.02           # display rule: gaps under two display steps are a close call (no interval exists)
+RUN_S = 1.0                    # run arrows: the receiver's tracked spot this long after the freeze
 BENCH = [("six-yard box, central (6 m)", 6.0, 0.0, 0.30, 0.50), ("penalty spot, open play (11 m)", 11.0, 0.0, 0.12, 0.30),
          ("edge of the box, central (16.5 m)", 16.5, 0.0, 0.06, 0.12), ("30 m, central", 30.0, 0.0, 0.02, 0.04)]
 SOURCE = ("xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass "
@@ -127,6 +128,21 @@ def linked_shot(slug: str, clip_ms: int, team: str) -> dict:
             "strike_reviewed": bool(r.get("reviewed")) if r.get("measured") else False}
 
 
+def run_to(slug: str, m: dict, track_id: int | None) -> list[float] | None:
+    """The player's tracked spot RUN_S after the freeze (same camera shot, moment-file frame), for the run arrow
+    only; None where the track breaks, the camera fit is not trusted there, or the shot ends first."""
+    from evals.pitchwatch.insights import FOOTAGE
+    if track_id is None or not m.get("tracking"):
+        return None
+    tracks = json.loads((FOOTAGE / slug / "tracks" / f"{m['tracking']['shot_id']}.json").read_text())
+    target = m["tracking"]["frame"] + round(RUN_S * tracks["fps"])
+    r = min(tracks["frames"], key=lambda f: abs(f["frame"] - target))
+    if abs(r["frame"] - target) > tracks["step"] or not r["calib_ok"]:
+        return None
+    p = next((p for p in r["players"] if p["track_id"] == track_id and p.get("xy")), None)
+    return [round(p["xy"][0], 2), round(W - p["xy"][1], 2)] if p else None
+
+
 def decision(slug: str, clip_ms: int) -> dict:
     from footage.freeze import load
     m = load(slug, clip_ms)
@@ -140,6 +156,9 @@ def decision(slug: str, clip_ms: int) -> dict:
     u0, v0 = team_frame((holder["x"], holder["y"]), attacks_plus)
     shot = shot_xg(u0, v0)
     opts = options_xg(holder, mates, opps, attacks_plus)
+    by_label = {p.get("label"): p for p in mates}
+    for o in opts:
+        o["run_to"] = run_to(slug, m, by_label[o["label"]].get("track_id"))
     best = next((o for o in opts if not o["offside_risk"] and o["xg_after_pass"] is not None), None)
     strike = linked_shot(slug, clip_ms, team)
     return {"clip_ms": clip_ms, "clock": m["clock"], "team": team, "holder": holder_label,
@@ -156,6 +175,8 @@ def decision(slug: str, clip_ms: int) -> dict:
             "comparison_rule": f"no statistical interval exists for these deterministic models; a gap under "
                                f"{CLOSE_CALL_XG} xG (two display steps) is reported as a close call",
             "frame_role": "freeze: the decision moment (track B's moment file), before the strike",
+            "run_s": RUN_S, "run_rule": f"run_to = the receiver's tracked spot {RUN_S} s after the freeze (same camera "
+                                        "shot); drawn as an arrow only, not part of any number; null where the track breaks",
             "best_rule": f"highest xg_after_pass among receivers at least {OFFSIDE_ERROR_M} m onside of the line "
                          "(second-last defender, ball or halfway, players in view)",
             "formula": SOURCE, "deterministic": True, "players_seen": len(seen),
