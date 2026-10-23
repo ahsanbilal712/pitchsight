@@ -10,7 +10,9 @@ Sources, strongest first:
    scorer, and every candidate name it mentions);
 3. score_bug: a goal the tagger (Gemini) names, where the score bug (score_bug.json, read by hand) changes for that
    team at that time, and no description goal line contradicts it (a description that lists the goals must list
-   this one).
+   this one);
+4. shirt: a shirt number read consistently off several 1080p crops (footage.shirts) and found in the club's squad
+   list for the season; one number per team per moment (the stronger read keeps it), never against a hand label.
 A Gemini name with none of these stays unverified and is listed under `rejected` with the reason. Names in moment
 files outside moments/hand/ (set by a beat from one of the sources above) count only through that source.
 """
@@ -142,13 +144,41 @@ def verify(slug: str) -> dict:
         add(a["player_name"], team, {"kind": "score_bug", "ref": f"score_bug.json {r['clip_ms']} + {e['id']}"},
             {"clip_ms": a["clip_ms"], "event": e["id"]})
 
+    # 4. shirt numbers read off the frames (footage.shirts) and mapped to the season's squad list
+    shirts_path = clip_dir(slug) / "shirts.json"
+    shirts = json.loads(shirts_path.read_text())["players"] if shirts_path.exists() else {}
+    best: dict[tuple, tuple] = {}                  # (moment, team, number) -> the strongest read of that number
+    for key, r in shirts.items():
+        if r.get("name"):
+            at = key.split(":", 1)[0]
+            k = (at, r["team"], r["number"])
+            if k not in best or r["agree"] > shirts[best[k][0]]["agree"]:
+                best[k] = (key, r)
+    for key, r in shirts.items():
+        if not r.get("name"):
+            continue
+        at, label = key.split(":", 1)
+        if best[(at, r["team"], r["number"])][0] != key:
+            rejected.append({"name": r["name"], "label": label, "at": at,
+                             "why": f"shirt {r['number']} also read for {best[(at, r['team'], r['number'])][0]} "
+                                    "(stronger read); two players cannot share it"})
+            continue
+        if r.get("name_now") and not _same(r["name_now"], r["name"]):
+            rejected.append({"name": r["name"], "label": label, "at": at,
+                             "why": f"shirt read disagrees with the hand label {r['name_now']}"})
+            continue
+        link = {"event": at, "label": label, "clip_ms": round(r["at_s"] * 1000)} if at.startswith("e_") else \
+            {"clip_ms": int(at), "label": label, "track_id": r.get("track_id")}
+        add(r["name"], r["team"], {"kind": "shirt", "ref": f"shirts.json {key}: #{r['number']} in {r['agree']} of "
+                                   f"{r['crops']} crops; squad {r['squad']['source']}"}, link)
+
     shots = shot_names(slug, names)
     ok = {n for n in names}
-    rejected = [r for r in rejected if not any(_same(r["name"], n) for n in ok)] + \
+    rejected = [r for r in rejected if "label" in r or not any(_same(r["name"], n) for n in ok)] + \
                [{"name": n, "why": "tagger only"} for n in sorted(candidates(slug))
                 if not any(_same(n, k) for k in ok) and not any(r["name"] == n for r in rejected)]
     doc = {"slug": slug, "names": dict(sorted(names.items())), "shots": shots, "rejected": rejected,
-           "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"}
+           "rule": "a name reaches the screen only with a hand, description, score_bug or shirt source (footage.names)"}
     (clip_dir(slug) / "names_verified.json").write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
     return doc
 
@@ -179,6 +209,12 @@ def shot_names(slug: str, names: dict[str, dict]) -> dict[str, dict]:
             if name is None and 0 <= a["clip_ms"] - ms <= 3000 and a.get("player_name") and \
                     _same(a["player_name"], n):
                 name, source = n, f"moments/hand/{f} (holder shoots)"
+        if name is None:                       # a shirt number read at the strike
+            for n, entry in names.items():
+                if any(lk.get("event") == e["id"] for lk in entry["links"]) and \
+                        any(src["kind"] == "shirt" for src in entry["sources"]):
+                    name, source = n, next(src["ref"] for src in entry["sources"] if src["kind"] == "shirt"
+                                           and e["id"] in src["ref"])
         out[e["id"]] = {"clip_ms": a["clip_ms"], "tagger_name": a.get("player_name"), "name": name,
                         "source": source}
     return out

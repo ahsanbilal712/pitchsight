@@ -1,0 +1,288 @@
+{
+ "$schema": "model_cache.schema.json",
+ "schema_version": "1.0.0",
+ "record": "tool_result",
+ "result": {
+  "beat": "pipeline",
+  "slug": "liverpool-mancity-2526",
+  "match_id": "m_9001",
+  "clip_ms": 875000,
+  "clock": "86:23",
+  "nodes": [
+   {
+    "node": "Freeze",
+    "what": "the tracked frame at 86:23 (clip 875.00 s)",
+    "outputs": {
+     "players_in_view": 19,
+     "homography": "calib/62.json frame 43750",
+     "holder": "#8",
+     "actual": "shoot"
+    },
+    "timing": {
+     "source": "not recorded",
+     "ms": null,
+     "note": "precomputed by tracking (track A) and the moment file"
+    }
+   },
+   {
+    "node": "Scout",
+    "what": "flags a big chance; the Sliding Doors floor is waived for a producer-selected moment",
+    "outputs": {
+     "kind": "big_chance",
+     "leverage": 0.0026,
+     "leverage_rerun": 0.0026,
+     "selected_by": "producer",
+     "floor_waived": null
+    },
+    "timing": {
+     "source": "measured re-run",
+     "ms": 119.432,
+     "note": "leverage: GoalIn8sHead on two tracked frames"
+    }
+   },
+   {
+    "node": "Proposer",
+    "what": "every team-mate in view as a pass option",
+    "outputs": {
+     "options": [
+      {
+       "label": "L5",
+       "name": null,
+       "p_pass": 0.46,
+       "xg_receiver": 0.07,
+       "xg_after_pass": 0.03,
+       "onside_margin_m": -0.43,
+       "offside_risk": true
+      },
+      {
+       "label": "L4",
+       "name": null,
+       "p_pass": 0.56,
+       "xg_receiver": 0.06,
+       "xg_after_pass": 0.03,
+       "onside_margin_m": 3.67,
+       "offside_risk": false
+      },
+      {
+       "label": "L8",
+       "name": null,
+       "p_pass": 0.72,
+       "xg_receiver": 0.04,
+       "xg_after_pass": 0.03,
+       "onside_margin_m": 9.53,
+       "offside_risk": false
+      },
+      {
+       "label": "L3",
+       "name": null,
+       "p_pass": 0.37,
+       "xg_receiver": 0.06,
+       "xg_after_pass": 0.02,
+       "onside_margin_m": 2.8,
+       "offside_risk": false
+      },
+      {
+       "label": "#11",
+       "name": "Mohamed Salah",
+       "p_pass": 0.96,
+       "xg_receiver": 0.02,
+       "xg_after_pass": 0.02,
+       "onside_margin_m": 2.61,
+       "offside_risk": false
+      },
+      {
+       "label": "L6",
+       "name": null,
+       "p_pass": 0.89,
+       "xg_receiver": 0.02,
+       "xg_after_pass": 0.02,
+       "onside_margin_m": 15.85,
+       "offside_risk": false
+      },
+      {
+       "label": "L7",
+       "name": null,
+       "p_pass": 0.41,
+       "xg_receiver": 0.03,
+       "xg_after_pass": 0.01,
+       "onside_margin_m": 5.93,
+       "offside_risk": false
+      }
+     ],
+     "rule": "highest xg_after_pass among receivers at least 0.5 m onside of the line (second-last defender, ball or halfway, players in view)",
+     "shown": null
+    },
+    "timing": {
+     "source": "not recorded",
+     "ms": null,
+     "note": "part of the model step below"
+    }
+   },
+   {
+    "node": "Model",
+    "what": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+    "outputs": {
+     "shot_xg_freeze": 0.0199,
+     "shot_xg_strike": 0.02,
+     "options_computed": 7,
+     "deterministic": true,
+     "rerun_matches_stored": true
+    },
+    "timing": {
+     "source": "measured re-run",
+     "ms": 405.656,
+     "repeats": 25
+    }
+   },
+   {
+    "node": "Tactician",
+    "what": "gemini-4-argon drafts the lower-third and the why",
+    "outputs": {
+     "lower_third": "Dominik Szoboszlai shot from 29 m: 0.02 xG",
+     "why": "Dominik Szoboszlai shoots from 29 m out (0.02 xG) and the shot is blocked by a defender.",
+     "claims": 3,
+     "prompt": "insight_footage@7"
+    },
+    "timing": {
+     "source": "recorded live",
+     "ms": 11593,
+     "at": "2026-10-23T10:59:09Z",
+     "tokens_in": 1620,
+     "tokens_out": 196,
+     "cost_usd": 0.0052
+    }
+   },
+   {
+    "node": "Fact Checker",
+    "what": "each claim against its evidence (rules 1-8); every number in the line must be a verified claim",
+    "outputs": {
+     "verified": true,
+     "claims": [
+      {
+       "text": "Szoboszlai",
+       "kind": "player",
+       "value": "p_912",
+       "verified": true,
+       "reject_reason": null,
+       "evidence": [
+        {
+         "id": "f_607501",
+         "label": "xG of the shot he took, at the reviewed strike (published PL reference model)",
+         "display": "0.02",
+         "source": "cache/v5/shots_0.json e_0033"
+        }
+       ]
+      },
+      {
+       "text": "0.02",
+       "kind": "number",
+       "value": 0.02,
+       "verified": true,
+       "reject_reason": null,
+       "evidence": [
+        {
+         "id": "f_607501",
+         "label": "xG of the shot he took, at the reviewed strike (published PL reference model)",
+         "display": "0.02",
+         "source": "cache/v5/shots_0.json e_0033"
+        }
+       ]
+      },
+      {
+       "text": "29 m",
+       "kind": "number",
+       "value": 28.8,
+       "verified": true,
+       "reject_reason": null,
+       "evidence": [
+        {
+         "id": "f_607503",
+         "label": "distance of the strike from goal",
+         "display": "29 m",
+         "source": "cache/v5/shots_0.json e_0033"
+        }
+       ]
+      }
+     ],
+     "diff": []
+    },
+    "timing": {
+     "source": "measured re-run",
+     "ms": 4.285,
+     "repeats": 25
+    }
+   },
+   {
+    "node": "Producer review",
+    "what": "hand review of the model draft (track B)",
+    "outputs": {
+     "draft": {
+      "lower_third": "Dominik Szoboszlai shot from 29 m: 0.02 xG",
+      "why": "Dominik Szoboszlai shoots from 29 m out (0.02 xG) and the shot is blocked by a defender."
+     },
+     "final": {
+      "lower_third": "Szoboszlai from 29 m: 0.02 xG, blocked",
+      "why": "Szoboszlai shoots from 29 m, a chance worth 0.02 xG, and it is blocked."
+     },
+     "hand_reviewed": true
+    },
+    "timing": {
+     "source": "not recorded",
+     "ms": null,
+     "note": "human step"
+    }
+   },
+   {
+    "node": "Director",
+    "what": "places the cue and picks the layer and modes",
+    "outputs": {
+     "kind": "big_chance",
+     "layer": "lower_third",
+     "modes": [
+      "analyst",
+      "casual",
+      "studio"
+     ],
+     "t_in_ms": 5185700,
+     "t_out_ms": 5193700,
+     "priority": 0.753,
+     "floor_waived": null
+    },
+    "timing": {
+     "source": "replay",
+     "ms": 0,
+     "note": "whole milliseconds; 0 = under 1 ms"
+    }
+   },
+   {
+    "node": "On air",
+    "what": "the cue the studio shows",
+    "outputs": {
+     "cue_id": "c_000011",
+     "headline": "Szoboszlai from 29 m: 0.02 xG, blocked",
+     "body": "Szoboszlai shoots from 29 m, a chance worth 0.02 xG, and it is blocked.",
+     "bar": null,
+     "verified": true,
+     "clip_ms": 877700
+    },
+    "timing": {
+     "source": "replay",
+     "ms": 0
+    }
+   }
+  ],
+  "measured_at": "2026-10-23T11:47:20Z",
+  "timing_sources": [
+   "recorded live",
+   "measured re-run",
+   "replay",
+   "not recorded"
+  ],
+  "sources": {
+   "line": "cache/v5/lines_875000.json",
+   "decision": "cache/v5/xg_decision_875000.json",
+   "studio": "cache/studio/stream.jsonl",
+   "model_call": "captions/v5_875000_insight_footage@7.json"
+  }
+ }
+}

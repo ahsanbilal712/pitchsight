@@ -5,6 +5,32 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v6: shirt-number names, agent-pipeline records (track B)
+
+- **Shirt numbers -> names** (`footage.shirts`, `data/footage/<slug>/shirts.json`): for the attacking team's labelled
+  players at the featured freezes and the montage shooters without a name, 8 crops of the tracked box within 1.5 s
+  of the moment the label applies to (1080p; crops in the git-ignored frames/), one gemini-3.8-flash call each
+  (SpendGuard). A number counts only with 3+ agreeing crops, two thirds of the crops with a number, no rival read
+  twice; it is mapped to the season's squad list (`data/footage/squads/<club>_<season>.json`: the season's
+  Wikipedia squad table, URL and retrieval date; the clubs' own sites now list 2026/27).
+  - Controls read right: Szoboszlai 8/8, Salah 8/8, Bruno 8/8, Saka 8/8, Eze 7/8, Werner 7/8.
+  - New names: Amad's pass target **#19 = Bryan Mbeumo** (8/8), U5 = Casemiro (6/6), #13 = Dorgu (8/8), Arsenal
+    #12 Timber, #16 Nørgaard, #29 Havertz (8/8); shooters e_0065 = Ekitike (6/8; the tagger said Mac Allister),
+    e_0058 = Aït-Nouri, Spurs e_0057 = Casemiro. Unread (no consistent number): L4-L8, A7, e_0038 (18 twice).
+  - Arsenal A6 also read 29 (6/8): rejected, Havertz's number belongs to #29 (8/8) in that frame.
+  - First Man Utd v City pass took crops across the whole shot and read #19's track as City's #45 (an identity
+    switch after the freeze): discarded, crops now come from the label's moment.
+- `footage.names`: a fourth source "shirt" (one number per team per moment; never against a hand label); shots
+  named by shirt. Lines use names verified for a label at a moment (Amad's pass now "to Mbeumo").
+- **Pipeline records** (`footage.pipeline`, `cache/v6/pipeline_<clip_ms>.json`, Amad and Liverpool): Freeze,
+  Scout, Proposer, Model, Tactician, Fact Checker (each claim and its evidence), Producer review (draft against
+  final), Director, On air. Timings by source: recorded live (Argon 13,819 ms for Amad), measured re-run (model
+  49 ms, reproduces the stored numbers; Fact Checker 5.6 ms), replay (cache-served, whole ms), not recorded.
+- **Spend:** 35 Flash calls, $0.2947; project $3.8515 of $50.
+- Verification: `pytest tests/footage tests/newsroom tests/cache` 229 passed, 4 skipped (exit 0); ruff clean.
+
+---
+
 ## 2026-10-23 · Video v5 grounding: 115 of 115, "from here" binds the freeze (track B)
 
 - Lead's ruling as a checker rule (`footage.grounding.v5_caption_sources.shot_xg`): a shot number said "from here"

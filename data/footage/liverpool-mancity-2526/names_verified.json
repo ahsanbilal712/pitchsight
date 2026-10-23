@@ -61,6 +61,10 @@
     {
      "kind": "score_bug",
      "ref": "score_bug.json 97000 + e_0007"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 875000:#8: #8 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season"
     }
    ],
    "links": [
@@ -102,12 +106,32 @@
     }
    ]
   },
+  "Hugo Ekitike": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "shirt",
+     "ref": "shirts.json e_0065:t13: #22 in 6 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season"
+    }
+   ],
+   "links": [
+    {
+     "event": "e_0065",
+     "label": "t13",
+     "clip_ms": 1571860
+    }
+   ]
+  },
   "Mohamed Salah": {
    "team": "home",
    "sources": [
     {
      "kind": "hand",
      "ref": "moments/hand/875000.json"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 875000:#11: #11 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season"
     }
    ],
    "links": [
@@ -115,6 +139,22 @@
      "clip_ms": 875000,
      "label": "#11",
      "track_id": 72
+    }
+   ]
+  },
+  "Rayan Aït-Nouri": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "shirt",
+     "ref": "shirts.json e_0058:t1: #21 in 5 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season"
+    }
+   ],
+   "links": [
+    {
+     "event": "e_0058",
+     "label": "t1",
+     "clip_ms": 1475920
     }
    ]
   }
@@ -165,14 +205,14 @@
   "e_0058": {
    "clip_ms": 1476000,
    "tagger_name": "Aït-Nouri",
-   "name": null,
-   "source": null
+   "name": "Rayan Aït-Nouri",
+   "source": "shirts.json e_0058:t1: #21 in 5 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season"
   },
   "e_0065": {
    "clip_ms": 1571000,
    "tagger_name": "Mac Allister",
-   "name": null,
-   "source": null
+   "name": "Hugo Ekitike",
+   "source": "shirts.json e_0065:t13: #22 in 6 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season"
   },
   "e_0073": {
    "clip_ms": 1651000,
@@ -189,19 +229,11 @@
  },
  "rejected": [
   {
-   "name": "Ait-Nouri",
-   "why": "tagger only"
-  },
-  {
    "name": "Ake",
    "why": "tagger only"
   },
   {
    "name": "Alisson",
-   "why": "tagger only"
-  },
-  {
-   "name": "Aït-Nouri",
    "why": "tagger only"
   },
   {
@@ -253,5 +285,5 @@
    "why": "tagger only"
   }
  ],
- "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"
+ "rule": "a name reaches the screen only with a hand, description, score_bug or shirt source (footage.names)"
 }

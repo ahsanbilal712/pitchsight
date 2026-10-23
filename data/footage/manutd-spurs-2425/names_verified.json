@@ -50,6 +50,22 @@
    ],
    "links": []
   },
+  "Casemiro": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "shirt",
+     "ref": "shirts.json e_0057:t18: #18 in 6 of 8 crops; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Manchester_United_F.C._season"
+    }
+   ],
+   "links": [
+    {
+     "event": "e_0057",
+     "label": "t18",
+     "clip_ms": 1203800
+    }
+   ]
+  },
   "Dejan Kulusevski": {
    "team": "away",
    "sources": [
@@ -120,6 +136,10 @@
     {
      "kind": "hand",
      "ref": "moments/hand/682800.json"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 682800:#16: #16 in 7 of 8 crops; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
     }
    ],
    "links": [
@@ -207,8 +227,8 @@
   "e_0057": {
    "clip_ms": 1204000,
    "tagger_name": "Casemiro",
-   "name": null,
-   "source": null
+   "name": "Casemiro",
+   "source": "shirts.json e_0057:t18: #18 in 6 of 8 crops; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Manchester_United_F.C._season"
   },
   "e_0059": {
    "clip_ms": 1255000,
@@ -250,10 +270,6 @@
  "rejected": [
   {
    "name": "Bergvall",
-   "why": "tagger only"
-  },
-  {
-   "name": "Casemiro",
    "why": "tagger only"
   },
   {
@@ -337,5 +353,5 @@
    "why": "tagger only"
   }
  ],
- "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"
+ "rule": "a name reaches the screen only with a hand, description, score_bug or shirt source (footage.names)"
 }

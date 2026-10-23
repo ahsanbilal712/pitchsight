@@ -1,0 +1,281 @@
+{
+ "$schema": "model_cache.schema.json",
+ "schema_version": "1.0.0",
+ "record": "tool_result",
+ "result": {
+  "beat": "pipeline",
+  "slug": "manutd-mancity-2526",
+  "match_id": "m_9002",
+  "clip_ms": 877000,
+  "clock": "56:41",
+  "nodes": [
+   {
+    "node": "Freeze",
+    "what": "the tracked frame at 56:41 (clip 877.00 s)",
+    "outputs": {
+     "players_in_view": 12,
+     "homography": "calib/104.json frame 21925",
+     "holder": "#16",
+     "actual": "shoot"
+    },
+    "timing": {
+     "source": "not recorded",
+     "ms": null,
+     "note": "precomputed by tracking (track A) and the moment file"
+    }
+   },
+   {
+    "node": "Scout",
+    "what": "flags a big chance; the Sliding Doors floor is waived for a producer-selected moment",
+    "outputs": {
+     "kind": "big_chance",
+     "leverage": 0.0119,
+     "leverage_rerun": 0.0119,
+     "selected_by": "producer",
+     "floor_waived": "producer-selected moment (leverage 0.012 below the Sliding Doors floor)"
+    },
+    "timing": {
+     "source": "measured re-run",
+     "ms": 25.147,
+     "note": "leverage: GoalIn8sHead on two tracked frames"
+    }
+   },
+   {
+    "node": "Proposer",
+    "what": "every team-mate in view as a pass option",
+    "outputs": {
+     "options": [
+      {
+       "label": "#19",
+       "name": null,
+       "p_pass": 0.84,
+       "xg_receiver": 0.13,
+       "xg_after_pass": 0.11,
+       "onside_margin_m": 0.75,
+       "offside_risk": false
+      },
+      {
+       "label": "#8",
+       "name": "Bruno Fernandes",
+       "p_pass": 0.83,
+       "xg_receiver": 0.08,
+       "xg_after_pass": 0.07,
+       "onside_margin_m": 6.84,
+       "offside_risk": false
+      },
+      {
+       "label": "U5",
+       "name": null,
+       "p_pass": 0.74,
+       "xg_receiver": 0.06,
+       "xg_after_pass": 0.04,
+       "onside_margin_m": 7.11,
+       "offside_risk": false
+      },
+      {
+       "label": "#13",
+       "name": null,
+       "p_pass": 0.52,
+       "xg_receiver": 0.04,
+       "xg_after_pass": 0.02,
+       "onside_margin_m": 6.55,
+       "offside_risk": false
+      }
+     ],
+     "rule": "highest xg_after_pass among receivers at least 0.5 m onside of the line (second-last defender, ball or halfway, players in view)",
+     "shown": "#19"
+    },
+    "timing": {
+     "source": "not recorded",
+     "ms": null,
+     "note": "part of the model step below"
+    }
+   },
+   {
+    "node": "Model",
+    "what": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+    "outputs": {
+     "shot_xg_freeze": 0.0635,
+     "shot_xg_strike": 0.07,
+     "options_computed": 4,
+     "deterministic": true,
+     "rerun_matches_stored": true
+    },
+    "timing": {
+     "source": "measured re-run",
+     "ms": 49.096,
+     "repeats": 25
+    }
+   },
+   {
+    "node": "Tactician",
+    "what": "gemini-4-argon drafts the lower-third and the why",
+    "outputs": {
+     "lower_third": "Amad: 0.06 xG shot saved, pass worth 0.11 xG",
+     "why": "Amad sees his 0.06 xG shot from 18 m saved, while a pass to the team-mate in the box, central is worth 0.11 xG after the pass.",
+     "claims": 4,
+     "prompt": "insight_footage@7"
+    },
+    "timing": {
+     "source": "recorded live",
+     "ms": 13819,
+     "at": "2026-10-23T11:07:19Z",
+     "tokens_in": 1980,
+     "tokens_out": 255,
+     "cost_usd": 0.00651
+    }
+   },
+   {
+    "node": "Fact Checker",
+    "what": "each claim against its evidence (rules 1-8); every number in the line must be a verified claim",
+    "outputs": {
+     "verified": true,
+     "claims": [
+      {
+       "text": "Amad",
+       "kind": "player",
+       "value": "p_928",
+       "verified": true,
+       "reject_reason": null,
+       "evidence": [
+        {
+         "id": "f_607701",
+         "label": "xG of a shot from here (the freeze, where the pass is compared) (published PL reference model)",
+         "display": "0.06",
+         "source": "cache/v5/xg_decision_877000.json"
+        }
+       ]
+      },
+      {
+       "text": "0.06",
+       "kind": "number",
+       "value": 0.0635,
+       "verified": true,
+       "reject_reason": null,
+       "evidence": [
+        {
+         "id": "f_607701",
+         "label": "xG of a shot from here (the freeze, where the pass is compared) (published PL reference model)",
+         "display": "0.06",
+         "source": "cache/v5/xg_decision_877000.json"
+        }
+       ]
+      },
+      {
+       "text": "0.11",
+       "kind": "number",
+       "value": 0.11,
+       "verified": true,
+       "reject_reason": null,
+       "evidence": [
+        {
+         "id": "f_607702",
+         "label": "xG after the pass (P(pass completes) x reference xG at the receiver)",
+         "display": "0.11",
+         "source": "cache/v5/xg_decision_877000.json"
+        }
+       ]
+      },
+      {
+       "text": "84%",
+       "kind": "number",
+       "value": 0.84,
+       "verified": true,
+       "reject_reason": null,
+       "evidence": [
+        {
+         "id": "f_607704",
+         "label": "chance the pass completes (pass model)",
+         "display": "84%",
+         "source": "cache/v5/xg_decision_877000.json"
+        }
+       ]
+      }
+     ],
+     "diff": []
+    },
+    "timing": {
+     "source": "measured re-run",
+     "ms": 5.579,
+     "repeats": 25
+    }
+   },
+   {
+    "node": "Producer review",
+    "what": "hand review of the model draft (track B)",
+    "outputs": {
+     "draft": {
+      "lower_third": "Amad: 0.06 xG shot saved, pass worth 0.11 xG",
+      "why": "Amad sees his 0.06 xG shot from 18 m saved, while a pass to the team-mate in the box, central is worth 0.11 xG after the pass."
+     },
+     "final": {
+      "lower_third": "Amad: shot from here 0.06 xG, pass 0.11 xG",
+      "why": "From here a shot is worth 0.06 xG and the pass to the team-mate in the middle of the box 0.11 (it arrives 84% of the time); Amad shoots and it is saved."
+     },
+     "hand_reviewed": true
+    },
+    "timing": {
+     "source": "not recorded",
+     "ms": null,
+     "note": "human step"
+    }
+   },
+   {
+    "node": "Director",
+    "what": "places the cue and picks the layer and modes",
+    "outputs": {
+     "kind": "sliding_doors",
+     "layer": "lower_third",
+     "modes": [
+      "analyst",
+      "casual",
+      "player_cam",
+      "studio"
+     ],
+     "t_in_ms": 3403700,
+     "t_out_ms": 3411700,
+     "priority": 0.812,
+     "floor_waived": "producer-selected moment (leverage 0.012 below the Sliding Doors floor)"
+    },
+    "timing": {
+     "source": "replay",
+     "ms": 0,
+     "note": "whole milliseconds; 0 = under 1 ms"
+    }
+   },
+   {
+    "node": "On air",
+    "what": "the cue the studio shows",
+    "outputs": {
+     "cue_id": "c_000011",
+     "headline": "Amad: shot from here 0.06 xG, pass 0.11 xG",
+     "body": "From here a shot is worth 0.06 xG and the pass to the team-mate in the middle of the box 0.11 (it arrives 84% of the time); Amad shoots and it is saved.",
+     "bar": {
+      "label": "Man Utd xG, shot v pass",
+      "from": 0.06,
+      "to": 0.11
+     },
+     "verified": true,
+     "clip_ms": 879700
+    },
+    "timing": {
+     "source": "replay",
+     "ms": 0
+    }
+   }
+  ],
+  "measured_at": "2026-10-23T11:47:09Z",
+  "timing_sources": [
+   "recorded live",
+   "measured re-run",
+   "replay",
+   "not recorded"
+  ],
+  "sources": {
+   "line": "cache/v5/lines_877000.json",
+   "decision": "cache/v5/xg_decision_877000.json",
+   "studio": "cache/studio/stream.jsonl",
+   "model_call": "captions/v5_877000_insight_footage@7.json"
+  }
+ }
+}

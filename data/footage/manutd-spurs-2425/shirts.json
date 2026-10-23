@@ -1,0 +1,306 @@
+{
+ "slug": "manutd-spurs-2425",
+ "rule": "a number needs 3+ agreeing crops of 8, two thirds of the crops with a number, and no rival read twice",
+ "players": {
+  "682800:#16": {
+   "team": "away",
+   "label": "#16",
+   "name_now": "Timo Werner",
+   "tracks": "tracks/84.json",
+   "track_id": 25,
+   "at_s": 682.8,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 3,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 16,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 16,
+     "confidence": 0.98,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 16,
+     "confidence": 0.98,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 16,
+     "confidence": 0.98,
+     "side": "back"
+    }
+   ],
+   "number": 16,
+   "consistent": true,
+   "agree": 7,
+   "with_number": 7,
+   "crops": 8,
+   "counts": {
+    "16": 7
+   },
+   "why": null,
+   "name": "Timo Werner",
+   "squad": {
+    "club": "tottenham",
+    "season": "2024-25",
+    "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.0092985,
+   "latency_ms": 11479,
+   "crops_dir": "frames/shirts/682800_n16"
+  },
+  "e_0016:t10": {
+   "team": "away",
+   "label": "t10",
+   "name_now": null,
+   "tracks": "tracks/xe_0016.json",
+   "track_id": 10,
+   "at_s": 414.667,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "squad": {
+    "club": "tottenham",
+    "season": "2024-25",
+    "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00993075,
+   "latency_ms": 8613,
+   "crops_dir": "frames/shirts/e_0016_t10"
+  },
+  "e_0057:t18": {
+   "team": "home",
+   "label": "t18",
+   "name_now": null,
+   "tracks": "tracks/xe_0057.json",
+   "track_id": 18,
+   "at_s": 1203.8,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 18,
+     "confidence": 0.6,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 18,
+     "confidence": 0.7,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 18,
+     "confidence": 0.75,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 18,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 18,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 18,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.3,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.2,
+     "side": "front"
+    }
+   ],
+   "number": 18,
+   "consistent": true,
+   "agree": 6,
+   "with_number": 6,
+   "crops": 8,
+   "counts": {
+    "18": 6
+   },
+   "why": null,
+   "name": "Casemiro",
+   "squad": {
+    "club": "man_utd",
+    "season": "2024-25",
+    "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.0075825,
+   "latency_ms": 5471,
+   "crops_dir": "frames/shirts/e_0057_t18"
+  },
+  "e_0075:t18": {
+   "team": "home",
+   "label": "t18",
+   "name_now": null,
+   "tracks": "tracks/xe_0075.json",
+   "track_id": 18,
+   "at_s": 1456.5,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "squad": {
+    "club": "man_utd",
+    "season": "2024-25",
+    "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00845925,
+   "latency_ms": 7994,
+   "crops_dir": "frames/shirts/e_0075_t18"
+  }
+ }
+}

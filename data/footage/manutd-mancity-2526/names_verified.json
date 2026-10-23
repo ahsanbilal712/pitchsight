@@ -23,6 +23,10 @@
     {
      "kind": "hand",
      "ref": "moments/hand/877000.json"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 877000:#8: #8 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
     }
    ],
    "links": [
@@ -51,6 +55,10 @@
     {
      "kind": "score_bug",
      "ref": "score_bug.json 1079000 + e_0052"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 877000:#19: #19 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
     }
    ],
    "links": [
@@ -61,6 +69,27 @@
     {
      "clip_ms": 1081000,
      "event": "e_0052"
+    },
+    {
+     "clip_ms": 877000,
+     "label": "#19",
+     "track_id": 4
+    }
+   ]
+  },
+  "Casemiro": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 877000:U5: #18 in 6 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 877000,
+     "label": "U5",
+     "track_id": 16
     }
    ]
   },
@@ -98,6 +127,10 @@
     {
      "kind": "score_bug",
      "ref": "score_bug.json 1190000 + e_0055"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 877000:#13: #13 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
     }
    ],
    "links": [
@@ -108,6 +141,11 @@
     {
      "clip_ms": 1190000,
      "event": "e_0055"
+    },
+    {
+     "clip_ms": 877000,
+     "label": "#13",
+     "track_id": 22
     }
    ]
   }
@@ -228,10 +266,6 @@
    "why": "tagger only"
   },
   {
-   "name": "Casemiro",
-   "why": "tagger only"
-  },
-  {
    "name": "Cherki",
    "why": "tagger only"
   },
@@ -284,5 +318,5 @@
    "why": "tagger only"
   }
  ],
- "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"
+ "rule": "a name reaches the screen only with a hand, description, score_bug or shirt source (footage.names)"
 }

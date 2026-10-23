@@ -121,6 +121,9 @@ def person(slug: str, m: dict, label: str | None) -> dict | None:
         return {"label": label, "name": None, "pid": None, "describe": "a team-mate"}
     ok = verified(slug)
     name = p.get("name") if p.get("name") and any(_same(p["name"], k) for k in ok) else None
+    if name is None:                   # a name verified for this label at this moment (e.g. a shirt read)
+        name = next((n for n, e in ok.items() for lk in e["links"]
+                     if lk.get("clip_ms") == m.get("clip_ms") and lk.get("label") == label), None)
     pid = roster(slug)["ids"].get(f"{p['team']}:{label}")
     return {"label": label, "name": name, "pid": pid if name else None, "describe": describe(m, p),
             "x": p["x"], "y": p["y"]}

@@ -7,6 +7,10 @@
     {
      "kind": "hand",
      "ref": "moments/hand/1300500.json"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 1300500:#7: #7 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
     }
    ],
    "links": [
@@ -14,6 +18,22 @@
      "clip_ms": 1300500,
      "label": "#7",
      "track_id": 36
+    }
+   ]
+  },
+  "Christian Nørgaard": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 1300500:#16: #16 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1300500,
+     "label": "#16",
+     "track_id": 16
     }
    ]
   },
@@ -33,6 +53,10 @@
     {
      "kind": "hand",
      "ref": "moments/hand/1300500.json"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 1300500:#10: #10 in 7 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
     }
    ],
    "links": [
@@ -65,6 +89,10 @@
     {
      "kind": "score_bug",
      "ref": "score_bug.json 1071000 + e_0040"
+    },
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 1300500:#12: #12 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
     }
    ],
    "links": [
@@ -79,6 +107,27 @@
     {
      "clip_ms": 1083000,
      "event": "e_0040"
+    },
+    {
+     "clip_ms": 1300500,
+     "label": "#12",
+     "track_id": 40
+    }
+   ]
+  },
+  "Kai Havertz": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "shirt",
+     "ref": "shirts.json 1300500:#29: #29 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1300500,
+     "label": "#29",
+     "track_id": 46
     }
    ]
   },
@@ -206,6 +255,12 @@
  },
  "rejected": [
   {
+   "name": "Kai Havertz",
+   "label": "A6",
+   "at": "1300500",
+   "why": "shirt 29 also read for 1300500:#29 (stronger read); two players cannot share it"
+  },
+  {
    "name": "Caicedo",
    "why": "tagger only"
   },
@@ -262,5 +317,5 @@
    "why": "tagger only"
   }
  ],
- "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"
+ "rule": "a name reaches the screen only with a hand, description, score_bug or shirt source (footage.names)"
 }

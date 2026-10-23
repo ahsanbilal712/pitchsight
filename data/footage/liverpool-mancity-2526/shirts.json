@@ -1,0 +1,684 @@
+{
+ "slug": "liverpool-mancity-2526",
+ "rule": "a number needs 3+ agreeing crops of 8, two thirds of the crops with a number, and no rival read twice",
+ "players": {
+  "875000:#8": {
+   "team": "home",
+   "label": "#8",
+   "name_now": "Dominik Szoboszlai",
+   "tracks": "tracks/62.json",
+   "track_id": 60,
+   "at_s": 875.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 8,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 8,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 8,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 8,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 8,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 8,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 8,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 8,
+     "confidence": 0.95,
+     "side": "back"
+    }
+   ],
+   "number": 8,
+   "consistent": true,
+   "agree": 8,
+   "with_number": 8,
+   "crops": 8,
+   "counts": {
+    "8": 8
+   },
+   "why": null,
+   "name": "Dominik Szoboszlai",
+   "squad": {
+    "club": "liverpool",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00857325,
+   "latency_ms": 8114,
+   "crops_dir": "frames/shirts/875000_n8"
+  },
+  "875000:#11": {
+   "team": "home",
+   "label": "#11",
+   "name_now": "Mohamed Salah",
+   "tracks": "tracks/62.json",
+   "track_id": 72,
+   "at_s": 875.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 11,
+     "confidence": 0.75,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 11,
+     "confidence": 0.8,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 11,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 11,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 11,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 11,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 11,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 11,
+     "confidence": 0.95,
+     "side": "back"
+    }
+   ],
+   "number": 11,
+   "consistent": true,
+   "agree": 8,
+   "with_number": 8,
+   "crops": 8,
+   "counts": {
+    "11": 8
+   },
+   "why": null,
+   "name": "Mohamed Salah",
+   "squad": {
+    "club": "liverpool",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00797025,
+   "latency_ms": 4846,
+   "crops_dir": "frames/shirts/875000_n11"
+  },
+  "875000:L5": {
+   "team": "home",
+   "label": "L5",
+   "name_now": null,
+   "tracks": "tracks/62.json",
+   "track_id": 75,
+   "at_s": 875.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    }
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "squad": {
+    "club": "liverpool",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.008394,
+   "latency_ms": 9239,
+   "crops_dir": "frames/shirts/875000_L5"
+  },
+  "875000:L6": {
+   "team": "home",
+   "label": "L6",
+   "name_now": null,
+   "tracks": "tracks/62.json",
+   "track_id": 76,
+   "at_s": 875.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 38,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 38,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    }
+   ],
+   "number": null,
+   "consistent": false,
+   "agree": 2,
+   "with_number": 2,
+   "crops": 8,
+   "counts": {
+    "38": 2
+   },
+   "why": "38 read 2 of 2 times, another number 0 times",
+   "name": null,
+   "squad": {
+    "club": "liverpool",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.0078195,
+   "latency_ms": 4885,
+   "crops_dir": "frames/shirts/875000_L6"
+  },
+  "875000:L8": {
+   "team": "home",
+   "label": "L8",
+   "name_now": null,
+   "tracks": "tracks/62.json",
+   "track_id": 79,
+   "at_s": 875.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    }
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "squad": {
+    "club": "liverpool",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00812475,
+   "latency_ms": 5849,
+   "crops_dir": "frames/shirts/875000_L8"
+  },
+  "875000:L7": {
+   "team": "home",
+   "label": "L7",
+   "name_now": null,
+   "tracks": "tracks/62.json",
+   "track_id": 55,
+   "at_s": 875.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "squad": {
+    "club": "liverpool",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.009783,
+   "latency_ms": 53051,
+   "crops_dir": "frames/shirts/875000_L7"
+  },
+  "875000:L4": {
+   "team": "home",
+   "label": "L4",
+   "name_now": null,
+   "tracks": "tracks/62.json",
+   "track_id": 68,
+   "at_s": 875.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "squad": {
+    "club": "liverpool",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.0088455,
+   "latency_ms": 6771,
+   "crops_dir": "frames/shirts/875000_L4"
+  },
+  "e_0058:t1": {
+   "team": "away",
+   "label": "t1",
+   "name_now": null,
+   "tracks": "tracks/xe_0058.json",
+   "track_id": 1,
+   "at_s": 1475.92,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 21,
+     "confidence": 0.75,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 21,
+     "confidence": 0.5,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 21,
+     "confidence": 0.4,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 21,
+     "confidence": 0.5,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 21,
+     "confidence": 0.55,
+     "side": "back"
+    }
+   ],
+   "number": 21,
+   "consistent": true,
+   "agree": 5,
+   "with_number": 5,
+   "crops": 8,
+   "counts": {
+    "21": 5
+   },
+   "why": null,
+   "name": "Rayan Aït-Nouri",
+   "squad": {
+    "club": "man_city",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00737775,
+   "latency_ms": 13713,
+   "crops_dir": "frames/shirts/e_0058_t1"
+  },
+  "e_0065:t13": {
+   "team": "home",
+   "label": "t13",
+   "name_now": null,
+   "tracks": "tracks/xe_0065.json",
+   "track_id": 13,
+   "at_s": 1571.86,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": 22,
+     "confidence": 0.6,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 22,
+     "confidence": 0.6,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 22,
+     "confidence": 0.7,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 22,
+     "confidence": 0.7,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 22,
+     "confidence": 0.8,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 22,
+     "confidence": 0.9,
+     "side": "back"
+    }
+   ],
+   "number": 22,
+   "consistent": true,
+   "agree": 6,
+   "with_number": 6,
+   "crops": 8,
+   "counts": {
+    "22": 6
+   },
+   "why": null,
+   "name": "Hugo Ekitike",
+   "squad": {
+    "club": "liverpool",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Liverpool_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.0095895,
+   "latency_ms": 10227,
+   "crops_dir": "frames/shirts/e_0065_t13"
+  }
+ }
+}
