@@ -44,7 +44,7 @@ clips:
     from: 0.3
     to: 6.9
     captions:
-      - {from: 0.2, to: 6.6, text: "Liverpool v Man City, 86th minute. The pass options update as the play moves."}
+      - {from: 0.2, to: 6.6, text: "Dangerous space in view: spots in front of goal worth 0.05 xG or more, weighted by xG; the share the attacking team would reach first."}   # track B bba3be2, caption_danger (verbatim)
 
   - shot: footage/lfc_v6_v6            # the strike
     from: 2.7
@@ -128,6 +128,7 @@ clips:
     lines: ["Every line on screen has a why.", "Premier League clips used with permission"]
 
 sources:
+  "0.05": "cache/v7 always_* danger_def: the dangerous zone is every cell a shot from is worth at least 0.05 xG (track A ee20aa4; caption_danger, track B bba3be2)"
   "0.06": "xg_decision_877000 actual xg 0.06 (Amad, the decision freeze; 'from here')"
   "84%": "xg_decision_877000 best_alternative p_pass 0.84"
   "0.11": "xg_decision_877000 best_alternative xg_after_pass 0.11"
