@@ -4,7 +4,7 @@
  "result": {
   "beat": "always",
   "control_model": "time-to-intercept pitch control (insights.control, from physics.pitch_control; simplified Spearman 2018): each player in view reaches a point after a 0.7 s reaction then at 5 m/s; a team's control is its softmin share of the arrival times; positions only, no ball travel time",
-  "danger_def": "Dangerous space in view: the dangerous zone is every cell in front of the goal in view from which a shot is worth at least 0.05 xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as in v5/v6). Each team's share = sum over the zone's cells in view of its pitch control x that cell's xG, divided by the sum of the xG; home + away = 1. Printed only when at least 70% of the zone's cells are in view; 2 dp",
+  "danger_def": "Dangerous space in view, one number for the attacking team (the team attacking the goal in view): the dangerous zone is every cell in front of that goal from which a shot is worth at least 0.05 xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as in v5/v6); share = sum over the zone's cells in view of the attacking team's pitch control x that cell's xG, divided by the sum of the xG. Printed only when at least 50% of the zone (by xG weight) is in view; 2 dp, shown as a whole percent: '<Team> control 31% of the danger zone in view'",
   "end_clip_ms": 1477900,
   "frames": [
    {
@@ -22,11 +22,14 @@
     "clip_ms": 1473100,
     "control": "/////////wkj////////////////////////////////////////////////////Awkog/////////////////////////////////////////////////8BAgkxo+v6/////////////////////////////////////////////wABAgpCyPb9/v//////////////////////////////////////////AAABAg5j5vz+/v7///////////////////////////////////////8BAQAAAyGg9/7+/v///////////////////////////////////////wgEAgICFYLg/P7+/v//////////////////////////////////////mjoUDxMwqfL6/f7+/v//////////////////////////////////////9NF/ZYXG9v79/f7+/////////////////////////////////////////fzx5fH6/P38+/7+/////////////////////////////////////////v79/P3+/vjY0vT7/////////////////////////////////////////v7+/f39/N1LJWb//////////////////////////////////////////v7+/fn13VkHAgf//////////////////////////////////////////v7+/OSwTwwBAP///////////////////////////////////////////v7+96ExCQEAAP///////////////////////////////////////////v795lALAQAAAP///////////////////////////////////////////v35vSUEAQAA/////////////////////////////////////////////vzshBMCAAAA/////////////////////////////////////////////ffSVQwCAAAA////////////////////////////////////////////++2rNggBAAD/////////////////////////////////////////////9dqDJQcBAAD/////////////////////////////////////////////7L9hGwUBAP//////////////////////////////////////////////3aBIFAUBAP//////////////////////////////////////////////yYI2EAQBAP//////////////////////////////////////////////smgqDQQB////////////////////////////////////////////////mVQiCwQB////////////////////////////////////////////////gkMcCgMB////////////////////////////////////////////////",
     "danger": {
-     "away": 0.16,
-     "home": 0.84
+     "share": 0.16,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 16% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
      "in_view": 1.0
     },
@@ -34,38 +37,50 @@
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        27.26,
-        18.28
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         27.26,
+         18.28
+        ],
+        [
+         18.99,
+         21.42
+        ],
+        [
+         27.62,
+         23.21
+        ],
+        [
+         15.79,
+         27.61
+        ]
        ],
-       [
-        18.99,
-        21.42
-       ],
-       [
-        27.62,
-        23.21
-       ],
-       [
-        15.79,
-        27.61
-       ]
-      ],
+       "x": 22.41,
+       "y_max": 27.61,
+       "y_min": 18.28
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -75,11 +90,14 @@
     "clip_ms": 1473200,
     "control": "/////////xL/////////////////////////////////////////////////////BBJOuP////////////////////////////////////////////////8BAxFd0Pb//////////////////////////////////////////////wABAxJ05vv9/v//////////////////////////////////////////AAABAxWX9P3+/v7///////////////////////////////////////8BAQABBCXC+/7+/v///////////////////////////////////////wYDAgECE3Dl/f7+/v//////////////////////////////////////gSkOCw8roOf3/v7+////////////////////////////////////////7r5kT3bM+P39/v7+/////////////////////////////////////////frr3ev3/f38/f7+/////////////////////////////////////////v79/P39/PXg6Pr//////////////////////////////////////////v7+/f7++8NEQZz//////////////////////////////////////////v7+/fz75kgGAxD//////////////////////////////////////////v7+++/Wbw0BAP///////////////////////////////////////////v797qJEDQIAAP///////////////////////////////////////////v75uzQJAQAA/////////////////////////////////////////////vzmZg8CAAAA/////////////////////////////////////////////PO1LgYBAAAA////////////////////////////////////////////+N10FgMBAAD/////////////////////////////////////////////7LJDDAIAAAD/////////////////////////////////////////////1IEoCAIAAP//////////////////////////////////////////////sFcZBgEAAP//////////////////////////////////////////////iDoRBAEAAP//////////////////////////////////////////////ZSgMAwEA////////////////////////////////////////////////SRwJAwEA////////////////////////////////////////////////NhUHAgH/////////////////////////////////////////////////KBAGAgH/////////////////////////////////////////////////",
     "danger": {
-     "away": 0.18,
-     "home": 0.82
+     "share": 0.18,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 18% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
      "in_view": 1.0
     },
@@ -87,38 +105,50 @@
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        26.8,
-        18.02
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         26.8,
+         18.02
+        ],
+        [
+         17.89,
+         22.4
+        ],
+        [
+         27.13,
+         23.09
+        ],
+        [
+         14.45,
+         29.09
+        ]
        ],
-       [
-        17.89,
-        22.4
-       ],
-       [
-        27.13,
-        23.09
-       ],
-       [
-        14.45,
-        29.09
-       ]
-      ],
+       "x": 21.57,
+       "y_max": 29.09,
+       "y_min": 18.02
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -128,11 +158,14 @@
     "clip_ms": 1473300,
     "control": "/////////xL/////////////////////////////////////////////////////BRNM//////////////////////////////////////////////////8BBBNdzPT//////////////////////////////////////////////wEBAxV35Pr9/v//////////////////////////////////////////AAABAxqe9P3+/v////////////////////////////////////////8BAQABBS7L+/7+/v///////////////////////////////////////wYDAgECGHrr/f7+/v//////////////////////////////////////dCUPDBEzquf4/v7+////////////////////////////////////////67NgVYHV+v38/v7+/////////////////////////////////////////fno3u34/f38/f7//////////////////////////////////////////v79/P39/PLe9Pz//////////////////////////////////////////v7+/f7++ag/bMr//////////////////////////////////////////v7+/fz62S4EBv///////////////////////////////////////////v7++evPZAkAAf///////////////////////////////////////////v7813EtDQMBAP///////////////////////////////////////////vzqZw8CAAAA/////////////////////////////////////////////PKfGgIAAAAA////////////////////////////////////////////9MVCBwEAAAD/////////////////////////////////////////////13YYAwAAAAD/////////////////////////////////////////////njkKAQAAAAD/////////////////////////////////////////////YBsFAQAAAP//////////////////////////////////////////////Ng8DAQAAAP//////////////////////////////////////////////HwkCAQAA////////////////////////////////////////////////EgYCAAAA////////////////////////////////////////////////DAQBAAAA////////////////////////////////////////////////CAMBAAD/////////////////////////////////////////////////BgIBAAD/////////////////////////////////////////////////",
     "danger": {
-     "away": 0.22,
-     "home": 0.78
+     "share": 0.22,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 22% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
      "in_view": 1.0
     },
@@ -140,38 +173,50 @@
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        26.22,
-        18.56
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         26.22,
+         18.56
+        ],
+        [
+         17.41,
+         22.36
+        ],
+        [
+         26.3,
+         24.01
+        ],
+        [
+         14.14,
+         28.97
+        ]
        ],
-       [
-        17.41,
-        22.36
-       ],
-       [
-        26.3,
-        24.01
-       ],
-       [
-        14.14,
-        28.97
-       ]
-      ],
+       "x": 21.02,
+       "y_max": 28.97,
+       "y_min": 18.56
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -181,11 +226,14 @@
     "clip_ms": 1473400,
     "control": "////////////////////////////////////////////////////////////////DCyE//////////////////////////////////////////////////8DCy+Z5vn//////////////////////////////////////////////wEDCjWz8vz+////////////////////////////////////////////AQECC0LQ+f3+/v////////////////////////////////////////8BAQECEGHo/f7+/v///////////////////////////////////////wQCAQEEMKf2/v7+////////////////////////////////////////TBUJBwoxu+z7/v7+////////////////////////////////////////14M6NmTQ+vz9/v7+/////////////////////////////////////////PPRxuH2/Pz7/v7//////////////////////////////////////////v77+vz9+efW9Pz//////////////////////////////////////////v7+/f3+8Xowaf///////////////////////////////////////////v7++/r0rxYDB////////////////////////////////////////////v798tKNJQQAAf///////////////////////////////////////////v77ylMTAgAA/////////////////////////////////////////////v3ueRUDAAAA/////////////////////////////////////////////fjJOggBAAD/////////////////////////////////////////////+uiNHQQBAAD/////////////////////////////////////////////8shZEQMBAAD/////////////////////////////////////////////4p04DAIBAP//////////////////////////////////////////////x3MlCQIBAP//////////////////////////////////////////////plMaBwIB////////////////////////////////////////////////hDwUBgIB////////////////////////////////////////////////Zy0QBQIB////////////////////////////////////////////////UCMNBQL/////////////////////////////////////////////////PxwLBAL/////////////////////////////////////////////////MhcJBP//////////////////////////////////////////////////",
     "danger": {
-     "away": 0.22,
-     "home": 0.78
+     "share": 0.22,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 22% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
      "in_view": 1.0
     },
@@ -193,38 +241,50 @@
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        25.67,
-        18.76
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         25.67,
+         18.76
+        ],
+        [
+         16.9,
+         22.2
+        ],
+        [
+         25.72,
+         23.64
+        ],
+        [
+         13.76,
+         28.96
+        ]
        ],
-       [
-        16.9,
-        22.2
-       ],
-       [
-        25.72,
-        23.64
-       ],
-       [
-        13.76,
-        28.96
-       ]
-      ],
+       "x": 20.51,
+       "y_max": 28.96,
+       "y_min": 18.76
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -234,11 +294,14 @@
     "clip_ms": 1473500,
     "control": "////////////////////////////////////////////////////////////////DjeY//////////////////////////////////////////////////8DDDut7P///////////////////////////////////////////////wECCkLF9fz+////////////////////////////////////////////AQECCU7d+/7+/v////////////////////////////////////////8BAQECC2fv/f7+/v///////////////////////////////////////wQCAQEDHJj5/v7+////////////////////////////////////////ShYKCAooj9r8/v7+////////////////////////////////////////1YJAQ3za9/n9/v7//////////////////////////////////////////PPSzur7/fz8/v7//////////////////////////////////////////v77+vz8+u/r+v3//////////////////////////////////////////v7+/f384XRSpf///////////////////////////////////////////v7++/vziBAFEf///////////////////////////////////////////v798dmFFgIB/////////////////////////////////////////////v74wl8UAgAA/////////////////////////////////////////////vzlcRsFAQAA/////////////////////////////////////////////fS4OAsCAQD/////////////////////////////////////////////+eGAHwcCAQD/////////////////////////////////////////////775UFAUCAf//////////////////////////////////////////////3JU4DwQCAf//////////////////////////////////////////////wXAoDAQC////////////////////////////////////////////////olMeCgMC////////////////////////////////////////////////gz8YCAMC////////////////////////////////////////////////aTETCAP/////////////////////////////////////////////////VCgRBwP/////////////////////////////////////////////////RCEOBv//////////////////////////////////////////////////OBwNBv//////////////////////////////////////////////////",
     "danger": {
-     "away": 0.22,
-     "home": 0.78
+     "share": 0.22,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 22% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
      "in_view": 1.0
     },
@@ -246,38 +309,50 @@
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        25.16,
-        18.65
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         25.16,
+         18.65
+        ],
+        [
+         15.81,
+         23.34
+        ],
+        [
+         25.14,
+         23.55
+        ],
+        [
+         12.79,
+         29.85
+        ]
        ],
-       [
-        15.81,
-        23.34
-       ],
-       [
-        25.14,
-        23.55
-       ],
-       [
-        12.79,
-        29.85
-       ]
-      ],
+       "x": 19.73,
+       "y_max": 29.85,
+       "y_min": 18.65
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -287,11 +362,14 @@
     "clip_ms": 1473600,
     "control": "////////////////////////////////////////////////////////////////HF////////////////////////////////////////////////////8GGWfP9P///////////////////////////////////////////////wIFF3Pg+f3/////////////////////////////////////////////AQIEF4Xu/P7+/v////////////////////////////////////////8BAQEEG6D3/v7+/v///////////////////////////////////////wQCAQEHNsP8/v7+////////////////////////////////////////MA4HBQcxpeb9/v7+////////////////////////////////////////uFcoLmrb9vn9/v7/////////////////////////////////////////+ee0tuL6/fz9/v7//////////////////////////////////////////v35+Pv7+e/4/f3//////////////////////////////////////////v79/f3703KY4f///////////////////////////////////////////v79+/vuaAwMOP///////////////////////////////////////////v787NByEgEB/////////////////////////////////////////////v3wnz0KAQEB/////////////////////////////////////////////fjEPgwCAAD/////////////////////////////////////////////+uN4GAQBAAD/////////////////////////////////////////////7rQ/DAMBAAD/////////////////////////////////////////////03sjCAIBAP//////////////////////////////////////////////q08WBgIBAP//////////////////////////////////////////////gDQPBQIB////////////////////////////////////////////////XCQMBAIB////////////////////////////////////////////////QxoJAwH/////////////////////////////////////////////////MRQIAwH/////////////////////////////////////////////////JRAHAwH/////////////////////////////////////////////////HQ0GA///////////////////////////////////////////////////GAsFA///////////////////////////////////////////////////",
     "danger": {
-     "away": 0.26,
-     "home": 0.74
+     "share": 0.26,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 26% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
      "in_view": 1.0
     },
@@ -299,38 +377,50 @@
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        24.67,
-        18.92
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         24.67,
+         18.92
+        ],
+        [
+         15.31,
+         23.21
+        ],
+        [
+         24.1,
+         24.68
+        ],
+        [
+         12.23,
+         29.99
+        ]
        ],
-       [
-        15.31,
-        23.21
-       ],
-       [
-        24.1,
-        24.68
-       ],
-       [
-        12.23,
-        29.99
-       ]
-      ],
+       "x": 19.08,
+       "y_max": 29.99,
+       "y_min": 18.92
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -340,11 +430,14 @@
     "clip_ms": 1473700,
     "control": "////////////////////////////////////////////////////////////////HFn///////////////////////////////////////////////////8IG2TI8f///////////////////////////////////////////////wMHG3Tc+P3/////////////////////////////////////////////AQIGHYzt/P7+/v////////////////////////////////////////8BAQIGJK73/f7+/v///////////////////////////////////////wQCAQELRdL8/v7+////////////////////////////////////////Lw4IBgg+r+39/v7+////////////////////////////////////////tVUrM3fi9vn+/v7/////////////////////////////////////////+OW0u+X7/Pv9/v7//////////////////////////////////////////v34+Pv69en4/f///////////////////////////////////////////v79/f33tFeL2f///////////////////////////////////////////v79+vnZOgcKMv///////////////////////////////////////////v764K89CAAB/////////////////////////////////////////////vzngSYFAQEB/////////////////////////////////////////////fSwMQkBAAD/////////////////////////////////////////////+NtqFgQBAAD/////////////////////////////////////////////6qs8DQMBAf//////////////////////////////////////////////z3glCQMBAf//////////////////////////////////////////////qlIZBwIBAf//////////////////////////////////////////////gzkTBgIB////////////////////////////////////////////////YyoPBQIB////////////////////////////////////////////////SyAMBQL/////////////////////////////////////////////////OhkKBQL/////////////////////////////////////////////////LhUJBP//////////////////////////////////////////////////JRIIBP//////////////////////////////////////////////////Hw8IBP//////////////////////////////////////////////////",
     "danger": {
-     "away": 0.27,
-     "home": 0.73
+     "share": 0.27,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 27% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
      "in_view": 1.0
     },
@@ -352,38 +445,50 @@
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        23.97,
-        19.63
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         23.97,
+         19.63
+        ],
+        [
+         14.9,
+         23.07
+        ],
+        [
+         23.62,
+         24.24
+        ],
+        [
+         11.79,
+         29.81
+        ]
        ],
-       [
-        14.9,
-        23.07
-       ],
-       [
-        23.62,
-        24.24
-       ],
-       [
-        11.79,
-        29.81
-       ]
-      ],
+       "x": 18.57,
+       "y_max": 29.81,
+       "y_min": 19.63
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -393,11 +498,14 @@
     "clip_ms": 1473800,
     "control": "////////////////////////////////////////////////////////////////LH////////////////////////////////////////////////////8KK4zf/////////////////////////////////////////////////wIIKZzr+/3/////////////////////////////////////////////AQIGKLL1/f7+/v////////////////////////////////////////8BAQIGLMv7/v7+/////////////////////////////////////////wQCAQEIP+L9/v7+////////////////////////////////////////LxAIBQcsi/D+/v7+////////////////////////////////////////sFUyPoHV6fj+/v7/////////////////////////////////////////+OO6zfH9+/v+/v7//////////////////////////////////////////v34+fv79ev6/f///////////////////////////////////////////v79/f3wnlui4v///////////////////////////////////////////v79+vi9IgYP/////////////////////////////////////////////v733Z4oBAEB/////////////////////////////////////////////vvZch0DAQEB////////////////////////////////////////////++yTKAgBAAD/////////////////////////////////////////////88VQEgQBAQD/////////////////////////////////////////////3Y0tCwMBAf//////////////////////////////////////////////uF4dCAMBAf//////////////////////////////////////////////jj8UBwMB////////////////////////////////////////////////aiwQBgMB////////////////////////////////////////////////TiENBQMB////////////////////////////////////////////////OxoLBQL/////////////////////////////////////////////////LhUKBQL/////////////////////////////////////////////////JRIJBP//////////////////////////////////////////////////Hw8IBP//////////////////////////////////////////////////Gg4H////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.29,
-     "home": 0.71
+     "share": 0.29,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 29% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
      "in_view": 1.0
     },
@@ -405,38 +513,50 @@
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        23.61,
-        19.23
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         23.61,
+         19.23
+        ],
+        [
+         13.74,
+         24.0
+        ],
+        [
+         23.12,
+         24.12
+        ],
+        [
+         11.07,
+         30.12
+        ]
        ],
-       [
-        13.74,
-        24.0
-       ],
-       [
-        23.12,
-        24.12
-       ],
-       [
-        11.07,
-        30.12
-       ]
-      ],
+       "x": 17.88,
+       "y_max": 30.12,
+       "y_min": 19.23
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -446,50 +566,65 @@
     "clip_ms": 1473900,
     "control": "////////////////////////////////////////////////////////////////Yr7///////////////////////////////////////////////////8cYsjy/////////////////////////////////////////////////wcYYtT3/f7/////////////////////////////////////////////AwYUZOD7/v7+//////////////////////////////////////////8CAwUUauv9/v7+/////////////////////////////////////////wQDAgYcfvP+/v7+////////////////////////////////////////GwoGAwtStfj+/v7+////////////////////////////////////////eS4cJ3rc7fr+/v7/////////////////////////////////////////7b6Ire38+vz+/v7//////////////////////////////////////////fvx8/j58PT9/f///////////////////////////////////////////v78/PvkhYfa8v///////////////////////////////////////////v78+fSYFgor/////////////////////////////////////////////v3y0HwYAwEE/////////////////////////////////////////////fjIWRIBAQH/////////////////////////////////////////////+uN7HwYBAQH/////////////////////////////////////////////7rNCDwQBAQH/////////////////////////////////////////////0nwnCgMBAf//////////////////////////////////////////////qlMaCAMCAf//////////////////////////////////////////////gjkUBwMC////////////////////////////////////////////////YSoQBgMC////////////////////////////////////////////////SSANBgP/////////////////////////////////////////////////ORoMBgP/////////////////////////////////////////////////LRYKBQP/////////////////////////////////////////////////JRMKBf//////////////////////////////////////////////////HxEJBf//////////////////////////////////////////////////Gw8I////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.31,
-     "home": 0.69
+     "share": 0.31,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 31% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.99
+     "in_view": 1.0
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        23.23,
-        19.27
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         23.23,
+         19.27
+        ],
+        [
+         13.28,
+         23.63
+        ],
+        [
+         22.09,
+         25.23
+        ],
+        [
+         10.59,
+         30.22
+        ]
        ],
-       [
-        13.28,
-        23.63
-       ],
-       [
-        22.09,
-        25.23
-       ],
-       [
-        10.59,
-        30.22
-       ]
-      ],
+       "x": 17.3,
+       "y_max": 30.22,
+       "y_min": 19.27
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -499,50 +634,65 @@
     "clip_ms": 1474000,
     "control": "////////////////////////////////////////////////////////////////WbH///////////////////////////////////////////////////8cXL7u/////////////////////////////////////////////////wgZYM71/P3/////////////////////////////////////////////BAcWZ976/f7+//////////////////////////////////////////8DAwYXdez9/v7+/////////////////////////////////////////wUDAwcgkPb+/v7+////////////////////////////////////////GwsHBA9awPr+/v7/////////////////////////////////////////djEiMpDe7Pz+/v7/////////////////////////////////////////7L2TvfL7+P3+/v7//////////////////////////////////////////fry9Pj36vT9/f///////////////////////////////////////////v78/PnQaHrQ7f///////////////////////////////////////////v77+ettDQgk/////////////////////////////////////////////v3swVgOAgEE/////////////////////////////////////////////fW0RgwBAQH/////////////////////////////////////////////99dmGQUBAQH/////////////////////////////////////////////56E4DgQCAQH/////////////////////////////////////////////x20jCgQCAf//////////////////////////////////////////////nUoZCQQCAf//////////////////////////////////////////////dzUUCAQC////////////////////////////////////////////////WigQBwQC////////////////////////////////////////////////RiAOBwT/////////////////////////////////////////////////NxsNBgT/////////////////////////////////////////////////LRcMBv//////////////////////////////////////////////////JhQLBv//////////////////////////////////////////////////IRIKBv//////////////////////////////////////////////////HRAK////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.33,
-     "home": 0.67
+     "share": 0.33,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 33% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.99
+     "in_view": 1.0
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        22.52,
-        19.89
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         22.52,
+         19.89
+        ],
+        [
+         12.8,
+         23.59
+        ],
+        [
+         21.66,
+         24.68
+        ],
+        [
+         10.07,
+         30.3
+        ]
        ],
-       [
-        12.8,
-        23.59
-       ],
-       [
-        21.66,
-        24.68
-       ],
-       [
-        10.07,
-        30.3
-       ]
-      ],
+       "x": 16.76,
+       "y_max": 30.3,
+       "y_min": 19.89
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -552,50 +702,65 @@
     "clip_ms": 1474100,
     "control": "////////////////////////////////////////////////////////////////iv////////////////////////////////////////////////////8zjt32/////////////////////////////////////////////////wwslOf6/f//////////////////////////////////////////////BAkmm+/8/v7+//////////////////////////////////////////8DBAchpvb9/v7+/////////////////////////////////////////wUDAwgjtfr+/v7+////////////////////////////////////////GQsGAw5Dyfz+/v7/////////////////////////////////////////YiodImiz5f3+/v7/////////////////////////////////////////4aaOxvX09P3+/v7//////////////////////////////////////////ffs9Pr14/b9/f///////////////////////////////////////////v77+/W9WYLU7f///////////////////////////////////////////v7599tJCAkt/////////////////////////////////////////////vvjrTkJAQEF/////////////////////////////////////////////O6eOAkCAQH/////////////////////////////////////////////9MdWFwUCAQH/////////////////////////////////////////////3o8yDgUCAf//////////////////////////////////////////////uWEhCwUCAv//////////////////////////////////////////////kUQZCgUDAv//////////////////////////////////////////////bzMVCQUD////////////////////////////////////////////////VSgSCQUD////////////////////////////////////////////////RCEQCAX/////////////////////////////////////////////////NxwPCAX/////////////////////////////////////////////////LhkOCP//////////////////////////////////////////////////KBYNCP//////////////////////////////////////////////////IxQM////////////////////////////////////////////////////HxMM////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.35,
-     "home": 0.65
+     "share": 0.35,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 35% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        22.11,
-        19.87
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         22.11,
+         19.87
+        ],
+        [
+         11.57,
+         24.58
+        ],
+        [
+         21.14,
+         24.63
+        ],
+        [
+         9.68,
+         30.41
+        ]
        ],
-       [
-        11.57,
-        24.58
-       ],
-       [
-        21.14,
-        24.63
-       ],
-       [
-        9.68,
-        30.41
-       ]
-      ],
+       "x": 16.12,
+       "y_max": 30.41,
+       "y_min": 19.87
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -605,50 +770,65 @@
     "clip_ms": 1474200,
     "control": "////////////////////////////////////////////////////////////////tP////////////////////////////////////////////////////9WuO36/////////////////////////////////////////////////xdPvvL8/f//////////////////////////////////////////////CBJGxff9/v7+//////////////////////////////////////////8GBxA/zfr+/v7+/////////////////////////////////////////wcFBxFB1vz+/v7+////////////////////////////////////////FwwHBhxj3/3+/v7/////////////////////////////////////////USMZIH2/7P3+/v7/////////////////////////////////////////1Y5+w/bx9/3+/v///////////////////////////////////////////PPl8Pfw7vz9/f///////////////////////////////////////////v36+u+nfM3u9P///////////////////////////////////////////v329L8wCh1p/////////////////////////////////////////////vrZlCEGAQMQ////////////////////////////////////////////++eNLgcCAQH/////////////////////////////////////////////8LpNFgYCAQH/////////////////////////////////////////////14UwDwUDAv//////////////////////////////////////////////sl0iDAUDAv//////////////////////////////////////////////jEMbCwUD////////////////////////////////////////////////bTQXCgYD////////////////////////////////////////////////VioUCgYE////////////////////////////////////////////////RSQSCgb/////////////////////////////////////////////////Oh8RCgb/////////////////////////////////////////////////MRwQCf//////////////////////////////////////////////////KxkPCf//////////////////////////////////////////////////JhcO////////////////////////////////////////////////////IhUO////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.36,
-     "home": 0.64
+     "share": 0.36,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 36% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        21.75,
-        19.79
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         21.75,
+         19.79
+        ],
+        [
+         11.1,
+         24.28
+        ],
+        [
+         20.04,
+         25.68
+        ],
+        [
+         9.35,
+         30.35
+        ]
        ],
-       [
-        11.1,
-        24.28
-       ],
-       [
-        20.04,
-        25.68
-       ],
-       [
-        9.35,
-        30.35
-       ]
-      ],
+       "x": 15.56,
+       "y_max": 30.35,
+       "y_min": 19.79
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -658,50 +838,65 @@
     "clip_ms": 1474300,
     "control": "////////////////////////////////////////////////////////////////r/////////////////////////////////////////////////////9Zter5/////////////////////////////////////////////////x1VvvH7/f//////////////////////////////////////////////DBlRyPb9/v7+//////////////////////////////////////////8ICxdQ1Pr+/v7+/////////////////////////////////////////wkIChlX4Pz+/v7+////////////////////////////////////////Gg4JCSt86/3+/v7/////////////////////////////////////////USceLJbI8/7+/v7/////////////////////////////////////////1I2EzvXv+P7+/v///////////////////////////////////////////PLk7/Pn6/v9/P///////////////////////////////////////////v35+eJ/Ybjk7v///////////////////////////////////////////v318JweBhVT/////////////////////////////////////////////ffPfRQFAQMO////////////////////////////////////////////+dx9JgcDAQH/////////////////////////////////////////////6qlFFQYDAgH/////////////////////////////////////////////y3ctEAYDAv//////////////////////////////////////////////pFUiDgcEAv//////////////////////////////////////////////gUAcDQcE////////////////////////////////////////////////ZTMYDAcE////////////////////////////////////////////////USoWDAcF////////////////////////////////////////////////QyUUDAf/////////////////////////////////////////////////OSETCwf/////////////////////////////////////////////////Mh4SC///////////////////////////////////////////////////LBsRC///////////////////////////////////////////////////KBkQ////////////////////////////////////////////////////JBgQ////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.38,
-     "home": 0.62
+     "share": 0.38,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 38% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        21.17,
-        20.34
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         21.17,
+         20.34
+        ],
+        [
+         10.72,
+         23.92
+        ],
+        [
+         19.66,
+         25.21
+        ],
+        [
+         8.93,
+         30.43
+        ]
        ],
-       [
-        10.72,
-        23.92
-       ],
-       [
-        19.66,
-        25.21
-       ],
-       [
-        8.93,
-        30.43
-       ]
-      ],
+       "x": 15.12,
+       "y_max": 30.43,
+       "y_min": 20.34
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -711,50 +906,65 @@
     "clip_ms": 1474400,
     "control": "////////////////////////////////////////////////////////////////tP////////////////////////////////////////////////////9gvOz//////////////////////////////////////////////////xtdxvL7/f//////////////////////////////////////////////CRZZ0ff9/v7///////////////////////////////////////////8GCBJW3fv+/v7+/////////////////////////////////////////wgGBxFY6f3+/v7+////////////////////////////////////////Gw4IBxts8f7+/v7/////////////////////////////////////////US0fI2Sq9/7+/v7/////////////////////////////////////////zZim4Obi+v7+/v//////////////////////////////////////////+/Hs9vPc7/z9/P///////////////////////////////////////////v359cxkacXo/////////////////////////////////////////////vz17G0RBx5l/////////////////////////////////////////////fXQdQwEAQQT////////////////////////////////////////////+NuGLAkDAgL/////////////////////////////////////////////6a5THAkEAgL/////////////////////////////////////////////zoM6FwoFA///////////////////////////////////////////////rWQuFQoFA///////////////////////////////////////////////jlAnEwoG////////////////////////////////////////////////dUIjEwsH////////////////////////////////////////////////YjkgEgv/////////////////////////////////////////////////VDIdEgv/////////////////////////////////////////////////SS0cEgv/////////////////////////////////////////////////QSobEf//////////////////////////////////////////////////OycZEf//////////////////////////////////////////////////NiQZ////////////////////////////////////////////////////MiIY////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.37,
-     "home": 0.63
+     "share": 0.37,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 37% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        20.72,
-        20.55
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         20.72,
+         20.55
+        ],
+        [
+         9.53,
+         24.82
+        ],
+        [
+         19.17,
+         25.1
+        ],
+        [
+         8.41,
+         30.72
+        ]
        ],
-       [
-        9.53,
-        24.82
-       ],
-       [
-        19.17,
-        25.1
-       ],
-       [
-        8.41,
-        30.72
-       ]
-      ],
+       "x": 14.46,
+       "y_max": 30.72,
+       "y_min": 20.55
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -764,50 +974,65 @@
     "clip_ms": 1474500,
     "control": "////////////////////////////////////////////////////////////////1v////////////////////////////////////////////////////+Q2/b//////////////////////////////////////////////////zGO4vn9/v//////////////////////////////////////////////DyiM6Pv9/v7///////////////////////////////////////////8JDSGJ7/3+/v7+/////////////////////////////////////////woJDB+J9f3+/v7+////////////////////////////////////////Gg8JDiuT+P7+/v7/////////////////////////////////////////QicYKXG7+f7+/v7/////////////////////////////////////////t4Wd4N7k+/3+/v//////////////////////////////////////////+ero8+zb9/38+////////////////////////////////////////////vz38LNgoODt/////////////////////////////////////////////vz04kkNDT2J/////////////////////////////////////////////fPMZQgDAgkk////////////////////////////////////////////99iFLAkDAgT/////////////////////////////////////////////561XHwoEAwP/////////////////////////////////////////////zYZAGwsFA///////////////////////////////////////////////rmo0GQwGBP//////////////////////////////////////////////klctFw0H////////////////////////////////////////////////fEopFw0I////////////////////////////////////////////////akEmFg3/////////////////////////////////////////////////XTojFg7/////////////////////////////////////////////////UjUhFQ7/////////////////////////////////////////////////SjEgFf//////////////////////////////////////////////////RC4fFf//////////////////////////////////////////////////Pise////////////////////////////////////////////////////Oikd////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.38,
-     "home": 0.62
+     "share": 0.38,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 38% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        20.38,
-        20.35
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         20.38,
+         20.35
+        ],
+        [
+         8.98,
+         24.73
+        ],
+        [
+         18.22,
+         26.02
+        ],
+        [
+         8.0,
+         30.78
+        ]
        ],
-       [
-        8.98,
-        24.73
-       ],
-       [
-        18.22,
-        26.02
-       ],
-       [
-        8.0,
-        30.78
-       ]
-      ],
+       "x": 13.89,
+       "y_max": 30.78,
+       "y_min": 20.35
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -817,50 +1042,65 @@
     "clip_ms": 1474600,
     "control": "////////////////////////////////////////////////////////////////3P////////////////////////////////////////////////////+f4ff//////////////////////////////////////////////////z2f5/n9/v//////////////////////////////////////////////EjOg7fz9/v7///////////////////////////////////////////8LECqg8/3+/v7+/////////////////////////////////////////wwLDyWi+P7+/v7+////////////////////////////////////////HRELEDCr+v7+/v7/////////////////////////////////////////RCsZLW3I+/7+/v7/////////////////////////////////////////sIqp3tPn/P7+/v//////////////////////////////////////////9+fp8uHU9/z8+////////////////////////////////////////////vv155JLjdbs/////////////////////////////////////////////vrxzi8KGqLs/////////////////////////////////////////////PDEVgkGJd/7////////////////////////////////////////////9tWFMA4QZOz/////////////////////////////////////////////57BfJxMmjOf/////////////////////////////////////////////0JBMJh0/nP//////////////////////////////////////////////t3hCKClUpP//////////////////////////////////////////////n2c+LDZk////////////////////////////////////////////////jFw8M0Nx////////////////////////////////////////////////fVU9Ok//////////////////////////////////////////////////cVBAQln/////////////////////////////////////////////////aE5DSv//////////////////////////////////////////////////Yk5HUf//////////////////////////////////////////////////Xk5MV///////////////////////////////////////////////////W1BR////////////////////////////////////////////////////WlJV////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        20.0,
-        20.43
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         20.0,
+         20.43
+        ],
+        [
+         8.45,
+         24.74
+        ],
+        [
+         17.91,
+         25.38
+        ],
+        [
+         7.8,
+         30.81
+        ]
        ],
-       [
-        8.45,
-        24.74
-       ],
-       [
-        17.91,
-        25.38
-       ],
-       [
-        7.8,
-        30.81
-       ]
-      ],
+       "x": 13.54,
+       "y_max": 30.81,
+       "y_min": 20.43
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -870,50 +1110,65 @@
     "clip_ms": 1474700,
     "control": "////////////////////////////////////////////////////////////////5f////////////////////////////////////////////////////+46vn//////////////////////////////////////////////////1m87/v9/v//////////////////////////////////////////////G0+/8/z+/v7///////////////////////////////////////////8PF0TE9/3+/v7+/////////////////////////////////////////w8OFTvK+/7+/v7+////////////////////////////////////////HxMOFj/R/P7+/v7/////////////////////////////////////////QCYQLWfd/f7+/v7/////////////////////////////////////////oIGevbrr/P7+/f//////////////////////////////////////////8+Dq7MzS+Pz7+////////////////////////////////////////////fny33pEk9nu/////////////////////////////////////////////vjrtCIIK8z0////////////////////////////////////////////++q0RAsJSfD/////////////////////////////////////////////88p5LRAZf+3/////////////////////////////////////////////4aZaKBcvleT/////////////////////////////////////////////yIhLKCFFm///////////////////////////////////////////////r3RDKyxVnv//////////////////////////////////////////////mmVALzhh////////////////////////////////////////////////iFw+NUJq////////////////////////////////////////////////elU/O0v/////////////////////////////////////////////////cFJBQVP/////////////////////////////////////////////////aE9DR///////////////////////////////////////////////////Yk5HTP//////////////////////////////////////////////////Xk9KUv//////////////////////////////////////////////////XE9N////////////////////////////////////////////////////WlBR////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.35,
-     "home": 0.65
+     "share": 0.35,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 35% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.97
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        19.32,
-        21.02
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         19.32,
+         21.02
+        ],
+        [
+         7.52,
+         25.13
+        ],
+        [
+         17.45,
+         25.5
+        ],
+        [
+         7.68,
+         30.65
+        ]
        ],
-       [
-        7.52,
-        25.13
-       ],
-       [
-        17.45,
-        25.5
-       ],
-       [
-        7.68,
-        30.65
-       ]
-      ],
+       "x": 12.99,
+       "y_max": 30.65,
+       "y_min": 21.02
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -923,50 +1178,65 @@
     "clip_ms": 1474800,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////H7vr//////////////////////////////////////////////////23J8vv9/v//////////////////////////////////////////////JWHN9v3+/v7///////////////////////////////////////////8WH1TR+f3+/v7+/////////////////////////////////////////xcVHEjU+/7+/v7+////////////////////////////////////////KRsVH0jX/f7+/v7/////////////////////////////////////////TDAXNmvc/f7+/v7/////////////////////////////////////////pImotrXs+/39/f//////////////////////////////////////////89/m4cbr+/n4+f///////////////////////////////////////////fjuz2+R2ubv/////////////////////////////////////////////fbllRwQW+H1////////////////////////////////////////////+uWrQA8OePj/////////////////////////////////////////////8MZ5MhYnnvD/////////////////////////////////////////////3qZfLyBDp///////////////////////////////////////////////x4xTMC1Yqf//////////////////////////////////////////////sHpMNDpnqP//////////////////////////////////////////////nW1JOkZx////////////////////////////////////////////////jWRJQVF4////////////////////////////////////////////////gV9KR1r/////////////////////////////////////////////////eFtMTmH/////////////////////////////////////////////////cVpPVP//////////////////////////////////////////////////bFlTWf//////////////////////////////////////////////////aFpW////////////////////////////////////////////////////ZltZ////////////////////////////////////////////////////ZFxd////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.35,
-     "home": 0.65
+     "share": 0.35,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 35% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.96
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        19.08,
-        20.9
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         19.08,
+         20.9
+        ],
+        [
+         7.22,
+         24.83
+        ],
+        [
+         15.97,
+         27.12
+        ],
+        [
+         7.55,
+         30.61
+        ]
        ],
-       [
-        7.22,
-        24.83
-       ],
-       [
-        15.97,
-        27.12
-       ],
-       [
-        7.55,
-        30.61
-       ]
-      ],
+       "x": 12.45,
+       "y_max": 30.61,
+       "y_min": 20.9
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -976,50 +1246,65 @@
     "clip_ms": 1474900,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////j9/z//////////////////////////////////////////////////6Ll+f3+////////////////////////////////////////////////RJjn+v3+/v7///////////////////////////////////////////8nOYrq/P7+/v7+/////////////////////////////////////////yQlNHvs/f7+/v7+////////////////////////////////////////MSYlNnXt/f7+/v7/////////////////////////////////////////STMkToru/f7+/v7/////////////////////////////////////////j3meqrn0/f39/f//////////////////////////////////////////6s/azrDq/Pv6+v///////////////////////////////////////////fXotkxwyeTu/////////////////////////////////////////////fXifRISd+Dx////////////////////////////////////////////+ueySxIVuPj/////////////////////////////////////////////8s+IPR1GzfX/////////////////////////////////////////////5LRwOzNvyv//////////////////////////////////////////////0p1iQEqGx///////////////////////////////////////////////v4tcSl6Sxf//////////////////////////////////////////////rX9cVW6a////////////////////////////////////////////////n3deYHmf////////////////////////////////////////////////k3JjaYL/////////////////////////////////////////////////inFocYn/////////////////////////////////////////////////hHFteP//////////////////////////////////////////////////gHJyfv//////////////////////////////////////////////////fnR3////////////////////////////////////////////////////fXd7////////////////////////////////////////////////////fXn/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.32,
-     "home": 0.68
+     "share": 0.32,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 32% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.96
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        6.76,
-        24.65
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         6.76,
+         24.65
+        ],
+        [
+         16.03,
+         25.99
+        ],
+        [
+         7.42,
+         30.52
+        ],
+        [
+         18.03,
+         34.34
+        ]
        ],
-       [
-        16.03,
-        25.99
-       ],
-       [
-        7.42,
-        30.52
-       ],
-       [
-        18.03,
-        34.34
-       ]
-      ],
+       "x": 12.06,
+       "y_max": 34.34,
+       "y_min": 24.65
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1029,50 +1314,65 @@
     "clip_ms": 1475000,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////s+f3//////////////////////////////////////////////////7/u+/3+////////////////////////////////////////////////Y7rx/P7+/v7///////////////////////////////////////////86V7Tz/f7+/v7+/////////////////////////////////////////zI4UKv1/f7+/v7/////////////////////////////////////////NzE4UaP3/v7+/v7/////////////////////////////////////////RjU8Z6v3/v7+/v7/////////////////////////////////////////eGWSocb3/f3+/f//////////////////////////////////////////277Pvbf0/Pr6+////////////////////////////////////////////PDfoE+b3Orx/////////////////////////////////////////////fHcYhYirevy////////////////////////////////////////////+eGpRhMj2vf/////////////////////////////////////////////7seDPCFU0PL/////////////////////////////////////////////3q1sOzZxxf//////////////////////////////////////////////y5ZgQUqAvf//////////////////////////////////////////////t4ZaSVqI////////////////////////////////////////////////pnpZUmaN////////////////////////////////////////////////mHJbWm+Q////////////////////////////////////////////////jW5eYXX/////////////////////////////////////////////////hGxiaHv/////////////////////////////////////////////////f2tmbf//////////////////////////////////////////////////emxpcv//////////////////////////////////////////////////eG1t////////////////////////////////////////////////////dm9w////////////////////////////////////////////////////dnD/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.33,
-     "home": 0.67
+     "share": 0.33,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 33% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.95
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        6.05,
-        24.75
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         6.05,
+         24.75
+        ],
+        [
+         15.36,
+         26.42
+        ],
+        [
+         7.26,
+         30.61
+        ],
+        [
+         17.35,
+         33.84
+        ]
        ],
-       [
-        15.36,
-        26.42
-       ],
-       [
-        7.26,
-        30.61
-       ],
-       [
-        17.35,
-        33.84
-       ]
-      ],
+       "x": 11.51,
+       "y_max": 33.84,
+       "y_min": 24.75
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1082,50 +1382,65 @@
     "clip_ms": 1475100,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////v+v3//////////////////////////////////////////////////8nx+/3+////////////////////////////////////////////////b8bz/P7+/v7///////////////////////////////////////////9BYcD2/f7+/v7+/////////////////////////////////////////zo/Vrj4/f7+/v7/////////////////////////////////////////Qjs/VK35/v7+/v7/////////////////////////////////////////UD5DY6j3/v7+/v7/////////////////////////////////////////fHCHkL7x/P3+/f//////////////////////////////////////////0b3EpsPy9fb5+v//////////////////////////////////////////++rTdnXk5eTp/////////////////////////////////////////////fDiUSFNuODp////////////////////////////////////////////+eW7VBtK7PD/////////////////////////////////////////////8tOZTTqP5vH/////////////////////////////////////////////5r6DUl+l3P//////////////////////////////////////////////16t4YHit1f//////////////////////////////////////////////x5x2boix////////////////////////////////////////////////uZN4epOz////////////////////////////////////////////////rY19g5q0////////////////////////////////////////////////pIuCi5//////////////////////////////////////////////////nouHkaP/////////////////////////////////////////////////moyLlf//////////////////////////////////////////////////l46Pmf//////////////////////////////////////////////////lpCT////////////////////////////////////////////////////lpKW////////////////////////////////////////////////////lpT/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.29,
-     "home": 0.71
+     "share": 0.29,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 29% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.95
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        5.46,
-        24.75
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         5.46,
+         24.75
+        ],
+        [
+         13.97,
+         28.16
+        ],
+        [
+         6.86,
+         30.94
+        ],
+        [
+         16.27,
+         34.43
+        ]
        ],
-       [
-        13.97,
-        28.16
-       ],
-       [
-        6.86,
-        30.94
-       ],
-       [
-        16.27,
-        34.43
-       ]
-      ],
+       "x": 10.64,
+       "y_max": 34.43,
+       "y_min": 24.75
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1135,50 +1450,65 @@
     "clip_ms": 1475200,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////x+v3//////////////////////////////////////////////////9Dz+/3+////////////////////////////////////////////////Y831/P7+/v7///////////////////////////////////////////8PSMf3/f7+/v7+/////////////////////////////////////////wMHK735/f7+/v7/////////////////////////////////////////BwMDFqn5/v7+/v7/////////////////////////////////////////DwMCDpD4/v7+/v//////////////////////////////////////////PQkEHaHu/P39/f//////////////////////////////////////////0XNGWLXv9Pb5+v///////////////////////////////////////////OvET3Ho5+nu/////////////////////////////////////////////PLnXC5/2Ont////////////////////////////////////////////+OnHWhhy7+//////////////////////////////////////////////8dedRTGF3Ov/////////////////////////////////////////////4719RkyLyP//////////////////////////////////////////////0qRsTl2Nu///////////////////////////////////////////////vpBmV2mO////////////////////////////////////////////////rINlX3GP////////////////////////////////////////////////nXtmZnb/////////////////////////////////////////////////knZpa3r/////////////////////////////////////////////////iXRscH7/////////////////////////////////////////////////hHNudP//////////////////////////////////////////////////gHRxd///////////////////////////////////////////////////fXRz////////////////////////////////////////////////////fHV1////////////////////////////////////////////////////e3b/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.95
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        17.41,
-        21.27
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         17.41,
+         21.27
+        ],
+        [
+         13.49,
+         28.26
+        ],
+        [
+         6.67,
+         30.97
+        ],
+        [
+         15.66,
+         33.86
+        ]
        ],
-       [
-        13.49,
-        28.26
-       ],
-       [
-        6.67,
-        30.97
-       ],
-       [
-        15.66,
-        33.86
-       ]
-      ],
+       "x": 13.31,
+       "y_max": 33.86,
+       "y_min": 21.27
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1188,50 +1518,65 @@
     "clip_ms": 1475300,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////3/P3//////////////////////////////////////////////////+T4/f7+////////////////////////////////////////////////j+P5/f7+/v7///////////////////////////////////////////8bdOH6/f7+/v7+/////////////////////////////////////////wQNUd37/v7+/v7/////////////////////////////////////////BQMGMNL8/v7+/v7/////////////////////////////////////////CAIDIcL7/v7+/v//////////////////////////////////////////GwQFL8P1/P39/f//////////////////////////////////////////nUA2R7P3+Pj6+v//////////////////////////////////////////+NuwMFLX6Ovu/////////////////////////////////////////////PHnYDCM2OTo////////////////////////////////////////////+uzMXBya5+j/////////////////////////////////////////////9N2iSDqQ1eL/////////////////////////////////////////////6saCS1OMwP//////////////////////////////////////////////261yU2GKsv//////////////////////////////////////////////yZlsXGqJ////////////////////////////////////////////////uIxrYnCJ////////////////////////////////////////////////qYNraHT/////////////////////////////////////////////////nX5tbHf/////////////////////////////////////////////////lHtvcP//////////////////////////////////////////////////jnpxcv//////////////////////////////////////////////////iXlzdf//////////////////////////////////////////////////hnl0////////////////////////////////////////////////////g3l2////////////////////////////////////////////////////gnn/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.95
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        17.06,
-        21.21
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         17.06,
+         21.21
+        ],
+        [
+         13.84,
+         27.16
+        ],
+        [
+         6.51,
+         31.04
+        ],
+        [
+         14.95,
+         33.69
+        ]
        ],
-       [
-        13.84,
-        27.16
-       ],
-       [
-        6.51,
-        31.04
-       ],
-       [
-        14.95,
-        33.69
-       ]
-      ],
+       "x": 13.09,
+       "y_max": 33.69,
+       "y_min": 21.21
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1241,50 +1586,65 @@
     "clip_ms": 1475400,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////5/P///////////////////////////////////////////////////+z6/f7+////////////////////////////////////////////////rez6/f7+/v////////////////////////////////////////////8tl+v7/f7+/v7+/////////////////////////////////////////wgXden8/v7+/v7/////////////////////////////////////////CgYLS+L8/v7+/v7/////////////////////////////////////////DgUHLc78/v7+/v//////////////////////////////////////////JAYHNLTy/f39/f//////////////////////////////////////////oD8xTLbr8vf5////////////////////////////////////////////+NujLZzp4+Ln////////////////////////////////////////////+u7lZVCZxNHY////////////////////////////////////////////9ujJXi7E1tf/////////////////////////////////////////////7tefXHPI29z/////////////////////////////////////////////4b2IcJC+1P//////////////////////////////////////////////z6iDgJu5zf//////////////////////////////////////////////vpuGi6C3////////////////////////////////////////////////r5WLk6S1////////////////////////////////////////////////ppSQmKb/////////////////////////////////////////////////oJSTm6f/////////////////////////////////////////////////nZWXnv//////////////////////////////////////////////////m5eZoP//////////////////////////////////////////////////m5ic////////////////////////////////////////////////////m5qd////////////////////////////////////////////////////m5uf////////////////////////////////////////////////////nJ3/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.31,
-     "home": 0.69
+     "share": 0.31,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 31% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.95
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        16.54,
-        21.58
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         16.54,
+         21.58
+        ],
+        [
+         12.78,
+         28.52
+        ],
+        [
+         6.43,
+         31.06
+        ],
+        [
+         13.82,
+         34.57
+        ]
        ],
-       [
-        12.78,
-        28.52
-       ],
-       [
-        6.43,
-        31.06
-       ],
-       [
-        13.82,
-        34.57
-       ]
-      ],
+       "x": 12.39,
+       "y_max": 34.57,
+       "y_min": 21.58
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 4,
-      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "4 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1294,50 +1654,65 @@
     "clip_ms": 1475500,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////3/P///////////////////////////////////////////////////+n4/P3+////////////////////////////////////////////////r+n6/f7+/v////////////////////////////////////////////9Zm+j7/f7+/v7+/////////////////////////////////////////1VJfub8/v7+/v7/////////////////////////////////////////flY9Wt78/v7+/v7/////////////////////////////////////////mFwyP8f8/v7+/v//////////////////////////////////////////xX4pQKfx/P39/f//////////////////////////////////////////4cFgTbHl8Pb5////////////////////////////////////////////+eOgJrjn4uLn////////////////////////////////////////////+/DodXW2zdP/////////////////////////////////////////////9+rKXjTOz9H/////////////////////////////////////////////7tWYVWiyyc7/////////////////////////////////////////////37d9YnmivP//////////////////////////////////////////////yp11bH+bsf//////////////////////////////////////////////tY51dIOX////////////////////////////////////////////////pIZ3eYWV////////////////////////////////////////////////mIJ5fIf/////////////////////////////////////////////////kIB7f4j/////////////////////////////////////////////////i4B9gf//////////////////////////////////////////////////iIB/gv//////////////////////////////////////////////////hoGA////////////////////////////////////////////////////hYGB////////////////////////////////////////////////////hYL/////////////////////////////////////////////////////hYL/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.3,
-     "home": 0.7
+     "share": 0.3,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 30% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.94
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        3.24,
-        25.34
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         3.24,
+         25.34
+        ],
+        [
+         12.29,
+         28.74
+        ],
+        [
+         6.32,
+         31.09
+        ],
+        [
+         13.23,
+         34.1
+        ]
        ],
-       [
-        12.29,
-        28.74
-       ],
-       [
-        6.32,
-        31.09
-       ],
-       [
-        13.23,
-        34.1
-       ]
-      ],
+       "x": 8.77,
+       "y_max": 34.1,
+       "y_min": 25.34
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1347,50 +1722,65 @@
     "clip_ms": 1475600,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////5/P////////////////////////////////////////////////////D6/f7+////////////////////////////////////////////////x/D7/f7+/v////////////////////////////////////////////9utvD8/f7+/v7+/////////////////////////////////////////2RYmu78/v7+/v7/////////////////////////////////////////j2RGcOj9/v7+/v7/////////////////////////////////////////qGk2StX8/v7+/v//////////////////////////////////////////zYAlQrz0/P39/f//////////////////////////////////////////2qtDRsvx9Pf5////////////////////////////////////////////zraGJLbo5eXo////////////////////////////////////////////19/ke3atwsv/////////////////////////////////////////////3tzBYEm8vsH/////////////////////////////////////////////1MGNYH2xvP//////////////////////////////////////////////wKB5b4ajs///////////////////////////////////////////////qYx3eImdq///////////////////////////////////////////////l4N5fYqZ////////////////////////////////////////////////jYB8gYuX////////////////////////////////////////////////h39+g4z/////////////////////////////////////////////////hH+AhYz/////////////////////////////////////////////////g4CChv//////////////////////////////////////////////////goGDh///////////////////////////////////////////////////goKE////////////////////////////////////////////////////g4OF////////////////////////////////////////////////////g4T/////////////////////////////////////////////////////g4T/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.92
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.97,
-        25.34
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.97,
+         25.34
+        ],
+        [
+         12.38,
+         27.94
+        ],
+        [
+         6.31,
+         31.01
+        ],
+        [
+         12.48,
+         34.27
+        ]
        ],
-       [
-        12.38,
-        27.94
-       ],
-       [
-        6.31,
-        31.01
-       ],
-       [
-        12.48,
-        34.27
-       ]
-      ],
+       "x": 8.54,
+       "y_max": 34.27,
+       "y_min": 25.34
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1400,50 +1790,65 @@
     "clip_ms": 1475700,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7/f////////////////////////////////////////////////////T7/f7/////////////////////////////////////////////////1vT8/f7+/v////////////////////////////////////////////+FyvT8/v7+/v7//////////////////////////////////////////3NstPP9/v7+/v7/////////////////////////////////////////mHJWi+/9/v7+/v7/////////////////////////////////////////qnNDV979/v7+/v//////////////////////////////////////////yHktPKb0/f39/f//////////////////////////////////////////0Y4vNqrd7/b5////////////////////////////////////////////wJdINuPi293j////////////////////////////////////////////3+jXhKG2u7//////////////////////////////////////////////8PPhdXelqq//////////////////////////////////////////////7+e6e46kqP//////////////////////////////////////////////5dCiho+dpP//////////////////////////////////////////////17yai5Ca////////////////////////////////////////////////yK6XjpGY////////////////////////////////////////////////vKaWkJKW////////////////////////////////////////////////s6KWkZL/////////////////////////////////////////////////rJ+WkpP/////////////////////////////////////////////////qJ2Wk///////////////////////////////////////////////////pJuWk///////////////////////////////////////////////////opqW////////////////////////////////////////////////////oJqW////////////////////////////////////////////////////n5n/////////////////////////////////////////////////////npn/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.29,
-     "home": 0.71
+     "share": 0.29,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 29% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.91
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.84,
-        25.4
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.84,
+         25.4
+        ],
+        [
+         11.38,
+         29.15
+        ],
+        [
+         5.45,
+         32.4
+        ],
+        [
+         11.65,
+         34.42
+        ]
        ],
-       [
-        11.38,
-        29.15
-       ],
-       [
-        5.45,
-        32.4
-       ],
-       [
-        11.65,
-        34.42
-       ]
-      ],
+       "x": 7.83,
+       "y_max": 34.42,
+       "y_min": 25.4
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1453,50 +1858,65 @@
     "clip_ms": 1475800,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////6/f////////////////////////////////////////////////////T7/f3/////////////////////////////////////////////////2fT8/f7+/v////////////////////////////////////////////+IzvT8/f7+/v7//////////////////////////////////////////3NtufT9/v7+/v7/////////////////////////////////////////mXFUkfH9/v7+/v7/////////////////////////////////////////rXJAWOH9/v7+/v//////////////////////////////////////////zHkqOKL0/P39/f//////////////////////////////////////////1I0xNaHZ8Pf6////////////////////////////////////////////wqV7Yubl4+br////////////////////////////////////////////0uDqt8/T0M//////////////////////////////////////////////29q6d7Wws7b/////////////////////////////////////////////yKtyS12Glv//////////////////////////////////////////////pH5ZTFZtgP//////////////////////////////////////////////hGdTTlVj////////////////////////////////////////////////cFxRT1Re////////////////////////////////////////////////ZVhRUFT/////////////////////////////////////////////////XlVRUVT/////////////////////////////////////////////////WlRRUVT/////////////////////////////////////////////////WFNRUv//////////////////////////////////////////////////VlNRUv//////////////////////////////////////////////////VVNS////////////////////////////////////////////////////VFJS////////////////////////////////////////////////////VFL/////////////////////////////////////////////////////VFL/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.38,
-     "home": 0.62
+     "share": 0.38,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 38% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.75,
-        25.38
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.75,
+         25.38
+        ],
+        [
+         11.0,
+         29.4
+        ],
+        [
+         6.18,
+         31.05
+        ],
+        [
+         11.02,
+         33.91
+        ]
        ],
-       [
-        11.0,
-        29.4
-       ],
-       [
-        6.18,
-        31.05
-       ],
-       [
-        11.02,
-        33.91
-       ]
-      ],
+       "x": 7.74,
+       "y_max": 33.91,
+       "y_min": 25.38
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1506,50 +1926,65 @@
     "clip_ms": 1475900,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7/f////////////////////////////////////////////////////f8/f7/////////////////////////////////////////////////4vf8/f7+/v////////////////////////////////////////////+X2vf9/v7+/v7//////////////////////////////////////////3d4yff9/v7+/v7/////////////////////////////////////////nHNao/T9/v7+/v7/////////////////////////////////////////rnJBY+f9/v7+/v//////////////////////////////////////////zHIqPK71/P39/f//////////////////////////////////////////1HspPbXg8Pf5////////////////////////////////////////////vJp2fuzk3d7j////////////////////////////////////////////zd3pubm2s7P/////////////////////////////////////////////2tzGnHV5gov/////////////////////////////////////////////0L+gh3Btcf//////////////////////////////////////////////vKaQgHRubv//////////////////////////////////////////////qpiJfnZw////////////////////////////////////////////////npCFfXdy////////////////////////////////////////////////louDfHf/////////////////////////////////////////////////kYiCfHj/////////////////////////////////////////////////jYaAfHj/////////////////////////////////////////////////ioWAfP//////////////////////////////////////////////////iIN/e///////////////////////////////////////////////////h4J/////////////////////////////////////////////////////hYF+////////////////////////////////////////////////////hIH/////////////////////////////////////////////////////g4D/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.55,
-        25.44
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.55,
+         25.44
+        ],
+        [
+         10.85,
+         29.15
+        ],
+        [
+         6.18,
+         30.97
+        ],
+        [
+         10.08,
+         34.38
+        ]
        ],
-       [
-        10.85,
-        29.15
-       ],
-       [
-        6.18,
-        30.97
-       ],
-       [
-        10.08,
-        34.38
-       ]
-      ],
+       "x": 7.41,
+       "y_max": 34.38,
+       "y_min": 25.44
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1559,50 +1994,65 @@
     "clip_ms": 1476000,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8/f////////////////////////////////////////////////////j8/f7/////////////////////////////////////////////////6fj8/f7+/v////////////////////////////////////////////+s4/j9/v7+/v7//////////////////////////////////////////4uO1vj9/v7+/v7/////////////////////////////////////////rIdst/f9/v7+/v7/////////////////////////////////////////uoVOcu39/v7+/v//////////////////////////////////////////0H8wOLH3/P39/f//////////////////////////////////////////zGYiNZnW7/b4////////////////////////////////////////////r452md/Z09ff////////////////////////////////////////////yN3qzsm0qaj/////////////////////////////////////////////2t7MsWpvd37/////////////////////////////////////////////0sSmgVpYX///////////////////////////////////////////////v6mQdmBYWf//////////////////////////////////////////////rJiEcmNb////////////////////////////////////////////////no5+cGVd////////////////////////////////////////////////lYd6b2b/////////////////////////////////////////////////joJ4bmf/////////////////////////////////////////////////iH92bmf/////////////////////////////////////////////////hXx1bv//////////////////////////////////////////////////gnp0bv//////////////////////////////////////////////////f3lz////////////////////////////////////////////////////fXdy////////////////////////////////////////////////////fHb/////////////////////////////////////////////////////enX/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.35,
-     "home": 0.65
+     "share": 0.35,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 35% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.51,
-        25.35
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.51,
+         25.35
+        ],
+        [
+         10.19,
+         29.96
+        ],
+        [
+         6.05,
+         30.98
+        ],
+        [
+         9.58,
+         34.11
+        ]
        ],
-       [
-        10.19,
-        29.96
-       ],
-       [
-        6.05,
-        30.98
-       ],
-       [
-        9.58,
-        34.11
-       ]
-      ],
+       "x": 7.08,
+       "y_max": 34.11,
+       "y_min": 25.35
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1612,50 +2062,65 @@
     "clip_ms": 1476100,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7/f////////////////////////////////////////////////////j8/f3/////////////////////////////////////////////////6fj8/f7+/v////////////////////////////////////////////+t5Pj8/f7+/v7//////////////////////////////////////////4CM2fj9/v7+/v7/////////////////////////////////////////pHplvPf9/v7+/v7/////////////////////////////////////////s3ZCd+/+/v7+/f//////////////////////////////////////////zW4mMLb4/P39/f//////////////////////////////////////////1FsaLIzV8Pf5////////////////////////////////////////////to56rdvX1dzj////////////////////////////////////////////0OXv3ta+sK3/////////////////////////////////////////////4eXTwXd0en7/////////////////////////////////////////////1sSfaENNV///////////////////////////////////////////////vKB9W0ZESf//////////////////////////////////////////////o4luV0lE////////////////////////////////////////////////kHtmVktG////////////////////////////////////////////////g3JiVUz/////////////////////////////////////////////////emxfVU3/////////////////////////////////////////////////dGhdVU7/////////////////////////////////////////////////b2VcVP//////////////////////////////////////////////////bGNbVP//////////////////////////////////////////////////aWFa////////////////////////////////////////////////////Zl9Z////////////////////////////////////////////////////ZV7/////////////////////////////////////////////////////Y13/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.36,
-     "home": 0.64
+     "share": 0.36,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 36% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.23,
-        25.63
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.23,
+         25.63
+        ],
+        [
+         9.74,
+         30.23
+        ],
+        [
+         5.8,
+         31.29
+        ],
+        [
+         9.18,
+         34.1
+        ]
        ],
-       [
-        9.74,
-        30.23
-       ],
-       [
-        5.8,
-        31.29
-       ],
-       [
-        9.18,
-        34.1
-       ]
-      ],
+       "x": 6.74,
+       "y_max": 34.1,
+       "y_min": 25.63
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1665,50 +2130,65 @@
     "clip_ms": 1476200,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7/f////////////////////////////////////////////////////j8/f3/////////////////////////////////////////////////7Pn8/f3+/v////////////////////////////////////////////+76Pn9/f7+/v7//////////////////////////////////////////4yd4Pn9/v7+/v7/////////////////////////////////////////q4Rzyfj9/v7+/v7/////////////////////////////////////////t4BLiPP+/v7+/f//////////////////////////////////////////y3cpNcX5/P39/f//////////////////////////////////////////zEUWM5fc8/j5////////////////////////////////////////////o3h4v9/b2uDn////////////////////////////////////////////x+Pw5NrBsa7/////////////////////////////////////////////4ejev2tqb3X/////////////////////////////////////////////2s2xYzQ8Rv//////////////////////////////////////////////xKyHVjk0OP//////////////////////////////////////////////rJNzUz42////////////////////////////////////////////////mYJpU0I5////////////////////////////////////////////////jHhkUkX/////////////////////////////////////////////////gnFgUkf/////////////////////////////////////////////////emxeUkj/////////////////////////////////////////////////dGhcUv//////////////////////////////////////////////////cGVbUv//////////////////////////////////////////////////bWNa////////////////////////////////////////////////////amFZ////////////////////////////////////////////////////aGD/////////////////////////////////////////////////////Zl7/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.36,
-     "home": 0.64
+     "share": 0.36,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 36% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.18,
-        25.69
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.18,
+         25.69
+        ],
+        [
+         9.5,
+         30.23
+        ],
+        [
+         5.71,
+         31.51
+        ],
+        [
+         8.3,
+         34.49
+        ]
        ],
-       [
-        9.5,
-        30.23
-       ],
-       [
-        5.71,
-        31.51
-       ],
-       [
-        8.3,
-        34.49
-       ]
-      ],
+       "x": 6.42,
+       "y_max": 34.49,
+       "y_min": 25.69
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1718,50 +2198,65 @@
     "clip_ms": 1476300,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7/f////////////////////////////////////////////////////n8/f3/////////////////////////////////////////////////7/n8/f3+/v/////////////////////////////////////////////F7Pn9/f7+/v7//////////////////////////////////////////5ip5Pn9/v7+/v7/////////////////////////////////////////tpB9zvn9/v7+/v3/////////////////////////////////////////wY9QivP+/v39/f//////////////////////////////////////////0IosMcH4/Pz8/P//////////////////////////////////////////ykocNpba8ff5////////////////////////////////////////////4pyWzOPe3uLo////////////////////////////////////////////7+fy6+LLurT/////////////////////////////////////////////7urmuG5qb3T/////////////////////////////////////////////49S7TCUwO///////////////////////////////////////////////y7GCQSYkKf//////////////////////////////////////////////sJFpQSwl////////////////////////////////////////////////mn1dQTAo////////////////////////////////////////////////iW9XQjP/////////////////////////////////////////////////fGdTQjX/////////////////////////////////////////////////c2FQQjf/////////////////////////////////////////////////bFxOQv//////////////////////////////////////////////////Z1lNQv//////////////////////////////////////////////////Y1dM////////////////////////////////////////////////////X1VL////////////////////////////////////////////////////XVP/////////////////////////////////////////////////////WlL/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.17,
-        25.69
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.17,
+         25.69
+        ],
+        [
+         9.42,
+         30.22
+        ],
+        [
+         5.9,
+         31.18
+        ],
+        [
+         7.61,
+         34.7
+        ]
        ],
-       [
-        9.42,
-        30.22
-       ],
-       [
-        5.9,
-        31.18
-       ],
-       [
-        7.61,
-        34.7
-       ]
-      ],
+       "x": 6.28,
+       "y_max": 34.7,
+       "y_min": 25.69
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1771,50 +2266,65 @@
     "clip_ms": 1476400,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8/f////////////////////////////////////////////////////n8/f3/////////////////////////////////////////////////8Pn8/f3+/v/////////////////////////////////////////////J7fr9/f7+/v7//////////////////////////////////////////5Ss5/r9/v7+/v7/////////////////////////////////////////sot90/r9/v7+/v3/////////////////////////////////////////volMkPX+/f39/f//////////////////////////////////////////zocnMcX4/Pz8/P//////////////////////////////////////////xEgYNpXa8fb4////////////////////////////////////////////i2eTzeHd2+Dl////////////////////////////////////////////strx7OHHta//////////////////////////////////////////////2+npp2JjaG7/////////////////////////////////////////////3drCQB4oNP//////////////////////////////////////////////zbmIPiAeI///////////////////////////////////////////////tpptPycg////////////////////////////////////////////////oYRgQCwj////////////////////////////////////////////////kHZaQTD/////////////////////////////////////////////////g2xVQjP/////////////////////////////////////////////////eWZTQjX/////////////////////////////////////////////////cmFRQv//////////////////////////////////////////////////bF1PQ///////////////////////////////////////////////////aFpO////////////////////////////////////////////////////ZFhN////////////////////////////////////////////////////YVb/////////////////////////////////////////////////////X1X/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.37,
-     "home": 0.63
+     "share": 0.37,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 37% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.21,
-        25.75
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.21,
+         25.75
+        ],
+        [
+         9.29,
+         30.41
+        ],
+        [
+         5.88,
+         31.09
+        ],
+        [
+         7.11,
+         34.68
+        ]
        ],
-       [
-        9.29,
-        30.41
-       ],
-       [
-        5.88,
-        31.09
-       ],
-       [
-        7.11,
-        34.68
-       ]
-      ],
+       "x": 6.12,
+       "y_max": 34.68,
+       "y_min": 25.75
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1824,50 +2334,65 @@
     "clip_ms": 1476500,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7/P////////////////////////////////////////////////////j8/f3/////////////////////////////////////////////////7vn8/f3+/v/////////////////////////////////////////////B6/n8/f3+/v7//////////////////////////////////////////4ei4/n9/f7+/v7/////////////////////////////////////////qH1wzfn9/v7+/f3/////////////////////////////////////////t3w/hPT+/f39/f//////////////////////////////////////////yn4fKsD3+/z8/P//////////////////////////////////////////xkcbNpDY8Pb4////////////////////////////////////////////q3Wf0eDb2d7k////////////////////////////////////////////8+Py7+HEsar/////////////////////////////////////////////+/HniVhbYWb/////////////////////////////////////////////9+7bMxYgLP//////////////////////////////////////////////7tupQhsYHP//////////////////////////////////////////////4MSOSycc////////////////////////////////////////////////0bCBUTEi////////////////////////////////////////////////wqJ6VDj/////////////////////////////////////////////////tpd2Vj7/////////////////////////////////////////////////q5BzWEL/////////////////////////////////////////////////o4pwWf//////////////////////////////////////////////////nIVvWv//////////////////////////////////////////////////loJt////////////////////////////////////////////////////kn9s////////////////////////////////////////////////////jnz/////////////////////////////////////////////////////i3r/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.32,
-     "home": 0.68
+     "share": 0.32,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 32% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.22,
-        25.81
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.22,
+         25.81
+        ],
+        [
+         9.14,
+         30.63
+        ],
+        [
+         5.82,
+         31.02
+        ],
+        [
+         6.18,
+         35.37
+        ]
        ],
-       [
-        9.14,
-        30.63
-       ],
-       [
-        5.82,
-        31.02
-       ],
-       [
-        6.18,
-        35.37
-       ]
-      ],
+       "x": 5.84,
+       "y_max": 35.37,
+       "y_min": 25.81
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1877,50 +2402,65 @@
     "clip_ms": 1476600,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////5+/////////////////////////////////////////////////////T5/Pz/////////////////////////////////////////////////5PX6/P39/f////////////////////////////////////////////+s3/X7/f39/f3//////////////////////////////////////////3KJ1fb8/f39/f3/////////////////////////////////////////nGpZuPb9/f39/f3/////////////////////////////////////////sG8vavD9/f39/f//////////////////////////////////////////x34YIbj2+/v8/P//////////////////////////////////////////xlIsSKXc8PX3////////////////////////////////////////////x4iv4u3m4eLm////////////////////////////////////////////+urz6uLMvLb/////////////////////////////////////////////+PPtgE9aZW7/////////////////////////////////////////////8+nFJxMdKv//////////////////////////////////////////////5cyJLxUUGf//////////////////////////////////////////////0KtuNRwV////////////////////////////////////////////////upNiOSIZ////////////////////////////////////////////////qINcPCf/////////////////////////////////////////////////mHhYPSv/////////////////////////////////////////////////jXBVPy7/////////////////////////////////////////////////g2pTQP//////////////////////////////////////////////////fGZSQP//////////////////////////////////////////////////dmJQ////////////////////////////////////////////////////cWBQ////////////////////////////////////////////////////bl3/////////////////////////////////////////////////////alz/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.33,
-     "home": 0.67
+     "share": 0.33,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 33% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.9
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.35,
-        25.9
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.35,
+         25.9
+        ],
+        [
+         9.52,
+         30.06
+        ],
+        [
+         5.81,
+         31.0
+        ],
+        [
+         6.07,
+         34.69
+        ]
        ],
-       [
-        9.52,
-        30.06
-       ],
-       [
-        5.81,
-        31.0
-       ],
-       [
-        6.07,
-        34.69
-       ]
-      ],
+       "x": 5.94,
+       "y_max": 34.69,
+       "y_min": 25.9
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1930,50 +2470,65 @@
     "clip_ms": 1476700,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////5+/////////////////////////////////////////////////////T5/P3/////////////////////////////////////////////////4/T6/P39/f////////////////////////////////////////////+n3fX7/f39/f3//////////////////////////////////////////2+D0fX8/f39/f3/////////////////////////////////////////nGlUsfX9/f39/f3/////////////////////////////////////////snEtYe79/f39/f//////////////////////////////////////////yIYYHrT2+/z8/P//////////////////////////////////////////wl4uRaHc8fb4////////////////////////////////////////////woKq3+3n4+Tn////////////////////////////////////////////+erz7ebRwLn/////////////////////////////////////////////+PXthFZganL/////////////////////////////////////////////8+zFIxEdK///////////////////////////////////////////////58+HKRISF///////////////////////////////////////////////061rLxgS////////////////////////////////////////////////vJNeMx4V////////////////////////////////////////////////qIFXNiIZ////////////////////////////////////////////////mHVTOCb/////////////////////////////////////////////////i21QOSn/////////////////////////////////////////////////gmdPO///////////////////////////////////////////////////emJNO///////////////////////////////////////////////////dF9M////////////////////////////////////////////////////b1xL////////////////////////////////////////////////////alr/////////////////////////////////////////////////////Z1j/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.91
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.48,
-        25.88
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.48,
+         25.88
+        ],
+        [
+         9.56,
+         30.31
+        ],
+        [
+         5.82,
+         31.07
+        ],
+        [
+         5.83,
+         34.69
+        ]
        ],
-       [
-        9.56,
-        30.31
-       ],
-       [
-        5.82,
-        31.07
-       ],
-       [
-        5.83,
-        34.69
-       ]
-      ],
+       "x": 5.92,
+       "y_max": 34.69,
+       "y_min": 25.88
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -1983,50 +2538,65 @@
     "clip_ms": 1476800,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////5+/////////////////////////////////////////////////////X6/P3/////////////////////////////////////////////////5fX7/P39/f////////////////////////////////////////////+q3/b7/f39/f3//////////////////////////////////////////22E0/b8/f39/f3/////////////////////////////////////////mmZSsfb9/f39/f3/////////////////////////////////////////sW8rXO39/f39/f//////////////////////////////////////////yIkXHav0+vv8/P//////////////////////////////////////////wmUwSqjc7/X3////////////////////////////////////////////vHyo3/Hs5+Xn////////////////////////////////////////////+en07OrYx77/////////////////////////////////////////////+fbvh1VhbHX/////////////////////////////////////////////9vDIIQ0YJ///////////////////////////////////////////////69SGIw0OE///////////////////////////////////////////////2LBnKRIO////////////////////////////////////////////////wZNZLBgQ////////////////////////////////////////////////q4BSLxwT////////////////////////////////////////////////mXNNMSD/////////////////////////////////////////////////i2lKMiP/////////////////////////////////////////////////gGNIM///////////////////////////////////////////////////eF5HNP//////////////////////////////////////////////////cVpG////////////////////////////////////////////////////a1dF////////////////////////////////////////////////////Z1T/////////////////////////////////////////////////////Y1L/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.91
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.59,
-        25.89
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.59,
+         25.89
+        ],
+        [
+         9.89,
+         30.16
+        ],
+        [
+         5.93,
+         31.03
+        ],
+        [
+         5.61,
+         34.65
+        ]
        ],
-       [
-        9.89,
-        30.16
-       ],
-       [
-        5.93,
-        31.03
-       ],
-       [
-        5.61,
-        34.65
-       ]
-      ],
+       "x": 6.0,
+       "y_max": 34.65,
+       "y_min": 25.89
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2036,50 +2606,65 @@
     "clip_ms": 1476900,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////3+v////////////////////////////////////////////////////D3+/z8////////////////////////////////////////////////2fD5+/z9/f////////////////////////////////////////////+Q0PH6/P39/f39/////////////////////////////////////////1lpv/H7/f39/f3/////////////////////////////////////////kVc8kvH8/f39/f3/////////////////////////////////////////r2ggPuL9/f39/P//////////////////////////////////////////yZAXFJbw+fv7+///////////////////////////////////////////w3A8Va3c7vT3////////////////////////////////////////////uHup4vTw6ufo////////////////////////////////////////////+Or17u7ezsT/////////////////////////////////////////////+/nwj1ljb3b/////////////////////////////////////////////+fPGHgoUI///////////////////////////////////////////////79Z8GQgKD///////////////////////////////////////////////3K5aHQwJCv//////////////////////////////////////////////wo1LIRAL////////////////////////////////////////////////qndEIxMN////////////////////////////////////////////////lWhAJRb/////////////////////////////////////////////////hV49Jhj/////////////////////////////////////////////////eFc7J///////////////////////////////////////////////////blI6KP//////////////////////////////////////////////////Z045////////////////////////////////////////////////////YUo4////////////////////////////////////////////////////XEj/////////////////////////////////////////////////////WEb/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.92
+     "in_view": 0.97
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
-      "back_line": [
-       [
-        2.73,
-        25.89
+      "back_line": {
+       "n": 4,
+       "points": [
+        [
+         2.73,
+         25.89
+        ],
+        [
+         10.1,
+         30.06
+        ],
+        [
+         6.07,
+         31.06
+        ],
+        [
+         5.25,
+         34.52
+        ]
        ],
-       [
-        10.1,
-        30.06
-       ],
-       [
-        6.07,
-        31.06
-       ],
-       [
-        5.25,
-        34.52
-       ]
-      ],
+       "x": 6.04,
+       "y_max": 34.52,
+       "y_min": 25.89
+      },
+      "back_line_null_reason": null,
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2089,33 +2674,42 @@
     "clip_ms": 1477000,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////1+f///////////////////////////////////////////////////+32+vv8////////////////////////////////////////////////0+73+/z9/f////////////////////////////////////////////+Gye75/P39/f39/////////////////////////////////////////1Nete/7/P39/f3//////////////////////////////////////////1M1hO78/f39/f3/////////////////////////////////////////sGgcM9z8/fz8/P//////////////////////////////////////////y5QZEo3u+fr7+///////////////////////////////////////////xXJAXK7b7vT2////////////////////////////////////////////un6w4/Xx6+jn////////////////////////////////////////////+Or08PDh0cX//////////////////////////////////////////////PrtkF5lb3b/////////////////////////////////////////////+vfLHQgSITD/////////////////////////////////////////////9OGGFwcIDf//////////////////////////////////////////////5bxiHAoHCf//////////////////////////////////////////////z5tSIA4J////////////////////////////////////////////////uIRKIxIL////////////////////////////////////////////////o3RFJhX/////////////////////////////////////////////////kmhCJxj/////////////////////////////////////////////////hWBAKf//////////////////////////////////////////////////elo+Kv//////////////////////////////////////////////////clU9////////////////////////////////////////////////////a1I8////////////////////////////////////////////////////Zk//////////////////////////////////////////////////////YUz/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.94
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2125,33 +2719,42 @@
     "clip_ms": 1477100,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////2+v///////////////////////////////////////////////////+/3+/z8////////////////////////////////////////////////1/D4+/z9/f////////////////////////////////////////////+LzvD6/P39/f39//////////////////////////////////////////9iuvH7/f39/f3//////////////////////////////////////////1Q3ie/8/f39/f3/////////////////////////////////////////r2keNd38/f39/P//////////////////////////////////////////yZoaE4zt+fr7+///////////////////////////////////////////vHtKX6/c7vT2////////////////////////////////////////////q3G15PXy7Ojm////////////////////////////////////////////9efy8fLj0cS9////////////////////////////////////////////+/rwnWVmbXL/////////////////////////////////////////////+vjQIwcQHiz/////////////////////////////////////////////9eOJFgUGC///////////////////////////////////////////////5r1fGQgGB///////////////////////////////////////////////0JpNHAsH////////////////////////////////////////////////t4BEHg4J////////////////////////////////////////////////oW4/IBH/////////////////////////////////////////////////jmI7IRP/////////////////////////////////////////////////gFk5I///////////////////////////////////////////////////dFM3JP//////////////////////////////////////////////////a042JP//////////////////////////////////////////////////ZEo1////////////////////////////////////////////////////Xkc0////////////////////////////////////////////////////WUT/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.34,
-     "home": 0.66
+     "share": 0.34,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 34% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.95
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2161,33 +2764,42 @@
     "clip_ms": 1477200,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////w9v///////////////////////////////////////////////////+Tx9/r7////////////////////////////////////////////////wOTz+fv8/P//////////////////////////////////////////////s+X2+vz8/Pz8//////////////////////////////////////////9JmOX4+/z8/Pz//////////////////////////////////////////0koYuL7/Pz8/Pz/////////////////////////////////////////rWkYHsX7/Pz8/P//////////////////////////////////////////xaEoD3Tm9vn6+v//////////////////////////////////////////uohaa63Z6/L19f//////////////////////////////////////////p3K35vf07urn////////////////////////////////////////////8+jy8vXp2MvD////////////////////////////////////////////+/vwpW9vdXn/////////////////////////////////////////////+/nXJwcQHy7/////////////////////////////////////////////9+mVFwUGCv//////////////////////////////////////////////68hoGQcFBv//////////////////////////////////////////////2KVUHAsG////////////////////////////////////////////////wYpJHw4I////////////////////////////////////////////////q3dDIRH/////////////////////////////////////////////////mGo/IxP/////////////////////////////////////////////////iWA8JBX/////////////////////////////////////////////////fVk6Jf//////////////////////////////////////////////////c1M5Jv//////////////////////////////////////////////////a084////////////////////////////////////////////////////ZUw3////////////////////////////////////////////////////X0n/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.33,
-     "home": 0.67
+     "share": 0.33,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 33% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.95
+     "in_view": 0.98
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2197,33 +2809,42 @@
     "clip_ms": 1477300,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////r8////////////////////////////////////////////////////93t9fj6/////////////////////////////////////////////////93w9/r7+///////////////////////////////////////////////pN3z+fv7/Pz8//////////////////////////////////////////8/ht32+/z8/Pz8/////////////////////////////////////////0YiUNj6/Pz8/Pz/////////////////////////////////////////rWwXFrP6+/v7+/v/////////////////////////////////////////xKUyDmbh9fj5+f//////////////////////////////////////////uY1db6zX6vH09f//////////////////////////////////////////pnO15ff18Ovp////////////////////////////////////////////8ufx8vbs3tHJ/////////////////////////////////////////////PrqoHR5f4P//////////////////////////////////////////////PzXIwcRIjP/////////////////////////////////////////////+vOpFwQFC///////////////////////////////////////////////9N+EHggFBv//////////////////////////////////////////////6cVwJQwGBv//////////////////////////////////////////////2q5lKhEJ////////////////////////////////////////////////y5xfLhYM////////////////////////////////////////////////vI9bMRr/////////////////////////////////////////////////roRXNB7/////////////////////////////////////////////////o3xVNv//////////////////////////////////////////////////mnZUN///////////////////////////////////////////////////knFS////////////////////////////////////////////////////i21R////////////////////////////////////////////////////hWr/////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.32,
-     "home": 0.68
+     "share": 0.32,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 32% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.96
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2233,33 +2854,42 @@
     "clip_ms": 1477400,
     "control": "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////s8//////////////////////////////////////////////////////u9fj6/////////////////////////////////////////////////93w9/r7+///////////////////////////////////////////////o93z+fv7/Pz8//////////////////////////////////////////8/hNv2+/z8/Pz8/////////////////////////////////////////0skTNX6/Pz8/Pz/////////////////////////////////////////r3QbFKr6+/v7+/v/////////////////////////////////////////w6w6D2Df9Pj5+f//////////////////////////////////////////tZZecbTc6/L09f//////////////////////////////////////////pHOw4vn38u3p////////////////////////////////////////////8Ofx8PTs3dHI/////////////////////////////////////////////Prll2FpdXyB/////////////////////////////////////////////f3PHwQMGyz//////////////////////////////////////////////fq/GgQECA//////////////////////////////////////////////+/KtKAgEBf//////////////////////////////////////////////9+agNw8GBf//////////////////////////////////////////////8dmYQxgK////////////////////////////////////////////////6s6STCAP////////////////////////////////////////////////4sSPUin/////////////////////////////////////////////////27yMVzD/////////////////////////////////////////////////1LWKW///////////////////////////////////////////////////za+IX///////////////////////////////////////////////////x6uHYf//////////////////////////////////////////////////wqeG////////////////////////////////////////////////////vqOF////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.31,
-     "home": 0.69
+     "share": 0.31,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 31% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2269,33 +2899,42 @@
     "clip_ms": 1477500,
     "control": "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7//////////////////////////////////////////////////////n8fb4/////////////////////////////////////////////////9Dq9Pj5+vv/////////////////////////////////////////////jM7t9/n6+/v7//////////////////////////////////////////80acry+fv7+/v7/////////////////////////////////////////08fNbz3+/v7+/v/////////////////////////////////////////tYEfDID2+vr6+vr/////////////////////////////////////////xbNPE07T8fb4+P//////////////////////////////////////////tpthf8Li7PHz9P//////////////////////////////////////////pXSs4vr59fDs6v//////////////////////////////////////////7+nw8fPu49fP/////////////////////////////////////////////Prro15jcn2E/////////////////////////////////////////////f3bKAQJFib//////////////////////////////////////////////fvKHQMDBgz/////////////////////////////////////////////+/OzKQcDBP//////////////////////////////////////////////9+eiNg0FBP//////////////////////////////////////////////8dqXQBUJBf//////////////////////////////////////////////6s2QSB4N////////////////////////////////////////////////4sKLTiUS////////////////////////////////////////////////2rmHUiz/////////////////////////////////////////////////0rKFVjL/////////////////////////////////////////////////y6uCWP//////////////////////////////////////////////////xKaBW///////////////////////////////////////////////////v6J/////////////////////////////////////////////////////uZ5+////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.31,
-     "home": 0.69
+     "share": 0.31,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 31% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2305,33 +2944,42 @@
     "clip_ms": 1477600,
     "control": "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7fP////////////////////////////////////////////////////j7/X3/////////////////////////////////////////////////8rm8vf5+vr/////////////////////////////////////////////hMfq9fj6+vr6//////////////////////////////////////////81YcDv+Pr6+vr6/////////////////////////////////////////1wjL6v1+vr6+vr6////////////////////////////////////////u5AoC2Pz+fn5+fn/////////////////////////////////////////x7lfEzzF7fT29/f/////////////////////////////////////////tqRjfbXb6e/y8///////////////////////////////////////////oHGo4fn69fDs6f//////////////////////////////////////////6+ju8vXy5tnP////////////////////////////////////////////+/vvtW5rdn2C/////////////////////////////////////////////f3mOQUIFCT//////////////////////////////////////////////fvXJQMCBQv//////////////////////////////////////////////PW9LgcDAwX/////////////////////////////////////////////+OqpOA0FA///////////////////////////////////////////////89yaQBQIBP//////////////////////////////////////////////68+RRhsL////////////////////////////////////////////////48OKSyIQ////////////////////////////////////////////////2rmFTij/////////////////////////////////////////////////0rCBUS7/////////////////////////////////////////////////yql+UzL/////////////////////////////////////////////////w6N8Vf//////////////////////////////////////////////////vJ56V///////////////////////////////////////////////////t5l4////////////////////////////////////////////////////",
     "danger": {
-     "away": 0.3,
-     "home": 0.7
+     "share": 0.3,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 30% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.99
+     "in_view": 1.0
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2341,33 +2989,42 @@
     "clip_ms": 1477700,
     "control": "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8PX////////////////////////////////////////////////////n8vb5/////////////////////////////////////////////////9Dq9Pj6+vv/////////////////////////////////////////////iMvt9/r6+/v7+/////////////////////////////////////////82YcHw+fv7+/v7/////////////////////////////////////////2ImLKP1+/v7+/v6/////////////////////////////////////////5UuC07u+fr6+vr/////////////////////////////////////////yLxlEy+36/T29/j/////////////////////////////////////////ua5he7Le6vDy8///////////////////////////////////////////onOj3/j79/Lu6v//////////////////////////////////////////6ebq8fHy6NzTzP//////////////////////////////////////////+/zwtmNgcXyE/////////////////////////////////////////////f3rQgUGESEy/////////////////////////////////////////////fziMAMCBAn//////////////////////////////////////////////PjQOwgDAwT/////////////////////////////////////////////+vG+SA8FA///////////////////////////////////////////////9+exURkJBP//////////////////////////////////////////////8d2oWCINB///////////////////////////////////////////////69OhXSsT////////////////////////////////////////////////5cubYTIZ////////////////////////////////////////////////3sOXZDn/////////////////////////////////////////////////2L2UZj//////////////////////////////////////////////////0reRaP//////////////////////////////////////////////////zbKPaf//////////////////////////////////////////////////yK6Oa///////////////////////////////////////////////////",
     "danger": {
-     "away": 0.3,
-     "home": 0.7
+     "share": 0.3,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 30% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.99
+     "in_view": 1.0
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2377,33 +3034,42 @@
     "clip_ms": 1477800,
     "control": "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////6/H////////////////////////////////////////////////////g7fP2+P///////////////////////////////////////////////8Li8Pb4+fn/////////////////////////////////////////////dbrl8/j5+vr6+v////////////////////////////////////////8yTqrq9/n6+vr6//////////////////////////////////////////8oIn3v+vr6+fn5/////////////////////////////////////////6A9Cyvf9/j4+Pj/////////////////////////////////////////x713Hief4/D09fb/////////////////////////////////////////t65egrfg6u7w8fH/////////////////////////////////////////pHuj3vf7+PLt6P//////////////////////////////////////////6Onr8ezv5dnPyP//////////////////////////////////////////+/zytlJKYHF7/////////////////////////////////////////////f3sSgUEDRwt/////////////////////////////////////////////v3rQQQCBAgP/////////////////////////////////////////////fvkVgsDAwT//////////////////////////////////////////////PjbahcGAwP/////////////////////////////////////////////+/PTdycMBf//////////////////////////////////////////////+O7MgDYUCf//////////////////////////////////////////////9unHh0Qd////////////////////////////////////////////////8uTDi08n////////////////////////////////////////////////79/Aj1kx////////////////////////////////////////////////7Nu9kWH/////////////////////////////////////////////////6Ne7k2f/////////////////////////////////////////////////5dS5lf//////////////////////////////////////////////////4tG4lv//////////////////////////////////////////////////",
     "danger": {
-     "away": 0.29,
-     "home": 0.71
+     "share": 0.29,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 29% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2413,33 +3079,42 @@
     "clip_ms": 1477900,
     "control": "////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////5u7////////////////////////////////////////////////////b6fD09v///////////////////////////////////////////////7zc7PP29/j/////////////////////////////////////////////dbPf8PX3+Pj4+P//////////////////////////////////////////UaDj9Pf4+Pj4//////////////////////////////////////////83J3Do+Pj4+Pf3/////////////////////////////////////////6lUECDS9PX29vb2////////////////////////////////////////xL2CJh6I2uvw8vP/////////////////////////////////////////tKxcf6nW5Ort7u//////////////////////////////////////////pYCg3fX7+PLs5///////////////////////////////////////////5+ns8+/y6NvQyP//////////////////////////////////////////+/32yWVTZHJ6gf///////////////////////////////////////////f3zZwcEDBoq/////////////////////////////////////////////v3xVAUCAwcO/////////////////////////////////////////////fvmXwwDAgP//////////////////////////////////////////////PfaahcGAwP/////////////////////////////////////////////+vLPciQLBQP/////////////////////////////////////////////9+vGeDESCP//////////////////////////////////////////////9OS+fDwaDP//////////////////////////////////////////////7965fkUh////////////////////////////////////////////////69i0gE0p////////////////////////////////////////////////59OxglMw////////////////////////////////////////////////4s6ug1n/////////////////////////////////////////////////3sqrhV3/////////////////////////////////////////////////2saphf//////////////////////////////////////////////////",
     "danger": {
-     "away": 0.28,
-     "home": 0.72
+     "share": 0.28,
+     "team": "away",
+     "team_name": "Manchester City",
+     "text": "Manchester City control 28% of the danger zone in view"
     },
     "danger_zone": {
      "attacked_by": "away",
+     "attacked_by_name": "Manchester City",
      "goal_x": 0.0,
-     "in_view": 0.98
+     "in_view": 0.99
     },
     "null_reason": null,
     "shape": {
      "away": {
       "back_line": null,
+      "back_line_null_reason": "3 outfield players in view (needs the 4 deepest)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 3,
-      "null_reason": "3 outfield players in view (back line needs 4)",
-      "width_m": null
+      "shape_null_reason": "3 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      },
      "home": {
       "back_line": null,
+      "back_line_null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
       "depth_m": null,
       "line_gap_m": null,
       "lines": null,
       "n_players_seen": 5,
-      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
-      "width_m": null
+      "shape_null_reason": "5 of 10 outfield players in view (needs 9)",
+      "width_m": null,
+      "width_y_max": null,
+      "width_y_min": null
      }
     },
     "trusted": true
@@ -2452,9 +3127,10 @@
   "grid": {
    "dx": 2.5,
    "dy": 2.519,
-   "encoding": "base64 uint8, row-major y then x (y from the NEAR touchline): P(home controls) x 254 rounded; 255 = cell not in view",
+   "encoding": "base64 uint8: P(home controls) x 254 rounded; 255 = cell not in view",
    "nx": 42,
    "ny": 27,
+   "order": "row-major: byte k = j * 42 + i, j = y index from the NEAR touchline (0..26), i = x index from the left goal line (0..41); cell centre ((i + 0.5) * 2.500, (j + 0.5) * 2.519) m",
    "x0": 0.0,
    "y0": 0.0
   },
@@ -2463,7 +3139,7 @@
   "live": "v6/live_1473000.json",
   "match_id": "m_9001",
   "period": 2,
-  "shape_def": "by depth from the team's own goal line, outfield players in view: back_line = the 4 deepest, drawn only when >= 85% of the strip behind the deepest (to the goal line, the penalty area's width) is in view; lines = back 4 / the rest / the 3 most advanced; width_m = touchline-to-touchline spread; depth_m = front line - back line (mean depths); line_gap_m = midfield line - back line; lines, width, depth and gap need >= 9 of 10 outfield players; metres, 2 dp; points listed touchline to touchline (y ascending)",
+  "shape_def": "by depth from the team's own goal line, outfield players in view; each line = {x: mean x of its players, y_min, y_max, n, points}: back_line = the 4 deepest, drawn only when >= 85% of the strip behind the deepest (to the goal line, the penalty area's width) is in view; lines = back 4 / the rest / the 3 most advanced; width_m = touchline-to-touchline spread; depth_m = front line - back line (mean depths); line_gap_m = midfield line - back line; lines, width, depth and gap need >= 9 of 10 outfield players (shape_null_reason), the back line its own gate (back_line_null_reason); metres, 2 dp; points touchline to touchline",
   "shot_id": "xe_0058",
   "slug": "liverpool-mancity-2526",
   "source": {

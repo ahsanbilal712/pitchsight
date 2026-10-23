@@ -29,7 +29,7 @@ from evals.pitchwatch.v5 import GOAL_Y, L, W
 CLIPS = ("liverpool-mancity-2526", "manutd-mancity-2526", "arsenal-chelsea-2526", "manutd-spurs-2425")
 NX, NY = 42, 27                    # control grid: 2.5 m x 2.52 m cells
 ZONE_XG = 0.05                     # the dangerous zone: cells where a shot is worth at least this (reference xG)
-ZONE_IN_VIEW = 0.70                # the zone must be at least this share in view (by cell count) to print a share
+ZONE_IN_VIEW = 0.50                # the zone must be at least this share in view (by xG weight) to print the share
 BEHIND_IN_VIEW = 0.85              # back line: the strip behind the deepest outfielder in view must be this visible
 BEHIND_HALF_W = 20.16              # m either side of the goal centre: the penalty area's width
 OUTFIELD_MIN = 9                   # lines, width, depth, gap: at least this many of a team's 10 outfield players
@@ -39,11 +39,12 @@ RUN_PCT = 0.90
 CONTROL_MODEL = ("time-to-intercept pitch control (insights.control, from physics.pitch_control; simplified Spearman "
                  "2018): each player in view reaches a point after a 0.7 s reaction then at 5 m/s; a team's control "
                  "is its softmin share of the arrival times; positions only, no ball travel time")
-DANGER_DEF = ("Dangerous space in view: the dangerous zone is every cell in front of the goal in view from which a "
-              f"shot is worth at least {ZONE_XG} xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as "
-              "in v5/v6). Each team's share = sum over the zone's cells in view of its pitch control x that cell's xG, "
-              "divided by the sum of the xG; home + away = 1. Printed only when at least "
-              f"{ZONE_IN_VIEW:.0%} of the zone's cells are in view; 2 dp")
+DANGER_DEF = ("Dangerous space in view, one number for the attacking team (the team attacking the goal in view): "
+              "the dangerous zone is every cell in front of that goal from which a shot is worth at least "
+              f"{ZONE_XG} xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as in v5/v6); share = sum "
+              "over the zone's cells in view of the attacking team's pitch control x that cell's xG, divided by the sum "
+              f"of the xG. Printed only when at least {ZONE_IN_VIEW:.0%} of the zone (by xG weight) is in view; 2 dp, "
+              "shown as a whole percent: '<Team> control 31% of the danger zone in view'")
 
 
 def _grid() -> np.ndarray:
@@ -82,31 +83,39 @@ def _depth(p: dict, attacks_plus: bool) -> float:
     return p["x"] if attacks_plus else L - p["x"]
 
 
+def _line(ps: list[dict]) -> dict:
+    """A line from the players averaged into it: x = their mean pitch x; y extent and points touchline to touchline."""
+    ps = sorted(ps, key=lambda p: p["y"])
+    return {"x": round(float(np.mean([p["x"] for p in ps])), 2), "y_min": ps[0]["y"], "y_max": ps[-1]["y"],
+            "n": len(ps), "points": [[p["x"], p["y"]] for p in ps]}
+
+
 def shape(players: list[dict], attacks_plus: bool, vis: np.ndarray) -> dict:
-    """Back line = the 4 deepest outfield players (by depth from the team's own goal line), drawn when the strip from
-    the deepest of them back to the goal line is in view (nobody deeper can be hidden); the remaining lines split
-    the rest (front = the 3 most advanced, midfield = between) and need OUTFIELD_MIN in view."""
+    """Two gates. Back line = the 4 deepest outfield players (by depth from the team's own goal line), drawn when
+    the strip behind the deepest of them is in view (nobody deeper can be hidden). Midfield and front lines, width,
+    depth and line gap need OUTFIELD_MIN outfield players in view (front = the 3 most advanced, midfield = between)."""
     out = sorted((p for p in players if not p["keeper"]), key=lambda p: _depth(p, attacks_plus))
-    res = {"n_players_seen": len(out), "back_line": None, "lines": None, "width_m": None, "depth_m": None,
-           "line_gap_m": None, "null_reason": None}
+    res = {"n_players_seen": len(out), "back_line": None, "back_line_null_reason": None, "lines": None,
+           "width_m": None, "width_y_min": None, "width_y_max": None, "depth_m": None, "line_gap_m": None,
+           "shape_null_reason": None}
     if len(out) < 4:
-        res["null_reason"] = f"{len(out)} outfield players in view (back line needs 4)"
-        return res
-    deepest = _depth(out[0], attacks_plus)
-    behind = np.array([(x if attacks_plus else L - x) <= deepest and abs(y - GOAL_Y) <= BEHIND_HALF_W
-                       for x, y in PTS])
-    if behind.any() and vis[behind].mean() < BEHIND_IN_VIEW:
-        res["null_reason"] = "the space behind the back line is not in view (a deeper player could be hidden)"
-        return res
-    pts = lambda ps: [[p["x"], p["y"]] for p in sorted(ps, key=lambda p: p["y"])]   # noqa: E731  touchline to touchline
-    res["back_line"] = pts(out[:4])
+        res["back_line_null_reason"] = f"{len(out)} outfield players in view (needs the 4 deepest)"
+    else:
+        deepest = _depth(out[0], attacks_plus)
+        behind = np.array([(x if attacks_plus else L - x) <= deepest and abs(y - GOAL_Y) <= BEHIND_HALF_W
+                           for x, y in PTS])
+        if behind.any() and vis[behind].mean() < BEHIND_IN_VIEW:
+            res["back_line_null_reason"] = "the space behind the back line is not in view (a deeper player could be hidden)"
+        else:
+            res["back_line"] = _line(out[:4])
     if len(out) < OUTFIELD_MIN:
-        res["null_reason"] = f"{len(out)} of 10 outfield players in view (lines, width, depth need {OUTFIELD_MIN})"
+        res["shape_null_reason"] = f"{len(out)} of 10 outfield players in view (needs {OUTFIELD_MIN})"
         return res
     d = [_depth(p, attacks_plus) for p in out]
     back, mid, front = np.mean(d[:4]), np.mean(d[4:-3]), np.mean(d[-3:])
-    res.update({"lines": [pts(out[:4]), pts(out[4:-3]), pts(out[-3:])],
-                "width_m": round(float(max(p["y"] for p in out) - min(p["y"] for p in out)), 2),
+    ys = [p["y"] for p in out]
+    res.update({"lines": [_line(out[:4]), _line(out[4:-3]), _line(out[-3:])],
+                "width_m": round(float(max(ys) - min(ys)), 2), "width_y_min": min(ys), "width_y_max": max(ys),
                 "depth_m": round(float(front - back), 2), "line_gap_m": round(float(mid - back), 2)})
     return res
 
@@ -143,31 +152,37 @@ def always_shot(slug: str, live_path: str) -> dict:
         ctrl = control([(p["x"], p["y"], 0 if p["team"] == "home" else 1) for p in players], PTS, 0)
         row["control"] = base64.b64encode(np.where(vis, np.round(ctrl * 254), 255).astype(np.uint8).tobytes()).decode()
         row["shape"] = {t: shape(teams[t], home_plus == (t == "home"), vis) for t in ("home", "away")}
-        seen = {g: float(vis[ZONE[g]].mean()) for g in ZONE}
+        seen = {g: float(XG[g][ZONE[g] & vis].sum() / XG[g][ZONE[g]].sum()) for g in ZONE}   # by xG weight
         g = max(seen, key=seen.get)                   # the goal whose zone the camera shows (one end at a time)
         attacker = "home" if (g == L) == home_plus else "away"
-        row["danger_zone"] = {"goal_x": g, "attacked_by": attacker, "in_view": round(seen[g], 2)}
+        row["danger_zone"] = {"goal_x": g, "attacked_by": attacker, "attacked_by_name": META[slug][attacker],
+                              "in_view": round(seen[g], 2)}
         if seen[g] < ZONE_IN_VIEW:
             row["null_reason"] = f"dangerous zone {seen[g]:.0%} in view (needs {ZONE_IN_VIEW:.0%})"
             continue
         z = ZONE[g] & vis
         s_home = float((ctrl[z] * XG[g][z]).sum() / XG[g][z].sum())
-        row["danger"] = {"home": round(s_home, 2), "away": round(1 - s_home, 2)}
+        share = s_home if attacker == "home" else 1 - s_home
+        row["danger"] = {"team": attacker, "team_name": META[slug][attacker], "share": round(share, 2),
+                         "text": f"{META[slug][attacker]} control {share:.0%} of the danger zone in view"}
     return {"slug": slug, "shot_id": shot_id, "live": live_path, "hz": live["hz"], "step_ms": live["step_ms"],
             "start_clip_ms": live["start_clip_ms"], "end_clip_ms": live["end_clip_ms"], "period": live["period"],
             "home_attacks": live["home_attacks"],
             "team_names": {"home": META[slug]["home"], "away": META[slug]["away"]},
             "control_model": CONTROL_MODEL, "danger_def": DANGER_DEF,
             "grid": {"x0": 0.0, "y0": 0.0, "dx": round(L / NX, 3), "dy": round(W / NY, 3), "nx": NX, "ny": NY,
-                     "encoding": "base64 uint8, row-major y then x (y from the NEAR touchline): P(home controls) x 254 "
-                                 "rounded; 255 = cell not in view"},
-            "shape_def": ("by depth from the team's own goal line, outfield players in view: back_line = the 4 deepest, "
+                     "encoding": "base64 uint8: P(home controls) x 254 rounded; 255 = cell not in view",
+                     "order": f"row-major: byte k = j * {NX} + i, j = y index from the NEAR touchline (0..{NY - 1}), "
+                              f"i = x index from the left goal line (0..{NX - 1}); cell centre ((i + 0.5) * {L / NX:.3f}, "
+                              f"(j + 0.5) * {W / NY:.3f}) m"},
+            "shape_def": ("by depth from the team's own goal line, outfield players in view; each line = {x: mean x of "
+                          "its players, y_min, y_max, n, points}: back_line = the 4 deepest, "
                           f"drawn only when >= {BEHIND_IN_VIEW:.0%} of the strip behind the deepest (to the goal line, the "
                           "penalty area's width) is in view; lines "
                           "= back 4 / the rest / the 3 most advanced; width_m = touchline-to-touchline spread; depth_m "
                           f"= front line - back line (mean depths); line_gap_m = midfield line - back line; lines, "
-                          f"width, depth and gap need >= {OUTFIELD_MIN} of 10 outfield players; metres, 2 dp; points "
-                          "listed touchline to touchline (y ascending)"),
+                          f"width, depth and gap need >= {OUTFIELD_MIN} of 10 outfield players (shape_null_reason), the "
+                          "back line its own gate (back_line_null_reason); metres, 2 dp; points touchline to touchline"),
             "gates": {"trusted": "the tracking's camera fit is trusted at the frame, both teams in view, not after a "
                                  "goal (dead ball)",
                       "scope": "visible region only: control and danger use the cells the camera shows"},
@@ -215,6 +230,7 @@ def always(slug: str) -> list[str]:
         index.append({"shot_id": s["shot_id"], "path": f"v7/always_{res['start_clip_ms']}.json",
                       "start_clip_ms": res["start_clip_ms"], "end_clip_ms": res["end_clip_ms"], "frames": len(fr),
                       "trusted": sum(f["trusted"] for f in fr), "control": sum(f["control"] is not None for f in fr),
+                      "tint_pct": round(sum(f["control"] is not None for f in fr) / len(fr), 3) if fr else 0.0,
                       "always_on": on, "always_on_pct": round(on / len(fr), 3) if fr else 0.0,
                       "ball_layer": sum(f["ball_layer"] for f in fr),
                       "back_line": {t: sum(bool(f["shape"] and f["shape"][t]["back_line"]) for f in fr)
