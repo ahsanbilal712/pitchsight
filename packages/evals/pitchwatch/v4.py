@@ -77,14 +77,23 @@ def run_option(state, moment: dict, spec: dict, n: int, seed: int, record: bool 
     return goals, (np.stack(frames, axis=1) if record else None)
 
 
-def tracked_moment(slug: str, clip_ms: int, clock: str, period: int, score: list[int]) -> dict | None:
+def tracked_moment(slug: str, clip_ms: int, clock: str, period: int, score: list[int],
+                   allow_loose: bool = False) -> dict | None:
     """A moment at any tracked frame (track B's moment_from_tracks, in memory: nothing is written to moments/),
     with the match clock and score from the score bug, the attacking direction from the reviewed directions, and
     the ball holder = the labelled player nearest the ball when within HOLD_M (else None: the ball is loose)."""
     from evals.pitchwatch.shotxg import HOME_ATTACKS_P2
     from footage.from_tracks import moment_from_tracks
 
-    m = moment_from_tracks(slug, clip_ms)
+    for dt in (0, 40, -40, 80, -80, 120, -120, 160, -160, 200, -200):   # no ball here: nearest frame with one
+        try:
+            m = moment_from_tracks(slug, clip_ms + dt)
+            m["tracked_clip_ms"] = clip_ms + dt
+            break
+        except LookupError:
+            m = None
+    if m is None:
+        return None
     mm, ss = (int(v) for v in clock.split(":"))
     home = HOME_ATTACKS_P2[slug] * (1 if period == 2 else -1)
     m.update({"t_ms": (mm * 60 + ss) * 1000, "period": period, "clock": clock, "score": score,
@@ -92,6 +101,10 @@ def tracked_moment(slug: str, clip_ms: int, clock: str, period: int, score: list
     bx, by = m["ball"]["x"], m["ball"]["y"]
     near = min((p for p in m["players"] if p.get("label")), key=lambda p: math.hypot(p["x"] - bx, p["y"] - by))
     if math.hypot(near["x"] - bx, near["y"] - by) > HOLD_M:
+        if allow_loose:
+            m["ball"]["holder"] = None
+            m["actual"] = None
+            return m
         return None
     m["ball"]["holder"] = near["label"]
     m["actual"] = {"kind": "carry", "direction": [1.0 if (home > 0) == (near["team"] == "home") else -1.0, 0.0]}
@@ -276,9 +289,61 @@ def c_format(slug: str, clip_ms: int, n: int = N, seed: int = SEED) -> tuple[dic
     return goal10, ghost
 
 
+def unforced(state, n: int, seed: int) -> np.ndarray:
+    """Goals per team within HORIZON_S, engine left to play (no forced action)."""
+    from kickoff.engine import TICK_MS
+    eng = state.source.branch(state.source.t_ms, n, None, seed=seed)
+    score0 = eng.score.copy()
+    for _ in range(int(round(HORIZON_S * 1000 / TICK_MS))):
+        eng.step()
+    return (eng.score - score0) > 0
+
+
+def oracle_goal10(slug: str = "liverpool-mancity-2526", t0: float = 867.0, t1: float = 875.0,
+                  clock_t0: str = "86:15", period: int = 2, score: list[int] | None = None, n: int = N,
+                  seed: int = SEED) -> dict:
+    """P(home / away scores in the next 10 s) on the Oracle window, every 0.5 s, unforced from the tracked state."""
+    from footage.freeze import load, to_state
+    score = score or [1, 1]
+    mm, ss = (int(v) for v in clock_t0.split(":"))
+    samples = []
+    for t in np.arange(t0, t1 + 1e-9, 0.5):
+        clip_ms = int(round(t * 1000))
+        sec = mm * 60 + ss + int(t - t0)
+        m = tracked_moment(slug, clip_ms, f"{sec // 60:02d}:{sec % 60:02d}", period, score, allow_loose=True)
+        if m is None:
+            samples.append({"clip_ms": clip_ms, "p_goal_10s": None, "note": "no ball detected within 0.2 s"})
+            continue
+        g = unforced(to_state(m, seed=seed), n, seed)
+        samples.append({"clip_ms": clip_ms, "tracked_clip_ms": m["tracked_clip_ms"], "clock": m["clock"],
+                        "holder": m["ball"]["holder"],
+                        "p_goal_10s": {"home": round(float(g[:, 0].mean()), 4), "away": round(float(g[:, 1].mean()), 4)},
+                        "ci95": {"home": wilson(int(g[:, 0].sum()), n), "away": wilson(int(g[:, 1].sum()), n)}})
+    end = int(round(t1 * 1000))
+    ref_state = to_state(load(slug, end), seed=seed)
+    g = unforced(ref_state, n, seed)
+    dec = json.loads((__import__("evals.pitchwatch.insights", fromlist=["FOOTAGE"]).FOOTAGE / slug / "cache" / "v4" /
+                      f"goal10_decision_{end}.json").read_text())["result"]
+    return {"slug": slug, "start_clip_ms": int(t0 * 1000), "end_clip_ms": end, "step_ms": 500, "samples": samples,
+            "n": n, "horizon_s": HORIZON_S, "seed": seed, "engine": "scripted_v1",
+            "at_freeze": {"clip_ms": end, "state": f"{slug}/moments/{end}.json",
+                          "unforced": {"home": round(float(g[:, 0].mean()), 4), "away": round(float(g[:, 1].mean()), 4),
+                                       "ci95_home": wilson(int(g[:, 0].sum()), n)},
+                          "forced_actual_shot": {"p": dec["options"][0]["p_goal_10s"],
+                                                 "ci95": dec["options"][0]["ci95"]}},
+            "method": "every 0.5 s: the tracked frame (moment_from_tracks, in memory) -> engine state; the engine "
+                      "plays on unforced for 10 s in n worlds; p = share of worlds where the team scores. Not the "
+                      "same quantity as goal10_decision's actual (which forces the shot): both are given at the "
+                      "freeze. The window samples come from tracking; at_freeze uses track B's reviewed moment file.",
+            "source": {"tracks": f"{slug}/tracks/62.json", "calib": f"{slug}/calib/62_refined.json"}}
+
+
 def main(argv: list[str] | None = None) -> int:
     from evals.pitchwatch.v3 import write
     kind = (argv or sys.argv[1:])[0]
+    if kind == "oracle":
+        print(write("liverpool-mancity-2526", "oracle_goal10", 867000, oracle_goal10(), version="v4"))
+        return 0
     if kind == "cformat":
         for slug, moments in DECISION_MOMENTS.items():
             for clip_ms in moments:

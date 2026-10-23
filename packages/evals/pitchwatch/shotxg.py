@@ -8,8 +8,8 @@ Shots: the Gemini-tagged events (T-106, <slug>/events.jsonl, type shot; times ar
 is measurable when its time falls in a usable wide main-camera shot (shots.json); replays and close-ups have no pitch
 geometry and are listed as not measured.
 
-Release: within [t - 3 s, t + 2 s], the frame before the ball (RF-DETR, pixels) starts moving fastest away from the
-attacking player nearest it. Reviewed corrections (frame, shooter track) in <slug>/shot_overrides.json win.
+Release: within 1.5 s of the tagged second, the frame before the ball (RF-DETR) starts moving fastest away from the
+attacking player nearest it, and then travels toward the attacking goal (a pass sideways or back is not a shot). Reviewed corrections (frame, shooter track) in <slug>/shot_overrides.json win.
 
 Ours: heads.models.XGHead on SHOT_FEATURES from the tracked frame (distance, goal-mouth angle, header from the tag
 note, opponents in the shooting cone, keeper's distance off his line, pressure within 2.5 m, pitch control at the
@@ -34,6 +34,7 @@ CLIPS = ("liverpool-mancity-2526", "manutd-mancity-2526", "arsenal-chelsea-2526"
 HOME_ATTACKS_P2 = {"liverpool-mancity-2526": 1, "manutd-mancity-2526": -1, "arsenal-chelsea-2526": 1,
                    "manutd-spurs-2425": 1}          # +1: home attacks +x (x from the left goal line) in the 2nd half
 PRE_S, POST_S = 3.0, 2.0
+RELEASE_S = 1.5
 HEADER_WORDS = ("header", "headed", "heads", "head")
 
 
@@ -105,9 +106,13 @@ def attack_dir(slug: str, period: int, team: str) -> int:
     return home if team == "home" else -home
 
 
-def release(tracks: dict, cal: dict, team_idx: int, override: dict | None) -> tuple[int, dict] | None:
-    """(frame, shooter) at release."""
+def release(tracks: dict, cal: dict, team_idx: int, override: dict | None, t_tag: float = 0.0,
+            direction: int = 1) -> tuple[int, dict] | None:
+    """(frame, shooter) at release: within RELEASE_S of the tagged second, the ball must then travel toward the
+    attacking goal (passes sideways or back are not shots)."""
     F = tracks["frames"]
+    fps = tracks["fps"]
+    goal = np.array([L if direction > 0 else 0.0, GOAL_Y])
     if override:
         r = next(x for x in F if x["frame"] == override["frame"])
         return r["frame"], next(p for p in r["players"] if p["track_id"] == override["shooter"])
@@ -115,7 +120,16 @@ def release(tracks: dict, cal: dict, team_idx: int, override: dict | None) -> tu
     for i in range(len(F) - 3):
         r = F[i]
         b0 = r["ball"]
-        if not b0 or not cal["frames"].get(str(r["frame"]), {}).get("ok"):
+        if t_tag and abs(r["frame"] / fps - (t_tag + 0.5)) > RELEASE_S:      # tags are whole seconds
+            continue
+        if not b0 or not b0.get("xy") or not cal["frames"].get(str(r["frame"]), {}).get("ok"):
+            continue
+        later = [x["ball"]["xy"] for x in F[i + 2:i + 8] if x["ball"] and x["ball"].get("xy")]
+        if not later:
+            continue
+        move = np.array(later[-1]) - np.array(b0["xy"])
+        to_goal = goal - np.array(b0["xy"])
+        if np.linalg.norm(move) < 1.0 or move @ to_goal < 0.6 * np.linalg.norm(move) * np.linalg.norm(to_goal):
             continue
         mates = [p for p in r["players"] if p["team"] == team_idx]
         if not mates:
@@ -131,6 +145,72 @@ def release(tracks: dict, cal: dict, team_idx: int, override: dict | None) -> tu
         if speed > best:
             best, out = speed, (r["frame"], near)
     return out
+
+
+def candidates(tracks: dict, cal: dict, team_idx: int, t_tag: float, k: int = 3) -> list[tuple[int, dict, float]]:
+    """Top-k (frame, nearest attacker, ball speed) moments where the ball leaves an attacker fastest, within 2.5 s of
+    the tag and at least 0.4 s apart: the review picks the strike among them."""
+    F, fps = tracks["frames"], tracks["fps"]
+    scored = []
+    for i in range(len(F) - 3):
+        r, b0 = F[i], F[i]["ball"]
+        if abs(r["frame"] / fps - (t_tag + 0.5)) > 2.5 or not b0 or not cal["frames"].get(str(r["frame"]), {}).get("ok"):
+            continue
+        mates = [p for p in r["players"] if p["team"] == team_idx]
+        if not mates:
+            continue
+        near = min(mates, key=lambda p: math.dist(p["foot_px"], b0["px"]))
+        h = near["bbox"][3] - near["bbox"][1]
+        if math.dist(near["foot_px"], b0["px"]) > 0.9 * h:
+            continue
+        nxt = [x["ball"]["px"] for x in F[i + 1:i + 4] if x["ball"]]
+        if nxt:
+            scored.append((r["frame"], near, max(math.dist(q, b0["px"]) / (j + 1) for j, q in enumerate(nxt)) / max(h, 1)))
+    out = []
+    for c in sorted(scored, key=lambda c: -c[2]):
+        if all(abs(c[0] - o[0]) > 0.4 * fps for o in out):
+            out.append(c)
+        if len(out) == k:
+            break
+    return sorted(out)
+
+
+def candidate_sheet(slug: str) -> list[Path]:
+    """Per measurable shot: a row of its candidate frames (shooter boxed, ball circled, frame id), for review."""
+    import cv2
+    d = FOOTAGE / slug
+    cap = cv2.VideoCapture(str(d / "clip.mp4"))
+    rows = []
+    for shot in tagged_shots(slug):
+        if not shot["measurable"]:
+            continue
+        w = window(slug, shot)
+        if not (d / "tracks" / f"{w['id']}.json").exists():
+            continue
+        tracks = json.loads((d / "tracks" / f"{w['id']}.json").read_text())
+        cal = json.loads((d / "calib" / f"{w['id']}.json").read_text())
+        e = shot["event"]
+        tiles = []
+        for fr, near, _ in candidates(tracks, cal, 0 if e["team"] == "home" else 1, shot["t"]):
+            cap.set(cv2.CAP_PROP_POS_FRAMES, fr)
+            ok, img = cap.read()
+            x1, y1, x2, y2 = map(int, near["bbox"])
+            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 255), 4)
+            b = next(x for x in tracks["frames"] if x["frame"] == fr)["ball"]
+            cv2.circle(img, tuple(int(v) for v in b["px"]), 16, (0, 0, 255), 3)
+            cv2.putText(img, f"{e['id']} f{fr} t{near['track_id']} {e['attrs'].get('player_name')} {e['outcome']}",
+                        (20, 1050), 0, 1.4, (0, 255, 255), 4)
+            tiles.append(cv2.resize(img, (640, 360)))
+        while len(tiles) < 3:
+            tiles.append(np.zeros((360, 640, 3), np.uint8))
+        rows.append(np.hstack(tiles))
+    outs = []
+    for k in range(0, len(rows), 4):
+        p = d / "frames" / f"shot_candidates_{k // 4}.jpg"
+        p.parent.mkdir(exist_ok=True)
+        cv2.imwrite(str(p), np.vstack(rows[k:k + 4]))
+        outs.append(p)
+    return outs
 
 
 def features(r: dict, shooter: dict, d: int, team_idx: int, keepers: set[int], header: bool) -> dict:
@@ -176,21 +256,24 @@ def xg_all() -> dict:
                              "reason": ov.get("exclude") or "no wide main-camera view (replay, close-up or graphic)"})
                 continue
             w = window(slug, shot)
+            if not (d / "tracks" / f"{w['id']}.json").exists():
+                rows.append({**base, "measured": False, "reason": "not tracked yet"})
+                continue
             tracks = json.loads((d / "tracks" / f"{w['id']}.json").read_text())
             cal = json.loads((d / "calib" / f"{w['id']}.json").read_text())
             team_idx = 0 if e["team"] == "home" else 1
-            rel = release(tracks, cal, team_idx, ov if "frame" in ov else None)
+            dirn = attack_dir(slug, e["period"], e["team"])
+            rel = release(tracks, cal, team_idx, ov if "frame" in ov else None, shot["t"], dirn)
             if rel is None:
                 rows.append({**base, "measured": False, "reason": "no release frame found (ball not detected)"})
                 continue
             frame, shooter = rel
             r = next(x for x in tracks["frames"] if x["frame"] == frame)
-            dirn = attack_dir(slug, e["period"], e["team"])
             header = any(wd in (e["attrs"].get("note") or "").lower().split() for wd in HEADER_WORDS)
             f = features(r, shooter, dirn, team_idx, keeper_tracks(tracks), header)
             ours = float(head.predict(pd.DataFrame([{k: v for k, v in f.items() if not k.startswith("_")}]))[0])
             ref = reference_xg(L - f["_u"], abs(f["_v"] - GOAL_Y))
-            rows.append({**base, "measured": True, "release_frame": frame,
+            rows.append({**base, "measured": True, "release_frame": frame, "set_piece": ov.get("set_piece"),
                          "release_clip_ms": int(round(frame / tracks["fps"] * 1000)), "shooter_track": shooter["track_id"],
                          "shooter_xy_near": [round(shooter["xy"][0], 2), round(W - shooter["xy"][1], 2)],
                          "features": {k: (round(v, 3) if isinstance(v, float) else v) for k, v in f.items()
@@ -202,7 +285,7 @@ def xg_all() -> dict:
 
 
 def summary(doc: dict) -> dict:
-    m = [r for r in doc["shots"] if r["measured"] and not r["header"]]
+    m = [r for r in doc["shots"] if r["measured"] and not r["header"] and not r.get("set_piece")]
     a, b = np.array([r["xg_ours"] for r in m]), np.array([r["xg_reference"] for r in m])
     goals = np.array([r["goal"] for r in m], dtype=float)
     out = {"measured": len([r for r in doc["shots"] if r["measured"]]), "total": len(doc["shots"]),
@@ -248,6 +331,81 @@ def sheet() -> Path:
     return out
 
 
+OUTCOME = {"goal": "goal", "saved": "saved", "blocked": "blocked", "off_target": "wide", "post": "post"}
+
+
+def recalibrate(doc: dict) -> float:
+    """One logit shift c so that sum(sigmoid(logit(ours) + c)) = sum(reference) over the measured open-play,
+    non-header shots: our head (trained on the synthetic league) keeps its context features (cone, keeper,
+    pressure, control) and takes the real-world level of the published model. One parameter, stated."""
+    from scipy.optimize import brentq
+    m = [r for r in doc["shots"] if r.get("measured") and not r["header"] and not r.get("set_piece")]
+    if len(m) < 3:
+        return 0.0
+    lo = np.log(np.array([r["xg_ours"] for r in m]) / (1 - np.array([r["xg_ours"] for r in m])))
+    target = sum(r["xg_reference"] for r in m)
+    return float(brentq(lambda c: float((1 / (1 + np.exp(-(lo + c)))).sum()) - target, -5, 5))
+
+
+def write_beats(doc: dict) -> list[Path]:
+    from evals.pitchwatch.v3 import write
+    c = recalibrate(doc)
+    model = {"xg": "heads.models.XGHead (lightgbm, synthetic league) on tracked features, recalibrated to real-world "
+                   f"level with one logit shift c = {c:+.3f} fitted to the published model's total on the measured "
+                   "open-play shots",
+             "xg_reference": "Soccermatics combined logistic model, 8,451 non-penalty PL 2017/18 shots (Wyscout)",
+             "logit_shift": round(c, 4)}
+    outs = []
+    for slug in CLIPS:
+        names = json.loads((FOOTAGE / slug / "names_verified.json").read_text()).get("shots", {})
+        teams = json.loads((FOOTAGE / slug / "teams.json").read_text())["teams"]
+        shots = []
+        for r in (x for x in doc["shots"] if x["slug"] == slug):
+            nm = names.get(r["event_id"], {})
+            row = {"event_id": r["event_id"], "clock": r["clock"], "team": r["team"],
+                   "team_name": teams[0 if r["team"] == "home" else 1]["name"],
+                   "shooter": {"label": f"t{r['shooter_track']}" if r.get("measured") else None,
+                               "name": nm.get("name"), "name_source": nm.get("source")},
+                   "outcome": OUTCOME.get(r["outcome"], r["outcome"]), "goal": r["goal"],
+                   "camera_ok": bool(r.get("measured")), "reason": r.get("reason")}
+            if r.get("measured"):
+                lo = math.log(r["xg_ours"] / (1 - r["xg_ours"]))
+                row.update({"clip_ms": r["release_clip_ms"], "frame": r["release_frame"],
+                            "shot_id": r["camera_shot"], "x": r["shooter_xy_near"][0], "y": r["shooter_xy_near"][1],
+                            "xg": round(1 / (1 + math.exp(-(lo + c))), 3), "xg_head_raw": r["xg_ours"],
+                            "xg_reference": r["xg_reference"], "header": r["header"],
+                            "set_piece": r.get("set_piece"), "reviewed": r["reviewed"],
+                            "source": {"tracks": f"{slug}/tracks/x{r['event_id']}.json",
+                                       "calib": f"{slug}/calib/x{r['event_id']}.json", "event": r["event_id"]}})
+            else:
+                row.update({"clip_ms": r["clip_ms"], "xg": None, "source": {"event": r["event_id"]}})
+            shots.append(row)
+        shots.sort(key=lambda x: x["clip_ms"])
+        outs.append(write(slug, "shots", 0, {"shots": shots, "model": model,
+                                             "note": "xg null where the strike has no trusted wide view; names only "
+                                                     "from names_verified.json"}, version="v4"))
+        home, away = teams[0]["name"], teams[1]["name"]
+        cum = {"home": 0.0, "away": 0.0}
+        series, events = [], []
+        for r in shots:
+            if r["xg"] is not None:
+                cum[r["team"]] += r["xg"]
+            series.append({"clip_ms": r["clip_ms"], "clock": r["clock"], "home_xg": round(cum["home"], 3),
+                           "away_xg": round(cum["away"], 3)})
+            events.append({"clip_ms": r["clip_ms"], "clock": r["clock"], "kind": "goal" if r["goal"] else "shot",
+                           "team": r["team"], "label": r["shooter"]["name"], "xg": r["xg"],
+                           "measured": r["xg"] is not None})
+        unmeasured = [e for e in events if not e["measured"]]
+        outs.append(write(slug, "xg_race", 0, {"home": home, "away": away, "series": series, "events": events,
+                                               "model": model,
+                                               "unmeasured": {"shots": len(unmeasured),
+                                                              "goals": sum(e["kind"] == "goal" for e in unmeasured)},
+                                               "note": "cumulative xG of the measured shots only; unmeasured shots "
+                                                       "(no trusted wide view) are listed with xg null and add nothing"},
+                          version="v4"))
+    return outs
+
+
 def main(argv: list[str] | None = None) -> int:
     kind = (argv or sys.argv[1:])[0]
     if kind == "track":
@@ -259,6 +417,11 @@ def main(argv: list[str] | None = None) -> int:
         (FOOTAGE / "insights").mkdir(exist_ok=True)
         (FOOTAGE / "insights" / "shots_xg.json").write_text(json.dumps(doc, indent=1) + "\n")
         print(json.dumps(doc["summary"]))
+    elif kind == "beats":
+        print(*write_beats(json.loads((FOOTAGE / "insights" / "shots_xg.json").read_text())), sep="\n")
+    elif kind == "candidates":
+        for slug in (argv or sys.argv[1:])[1:] or CLIPS:
+            print(*candidate_sheet(slug), sep="\n")
     else:
         print(sheet())
     return 0

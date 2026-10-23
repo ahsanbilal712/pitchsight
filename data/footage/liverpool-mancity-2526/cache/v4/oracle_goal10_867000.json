@@ -1,0 +1,353 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "at_freeze": {
+   "clip_ms": 875000,
+   "forced_actual_shot": {
+    "ci95": [
+     0.0073,
+     0.0166
+    ],
+    "p": 0.011
+   },
+   "state": "liverpool-mancity-2526/moments/875000.json",
+   "unforced": {
+    "away": 0.0,
+    "ci95_home": [
+     0.0101,
+     0.0207
+    ],
+    "home": 0.0145
+   }
+  },
+  "beat": "oracle_goal10",
+  "end_clip_ms": 875000,
+  "engine": "scripted_v1",
+  "horizon_s": 10.0,
+  "match_id": "m_9001",
+  "method": "every 0.5 s: the tracked frame (moment_from_tracks, in memory) -> engine state; the engine plays on unforced for 10 s in n worlds; p = share of worlds where the team scores. Not the same quantity as goal10_decision's actual (which forces the shot): both are given at the freeze. The window samples come from tracking; at_freeze uses track B's reviewed moment file.",
+  "n": 2000,
+  "samples": [
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0,
+      0.0019
+     ]
+    },
+    "clip_ms": 867000,
+    "clock": "86:15",
+    "holder": "t74",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.0
+    },
+    "tracked_clip_ms": 867000
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0003,
+      0.0036
+     ]
+    },
+    "clip_ms": 867500,
+    "clock": "86:15",
+    "holder": null,
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.001
+    },
+    "tracked_clip_ms": 867500
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0014,
+      0.0065
+     ]
+    },
+    "clip_ms": 868000,
+    "clock": "86:16",
+    "holder": "t63",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.003
+    },
+    "tracked_clip_ms": 868000
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0,
+      0.0019
+     ]
+    },
+    "clip_ms": 868500,
+    "clock": "86:16",
+    "holder": "t63",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.0
+    },
+    "tracked_clip_ms": 868500
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0164,
+      0.0294
+     ]
+    },
+    "clip_ms": 869000,
+    "clock": "86:17",
+    "holder": "t63",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.022
+    },
+    "tracked_clip_ms": 869000
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0057,
+      0.0142
+     ]
+    },
+    "clip_ms": 869500,
+    "clock": "86:17",
+    "holder": null,
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.009
+    },
+    "tracked_clip_ms": 869500
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0003,
+      0.0036
+     ]
+    },
+    "clip_ms": 870000,
+    "clock": "86:18",
+    "holder": "t63",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.001
+    },
+    "tracked_clip_ms": 870000
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0017,
+      0.0072
+     ]
+    },
+    "clip_ms": 870500,
+    "clock": "86:18",
+    "holder": "t61",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.0035
+    },
+    "tracked_clip_ms": 870500
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0093,
+      0.0196
+     ]
+    },
+    "clip_ms": 871000,
+    "clock": "86:19",
+    "holder": null,
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.0135
+    },
+    "tracked_clip_ms": 871000
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0156,
+      0.0283
+     ]
+    },
+    "clip_ms": 871500,
+    "clock": "86:19",
+    "holder": null,
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.021
+    },
+    "tracked_clip_ms": 871500
+   },
+   {
+    "clip_ms": 872000,
+    "note": "no ball detected within 0.2 s",
+    "p_goal_10s": null
+   },
+   {
+    "clip_ms": 872500,
+    "note": "no ball detected within 0.2 s",
+    "p_goal_10s": null
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0038,
+      0.0111
+     ]
+    },
+    "clip_ms": 873000,
+    "clock": "86:21",
+    "holder": "t79",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.0065
+    },
+    "tracked_clip_ms": 873000
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0046,
+      0.0123
+     ]
+    },
+    "clip_ms": 873500,
+    "clock": "86:21",
+    "holder": null,
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.0075
+    },
+    "tracked_clip_ms": 873500
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0221,
+      0.0367
+     ]
+    },
+    "clip_ms": 874000,
+    "clock": "86:22",
+    "holder": null,
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.0285
+    },
+    "tracked_clip_ms": 874000
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0105,
+      0.0213
+     ]
+    },
+    "clip_ms": 874500,
+    "clock": "86:22",
+    "holder": "t60",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.015
+    },
+    "tracked_clip_ms": 874500
+   },
+   {
+    "ci95": {
+     "away": [
+      0.0,
+      0.0019
+     ],
+     "home": [
+      0.0139,
+      0.026
+     ]
+    },
+    "clip_ms": 875000,
+    "clock": "86:23",
+    "holder": "t60",
+    "p_goal_10s": {
+     "away": 0.0,
+     "home": 0.019
+    },
+    "tracked_clip_ms": 875000
+   }
+  ],
+  "seed": 4242,
+  "slug": "liverpool-mancity-2526",
+  "source": {
+   "calib": "liverpool-mancity-2526/calib/62_refined.json",
+   "tracks": "liverpool-mancity-2526/tracks/62.json"
+  },
+  "start_clip_ms": 867000,
+  "step_ms": 500
+ },
+ "schema_version": "1.0.0"
+}
