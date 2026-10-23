@@ -1,0 +1,126 @@
+# Video v4 edit decision list, DRAFT 1 (owner, 23 Oct: attacks only, goal chance in the next 10 s, no win chance,
+# clearer lines, awe). Assembled by
+#   python packages/demo/assemble.py packages/demo/edit_v4.yaml
+# Real Premier League footage and names only (permission: docs/permissions/README.md; sources:
+# data/footage/SOURCES.md). Freezes are demo.composite --style v4 clips: a speed ramp into slow motion, the freeze
+# with a punch-in, then (from 9.8 s) a rewind and what really happened. Ghost futures are demo.live clips.
+# Every number in a caption has a source below. v3 final (edit_v3.yaml, 14d7679) is the fallback.
+# Still to come (track A): the xG montage at every shot and the xG race; track B: the v4 lower-thirds and a <= 6 s
+# studio beat. Unnamed players are labelled by role (no verified name).
+
+out: packages/demo/out/final_v4.mp4
+size: [1920, 1080]
+fps: 30
+caption_band: 120
+
+clips:
+  - shot: footage/lfc_oracle           # hook: Liverpool's attack building, 86:19-86:22, the threat zone live
+    from: 4.7
+    to: 8.2
+    captions:
+      - {from: 0.1, to: 3.4, text: "Liverpool v Man City, 86th minute, all square. Liverpool are coming."}
+
+  - shot: footage/lfc_v4_v4            # continuous: slow motion into the freeze at 86:23
+    from: 1.2
+    to: 9.1
+    captions:
+      - {from: 0.2, to: 3.6, text: "Szoboszlai shoots. WHYLINE freezes the real frame and replays the moment 2,000 times."}
+      - {from: 3.8, to: 7.8, text: "Shot: a 1.1% chance of a goal in the next 10 s. The pass to the runner in the box: 3.3%."}
+
+  - shot: footage/lfc_ghost_v4         # the other timeline: the most typical of the futures after that pass
+    from: 0.0
+    to: 6.8
+    captions:
+      - {from: 0.3, to: 6.6, text: "The other timeline: the most typical future after that pass, played on the real pitch."}
+
+  - shot: footage/lfc_v4_v4            # rewind, then what really happened
+    from: 9.8
+    to: 13.3
+    captions:
+      - {from: 0.6, to: 3.4, text: "What really happened: blocked."}
+
+  - shot: footage/tot_xray_v4          # Man Utd v Spurs: the attack priced live
+    from: 0.0
+    to: 5.0
+    captions:
+      - {from: 0.2, to: 4.9, text: "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s."}
+
+  - shot: footage/tot_speed_gun        # the ball is lost; Van de Ven's run (two pieces of one take)
+    from: 1.3
+    to: 8.0
+    captions:
+      - {from: 0.2, to: 6.5, text: "Then Spurs win it, and Van de Ven goes."}
+
+  - shot: footage/tot_speed_gun
+    from: 14.5
+    to: 22.5
+    captions:
+      - {from: 0.6, to: 7.8, text: "37.0 km/h at the top, at least 91 m end to end."}
+
+  - shot: footage/ars_v4_v4            # Arsenal v Chelsea 79:10
+    from: 1.2
+    to: 9.1
+    captions:
+      - {from: 0.2, to: 3.6, text: "Arsenal v Chelsea. Eze shoots: 2.6%."}
+      - {from: 3.8, to: 7.8, text: "The runner in the box was worth 5.7%."}
+
+  - shot: footage/ars_v4_v4
+    from: 9.8
+    to: 12.8
+
+  - shot: footage/mci_amad_v4_v4       # Man Utd v Man City 56:41
+    from: 1.2
+    to: 9.1
+    captions:
+      - {from: 0.2, to: 7.8, text: "Man Utd v Man City. Amad shoots at 2.5%; the pass to #19 in the box was worth 4.5%."}
+
+  - shot: footage/mci_amad_v4_v4
+    from: 9.8
+    to: 12.3
+
+  - shot: footage/mci_mbeumo_v4_v4     # a finish that went in: how hard it was, no alternative implied
+    from: 1.2
+    to: 7.9
+    captions:
+      - {from: 0.2, to: 6.5, text: "Mbeumo from here: a 3.8% chance of a goal in the next 10 s."}
+
+  - shot: footage/mci_mbeumo_v4_v4
+    from: 9.8
+    to: 14.0
+    captions:
+      - {from: 0.4, to: 4.0, text: "He scored."}
+
+  - shot: footage/mci_dorgu_v4_v4
+    from: 1.2
+    to: 7.9
+    captions:
+      - {from: 0.2, to: 6.5, text: "Dorgu from here: 17%."}
+
+  - shot: footage/mci_dorgu_v4_v4
+    from: 9.8
+    to: 14.0
+    captions:
+      - {from: 0.4, to: 4.0, text: "He scored too."}
+
+  - card: end
+    duration: 3.5
+    title: "WHYLINE"
+    lines: ["Every line on screen has a why.", "Premier League clips used with permission"]
+
+sources:
+  "86": "the Liverpool clip's broadcast clock 86:23 at the freeze (moments/875000.json clock)"
+  "2,000": "goal10_decision_875000 (track A, cache/v4) n = 2000; the card prints 'n = 2000, 10 s, seed 4242'"
+  "1.1%": "goal10_decision_875000 options[0] shoot p_goal_10s 0.011"
+  "10": "goal10_decision_* horizon_s 10.0 (goal for the attacking team within 10 s)"
+  "3.3%": "goal10_decision_875000 pass to L3 p_goal_10s 0.033 (verdict better; label by role, no verified name)"
+  "11%": "pass_xray_goal10_240000 sample 240000: best pass t6 p_goal_10s 0.112"
+  "21%": "pass_xray_goal10_240000 sample 242000: best pass t30 p_goal_10s 0.205"
+  "37.0": "speed_gun_242700 top_speed_kmh 37.0 at clip 260.833 s (track A, tracks 23/25)"
+  "91": "speed_gun_242700 distance_m 91.1, a lower bound: the close-up gap 252.6-259.9 s crossed in a straight line"
+  "2.6%": "goal10_decision_1300500 options[0] shoot p_goal_10s 0.026"
+  "5.7%": "goal10_decision_1300500 pass to A7 p_goal_10s 0.057 (verdict better)"
+  "2.5%": "goal10_decision_877000 options[0] shoot p_goal_10s 0.0245"
+  "19": "the player label #19 in moments/877000.json (shirt number)"
+  "4.5%": "goal10_decision_877000 pass to #19 p_goal_10s 0.045 (verdict better)"
+  "3.8%": "goal10_decision_1079360 options[0] shoot p_goal_10s 0.0375 (Mbeumo; a real goal)"
+  "17%": "goal10_decision_1189840 options[0] shoot p_goal_10s 0.1705 (Dorgu; a real goal)"

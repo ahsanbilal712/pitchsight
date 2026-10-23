@@ -288,9 +288,9 @@ def window(t: float, a: float, b: float) -> float:
 
 # ---------------------------------------------------------------------------------------------- timeline
 FREEZE_S = 7.0
-V4_PUNCH = 1.18           # v4 freeze: zoom on the decision (pitch graphics are drawn before the zoom, so they scale)
-RAMP_SLOW_S = 1.2         # v4: the last real seconds before the freeze ...
-RAMP_RATE = 0.4           # ... play at this speed (eased in): the speed ramp
+V4_PUNCH = 1.12           # v4 freeze: zoom on the decision (pitch graphics are drawn before the zoom, so they scale)
+RAMP_SLOW_S = 0.8         # v4: the last real seconds before the freeze ...
+RAMP_RATE = 0.5           # ... play at this speed (eased in): the speed ramp
 REWIND_S = 1.5            # v4: after the freeze the clip rewinds this far (every REWIND_STEP-th frame) and replays
 REWIND_STEP = 3
 MODES_FREEZE_S = 11.0     # viewer-mode clips (split screen): the built overlay held long enough to read
@@ -334,7 +334,9 @@ class Painter:
                                        self._branch(fut.alternative, self.target_m, ORANGE, T_ALT)) if g]
         self.v4 = m.get("style") == "v4"
         self.goal10 = load_json(m.get("goal10"), "result")
-        if self.v4 and fut:
+        if self.v4 and self.goal10 and "options" in self.goal10:
+            self.lanes = self._decision_lanes()
+        elif self.v4 and fut:
             self.lanes = [ln for ln in (self._lane(fut.baseline, WHITE, T_BASE, "actual"),
                                         self._lane(fut.alternative, ORANGE, T_ALT, "alternative")) if ln]
         self.trail_px = None
@@ -359,10 +361,38 @@ class Painter:
         if m.get("line") and (ROOT / m["line"]).exists():          # the reviewed lower-third (T-109)
             doc = json.loads((ROOT / m["line"]).read_text())
             self.line = doc["json"] if doc.get("verified") else None
+        if self.v4:                                       # v4 lower-thirds come only from track B's v4 captions
+            doc = load_json(m.get("line_v4"))
+            self.line = (doc.get("json") or doc) if doc else None
         cue = load_json(m.get("cue"))
         if cue and all(c.get("verified") for c in cue["explain"]["claims"]):   # a Fact-Checked cue's own text
             self.line = cue["text"]
         self.font_reg = {s: ImageFont.truetype(FONT_REG, s) for s in (20, 22)}
+
+    def _straight_lane(self, a, b, colour, span, key) -> dict:
+        pts = np.linspace(np.asarray(a, float), np.asarray(b, float), SUBDIV * 2 + 1)
+        return {"px": self.cam.project(pts), "band": None, "n": len(pts), "colour": np.array(colour) / 255,
+                "span": span, "key": key}
+
+    def _decision_lanes(self) -> list[dict]:
+        """v4 with track A's decision file: what he did (a shot: to the middle of the goal mouth) and, when one is
+        better beyond the noise, the alternative (a pass: to the receiver; a carry: 8 m along its direction)."""
+        g = self.goal10
+        act = g["options"][0]["option"]
+        goal_x = 105.0 if self.m.get("attacks", "+x") == "+x" else 0.0
+        lanes = []
+        if act["kind"] == "shoot":
+            lanes.append(self._straight_lane(self.ball, [goal_x, 34.0], WHITE, T_BASE, "actual"))
+        alt = self.alternative_option()
+        if alt is not None:
+            op = alt["option"]
+            if op["kind"] == "pass" and self.target_m is not None:
+                lanes.append(self._straight_lane(self.ball, self.target_m, ORANGE, T_ALT, "alternative"))
+            elif op["kind"] == "carry":
+                d = np.asarray(op.get("direction", [1, 0]), float)
+                lanes.append(self._straight_lane(self.ball, self.ball + d / np.linalg.norm(d) * 8.0, ORANGE, T_ALT,
+                                                 "alternative"))
+        return lanes
 
     def _lane(self, paths, colour, span, key) -> dict | None:
         """v4: one branch as its median path (bold, glowing, an arrow at the end) inside a soft band of the spread
@@ -468,10 +498,11 @@ class Painter:
             col, n = ln["colour"], ln["n"]
             k = max(2, int(round(grow * n)))
             band = ln["band"]                                    # the band grows with the line: both halves
-            half = len(band) // 2
-            kb = max(2, int(round(grow * half)))
-            shown = np.vstack([band[:kb], band[len(band) - kb:]])
-            ax.add_patch(Polygon(shown, closed=True, fc=(*col, 0.16 * a_all), ec="none"))
+            if band is not None:
+                half = len(band) // 2
+                kb = max(2, int(round(grow * half)))
+                shown = np.vstack([band[:kb], band[len(band) - kb:]])
+                ax.add_patch(Polygon(shown, closed=True, fc=(*col, 0.16 * a_all), ec="none"))
             p = ln["px"][:k]
             ax.plot(p[:, 0], p[:, 1], color=(*col, 0.22 * a_all), lw=18, solid_capstyle="round")   # glow
             ax.plot(p[:, 0], p[:, 1], color=(0, 0, 0, 0.6 * a_all), lw=9, solid_capstyle="round")
@@ -564,9 +595,9 @@ class Painter:
         if self.mode == "player_cam":
             return self._phone(im, t, fade)
         c = window(t, *T_CARD) * (1 - fade)
-        if self.v4 and self.fut:
+        if self.v4 and getattr(self, "lanes", None):
             self._lane_labels(im, window(t, T_ALT[1] - 0.2, T_ALT[1] + 0.4) * (1 - fade))
-        if c > 0 and self.fut and self.mode != "casual" and self.v4:
+        if c > 0 and self.v4 and self.goal10 and self.mode != "casual":
             self._card_v4(im, c, window(t, *T_SWING))
         elif c > 0 and self.fut and self.mode != "casual":
             self._card(im, c, window(t, *T_SWING))
@@ -675,7 +706,28 @@ class Painter:
         if not g:
             return []
         names = {"actual": "What he did", "alternative": "The alternative", **(self.m.get("options") or {})}
+        if "options" in g:                               # track A's goal10_decision: options[0] is what he did
+            act = g["options"][0]
+            rows = [(names["actual"], {"p": act["p_goal_10s"], "ci95": act["ci95"]})]
+            alt = self.alternative_option()
+            if alt is not None:
+                rows.append((names["alternative"], {"p": alt["p_goal_10s"], "ci95": alt["ci95"]}))
+            return rows
         return [(g[k].get("label") or names[k], g[k]) for k in ("actual", "alternative")]
+
+    def alternative_option(self) -> dict | None:
+        """The option the beat draws as the alternative: the spec's `alternative` (a target label or 'carry'),
+        else track A's best_alternative, and only when it is better than what he did beyond the noise."""
+        g = self.goal10 or {}
+        want = self.m.get("alternative") or g.get("best_alternative")
+        if not want or self.m.get("finishing"):
+            return None
+        for o in g.get("options", [])[1:]:
+            op = o["option"]
+            if (isinstance(want, dict) and op == want) or op.get("target") == want or op.get("kind") == want:
+                verdict = (o.get("diff_vs_actual") or {}).get("verdict")
+                return o if verdict == "better" and o.get("p_goal_10s") is not None else None
+        return None
 
     def _lane_labels(self, im: Image.Image, a: float):
         """v4: each lane's end labelled with its branch and its goal chance in the next 10 s."""
@@ -705,7 +757,8 @@ class Painter:
         if not rows:
             return
         g = self.goal10
-        x0, w, h = self._panel_x(a), PANEL_W, CARD_H + 20
+        x0, w = self._panel_x(a), PANEL_W
+        h = 58 + 78 * len(rows) + (44 if self.m.get("card_note") else 0) + 34
         y0 = H - 96 - h
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
@@ -713,15 +766,19 @@ class Painter:
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*ORANGE, al))
         d.text((x0 + 32, y0 + 20), "GOAL IN THE NEXT 10 S", font=self.font[22], fill=(169, 180, 194, al))
-        lo, hi = rows[0][1]["p"], rows[1][1]["p"]
-        if lo > 0:
+        lo = rows[0][1]["p"]
+        hi = rows[1][1]["p"] if len(rows) > 1 else lo
+        if len(rows) > 1 and lo > 0:
             d.text((x0 + w - 28, y0 + 16), f"×{hi / lo:.1f}", font=self.font[30],
                    fill=(*ORANGE, int(255 * a * swing)), anchor="ra")
+        note = self.m.get("card_note")                    # a finishing beat: "He scored."
+        if note:
+            d.text((x0 + 32, y0 + 58 + 78 * len(rows)), note, font=self.font[30], fill=(*ORANGE, al))
         top = max(lo, hi) * 1.25
         bx0, bx1 = x0 + 32, x0 + w - 110
         for row, ((label, r), col, grow) in enumerate(zip(rows, ((196, 204, 214), ORANGE), (1.0, swing),
-                                                          strict=True)):
-            y = y0 + 58 + 64 * row
+                                                          strict=False)):
+            y = y0 + 58 + 78 * row
             d.text((bx0, y), label, font=self.font_reg[22], fill=(230, 236, 242, al))
             by = y + 30
             d.rounded_rectangle((bx0, by, bx1, by + 12), radius=6, fill=(255, 255, 255, int(28 * a)))
@@ -852,7 +909,7 @@ class Painter:
 
 def fmt_pct(v: float) -> str:
     """A small probability for the screen: one decimal under 10%."""
-    return f"{v * 100:.1f}%" if v < 0.1 else f"{round(v * 100)}%"
+    return f"{v * 100:.1f}%" if v < 0.1 else f"{int(v * 100 + 0.5)}%"      # half up, as printed in captions
 
 
 def load_json(rel: str | None, key: str | None = None):
@@ -1004,7 +1061,8 @@ def main(argv: list[str] | None = None) -> int:
               f"{', '.join(pw[1].lines)}" + ("; using it" if pw[1].p95 <= drift.p95 else "; keeping the line fit"))
         if pw[1].p95 <= drift.p95:
             cam, drift = pw[0], pw[1]
-    fut = None if m.get("kind") == "fourth_official" else load_futures(m, cam, args.standin)
+    fut = None if m.get("kind") == "fourth_official" or (m.get("goal10") and not m.get("counterfactual")) \
+        else load_futures(m, cam, args.standin)
     p = Painter(m, frame, cam, fut, mode=args.mode)
     standin = bool(fut and fut.standin)
     s = stem(m, standin) + ("" if args.mode == "broadcast" else f"_{args.mode}") + \

@@ -54,7 +54,7 @@ def ground_circle(c, r: float, n: int = 64) -> np.ndarray:
 
 def pct(v: float) -> str:
     """A probability for the screen: one decimal under 10%, whole points above."""
-    return f"{v * 100:.1f}%" if v < 0.1 else f"{round(v * 100)}%"
+    return f"{v * 100:.1f}%" if v < 0.1 else f"{int(v * 100 + 0.5)}%"      # half up, as printed in captions
 
 
 def ellipse_m(z: dict, n: int = 72) -> np.ndarray:
@@ -474,7 +474,9 @@ class PassXray(Live):
             if o["label"] in place:
                 place[o["label"]] = place[o["label"]] + (np.array([o["x"], o["y"]]) - place[o["label"]]) * f
         holder = place.get(cur["holder"]) if cur["holder"] in place else self._holder_xy(cur, nxt, f)
-        best = max(cur["options"], key=lambda o: o["p_goal"])["label"] if cur["options"] else None
+        best = max(cur["options"], key=lambda o: o["p_goal"]) if cur["options"] else None
+        shoot = cur.get("shoot_now_p_goal")
+        best = best["label"] if best and (shoot is None or best["p_goal"] >= shoot) else None   # a pass only
         for o in cur["options"]:
             if holder is None or o["label"] == cur["holder"]:
                 continue
@@ -506,17 +508,21 @@ class PassXray(Live):
         ranked = sorted((o for o in cur["options"] if o["label"] != cur["holder"]), key=lambda o: -o["p_goal"])
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
+        shoot = cur.get("shoot_now_p_goal")
+        pass_best = bool(ranked) and (shoot is None or ranked[0]["p_goal"] >= shoot)   # else the shot is best
         for rank, o in enumerate(ranked[: int(self.m.get("tags", 5))]):
             name = f"  {o['name'].split()[-1]}" if o.get("name") else ""
+            top = rank == 0 and pass_best
             self.tag(d, cam, place[o["label"]], f"{rank + 1}{name}  {pct(o['p_goal'])}",
-                     ORANGE if rank == 0 else WHITE, font_size=26 if rank else 30, glow=rank == 0)
+                     ORANGE if top else WHITE, font_size=30 if top else 26, glow=top)
         a = window(t, s[0]["clip_ms"] / 1000, s[0]["clip_ms"] / 1000 + 0.5)
         foot = (f"n = {self.data['n']}, {self.data['horizon_s']:g} s, seed {self.data['seed']}"
                 if self.data.get("n") else self.m.get("foot", ""))
-        rows = [(f"{k + 1}. {o.get('name') or self.role(o)}", pct(o["p_goal"]), ORANGE if k == 0 else WHITE)
-                for k, o in enumerate(ranked[: int(self.m.get("rows", 3))])]
-        if cur.get("shoot_now_p_goal") is not None:
-            rows.append(("Shooting now", pct(cur["shoot_now_p_goal"]), WHITE))
+        entries = [(o.get("name") or self.role(o), o["p_goal"]) for o in ranked[: int(self.m.get("rows", 3))]]
+        if shoot is not None:                            # the shot ranked with the passes
+            entries.append(("Shooting now", shoot))
+        entries.sort(key=lambda e: -e[1])
+        rows = [(f"{k + 1}. {label}", pct(v), ORANGE if k == 0 else WHITE) for k, (label, v) in enumerate(entries)]
         self.card(d, self.m.get("label", "Pass X-ray: goal chance if passed to"), rows, foot, a)
         im.paste(layer, (0, 0), layer)
 
@@ -976,6 +982,21 @@ class GhostFuture(Still):
     after a rewind tint, translucent ghost players and a ghost ball move along the median rollout for its horizon;
     then the outcome stamps and it hands back to what really happened (the next clip)."""
 
+    def __init__(self, m: dict):
+        super().__init__(m)
+        d = self.data
+        if "frames" not in d and "ball" in d:              # track A's layout: a path per player and for the ball
+            step = int(round(1000 / float(d.get("hz", 10))))
+            d["frames"] = [{"t_ms": k * step, "ball": d["ball"][k],
+                            "players": [{"label": p.get("label") or f"r{p.get('row', i)}", "team": p["team"],
+                                         "x": p["path"][k][0], "y": p["path"][k][1]}
+                                        for i, p in enumerate(d["players"]) if k < len(p["path"])]}
+                           for k in range(len(d["ball"]))]
+            d["step_ms"] = step
+            d["outcome"] = {"label": "goal", "at_ms": d["goal_ms"]} if d.get("scored") and d.get("goal_ms") else \
+                {"label": "no goal in 10 s", "at_ms": len(d["ball"]) * step - 1}
+            d["source"] = {"n": d.get("n"), "seed": d.get("seed")}
+
     def span(self):
         t = self.at_ms() / 1000
         dur = len(self.data["frames"]) * self.data.get("step_ms", 100) / 1000
@@ -1015,11 +1036,12 @@ class GhostFuture(Still):
         d = ImageDraw.Draw(layer)
         if tau < 0.6:
             a = window(tau, 0.0, 0.3)
-            d.text((W / 2, 120), "◀◀  THE OTHER TIMELINE", font=self.font[34], fill=(255, 255, 255, int(255 * a)),
+            d.text((W / 2, 120), "REWIND · THE OTHER TIMELINE", font=self.font[34], fill=(255, 255, 255, int(255 * a)),
                    anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, int(200 * a)))
             im.paste(layer, (0, 0), layer)
             return
-        ms = self.sim_ms(t)
+        horizon_ms = (len(self.data["frames"]) - 1) * self.data.get("step_ms", 100)
+        ms = min(self.sim_ms(t), horizon_ms)
         state = self.at(ms)
         kits = self.m.get("kits") or {}
         for p in state["players"]:
@@ -1030,15 +1052,17 @@ class GhostFuture(Still):
                   width=3)
         d.text((W / 2, 120), f"THE OTHER TIMELINE  +{ms / 1000:.1f} s", font=self.font[34], fill=(255, 255, 255, 235),
                anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, 200))
-        out = self.data.get("outcome") or {}
-        if out and ms >= out.get("at_ms", 1e12):
+        out = dict(self.data.get("outcome") or {})
+        if out and out.get("at_ms") is None:            # no goal: the stamp lands when the horizon runs out
+            out["at_ms"] = len(self.data["frames"]) * self.data.get("step_ms", 100) - 1
+        if out and ms >= out["at_ms"]:
             o = window(ms / 1000, out["at_ms"] / 1000, out["at_ms"] / 1000 + 0.15)
             word = out["label"].upper()
             col = tuple(kits.get(self.m.get("team", "home"), ORANGE)) if out["label"] == "goal" else WHITE
             d.text((W / 2, H / 2 - 60), word, font=ImageFont.truetype(FONT, 140), fill=(*col, int(255 * o)),
                    anchor="mm", stroke_width=8, stroke_fill=(0, 0, 0, int(220 * o)))
-        src = self.data.get("source") or {}
-        d.text((W - 96, H - 60), f"the median of {src.get('n', '?')} replays, seed {src.get('seed', '?')}",
+        src = {**(self.data.get("source") or {}), **{k: self.data[k] for k in ("n", "seed") if k in self.data}}
+        d.text((W - 96, H - 60), f"the most typical of {src.get('n', '?')} simulated futures, seed {src.get('seed', '?')}",
                font=self.reg[22], fill=(*MUTED, 230), anchor="rb")
         im.paste(layer, (0, 0), layer)
 

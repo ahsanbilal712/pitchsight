@@ -79,7 +79,26 @@ def line(spec: dict) -> dict:
             "source": f"data/footage/{slug}/insights/line_{shot}.json"}
 
 
-ADAPTERS = {"xray": xray, "line": line}
+def xray_goal10(spec: dict) -> dict:
+    """pass_xray_goal10_<ms>.json (track A, v4: each option's goal chance in the next 10 s, Wilson 95%) -> the
+    pass_xray beat: pass options as tagged players, the shot as the 'shooting now' row; within [t0, t1]."""
+    src = json.loads((ROOT / spec["source_file"]).read_text())["result"]
+    t0, t1 = spec.get("t0", 0), spec.get("t1", 1e9)
+    samples = []
+    for x in src["samples"]:
+        if not t0 <= x["clip_ms"] / 1000 <= t1 or not x.get("options"):   # a sample with a note and no options
+            continue
+        passes = [o for o in x["options"] if o["kind"] == "pass" and o.get("x") is not None]
+        shoot = next((o for o in x["options"] if o["kind"] == "shoot"), None)
+        samples.append({"clip_ms": x["clip_ms"], "holder": x["holder"], "holder_xy": x.get("holder_xy"),
+                        "shoot_now_p_goal": shoot["p_goal_10s"] if shoot else None,
+                        "options": [{"label": o["label"], "name": o.get("name"), "x": o["x"], "y": o["y"],
+                                     "p_goal": o["p_goal_10s"], "ci95": o["ci95"]} for o in passes]})
+    return {"team": src.get("team"), "shot_id": spec.get("shot_id"), "samples": samples, "n": None,
+            "source": spec["source_file"]}
+
+
+ADAPTERS = {"xray": xray, "line": line, "xray_goal10": xray_goal10}
 
 
 def build(m: dict) -> str:

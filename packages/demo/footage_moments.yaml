@@ -218,3 +218,112 @@ moments:
     defender_label: "City defender"
     kits: {home: [218, 41, 28], away: [120, 182, 232]}
     label: "If City's defender had been in the cone"
+
+  # ------------------------------------------------------------------ video v4 (owner, 23 Oct): attacks only,
+  # goal chance in the next 10 s (track A cache/v4, a953292), no win chance. `alternative` is drawn only when track A's
+  # verdict says it is better beyond the noise; `finishing: true` draws no alternative (a finish that went in).
+  lfc_v4:
+    clip: liverpool-mancity-2526
+    style: v4
+    t_s: 875.0
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: liverpool-mancity-2526/moments/875000.json
+    attacks: "+x"
+    actor: {player: "#8", label: "Szoboszlai"}
+    target: {player: "L3", label: "Liverpool runner · box"}     # no verified name (track B): labelled by role
+    goal10: data/footage/liverpool-mancity-2526/cache/v4/goal10_decision_875000.json
+    alternative: L3
+    options: {actual: "Shot", alternative: "Pass to the runner"}
+
+  ars_v4:
+    clip: arsenal-chelsea-2526
+    style: v4
+    t_s: 1300.5
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: arsenal-chelsea-2526/moments/1300500.json
+    attacks: "+x"
+    actor: {player: "#10", label: "Eze"}
+    target: {player: "A7", label: "Arsenal runner · box"}
+    goal10: data/footage/arsenal-chelsea-2526/cache/v4/goal10_decision_1300500.json
+    alternative: A7
+    options: {actual: "Shot", alternative: "Pass to the runner"}
+
+  mci_amad_v4:
+    clip: manutd-mancity-2526
+    style: v4
+    t_s: 877.0
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/877000.json
+    attacks: "-x"
+    actor: {player: "#16", label: "Amad"}
+    target: {player: "#19", label: "#19 · box"}
+    goal10: data/footage/manutd-mancity-2526/cache/v4/goal10_decision_877000.json
+    alternative: "#19"
+    options: {actual: "Shot", alternative: "Pass to #19"}
+
+  mci_mbeumo_v4:                     # a real goal: how hard the finish was, no alternative implied
+    clip: manutd-mancity-2526
+    style: v4
+    finishing: true
+    t_s: 1079.36
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/1079360.json
+    attacks: "-x"
+    actor: {player: "Mbeumo", label: "Mbeumo"}
+    target: null
+    goal10: data/footage/manutd-mancity-2526/cache/v4/goal10_decision_1079360.json
+    options: {actual: "From here"}
+    card_note: "He scored."
+
+  mci_dorgu_v4:
+    clip: manutd-mancity-2526
+    style: v4
+    finishing: true
+    t_s: 1189.84
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/1189840.json
+    attacks: "-x"
+    actor: {player: "Dorgu", label: "Dorgu"}
+    target: null
+    goal10: data/footage/manutd-mancity-2526/cache/v4/goal10_decision_1189840.json
+    options: {actual: "From here"}
+    card_note: "He scored."
+
+  lfc_ghost_v4:                      # the alternative timeline (pass to the runner), the medoid world
+    clip: liverpool-mancity-2526
+    kind: ghost_future
+    data: data/footage/liverpool-mancity-2526/cache/v4/ghost_future_875000.json
+    shot_id: 62
+    team: home
+    speed: 2.0
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+
+  ars_ghost_v4:
+    clip: arsenal-chelsea-2526
+    kind: ghost_future
+    data: data/footage/arsenal-chelsea-2526/cache/v4/ghost_future_1300500.json
+    team: home
+    speed: 2.0
+    kits: {home: [219, 0, 7], away: [3, 70, 148]}
+
+  tot_xray_v4:                       # Man Utd's attack priced as goal in 10 s, then Spurs win it (Van de Ven)
+    clip: manutd-spurs-2425
+    kind: pass_xray
+    adapter: xray_goal10
+    source_file: data/footage/manutd-spurs-2425/cache/v4/pass_xray_goal10_240000.json
+    shot_id: 23
+    t0: 240.0
+    t1: 242.0
+    team_short: "Man Utd"
+    pre_s: 1.5
+    hold_s: 1.5
+    rows: 2
+    tags: 3
+    kits: {home: [218, 41, 28], away: [235, 238, 245]}
+    label: "Man Utd: goal in the next 10 s"
+    foot: "if passed to, each option replayed 1,000 times"
