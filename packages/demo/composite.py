@@ -66,6 +66,7 @@ SUBDIV = 10
 REFINE_LINES = [n for n in model_lines() if n != "touchline_far"]
 APPARENT_HEIGHT_M = 1.42   # a player's height in the picture over the grass scale across it (4 players, lfc 875 s)
 RING_R = 1.1              # metres
+LANE_S = {"actual": 1, "alternative": 2}   # v4: seconds of each branch's median drawn (the strike, the pass and on)
 GHOST_S = 4               # seconds of each future drawn: the decision and what follows it, not the whole 8 s
 GHOST_KEEP = 36           # paths drawn per branch: the ones nearest the branch's median path
 GHOST_REPS = 6            # of those, drawn bolder
@@ -287,6 +288,11 @@ def window(t: float, a: float, b: float) -> float:
 
 # ---------------------------------------------------------------------------------------------- timeline
 FREEZE_S = 7.0
+V4_PUNCH = 1.18           # v4 freeze: zoom on the decision (pitch graphics are drawn before the zoom, so they scale)
+RAMP_SLOW_S = 1.2         # v4: the last real seconds before the freeze ...
+RAMP_RATE = 0.4           # ... play at this speed (eased in): the speed ramp
+REWIND_S = 1.5            # v4: after the freeze the clip rewinds this far (every REWIND_STEP-th frame) and replays
+REWIND_STEP = 3
 MODES_FREEZE_S = 11.0     # viewer-mode clips (split screen): the built overlay held long enough to read
 FADE_OUT = (6.3, 6.9)
 T_GRADE = (0.0, 0.35)
@@ -326,6 +332,11 @@ class Painter:
             shot_to = np.median([p[1] for p in fut.baseline], axis=0) if fut.baseline else None
             self.ghosts = [g for g in (self._branch(fut.baseline, shot_to, WHITE, T_BASE),
                                        self._branch(fut.alternative, self.target_m, ORANGE, T_ALT)) if g]
+        self.v4 = m.get("style") == "v4"
+        self.goal10 = load_json(m.get("goal10"), "result")
+        if self.v4 and fut:
+            self.lanes = [ln for ln in (self._lane(fut.baseline, WHITE, T_BASE, "actual"),
+                                        self._lane(fut.alternative, ORANGE, T_ALT, "alternative")) if ln]
         self.trail_px = None
         self.ruling = load_json(m.get("ruling"), "result")
         self.contact_px = None
@@ -352,6 +363,34 @@ class Painter:
         if cue and all(c.get("verified") for c in cue["explain"]["claims"]):   # a Fact-Checked cue's own text
             self.line = cue["text"]
         self.font_reg = {s: ImageFont.truetype(FONT_REG, s) for s in (20, 22)}
+
+    def _lane(self, paths, colour, span, key) -> dict | None:
+        """v4: one branch as its median path (bold, glowing, an arrow at the end) inside a soft band of the spread
+        around it, instead of dozens of strands. From track A's goal10 file when it carries median paths and bands,
+        else derived here from the counterfactual's futures (median position and median distance to it at each
+        second, first LANE_S seconds)."""
+        g = (self.goal10 or {}).get("median_paths", {}).get(key)
+        if g:
+            med = np.asarray(g, float)
+            band = np.asarray(self.goal10["band"][key], float)[:, 2]
+        elif paths:
+            secs = int((self.m.get("lanes_s") or {}).get(key, LANE_S[key]))
+            cut = np.array([np.asarray(p, float)[: secs + 1] for p in paths])
+            med = np.median(cut, axis=0)
+            band = np.median(np.linalg.norm(cut - med, axis=2), axis=0)
+        else:
+            return None
+        if key == "alternative" and self.target_m is not None and not g:   # a pass: the lane ends at the receiver
+            med = np.vstack([med[:1], self.target_m])
+        sm = catmull_rom(med) if len(med) >= 3 else np.linspace(med[0], med[-1], SUBDIV + 1)   # a 1 s lane: straight
+        r = np.interp(np.linspace(0, len(band) - 1, len(sm)), np.arange(len(band)), band)
+        r = np.clip(r, 0.3, 6.0)
+        tang = np.gradient(sm, axis=0)
+        tang /= np.linalg.norm(tang, axis=1, keepdims=True) + 1e-9
+        nrm = np.c_[-tang[:, 1], tang[:, 0]]
+        poly = np.vstack([sm + nrm * r[:, None], (sm - nrm * r[:, None])[::-1]])
+        return {"px": self.cam.project(sm), "band": self.cam.project(poly), "n": len(sm),
+                "colour": np.array(colour) / 255, "span": span, "key": key}
 
     def _branch(self, paths, anchor, colour, span) -> dict | None:
         """One branch of the futures as drawn: the GHOST_KEEP paths nearest the branch's median over the first
@@ -422,7 +461,24 @@ class Painter:
         ax.axis("off")
         ax.patch.set_alpha(0)
         a_all = 1 - fade
-        for g in getattr(self, "ghosts", []):
+        for ln in getattr(self, "lanes", []) if self.v4 else []:
+            grow = window(t, *ln["span"])
+            if grow <= 0:
+                continue
+            col, n = ln["colour"], ln["n"]
+            k = max(2, int(round(grow * n)))
+            band = ln["band"]                                    # the band grows with the line: both halves
+            half = len(band) // 2
+            kb = max(2, int(round(grow * half)))
+            shown = np.vstack([band[:kb], band[len(band) - kb:]])
+            ax.add_patch(Polygon(shown, closed=True, fc=(*col, 0.16 * a_all), ec="none"))
+            p = ln["px"][:k]
+            ax.plot(p[:, 0], p[:, 1], color=(*col, 0.22 * a_all), lw=18, solid_capstyle="round")   # glow
+            ax.plot(p[:, 0], p[:, 1], color=(0, 0, 0, 0.6 * a_all), lw=9, solid_capstyle="round")
+            ax.plot(p[:, 0], p[:, 1], color=(*col, a_all), lw=5, solid_capstyle="round")
+            if grow >= 1:
+                self._arrowhead(ax, p, col, a_all, size=34.0)
+        for g in getattr(self, "ghosts", []) if not self.v4 else []:
             grow = window(t, *g["span"])
             if grow <= 0:
                 continue
@@ -460,7 +516,7 @@ class Painter:
                 c = self.contact_px
                 ax.add_patch(Polygon(c, closed=True, fc=(*col, 0.35 * a_all), ec=(0, 0, 0, 0.6 * a_all), lw=2.5))
                 ax.plot(c[:, 0], c[:, 1], color=(*col, a_all), lw=2.5)
-        elif trail > 0 and self.trail_px is not None:
+        elif trail > 0 and self.trail_px is not None and not self.v4:   # v4: the alternative's lane is the pass
             k = max(2, int(round(trail * (len(self.trail_px) - 1))) + 1)
             p = self.trail_px[:k]
             col = np.array(ORANGE) / 255
@@ -508,13 +564,17 @@ class Painter:
         if self.mode == "player_cam":
             return self._phone(im, t, fade)
         c = window(t, *T_CARD) * (1 - fade)
-        if c > 0 and self.fut and self.mode != "casual":
+        if self.v4 and self.fut:
+            self._lane_labels(im, window(t, T_ALT[1] - 0.2, T_ALT[1] + 0.4) * (1 - fade))
+        if c > 0 and self.fut and self.mode != "casual" and self.v4:
+            self._card_v4(im, c, window(t, *T_SWING))
+        elif c > 0 and self.fut and self.mode != "casual":
             self._card(im, c, window(t, *T_SWING))
         elif c > 0 and self.ruling:
             self._ruling_card(im, c)
         lt = window(t, *T_LOWER) * (1 - fade)
-        if lt > 0 and self.line:
-            self._lower_third(im, lt, body=self.mode != "casual")
+        if lt > 0 and self.line:                         # v4 shows no win chance: the headline alone
+            self._lower_third(im, lt, body=self.mode != "casual" and not self.v4)
         if standin_mark:
             d = ImageDraw.Draw(im)
             d.text((W - 24, H - 24), "STAND-IN FUTURES (cf_000070), NOT THIS MOMENT", font=self.font[22],
@@ -532,6 +592,9 @@ class Painter:
         Official): eases in with the rings and out with the fade. Returns the image and the pixel map for what is
         drawn after it (tags), so those stay sharp."""
         z = self.m.get("zoom")
+        if z is None and self.v4:                         # v4: a gentle punch-in on the decision
+            mid = self.actor_m if self.target_m is None else (self.actor_m + self.target_m) / 2
+            z = {"factor": V4_PUNCH, "at": list(mid)}
         k = 1 + (float(z["factor"]) - 1) * window(t, *T_GRADE) * (1 - fade) if z else 1.0
         if k <= 1.0001:
             return im, lambda p: np.asarray(p, float)
@@ -603,6 +666,75 @@ class Painter:
                fill=(255, 255, 255, al))
         for i, row in enumerate(body):
             d.text((x0 + 32, y0 + 64 + 32 * i), row, font=self.font_reg[22], fill=(214, 222, 232, al))
+        im.paste(layer, (0, 0), layer)
+
+    def _goal10_rows(self) -> list[tuple[str, dict]]:
+        """(label, {p, ci95}) for actual and alternative from track A's goal10 file; [] without it (v4 prints no
+        goal-in-10s number it was not given)."""
+        g = self.goal10
+        if not g:
+            return []
+        names = {"actual": "What he did", "alternative": "The alternative", **(self.m.get("options") or {})}
+        return [(g[k].get("label") or names[k], g[k]) for k in ("actual", "alternative")]
+
+    def _lane_labels(self, im: Image.Image, a: float):
+        """v4: each lane's end labelled with its branch and its goal chance in the next 10 s."""
+        if a <= 0:
+            return
+        rows = dict((k, r) for k, r in zip(("actual", "alternative"), self._goal10_rows(), strict=False))
+        names = {"actual": "What he did", "alternative": "The alternative", **(self.m.get("options") or {})}
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        for ln in self.lanes:
+            end = ln["px"][-1]
+            colour = tuple(int(v * 255) for v in ln["colour"])
+            label, p = (rows[ln["key"]][0], rows[ln["key"]][1]["p"]) if ln["key"] in rows else (names[ln["key"]], None)
+            text = f"{label.upper()}  {fmt_pct(p)}" if p is not None else label.upper()
+            w = d.textlength(text, font=self.font[26]) + 28
+            x0 = float(np.clip(end[0] - w / 2, 24, W - 24 - w))              # inside the frame
+            y0 = end[1] - 74 if ln["key"] == "actual" else end[1] + 40     # the receiver's own tag sits above him
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + 42), radius=10, fill=(*PANEL, int(225 * a)),
+                                outline=(*colour, int(255 * a)), width=3)
+            d.text((x0 + w / 2, y0 + 21), text, font=self.font[26], fill=(*colour, int(255 * a)), anchor="mm")
+        im.paste(layer, (0, 0), layer)
+
+    def _card_v4(self, im: Image.Image, a: float, swing: float):
+        """v4 decision card: the attacking team's goal chance in the next 10 s, what he did against the
+        alternative, each with its 95% interval in small print; nothing about winning."""
+        rows = self._goal10_rows()
+        if not rows:
+            return
+        g = self.goal10
+        x0, w, h = self._panel_x(a), PANEL_W, CARD_H + 20
+        y0 = H - 96 - h
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        al = int(255 * a)
+        d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
+        d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*ORANGE, al))
+        d.text((x0 + 32, y0 + 20), "GOAL IN THE NEXT 10 S", font=self.font[22], fill=(169, 180, 194, al))
+        lo, hi = rows[0][1]["p"], rows[1][1]["p"]
+        if lo > 0:
+            d.text((x0 + w - 28, y0 + 16), f"×{hi / lo:.1f}", font=self.font[30],
+                   fill=(*ORANGE, int(255 * a * swing)), anchor="ra")
+        top = max(lo, hi) * 1.25
+        bx0, bx1 = x0 + 32, x0 + w - 110
+        for row, ((label, r), col, grow) in enumerate(zip(rows, ((196, 204, 214), ORANGE), (1.0, swing),
+                                                          strict=True)):
+            y = y0 + 58 + 64 * row
+            d.text((bx0, y), label, font=self.font_reg[22], fill=(230, 236, 242, al))
+            by = y + 30
+            d.rounded_rectangle((bx0, by, bx1, by + 12), radius=6, fill=(255, 255, 255, int(28 * a)))
+            if grow > 0:
+                d.rounded_rectangle((bx0, by, bx0 + max(12, (bx1 - bx0) * r["p"] / top * grow), by + 12), radius=6,
+                                    fill=(*col, al))
+            d.text((x0 + w - 28, by + 6), fmt_pct(r["p"]), font=self.font[34],
+                   fill=(*(col if row else (255, 255, 255)), int(al * grow)), anchor="rm")
+            if r.get("ci95"):
+                d.text((bx0, by + 18), f"95%: {fmt_pct(r['ci95'][0])}–{fmt_pct(r['ci95'][1])}",
+                       font=self.font_reg[20], fill=(169, 180, 194, al))
+        d.text((x0 + w - 28, y0 + h - 14), f"n = {g['n']}, {g.get('horizon_s', 10):g} s, seed {g['seed']}",
+               font=self.font_reg[20], fill=(169, 180, 194, al), anchor="rb")
         im.paste(layer, (0, 0), layer)
 
     def _ruling_card(self, im: Image.Image, a: float):
@@ -718,6 +850,11 @@ class Painter:
         return rows
 
 
+def fmt_pct(v: float) -> str:
+    """A small probability for the screen: one decimal under 10%."""
+    return f"{v * 100:.1f}%" if v < 0.1 else f"{round(v * 100)}%"
+
+
 def load_json(rel: str | None, key: str | None = None):
     """A repo-relative JSON file (optionally one key of it), or None when the spec does not name one."""
     if not rel:
@@ -765,6 +902,14 @@ def export_png(p: Painter, path: Path, standin: bool) -> Path:
     return path
 
 
+def decode_range(m: dict, start: float, dur: float) -> np.ndarray:
+    """The clip's frames over [start, start + dur] at FPS, decoded (never written next to the media)."""
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{start:.3f}", "-i", str(clip_path(m)), "-t", f"{dur:.3f}",
+                          "-vf", f"fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                         capture_output=True, check=True).stdout
+    return np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
+
+
 def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4.0, post_s: float = 3.0,
                 freeze_s: float = FREEZE_S) -> Path:
     """Pre-roll of the real clip up to the freeze instant, the freeze with the overlay building and fading, then
@@ -785,13 +930,33 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
                              capture_output=True, check=True).stdout
         enc.stdin.write(dec)
 
-    real(t0 - pre_s, pre_s)
+    if m.get("style") == "v4":                           # v4: a speed ramp into slow motion before the freeze
+        ramp = min(RAMP_SLOW_S, pre_s)
+        real(t0 - pre_s, pre_s - ramp)
+        frames = decode_range(m, t0 - ramp, ramp)
+        n_out = int(round(ramp / RAMP_RATE * FPS))      # the last `ramp` real seconds at RAMP_RATE speed
+        for k in range(n_out):
+            u = k / max(1, n_out - 1)
+            src = (1 - (1 - u) ** 1.6) * (len(frames) - 1)   # easing from normal speed down into slow motion
+            i0 = int(src)
+            f = src - i0
+            a, b = frames[i0].astype(float), frames[min(i0 + 1, len(frames) - 1)].astype(float)
+            enc.stdin.write(np.clip(a * (1 - f) + b * f, 0, 255).astype(np.uint8).tobytes())
+    else:
+        real(t0 - pre_s, pre_s)
     hold = max(0.0, freeze_s - FREEZE_S)
     for i in range(int(round(freeze_s * FPS))):
         t = i / FPS
         t = t if t < FADE_OUT[0] else (FADE_OUT[0] - 0.01 if t < FADE_OUT[0] + hold else t - hold)
         enc.stdin.write(p.render(t, standin_mark=standin).tobytes())
-    real(t0, post_s)
+    if m.get("style") == "v4" and post_s > 0:         # a rewind sting, then what really happened
+        back = decode_range(m, t0 - REWIND_S, REWIND_S)[::-1][:: REWIND_STEP]
+        for fr in back:
+            g = fr.astype(float) * 0.82 + np.array([10, 18, 40]) * 0.18   # cool tint while it runs backwards
+            enc.stdin.write(np.clip(g, 0, 255).astype(np.uint8).tobytes())
+        real(t0 - REWIND_S, post_s + REWIND_S)
+    else:
+        real(t0, post_s)
     enc.stdin.close()
     if enc.wait():
         raise RuntimeError("ffmpeg encode failed")
@@ -805,11 +970,15 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--clip", action="store_true")
     ap.add_argument("--standin", action="store_true", help="re-anchored cf_000070 futures until T-109 lands")
     ap.add_argument("--refit", action="store_true", help="refit the camera even if cached")
+    ap.add_argument("--style", choices=["v3", "v4"], help="v4: median lanes, goal in the next 10 s, slow-motion "
+                    "ramp and punch-in (video v4); default the moment's own")
     ap.add_argument("--mode", choices=["broadcast", "analyst", "casual", "player_cam"], default="broadcast",
                     help="viewer mode: analyst adds the pitch-control heatmap, casual keeps one sentence, "
                          "player_cam is the actor's phone card; their clips are the freeze alone")
     args = ap.parse_args(argv)
     m = load_moment(args.moment)
+    if args.style:
+        m["style"] = args.style
     if not clip_path(m).exists():
         print(f"composite: {clip_path(m).relative_to(ROOT)} is not here (clips are never committed)", file=sys.stderr)
         return 1
@@ -838,7 +1007,8 @@ def main(argv: list[str] | None = None) -> int:
     fut = None if m.get("kind") == "fourth_official" else load_futures(m, cam, args.standin)
     p = Painter(m, frame, cam, fut, mode=args.mode)
     standin = bool(fut and fut.standin)
-    s = stem(m, standin) + ("" if args.mode == "broadcast" else f"_{args.mode}")
+    s = stem(m, standin) + ("" if args.mode == "broadcast" else f"_{args.mode}") + \
+        ("_v4" if m.get("style") == "v4" else "")
     if args.png or not args.clip:
         print(f"wrote {export_png(p, OUT / f'{s}.png', standin).relative_to(ROOT)}")
     if args.clip:
