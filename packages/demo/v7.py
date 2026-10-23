@@ -17,20 +17,20 @@ import numpy as np
 from PIL import ImageDraw, ImageFont
 
 from demo.live import FONT, FONT_REG, MUTED, PANEL, ROOT, H, W, bracket
-from demo.v6 import ACCENT, LiveHUD
+from demo.v6 import ACCENT, LiveHUD, shrink
 
-TINT_ALPHA = 0.16              # the control tint stays under everything
+TINT_ALPHA = 0.10              # the control tint stays under everything
 LINE_ALPHA = 0.55              # team lines, the back line a step stronger
-DANGER_H = 128                 # the always-on card stacked over the v6 panel
+DANGER_H = 172                 # the always-on card stacked over the v6 panel
+DANGER_DEF = "weighted by xG: the share of the scoring danger in front of goal they would reach first"
 SEEN_M = 12.0                  # control is tinted only this close to a tracked player
 SHAPE_MIN = 3                  # stand-in: a line needs this many players of one side in view
 
 
-def _decode(c, grid: dict) -> np.ndarray:
-    if isinstance(c, str):
-        a = np.frombuffer(base64.b64decode(c), np.uint8).astype(float) / 255
-        return a.reshape(grid["ny"], grid["nx"])
-    return np.asarray(c, float)
+def _decode(c: str, grid: dict) -> np.ma.MaskedArray:
+    """Track A's control grid: base64 uint8, row-major y then x, P(home) x 254; 255 = cell not in view."""
+    a = np.frombuffer(base64.b64decode(c), np.uint8).reshape(grid["ny"], grid["nx"])
+    return np.ma.masked_where(a == 255, a.astype(float) / 254)
 
 
 class AlwaysOn(LiveHUD):
@@ -50,23 +50,20 @@ class AlwaysOn(LiveHUD):
     # -- the always-on data at t ----------------------------------------------------------------------------------
     def layer(self, t: float) -> dict | None:
         """{control (ny, nx) P(home), grid, danger {home, away} | None, shape {home, away}, defending}."""
-        if self.always is not None:                       # track A's v7/space_<start>.json (track-a-v7-space-format)
+        if self.always is not None:                       # track A's v7/always_<start>.json (5acf68e)
             fr = self.always["frames"]
             i, _, _ = bracket(fr, t * 1000)
             f = fr[i]
-            if not f.get("camera_ok") or abs(f["clip_ms"] - t * 1000) > 150:
+            if not f.get("trusted") or abs(f["clip_ms"] - t * 1000) > 150:
                 return None
             g = self.always["grid"]
-            cx, cy = g["cell_m"]
-            grid = {"x0": cx / 2, "y0": cy / 2, "dx": cx, "dy": cy, "nx": g["nx"], "ny": g["ny"]}
-            cells = f.get("control_home")
-            control = None
-            if cells:
-                c = np.array([np.nan if v is None else v / 100 for v in cells], float).reshape(g["ny"], g["nx"])
-                control = np.ma.masked_invalid(c)
-            att = self._attacking(t)
-            return {"control": control, "grid": grid, "danger": f.get("dangerous_space") or {},
-                    "shape": f.get("shape") or {}, "defending": {"home": "away", "away": "home"}.get(att)}
+            grid = {"x0": g["x0"] + g["dx"] / 2, "y0": g["y0"] + g["dy"] / 2, "dx": g["dx"], "dy": g["dy"],
+                    "nx": g["nx"], "ny": g["ny"]}
+            zone = f.get("danger_zone") or {}
+            att = zone.get("attacked_by") or self._attacking(t)
+            return {"control": _decode(f["control"], g) if f.get("control") else None, "grid": grid,
+                    "danger": f.get("danger"), "attacker": zone.get("attacked_by"), "shape": f.get("shape") or {},
+                    "defending": {"home": "away", "away": "home"}.get(att)}
         return self._standin(t)
 
     def _attacking(self, t: float) -> str | None:
@@ -149,12 +146,12 @@ class AlwaysOn(LiveHUD):
             if not sh:
                 continue
             kit = self.kits.get(team, np.array((1, 1, 1)))
-            lines = sh.get("lines")
-            if lines is None:                              # track A: {back_line: {x, y_min, y_max}, ...}
-                lines = [[[ln["x"], ln["y_min"]], [ln["x"], ln["y_max"]]]
-                         for ln in (sh.get(k) for k in ("back_line", "midfield_line", "front_line"))
-                         if isinstance(ln, dict) and ln.get("y_min") is not None]
+            lines = sh.get("lines") or ([sh["back_line"]] if sh.get("back_line") else [])
             for k, ln in enumerate(lines):
+                if isinstance(ln, dict):                   # track A: {points, x, y_min, y_max, n}
+                    ln = ln.get("points") or []
+                if len(ln) < 2:
+                    continue
                 pts = cam.project(np.asarray(ln, float))
                 a = LINE_ALPHA if k == 0 else LINE_ALPHA * 0.6
                 ax.plot(pts[:, 0], pts[:, 1], color=(0, 0, 0, a * 0.5), lw=5, solid_capstyle="round")
@@ -168,6 +165,9 @@ class AlwaysOn(LiveHUD):
         if x is not None:
             super()._hud(d, x, a, age, state, threat)
             return
+        sh = ((lay or {}).get("shape") or {}).get((lay or {}).get("defending")) or {}
+        if sh.get("width_m") is None:                     # track A's 9-of-10 gate failed: the tint and line only
+            return
         w, h = self.hud_w, self.hud_h                     # between carriers: the defending side's shape
         x0, y0 = W - 64 - w, H - 64 - h
         al = int(255 * a)
@@ -178,12 +178,8 @@ class AlwaysOn(LiveHUD):
         d.text((x0 + 28, y0 + 26), "THEIR SHAPE", font=f_small, fill=(*MUTED, al))
         if state:
             d.text((x0 + w - 28, y0 + 26), state, font=f_small, fill=(255, 214, 10, al), anchor="ra")
-        sh = ((lay or {}).get("shape") or {}).get((lay or {}).get("defending")) or {}
         rows = [("Width", sh.get("width_m")), ("Depth", sh.get("depth_m")),
                 ("Line gap", sh.get("back_to_mid_m", sh.get("line_gap_m")))]
-        if all(v is None for _, v in rows):                 # fixed slots: the numbers come and go, the panel stays
-            d.text((x0 + 28, y0 + h - 50), "shown when 9 of their 10 outfielders are in view", font=ImageFont.truetype(
-                FONT_REG, 24), fill=(*MUTED, al))
         for k, (label, v) in enumerate(rows):
             cx = x0 + 28 + k * (w - 56) // 3
             d.text((cx, y0 + 90), label, font=f_label, fill=(230, 236, 242, al))
@@ -193,32 +189,41 @@ class AlwaysOn(LiveHUD):
                        fill=(255, 255, 255, al))
 
     def _danger(self, d, lay, a) -> None:
-        """One row per team: its share of the scoring danger in view, as a bar in its kit colour and a whole percent;
-        a team not valued on this frame keeps its slot with a dash (the panel never jumps)."""
+        """The attacking side's one number: its control of the danger zone in view (track A's dangerous_space, the
+        visible region; null under half the zone in view). Track A's own definition sits under it, verbatim."""
         w, h = self.hud_w, DANGER_H
         x0, y0 = W - 64 - w, H - 64 - self.hud_h - 16 - h
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))
-        f_small, f_team, f_val = (ImageFont.truetype(FONT, 24), ImageFont.truetype(FONT, 28),
-                                  ImageFont.truetype(FONT, 30))
-        d.text((x0 + 28, y0 + 14), "DANGEROUS SPACE IN VIEW", font=f_small, fill=(*MUTED, al))
+        f_small, f_big, f_note = (ImageFont.truetype(FONT, 24), ImageFont.truetype(FONT, 32),
+                                  ImageFont.truetype(FONT_REG, 20))
+        box = None                                         # name the box: the defending side's goal in view
+        dz = (lay or {}).get("danger") or {}
+        if dz.get("team") in ("home", "away"):
+            other = {"home": "away", "away": "home"}[dz["team"]]
+            box = (self.m.get("race_doc") or {}).get(f"{other}_short")
+        d.text((x0 + 28, y0 + 14), "DANGER ZONE IN VIEW" + (f" · {box} BOX" if box else ""), font=f_small,
+               fill=(*MUTED, al))
         if self.standin:
             d.text((x0 + w - 28, y0 + 14), "STAND-IN, NO NUMBERS", font=f_small, fill=(255, 90, 90, al), anchor="ra")
-        race = self.m.get("race_doc") or {}
         danger = (lay or {}).get("danger") or {}
-        for k, team in enumerate(("home", "away")):
-            y = y0 + 52 + 36 * k
-            kit = tuple(int(v * 255) for v in self.kits.get(team, np.array((1, 1, 1))))
-            d.text((x0 + 28, y + 11), race.get(f"{team}_short", team.upper()), font=f_team,
-                   fill=(255, 255, 255, al), anchor="lm")
-            bx0, bx1 = x0 + 120, x0 + w - 120
-            d.rounded_rectangle((bx0, y + 2, bx1, y + 20), radius=9, fill=(58, 64, 74, al))
-            v = (danger.get(team) or {}).get("share") if isinstance(danger.get(team), dict) else danger.get(team)
-            if v is None or self.standin:
-                d.text((x0 + w - 28, y + 11), "–", font=f_val, fill=(*MUTED, al), anchor="rm")
-                continue
-            d.rounded_rectangle((bx0, y + 2, bx0 + max(18, (bx1 - bx0) * v), y + 20), radius=9, fill=(*kit, al))
-            d.text((x0 + w - 28, y + 11), f"{v * 100:.0f}%", font=f_val, fill=(255, 255, 255, al), anchor="rm")
+        y = y0 + 50
+        bx0, bx1 = x0 + 28, x0 + w - 28
+        if "share" in danger:                              # track A: the attacking side's one number, its own words
+            team, v, text = danger.get("team"), danger.get("share"), danger.get("text")
+        else:
+            team = (lay or {}).get("attacker")
+            v, text = danger.get(team) if team else None, None
+        if v is None or self.standin or not text:
+            d.text((bx0, y), "the danger zone is not in view" if lay else "waiting for the camera",
+                   font=f_big, fill=(*MUTED, al))
+        else:
+            kit = tuple(int(c * 255) for c in self.kits.get(team, np.array((1, 1, 1))))
+            d.text((bx0, y), text, font=shrink(d, text, FONT, 32, bx1 - bx0), fill=(255, 255, 255, al))
+            d.rounded_rectangle((bx0, y + 44, bx1, y + 60), radius=8, fill=(58, 64, 74, al))
+            d.rounded_rectangle((bx0, y + 44, bx0 + max(16, (bx1 - bx0) * v), y + 60), radius=8, fill=(*kit, al))
+        for k, ln in enumerate(self._wrap(d, DANGER_DEF, f_note, bx1 - bx0)):   # never cut: two lines
+            d.text((bx0, y0 + h - 54 + 24 * k), ln, font=f_note, fill=(*MUTED, al))
 
     def panels(self, im, cam, t):
         self._t = t

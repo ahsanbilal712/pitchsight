@@ -796,3 +796,99 @@ moments:
     hold_s: 5.0
     kits: {home: [218, 41, 28], away: [120, 182, 232]}
     label: "Man Utd v Man City · every measured shot"
+
+  # v7: the always-on layer (track A cache/v7 always_*, 5acf68e) under v6's ball layer; windows inside runs >= 90%
+  mci_live_v7:                       # hook: Amad's passage, both layers (run 872.0-883.0, 100%)
+    clip: manutd-mancity-2526
+    kind: always_on
+    data: data/footage/manutd-mancity-2526/cache/v6/live_869000.json
+    always: data/footage/manutd-mancity-2526/cache/v7/always_869000.json
+    shot_id: 104
+    t0: 872.0
+    t1: 877.0
+    team: home
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
+
+  mci_after_live_v7:                 # after the newsroom: what really happened, live (Casemiro's follow-up)
+    clip: manutd-mancity-2526
+    kind: always_on
+    data: data/footage/manutd-mancity-2526/cache/v6/live_869000.json
+    always: data/footage/manutd-mancity-2526/cache/v7/always_869000.json
+    shot_id: 104
+    t0: 877.0
+    t1: 880.0
+    team: home
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
+
+  lfc_live_v7:                       # Liverpool's attack into Szoboszlai's strike (run 868.9-879.0)
+    clip: liverpool-mancity-2526
+    kind: always_on
+    data: data/footage/liverpool-mancity-2526/cache/v6/live_802600.json
+    always: data/footage/liverpool-mancity-2526/cache/v7/always_802600.json
+    shot_id: 62
+    t0: 868.9
+    t1: 875.5
+    team: home
+    kits: {away: [120, 182, 232], home: [214, 32, 52]}
+    names_live: data/footage/liverpool-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/liverpool-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: LIV}
+
+  ars_live_v7:                       # Arsenal v Chelsea (run 831.2-836.8; the bound 834.8 frame inside)
+    clip: arsenal-chelsea-2526
+    kind: always_on
+    data: data/footage/arsenal-chelsea-2526/cache/v6/live_823600.json
+    always: data/footage/arsenal-chelsea-2526/cache/v7/always_823600.json
+    t0: 831.2
+    t1: 836.0
+    team: home
+    kits: {away: [3, 70, 148], home: [219, 0, 7]}
+    names_live: data/footage/arsenal-chelsea-2526/cache/v6/names_live_0.json
+    race: data/footage/arsenal-chelsea-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: CHE, home_short: ARS}
+
+  tot_live_v7:                       # Werner's run into his shot (run 681.4-695.9)
+    clip: manutd-spurs-2425
+    kind: always_on
+    data: data/footage/manutd-spurs-2425/cache/v6/live_662600.json
+    always: data/footage/manutd-spurs-2425/cache/v7/always_662600.json
+    t0: 681.4
+    t1: 683.4
+    team: away
+    kits: {away: [235, 238, 245], home: [218, 41, 28]}
+    names_live: data/footage/manutd-spurs-2425/cache/v6/names_live_0.json
+    race: data/footage/manutd-spurs-2425/cache/v6/xg_running_0.json
+    race_labels: {away_short: TOT, home_short: MUN}
+
+  mci_mbeumo_live_v7:                # the move into Mbeumo's goal (run 1074.8-1079.3)
+    clip: manutd-mancity-2526
+    kind: always_on
+    data: data/footage/manutd-mancity-2526/cache/v6/live_1062200.json
+    always: data/footage/manutd-mancity-2526/cache/v7/always_1062200.json
+    t0: 1075.0
+    t1: 1079.3
+    team: home
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
+
+  mci_late_live_v7:                  # stoppage time: the threat climbs (run 1412.5-1415.0)
+    clip: manutd-mancity-2526
+    kind: always_on
+    data: data/footage/manutd-mancity-2526/cache/v6/live_1390000.json
+    always: data/footage/manutd-mancity-2526/cache/v7/always_1390000.json
+    shot_id: 160
+    t0: 1412.5
+    t1: 1415.0
+    team: home
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
