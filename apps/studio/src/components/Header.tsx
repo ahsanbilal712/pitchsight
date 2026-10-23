@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <header className="header" data-testid="header">
       <div className="brand">
-        WHYLINE <span>studio</span>
+        PITCHSIGHT <span>studio</span>
       </div>
       <div className="match" data-testid="match">
         <span className="match-id">{state.hello?.match_id ?? "connecting…"}</span>

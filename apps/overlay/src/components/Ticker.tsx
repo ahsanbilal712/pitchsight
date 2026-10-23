@@ -18,7 +18,7 @@ export default function Ticker() {
   if (!modeConfig(state).ticker) return null; // casual hides the ticker (TECH_PLAN 1.9)
   return (
     <div className="ticker" data-testid="ticker" data-empty={items.length === 0} data-count={items.length}>
-      <span className="tk-label">WHYLINE</span>
+      <span className="tk-label">PITCHSIGHT</span>
       <ul className="tk-items">
         {shown.map(({ key, item, phase }) => (
           <li key={key} data-cue-id={item.cue_id} data-state={phase} data-kind={item.kind}>

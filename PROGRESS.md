@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v8: Pitchsight rename in the docs and on screen; EXPLAIN claim checked (track B)
+
+- **Rename** (owner: PITCHSIGHT on screen and in the docs; code identifiers stay): README (title, intro, the
+  "How a real clip becomes a Pitchsight graphic" heading, a note that code and `WHYLINE_*` variables keep the
+  working name), docs/JUDGES.md, the studio header and page title, the fan app header and title, the overlay
+  ticker label and title. Built bundles are not committed (rebuilt for recording).
+- **"Next" items:** README and JUDGES claim no Azure AI Foundry deployment; JUDGES says the hosted demo is not
+  deployed (Azure deferred). Nothing to change.
+- **EXPLAIN claim checked** ("an AI newsroom on Microsoft Agent Framework, reasoning with Gemini, data through MCP
+  tools"): true of the live and replay system: the newsroom is an agent_framework workflow (WorkflowBuilder,
+  executors, checkpoints), the agents call Gemini through agent_framework's Gemini client, and with
+  WHYLINE_MCP_URL set (docker compose, replay_headless, the latency probe) they reach match data through our MCP
+  server over Streamable HTTP (mcp.Client; agent_framework's MCP tool failed against mcp 2.3, see
+  docs/evidence/latency_probe_day3.md). Not true as worded of the real-clip run the video shows (footage.studio):
+  the same executors' handlers called in-process, data from the clip's evidence in-process (no MCP), Gemini's
+  answers the recorded live drafts served from the cache. Corrected wording sent to track C.
+- No model call.
+
+---
+
 ## 2026-10-23 · Video v7 draft 2: the Eze caption source; one caption flagged (track B)
 
 - v7 caption source added: "Eze from 16 m: 0.08 xG. Saved." (shots_0 e_0046, as in v5).

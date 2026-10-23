@@ -1,6 +1,6 @@
-# WHYLINE
+# Pitchsight
 
-Football broadcasts tell you what happened. WHYLINE shows why it mattered: on real Premier League broadcast footage it
+Football broadcasts tell you what happened. Pitchsight shows why it mattered: on real Premier League broadcast footage it
 draws the moments' alternatives on the pitch (200 replayed futures of the shot not taken, the pass that was on), prices
 every option live, follows a sprint with a speed gun, explains a refereeing call from the tracking, and lets a
 producer check and veto every line before it airs. Every number on screen is bound to verified evidence.
@@ -35,7 +35,7 @@ footage, used with the Premier League's permission, is the ingest and the presen
   distributed as files. Only derived JSON (calibrations, tracks summaries, moments, counterfactuals, reviewed text)
   is committed.
 
-## How a real clip becomes a WHYLINE graphic
+## How a real clip becomes a Pitchsight graphic
 
 1. **Shots, camera, players** (track A, `packages/evals/pitchwatch/`): steady wide shots are kept; a camera is fitted
    per frame to the pitch markings and refined against the painted lines with a lens term
@@ -67,6 +67,9 @@ Measured on the footage (`data/footage/insights/metrics.json`, track A): players
 - English only, captions only. Live judges' matches are synthetic; the real clips are prepared moments.
 
 ## Run it
+
+Pitchsight was developed under the working name WHYLINE; code identifiers and environment variables (`WHYLINE_*`)
+keep it.
 
 - Judges: see [docs/JUDGES.md](docs/JUDGES.md).
 - Replay of the synthetic golden match, no keys: `make demo` (docker compose) or `make clean-replay`.

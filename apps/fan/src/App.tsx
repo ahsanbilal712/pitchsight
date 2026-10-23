@@ -49,7 +49,7 @@ export default function App() {
       <div className="phone" data-mode={profile.mode} data-stored={stored}>
         <header className="top">
           <div className="brand">
-            WHYLINE <span>fan</span>
+            PITCHSIGHT <span>fan</span>
           </div>
           <Scoreline />
         </header>
