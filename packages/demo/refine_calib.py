@@ -30,8 +30,8 @@ import numpy as np
 
 from demo.composite import FOOTAGE as ROOT_FOOTAGE
 from demo.footage import (
-    PITCH_W,
     Camera,
+    board_top,
     drift_px,
     fit_from_lines,
     from_pitchwatch,
@@ -40,7 +40,6 @@ from demo.footage import (
 )
 
 LINES = [n for n in model_lines() if n != "touchline_far"]
-BOARD_GAP_PX = 4
 
 
 def decode(slug: str, first: int, count: int, fps: float, size=(1920, 1080)):
@@ -50,14 +49,6 @@ def decode(slug: str, first: int, count: int, fps: float, size=(1920, 1080)):
                           "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
     n = len(raw) // (w * h * 3)
     return np.frombuffer(raw[: n * w * h * 3], np.uint8).reshape(n, h, w, 3)
-
-
-def board_top(cam: Camera, width: int) -> np.ndarray:
-    """Per column, the first row below the far touchline as the seed camera sees it (boards and stands above)."""
-    edge = cam.project(np.c_[np.linspace(-30, 135, 400), np.full(400, PITCH_W)])
-    order = np.argsort(edge[:, 0])
-    rows = np.interp(np.arange(width), edge[order, 0], edge[order, 1])
-    return np.clip(np.ceil(rows) + BOARD_GAP_PX, 0, None).astype(int)
 
 
 def refine(frame: np.ndarray, seed: Camera) -> dict:

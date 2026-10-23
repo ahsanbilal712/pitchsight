@@ -12,7 +12,7 @@
 # the main camera. Pixels are 1920x1080 frames.
 # counterfactual: the precomputed rollout for the moment (T-109, track B: first 100 futures the actual action, the
 # last 100 the alternative; `futures: alternative` when every path is the alternative). line: the reviewed
-# lower-third. options: the two bars of the win-chance card. Without a counterfactual, --standin draws the golden
+# lower-third. options: the two bars of the win-chance card. panels: right puts lower-third and card bottom right. Without a counterfactual, --standin draws the golden
 # match's cf_000070 futures re-anchored on the players, watermarked, for checking the look only; a
 # stand-in never goes in the video.
 
@@ -34,3 +34,36 @@ moments:
     counterfactual: data/footage/liverpool-mancity-2526/cache/counterfactuals/cf_000001.json   # T-109 (a751c1a)
     line: data/footage/liverpool-mancity-2526/cache/lines/mo_00001.json    # reviewed lower-third
     options: {actual: "Shot", alternative: "Pass to Salah"}
+
+  # The other three featured moments (config/footage.yaml, T-109): no hand landmarks; the camera is seeded with the
+  # moment file's homography and refined against the paint (far touchline and boards left out).
+  ars_sliding_doors:
+    clip: arsenal-chelsea-2526
+    t_s: 1300.5                      # broadcast clock 79:10; Eze's shot is saved
+    moment_file: arsenal-chelsea-2526/moments/1300500.json
+    actor: {player: "#10", label: "Shoots"}
+    target: {player: "#7", label: "Free"}
+    counterfactual: data/footage/arsenal-chelsea-2526/cache/counterfactuals/cf_000001.json
+    line: data/footage/arsenal-chelsea-2526/cache/lines/mo_00001.json
+    options: {actual: "Shot", alternative: "Back to Saka"}
+
+  mun_mci_right_call:
+    clip: manutd-mancity-2526
+    t_s: 877.0                       # broadcast clock 56:41; Amad's shot is saved
+    moment_file: manutd-mancity-2526/moments/877000.json
+    actor: {player: "#16", label: "Shoots"}
+    target: {player: "#19", label: "Unmarked"}
+    counterfactual: data/footage/manutd-mancity-2526/cache/counterfactuals/cf_000001.json
+    line: data/footage/manutd-mancity-2526/cache/lines/mo_00001.json
+    options: {actual: "Shot", alternative: "Pass into the box"}
+
+  mun_tot_right_call:
+    clip: manutd-spurs-2425
+    t_s: 682.8                       # broadcast clock 38:02; Werner's shot is saved
+    moment_file: manutd-spurs-2425/moments/682800.json
+    actor: {player: "#16", label: "Shoots"}
+    target: null                     # the alternative is a carry round the keeper: drawn from its futures
+    counterfactual: data/footage/manutd-spurs-2425/cache/counterfactuals/cf_000001.json
+    line: data/footage/manutd-spurs-2425/cache/lines/mo_00001.json
+    options: {actual: "Shot", alternative: "Round the keeper"}
+    panels: right                    # the goal and the carry are on the left of the frame

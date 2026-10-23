@@ -113,6 +113,16 @@ def to_pitchwatch(cam: Camera) -> list[list[float]]:
     return (h / h[2, 2]).tolist()
 
 
+def board_top(cam: Camera, width: int, gap_px: int = 4) -> np.ndarray:
+    """Per column, the first row below the far touchline as `cam` sees it: the boards stand on that line and the
+    faint paint under them cannot be told from their edge, so the far touchline and everything above it are left out
+    (gap_px below the projected line)."""
+    edge = cam.project(np.c_[np.linspace(-30, 135, 400), np.full(400, PITCH_W)])
+    order = np.argsort(edge[:, 0])
+    rows = np.interp(np.arange(width), edge[order, 0], edge[order, 1])
+    return np.clip(np.ceil(rows) + gap_px, 0, None).astype(int)
+
+
 def as_camera(cam) -> Camera:
     return cam if isinstance(cam, Camera) else Camera(np.asarray(cam, float))
 

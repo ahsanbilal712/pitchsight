@@ -36,7 +36,15 @@ from matplotlib.figure import Figure  # noqa: E402
 from matplotlib.patches import Polygon  # noqa: E402
 from PIL import Image, ImageDraw, ImageFilter, ImageFont  # noqa: E402
 
-from demo.footage import Camera, Drift, drift_px, fit_from_lines, from_pitchwatch  # noqa: E402
+from demo.footage import (  # noqa: E402
+    Camera,
+    Drift,
+    board_top,
+    drift_px,
+    fit_from_lines,
+    from_pitchwatch,
+    model_lines,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 FOOTAGE = ROOT / "data" / "footage"
@@ -49,12 +57,13 @@ FONT_REG = "/System/Library/Fonts/Supplemental/Arial.ttf"
 ORANGE, WHITE, YELLOW = (255, 122, 26), (236, 242, 248), (255, 214, 10)
 PANEL = (12, 16, 22)
 SUBDIV = 10
+REFINE_LINES = [n for n in model_lines() if n != "touchline_far"]
 APPARENT_HEIGHT_M = 1.42   # a player's height in the picture over the grass scale across it (4 players, lfc 875 s)
 RING_R = 1.1              # metres
 GHOST_S = 4               # seconds of each future drawn: the decision and what follows it, not the whole 8 s
 GHOST_KEEP = 36           # paths drawn per branch: the ones nearest the branch's median path
 GHOST_REPS = 6            # of those, drawn bolder
-GHOST_FADE_T = (1.2, 3.5)   # s: full strength through the first leg, gone by 3.5 s ...
+GHOST_FADE_T = (1.0, 2.4)   # s: full strength through the first leg, gone by 2.4 s ...
 GHOST_FADE_D = (5.0, 12.0)  # m: ... unless still within this of where the branch is going
 GHOST_MARGIN_M = 2.0       # futures are clamped to the pitch plus this, as the overlay's ghost layer
 
@@ -76,6 +85,7 @@ def load_moment(name: str) -> dict:
                 p = players[m[role]["player"]]
                 m[role] = {**m[role], "at": [p["x"], p["y"]]}
         m["ball_at"] = [doc["ball"]["x"], doc["ball"]["y"]]
+        m["moment_h"] = doc.get("homography", {}).get("image_to_pitch")
     return m
 
 
@@ -107,20 +117,40 @@ def pitchwatch_camera(m: dict, frame: np.ndarray) -> tuple[Camera, Drift, str] |
         return None
     calib = json.loads(path.read_text())
     cam = from_pitchwatch(calib, int(round(m["t_s"] * calib.get("fps", 50.0))))
-    return cam, drift_px(cam, frame, m["camera"]["lines"], top=top_rows(m["camera"]["top"])), path.name
+    lines, top = fit_spec(m)
+    return cam, drift_px(cam, frame, lines, top=top), path.name
+
+
+def seed_camera(m: dict) -> Camera | None:
+    """The moment file's own homography (pixels -> its pitch metres, this module's convention), as a camera."""
+    h = m.get("moment_h")
+    return Camera(np.linalg.inv(np.asarray(h, float))) if h is not None else None
+
+
+def fit_spec(m: dict) -> tuple[list[str], np.ndarray]:
+    """The lines a moment's camera is measured on and the per-column first pitch row (boards above): from the spec,
+    else every marking but the far touchline, with the boards cut above it as the seed camera sees it."""
+    spec = m.get("camera") or {}
+    lines = spec.get("lines") or REFINE_LINES
+    top = top_rows(spec["top"]) if spec.get("top") else board_top(seed_camera(m), W)
+    return lines, top
 
 
 def camera_for(m: dict, frame: np.ndarray, refit: bool = False) -> tuple[Camera, Drift]:
-    """The moment's camera: hand landmarks refined against the frame's own markings (cached per moment)."""
+    """The moment's camera, refined against the frame's own markings (cached per moment): from hand landmarks when
+    the spec has them, else seeded with the moment file's homography (T-107/T-109)."""
     path = OUT / f"{m['name']}_camera.json"
-    spec = m["camera"]
-    key = {"t_s": m["t_s"], "camera": spec}
+    spec = m.get("camera") or {}
+    key = {"t_s": m["t_s"], "camera": spec, "seed": m.get("moment_h")}
     if path.exists() and not refit:
         doc = json.loads(path.read_text())
         if doc.get("key") == key:
             return Camera.from_json(doc), Drift(**doc["drift"])
-    fit = fit_from_lines(frame, spec["landmarks"]["pitch"], spec["landmarks"]["pixel"], spec["lines"],
-                         top=top_rows(spec["top"]))
+    lines, top = fit_spec(m)
+    if spec.get("landmarks"):
+        fit = fit_from_lines(frame, spec["landmarks"]["pitch"], spec["landmarks"]["pixel"], lines, top=top)
+    else:
+        fit = fit_from_lines(frame, None, None, lines, top=top, seed=seed_camera(m))
     OUT.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"key": key, **fit.camera.to_json(), "drift": fit.drift.__dict__}, indent=1))
     return fit.camera, fit.drift
@@ -285,6 +315,10 @@ class Painter:
             curve = pass_curve(self.ball, self.target_m)
             far = np.linalg.norm(curve - self.target_m, axis=1) > RING_R + 0.35
             self.trail_px = cam.project(curve[far])
+        elif fut and fut.alternative:                            # a carry: the alternative's median first second
+            med = np.median(np.array([np.asarray(p, float)[:3] for p in fut.alternative]), axis=0)
+            path = catmull_rom(med)[: SUBDIV + 1]
+            self.trail_px = cam.project(path[np.linalg.norm(path - path[0], axis=1) > RING_R + 0.35])
         self.spot = self._spotlight()
         self.font = {s: ImageFont.truetype(FONT, s) for s in (22, 26, 30, 34, 64)}
         self.line = None
@@ -435,6 +469,13 @@ class Painter:
         d.text((feet[0], y - 20), label.upper(), font=font, fill=(*colour, int(255 * a)), anchor="mm")
         im.paste(layer, (0, 0), layer)
 
+    def _panel_x(self, a: float) -> int:
+        """Left edge of the lower-third and card: bottom left, or bottom right (`panels: right`) when the action is
+        on the left of the frame; they slide in from their own edge."""
+        if self.m.get("panels") == "right":
+            return W - 96 - PANEL_W + int((1 - a) * 40)
+        return 96 - int((1 - a) * 40)
+
     def _wrap(self, text: str, font, width: float) -> list[str]:
         words, lines = text.split(), [""]
         for w in words:
@@ -447,7 +488,7 @@ class Painter:
 
     def _lower_third(self, im: Image.Image, a: float):
         """The reviewed line (headline and body) above the swing card, as the overlay's lower-third."""
-        x0, w = 96 - int((1 - a) * 40), PANEL_W
+        x0, w = self._panel_x(a), PANEL_W
         body = self._wrap(self.line.get("body", ""), self.font_reg[22], w - 64)
         h = 70 + 32 * len(body)
         y0 = H - 96 - CARD_H - 16 - h
@@ -468,7 +509,7 @@ class Painter:
         cf = self.fut.cf
         lo, hi = cf["baseline"]["win_prob_home"], cf["alternative_outcome"]["win_prob_home"]
         names = {"actual": "What he did", "alternative": "The alternative", **(self.m.get("options") or {})}
-        x0, w, h = 96 - int((1 - a) * 40), PANEL_W, CARD_H
+        x0, w, h = self._panel_x(a), PANEL_W, CARD_H
         y0 = H - 96 - h
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
@@ -477,7 +518,8 @@ class Painter:
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*ORANGE, al))
         d.text((x0 + 32, y0 + 20), "WIN CHANCE", font=self.font[22], fill=(169, 180, 194, al))
         delta = round((hi - lo) * 100)
-        d.text((x0 + w - 28, y0 + 16), f"{'+' if delta >= 0 else '−'}{abs(delta)} pts", font=self.font[30],
+        diff = "≈ 0 pts" if delta == 0 else f"{'+' if delta > 0 else '−'}{abs(delta)} pt{'s' if abs(delta) > 1 else ''}"
+        d.text((x0 + w - 28, y0 + 16), diff, font=self.font[30],
                fill=(*ORANGE, int(255 * a * swing)), anchor="ra")
         top = max(lo, hi) * 1.25
         bx0, bx1 = x0 + 32, x0 + w - 110
