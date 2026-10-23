@@ -308,12 +308,13 @@ def v4_overlay() -> list[dict]:
     for path in sorted(FOOTAGE.glob("*/cache/v4/lines_*.json")):
         line = json.loads(path.read_text())["result"]
         facts = line["facts"]
-        shown = [(fmt_pct(f["value"]) if f["unit"] == "p_goal" else f"{f['value']:g}", f) for f in facts
-                 if f["unit"] in ("p_goal", "count")]
-        claims = [{"text": text, "kind": "number", "value": f["value"], "unit": f["unit"],
+        shown = [(fmt_pct(f["value"]) if f["unit"] == "p_goal" else
+                  f"{f['value']:,}" if f.get("role") == "n" else f"{f['value']:g}", f) for f in facts
+                 if f["unit"] in ("p_goal", "count")]                  # the card prints "n = 2,000, ..., seed 4242"
+        claims = [{"text": THOUSANDS.sub("", text), "kind": "number", "value": f["value"], "unit": f["unit"],
                    "evidence_ids": [f["fact_id"]]} for text, f in shown]
         bb = evidence_board(line["slug"], facts)
-        r = _check(line["match_id"], claims, bb, {"card": "  ".join(t for t, _ in shown)})
+        r = _check(line["match_id"], claims, bb, {"card": THOUSANDS.sub("", "  ".join(t for t, _ in shown))})
         bb.close()
         drift = [f"{t} vs {f['display']}" for t, f in shown if t != f["display"]]
         r["numbers_bound"] -= len(drift)
@@ -327,8 +328,36 @@ def run(version: str = "v3", edit: Path | None = None) -> dict:
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
     if version == "v4":
         captions = video_captions("v4", edit) if edit.exists() else []
-        return _write(studio_cues("v4") + v4_lines() + v4_overlay() + v4_xray_overlay() + captions, version, edit)
+        return _write(studio_cues("v4") + v4_lines() + v4_overlay() + v4_xray_overlay() + v4_small_print()
+                      + captions, version, edit)
     return _write(studio_cues() + beat_captions() + video_captions("v3", edit), version, edit)
+
+
+def v4_small_print() -> list[dict]:
+    """The Liverpool Oracle card (each sample's goal chance as demo.live.pct prints it, and its "n = 2,000 per
+    0.5 s, 10 s, seed 4242") and the ghost future's "the most typical of 2,000 simulated futures, seed 4242": each
+    number from its file, each value as the one display (footage.v4_lines.pct)."""
+    from demo.live import pct as live_pct
+    from footage.v4_lines import pct
+
+    lfc = "liverpool-mancity-2526"
+    rows = []
+    o = _beat_v4(lfc, "oracle_goal10_867000.json")
+    vals = [s["p_goal_10s"]["home"] for s in o["samples"] if (s.get("p_goal_10s") or {}).get("home") is not None]
+    drift = [f"{v}: overlay {live_pct(v)} vs {pct(v)}" for v in vals if live_pct(v) != pct(v)]
+    tags = len(vals) + 4                                     # + n, the 0.5 s step, the 10 s horizon, the seed
+    ok = (o["n"], o["step_ms"], o["horizon_s"]) == (2000, 500, 10.0) and o["seed"] == 4242
+    rows.append({"group": "v4 overlay", "item": "Liverpool Oracle card (goal in 10 s, every 0.5 s)",
+                 "file": f"data/footage/{lfc}/cache/v4/oracle_goal10_867000.json", "claims": tags,
+                 "claims_verified": tags if ok else len(vals), "numbers": tags,
+                 "numbers_bound": tags - len(drift) - (0 if ok else 4), "diff": drift, "rejected": []})
+    g = _beat_v4(lfc, "ghost_future_875000.json")
+    ok = g["n"] == 2000 and g["seed"] == 4242
+    rows.append({"group": "v4 overlay", "item": "Liverpool ghost future footer (n, seed)",
+                 "file": f"data/footage/{lfc}/cache/v4/ghost_future_875000.json", "claims": 2,
+                 "claims_verified": 2 if ok else 0, "numbers": 2, "numbers_bound": 2 if ok else 0, "diff": [],
+                 "rejected": []})
+    return rows
 
 
 def v4_xray_overlay() -> list[dict]:

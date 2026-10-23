@@ -5,6 +5,16 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v4 grounding: 170 of 170 (track B)
+
+- `python -m footage.grounding` on edit_v4.yaml (track C's draft 2, b90a302): **170 of 170 on-screen numbers bound
+  to verified evidence (159 of 159 claims verified)**. The decision cards now print "n = 2,000" (track C), and the
+  check reads it as one number; new: the Liverpool Oracle card (each sample's goal chance as demo.live.pct prints
+  it, "n = 2,000 per 0.5 s, 10 s, seed 4242") and the ghost future's footer ("2,000 simulated futures, seed 4242").
+- No model call. Verification: `pytest tests/footage/test_grounding.py` 3 passed.
+
+---
+
 ## 2026-10-23 · Video v4: finishing lines for the two goals; grounding takes the edit file (track B)
 
 - **Mbeumo 64:27 and Dorgu 75:28 (both scored):** lead ruling, a goal never implies a better option. New verdict
