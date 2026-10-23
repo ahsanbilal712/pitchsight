@@ -5,6 +5,25 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v4: line writer on goal-in-10s, Director bar, studio v4 path (track B, code)
+
+- `footage.v4_lines` (+ prompt `insight_footage@3`): lower-third (<= 60 chars) and one-sentence explanation per
+  goal-in-10s decision (track A's `cache/v4/goal10_decision_<clip_ms>.json`), gemini-4-argon, then the Fact
+  Checker, then gates: every number claim prints its fact's single `display` string ("3.3%", one decimal), every
+  name verified (`footage.names`), wording follows the verdict, length. The verdict is computed, not written by the
+  model: "better" only when the alternative's 95% interval is clear of the actual choice's; overlap = close call;
+  all clear below = the choice was the best found. Unnamed players are described by position from their team's
+  attacking direction. Review in `review/footage/v4_*.md`; `import` writes `cache/v4/lines_<clip_ms>.json`.
+- Director: a moment carrying `goal_in_10s` gets the bar "<club> goal chance, next 10 s" (and the ghost future's
+  ball path) instead of win chance, even with a counterfactual on the draft.
+- `footage.studio`: a featured moment with a reviewed v4 line runs the same executors on goal-in-10s (no
+  counterfactual, the line's facts on the blackboard); v3 moments unchanged.
+- Validated with one live call (Man Utd v City 56:41, $0.0061; Fact Checker verified, gates pass).
+- Verification: `pytest tests/footage/test_v4_lines.py tests/newsroom/test_director.py tests/footage/test_studio.py`
+  26 passed; ruff clean.
+
+---
+
 ## 2026-10-23 · Video v4: verified names, and two moment-file fixes under track A's goal-in-10s (track B)
 
 - **Verified names** `footage.names` -> `data/footage/<slug>/names_verified.json`. A name reaches the screen only

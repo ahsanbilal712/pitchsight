@@ -249,3 +249,16 @@ def test_director_in_the_graph(evidence_bb):
     assert not list(VALIDATOR.iter_errors(cue))
     assert cue["cue_id"] == "c_000770" and cue["provenance"]["agent_path"][-2:] == ["director", "cuebus"]
     assert evidence_bb.get("cues", "c_000770")["verified"] is True
+
+
+def test_goal_in_10s_moment_draws_its_bar_and_no_win_chance(deps, evidence_bb):
+    """Real-clip v4: the moment carries the precomputed goal chance in the next 10 s; the bar shows it, even with a
+    counterfactual on the draft, and the cue still validates."""
+    cf = evidence_bb.get("counterfactuals", "cf_000077")
+    d = draft(93, 5_300_000, kind="sliding_doors", branch="explained", selected_by="producer",
+              goal_in_10s={"actual": 0.011, "alternative": 0.033, "ghost_trail": [[80.0, 20.0], [88.0, 40.0]]})
+    cue = direct(deps, d.model_copy(update={"counterfactual": cf}))
+    bar = cue["graphics"]["bar"]
+    assert bar["label"].endswith("goal chance, next 10 s") and (bar["from"], bar["to"]) == (0.011, 0.033)
+    assert "win" not in bar["label"] and cue["graphics"]["ghost_trail"] == [[80.0, 20.0], [88.0, 40.0]]
+    assert not [e.message for e in VALIDATOR.iter_errors(cue)]

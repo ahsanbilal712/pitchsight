@@ -1,4 +1,4 @@
-"""Studio on a real clip, option (c) (video v3): the real newsroom executors run in-process over the real-clip
+"""Studio on a real clip, option (c) (video v3; v4 where a reviewed v4 line exists): the real newsroom executors run in-process over the real-clip
 moments, and that run is cached for the studio to replay with real names in the trace and the Why? drawer.
 
     python -m footage.studio [<slug>...]
@@ -183,6 +183,77 @@ async def run_moment(deps, f: dict, cache, ros: dict) -> None:
         msg = ctx.sent[0]
 
 
+def v4_line(slug: str, clip_ms: int) -> dict | None:
+    path = clip_dir(slug) / "cache" / "v4" / f"lines_{clip_ms}.json"
+    return json.loads(path.read_text())["result"] if path.exists() else None
+
+
+def ghost_trail(slug: str, clip_ms: int) -> list[list[float]]:
+    """The ball path of track A's most typical future of the alternative (10 Hz), at 1 Hz for the cue."""
+    path = clip_dir(slug) / "cache" / "v4" / f"ghost_future_{clip_ms}.json"
+    if not path.exists():
+        return []
+    g = json.loads(path.read_text())["result"]
+    step = int(g.get("hz", 10))
+    return [[round(float(b[0]), 2), round(float(b[1]), 2)] for b in g["ball"][::step]]
+
+
+async def run_moment_v4(deps, f: dict, line: dict) -> None:
+    """Video v4: the same executors on the moment, the metric is track A's goal chance in the next 10 s
+    (cache/v4/goal10_decision_<clip_ms>.json, n worlds per option) and the reviewed v4 line; no counterfactual and no
+    win chance. The facts the line cites go on the blackboard for the Fact Checker."""
+    from newsroom.cuebus import CueBus
+    from newsroom.executors.base import trace_id_for
+    from newsroom.executors.director import DirectorExecutor
+    from newsroom.executors.factcheck import FactCheckExecutor
+    from newsroom.executors.narrator import NarratorExecutor
+    from newsroom.executors.tactician import TacticianExecutor
+    from newsroom.messages import Moment, RolloutDone
+
+    m = load(f["slug"], f["clip_ms"])
+    d = line["decision"]
+    team = next(p["team"] for p in m["players"] if p.get("label") == m["ball"]["holder"])
+    players = [x["pid"] for x in (d["holder"], d["alternative"]["target"]) if x and x.get("pid")]
+    for fact in line["facts"]:
+        deps.bb.put("facts", fact)
+    moment = Moment(moment_id=f["moment_id"], match_id=m["match_id"], t_ms=m["t_ms"], clock=m["clock"],
+                    period=m["period"], kind="big_chance", leverage=f.get("leverage"), team=team, players=players,
+                    selected_by="producer", clip_ms=f["clip_ms"],
+                    goal_in_10s={"actual": d["actual"]["p_goal_10s"], "alternative": d["alternative"]["p_goal_10s"],
+                                 "verdict": line["verdict"], "source": line["source"],
+                                 "ghost_trail": ghost_trail(f["slug"], f["clip_ms"])})
+    deps.bb.put("moments", moment.model_dump())
+    run_id = f"run_{m['match_id']}_{f['moment_id']}"
+    alt = next(o["option"] for o in decision_options(f["slug"], f["clip_ms"])
+               if o.get("p_goal_10s") == d["alternative"]["p_goal_10s"] and "diff_vs_actual" in o)
+    env = RolloutDone(run_id=run_id, branch="explained", moment=moment, agent_path=list(PRECOMPUTED),
+                      trace_id=trace_id_for(run_id), alternatives=[alt], counterfactual=None,
+                      decision={"t_ms": m["t_ms"], "actor": (d["holder"] or {}).get("pid"),
+                                "actor_name": (d["holder"] or {}).get("name"), "team": team,
+                                "actual": m["actual"], "anchor_event_id": None})
+    _trace(deps.bb, env, "ingest", "ok", note="real-clip moment from the frozen frame (tracking)")
+    _trace(deps.bb, env, "scout", "routed", note="producer-selected real-clip moment")
+    _trace(deps.bb, env, "proposer", "ok", model="every team-mate and a carry",
+           note=f"alternatives: every labelled team-mate and a carry; shown: {d['alternative']['choice']}")
+    _trace(deps.bb, env, "rollout", "ok", model=d["engine"],
+           note=f"goal in the next {d['horizon_s']:g} s: {d['n']} worlds per option, seed {d['seed']} "
+                f"(precomputed); {line['verdict'].replace('_', ' ')} on the 95% intervals")
+    steps = [TacticianExecutor("tactician", deps), NarratorExecutor("narrator", deps),
+             FactCheckExecutor("factcheck", deps), DirectorExecutor("director", deps), CueBus("cuebus", deps)]
+    msg = env
+    for ex, h in zip(steps, ["explain", "narrate", "check", "direct", "publish"], strict=True):
+        ctx = Ctx()
+        await getattr(ex, h)(msg, ctx)
+        if not ctx.sent:
+            break
+        msg = ctx.sent[0]
+
+
+def decision_options(slug: str, clip_ms: int) -> list[dict]:
+    path = clip_dir(slug) / "cache" / "v4" / f"goal10_decision_{clip_ms}.json"
+    return json.loads(path.read_text())["result"]["options"]
+
+
 async def run_fourth_official(deps, slug: str, cache) -> None:
     from newsroom.cuebus import CueBus
     from newsroom.executors.base import trace_id_for
@@ -307,6 +378,16 @@ def run(slug: str) -> dict:
     bb = Recording(raw, None)
     ros = roster(slug)
     for f in featured:
+        line = v4_line(slug, f["clip_ms"])
+        if line:                          # video v4: goal chance in the next 10 s, the reviewed v4 line
+            body = {"headline": line["lower_third"], "body": line["why"], "claims": [c["text"] for c in line["claims"]]}
+            llm = CachedAnswers({"why": line["why"], "claims": line["claims"], "confidence": line["confidence"]},
+                                body, line.get("model") or "gemini-4-argon",
+                                {"explanation": line["cache_key"], "line": line["cache_key"]})
+            deps = Deps(bb=bb, llm=llm, rollout=EvidenceTools(raw), mode="replay",
+                        state={"tactician_prompt": line["prompt_version"]})
+            asyncio.run(run_moment_v4(deps, {**f, "leverage": leverage(slug, f["clip_ms"])}, line))
+            continue
         exp_entry = cache.find(moment_id=f["moment_id"], producer="explanation", version="explanation@reviewed")[0]
         line_entry = cache.find(moment_id=f["moment_id"], producer="narrator", version="footage_line@1")[0]
         line = cache.read(line_entry)["json"]
