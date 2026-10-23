@@ -758,8 +758,21 @@ moments:
     clip: manutd-mancity-2526
     kind: live_hud
     data: data/footage/manutd-mancity-2526/cache/v6/live_1062200.json
-    t0: 1074.8
-    t1: 1077.2
+    t0: 1075.0                       # track A 6a12c81: 35 of 45 valued; runs on into the freeze (1078.56 on screen)
+    t1: 1078.5
+    team: home
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {home_short: "MUN", away_short: "MCI"}
+
+  mci_late_live_v6:                  # Man Utd v Man City, stoppage time: the break whose threat climbs to 0.20 (track A)
+    clip: manutd-mancity-2526
+    kind: live_hud
+    data: data/footage/manutd-mancity-2526/cache/v6/live_1390000.json
+    t0: 1409.5
+    t1: 1415.0
+    shot_id: 160
     team: home
     kits: {home: [218, 41, 28], away: [120, 182, 232]}
     names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json

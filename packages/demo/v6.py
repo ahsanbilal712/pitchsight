@@ -45,6 +45,7 @@ THREAT_FULL = 0.30             # the threat meter is full at 0.30 xG (shot now o
 DRAW_ON_MS = 150               # a new option's line draws on
 PULSE_S = 1.2                  # the best option's glow pulses this slowly
 LABEL_PX = 30                  # pass labels (phone-legible)
+HUD_W, HUD_H = 760, 290        # the live panel, bottom right
 HOLD_FADE_S = 1.0              # a held value starts fading after this
 STATES = {"ball loose": "BALL LOOSE", "ball out of play": "OUT OF PLAY", "dead ball after the goal": "OUT OF PLAY",
           "ball not detected": "TRACKING THE BALL…", "camera fit not trusted": "CAMERA MOVING…",
@@ -159,7 +160,8 @@ class LiveHUD(Live):
         if not opts:
             return
         top = opts[0]["xg_after_pass"] or 1e-9
-        kit = np.array((self.m.get("kits") or {}).get(self.m.get("team", "home"), ACCENT)) / 255
+        team = x.get("attacking") or self.m.get("team", "home")       # the frame's own attacking side
+        kit = np.array((self.m.get("kits") or {}).get(team, ACCENT)) / 255
         pulse = 0.5 + 0.5 * np.sin(2 * np.pi * t / PULSE_S)
         for k, o in reversed(list(enumerate(opts[: int(self.m.get("max_options", 5))]))):
             end = np.array([o["x"], o["y"]])
@@ -210,6 +212,9 @@ class LiveHUD(Live):
                 w = d.textlength(text, font=font) + 24
                 x0 = float(np.clip(pt[0] - w / 2, 12, W - 12 - w))
                 y0 = pt[1] + 22
+                hx0, hy0 = W - 64 - HUD_W - 12, H - 64 - HUD_H - 12      # never under the panel
+                if x0 + w > hx0 and y0 + LABEL_PX + 16 > hy0:
+                    x0 = max(12.0, hx0 - w)
                 col = ACCENT if k == 0 else WHITE
                 d.rounded_rectangle((x0, y0, x0 + w, y0 + LABEL_PX + 16), radius=8, fill=(*PANEL, 225),
                                     outline=(*col, 255 if k == 0 else 140), width=3 if k == 0 else 2)
@@ -225,6 +230,13 @@ class LiveHUD(Live):
         with the receiver for a pass in flight (the next frame's holder, if named or numbered)."""
         s = self.data["samples"]
         i, _, _ = bracket(s, t * 1000)
+        text = s[i].get("state_text")                      # track A's explicit state (6a12c81), never blank
+        if text and s[i].get("state") != "carry":          # a carry is named by the panel's ON THE BALL line
+            if text == "Pass in flight":
+                nxt = next((x for x in s[i:] if x.get("carrier")), None)
+                name = who(nxt["carrier"]) if nxt else None
+                return f"PASS IN FLIGHT → {name}" if name else "PASS IN FLIGHT"
+            return text.upper()
         reason = s[i].get("null_reason")
         if reason == "ball in flight" or reason == "ball speed not measurable":
             nxt = next((x for x in s[i:] if x.get("carrier")), None)
@@ -236,7 +248,7 @@ class LiveHUD(Live):
              state: str | None = None, threat: float | None = None) -> None:
         """Bottom-right broadcast panel: who is on the ball, the two live values in the biggest type on screen,
         and a threat meter that moves smoothly and shifts colour as threat rises."""
-        w, h = 760, 290
+        w, h = HUD_W, HUD_H
         x0, y0 = W - 64 - w, H - 64 - h
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))
