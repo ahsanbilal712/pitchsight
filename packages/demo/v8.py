@@ -105,7 +105,12 @@ class TitleSting(Motion):
     the wordmark and the tagline."""
 
     def background(self, img, tau, cam):
-        return _dim(_zoom(img, 1.0 + 0.03 * tau / float(self.m["duration"])), 0.62 * window(tau, 0.0, 0.5) + 0.2)
+        base = _zoom(img, 1.0 + 0.03 * tau / float(self.m["duration"]))
+        blur = window(tau, 2.4, 3.2)                    # the picture softens and darkens under the wordmark
+        if blur > 0:
+            soft = cv2.GaussianBlur(base, (0, 0), 14)
+            base = (base.astype(float) * (1 - blur) + soft.astype(float) * blur).astype(np.uint8)
+        return _dim(base, 0.55 * window(tau, 0.0, 0.5) + 0.2 + 0.15 * blur)
 
     def draw(self, ax, cam, tau):
         if cam is None:
@@ -126,32 +131,36 @@ class TitleSting(Motion):
             ax.plot(seg[:, 0], seg[:, 1], color=(1, 1, 1, 0.9 * fade), lw=2.2, solid_capstyle="round")
 
     def overlay(self, im, cam, tau):
-        a = window(tau, 2.8, 3.5)
+        a = window(tau, 2.8, 3.1)                      # crisp: full white within 0.3 s
         if a <= 0:
             return
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
-        s = 1 + 0.08 * (1 - ease_in_out(a))
-        f = ImageFont.truetype(FONT, int(150 * s))
+        s = 1 + 0.06 * (1 - ease_in_out(window(tau, 2.8, 3.4)))
+        f = ImageFont.truetype(FONT, int(170 * s))
         word = "PITCHSIGHT"
-        d.text((W / 2, H / 2 - 40), word, font=f, fill=(255, 255, 255, int(255 * a)), anchor="mm")
+        d.text((W / 2, H / 2 - 40), word, font=f, fill=(255, 255, 255, int(255 * a)), anchor="mm",
+               stroke_width=2, stroke_fill=(255, 255, 255, int(255 * a)))
         wl = d.textlength(word, font=f) * ease_in_out(window(tau, 3.2, 3.9))
-        d.rounded_rectangle((W / 2 - wl / 2, H / 2 + 52, W / 2 + wl / 2, H / 2 + 58), radius=3,
+        d.rounded_rectangle((W / 2 - wl / 2, H / 2 + 62, W / 2 + wl / 2, H / 2 + 70), radius=4,
                             fill=(*ACCENT, int(255 * a)))
         b = window(tau, 3.7, 4.3)
-        d.text((W / 2, H / 2 + 110), self.m.get("tagline", ""), font=font(44, bold=False),
+        d.text((W / 2, H / 2 + 128), self.m.get("tagline", ""), font=font(48, bold=False),
                fill=(230, 236, 242, int(255 * b)), anchor="mm")
         im.paste(layer, (0, 0), layer)
 
 
 class Explainer(Motion):
     """6-30 s: how it works, from one real frame. SEE: track A's detection boxes snap onto the players and the ball,
-    then the frame folds (through the camera's homography) into a top-down mini-pitch where the tracked dots move.
-    MEASURE: the reference xG surface fills it, then the live pass options, priced. EXPLAIN: the newsroom's agents
-    light in turn. VERIFY: the grounding count. NEXT: what comes next, labelled as such."""
+    the grass of the attacking half folds through the camera's homography to top-down, turns goal-up, and holds as a
+    clean mini-pitch where the tracked run plays. MEASURE: the reference xG surface fills it, the live options are
+    priced, and the two models are named. EXPLAIN: the newsroom's agents light in their real order. VERIFY: the
+    grounding count. NEXT: what is not built yet, as one list."""
 
     STEPS = (("SEE", 0.0), ("MEASURE", 5.5), ("EXPLAIN", 11.0), ("VERIFY", 16.5), ("NEXT", 20.5))
-    MINI = (300, 170, 11.0)                      # mini-pitch: left, top, px per metre (the attacking half)
+    LAND = (300, 170, 11.0)                      # the fold lands here: the attacking half, goal at the side
+    GOAL_UP = (96, 196, 14.0)                    # then turns: goal at the top, 952 x 735 px
+    T_FOLD, T_TURN, T_HOLD = (2.0, 3.0), (3.2, 3.9), 3.9
 
     def __init__(self, m: dict):
         super().__init__(m)
@@ -169,70 +178,94 @@ class Explainer(Motion):
         self.pipe = self.pipe.get("result", self.pipe)
 
     # -- geometry ---------------------------------------------------------------------------------------------
-    def mini(self, xy) -> np.ndarray:
-        """Pitch metres -> the top-down mini-pitch: the attacking half, its goal at the right (mirrored when the side
-        attacks the left goal), y from the near touchline at the bottom."""
-        x0, y0, s = self.MINI
-        p = np.asarray(xy, float).reshape(-1, 2)
-        depth = (105 - p[:, 0]) if not self.attacks_left else p[:, 0]          # metres from the goal attacked
-        return np.c_[x0 + (52.5 - depth) * s, y0 + ((68 - p[:, 1]) if not self.attacks_left else p[:, 1]) * s]
+    def depth(self, p: np.ndarray) -> np.ndarray:
+        return p[:, 0] if self.attacks_left else 105 - p[:, 0]               # metres from the goal attacked
 
-    def fold(self) -> float:
-        return ease_in_out(window(self.tau_now, 2.4, 3.6))
+    def land(self, xy) -> np.ndarray:
+        """The fold's target: top-down, the goal attacked at the right, the near touchline at the bottom."""
+        x0, y0, s = self.LAND
+        p = np.asarray(xy, float).reshape(-1, 2)
+        side = (68 - p[:, 1]) if not self.attacks_left else p[:, 1]
+        return np.c_[x0 + (52.5 - self.depth(p)) * s, y0 + side * s]
+
+    def mini(self, xy) -> np.ndarray:
+        """The mini-pitch everything is drawn on: the attacking half, goal at the top (the land view turned)."""
+        x0, y0, s = self.GOAL_UP
+        p = np.asarray(xy, float).reshape(-1, 2)
+        across = (68 - p[:, 1]) if not self.attacks_left else p[:, 1]
+        return np.c_[x0 + across * s, y0 + self.depth(p) * s]
+
+    def turn(self, e: float) -> np.ndarray:
+        """The 2x3 similarity carrying the land view to the goal-up view, e of the way (a true rotation)."""
+        c = np.array([[52.5 + (26.25 if not self.attacks_left else -26.25), 34.0]])
+        if self.attacks_left:
+            c = np.array([[26.25, 34.0]])
+        lc, fc = self.land(c)[0], self.mini(c)[0]
+        th = (-np.pi / 2 if not self.attacks_left else np.pi / 2) * e
+        k = (self.GOAL_UP[2] / self.LAND[2]) ** e
+        R = k * np.array([[np.cos(th), -np.sin(th)], [np.sin(th), np.cos(th)]])
+        ct = lc + e * (fc - lc)
+        return np.c_[R, ct - R @ lc]
 
     def background(self, img, tau, cam):
         self.tau_now = tau
-        f = self.fold()
+        f = ease_in_out(window(tau, *self.T_FOLD))
         if f <= 0 or cam is None:
-            return _dim(img, 0.15 * window(tau, 1.5, 2.4))
-        # the fold: only the grass, its corners carried from where the camera sees them to the top-down mini-pitch
-        quad = np.array([[0, 0], [52.5, 0], [52.5, 68], [0, 68]], float)         # the attacking half
+            return _dim(img, 0.2 * window(tau, 1.2, 2.0))
+        if tau >= self.T_HOLD:
+            return self._pitch_image(goal_up=True)
+        quad = np.array([[0, 0], [52.5, 0], [52.5, 68], [0, 68]], float)          # the attacking half
         if not self.attacks_left:
             quad[:, 0] = 105 - quad[:, 0]
         src = cam.project(quad).astype(np.float32)
-        dst = self.mini(quad).astype(np.float32)
-        mid = (src * (1 - f) + dst * f).astype(np.float32)
+        mid = (src * (1 - f) + self.land(quad).astype(np.float32) * f).astype(np.float32)
         M = cv2.getPerspectiveTransform(src, mid)
         mask = np.zeros(img.shape[:2], np.uint8)
-        cv2.fillConvexPoly(mask, cam.project(quad).astype(np.int32), 255)
+        cv2.fillConvexPoly(mask, src.astype(np.int32), 255)
         picture = np.where(mask[..., None] > 0, img, 0).astype(np.uint8)
         warped = cv2.warpPerspective(picture, M, (W, H), borderMode=cv2.BORDER_CONSTANT, borderValue=0)
         wmask = cv2.warpPerspective(mask, M, (W, H)) / 255.0
-        stands = _dim(img, 0.15 + 0.85 * f)             # the rest of the picture fades away under it
+        stands = _dim(img, 0.2 + 0.8 * f)               # the rest of the picture fades away under it
         out = stands.astype(float) * (1 - wmask[..., None]) + warped.astype(float) * wmask[..., None]
-        k = window(tau, 3.3, 4.2)                # the warped picture gives way to the clean mini-pitch
-        out = out * (1 - k) + self._pitch_image().astype(float) * k
+        k = window(tau, 2.8, 3.2)                       # the warped picture gives way to the clean pitch
+        out = out * (1 - k) + self._pitch_image(goal_up=False).astype(float) * k
+        e = ease_in_out(window(tau, *self.T_TURN))
+        if e > 0:                                       # then the whole view turns goal-up
+            out = cv2.warpAffine(out.astype(np.uint8), self.turn(e), (W, H), borderMode=cv2.BORDER_CONSTANT,
+                                 borderValue=INK).astype(float)
         return np.clip(out, 0, 255).astype(np.uint8)
 
-    def _pitch_image(self) -> np.ndarray:
-        if hasattr(self, "_pitch"):
-            return self._pitch
+    def _pitch_image(self, goal_up: bool) -> np.ndarray:
+        key = "_pitch_up" if goal_up else "_pitch_land"
+        if hasattr(self, key):
+            return getattr(self, key)
         im = Image.new("RGB", (W, H), INK)
         d = ImageDraw.Draw(im)
-        x0, y0, s = self.MINI
-        d.rounded_rectangle((x0 - 20, y0 - 20, x0 + 52.5 * s + 20, y0 + 68 * s + 20), radius=RADIUS,
-                            fill=(22, 52, 36))
+        to = self.mini if goal_up else self.land
+        corners = to(np.array([[52.5, 0], [105, 68]] if not self.attacks_left else [[0, 0], [52.5, 68]], float))
+        (ax0, ay0), (ax1, ay1) = corners.min(axis=0), corners.max(axis=0)
+        d.rounded_rectangle((ax0 - 20, ay0 - 20, ax1 + 20, ay1 + 20), radius=RADIUS, fill=(22, 52, 36))
         half = (lambda p: p[:, 0] >= 52.5 - 0.01) if not self.attacks_left else (lambda p: p[:, 0] <= 52.5 + 0.01)
+        s = self.GOAL_UP[2] if goal_up else self.LAND[2]
         for _, pts in model_lines().items():
             keep = half(pts)
             if keep.sum() < 2:
                 continue
-            q = self.mini(pts[keep])
+            q = to(pts[keep])
             for a_, b_ in zip(q[:-1], q[1:], strict=True):     # no chord across a cut circle
                 if np.hypot(*(b_ - a_)) < 4 * s:
-                    d.line((tuple(a_), tuple(b_)), fill=(225, 235, 228), width=2)
-        self._pitch = np.asarray(im)
-        return self._pitch
+                    d.line((tuple(a_), tuple(b_)), fill=(225, 235, 228), width=3 if goal_up else 2)
+        setattr(self, key, np.asarray(im))
+        return getattr(self, key)
 
     # -- drawing ----------------------------------------------------------------------------------------------
     def draw(self, ax, cam, tau):
-        if tau < 2.4:
+        if tau < self.T_HOLD:
             return
         if 5.5 <= tau < 16.5:
             self._xg_surface(ax, tau)
-        if tau >= 3.6:
-            self._dots(ax, tau)
-        if 7.6 <= tau < 16.5:
+        self._dots(ax, tau)
+        if 7.4 <= tau < 16.5:
             self._passes(ax, tau)
 
     def _xg_surface(self, ax, tau):
@@ -263,7 +296,7 @@ class Explainer(Motion):
         return s[i]
 
     def _dots(self, ax, tau):
-        p = window(tau, 3.6, 5.5)                # track A's tracked run, replayed at speed, then held
+        p = window(tau, self.T_HOLD, 5.5)        # track A's tracked run, replayed at speed, then held
         f = self.run[min(len(self.run) - 1, int(p * (len(self.run) - 1)))]
         kits = self.m.get("kits") or {}
         for pl in f.get("players") or []:
@@ -271,11 +304,11 @@ class Explainer(Motion):
                 continue
             q = self.mini([[pl["x"], pl["y"]]])[0]
             c = np.array(kits.get(pl["team"], (255, 255, 255))) / 255
-            ax.scatter([q[0]], [q[1]], s=170, color=(*c, 1), edgecolors=(1, 1, 1, 0.9), linewidths=1.6, zorder=5)
+            ax.scatter([q[0]], [q[1]], s=300, color=(*c, 1), edgecolors=(1, 1, 1, 0.9), linewidths=2, zorder=5)
         b = f.get("ball")
         if b and b.get("x") is not None:
             q = self.mini([[b["x"], b["y"]]])[0]
-            ax.scatter([q[0]], [q[1]], s=60, color=(1, 1, 1, 1), edgecolors=(0, 0, 0, 0.8), linewidths=1, zorder=6)
+            ax.scatter([q[0]], [q[1]], s=110, color=(1, 1, 1, 1), edgecolors=(0, 0, 0, 0.8), linewidths=1.2, zorder=6)
 
     def options(self) -> tuple[dict | None, list[dict]]:
         f = self._frame_at(self.option_ms)
@@ -289,7 +322,7 @@ class Explainer(Motion):
             return
         c = self.mini([[car["x"], car["y"]]])[0]
         for k, o in enumerate(opts):
-            p = window(tau, 7.6 + 0.25 * k, 7.9 + 0.25 * k)
+            p = window(tau, 7.4 + 0.25 * k, 7.7 + 0.25 * k)
             if p <= 0:
                 continue
             e = self.mini([[o["x"], o["y"]]])[0]
@@ -299,24 +332,26 @@ class Explainer(Motion):
             al = 1.0 if best else 0.55
             if best:
                 pulse = 0.5 + 0.5 * np.sin(2 * np.pi * tau / 1.2)
-                ax.plot(seg[:, 0], seg[:, 1], color=(*col, 0.25 + 0.2 * pulse), lw=14, solid_capstyle="round")
-            ax.plot(seg[:, 0], seg[:, 1], color=(*col, al), lw=4 if best else 2, solid_capstyle="round", zorder=4)
+                ax.plot(seg[:, 0], seg[:, 1], color=(*col, 0.25 + 0.2 * pulse), lw=18, solid_capstyle="round")
+            ax.plot(seg[:, 0], seg[:, 1], color=(*col, al), lw=5 if best else 2.5, solid_capstyle="round", zorder=4)
 
     # -- type -------------------------------------------------------------------------------------------------
     def overlay(self, im, cam, tau):
-        if tau < 2.4:
+        if tau < self.T_FOLD[0] + 0.2:
             self._boxes(im, tau)
         step = max(k for k, (_, t0) in enumerate(self.STEPS) if tau >= t0)
         name, _ = self.STEPS[step]
         probe = ImageDraw.Draw(im)
-        bw = 150 - 64 + probe.textlength(name, font=font(40)) + 40 + probe.textlength("HOW IT WORKS", font=font(24)) + 28
-        glass(im, (64, 64, 64 + bw, 64 + 84), 1.0)
+        bw = 64 + 50 + probe.textlength(name, font=font(52)) + 44 + probe.textlength("HOW IT WORKS", font=font(28)) + 32
+        glass(im, (64, 56, 64 + bw, 56 + 100), 1.0)
         d = ImageDraw.Draw(im)
-        d.text((92, 106), f"{step + 1}", font=font(40), fill=ACCENT, anchor="lm")
-        d.text((150, 106), name, font=font(40), fill=(255, 255, 255), anchor="lm")
-        d.text((64 + bw - 28, 106), "HOW IT WORKS", font=font(24), fill=MUTED_24, anchor="rm")
-        if 7.9 <= tau < 16.5:
+        d.text((96, 106), f"{step + 1}", font=font(52), fill=ACCENT, anchor="lm")
+        d.text((96 + 50, 106), name, font=font(52), fill=(255, 255, 255), anchor="lm")
+        d.text((64 + bw - 32, 106), "HOW IT WORKS", font=font(28), fill=MUTED_24, anchor="rm")
+        if 7.6 <= tau < 16.5:
             self._pills(im, tau)
+        if 6.0 <= tau < 11.0:
+            self._models(im, tau - 6.0)
         if 11.0 <= tau < 16.5:
             self._agents(im, tau - 11.0)
         if 16.5 <= tau < 20.5:
@@ -327,33 +362,33 @@ class Explainer(Motion):
     def _boxes(self, im, tau):
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
-        dets = [(p["bbox"], p.get("team"), 0.04 * k) for k, p in enumerate(self.det["players"])]
+        dets = [(p["bbox"], p.get("team"), 0.035 * k) for k, p in enumerate(self.det["players"])]
         if self.det.get("ball"):
-            dets.append((self.det["ball"]["bbox"], "ball", 0.04 * len(dets)))
+            dets.append((self.det["ball"]["bbox"], "ball", 0.035 * len(dets)))
         kits = {k: tuple(v) for k, v in (self.m.get("kits") or {}).items()}
-        fade = 1 - window(tau, 2.2, 2.6)
+        fade = 1 - window(tau, self.T_FOLD[0] - 0.1, self.T_FOLD[0] + 0.2)
         for (x0, y0, x1, y1), team, delay in dets:
-            p = window(tau, 0.4 + delay, 0.7 + delay)
+            p = window(tau, 0.3 + delay, 0.6 + delay)
             if p <= 0:
                 continue
             g = 1.35 - 0.35 * ease_in_out(p)       # snaps in from a little larger
             cx, cy, hw, hh = (x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2 * g, (y1 - y0) / 2 * g
             if team == "ball":
-                hw, hh = max(hw, 10), max(hh, 10)
+                hw, hh = max(hw, 12), max(hh, 12)
             col = (255, 255, 255) if team == "ball" else kits.get(team, (200, 206, 214))
             al = int(255 * p * fade)
             L = min(hw, hh) * 0.6
             for sx, sy in ((-1, -1), (1, -1), (-1, 1), (1, 1)):   # corner brackets, the tracker's look
                 px, py = cx + sx * hw, cy + sy * hh
-                d.line((px, py, px - sx * L, py), fill=(*col, al), width=3)
-                d.line((px, py, px, py - sy * L), fill=(*col, al), width=3)
-        b = window(tau, 1.2, 1.5) * fade
+                d.line((px, py, px - sx * L, py), fill=(*col, al), width=4)
+                d.line((px, py, px, py - sy * L), fill=(*col, al), width=4)
+        b = window(tau, 1.0, 1.3) * fade
         if b > 0:
             text = "Every player in view and the ball, detected in this frame"
-            f = font(28)
-            w = d.textlength(text, font=f) + 48
-            d.rounded_rectangle((W / 2 - w / 2, 180, W / 2 + w / 2, 236), radius=RADIUS, fill=(*INK, int(200 * b)))
-            d.text((W / 2, 208), text, font=f, fill=(255, 255, 255, int(255 * b)), anchor="mm")
+            f = font(34)
+            w = d.textlength(text, font=f) + 56
+            d.rounded_rectangle((W / 2 - w / 2, 190, W / 2 + w / 2, 256), radius=RADIUS, fill=(*INK, int(210 * b)))
+            d.text((W / 2, 223), text, font=f, fill=(255, 255, 255, int(255 * b)), anchor="mm")
         im.paste(layer, (0, 0), layer)
 
     def _pills(self, im, tau):
@@ -362,102 +397,127 @@ class Explainer(Motion):
             return
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
-        f = font(26)
+        f = font(30)
         placed = []
         for k, o in enumerate(opts[:3]):                 # top 3 labelled only
-            p = window(tau, 7.9 + 0.25 * k, 8.2 + 0.25 * k)
+            p = window(tau, 7.6 + 0.25 * k, 7.9 + 0.25 * k)
             if p <= 0:
                 continue
             e = self.mini([[o["x"], o["y"]]])[0]
             name = who(o)
             text = (f"{name} · " if name else "") + f"{o['p_pass'] * 100:.0f}% · {o['xg_after_pass']:.2f} xG"
-            w = d.textlength(text, font=f) + 28
-            x0, y0 = e[0] - w / 2, e[1] + 16
+            w = d.textlength(text, font=f) + 32
+            x0, y0 = float(np.clip(e[0] - w / 2, 40, 96 + 952 - w)), e[1] + 20
             for bx0, by0, bx1, by1 in placed:
-                if x0 < bx1 + 6 and x0 + w > bx0 - 6 and y0 < by1 + 6 and y0 + 44 > by0 - 6:
+                if x0 < bx1 + 6 and x0 + w > bx0 - 6 and y0 < by1 + 6 and y0 + 50 > by0 - 6:
                     y0 = by1 + 8
-            placed.append((x0, y0, x0 + w, y0 + 44))
+            placed.append((x0, y0, x0 + w, y0 + 50))
             col = ACCENT if k == 0 else (255, 255, 255)
-            d.rounded_rectangle((x0, y0, x0 + w, y0 + 44), radius=RADIUS, fill=(*INK, int(225 * p)),
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + 50), radius=RADIUS, fill=(*INK, int(225 * p)),
                                 outline=(*col, int(255 * p)), width=2)
-            d.text((x0 + w / 2, y0 + 22), text, font=f, fill=(*col, int(255 * p)), anchor="mm")
+            d.text((x0 + w / 2, y0 + 25), text, font=f, fill=(*col, int(255 * p)), anchor="mm")
         cname = who(car)
         if cname:
             q = self.mini([[car["x"], car["y"]]])[0]
-            d.text((q[0], q[1] - 22), cname, font=font(26), fill=(255, 255, 255, 255), anchor="mb",
+            d.text((q[0], q[1] - 26), cname, font=font(30), fill=(255, 255, 255, 255), anchor="mb",
                    stroke_width=3, stroke_fill=(0, 0, 0, 200))
         im.paste(layer, (0, 0), layer)
+
+    def _side(self) -> tuple[int, int, int, int]:
+        """The column right of the mini-pitch: left, top, right, bottom."""
+        return 96 + 952 + 48, 196, W - 64, 196 + 735
+
+    def _models(self, im, tau):
+        """MEASURE's right column: the two models behind every number, as track A states them (intro_facts_0)."""
+        rows = self.m.get("models", [])
+        x0, y0, x1, y1 = self._side()
+        a = window(tau, 0.2, 0.6)
+        if a <= 0 or not rows:
+            return
+        glass(im, (x0, y0, x1, y0 + 120 + 190 * len(rows)), a)
+        d = ImageDraw.Draw(im)
+        d.text((x0 + 32, y0 + 52), "THE MODELS", font=font(30), fill=MUTED_24, anchor="lm")
+        for k, r in enumerate(rows):
+            y = y0 + 110 + 190 * k
+            d.text((x0 + 32, y), r["name"], font=font(40), fill=ACCENT if k == 0 else (255, 255, 255))
+            for j, ln in enumerate(r["lines"]):
+                d.text((x0 + 32, y + 58 + 40 * j), ln, font=font(30, bold=False), fill=(214, 222, 230))
 
     def _agents(self, im, tau):
         names = self.m["agents"]                     # track B: the newsroom's real order, as the screen names it
         roles = self.m.get("agent_roles", {})
-        x0, y0, w, h, gap = 1250, 250, 600, 62, 12
-        step = 4.4 / len(names)
-        glass(im, (x0 - 24, y0 - 28, x0 + w + 24, y0 + len(names) * (h + gap) - gap + 28), 1.0)
+        x0, top, x1, _ = self._side()
+        w, h, gap = x1 - x0 - 48, 74, 12
+        y0 = top + 24
+        step = 4.2 / len(names)
+        glass(im, (x0, top - 8, x1, y0 + len(names) * (h + gap) - gap + 24), 1.0)
         d = ImageDraw.Draw(im)
+        bx = x0 + 24
         for k, n in enumerate(names):
             t_on = 0.3 + step * k
             lit = tau >= t_on
             y = y0 + k * (h + gap)
             col = ACCENT if lit and tau < t_on + step else ((70, 200, 130) if lit else (80, 88, 100))
-            d.rounded_rectangle((x0, y, x0 + w, y + h), radius=RADIUS, fill=(28, 32, 40) if lit else (22, 25, 31),
+            d.rounded_rectangle((bx, y, bx + w, y + h), radius=RADIUS, fill=(28, 32, 40) if lit else (22, 25, 31),
                                 outline=col, width=3 if lit else 1)
-            d.ellipse((x0 + 20, y + h / 2 - 10, x0 + 40, y + h / 2 + 10), fill=col)
-            d.text((x0 + 58, y + h / 2), n.upper(), font=font(28), fill=(255, 255, 255) if lit else MUTED_24,
+            d.ellipse((bx + 22, y + h / 2 - 11, bx + 44, y + h / 2 + 11), fill=col)
+            d.text((bx + 66, y + h / 2), n.upper(), font=font(32), fill=(255, 255, 255) if lit else MUTED_24,
                    anchor="lm")
             if roles.get(n):
-                d.text((x0 + w - 20, y + h / 2), roles[n], font=font(24, bold=False),
+                d.text((bx + w - 22, y + h / 2), roles[n], font=font(28, bold=False),
                        fill=(214, 222, 230) if lit else (90, 98, 110), anchor="rm")
             if k:
                 p = window(tau, t_on - 0.2, t_on)
-                d.line((x0 + 30, y - gap, x0 + 30, y - gap + gap * p), fill=ACCENT, width=4)
-        chips = self.m.get("stack", [])
-        cx = 150
-        a = window(tau, 4.6, 5.0)
-        for c in chips if a > 0 else []:
-            f = font(26)
-            cw = d.textlength(c, font=f) + 36
-            d.rounded_rectangle((cx, 850, cx + cw, 900), radius=RADIUS, fill=(28, 32, 40), outline=ACCENT, width=2)
-            d.text((cx + cw / 2, 875), c, font=f, fill=(255, 255, 255), anchor="mm")
-            cx += cw + 16
+                d.line((bx + 33, y - gap, bx + 33, y - gap + gap * p), fill=ACCENT, width=4)
+        chips = self.m.get("stack", [])               # the stack, top right beside the step header
+        a = window(tau, 0.2, 0.6)
+        cx = W - 64
+        for c in reversed(chips if a > 0 else []):
+            f = font(28)
+            cw = d.textlength(c, font=f) + 40
+            d.rounded_rectangle((cx - cw, 76, cx, 136), radius=RADIUS, fill=(28, 32, 40), outline=ACCENT, width=2)
+            d.text((cx - cw / 2, 106), c, font=f, fill=(255, 255, 255), anchor="mm")
+            cx -= cw + 16
 
     def _verify(self, im, tau):
         n = int(self.m["checked"])
-        glass(im, (360, 250, 1560, 830), 1.0, accent=GOOD)
+        x0, y0, x1, y1 = 160, 200, W - 160, 930
+        glass(im, (x0, y0, x1, y1), 1.0, accent=GOOD)
         d = ImageDraw.Draw(im)
         p = ease_in_out(window(tau, 0.2, 1.4))         # a bar fills; only the real count is ever printed
-        d.rounded_rectangle((560, 330, 1360, 346), radius=8, fill=(58, 64, 74))
-        d.rounded_rectangle((560, 330, 560 + 800 * max(0.02, p), 346), radius=8, fill=GOOD)
+        d.rounded_rectangle((W / 2 - 520, 290, W / 2 + 520, 310), radius=10, fill=(58, 64, 74))
+        d.rounded_rectangle((W / 2 - 520, 290, W / 2 - 520 + 1040 * max(0.02, p), 310), radius=10, fill=GOOD)
         a = window(tau, 1.3, 1.6)
-        d.text((W / 2, 430), f"{n:,} of {n:,}", font=font(120), fill=(255, 255, 255, int(255 * a)), anchor="mm")
-        d.text((W / 2, 520), "on-screen numbers checked against the data", font=font(36, bold=False),
+        d.text((W / 2, 440), f"{n:,} of {n:,}", font=font(170), fill=(255, 255, 255, int(255 * a)), anchor="mm")
+        d.text((W / 2, 570), "on-screen numbers checked against the data", font=font(48, bold=False),
                fill=(230, 236, 242), anchor="mm")
         claims = [c for n_ in self.pipe["nodes"] for c in n_.get("claims", []) if any(ch.isdigit() for ch in c["text"])]
         for j, c in enumerate(claims[:3]):
-            a = window(tau, 1.6 + 0.35 * j, 1.9 + 0.35 * j)
+            a = window(tau, 1.6 + 0.3 * j, 1.9 + 0.3 * j)
             if a <= 0:
                 continue
-            y = 610 + 56 * j
+            y = 680 + 68 * j
             ev = c.get("evidence", "").split("(")[0].strip()
-            d.line((520, y, 530, y + 10, 548, y - 10), fill=(*GOOD,), width=5)
-            d.text((570, y), c["text"], font=font(30), fill=(255, 255, 255), anchor="lm")
-            d.text((700, y), ev, font=font(26, bold=False), fill=MUTED_24, anchor="lm")
+            d.line((560, y, 572, y + 12, 594, y - 12), fill=GOOD, width=6)
+            d.text((620, y), c["text"], font=font(36), fill=(255, 255, 255), anchor="lm")
+            d.text((780, y), ev, font=font(32, bold=False), fill=MUTED_24, anchor="lm")
 
     def _next(self, im, tau):
         items = self.m["next"]
-        glass(im, (360, 300, 1560, 780), 1.0, accent=(150, 160, 175))
+        x0, y0, x1, y1 = 260, 220, W - 260, 900
+        glass(im, (x0, y0, x1, y1), 1.0, accent=(150, 160, 175))
         d = ImageDraw.Draw(im)
         label = "NEXT · NOT BUILT YET"                     # track B: plans, never shown as done
-        lw = d.textlength(label, font=font(30)) + 48
-        d.rounded_rectangle((W / 2 - lw / 2, 340, W / 2 + lw / 2, 392), radius=RADIUS, outline=(255, 255, 255), width=2)
-        d.text((W / 2, 366), label, font=font(30), fill=(255, 255, 255), anchor="mm")
-        for j, it in enumerate(items):
-            a = window(tau, 0.3 + 0.4 * j, 0.6 + 0.4 * j)
-            if a <= 0:
-                continue
-            y = 470 + 90 * j
-            d.rounded_rectangle((520, y - 34, 1400, y + 34), radius=RADIUS, outline=(150, 160, 175), width=2)
-            d.text((W / 2, y), it, font=font(34, bold=False), fill=(230, 236, 242), anchor="mm")
+        lw = d.textlength(label, font=font(40)) + 64
+        d.rounded_rectangle((W / 2 - lw / 2, 280, W / 2 + lw / 2, 352), radius=RADIUS, outline=(255, 255, 255), width=3)
+        d.text((W / 2, 316), label, font=font(40), fill=(255, 255, 255), anchor="mm")
+        for j, it in enumerate(items):                    # the three together, as one list
+            a = window(tau, 0.15 + 0.12 * j, 0.45 + 0.12 * j)
+            y = 470 + 130 * j
+            d.rounded_rectangle((x0 + 120, y - 50, x1 - 120, y + 50), radius=RADIUS,
+                                outline=(150, 160, 175, int(255 * a)), width=2)
+            d.ellipse((x0 + 160, y - 9, x0 + 178, y + 9), fill=(150, 160, 175))
+            d.text((x0 + 210, y), it, font=font(46, bold=False), fill=(230, 236, 242), anchor="lm")
 
 
 class EndCard(Motion):

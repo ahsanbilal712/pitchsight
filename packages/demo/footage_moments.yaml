@@ -950,7 +950,10 @@ moments:
     agents: ["Scout", "Proposer", "Model", "Tactician", "Narrator", "Fact Checker", "Director", "On air"]
     agent_roles: {"Scout": "spots the moment", "Proposer": "lists every option", "Model": "prices each option", "Tactician": "weighs them", "Narrator": "drafts the line", "Fact Checker": "checks every number", "Director": "times it", "On air": "the line goes out"}
     stack: ["Microsoft Agent Framework", "Gemini", "MCP tools"]
-    checked: 1295                    # v8 grounding's card_line for the rest of edit_v8 (the counter excluded)
+    models:                          # track A intro_facts_0 (3056357): what each model is, in its words
+      - {name: "Pass model · trained by us", lines: ["2.1 million passes from", "1,600 simulated matches"]}
+      - {name: "xG model · published", lines: ["Soccermatics, fitted on 8,451", "Premier League shots (2017/18)"]}
+    checked: 1306                    # v8 grounding's card_line for the rest of edit_v8 (the counter excluded)
     next: ["An Azure AI Foundry deployment", "Live stadium feeds", "More trained models"]
 
   end_v8:                            # 1:50-2:00 the close

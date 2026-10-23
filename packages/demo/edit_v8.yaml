@@ -16,20 +16,15 @@ clips:
     from: 0.0
     to: 6.0
 
-  - shot: footage/explainer_v8           # 0:06 how it works
+  - shot: footage/explainer_v8           # 0:06 how it works: one complete sentence per step, held through it
     from: 0.0
     to: 24.0
     captions:
       - {from: 0.3, to: 5.3, text: "Computer vision tracks every player in view from one broadcast camera."}
-      - {from: 5.6, to: 7.6, text: "A pass model we trained on 2.1 million passes from 1,600 simulated matches,"}
-      - {from: 7.6, to: 9.6, text: "plus a published xG model built on 8,451 Premier League shots,"}
-      - {from: 9.6, to: 10.8, text: "price every pass and shot."}
-      - {from: 11.1, to: 12.8, text: "An AI newsroom on Microsoft Agent Framework:"}
-      - {from: 12.8, to: 14.6, text: "agents reason with Gemini, pull match data through MCP tools,"}
-      - {from: 14.6, to: 16.3, text: "and fact-check every number before air."}
-      - {from: 16.6, to: 20.3, text: "1,295 of 1,295 on-screen numbers checked against the data."}
-      - {from: 20.6, to: 22.2, text: "Next (not built yet): an Azure AI Foundry deployment,"}
-      - {from: 22.2, to: 23.8, text: "live stadium feeds, more trained models."}
+      - {from: 5.6, to: 10.8, text: "A pass model we trained prices the passes; a published xG model prices the shots."}
+      - {from: 11.1, to: 16.3, text: "An AI newsroom on Microsoft Agent Framework fact-checks every line before air."}
+      - {from: 16.6, to: 20.3, text: "1,306 of 1,306 on-screen numbers checked against the data."}
+      - {from: 20.6, to: 23.8, text: "Not built yet: an Azure AI Foundry deployment, live stadium feeds, more trained models."}
 
   - shot: footage/mci_live_v8            # 0:30 in action: Amad's passage, both layers (56:38-56:41)
     from: 0.3
@@ -105,7 +100,7 @@ clips:
     to: 10.0
 
 sources:
-  "1,295": "footage.grounding on this edit: numbers_bound for everything but the counter itself (track B's rule, 6930b18)"
+  "1,306": "footage.grounding on this edit: numbers_bound for everything but the counter itself (track B's rule, 6930b18)"
   "2.1": "cache/v8/intro_facts_0 (liverpool-mancity-2526): the pass model's 2,146,079 training passes"
   "1,600": "cache/v8/intro_facts_0: the 1,600 simulated matches the pass model was trained on"
   "8,451": "cache/v8/intro_facts_0: Soccermatics' published logistic fit on 8,451 PL 2017/18 Wyscout shots"
