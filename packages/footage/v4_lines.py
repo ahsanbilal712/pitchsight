@@ -22,6 +22,8 @@ import asyncio
 import json
 import re
 import sys
+from collections.abc import Callable
+from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
 
 from footage.clips import CLIPS, ROOT, clip_dir
@@ -267,11 +269,11 @@ def fact_check(slug: str, body: dict, facts: list[dict], reviewed: bool = False)
 
 # ---------------------------------------------------------------------------------------------------- run, import
 
-def messages(slug: str, facts: list[dict], view: dict) -> list[dict]:
+def messages(slug: str, facts: list[dict], view: dict, prompt: str = PROMPT) -> list[dict]:
     from footage.featured import footage_block, roster
     from newsroom import config
 
-    _, system = config.prompt(PROMPT)
+    _, system = config.prompt(prompt)
     ros = roster(slug)
     named = {x["pid"] for x in (view["holder"], (view["alternative"] or {}).get("target")) if x and x.get("pid")}
     ros = {**ros, "ids": {k: v for k, v in ros["ids"].items() if v in named},
@@ -281,9 +283,29 @@ def messages(slug: str, facts: list[dict], view: dict) -> list[dict]:
                                                    ensure_ascii=False)}]
 
 
-def run(slug: str, clip_ms: int, dry_run: bool = False) -> dict:
-    facts, view = facts_for(slug, clip_ms)
-    msgs = messages(slug, facts, view)
+@dataclass(frozen=True)
+class Version:
+    """What differs between the video versions' lines: tag (paths), prompt, the facts and view builder, the
+    decision file a line is computed from, and the cache version of its model call."""
+
+    tag: str
+    prompt: str
+    facts_for: Callable[[str, int], tuple[list[dict], dict]]
+    source: Callable[[int], str]
+    key: Callable[[str, int], str]
+
+
+def _v4_key(slug: str, clip_ms: int) -> str:
+    src = decision(slug, clip_ms)
+    return f"{PROMPT}.goal10_{clip_ms}.n{src['n']}s{src['seed']}"
+
+
+V4 = Version("v4", PROMPT, facts_for, lambda ms: f"cache/v4/goal10_decision_{ms}.json", _v4_key)
+
+
+def run(slug: str, clip_ms: int, dry_run: bool = False, v: Version = V4) -> dict:
+    facts, view = v.facts_for(slug, clip_ms)
+    msgs = messages(slug, facts, view, v.prompt)
     if dry_run:
         return {"facts": facts, "view": view, "messages": msgs}
     from cache.manifest import CacheManifest
@@ -292,8 +314,7 @@ def run(slug: str, clip_ms: int, dry_run: bool = False) -> dict:
     from newsroom.llm import LiveClient
 
     match_id = CLIPS[slug]["match_id"]
-    src = decision(slug, clip_ms)
-    version = f"{PROMPT}.goal10_{clip_ms}.n{src['n']}s{src['seed']}"
+    version = v.key(slug, clip_ms)
     manifest = open_cache(slug)
     cached = [e for e in manifest.find(producer="insight", version=version)
               if json.loads((manifest.cache_dir / e["path"]).read_text()).get("payload") == msgs[1]["content"]]
@@ -302,14 +323,15 @@ def run(slug: str, clip_ms: int, dry_run: bool = False) -> dict:
     else:
         llm = LiveClient(mode="precompute")
         out = asyncio.run(llm.complete(ROLE, msgs, None, match_id=match_id, moment_id=None, schema=SCHEMA,
-                                       prompt_version=PROMPT, producer="insight",
+                                       prompt_version=v.prompt, producer="insight",
                                        timeout_s=config.role(ROLE).timeout_s, hedge_after_s=None))
         res = {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "model_result",
                "via": "live", "payload": msgs[1]["content"],
                **{k: out.get(k) for k in ("json", "text", "model", "tokens_in", "tokens_out", "cost_usd",
                                           "latency_ms")}}
         manifest.add(CacheManifest.key(match_id, None, "insight", version, res["model"], int(match_id[2:])),
-                     "analytics", res, f"captions/v4_{clip_ms}_{PROMPT}.json", producer="insight", version=version,
+                     "analytics", res, f"captions/{v.tag}_{clip_ms}_{v.prompt}.json", producer="insight",
+                     version=version,
                      model=res["model"], seed=int(match_id[2:]), cost_usd=res.get("cost_usd"),
                      tokens_in=res.get("tokens_in"), tokens_out=res.get("tokens_out"))
         manifest.save()
@@ -320,13 +342,12 @@ def run(slug: str, clip_ms: int, dry_run: bool = False) -> dict:
            "why": body.get("why", ""),
            "claims": [{k: c[k] for k in ("text", "kind", "value", "unit", "evidence_ids")} for c in checked["claims"]],
            "confidence": body.get("confidence"), "model": res.get("model"), "cost_usd": res.get("cost_usd"),
-           "prompt_version": PROMPT, "cache_key": cached[0]["key"] if cached else manifest.find(
-               producer="insight", version=version)[-1]["key"],
-           "decision_source": f"cache/v4/goal10_decision_{clip_ms}.json n={src['n']} seed={src['seed']}"}
+           "prompt_version": v.prompt, "cache_key": cached[0]["key"] if cached else manifest.find(
+               producer="insight", version=version)[-1]["key"], "decision_source": v.source(clip_ms)}
     REVIEW_DIR.mkdir(parents=True, exist_ok=True)
-    out = REVIEW_DIR / f"v4_{slug}_{clip_ms}.md"
+    out = REVIEW_DIR / f"{v.tag}_{slug}_{clip_ms}.md"
     status = "verified" if checked["verified"] else json.dumps(checked["diff"], ensure_ascii=False)
-    out.write_text(f"# v4 line · {slug} {view['clock']} · {view['verdict']}\n\nModel draft (gemini-4-argon). "
+    out.write_text(f"# {v.tag} line · {slug} {view['clock']} · {view['verdict']}\n\nModel draft (gemini-4-argon). "
                    f"Fact Checker: {status}. Gates: {problems or 'pass'}.\nFacts: "
                    + "; ".join(f"{f['fact_id']} {f['label']} = {f['display']}" for f in facts)
                    + f"\n\n```json\n{json.dumps(doc, indent=1, ensure_ascii=False)}\n```\n")
@@ -334,37 +355,42 @@ def run(slug: str, clip_ms: int, dry_run: bool = False) -> dict:
             "gates": problems, "cost_usd": res.get("cost_usd"), "draft": {k: doc[k] for k in ("lower_third", "why")}}
 
 
-def import_() -> dict:
-    """Reviewed lines -> cache/v4/lines_<clip_ms>.json, after the Fact Checker and the gates pass the edited text."""
+def import_(v: Version = V4) -> dict:
+    """Reviewed lines -> cache/<tag>/lines_<clip_ms>.json, after the Fact Checker and the gates pass the edited
+    text."""
     from footage.featured import open_cache
 
     done, refused = [], {}
-    for path in sorted(REVIEW_DIR.glob("v4_*.md")):
+    for path in sorted(REVIEW_DIR.glob(f"{v.tag}_*.md")):
         doc = json.loads(BLOCK.search(path.read_text()).group(1))
         if not doc.get("hand_reviewed"):
             refused[path.name] = "not hand-reviewed yet"
             continue
         slug, clip_ms = doc["slug"], doc["clip_ms"]
-        facts, view = facts_for(slug, clip_ms)
+        facts, view = v.facts_for(slug, clip_ms)
         checked = fact_check(slug, doc, facts, reviewed=True)
         problems = gates(slug, doc, facts, view) + ([] if view["verdict"] == doc["verdict"] else
                                                     [f"verdict changed to {view['verdict']}: rewrite"])
         if checked["diff"] or not checked["verified"] or problems:
             refused[path.name] = checked["diff"] or problems
             continue
-        line = {"beat": "v4_line", "slug": slug, "match_id": CLIPS[slug]["match_id"], "clip_ms": clip_ms,
+        line = {"beat": f"{v.tag}_line", "slug": slug, "match_id": CLIPS[slug]["match_id"], "clip_ms": clip_ms,
                 "clock": view["clock"], "verdict": view["verdict"], "lower_third": doc["lower_third"],
                 "why": doc["why"], "claims": checked["claims"], "facts": facts,
                 "display": {f["fact_id"]: f["display"] for f in facts}, "decision": view,
                 "confidence": doc.get("confidence"), "model": doc.get("model"), "cache_key": doc.get("cache_key"),
                 "prompt_version": doc.get("prompt_version"), "hand_reviewed": True,
-                "source": f"cache/v4/goal10_decision_{clip_ms}.json"}
+                "source": v.source(clip_ms)}
         wrapper = {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result",
                    "result": line}
         manifest = open_cache(slug)
         mid = CLIPS[slug]["match_id"]
-        manifest.add(f"{mid}/match/v4@line_{clip_ms}/none/s{mid[2:]}", "analytics", wrapper,
-                     f"v4/lines_{clip_ms}.json", producer="v4", version=f"line_{clip_ms}", seed=int(mid[2:]),
+        out = manifest.cache_dir / v.tag / f"lines_{clip_ms}.json"
+        if out.exists() and json.loads(out.read_text()) == json.loads(json.dumps(wrapper)):
+            done.append(path.name)            # unchanged: no rewrite, no new timestamp
+            continue
+        manifest.add(f"{mid}/match/{v.tag}@line_{clip_ms}/none/s{mid[2:]}", "analytics", wrapper,
+                     f"{v.tag}/lines_{clip_ms}.json", producer=v.tag, version=f"line_{clip_ms}", seed=int(mid[2:]),
                      hand_reviewed=True)
         manifest.save()
         done.append(path.name)
