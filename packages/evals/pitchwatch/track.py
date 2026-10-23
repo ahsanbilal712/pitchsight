@@ -8,7 +8,8 @@ every `step`-th frame of a calibrated shot; trackers.ByteTrackTracker links the 
 feet land off the pitch by more than OFF_PITCH_M (staff, fans, the bench) are dropped. Teams: the median non-grass
 torso colour of each track (CIE Lab), two clusters by k-means over the tracks seen at least MIN_TEAM_OBS times; a
 track much further from both centres than the clusters' own spread (referee, often a keeper) gets team null. Cluster
--> club by the nearest kit colour in <slug>/teams.json. Jersey numbers are not read (no OCR in scope).
+-> club by the nearest kit colour in <slug>/teams.json. The team is then set per observation (nearest centre, majority
+over neighbouring observations), so an identity switch between teams flips the label where it happens. Jersey numbers are not read (no OCR in scope).
 
 Writes <slug>/tracks/<shot>.json in the shared format (track-a-pitchwatch-format.md in the shared notes).
 """
@@ -28,6 +29,7 @@ DET_THRESHOLD, BALL_THRESHOLD = 0.3, 0.2
 OFF_PITCH_M = 3.0
 MIN_TEAM_OBS = 10
 OUTLIER_FACTOR = 2.5
+TEAM_WINDOW = 12              # observations either side for the per-observation team majority
 
 
 def torso_lab(bgr: np.ndarray, box: np.ndarray) -> np.ndarray | None:
@@ -66,7 +68,36 @@ def assign_teams(colours: dict[int, list[np.ndarray]], kits: list[dict]) -> tupl
     out: dict[int, int | None] = dict.fromkeys(colours)
     for (t, _), k, dist in zip(med.items(), lab, d, strict=True):
         out[t] = None if dist[k] > OUTLIER_FACTOR * max(spread[k], 4.0) else order[k]
-    return out, {"centres_lab": centres.round(1).tolist(), "spread": [round(float(s), 1) for s in spread]}
+    return out, {"centres_lab": centres.round(1).tolist(), "spread": [round(float(s), 1) for s in spread],
+                 "order": order}
+
+
+def relabel(rows: list[dict], teams: dict, info: dict, window: int = TEAM_WINDOW) -> None:
+    """Team per observation: each observation's colour goes to the nearer cluster centre, then a majority over
+    the track's neighbouring observations (+-window) smooths it. A track that switches identity between players of
+    different teams (ByteTrack does, in a crowd) changes label where it switches. Tracks the clustering left out
+    as outliers (referee, keepers) stay None with role "other"."""
+    centres = np.asarray(info.get("centres_lab") or [], dtype=np.float32)
+    order = info.get("order", [0, 1])
+    by_track: dict[int, list[dict]] = {}
+    for r in rows:
+        for p in r["players"]:
+            by_track.setdefault(p["track_id"], []).append(p)
+    for tid, obs in by_track.items():
+        if teams.get(tid) is None or len(centres) < 2:
+            for p in obs:
+                p["team"] = None
+                if tid in teams and teams[tid] is None:
+                    p["role"] = "other"          # referee or goalkeeper: kit unlike either outfield cluster
+                p.pop("_lab", None)
+            continue
+        raw = []
+        for p in obs:
+            c = p.pop("_lab", None)
+            raw.append(None if c is None else order[int(np.argmin(np.linalg.norm(centres - np.asarray(c), axis=1)))])
+        for k, p in enumerate(obs):
+            near = [x for x in raw[max(0, k - window):k + window + 1] if x is not None]
+            p["team"] = max(set(near), key=near.count) if near else teams[tid]
 
 
 def to_pitch(H: list, uv: tuple[float, float]) -> tuple[float, float]:
@@ -124,7 +155,7 @@ def track_shot(slug_dir: Path, shot: dict, step: int = 2, model=None, log=print)
             c = torso_lab(bgr, box)
             if c is not None:
                 colours.setdefault(tid, []).append(c)
-            players.append({"track_id": tid, "team": None, "role": "player",
+            players.append({"_lab": None if c is None else c.tolist(), "track_id": tid, "team": None, "role": "player",
                             "bbox": [round(float(v), 1) for v in box], "foot_px": [round(float(v), 1) for v in foot],
                             "xy": [round(v, 2) for v in to_pitch(cal["H"], foot)] if cal else None,
                             "conf": round(float(conf), 3) if conf is not None else None})
@@ -143,15 +174,26 @@ def track_shot(slug_dir: Path, shot: dict, step: int = 2, model=None, log=print)
             log(f"shot {shot['id']} frame {fr}: {len(players)} players, ball {'yes' if ball else 'no'}")
         fr += 1
     teams, info = assign_teams(colours, kits)
-    for r in rows:
-        for p in r["players"]:
-            p["team"] = teams.get(p["track_id"])
-            if p["team"] is None and p["track_id"] in teams:
-                p["role"] = "other"          # referee or goalkeeper: kit unlike either outfield cluster
+    relabel(rows, teams, info)
     return {"slug": slug_dir.name, "shot_id": shot["id"], "fps": fps, "step": step,
             "teams": {str(i): k for i, k in enumerate(kits)}, "team_clusters": info,
             "detector": "RF-DETR Medium 1.11.2 (COCO), threshold 0.3 people / 0.2 ball",
             "tracker": "trackers.ByteTrackTracker 2.6.1", "frames": rows}
+
+
+def reproject(doc: dict, calib: dict, source: str) -> dict:
+    """Re-map every stored foot and ball pixel through another calibration of the same shot (same format), so a
+    better camera needs no new detection run."""
+    for r in doc["frames"]:
+        cal = nearest_ok(calib["frames"], r["frame"])
+        r["calib_ok"] = cal is not None
+        for p in r["players"]:
+            p["xy"] = [round(v, 2) for v in to_pitch(cal["H"], tuple(p["foot_px"]))] if cal else None
+        b = r["ball"]
+        if b:
+            b["xy"] = [round(v, 2) for v in to_pitch(cal["H"], (b["px"][0], b["bbox"][3]))] if cal else None
+    doc["calibration"] = source
+    return doc
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -159,7 +201,17 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("slug_dir", type=Path)
     ap.add_argument("--shots", required=True)
     ap.add_argument("--step", type=int, default=2)
+    ap.add_argument("--calib", default=None, help="re-project existing tracks through calib/<shot><suffix>.json "
+                    "(e.g. _refined) instead of detecting again")
     args = ap.parse_args(argv)
+    if args.calib is not None:
+        for sid in args.shots.split(","):
+            path = args.slug_dir / "tracks" / f"{sid}.json"
+            cal_path = args.slug_dir / "calib" / f"{sid}{args.calib}.json"
+            doc = reproject(json.loads(path.read_text()), json.loads(cal_path.read_text()), cal_path.name)
+            path.write_text(json.dumps(doc, separators=(",", ":")) + "\n")
+            print(f"tracks/{sid}.json re-projected through {cal_path.name}")
+        return 0
     shots = {s["id"]: s for s in json.loads((args.slug_dir / "shots.json").read_text())["shots"]}
     out = args.slug_dir / "tracks"
     out.mkdir(exist_ok=True)

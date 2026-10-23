@@ -5,7 +5,8 @@
 Samples the clip at 5 fps. A cut is an HSV-histogram correlation below CUT_CORR between samples. A sample is "wide"
 when pitch green covers at least WIDE_GREEN of the frame, at least MIN_PLAYERS player-sized blobs are on the pitch,
 and no tall blob (a close-up person) is larger than WIDE_BLOB of the frame (tuning history in data/footage/
-SHOTS_REVIEW.md). A shot is wide when 70% of its samples are.
+SHOTS_REVIEW.md). A shot is wide when 70% of its samples are, and is trimmed to its longest run of wide samples (gaps up to 0.6 s
+bridged): a fast pan into the stands or the bench changes the colours too gradually to count as a cut.
 
 Replays: Premier League broadcasts keep the score graphic and its running clock through replays, so the graphic
 cannot tell live from replay, and a replay is often reframed, so it does not match the live frames it repeats. The
@@ -35,6 +36,7 @@ WIDE_GREEN = 0.42
 WIDE_BLOB = 0.025
 MIN_PLAYERS = 4
 MIN_WIDE_S = 4.0
+WIDE_GAP = 3                   # samples (0.6 s) of non-wide bridged inside a wide run
 WIPE_WHITE = 0.55             # share of bright (V > 190), unsaturated (S < 50) pixels on a wipe card
 REPLAY_MAX_S = 100.0
 
@@ -121,6 +123,19 @@ def replay_segments(events: list[tuple[float, float]]) -> tuple[list[tuple[float
     return segs, lone
 
 
+def wide_run(samples: list[dict], idx: list[int], gap: int = WIDE_GAP) -> tuple[int, int]:
+    """First and last sample index of the longest run of wide samples in a shot, bridging gaps of up to `gap`."""
+    best, cur, last_wide = (idx[0], idx[0]), None, None
+    for i in idx:
+        if samples[i]["wide"]:
+            if cur is None or i - last_wide > gap + 1:
+                cur = i
+            last_wide = i
+            if last_wide - cur > best[1] - best[0]:
+                best = (cur, last_wide)
+    return best
+
+
 def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
     samples, fps, n_frames = sample(clip)
     shots = split_shots(samples)
@@ -141,6 +156,14 @@ def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
                "replay_share": round(inside / len(sh), 2),
                "replay_segment": [round(seg[0], 2), round(seg[1], 2)] if replay and seg else None,
                "green_mean": round(float(np.mean([samples[i]["green"] for i in sh])), 3)}
+        if kind == "wide":            # a pan off the pitch inside one shot (no cut) ends the usable part
+            a, b = wide_run(samples, sh)
+            if (a, b) != (sh[0], sh[-1]):
+                rec["trimmed_from"] = [rec["start"], rec["end"]]
+                rec["start"], rec["end"] = round(samples[a]["t"], 2), round(samples[b]["t"] + 1 / SAMPLE_FPS, 2)
+                rec["duration"] = round(rec["end"] - rec["start"], 2)
+                rec["frame_start"] = samples[a]["frame"]
+                rec["frame_end"] = samples[b]["frame"] + round(fps / SAMPLE_FPS)
         rec["usable"] = kind == "wide" and not replay and rec["duration"] >= MIN_WIDE_S
         if thumbs and (rec["usable"] or (replay and kind == "wide")):
             frames_dir.mkdir(parents=True, exist_ok=True)
