@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v3 item 4: win-probability river, Liverpool v Man City final 20 minutes (track B)
+
+- `python -m footage.river`: the engine's win-probability head on the real score (from the T-106 tagged goals) and
+  clock every 15 s, 72:00-104:45 (132 samples; the score bug runs past 99:59 in stoppage time), clock mapped to the
+  video through the score-bug readings. Context features the head also takes (xT/xG difference, chaos) are not
+  measured on real footage and are held neutral; stoppage time is valued as minute 90 (the head's training range).
+- Markers: Szoboszlai FK 1-0 at 73:26 (Liverpool 15% -> 78%), Silva 1-1 at 83:37 (91% -> 9%), the Oracle window at
+  86:15 (peak p(shot in 10 s) 60%), the Sliding Doors moment at 86:23 (+2 points), Alisson's penalty foul at 90:15,
+  Haaland's penalty 1-2 at 92:43 (City 2% -> 96%), Cherki 1-3, Szoboszlai's red card. No model call, $0.
+- Cache: data/footage/liverpool-mancity-2526/cache/river/wp_river.json (`result.samples`, `result.markers`).
+  `pytest tests/footage` 28 passed.
+- v3 items 1-3 found two engine limits: no sending-off (asked track A for one) and a shot model that ignores the
+  keeper's position (keeper item to be a geometric goal-coverage measure, said so on screen).
+
+---
+
 
 ## 2026-10-23 · T-065 Day-7 bug bash (track A) — not closed
 
