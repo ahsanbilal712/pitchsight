@@ -1,0 +1,262 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "assumptions": {
+   "dive_speed_ms": 3.5,
+   "max_reach_m": 2.6,
+   "reaction_s": 0.25,
+   "shot_speed_ms": 26.0,
+   "shots": "uniform along the goal line between the posts",
+   "standing_reach_m": 1.0
+  },
+  "beat": "keeper_cone",
+  "best": {
+   "depth_m": 3.0,
+   "x": 3.0,
+   "y": 33.83
+  },
+  "caption": {
+   "claims": [
+    {
+     "evidence_ids": [
+      "f_800004"
+     ],
+     "kind": "player",
+     "reject_reason": null,
+     "text": "David Raya",
+     "unit": null,
+     "value": "p_955",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800001"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "39%",
+     "unit": "percent",
+     "value": 0.393,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800004"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "4.5 metres",
+     "unit": "metres",
+     "value": 4.5,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800003"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "1.8 metres",
+     "unit": "metres",
+     "value": 1.77,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800002"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "100%",
+     "unit": "percent",
+     "value": 1.0,
+     "verified": true
+    }
+   ],
+   "facts": [
+    {
+     "fact_id": "f_800001",
+     "label": "share of the goal covered, actual position",
+     "match_id": "m_9003",
+     "source": "moments/1382650.json + footage.keeper",
+     "unit": "percent",
+     "value": 0.393
+    },
+    {
+     "fact_id": "f_800002",
+     "label": "share of the goal covered, best point on the bisector",
+     "match_id": "m_9003",
+     "source": "moments/1382650.json + footage.keeper",
+     "unit": "percent",
+     "value": 1.0
+    },
+    {
+     "fact_id": "f_800003",
+     "label": "metres to the best point",
+     "match_id": "m_9003",
+     "source": "moments/1382650.json + footage.keeper",
+     "unit": "metres",
+     "value": 1.77
+    },
+    {
+     "fact_id": "f_800004",
+     "label": "distance of the shot from the goal line",
+     "match_id": "m_9003",
+     "players": [
+      "p_955"
+     ],
+     "source": "moments/1382650.json + footage.keeper",
+     "unit": "metres",
+     "value": 4.5
+    }
+   ],
+   "hand_reviewed": true,
+   "headline": "David Raya covers 39% of the goal mouth",
+   "model": "gemini-4-argon",
+   "prompt_version": "insight_footage@2",
+   "why": "From his actual position, David Raya covers an estimated 39% share of the goal mouth on a shot 4.5 metres from the goal line. Stepping 1.8 metres to the best point on the bisector increases the share of the goal he covers to 100%."
+  },
+  "clip_ms": 1382650,
+  "clock": "92:15",
+  "coverage_actual": 0.393,
+  "coverage_best": 1.0,
+  "engine": "geometry (footage.keeper)",
+  "error_note": "hand-marked; homography RMS 0.10 m",
+  "homography": {
+   "image_size": [
+    1920,
+    1080
+   ],
+   "image_to_pitch": [
+    [
+     0.0070322326,
+     0.0640885306,
+     -20.7286454197
+    ],
+    [
+     0.0194651475,
+     0.0303805411,
+     22.5156602661
+    ],
+    [
+     -5.7158e-05,
+     0.0015242388,
+     1.0
+    ]
+   ],
+   "points": [
+    {
+     "image": [
+      220,
+      301
+     ],
+     "pitch": [
+      0,
+      24.84
+     ]
+    },
+    {
+     "image": [
+      565,
+      264
+     ],
+     "pitch": [
+      0,
+      30.34
+     ]
+    },
+    {
+     "image": [
+      975,
+      216
+     ],
+     "pitch": [
+      0,
+      37.66
+     ]
+    },
+    {
+     "image": [
+      1246,
+      188
+     ],
+     "pitch": [
+      0,
+      43.16
+     ]
+    },
+    {
+     "image": [
+      260,
+      432
+     ],
+     "pitch": [
+      5.5,
+      24.84
+     ]
+    },
+    {
+     "image": [
+      1399,
+      283
+     ],
+     "pitch": [
+      5.5,
+      43.16
+     ]
+    },
+    {
+     "image": [
+      612,
+      832
+     ],
+     "pitch": [
+      16.5,
+      26.69
+     ]
+    },
+    {
+     "image": [
+      1751,
+      599
+     ],
+     "pitch": [
+      16.5,
+      41.31
+     ]
+    }
+   ],
+   "rms_m": 0.105
+  },
+  "keeper": {
+   "label": "GK",
+   "name": "David Raya",
+   "pid": "p_955",
+   "x": 1.23,
+   "y": 33.8
+  },
+  "match_id": "m_9003",
+  "measure": "share of the goal mouth the keeper covers (shots spread evenly between the posts, his reach growing with the time the ball takes to reach him); geometry, not a save probability",
+  "move_m": 1.77,
+  "n": null,
+  "save_actual": null,
+  "save_best": null,
+  "seed": null,
+  "shooter": {
+   "label": "CHE-shooter",
+   "name": null,
+   "x": 7.59,
+   "y": 33.81
+  },
+  "shot_distance_m": 4.5,
+  "shot_from": [
+   4.5,
+   33.79
+  ],
+  "shot_id": 190,
+  "slug": "arsenal-chelsea-2526",
+  "source": "moments/1382650.json + footage.keeper"
+ },
+ "schema_version": "1.0.0"
+}

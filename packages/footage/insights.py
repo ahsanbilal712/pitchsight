@@ -68,7 +68,9 @@ def facts_for(beat: dict) -> list[dict]:
                      beat["source"]),
                _fact(2, mid, "share of the goal covered, best point on the bisector", beat["coverage_best"],
                      "percent", beat["source"]),
-               _fact(3, mid, "metres to the best point", beat["move_m"], "metres", beat["source"])]
+               _fact(3, mid, "metres to the best point", beat["move_m"], "metres", beat["source"]),
+               _fact(4, mid, "distance of the shot from the goal line", beat["shot_distance_m"], "metres",
+                     beat["source"], players=[beat["keeper"].get("pid")] if beat["keeper"].get("pid") else [])]
     elif kind == "fourth_official":
         out = [_fact(1, mid, "closing speed toward the fouled player (assessment)", beat["closing_speed_kmh"], "kmh",
                      beat["source"], players=[beat["fouler"]["pid"], beat["fouled"]["pid"]],

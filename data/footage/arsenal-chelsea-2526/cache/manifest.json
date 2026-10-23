@@ -3,7 +3,7 @@
  "engine_hash": "d9e1bf248ee8796443a01c80d39e68dab9fdc21b",
  "entries": [
   {
-   "created_at": "2026-10-23T08:34:22Z",
+   "created_at": "2026-10-23T08:47:18Z",
    "hand_reviewed": false,
    "key": "m_9003/match/evidence@factcheck/none/s9003",
    "kind": "analytics",
@@ -12,8 +12,37 @@
    "path": "evidence.jsonl",
    "producer": "evidence",
    "seed": 9003,
-   "sha256": "51dceafbdbc4f66cecf5d9b1ce4546ea43e62785cc45b66bfe1040c8e1bca4bd",
+   "sha256": "2b34b538e73dea71033c550323ae537128c4a05f952a7063e88ffe5d565bed2c",
    "version": "factcheck"
+  },
+  {
+   "cost_usd": 0.007346,
+   "created_at": "2026-10-23T08:47:44Z",
+   "hand_reviewed": false,
+   "key": "m_9003/match/insight@insight_footage@2.keeper_cone_1382650/gemini-4-argon/s9003",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "insights/keeper_cone_1382650.json",
+   "producer": "insight",
+   "seed": 9003,
+   "sha256": "6733ecf576eaa52aa31618d1b1e209c3ea8c38cd9d3277feab20b8389089a5ef",
+   "tokens_in": 2248,
+   "tokens_out": 285,
+   "version": "insight_footage@2.keeper_cone_1382650"
+  },
+  {
+   "created_at": "2026-10-23T08:47:54Z",
+   "hand_reviewed": true,
+   "key": "m_9003/match/v3@keeper_cone_1382650/none/s9003",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v3/keeper_cone_1382650.json",
+   "producer": "v3",
+   "seed": 9003,
+   "sha256": "ea673e90222cfb110923d90060516e49a6bdda546ce484405cc5c599af6dca59",
+   "version": "keeper_cone_1382650"
   },
   {
    "created_at": "2026-10-23T08:35:42Z",
@@ -42,7 +71,7 @@
    "version": "footage_line@1"
   },
   {
-   "created_at": "2026-10-23T08:34:11Z",
+   "created_at": "2026-10-23T08:47:18Z",
    "hand_reviewed": false,
    "key": "m_9003/mo_00001/pitch_control@pc@1/none/s9003",
    "kind": "pitch_control",
@@ -55,7 +84,7 @@
    "version": "pc@1"
   },
   {
-   "created_at": "2026-10-23T08:34:11Z",
+   "created_at": "2026-10-23T08:47:18Z",
    "hand_reviewed": false,
    "key": "m_9003/mo_00001/rollout@scripted_v1/scripted/s9003",
    "kind": "counterfactual",
@@ -92,10 +121,10 @@
  "match_seed": 9003,
  "schema_version": "1.0.0",
  "totals": {
-  "cost_usd": 0.008722,
-  "entries": 6,
-  "tokens_in": 2196,
-  "tokens_out": 433
+  "cost_usd": 0.016068,
+  "entries": 8,
+  "tokens_in": 4444,
+  "tokens_out": 718
  },
  "tracking_sha256": "726e408da715fb49f7d3497bdea3f2d3fc5c2da46bbad6362d6e525f726da515"
 }

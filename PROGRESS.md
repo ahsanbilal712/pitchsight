@@ -5,6 +5,20 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v3 item 3: keeper positioning, David Raya at 92:15 (track B)
+
+- Track A's tracks for shots 113/190 put the keeper far from his goal (calibration near the goalmouth), so the save
+  frame was hand-marked: Chelsea's close-range chance at 92:15 (clip 1382.65 s, saved at 1383.3 s); goal-area
+  homography from posts, six-yard box and the D's junctions (8 points, RMS 0.1 m, leave-one-out <= 0.54 m).
+- `footage.keeper` geometry (the engine's shot model ignores the keeper): from where he stood (1.2 m off his
+  line) Raya covers **39%** of the goal mouth against a shot from 4.5 m; the best point on the bisector, 1.8 m
+  further out, covers **100%**. Assumptions (shot 26 m/s, reaction 0.25 s, dive 3.5 m/s, reach 1.0-2.6 m) in the
+  beat. Beat `arsenal-chelsea-2526/cache/v3/keeper_cone_1382650.json` (coverage_* fields, save_* null).
+- Caption on gemini-4-argon (insight_footage@2, $0.0073), verified first time, accepted in review: "David Raya covers
+  39% of the goal mouth".
+
+---
+
 ## 2026-10-23 · Video v3: Argon captions and explanations after the ADC refresh (track B)
 
 - ADC quota project set to ffc-19484 (owner: "no other"); WHYLINE calls go to ffc-19484 only.

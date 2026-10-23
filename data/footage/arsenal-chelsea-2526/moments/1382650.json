@@ -1,0 +1,167 @@
+{
+ "schema_version": "1.0.0",
+ "slug": "arsenal-chelsea-2526",
+ "match_id": "m_9003",
+ "clip_ms": 1382650,
+ "t_ms": 5535000,
+ "period": 2,
+ "clock": "92:15",
+ "score": [
+  2,
+  1
+ ],
+ "home_attacks": "+x",
+ "frame": "frames/moment_1382650.png",
+ "homography": {
+  "image_to_pitch": [
+   [
+    0.0070322326,
+    0.0640885306,
+    -20.7286454197
+   ],
+   [
+    0.0194651475,
+    0.0303805411,
+    22.5156602661
+   ],
+   [
+    -5.7158e-05,
+    0.0015242388,
+    1.0
+   ]
+  ],
+  "rms_m": 0.105,
+  "image_size": [
+   1920,
+   1080
+  ],
+  "points": [
+   {
+    "pitch": [
+     0,
+     24.84
+    ],
+    "image": [
+     220,
+     301
+    ]
+   },
+   {
+    "pitch": [
+     0,
+     30.34
+    ],
+    "image": [
+     565,
+     264
+    ]
+   },
+   {
+    "pitch": [
+     0,
+     37.66
+    ],
+    "image": [
+     975,
+     216
+    ]
+   },
+   {
+    "pitch": [
+     0,
+     43.16
+    ],
+    "image": [
+     1246,
+     188
+    ]
+   },
+   {
+    "pitch": [
+     5.5,
+     24.84
+    ],
+    "image": [
+     260,
+     432
+    ]
+   },
+   {
+    "pitch": [
+     5.5,
+     43.16
+    ],
+    "image": [
+     1399,
+     283
+    ]
+   },
+   {
+    "pitch": [
+     16.5,
+     26.69
+    ],
+    "image": [
+     612,
+     832
+    ]
+   },
+   {
+    "pitch": [
+     16.5,
+     41.31
+    ],
+    "image": [
+     1751,
+     599
+    ]
+   }
+  ]
+ },
+ "players": [
+  {
+   "team": "home",
+   "label": "GK",
+   "name": "David Raya",
+   "slot": "GK",
+   "x": 1.23,
+   "y": 33.8,
+   "vx": 0.0,
+   "vy": 0.0,
+   "source": "hand",
+   "image": [
+    787,
+    263
+   ]
+  },
+  {
+   "team": "away",
+   "label": "CHE-shooter",
+   "name": null,
+   "slot": null,
+   "x": 7.59,
+   "y": 33.81,
+   "vx": 0.0,
+   "vy": 0.0,
+   "source": "hand",
+   "image": [
+    930,
+    407
+   ]
+  }
+ ],
+ "ball": {
+  "x": 4.5,
+  "y": 33.79,
+  "holder": null,
+  "image": [
+   855,
+   332
+  ]
+ },
+ "actual": {
+  "kind": "save",
+  "target": null
+ },
+ "notes": "Hand-marked keeper-positioning frame (v3): Chelsea's close-range chance at 92:15, Raya saves at 1383.3 s. The ball is already off the sliding Chelsea player's foot, so the shot origin is the ball's position in this frame."
+}
