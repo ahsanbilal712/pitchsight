@@ -337,3 +337,74 @@ moments:
     kits: {home: [218, 41, 28], away: [235, 238, 245]}
     label: "Man Utd: goal in the next 10 s"
     foot: "if passed to, each option replayed 1,000 times"
+
+  # ------------------------------------------------------------------ video v5 (owner, 23 Oct): xG from the real-data
+  # reference model (track A cache/v5: Soccermatics' logistic fit on PL shots; a pass = P(complete) x xG at the
+  # receiver's arrival spot). No goal-in-10s, no win chance. Receivers labelled by name if verified, else team and area.
+
+  lfc_v5:
+    clip: liverpool-mancity-2526
+    style: v5
+    t_s: 875.0
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: liverpool-mancity-2526/moments/875000.json
+    attacks: "+x"
+    team_name: "Liverpool"
+    actor: {player: "#8", label: "Szoboszlai"}
+    target: null
+    xg: data/footage/liverpool-mancity-2526/cache/v5/xg_decision_875000.json
+
+  ars_v5:
+    clip: arsenal-chelsea-2526
+    style: v5
+    t_s: 1300.5
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: arsenal-chelsea-2526/moments/1300500.json
+    attacks: "+x"
+    team_name: "Arsenal"
+    actor: {player: "#10", label: "Eze"}
+    target: null
+    xg: data/footage/arsenal-chelsea-2526/cache/v5/xg_decision_1300500.json
+
+  mci_amad_v5:
+    clip: manutd-mancity-2526
+    style: v5
+    t_s: 877.0
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/877000.json
+    attacks: "-x"
+    team_name: "Man Utd"
+    actor: {player: "#16", label: "Amad"}
+    target: null
+    xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json
+
+  mci_mbeumo_v5:
+    clip: manutd-mancity-2526
+    style: v5
+    t_s: 1079.36
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/1079360.json
+    attacks: "-x"
+    team_name: "Man Utd"
+    actor: {player: "Mbeumo", label: "Mbeumo"}
+    target: null
+    xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_1079360.json
+    finishing: true
+
+  mci_dorgu_v5:
+    clip: manutd-mancity-2526
+    style: v5
+    t_s: 1189.84
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/1189840.json
+    attacks: "-x"
+    team_name: "Man Utd"
+    actor: {player: "Dorgu", label: "Dorgu"}
+    target: null
+    xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_1189840.json
+    finishing: true

@@ -332,11 +332,17 @@ class Painter:
             shot_to = np.median([p[1] for p in fut.baseline], axis=0) if fut.baseline else None
             self.ghosts = [g for g in (self._branch(fut.baseline, shot_to, WHITE, T_BASE),
                                        self._branch(fut.alternative, self.target_m, ORANGE, T_ALT)) if g]
-        self.v4 = m.get("style") == "v4"
+        self.v5 = m.get("style") == "v5"
+        self.v4 = m.get("style") in ("v4", "v5")           # v5 keeps v4's ramp, punch-in, rewind and lower-thirds
+        self.xg = load_json(m.get("xg"), "result") if m.get("xg") else None
+        if self.v5 and self.xg is None and m.get("xg"):
+            self.xg = load_json(m["xg"])                   # track A writes v5 files bare or wrapped
         self.goal10 = load_json(m.get("goal10"), "result")
-        if self.v4 and self.goal10 and "options" in self.goal10:
+        if self.v5:
+            self.v5_geom = self._v5_geometry()
+        if self.v4 and not self.v5 and self.goal10 and "options" in self.goal10:
             self.lanes = self._decision_lanes()
-        elif self.v4 and fut:
+        elif self.v4 and not self.v5 and fut:
             self.lanes = [ln for ln in (self._lane(fut.baseline, WHITE, T_BASE, "actual"),
                                         self._lane(fut.alternative, ORANGE, T_ALT, "alternative")) if ln]
         self.trail_px = None
@@ -372,6 +378,170 @@ class Painter:
         if cue and all(c.get("verified") for c in cue["explain"]["claims"]):   # a Fact-Checked cue's own text
             self.line = cue["text"]
         self.font_reg = {s: ImageFont.truetype(FONT_REG, s) for s in (20, 22)}
+
+    # -- v5: xG from the real-data reference model (track A cache/v5) ---------------------------------------
+    def v5_options(self) -> list[dict]:
+        """The hero pass (track A's best_alternative) and at most one secondary, only when a pass beats the shot
+        in track A's comparison; none on a finishing beat."""
+        x = self.xg or {}
+        if self.m.get("finishing") or x.get("comparison") != "pass higher":
+            return []
+        alts = sorted((a for a in x.get("alternatives", []) if a.get("xg_after_pass") is not None),
+                      key=lambda a: -a["xg_after_pass"])
+        hero = x.get("best_alternative") or (alts[0] if alts else None)
+        out = [hero] if hero else []
+        rest = [a for a in alts if hero is None or a["label"] != hero["label"]]
+        if rest and self.m.get("secondary", True):
+            out.append(rest[0])
+        return out
+
+    def area_label(self, x: float, y: float) -> str:
+        """Where a player stands, for an unnamed receiver: in the box, on its edge (within 2 m) or outside it."""
+        gx = 105.0 if self.m.get("attacks", "+x") == "+x" else 0.0
+        depth, wide = abs(x - gx), abs(y - 34)
+        if depth <= 16.5 and wide <= 20.16:
+            return "in the box"
+        if depth <= 18.5 and wide <= 22.2:
+            return "edge of the box"
+        return "outside the box"
+
+    def option_label(self, o: dict) -> str:
+        """'Saka' for a verified name, else the team and where he stands; never an internal id."""
+        if o.get("name"):
+            return o["name"].split()[-1]
+        return f"{self.m.get('team_name', 'Teammate')} · {self.area_label(o['x'], o['y'])}"
+
+    def _v5_geometry(self) -> dict:
+        gx = 105.0 if self.m.get("attacks", "+x") == "+x" else 0.0
+        posts = np.array([[gx, 34 - 3.66], [gx, 34 + 3.66]])
+        keeper = None
+        doc = json.loads((FOOTAGE / self.m["moment_file"]).read_text()) if self.m.get("moment_file") else {}
+        team = self.m.get("team", "home")
+        others = [p for p in doc.get("players", []) if p["team"] != team]
+        gk = [p for p in others if p.get("slot") == "GK" or p.get("label") == "GK"]
+        if not gk and others:                          # the opponent nearest his goal
+            gk = [min(others, key=lambda p: abs(p["x"] - gx) + 0.3 * abs(p["y"] - 34))]
+        if gk:
+            keeper = np.array([gk[0]["x"], gk[0]["y"]])
+        # the target spot: the middle of the larger gap between the keeper and a post
+        if keeper is not None:
+            ky = float(np.clip(keeper[1], posts[0, 1], posts[1, 1]))
+            lo, hi = (posts[0, 1], ky), (ky, posts[1, 1])
+            gap = lo if lo[1] - lo[0] >= hi[1] - hi[0] else hi
+            target = np.array([gx, (gap[0] + gap[1]) / 2])
+        else:
+            target = np.array([gx, 34.0])
+        return {"posts": posts, "keeper": keeper, "target": target, "gx": gx}
+
+    def _arc(self, a, b, bend: float = 0.12, n: int = 48) -> np.ndarray:
+        """A curved pass from a to b in metres (quadratic Bezier, bowed to the left of travel)."""
+        return pass_curve(a, b, bend=bend, n=n)
+
+    def _v5_graphics(self, ax, t: float, a_all: float) -> None:
+        g = self.v5_geom
+        shot = window(t, *T_BASE)
+        if shot > 0 and (self.xg or {}).get("actual", {}).get("kind", "shoot") == "shoot":
+            cone = np.vstack([np.linspace(self.ball, g["posts"][0], 24), np.linspace(g["posts"][0], g["posts"][1], 12),
+                              np.linspace(g["posts"][1], self.ball, 24)])
+            px = self.cam.project(cone)
+            ax.add_patch(Polygon(px, closed=True, fc=(1, 1, 1, 0.14 * shot * a_all), ec=(1, 1, 1, 0.55 * shot * a_all),
+                                 lw=1.6))
+            if g["keeper"] is not None:
+                kr = self.cam.project(ground_circle(g["keeper"], 0.9))
+                ax.plot(kr[:, 0], kr[:, 1], color=(0, 0, 0, 0.5 * shot * a_all), lw=6)
+                ax.plot(kr[:, 0], kr[:, 1], color=(*(np.array(YELLOW) / 255), shot * a_all), lw=3)
+            tp = self.cam.project([g["target"]])[0]
+            for r, al in ((26, 0.18), (16, 0.35), (8, 0.95)):          # a glowing spot in the goal mouth
+                ax.scatter([tp[0]], [tp[1]], s=r * r, color=(1, 1, 1, al * shot * a_all), lw=0, zorder=6)
+        for k, o in enumerate(self.v5_options()):
+            grow = window(t, *T_ALT) if k == 0 else window(t, T_ALT[0] + 0.4, T_ALT[1] + 0.4)
+            if grow <= 0:
+                continue
+            hero = k == 0
+            col = np.array(ORANGE) / 255 if hero else np.array((235, 238, 245)) / 255
+            fade = 1.0 if hero else 0.45
+            end = np.asarray(o.get("arrival") or [o["x"], o["y"]], float)
+            arc = self.cam.project(self._arc(self.ball, end))
+            m = max(2, int(round(grow * len(arc))))
+            p = arc[:m]
+            if hero:
+                ax.plot(p[:, 0], p[:, 1], color=(*col, 0.25 * a_all), lw=20, solid_capstyle="round")   # glow
+            ax.plot(p[:, 0], p[:, 1], color=(0, 0, 0, 0.55 * fade * a_all), lw=9 if hero else 6, solid_capstyle="round")
+            ax.plot(p[:, 0], p[:, 1], color=(*col, fade * a_all), lw=5 if hero else 3, solid_capstyle="round")
+            if grow >= 1:
+                self._arrowhead(ax, p, col, fade * a_all, size=30.0 if hero else 20.0)
+                ring = self.cam.project(ground_circle(end, 1.1))
+                ax.plot(ring[:, 0], ring[:, 1], color=(0, 0, 0, 0.5 * fade * a_all), lw=7)
+                ax.plot(ring[:, 0], ring[:, 1], color=(*col, fade * a_all), lw=3.5)
+                start = np.array([o["x"], o["y"]])
+                if np.linalg.norm(end - start) > 0.6:    # where the receiver is moving (tracking, the ball's flight)
+                    run = self.cam.project(np.linspace(start, end, 20))
+                    ax.plot(run[:, 0], run[:, 1], color=(1, 1, 1, 0.9 * fade * a_all), lw=2.8, dashes=(3, 2.5))
+                    self._arrowhead(ax, run, np.array([1, 1, 1]), 0.9 * fade * a_all, size=16.0)
+
+    def _v5_labels(self, im: Image.Image, t: float, fade: float) -> None:
+        """Ground labels: the shot's xG at the goal mouth, each option's xG after the pass at its ring."""
+        x = self.xg or {}
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        items = []
+        a0 = window(t, T_BASE[1] - 0.3, T_BASE[1] + 0.3) * (1 - fade)
+        if a0 > 0 and x.get("actual"):
+            items.append((self.v5_geom["target"], f"SHOT  {x['actual']['xg']:.2f} xG", WHITE, a0, -70))
+        for k, o in enumerate(self.v5_options()):
+            a = window(t, T_ALT[1] + 0.4 * k, T_ALT[1] + 0.4 * k + 0.4) * (1 - fade) * (1.0 if k == 0 else 0.6)
+            end = o.get("arrival") or [o["x"], o["y"]]
+            items.append((end, f"{self.option_label(o).upper()}  → {o['xg_after_pass']:.2f} xG",
+                          ORANGE if k == 0 else WHITE, a, 40))
+        for where, text, colour, a, dy in items:
+            if a <= 0:
+                continue
+            pt = self.cam.project([where])[0]
+            w = d.textlength(text, font=self.font[26]) + 28
+            x0 = float(np.clip(pt[0] - w / 2, 24, W - 24 - w))
+            y0 = float(np.clip(pt[1] + dy, 24, H - 300))
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + 42), radius=10, fill=(*PANEL, int(228 * a)),
+                                outline=(*colour, int(255 * a)), width=3)
+            d.text((x0 + w / 2, y0 + 21), text, font=self.font[26], fill=(*colour, int(255 * a)), anchor="mm")
+        im.paste(layer, (0, 0), layer)
+
+    def _card_v5(self, im: Image.Image, a: float, swing: float, t: float):
+        """The xG card: the shot, the hero pass (when one beats it), a counting xG number, the formula."""
+        x = self.xg
+        rows = [("Shot", x["actual"]["xg"], (196, 204, 214))]
+        opts = self.v5_options()
+        if opts:
+            rows.append((f"Pass to {self.option_label(opts[0])}", opts[0]["xg_after_pass"], ORANGE))
+        x0, w = self._panel_x(a), PANEL_W + 60
+        formula = self._wrap(x.get("formula", ""), self.font_reg[20], w - 64)
+        h = 58 + 70 * len(rows) + (52 if self.m.get("finishing") else 0) + 24 * len(formula) + 24
+        y0 = H - 96 - h
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        al = int(255 * a)
+        d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
+        d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*ORANGE, al))
+        d.text((x0 + 32, y0 + 20), "EXPECTED GOALS (xG)", font=self.font[22], fill=(169, 180, 194, al))
+        top = max(r[1] for r in rows) * 1.2 or 1.0
+        bx0, bx1 = x0 + 32, x0 + w - 150
+        for k, (label, v, col) in enumerate(rows):
+            grow = swing if k else window(t, T_CARD[0], T_CARD[0] + 0.8)       # the shot's number counts up
+            y = y0 + 56 + 70 * k
+            d.text((bx0, y), label, font=self.font_reg[22], fill=(230, 236, 242, al))
+            by = y + 30
+            d.rounded_rectangle((bx0, by, bx1, by + 12), radius=6, fill=(255, 255, 255, int(28 * a)))
+            d.rounded_rectangle((bx0, by, bx0 + max(12, (bx1 - bx0) * v / top * grow), by + 12), radius=6,
+                                fill=(*col, al))
+            shown = v * grow if k == 0 else v                                  # a count-up, landing on the value
+            d.text((x0 + w - 28, by + 6), f"{shown:.2f}", font=self.font[34],
+                   fill=(*col, int(al * (1 if k == 0 else grow))), anchor="rm")
+        yy = y0 + 56 + 70 * len(rows)
+        if self.m.get("finishing"):
+            d.text((x0 + 32, yy), "Scored.", font=self.font[30], fill=(*ORANGE, al))
+            yy += 52
+        for k, line in enumerate(formula):
+            d.text((x0 + 32, yy + 24 * k), line, font=self.font_reg[20], fill=(169, 180, 194, al))
+        im.paste(layer, (0, 0), layer)
 
     def _straight_lane(self, a, b, colour, span, key) -> dict:
         pts = np.linspace(np.asarray(a, float), np.asarray(b, float), SUBDIV * 2 + 1)
@@ -495,6 +665,8 @@ class Painter:
         ax.axis("off")
         ax.patch.set_alpha(0)
         a_all = 1 - fade
+        if self.v5:
+            self._v5_graphics(ax, t, a_all)
         for ln in getattr(self, "lanes", []) if self.v4 else []:
             grow = window(t, *ln["span"])
             if grow <= 0:
@@ -599,9 +771,13 @@ class Painter:
         if self.mode == "player_cam":
             return self._phone(im, t, fade)
         c = window(t, *T_CARD) * (1 - fade)
+        if self.v5:
+            self._v5_labels(im, t, fade)
+            if c > 0 and self.xg:
+                self._card_v5(im, c, window(t, *T_SWING), t)
         if self.v4 and getattr(self, "lanes", None):
             self._lane_labels(im, window(t, T_ALT[1] - 0.2, T_ALT[1] + 0.4) * (1 - fade))
-        if c > 0 and self.v4 and self.goal10 and self.mode != "casual":
+        if c > 0 and self.v4 and not self.v5 and self.goal10 and self.mode != "casual":
             self._card_v4(im, c, window(t, *T_SWING))
         elif c > 0 and self.fut and self.mode != "casual":
             self._card(im, c, window(t, *T_SWING))
@@ -629,6 +805,8 @@ class Painter:
         z = self.m.get("zoom")
         if z is None and self.v4:                         # v4: a gentle punch-in on the decision
             mid = self.actor_m if self.target_m is None else (self.actor_m + self.target_m) / 2
+            if self.v5:                                   # v5: between the ball and the goal mouth
+                mid = (self.ball + self.v5_geom["target"]) / 2
             z = {"factor": V4_PUNCH, "at": list(mid)}
         k = 1 + (float(z["factor"]) - 1) * window(t, *T_GRADE) * (1 - fade) if z else 1.0
         if k <= 1.0001:
@@ -636,6 +814,8 @@ class Painter:
         cx, cy = self.cam.project([z["at"]])[0]
         bw, bh = W / k, H / k
         x0, y0 = float(np.clip(cx - bw / 2, 0, W - bw)), float(np.clip(cy - bh / 2, 0, H - bh))
+        if self.v5:                                       # anchored to the top: the score bug stays whole
+            y0 = 0.0
         im = im.resize((W, H), Image.Resampling.LANCZOS, box=(x0, y0, x0 + bw, y0 + bh))
         return im, lambda p: (np.asarray(p, float) - [x0, y0]) * k
 
@@ -969,6 +1149,31 @@ def decode_range(m: dict, start: float, dur: float) -> np.ndarray:
     return np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
 
 
+def goal_flash(m: dict, enc, frames: np.ndarray, start_s: float, p: Painter) -> None:
+    """The real replay with the goal marked: a flash in the team colour on the frame the ball crosses the line
+    (`goal_clip_s`, from track A), then 'GOAL' and the shot's xG with 'scored' held to the end."""
+    goal_t = float(m["goal_clip_s"])
+    colour = np.array((m.get("kits") or {}).get(m.get("team", "home"), ORANGE), float)
+    xg = (p.xg or {}).get("actual", {}).get("xg")
+    small = ImageFont.truetype(FONT, 46)
+    for i, fr in enumerate(frames):
+        dt = start_s + i / FPS - goal_t
+        if dt < 0:
+            enc.stdin.write(fr.tobytes())
+            continue
+        flash = max(0.0, 1 - dt / 0.35)
+        f = fr.astype(float) * (1 - 0.55 * flash) + colour * 0.55 * flash
+        im = Image.fromarray(np.clip(f, 0, 255).astype(np.uint8))
+        d = ImageDraw.Draw(im)
+        scale = 1 + 0.2 * max(0.0, 1 - dt / 0.3)      # the word lands slightly large and settles
+        d.text((W / 2, H / 2 - 80), "GOAL", font=ImageFont.truetype(FONT, int(170 * scale)),
+               fill=tuple(int(c) for c in colour), anchor="mm", stroke_width=10, stroke_fill=(0, 0, 0))
+        if xg is not None and dt > 0.4:
+            d.text((W / 2, H / 2 + 50), f"{xg:.2f} xG · scored", font=small, fill=(255, 255, 255), anchor="mm",
+                   stroke_width=6, stroke_fill=(0, 0, 0))
+        enc.stdin.write(np.asarray(im).tobytes())
+
+
 def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4.0, post_s: float = 3.0,
                 freeze_s: float = FREEZE_S) -> Path:
     """Pre-roll of the real clip up to the freeze instant, the freeze with the overlay building and fading, then
@@ -989,7 +1194,7 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
                              capture_output=True, check=True).stdout
         enc.stdin.write(dec)
 
-    if m.get("style") == "v4":                           # v4: a speed ramp into slow motion before the freeze
+    if m.get("style") in ("v4", "v5"):                 # v4/v5: a speed ramp into slow motion before the freeze
         ramp = min(RAMP_SLOW_S, pre_s)
         real(t0 - pre_s, pre_s - ramp)
         frames = decode_range(m, t0 - ramp, ramp)
@@ -1008,12 +1213,15 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
         t = i / FPS
         t = t if t < FADE_OUT[0] else (FADE_OUT[0] - 0.01 if t < FADE_OUT[0] + hold else t - hold)
         enc.stdin.write(p.render(t, standin_mark=standin).tobytes())
-    if m.get("style") == "v4" and post_s > 0:         # a rewind sting, then what really happened
+    if m.get("style") in ("v4", "v5") and post_s > 0:  # a rewind sting, then what really happened
         back = decode_range(m, t0 - REWIND_S, REWIND_S)[::-1][:: REWIND_STEP]
         for fr in back:
             g = fr.astype(float) * 0.82 + np.array([10, 18, 40]) * 0.18   # cool tint while it runs backwards
             enc.stdin.write(np.clip(g, 0, 255).astype(np.uint8).tobytes())
-        real(t0 - REWIND_S, post_s + REWIND_S)
+        if m.get("goal_clip_s") is not None:              # v5: the goal flash on the real replay
+            goal_flash(m, enc, decode_range(m, t0 - REWIND_S, post_s + REWIND_S), t0 - REWIND_S, p)
+        else:
+            real(t0 - REWIND_S, post_s + REWIND_S)
     else:
         real(t0, post_s)
     enc.stdin.close()
@@ -1029,7 +1237,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--clip", action="store_true")
     ap.add_argument("--standin", action="store_true", help="re-anchored cf_000070 futures until T-109 lands")
     ap.add_argument("--refit", action="store_true", help="refit the camera even if cached")
-    ap.add_argument("--style", choices=["v3", "v4"], help="v4: median lanes, goal in the next 10 s, slow-motion "
+    ap.add_argument("--style", choices=["v3", "v4", "v5"], help="v4: median lanes, goal in the next 10 s, slow-motion "
                     "ramp and punch-in (video v4); default the moment's own")
     ap.add_argument("--mode", choices=["broadcast", "analyst", "casual", "player_cam"], default="broadcast",
                     help="viewer mode: analyst adds the pitch-control heatmap, casual keeps one sentence, "
@@ -1063,12 +1271,12 @@ def main(argv: list[str] | None = None) -> int:
               f"{', '.join(pw[1].lines)}" + ("; using it" if pw[1].p95 <= drift.p95 else "; keeping the line fit"))
         if pw[1].p95 <= drift.p95:
             cam, drift = pw[0], pw[1]
-    fut = None if m.get("kind") == "fourth_official" or (m.get("goal10") and not m.get("counterfactual")) \
+    fut = None if m.get("kind") == "fourth_official" or ((m.get("goal10") or m.get("xg")) and not m.get("counterfactual")) \
         else load_futures(m, cam, args.standin)
     p = Painter(m, frame, cam, fut, mode=args.mode)
     standin = bool(fut and fut.standin)
     s = stem(m, standin) + ("" if args.mode == "broadcast" else f"_{args.mode}") + \
-        ("_v4" if m.get("style") == "v4" else "")
+        (f"_{m['style']}" if m.get("style") in ("v4", "v5") else "")
     if args.png or not args.clip:
         print(f"wrote {export_png(p, OUT / f'{s}.png', standin).relative_to(ROOT)}")
     if args.clip:
