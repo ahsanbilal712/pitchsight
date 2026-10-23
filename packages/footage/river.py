@@ -147,7 +147,35 @@ def run(slug: str = "liverpool-mancity-2526") -> dict:
                  {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result",
                   "result": doc}, "river/wp_river.json", producer="river", version="wp_river@1", seed=seed)
     manifest.save()
+    write_v3(slug, doc, CacheManifest.key(clip["match_id"], None, "river", "wp_river@1", None, seed))
     return doc
+
+
+def _label(m: dict) -> str:
+    who = (m.get("player_name") or "").split()[-1:] or [""]
+    if m["kind"] == "goal":
+        return f"{who[0]} {m['score_after'][0]}-{m['score_after'][1]}".strip()
+    if m["kind"] == "red_card":
+        return f"{who[0]} red card".strip()
+    if m["kind"] == "penalty_foul":
+        return "Penalty"
+    if m["kind"] == "sliding_doors":
+        return f"Sliding Doors {m['delta_win_prob_home'] * 100:+.0f} points"
+    return f"Oracle {m['peak_p_shot_10s'] * 100:.0f}% shot chance"
+
+
+def write_v3(slug: str, doc: dict, source_key: str) -> str:
+    """Track C's win_prob_river beat (shared notes, beat 7)."""
+    from footage.v3 import write_beat
+
+    events = [{"clip_ms": m["clip_ms"], "clock": m["clock"], "label": _label(m), "kind": m["kind"],
+               "source": m.get("event_id") or m.get("counterfactual_id") or "oracle/window_867000.json"}
+              for m in doc["markers"]]
+    result = {"home": doc["home"], "away": doc["away"], "engine": "heads.WinProbHead (deterministic, no rollouts)",
+              "n": None, "source": source_key, "note": doc["notes"],
+              "series": [{"clip_ms": s["clip_ms"], "clock": s["clock"], **s["wp"]} for s in doc["samples"]],
+              "events": events}
+    return write_beat(slug, "win_prob_river", doc["samples"][0]["clip_ms"], result)
 
 
 if __name__ == "__main__":
