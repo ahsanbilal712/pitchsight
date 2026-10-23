@@ -709,7 +709,7 @@ def v6_caption_sources() -> dict[str, list[tuple]]:
             v5["Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20."],
         "Liverpool v Man City, 86th minute. The pass options update as the play moves.":
             [("86th minute", "minute", "minute", 86, (lfc, "e_0033", "event"))],
-        "Arsenal v Chelsea: as the ball moves forward, the best pass climbs to 0.19 xG.":
+        "Arsenal v Chelsea: as the ball moves forward, the top pass option climbs to 0.19 xG.":
             [("0.19", "number", "xg", best["xg_after_pass"], (ars, "v6 live_823600 frame 834800 best xg_after_pass",
                                                                "fact"))],
     }

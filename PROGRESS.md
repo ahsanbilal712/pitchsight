@@ -5,6 +5,16 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v6 grounding back to 541 of 541 (track B)
+
+- Track C reworded the Arsenal caption to "the top pass option climbs to 0.19 xG" (7ccdce4); its source entry in
+  `footage.grounding.v6_caption_sources` is re-keyed to the new text (same number, same source: live_823600 frame
+  834800, best xg_after_pass). `python -m footage.grounding` on the committed edit_v6: **541 of 541 on-screen numbers
+  bound to verified evidence (537 of 537 claims verified)** (was 540 of 541 in track C's re-run).
+- No model call. Verification: `pytest tests/footage/test_grounding.py` 6 passed (exit 0).
+
+---
+
 ## 2026-10-23 · Video v6 grounding: 541 of 541 (track B)
 
 - `python -m footage.grounding` (latest edit, edit_v6.yaml draft 1, f667c65): **541 of 541 on-screen numbers bound
