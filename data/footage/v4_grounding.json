@@ -3,11 +3,11 @@
  "schema_version": "1.0.0",
  "record": "tool_result",
  "result": {
-  "card_line": "170 of 170 on-screen numbers bound to verified evidence (159 of 159 claims verified)",
-  "claims": 159,
-  "claims_verified": 159,
-  "numbers": 170,
-  "numbers_bound": 170,
+  "card_line": "121 of 121 on-screen numbers bound to verified evidence (110 of 110 claims verified)",
+  "claims": 110,
+  "claims_verified": 110,
+  "numbers": 121,
+  "numbers_bound": 121,
   "groups": {
    "studio cue": {
     "items": 2,
@@ -24,18 +24,18 @@
     "claims_verified": 22
    },
    "v4 overlay": {
-    "items": 9,
-    "numbers": 109,
-    "numbers_bound": 109,
-    "claims": 109,
-    "claims_verified": 109
+    "items": 8,
+    "numbers": 63,
+    "numbers_bound": 63,
+    "claims": 63,
+    "claims_verified": 63
    },
    "video caption": {
-    "items": 10,
-    "numbers": 17,
-    "numbers_bound": 17,
-    "claims": 17,
-    "claims_verified": 17
+    "items": 9,
+    "numbers": 14,
+    "numbers_bound": 14,
+    "claims": 14,
+    "claims_verified": 14
    }
   },
   "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
@@ -183,16 +183,6 @@
    },
    {
     "group": "v4 overlay",
-    "item": "Man Utd v Spurs pass X-ray tags",
-    "file": "data/footage/manutd-spurs-2425/cache/v4/pass_xray_goal10_240000.json",
-    "claims": 46,
-    "claims_verified": 46,
-    "numbers": 46,
-    "numbers_bound": 46,
-    "rejected": []
-   },
-   {
-    "group": "v4 overlay",
     "item": "Liverpool Oracle card (goal in 10 s, every 0.5 s)",
     "file": "data/footage/liverpool-mancity-2526/cache/v4/oracle_goal10_867000.json",
     "claims": 19,
@@ -242,20 +232,6 @@
      "f_607501",
      "f_607503",
      "f_607502"
-    ],
-    "claims": 3,
-    "claims_verified": 3,
-    "numbers": 3,
-    "numbers_bound": 3,
-    "rejected": []
-   },
-   {
-    "group": "video caption",
-    "item": "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.",
-    "sources": [
-     "pass_xray_goal10_240000 240000 t6 p_goal_10s",
-     "pass_xray_goal10_240000 242000 t30 p_goal_10s",
-     "pass_xray_goal10_240000 horizon_s"
     ],
     "claims": 3,
     "claims_verified": 3,
@@ -339,6 +315,31 @@
     "rejected": []
    }
   ],
+  "withdrawn": {
+   "beats": "Man Utd v Spurs pass X-ray (v3 28% / 3.2%, v4 11% -> 21%, v5 0.32), its tags and its caption",
+   "captions": [
+    {
+     "caption": "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    }
+   ]
+  },
   "pending": [],
   "edit": "packages/demo/edit_v4.yaml"
  }

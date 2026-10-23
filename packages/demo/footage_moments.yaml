@@ -342,10 +342,13 @@ moments:
   # reference model (track A cache/v5: Soccermatics' logistic fit on PL shots; a pass = P(complete) x xG at the
   # receiver's arrival spot). No goal-in-10s, no win chance. Receivers labelled by name if verified, else team and area.
 
-  lfc_v5:
+  lfc_v5:                           # a shot-only beat at the reviewed strike (lead: no better pass here)
     clip: liverpool-mancity-2526
     style: v5
-    t_s: 875.0
+    shot_only: true
+    strike: {file: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json, clip_ms: 875560}
+    card_note: "Blocked."
+    t_s: 875.56
     pre_s: 2.0
     post_s: 3.0
     moment_file: liverpool-mancity-2526/moments/875000.json
@@ -355,10 +358,13 @@ moments:
     target: null
     xg: data/footage/liverpool-mancity-2526/cache/v5/xg_decision_875000.json
 
-  ars_v5:
+  ars_v5:                           # a shot-only beat at the reviewed strike (lead: no better pass here)
     clip: arsenal-chelsea-2526
     style: v5
-    t_s: 1300.5
+    shot_only: true
+    strike: {file: data/footage/arsenal-chelsea-2526/cache/v5/shots_0.json, clip_ms: 1301080}
+    card_note: "Saved."
+    t_s: 1301.08
     pre_s: 2.0
     post_s: 3.0
     moment_file: arsenal-chelsea-2526/moments/1300500.json
@@ -377,34 +383,126 @@ moments:
     moment_file: manutd-mancity-2526/moments/877000.json
     attacks: "-x"
     team_name: "Man Utd"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
     actor: {player: "#16", label: "Amad"}
     target: null
     xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json
+    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_877000.json   # track B's reviewed v5 lower-third
 
-  mci_mbeumo_v5:
+  mci_mbeumo_v5:                     # the strike (shots_0: 0.10 xG, the same as the decision file)
     clip: manutd-mancity-2526
     style: v5
+    strike: {file: data/footage/manutd-mancity-2526/cache/v5/shots_0.json, clip_ms: 1079360}
+    goal_clip_s: 1080.2              # the ball crosses the line (read off the frames)
     t_s: 1079.36
     pre_s: 2.0
     post_s: 3.0
     moment_file: manutd-mancity-2526/moments/1079360.json
     attacks: "-x"
     team_name: "Man Utd"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
     actor: {player: "Mbeumo", label: "Mbeumo"}
     target: null
     xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_1079360.json
+    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_1079360.json   # track B's reviewed v5 lower-third
     finishing: true
 
-  mci_dorgu_v5:
+  mci_dorgu_v5:                      # frozen at the strike (shots_0: 0.48 xG from 4.3 m), not the decision 1 s before
     clip: manutd-mancity-2526
     style: v5
-    t_s: 1189.84
+    strike: {file: data/footage/manutd-mancity-2526/cache/v5/shots_0.json, clip_ms: 1190880}
+    goal_clip_s: 1191.0              # the ball crosses the line (read off the frames)
+    t_s: 1190.88
     pre_s: 2.0
     post_s: 3.0
     moment_file: manutd-mancity-2526/moments/1189840.json
     attacks: "-x"
     team_name: "Man Utd"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
     actor: {player: "Dorgu", label: "Dorgu"}
     target: null
     xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_1189840.json
+    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_1189840.json   # track B's reviewed v5 lower-third
     finishing: true
+
+  # v5 xG montage: real shots from track A's shots_0 (82b6e74), hard cuts. The outcome stamp time is read off the frames.
+  shot_lfc_fk_v5:                    # Szoboszlai's free kick, 73:26: a goal from 0.02 xG
+    clip: liverpool-mancity-2526
+    kind: shot_xg
+    data: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json
+    clip_ms: 96500
+    team: home
+    pre_s: 1.2
+    outcome_after_s: 1.1
+    post_s: 1.4
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+  shot_lfc_silva_v5:                 # Silva, 83:37: 0.28 xG
+    clip: liverpool-mancity-2526
+    kind: shot_xg
+    data: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json
+    clip_ms: 708080
+    team: away
+    pre_s: 1.2
+    outcome_after_s: 0.5
+    post_s: 1.4
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+  shot_lfc_haaland_v5:               # Haaland's penalty, 92:43: 0.76 (the penalty constant), no trusted wide view
+    clip: liverpool-mancity-2526
+    kind: shot_xg
+    data: data/footage/liverpool-mancity-2526/cache/v5/shots_0.json
+    clip_ms: 1253000
+    team: away
+    pre_s: 1.0
+    outcome_after_s: 0.6
+    post_s: 1.4
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+  shot_mci_save_v5:                  # Man Utd v Man City 56:44: 0.32 xG, saved
+    clip: manutd-mancity-2526
+    kind: shot_xg
+    data: data/footage/manutd-mancity-2526/cache/v5/shots_0.json
+    clip_ms: 880080
+    team: away
+    pre_s: 1.2
+    outcome_after_s: 0.5
+    post_s: 1.2
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+
+  lfc_xg_race_v5:                    # the close: cumulative xG over Liverpool v Man City's last 20 minutes (track A)
+    clip: liverpool-mancity-2526
+    kind: xg_race
+    data: data/footage/liverpool-mancity-2526/cache/v5/xg_race_0.json
+    t0: 1.0
+    duration_s: 9.0
+    draw_s: 6.5
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    label: "Liverpool v Man City · expected goals, last 20 minutes"
+    foot: "measured shots and penalties; 5 shots and 1 goal had no trusted view and are not counted"
+
+  tot_xray_v5:                       # Man Utd v Spurs 2:13-2:15: the attack in xG (track A pass_xray_xg_240000)
+    clip: manutd-spurs-2425
+    kind: pass_xray
+    adapter: xray_xg
+    value_fmt: xg
+    source_file: data/footage/manutd-spurs-2425/cache/v5/pass_xray_xg_240000.json
+    shot_id: 23
+    t0: 240.0
+    t1: 242.0
+    team_short: "Man Utd"
+    pre_s: 1.5
+    hold_s: 1.5
+    rows: 2
+    tags: 3
+    kits: {home: [218, 41, 28], away: [235, 238, 245]}
+    label: "Man Utd: xG if passed to"
+    foot: "xG after the pass = P(complete) × xG from his spot"
+
+  shot_tot_werner_v5:                # Man Utd v Spurs 38:03: Werner, 0.08 xG, saved (shots_0, 115f6a0)
+    clip: manutd-spurs-2425
+    kind: shot_xg
+    data: data/footage/manutd-spurs-2425/cache/v5/shots_0.json
+    clip_ms: 683600
+    team: away
+    pre_s: 1.2
+    outcome_after_s: 0.5
+    post_s: 1.2
+    kits: {home: [218, 41, 28], away: [235, 238, 245]}

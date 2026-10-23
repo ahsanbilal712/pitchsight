@@ -338,6 +338,15 @@ class Painter:
         if self.v5 and self.xg is None and m.get("xg"):
             self.xg = load_json(m["xg"])                   # track A writes v5 files bare or wrapped
         self.goal10 = load_json(m.get("goal10"), "result")
+        if self.v5 and m.get("strike"):                   # a finish: the strike itself (track A's shots file)
+            doc = load_json(m["strike"]["file"])
+            shots = (doc.get("result") or doc)["shots"]
+            hit = next(x for x in shots if x["clip_ms"] == int(m["strike"]["clip_ms"]))
+            self.xg = {**(self.xg or {}), "actual": {"kind": "shoot", "xg": hit["xg"], "strike_xg": hit["xg"], "label": "Shot",
+                                                     "distance_m": hit.get("distance_m"), "outcome": hit["outcome"]},
+                       "comparison": "finish", "formula": (doc.get("result") or doc)["model"]["xg"]}
+            self.ball = np.array([hit["x"], hit["y"]], float)
+            self.actor_m = self.ball                      # the shooter is where he struck it
         if self.v5:
             self.v5_geom = self._v5_geometry()
         if self.v4 and not self.v5 and self.goal10 and "options" in self.goal10:
@@ -368,8 +377,8 @@ class Painter:
             doc = json.loads((ROOT / m["line"]).read_text())
             self.line = doc["json"] if doc.get("verified") else None
         if self.v4:                                       # v4 lower-thirds come only from track B's v4 lines
-            doc = load_json(m.get("line_v4"), "result")
-            ok = doc and (doc.get("verdict") == "finishing") == bool(m.get("finishing"))   # a goal line never
+            doc = load_json(m.get("line_v5") or m.get("line_v4"), "result")
+            ok = doc and (doc.get("verdict") in ("finishing", "finish")) == bool(m.get("finishing"))   # a goal line never
             self.line = {"headline": doc["lower_third"]} if ok and doc.get("lower_third") else None   # an alternative
             if ok:                                        # their overlay labels, never internal ids
                 labels = {k: v for k, v in doc.get("decision", {}).get("overlay_labels", {}).items() if v}
@@ -381,19 +390,20 @@ class Painter:
 
     # -- v5: xG from the real-data reference model (track A cache/v5) ---------------------------------------
     def v5_options(self) -> list[dict]:
-        """The hero pass (track A's best_alternative) and at most one secondary, only when a pass beats the shot
-        in track A's comparison; none on a finishing beat."""
+        """The pass drawn as better, by the lead's rule: track A says 'pass higher', it beats the shot by at least
+        `min_gap` xG (0.04) and the receiver is more than 0.5 m onside; at most one. None on shot-only beats."""
         x = self.xg or {}
-        if self.m.get("finishing") or x.get("comparison") != "pass higher":
+        if self.m.get("finishing") or self.m.get("shot_only") or x.get("comparison") != "pass higher":
             return []
-        alts = sorted((a for a in x.get("alternatives", []) if a.get("xg_after_pass") is not None),
-                      key=lambda a: -a["xg_after_pass"])
-        hero = x.get("best_alternative") or (alts[0] if alts else None)
-        out = [hero] if hero else []
-        rest = [a for a in alts if hero is None or a["label"] != hero["label"]]
-        if rest and self.m.get("secondary", True):
-            out.append(rest[0])
-        return out
+        hero = x.get("best_alternative")
+        if not hero or hero.get("xg_after_pass") is None:
+            return []
+        gap = hero["xg_after_pass"] - x["actual"]["xg"]
+        onside = hero.get("onside_margin_m")
+        if gap < float(self.m.get("min_gap", 0.04)) - 1e-9 or (onside is not None and onside <= 0.5) \
+                or hero.get("offside_risk"):
+            return []
+        return [hero]
 
     def area_label(self, x: float, y: float) -> str:
         """Where a player stands, for an unnamed receiver: in the box, on its edge (within 2 m) or outside it."""
@@ -421,7 +431,8 @@ class Painter:
         gk = [p for p in others if p.get("slot") == "GK" or p.get("label") == "GK"]
         if not gk and others:                          # the opponent nearest his goal
             gk = [min(others, key=lambda p: abs(p["x"] - gx) + 0.3 * abs(p["y"] - 34))]
-        if gk:
+        moment_s = doc.get("clip_ms", 0) / 1000 if doc else None
+        if gk and (moment_s is None or abs(moment_s - self.m["t_s"]) <= 0.3):   # a keeper seen at this instant
             keeper = np.array([gk[0]["x"], gk[0]["y"]])
         # the target spot: the middle of the larger gap between the keeper and a post
         if keeper is not None:
@@ -460,7 +471,8 @@ class Painter:
             hero = k == 0
             col = np.array(ORANGE) / 255 if hero else np.array((235, 238, 245)) / 255
             fade = 1.0 if hero else 0.45
-            end = np.asarray(o.get("arrival") or [o["x"], o["y"]], float)
+            end = np.asarray([o["x"], o["y"]], float)       # the pass to where he stands (track A's xG spot)
+            run_to = o.get("run_to") or o.get("arrival")
             arc = self.cam.project(self._arc(self.ball, end))
             m = max(2, int(round(grow * len(arc))))
             p = arc[:m]
@@ -473,9 +485,8 @@ class Painter:
                 ring = self.cam.project(ground_circle(end, 1.1))
                 ax.plot(ring[:, 0], ring[:, 1], color=(0, 0, 0, 0.5 * fade * a_all), lw=7)
                 ax.plot(ring[:, 0], ring[:, 1], color=(*col, fade * a_all), lw=3.5)
-                start = np.array([o["x"], o["y"]])
-                if np.linalg.norm(end - start) > 0.6:    # where the receiver is moving (tracking, the ball's flight)
-                    run = self.cam.project(np.linspace(start, end, 20))
+                if run_to is not None and np.linalg.norm(np.asarray(run_to) - end) > 0.6:   # his tracked run
+                    run = self.cam.project(np.linspace(end, np.asarray(run_to, float), 20))
                     ax.plot(run[:, 0], run[:, 1], color=(1, 1, 1, 0.9 * fade * a_all), lw=2.8, dashes=(3, 2.5))
                     self._arrowhead(ax, run, np.array([1, 1, 1]), 0.9 * fade * a_all, size=16.0)
 
@@ -490,7 +501,7 @@ class Painter:
             items.append((self.v5_geom["target"], f"SHOT  {x['actual']['xg']:.2f} xG", WHITE, a0, -70))
         for k, o in enumerate(self.v5_options()):
             a = window(t, T_ALT[1] + 0.4 * k, T_ALT[1] + 0.4 * k + 0.4) * (1 - fade) * (1.0 if k == 0 else 0.6)
-            end = o.get("arrival") or [o["x"], o["y"]]
+            end = [o["x"], o["y"]]
             items.append((end, f"{self.option_label(o).upper()}  → {o['xg_after_pass']:.2f} xG",
                           ORANGE if k == 0 else WHITE, a, 40))
         for where, text, colour, a, dy in items:
@@ -508,13 +519,22 @@ class Painter:
     def _card_v5(self, im: Image.Image, a: float, swing: float, t: float):
         """The xG card: the shot, the hero pass (when one beats it), a counting xG number, the formula."""
         x = self.xg
-        rows = [("Shot", x["actual"]["xg"], (196, 204, 214))]
+        act = x["actual"]
+        if self.m.get("strike"):                         # the strike frame: from how far
+            dist = act.get("distance_m")
+            if dist is None:
+                dist = float(np.hypot(self.ball[0] - self.v5_geom["gx"], self.ball[1] - 34))
+            shot_label = f"Shot from {dist:.0f} m"
+        else:                                            # a decision freeze, before the strike
+            shot_label = "Shot from here"
+        rows = [(shot_label, act["xg"], (196, 204, 214))]
         opts = self.v5_options()
         if opts:
             rows.append((f"Pass to {self.option_label(opts[0])}", opts[0]["xg_after_pass"], ORANGE))
         x0, w = self._panel_x(a), PANEL_W + 60
         formula = self._wrap(x.get("formula", ""), self.font_reg[20], w - 64)
-        h = 58 + 70 * len(rows) + (52 if self.m.get("finishing") else 0) + 24 * len(formula) + 24
+        has_note = bool(self.m.get("card_note") or self.m.get("finishing"))
+        h = 58 + 70 * len(rows) + (52 if has_note else 0) + 24 * len(formula) + 24
         y0 = H - 96 - h
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
@@ -536,8 +556,9 @@ class Painter:
             d.text((x0 + w - 28, by + 6), f"{shown:.2f}", font=self.font[34],
                    fill=(*col, int(al * (1 if k == 0 else grow))), anchor="rm")
         yy = y0 + 56 + 70 * len(rows)
-        if self.m.get("finishing"):
-            d.text((x0 + 32, yy), "Scored.", font=self.font[30], fill=(*ORANGE, al))
+        note = self.m.get("card_note") or ("Scored." if self.m.get("finishing") else None)
+        if note:
+            d.text((x0 + 32, yy), note, font=self.font[30], fill=(*ORANGE, al))
             yy += 52
         for k, line in enumerate(formula):
             d.text((x0 + 32, yy + 24 * k), line, font=self.font_reg[20], fill=(169, 180, 194, al))
@@ -1154,7 +1175,8 @@ def goal_flash(m: dict, enc, frames: np.ndarray, start_s: float, p: Painter) -> 
     (`goal_clip_s`, from track A), then 'GOAL' and the shot's xG with 'scored' held to the end."""
     goal_t = float(m["goal_clip_s"])
     colour = np.array((m.get("kits") or {}).get(m.get("team", "home"), ORANGE), float)
-    xg = (p.xg or {}).get("actual", {}).get("xg")
+    act = (p.xg or {}).get("actual", {})
+    xg = act.get("strike_xg") if act.get("strike_xg") is not None else act.get("xg")   # the strike's value
     small = ImageFont.truetype(FONT, 46)
     for i, fr in enumerate(frames):
         dt = start_s + i / FPS - goal_t

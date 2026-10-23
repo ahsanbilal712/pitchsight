@@ -470,6 +470,10 @@ class PassXray(Live):
             hit = next((p for p in frames[k]["players"] if p["track_id"] == want and p.get("xy")), None)
             x["holder_xy"] = [hit["xy"][0], PITCH_W - hit["xy"][1]] if hit else None
 
+    def value(self, v: float) -> str:
+        """An option's value as printed: xG to two decimals (v5), else a probability."""
+        return f"{v:.2f} xG" if self.m.get("value_fmt") == "xg" else pct(v)
+
     def role(self, o: dict) -> str:
         """Where an unnamed player stands, for his label: six-yard box, penalty box or outside it."""
         team = (self.data.get("team") or {}).get(str(self.m.get("team_index", "")), self.m.get("unnamed", "Teammate"))
@@ -538,7 +542,7 @@ class PassXray(Live):
         for rank, o in enumerate(ranked[: int(self.m.get("tags", 5))]):
             name = f"  {o['name'].split()[-1]}" if o.get("name") else ""
             top = rank == 0 and pass_best
-            self.tag(d, cam, place[o["label"]], f"{rank + 1}{name}  {pct(o['p_goal'])}",
+            self.tag(d, cam, place[o["label"]], f"{rank + 1}{name}  {self.value(o['p_goal'])}",
                      ORANGE if top else WHITE, font_size=30 if top else 26, glow=top)
         a = window(t, s[0]["clip_ms"] / 1000, s[0]["clip_ms"] / 1000 + 0.5)
         foot = (f"n = {self.data['n']}, {self.data['horizon_s']:g} s, seed {self.data['seed']}"
@@ -547,7 +551,8 @@ class PassXray(Live):
         if shoot is not None:                            # the shot ranked with the passes
             entries.append(("Shooting now", shoot))
         entries.sort(key=lambda e: -e[1])
-        rows = [(f"{k + 1}. {label}", pct(v), ORANGE if k == 0 else WHITE) for k, (label, v) in enumerate(entries)]
+        rows = [(f"{k + 1}. {label}", self.value(v), ORANGE if k == 0 else WHITE)
+                for k, (label, v) in enumerate(entries)]
         self.card(d, self.m.get("label", "Pass X-ray: goal chance if passed to"), rows, foot, a)
         im.paste(layer, (0, 0), layer)
 
@@ -950,17 +955,46 @@ class ShotXG(Live):
         shots, m = self.data["shots"], self.m              # the shot first: the camera follows from it
         self.shot = shots[m["index"]] if "index" in m else min(shots, key=lambda s: abs(s["clip_ms"] - m["clip_ms"]))
         self.data = {**self.data, "shot_id": self.shot.get("shot_id")}
+        src = (self.shot.get("source") or {}).get("calib")
+        if src and (FOOTAGE / src).exists() and self.shot.get("camera_ok"):      # track A's camera for this strike
+            return json.loads((FOOTAGE / src).read_text())
+        if not self.shot.get("camera_ok"):
+            return {}
         try:
             return super()._calib()
         except (FileNotFoundError, StopIteration):
             return {}
+
+    def outcome_after(self) -> float:
+        """Seconds from the strike to the outcome stamp: the data's outcome time, else the spec's (read off the
+        frames), else 0.6 s."""
+        s = self.shot
+        if s.get("outcome_clip_ms"):
+            return (s["outcome_clip_ms"] - s["clip_ms"]) / 1000
+        return float(self.m.get("outcome_after_s", 0.6))
+
+    def ground(self, ax, cam, t):
+        """The shot's cone from the strike point to both posts, flashing in at the strike."""
+        s = self.shot
+        if cam is None or s.get("x") is None:
+            return
+        tau = t - s["clip_ms"] / 1000
+        a = window(tau, -0.1, 0.1) * (1 - window(tau, 1.4, 1.8))
+        if a <= 0:
+            return
+        gx = 105.0 if s["x"] > 52.5 else 0.0
+        ball = np.array([s["x"], s["y"]])
+        cone = np.vstack([np.linspace(ball, [gx, 30.34], 24), np.linspace([gx, 30.34], [gx, 37.66], 12),
+                          np.linspace([gx, 37.66], ball, 24)])
+        px = cam.project(cone)
+        ax.add_patch(Polygon(px, closed=True, fc=(1, 1, 1, 0.16 * a), ec=(1, 1, 1, 0.7 * a), lw=1.8))
 
     needs_camera = False
 
     def span(self):
         s = self.shot
         t = s["clip_ms"] / 1000
-        end = max(s.get("outcome_clip_ms", s["clip_ms"]) / 1000, t) + float(self.m.get("post_s", 0.9))
+        end = t + self.outcome_after() + float(self.m.get("post_s", 0.9))
         return t - float(self.m.get("pre_s", 1.6)), end
 
     def panels(self, im, cam, t):
@@ -972,7 +1006,10 @@ class ShotXG(Live):
         d = ImageDraw.Draw(layer)
         pop = window(tau, -0.15, 0.15)
         size = int(34 + 30 * pop)
-        text = f"xG {s['xg']:.2f}"
+        if s.get("xg") is None:                           # unmeasured: no number (track A)
+            im.paste(layer, (0, 0), layer)
+            return
+        text = f"{s['xg'] * window(tau, 0.0, 0.6):.2f} xG"   # counts up to the value at the strike
         if cam is not None and s.get("camera_ok", True):
             at = cam.project([[s["x"], s["y"]]])[0]
             at = at - [0, APPARENT_HEIGHT_M * lateral_px_per_m(cam, [s["x"], s["y"]]) + 70]
@@ -988,11 +1025,14 @@ class ShotXG(Live):
         if name:
             d.text((at[0], box[3] + 18), name.upper(), font=self.font[26], fill=(255, 255, 255, int(255 * pop)),
                    anchor="mt", stroke_width=3, stroke_fill=(0, 0, 0, int(200 * pop)))
-        out_t = (s.get("outcome_clip_ms", s["clip_ms"] + 600) - s["clip_ms"]) / 1000
+        out_t = self.outcome_after()
         o = window(tau, out_t, out_t + 0.12)
         if o > 0:
             goal = s["outcome"] == "goal"
             word = "GOAL" if goal else s["outcome"].upper()
+            if goal and self.m.get("tag_line", True):
+                d.text((W / 2, H / 2 + 80), f"{s['xg']:.2f} xG · scored", font=self.font[50],
+                       fill=(255, 255, 255, int(255 * o)), anchor="mm", stroke_width=6, stroke_fill=(0, 0, 0, int(200 * o)))
             col = tuple(int(v * 255) for v in self.kit) if goal else WHITE
             f = ImageFont.truetype(FONT, int(150 if goal else 96))
             scale_in = 1 + 0.25 * (1 - o)
@@ -1179,11 +1219,12 @@ class XGRace(RiverStrip):
         X = self.geometry()[0]
         shown = [e for e in self.data.get("events", []) if e.get("kind") == "goal" and e["clip_ms"] <= now]
         for k, e in enumerate(shown):
-            text = f"{e['clock']}  {e['label']}"
+            who = (e.get("label") or self.data.get(e.get("team", "home"), "")).split()[-1]
+            text = f"{e['clock']}  {who}"
             half = d.textlength(text, font=self.font[22]) / 2
             ex = min(max(X(e["clip_ms"]), x0 + 24 + half), x1 - 24 - half)
             d.text((ex, y0 + 66 + 26 * (k % 2)), text, font=self.font[22], fill=(255, 255, 255, al), anchor="mm")
-        d.text((x1 - 24, y0 + 18), self.m.get("foot", ""), font=self.reg[20], fill=(*MUTED, al), anchor="ra")
+        d.text((x1 - 24, y1 - 16), self.m.get("foot", ""), font=self.reg[20], fill=(*MUTED, al), anchor="rb")
         im.paste(layer, (0, 0), layer)
 
 

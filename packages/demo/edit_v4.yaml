@@ -1,4 +1,4 @@
-# Video v4 edit decision list, DRAFT 2 (owner, 23 Oct: attacks only, goal chance in the next 10 s, no win chance,
+# Video v4 edit decision list (re-cut 23 Oct: the Spurs pass X-ray removed; track A 115f6a0), DRAFT 2 (owner, 23 Oct: attacks only, goal chance in the next 10 s, no win chance,
 # clearer lines, awe). Assembled by
 #   python packages/demo/assemble.py packages/demo/edit_v4.yaml
 # Real Premier League footage and names only (permission: docs/permissions/README.md; sources:
@@ -46,17 +46,11 @@ clips:
     captions:
       - {from: 0.2, to: 5.8, text: "Behind it, the newsroom: every agent step traced, every number checked before air."}
 
-  - shot: footage/tot_xray_v4          # Man Utd v Spurs: the attack priced live
-    from: 0.0
-    to: 5.0
-    captions:
-      - {from: 0.2, to: 4.9, text: "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s."}
-
   - shot: footage/tot_speed_gun        # the ball is lost; Van de Ven's run (two pieces of one take)
     from: 1.3
     to: 8.0
     captions:
-      - {from: 0.2, to: 6.5, text: "Then Spurs win it, and Van de Ven goes."}
+      - {from: 0.2, to: 6.5, text: "Man Utd v Spurs. Van de Ven takes the ball and goes."}
 
   - shot: footage/tot_speed_gun
     from: 14.5
@@ -120,8 +114,6 @@ sources:
   "1.1%": "goal10_decision_875000 options[0] shoot p_goal_10s 0.011"
   "10": "goal10_decision_* horizon_s 10.0 (goal for the attacking team within 10 s)"
   "3.3%": "goal10_decision_875000 pass to L3 p_goal_10s 0.033 (verdict better; L3 at x 87.2, the box edge at 88.5)"
-  "11%": "pass_xray_goal10_240000 sample 240000: best pass t6 p_goal_10s 0.112"
-  "21%": "pass_xray_goal10_240000 sample 242000: best pass t30 p_goal_10s 0.205"
   "37.0": "speed_gun_242700 top_speed_kmh 37.0 at clip 260.833 s (track A, tracks 23/25)"
   "91": "speed_gun_242700 distance_m 91.1, a lower bound: the close-up gap 252.6-259.9 s crossed in a straight line"
   "2.6%": "goal10_decision_1300500 options[0] shoot p_goal_10s 0.026"

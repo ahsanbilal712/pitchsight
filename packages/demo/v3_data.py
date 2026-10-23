@@ -98,7 +98,26 @@ def xray_goal10(spec: dict) -> dict:
             "source": spec["source_file"]}
 
 
-ADAPTERS = {"xray": xray, "line": line, "xray_goal10": xray_goal10}
+def xray_xg(spec: dict) -> dict:
+    """pass_xray_xg_<ms>.json (track A, v5: each pass option's xG after the pass, P(complete) x xG at the
+    receiver's spot) -> the pass_xray beat, valued in xG; the holder's own shot as 'shooting now'. Only the
+    after-pass value is ever printed (never the receiver component)."""
+    src = json.loads((ROOT / spec["source_file"]).read_text())
+    src = src.get("result", src)
+    t0, t1 = spec.get("t0", 0), spec.get("t1", 1e9)
+    samples = []
+    for x in src["samples"]:
+        if not t0 <= x["clip_ms"] / 1000 <= t1 or not x.get("options"):
+            continue
+        samples.append({"clip_ms": x["clip_ms"], "holder": x["holder"], "holder_xy": x.get("holder_xy"),
+                        "shoot_now_p_goal": x.get("shoot_now_xg"),
+                        "options": [{"label": o["label"], "name": o.get("name"), "x": o["x"], "y": o["y"],
+                                     "p_goal": o["xg_after_pass"]} for o in x["options"]
+                                    if o.get("x") is not None and o.get("xg_after_pass") is not None]})
+    return {"shot_id": spec.get("shot_id"), "samples": samples, "n": None, "source": spec["source_file"]}
+
+
+ADAPTERS = {"xray": xray, "line": line, "xray_goal10": xray_goal10, "xray_xg": xray_xg}
 
 
 def build(m: dict) -> str:

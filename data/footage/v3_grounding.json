@@ -3,11 +3,11 @@
  "schema_version": "1.0.0",
  "record": "tool_result",
  "result": {
-  "card_line": "75 of 75 on-screen numbers bound to verified evidence (81 of 81 claims verified)",
-  "claims": 81,
-  "claims_verified": 81,
-  "numbers": 75,
-  "numbers_bound": 75,
+  "card_line": "73 of 73 on-screen numbers bound to verified evidence (79 of 79 claims verified)",
+  "claims": 79,
+  "claims_verified": 79,
+  "numbers": 73,
+  "numbers_bound": 73,
   "groups": {
    "studio cue": {
     "items": 6,
@@ -24,11 +24,11 @@
     "claims_verified": 31
    },
    "video caption": {
-    "items": 10,
-    "numbers": 17,
-    "numbers_bound": 17,
-    "claims": 17,
-    "claims_verified": 17
+    "items": 9,
+    "numbers": 15,
+    "numbers_bound": 15,
+    "claims": 15,
+    "claims_verified": 15
    }
   },
   "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
@@ -192,19 +192,6 @@
    },
    {
     "group": "video caption",
-    "item": "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%.",
-    "sources": [
-     "pass_xray_237767 t31 p_goal",
-     "pass_xray_237767 shoot_now_p_goal"
-    ],
-    "claims": 2,
-    "claims_verified": 2,
-    "numbers": 2,
-    "numbers_bound": 2,
-    "rejected": []
-   },
-   {
-    "group": "video caption",
     "item": "37.0 km/h at the top, at least 91 m end to end.",
     "sources": [
      "speed_gun_242700 top_speed_kmh",
@@ -282,6 +269,31 @@
     "rejected": []
    }
   ],
+  "withdrawn": {
+   "beats": "Man Utd v Spurs pass X-ray (v3 28% / 3.2%, v4 11% -> 21%, v5 0.32), its tags and its caption",
+   "captions": [
+    {
+     "caption": "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    }
+   ]
+  },
   "edit": "packages/demo/edit_v3.yaml"
  }
 }

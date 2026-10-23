@@ -1,0 +1,125 @@
+# Video v5 edit decision list, DRAFT 1 (owner, 23 Oct: real-data xG; no goal-in-10s, no win chance, no speed gun;
+# better pass lines and shot visuals). Assembled by
+#   python packages/demo/assemble.py packages/demo/edit_v5.yaml
+# Every number is xG from track A's real-data reference model (cache/v5, 82b6e74 and ca8eef7: Soccermatics'
+# logistic fit on 8,451 PL shots; a pass = P(complete) x xG at the receiver's spot). Real footage and names only.
+# Freezes: demo.composite --style v5 (slow-motion ramp, punch-in, rewind, goal flash); the montage: demo.live
+# ShotXG; the close: XGRace. v3 final (edit_v3.yaml) is the fallback.
+# The Spurs pass X-ray is cut: track A found the attack direction reversed there (115f6a0).
+# Lead's rules: a pass is called better only if it beats the shot by >= 0.04 xG with the receiver > 0.5 m onside
+# (Amad only); every shot shows its strike-frame xG (shots_0) except Amad's decision freeze ("from here").
+# Out of this draft: the ghost future (it plays the v4 pass to L3; track A's v5 best is L4), the Oracle (goal in 10 s)
+# and the studio beat (its line is the v4 goal-in-10s text) until v5 versions exist.
+
+out: packages/demo/out/final_v5.mp4
+size: [1920, 1080]
+fps: 30
+caption_band: 120
+
+clips:
+  - shot: footage/shot_lfc_fk_v5        # hook: a goal from 0.02 xG
+    from: 0.0
+    to: 3.7
+    captions:
+      - {from: 0.1, to: 3.6, text: "Liverpool v Man City. Szoboszlai's free kick: 0.02 xG. In."}
+
+  - shot: footage/shot_lfc_silva_v5
+    from: 0.4
+    to: 3.1
+    captions:
+      - {from: 0.1, to: 2.6, text: "Silva equalises: 0.28 xG."}
+
+  - shot: footage/shot_lfc_haaland_v5
+    from: 0.4
+    to: 3.0
+    captions:
+      - {from: 0.1, to: 2.5, text: "Haaland's penalty: 0.76."}
+
+  - shot: footage/lfc_v5_v5             # 86:23, all square: the decision
+    from: 1.2
+    to: 9.1
+    captions:
+      - {from: 0.2, to: 3.6, text: "86th minute, all square. Szoboszlai shoots from 29 m."}
+      - {from: 3.8, to: 7.8, text: "0.02 xG: the keeper, the cone, the bodies in the way. Blocked."}
+
+  - shot: footage/lfc_v5_v5
+    from: 9.8
+    to: 12.8
+
+  - shot: footage/mci_amad_v5_v5        # Man Utd v Man City 56:41
+    from: 1.2
+    to: 9.1
+    captions:
+      - {from: 0.2, to: 3.6, text: "Man Utd v Man City. Amad shoots from here: 0.06 xG."}
+      - {from: 3.8, to: 7.8, text: "The pass into the box was worth 0.11, almost twice as much."}
+
+  - shot: footage/mci_amad_v5_v5
+    from: 9.8
+    to: 12.3
+
+  - shot: footage/shot_mci_save_v5
+    from: 0.4
+    to: 2.9
+    captions:
+      - {from: 0.1, to: 2.4, text: "Seconds later, 0.32 xG: saved."}
+
+  - shot: footage/shot_tot_werner_v5    # Man Utd v Spurs 38:03 (track A 115f6a0, directions corrected)
+    from: 0.4
+    to: 2.9
+    captions:
+      - {from: 0.1, to: 2.5, text: "Werner, from 16 m: 0.08 xG. Saved."}
+
+  - shot: footage/ars_v5_v5             # Arsenal v Chelsea 79:11
+    from: 1.2
+    to: 9.1
+    captions:
+      - {from: 0.2, to: 7.8, text: "Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved."}
+
+  - shot: footage/mci_mbeumo_v5_v5      # finishes that went in
+    from: 1.2
+    to: 7.9
+    captions:
+      - {from: 0.2, to: 6.5, text: "Mbeumo from here: 0.10 xG."}
+
+  - shot: footage/mci_mbeumo_v5_v5
+    from: 9.8
+    to: 14.8
+
+  - shot: footage/mci_dorgu_v5_v5
+    from: 1.2
+    to: 7.9
+    captions:
+      - {from: 0.2, to: 6.5, text: "Dorgu, from 4.5 m: 0.48 xG."}
+
+  - shot: footage/mci_dorgu_v5_v5
+    from: 9.8
+    to: 14.8
+
+  - shot: footage/lfc_xg_race_v5        # the close: how the last 20 minutes added up
+    from: 0.0
+    to: 9.0
+    captions:
+      - {from: 0.3, to: 8.7, text: "Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20."}
+
+  - card: end
+    duration: 3.5
+    title: "WHYLINE"
+    lines: ["Every line on screen has a why.", "Premier League clips used with permission"]
+
+sources:
+  "0.02": "shots_0 (liverpool-mancity-2526) 73:26 e_0006 xg 0.02 (goal) and 86:25 strike 875560 xg 0.02 (blocked)"
+  "0.28": "shots_0 (liverpool-mancity-2526) 83:37 e_0027 xg 0.28 (goal, Bernardo Silva)"
+  "0.76": "shots_0 (liverpool-mancity-2526) 92:43 e_0048 penalty: Wyscout's fixed penalty value 0.76"
+  "86": "the Liverpool clip's broadcast clock 86:23-86:25 (moments/875000.json, shots_0 875560)"
+  "29": "shots_0 (liverpool-mancity-2526) strike 875560 distance_m 28.8"
+  "0.06": "xg_decision_877000 actual xg 0.06 (Amad, the decision freeze, frame_role freeze)"
+  "0.11": "xg_decision_877000 best_alternative #19 xg_after_pass 0.11 (pass higher; gap 0.05 >= 0.04; onside)"
+  "0.32": "shots_0 (manutd-mancity-2526) 56:44 xg 0.32 (saved)"
+  "16": "shots_0 (arsenal-chelsea-2526) strike 1301080 distance_m 16.4; xg_decision_682800 strike_distance_m 16.404 (Werner)"
+  "0.08": "shots_0 (arsenal-chelsea-2526) strike 1301080 xg 0.08 (Eze, saved); shots_0 (manutd-spurs-2425) 38:03 xg 0.08 (Werner, saved)"
+  "0.10": "shots_0 (manutd-mancity-2526) 64:27 xg 0.1 (Mbeumo, goal, the strike)"
+  "4.5": "shots_0 (manutd-mancity-2526) 75:30 strike (4.31, 35.23): 4.5 m from the goal centre (track A, ca8eef7)"
+  "0.48": "shots_0 (manutd-mancity-2526) 75:30 xg 0.48 (Dorgu, goal, at the strike)"
+  "20": "xg_race_0 (liverpool-mancity-2526) series over the clip's final 20 minutes"
+  "1.21": "xg_race_0 (liverpool-mancity-2526) final away_xg 1.21 (measured shots and penalties)"
+  "0.20": "xg_race_0 (liverpool-mancity-2526) final home_xg 0.20 (measured shots and penalties)"
