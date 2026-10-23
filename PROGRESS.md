@@ -5,6 +5,20 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v3 item 1: what Bruno's red card cost, engine estimate: no clear cost (track B)
+
+- `python -m footage.redcard run 11v11|11v10` + `combine`: from the frozen 40:57 state (Man Utd 0-1 Spurs) the
+  engine plays to full time twice, same seeds per world, n=400 each, scripted_v1, seed 9004; 11 v 10 sends off
+  Bruno's role (slot 6, CM) with track A's `Override(sent_off=...)` (583039d).
+- Result: Man Utd win 7.3% -> 10.3% (gap CI -0.8..+7.0 points), draw 21.5% -> 15.3% (-11.8..-0.8), loss 71.3% ->
+  74.5% (-2.8..+9.5); goals conceded 0.70 -> 0.83; expected points 0.43 -> 0.46. **No clear cost in the engine**
+  (only the draw gap is outside noise). Not captioned: a "cost" caption would overstate it. First run (slot 3, a
+  centre-back from the role prior) even had United scoring more with ten; the engine's 10 v 11 keeps the ten in
+  their slots (no reshuffle). Beat `manutd-spurs-2425/cache/v3/red_card_cost_772400.json` with `gap_significant`.
+- CPU only, $0.
+
+---
+
 ## 2026-10-23 · Video v3 item 3: keeper positioning, David Raya at 92:15 (track B)
 
 - Track A's tracks for shots 113/190 put the keeper far from his goal (calibration near the goalmouth), so the save

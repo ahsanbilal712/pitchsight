@@ -1,0 +1,67 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "red_card_cost",
+  "clip_ms": 772400,
+  "clock": "40:57",
+  "draw_11v10": 0.1525,
+  "draw_11v11": 0.215,
+  "engine": "scripted_v1",
+  "expected_points": [
+   0.432,
+   0.46
+  ],
+  "gap_ci95": {
+   "draw": [
+    -0.1175,
+    -0.0075
+   ],
+   "loss": [
+    -0.0275,
+    0.095
+   ],
+   "win": [
+    -0.0075,
+    0.07
+   ]
+  },
+  "gap_significant": {
+   "draw": true,
+   "loss": false,
+   "win": false
+  },
+  "goals_against_mean": [
+   0.695,
+   0.828
+  ],
+  "goals_for_mean": [
+   0.64,
+   0.715
+  ],
+  "horizon": "to full time (90:00)",
+  "horizon_s": 2943.0,
+  "loss_11v10": 0.745,
+  "loss_11v11": 0.7125,
+  "match_id": "m_9004",
+  "n": 400,
+  "note": "an estimate: the synthetic engine plays on from the real frozen positions; the sent-off slot is his role (central midfield); the ten keep their slots (no reshuffle)",
+  "paired": "same seed per world on both sides; bootstrap 5000",
+  "player": {
+   "label": "#8",
+   "name": "Bruno Fernandes",
+   "slot": 6
+  },
+  "score_at": [
+   0,
+   1
+  ],
+  "seed": 9004,
+  "slug": "manutd-spurs-2425",
+  "source": "redcard/11v11.npz + redcard/11v10.npz (seed 9004)",
+  "team": "Manchester United",
+  "win_prob_11v10": 0.1025,
+  "win_prob_11v11": 0.0725
+ },
+ "schema_version": "1.0.0"
+}
