@@ -91,14 +91,15 @@ moments:
     camera: {refine: false}          # only an arc of the centre circle in view: refining on it degenerates (k1
                                      # -0.046); the moment file's homography (track A, calib/90) is used as it is
 
-  # The Oracle on the playing clip (track B, 0a03108): Liverpool's chance of a shot in the next 10 s over 86:15-86:23,
+  # Overlays on the playing clip (demo.live: kind oracle | speed_gun | pass_xray | offside; `data` is the beat's
+  # JSON). The Oracle (track B, 0a03108): Liverpool's chance of a shot in the next 10 s over 86:15-86:23,
   # ending on the Sliding Doors freeze (875 s). Each frame through calib/62_refined.json.
   lfc_oracle:
     clip: liverpool-mancity-2526
     kind: oracle
     t_s: 867.0
     pre_s: 1.0
-    window: data/footage/liverpool-mancity-2526/cache/oracle/window_867000.json
+    data: data/footage/liverpool-mancity-2526/cache/oracle/window_867000.json
     team: home
     kits: {home: [214, 32, 52], away: [120, 182, 232]}
-    oracle_label: "Liverpool: shot in the next 10 s"
+    label: "Liverpool: shot in the next 10 s"

@@ -49,6 +49,7 @@ from demo.footage import (  # noqa: E402
     model_lines,
     occluders,
 )
+from demo.live import SCENES  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 FOOTAGE = ROOT / "data" / "footage"
@@ -796,104 +797,6 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
     return path
 
 
-# ---------------------------------------------------------------------------------------------- oracle (live clip)
-def ellipse_m(z: dict, n: int = 72) -> np.ndarray:
-    """A threat zone {cx, cy, rx, ry, angle_deg} as a ground polygon in metres."""
-    t = np.linspace(0, 2 * np.pi, n)
-    a = np.radians(z["angle_deg"])
-    x, y = z["rx"] * np.cos(t), z["ry"] * np.sin(t)
-    return np.c_[z["cx"] + x * np.cos(a) - y * np.sin(a), z["cy"] + x * np.sin(a) + y * np.cos(a)]
-
-
-def oracle_at(samples: list[dict], t_ms: float, team: str) -> tuple[float, float, dict | None]:
-    """(bar value eased between samples, the latest sample's value, the threat zone interpolated between the two
-    samples around t_ms; the nearer one's when either has none)."""
-    times = np.array([s["clip_ms"] for s in samples], float)
-    i = int(np.clip(np.searchsorted(times, t_ms, side="right") - 1, 0, len(samples) - 1))
-    j = min(i + 1, len(samples) - 1)
-    f = 0.0 if j == i else float(np.clip((t_ms - times[i]) / (times[j] - times[i]), 0, 1))
-    pi, pj = (samples[k]["p_shot_10s_smoothed"][team] for k in (i, j))
-    zi, zj = (samples[k]["threat_zone"][team] for k in (i, j))
-    if zi and zj:
-        zone = {k: zi[k] + (zj[k] - zi[k]) * f for k in ("cx", "cy", "rx", "ry")}
-        da = (zj["angle_deg"] - zi["angle_deg"] + 90) % 180 - 90          # an ellipse's angle is mod 180
-        zone["angle_deg"] = zi["angle_deg"] + da * f
-    else:
-        zone = (zj if f > 0.5 else zi) or zi or zj
-    return pi + (pj - pi) * ease(f), pi, zone
-
-
-def export_oracle(m: dict, path: Path) -> Path:
-    """The Oracle on the playing clip (FOOTAGE_ADDENDUM §2, scene 5): over track B's window (cache/oracle, a sample
-    every 0.5 s: the attacking team's p(shot in the next 10 s) and its 2-sigma threat zone in the moment-file frame),
-    every frame drawn through that frame's paint-refined calibration, the zone on the grass and the card bottom left.
-    The card prints the latest sample's value; only the bar moves between samples. 30 fps, no audio."""
-    win = load_json(m["window"], "result")
-    samples, team = win["samples"], m.get("team", "home")
-    shots = json.loads((FOOTAGE / m["clip"] / "shots.json").read_text())["shots"]
-    t0, t1 = win["start_clip_ms"] / 1000, win["end_clip_ms"] / 1000
-    shot = next(s["id"] for s in shots if s.get("usable") and s["start"] <= t0 <= s["end"])
-    calib_dir = FOOTAGE / m["clip"] / "calib"
-    calib = json.loads(next(p for p in (calib_dir / f"{shot}_refined.json", calib_dir / f"{shot}.json")
-                            if p.exists()).read_text())
-    fps_clip = float(calib.get("fps", 50.0))
-    pre = float(m.get("pre_s", 1.0))
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t0 - pre:.3f}", "-i", str(clip_path(m)), "-t",
-                          f"{t1 - t0 + pre:.3f}", "-vf", f"fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
-                         capture_output=True, check=True).stdout
-    frames = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
-    kit = np.array((m.get("kits") or {}).get(team, ORANGE)) / 255
-    fig = Figure(figsize=(W / 100, H / 100), dpi=100)
-    fig.patch.set_alpha(0)
-    canvas = FigureCanvasAgg(fig)
-    ax = fig.add_axes((0, 0, 1, 1))
-    font = {z: ImageFont.truetype(FONT, z) for z in (22, 64)}
-    small = ImageFont.truetype(FONT_REG, 20)
-    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
-                            "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium", "-crf", "16",
-                            "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(path)], stdin=subprocess.PIPE)
-    for i, img in enumerate(frames):
-        t = t0 - pre + i / FPS
-        a = window(t, t0 - 0.2, t0 + 0.4)
-        bar, value, zone = oracle_at(samples, t * 1000, team)
-        cam = from_pitchwatch(calib, int(round(t * fps_clip)))
-        ax.clear()
-        ax.set_xlim(0, W)
-        ax.set_ylim(H, 0)
-        ax.axis("off")
-        if zone and a > 0:
-            poly = cam.project(ellipse_m(zone))
-            ax.add_patch(Polygon(poly, closed=True, fc=(*kit, 0.30 * a), ec=(0, 0, 0, 0.5 * a), lw=5.5))
-            ax.add_patch(Polygon(poly, closed=True, fill=False, ec=(*kit, a), lw=3.0))
-        canvas.draw()
-        g = np.asarray(canvas.buffer_rgba(), float) / 255
-        f = img.astype(float) / 255 * (1 - g[..., 3:4]) + g[..., :3] * g[..., 3:4]
-        im = Image.fromarray(np.clip(f * 255, 0, 255).astype(np.uint8))
-        if a > 0:
-            layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-            d = ImageDraw.Draw(layer)
-            al = int(255 * a)
-            x0, w, h = 96 - int((1 - a) * 40), PANEL_W, 196
-            y0 = H - 96 - h
-            d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
-            d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*(kit * 255).astype(int), al))
-            d.text((x0 + 32, y0 + 20), m.get("oracle_label", "Shot in the next 10 s").upper(), font=font[22],
-                   fill=(169, 180, 194, al))
-            d.text((x0 + 32, y0 + 50), f"{round(value * 100)}%", font=font[64], fill=(255, 255, 255, al))
-            bx0, bx1, by = x0 + 32, x0 + w - 28, y0 + 132
-            d.rounded_rectangle((bx0, by, bx1, by + 12), radius=6, fill=(255, 255, 255, int(28 * a)))
-            d.rounded_rectangle((bx0, by, bx0 + max(12, (bx1 - bx0) * bar), by + 12), radius=6,
-                                fill=(*(kit * 255).astype(int), al))
-            d.text((x0 + w - 28, y0 + h - 16), f"n = {win['n']} per 0.5 s, {win['horizon_s']:g} s, seed {win['seed']}",
-                   font=small, fill=(169, 180, 194, al), anchor="rb")
-            im.paste(layer, (0, 0), layer)
-        enc.stdin.write(im.tobytes())
-    enc.stdin.close()
-    if enc.wait():
-        raise RuntimeError("ffmpeg encode failed")
-    return path
-
-
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("moment")
@@ -910,8 +813,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"composite: {clip_path(m).relative_to(ROOT)} is not here (clips are never committed)", file=sys.stderr)
         return 1
     OUT.mkdir(parents=True, exist_ok=True)
-    if m.get("kind") == "oracle":
-        print(f"wrote {export_oracle(m, OUT / f'{m["name"]}.mp4').relative_to(ROOT)}")
+    if m.get("kind") in SCENES:                         # an overlay on the playing clip (demo.live)
+        print(f"wrote {SCENES[m['kind']](m).export(OUT / (m['name'] + '.mp4')).relative_to(ROOT)}")
         return 0
     frame = frame_at(m, m["t_s"])
     Image.fromarray(frame).save(OUT / f"{m['name']}_frame.png")
