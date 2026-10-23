@@ -194,12 +194,18 @@ def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
 
 
 def apply_overrides(shots: list[dict], path: Path) -> None:
-    """Reviewed corrections: {"live": [[start_s, end_s], ...], "replay": [...]}; a shot whose middle falls in a
-    range takes that label (and is usable again if it is wide and long enough). Highlight packages use the same
+    """Reviewed corrections: {"live": [[start_s, end_s], ...], "replay": [...], "trim": {shot_id: [start_s, end_s]},
+    "fps": clip fps}. trim narrows a shot to a reviewed wide window (a cut the detector missed); a shot whose middle
+    falls in a live/replay range takes that label (and is usable again if it is wide and long enough). Highlight packages use the same
     wipe between segments as around replays, so their wipe pairing needs this review."""
     if not path.exists():
         return
     ov = json.loads(path.read_text())
+    fps = ov.get("fps")
+    for sid, (a, b) in (ov.get("trim") or {}).items():    # a reviewed wide window inside a mixed shot
+        s = next(x for x in shots if x["id"] == int(sid))
+        s.update({"start": a, "end": b, "duration": round(b - a, 2), "frame_start": round(a * fps),
+                  "frame_end": round(b * fps), "kind": "wide", "override": "trim"})
     for s in shots:
         mid = (s["start"] + s["end"]) / 2
         for label in ("live", "replay"):
