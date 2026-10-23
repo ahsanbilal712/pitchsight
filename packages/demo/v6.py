@@ -90,6 +90,8 @@ class LiveHUD(Live):
     """The live analytics layer over a playing attacking passage (track A's live_<start>.json, 10 Hz frames; the
     shared note track-a-v6-live-format.md). A frame that is not trusted, or has no holder, draws nothing."""
 
+    hud_w, hud_h, hud_above = HUD_W, HUD_H, 0           # hud_above: a card stacked over the panel (v7)
+
     def __init__(self, m: dict):
         super().__init__(m)
         d = self.data
@@ -203,6 +205,7 @@ class LiveHUD(Live):
         if x is not None and cam is not None:
             opts = self.ranked(x)
             font = ImageFont.truetype(FONT, LABEL_PX)
+            placed = []
             for k, o in enumerate(opts[:3]):                # labels on the top 3 options only
                 if window(t * 1000 - self.streak_start(o.get("label"), x), 0, DRAW_ON_MS) < 1:
                     continue
@@ -212,9 +215,17 @@ class LiveHUD(Live):
                 w = d.textlength(text, font=font) + 24
                 x0 = float(np.clip(pt[0] - w / 2, 12, W - 12 - w))
                 y0 = pt[1] + 22
-                hx0, hy0 = W - 64 - HUD_W - 12, H - 64 - HUD_H - 12      # never under the panel
+                hx0, hy0 = W - 64 - self.hud_w - 12, H - 64 - self.hud_h - self.hud_above - 12   # never under it
                 if x0 + w > hx0 and y0 + LABEL_PX + 16 > hy0:
-                    x0 = max(12.0, hx0 - w)
+                    up = y0 + LABEL_PX + 16 - hy0
+                    if up <= 40:                                   # a small nudge up keeps it by its player
+                        y0 -= up
+                    else:
+                        x0 = max(12.0, hx0 - w)
+                for bx0, by0, bx1, by1 in placed:                  # never on top of another label
+                    if x0 < bx1 + 6 and x0 + w > bx0 - 6 and y0 < by1 + 6 and y0 + LABEL_PX + 16 > by0 - 6:
+                        y0 = by1 + 8
+                placed.append((x0, y0, x0 + w, y0 + LABEL_PX + 16))
                 col = ACCENT if k == 0 else WHITE
                 d.rounded_rectangle((x0, y0, x0 + w, y0 + LABEL_PX + 16), radius=8, fill=(*PANEL, 225),
                                     outline=(*col, 255 if k == 0 else 140), width=3 if k == 0 else 2)
@@ -248,7 +259,7 @@ class LiveHUD(Live):
              state: str | None = None, threat: float | None = None) -> None:
         """Bottom-right broadcast panel: who is on the ball, the two live values in the biggest type on screen,
         and a threat meter that moves smoothly and shifts colour as threat rises."""
-        w, h = HUD_W, HUD_H
+        w, h = self.hud_w, self.hud_h
         x0, y0 = W - 64 - w, H - 64 - h
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))

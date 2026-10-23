@@ -1256,8 +1256,9 @@ class XGRace(RiverStrip):
 
 
 def _v6_scenes() -> dict:
-    from demo.v6 import LiveHUD, Pipeline, ShotMap  # v6 builds on this module's base classes
-    return {"live_hud": LiveHUD, "shot_map": ShotMap, "pipeline": Pipeline}
+    from demo.v6 import LiveHUD, Pipeline, ShotMap  # v6 and v7 build on this module's base classes
+    from demo.v7 import AlwaysOn
+    return {"live_hud": LiveHUD, "shot_map": ShotMap, "pipeline": Pipeline, "always_on": AlwaysOn}
 
 
 SCENES = {"oracle": Oracle, "metrics": Metrics, "river_strip": RiverStrip, "shot_xg": ShotXG,
