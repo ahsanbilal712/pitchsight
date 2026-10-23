@@ -458,5 +458,5 @@ figcaption {
 
 /* long units ("passes_per_min") must not run out of the panel */
 .blackboard table { table-layout: fixed; }
-.blackboard td:nth-child(1) { width: 42%; }
+.blackboard td:nth-child(1) { width: 42%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .blackboard td:nth-child(3) { overflow: hidden; text-overflow: ellipsis; }

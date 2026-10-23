@@ -9,7 +9,7 @@
 # offside line (track A's corrected Law 11 line puts every tracked pass well onside; no decisive moment) and the
 # Man Utd v City "right call" freeze (same match as the ghost defender, time for the studio).
 # Studio: track B's recorded real-clip newsroom run (be08c6a), recorded by scripts/record_v3_studio.sh.
-# Still to come: grounded claims on the real cues (measurement card).
+# Grounded claims: data/footage/v3_grounding.json (track B), on the measurement card.
 
 out: packages/demo/out/final_v3.mp4
 size: [1920, 1080]
@@ -69,14 +69,14 @@ clips:
   - shot: v3/studio_lfc                # the producer console on the recorded real-clip newsroom run (track B)
     from: 6.0
     to: 14.0
-    crop: [0, 0, 1580, 889]          # moments and the agent trace: the run is one moment
+    crop: [0, 0, 1522, 856]          # header, moments, trace and cues, ending at the gutter before the producer column
     captions:
       - {from: 0.2, to: 7.8, text: "The newsroom behind it: every agent step traced, every line checked before air."}
 
   - shot: v3/veto_lfc
     from: 3.4
     to: 11.4
-    crop: [340, 0, 1580, 889]        # the trace and the producer
+    crop: [338, 52, 1582, 890]       # from the gutter after the moments to the right edge, below the header row
     captions:
       - {from: 0.2, to: 7.8, text: "At full time the recap waits for the producer. Vetoed: it never airs."}
 
@@ -123,3 +123,4 @@ sources:
   "7.0": "ghost_defender_1188840 reach_m 7.0 (top speed 7 m/s for t_avail_s 1.0)"
   "26%": "ghost_defender_1188840 p_goal_actual 0.2581 (n = 200, seed 9002)"
   "19%": "ghost_defender_1188840 p_goal_ghost 0.1929 (n = 200, seed 9002)"
+  "75": "data/footage/v3_grounding.json (track B, 6a6c2b9): numbers_bound 75 of numbers 75 (newsroom.factcheck.verify_claims)"

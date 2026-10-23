@@ -154,7 +154,9 @@ moments:
     pre_s: 0.5
     hold_s: 6.0
     label: "Measured on this footage"
-    foot: "track A, data/footage/insights/metrics.json"
+    extra_rows:                      # track B, data/footage/v3_grounding.json (6a6c2b9): the video's own numbers
+      - {label: "On-screen numbers bound to verified evidence", value: "75 of 75"}
+    foot: "track A, data/footage/insights/metrics.json; track B, data/footage/v3_grounding.json"
 
   lfc_river_strip:                   # lead review: the river as one line in the lower third of a playing clip
     clip: liverpool-mancity-2526
