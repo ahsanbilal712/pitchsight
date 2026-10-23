@@ -34,6 +34,7 @@ FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 FONT_REG = "/System/Library/Fonts/Supplemental/Arial.ttf"
 ORANGE, WHITE, YELLOW, PANEL, MUTED = (255, 122, 26), (236, 242, 248), (255, 214, 10), (12, 16, 22), (169, 180, 194)
 PANEL_W = 540
+RUNNER_RING_M = 0.65    # the speed gun's ring: tight, since a detector box can sit half a metre off a sprinting player
 APPARENT_HEIGHT_M = 1.42          # demo.composite: a player's height in the picture over the grass scale across it
 
 
@@ -380,9 +381,9 @@ class SpeedGun(Live):
                 a = 0.15 + 0.85 * (k + 1) / n
                 ax.plot(px[k:k + 2, 0], px[k:k + 2, 1], color=(0, 0, 0, 0.45 * a), lw=10, solid_capstyle="round")
                 ax.plot(px[k:k + 2, 0], px[k:k + 2, 1], color=(*self.kit, a), lw=5.5, solid_capstyle="round")
-        ring = cam.project(ground_circle(self.pos(now / 1000), 1.0))
-        ax.plot(ring[:, 0], ring[:, 1], color=(0, 0, 0, 0.5), lw=7)
-        ax.plot(ring[:, 0], ring[:, 1], color=(*self.kit, 1.0), lw=3.5)
+        ring = cam.project(ground_circle(self.pos(now / 1000), RUNNER_RING_M))
+        ax.plot(ring[:, 0], ring[:, 1], color=(0, 0, 0, 0.5), lw=6)
+        ax.plot(ring[:, 0], ring[:, 1], color=(*self.kit, 1.0), lw=3)
 
     def in_gap(self, ms: float) -> bool:
         return any(g["from_clip_ms"] <= ms <= g["to_clip_ms"] for g in self.data.get("gaps", []))
