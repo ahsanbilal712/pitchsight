@@ -1,7 +1,7 @@
 """Video v7: analytics on every frame (owner, 23 Oct: "keep it analytics full").
 
 An always-on layer from player positions alone (track A cache/v7 always_<start_ms>.json: pitch control, dangerous
-space owned per team, team shape), drawn under v6's ball layer (carrier, shot now, best pass, priced pass lines). The
+space in view per team, team shape), drawn under v6's ball layer (carrier, shot now, best pass, priced pass lines). The
 panel never blanks: between carriers it shows the defending side's shape. Format: track-c-v7-formats.md.
 
 Until track A's file lands a beat can run on a STAND-IN computed here from v6's tracked positions (a soft Voronoi,
@@ -166,6 +166,9 @@ class AlwaysOn(LiveHUD):
             d.text((x0 + w - 28, y0 + 26), state, font=f_small, fill=(255, 214, 10, al), anchor="ra")
         sh = ((lay or {}).get("shape") or {}).get((lay or {}).get("defending")) or {}
         rows = [("Width", sh.get("width_m")), ("Depth", sh.get("depth_m")), ("Line gap", sh.get("line_gap_m"))]
+        if all(v is None for _, v in rows):                 # fixed slots: the numbers come and go, the panel stays
+            d.text((x0 + 28, y0 + h - 50), "shown when 9 of their 10 outfielders are in view", font=ImageFont.truetype(
+                FONT_REG, 24), fill=(*MUTED, al))
         for k, (label, v) in enumerate(rows):
             cx = x0 + 28 + k * (w - 56) // 3
             d.text((cx, y0 + 90), label, font=f_label, fill=(230, 236, 242, al))
@@ -181,7 +184,7 @@ class AlwaysOn(LiveHUD):
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))
         f_small, f_team = ImageFont.truetype(FONT, 26), ImageFont.truetype(FONT, 30)
-        d.text((x0 + 28, y0 + 16), "DANGEROUS SPACE OWNED", font=f_small, fill=(*MUTED, al))
+        d.text((x0 + 28, y0 + 16), "DANGEROUS SPACE IN VIEW", font=f_small, fill=(*MUTED, al))
         if self.standin:
             d.text((x0 + w - 28, y0 + 16), "STAND-IN, NO NUMBERS", font=f_small, fill=(255, 90, 90, al), anchor="ra")
         race = self.m.get("race_doc") or {}
