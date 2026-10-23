@@ -81,15 +81,19 @@ Run 23 Oct 2026 on the development Mac, HEAD at the time of each command. Every 
   to track B with the fix.
 - `clean_machine_replay.sh --runs 1`: **PASS**, cue-stream sha256 `b90e1e03...` (same as T-064), 55 cues all verified,
   0 refused connections.
-- **T-065 not closed:** the verification command exits non-zero until the test_batch fix lands and the perf budgets
-  are re-run on an idle machine.
+- Re-run at load average 7 (12:55): fan-out p95 19.3 ms (passes); scripted 200 x 90 s 1.65 s CPU and policy MPS 0.37 s
+  still miss. No rollout, engine or policy code changed since 3311003 (where they measured 1.26 s and 0.28 s); the
+  machine carries ~3.4 cores of steady background work (Claude app renderer ~116%, kdc ~99%, macOS storage services
+  ~79%), which inflates even process CPU time.
+- **T-065 not closed:** the only remaining failures are the two rollout timing budgets; they need an idle machine (or
+  the CI runner) to re-measure.
 
 ## P0 / P1
 
 - **No P0 open.**
 - P1 (A, day 8): rollout perf budgets (`tests/rollout/test_perf.py`, `test_policy_perf.py`) fail whenever the machine is loaded; they measure process CPU / wall time against budgets with ~3% margin. Passed idle at T-036 (3311003). Re-run on an idle machine before v1.0; consider running them in CI only (ubuntu runner) or widening to a budget measured on the CI machine.
 - P1 (A, day 8): T-104 reprojection gate open: 20 agent-marked points, refined calibration mean 0.32 m, max 2.21 m (far touchline at frame 41000) vs <= 1.5 m. Track C is adding the far touchline to its refinement.
-- P1 (B, day 8): `tests/cache/test_batch.py` fixture runs `asyncio.run` on the main thread; errors in `make unit` after tests/apps. Fix sent to track B.
+- ~~P1 (B): `tests/cache/test_batch.py` fixture runs `asyncio.run` on the main thread~~ **fixed** in 503f604 (track B); `pytest -m "not live" tests/apps tests/cache`: 66 passed with Playwright first.
 - P2 (B, when Azure resumes): T-058 / T-059 test files do not exist yet.
 
 ## Other findings during the bug bash (fixed)
