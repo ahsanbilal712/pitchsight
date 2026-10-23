@@ -183,9 +183,41 @@
     "track_id": 25,
     "tracks": "tracks/109.json",
     "why_not": "no crop shows a number"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 1299000,
+    "label": "t18",
+    "live": "live_1272000.json",
+    "name": "Eberechi Eze",
+    "shirt": 10,
+    "source": "hand label #10 in moments/hand/1300500.json; no read of track 18 over the window shows another number",
+    "squad": null,
+    "team": "home",
+    "to_clip_ms": 1302000,
+    "track_id": 18,
+    "tracks": "tracks/177.json",
+    "why_not": null
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 1299000,
+    "label": "t36",
+    "live": "live_1272000.json",
+    "name": "Bukayo Saka",
+    "shirt": 7,
+    "source": "hand label #7 in moments/hand/1300500.json; no read of track 36 over the window shows another number",
+    "squad": null,
+    "team": "home",
+    "to_clip_ms": 1302000,
+    "track_id": 36,
+    "tracks": "tracks/177.json",
+    "why_not": null
    }
   ],
-  "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, kit colour on the track's team, number in the season's squad list; null = no label",
+  "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, kit colour on the track's team, number in the season's squad list; or a hand label at a freeze, +-1.5 s around it, when no read of that track over the window gives another number (source); null = no label",
   "slug": "arsenal-chelsea-2526"
  },
  "schema_version": "1.0.0"

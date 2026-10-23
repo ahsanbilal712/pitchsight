@@ -24,3 +24,14 @@ def test_shirt_reads_name_players_once_per_moment():
     ars = verify("arsenal-chelsea-2526")
     assert any(r.get("label") == "A6" and "two players cannot share" in r["why"] for r in ars["rejected"])
     assert verify("liverpool-mancity-2526")["shots"]["e_0065"]["name"] == "Hugo Ekitike"     # tagger said Mac Allister
+
+
+def test_a_hand_label_gives_a_live_window_only_without_a_rival_read():
+    import json
+    from pathlib import Path
+
+    r = json.loads((Path(__file__).resolve().parents[2] / "data/footage/manutd-mancity-2526/cache/v6/names_live_0.json")
+                   .read_text())["result"]["players"]
+    amad = [p for p in r if p["name"] == "Amad"]
+    assert [(p["track_id"], p["from_clip_ms"], p["to_clip_ms"], p["shirt"]) for p in amad] == [(19, 875500, 878500, 16)]
+    assert not any(p["name"] == "Casemiro" and p["track_id"] == 16 for p in r)   # t16 also reads 19 in the passage

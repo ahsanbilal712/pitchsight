@@ -135,13 +135,56 @@ def names_live(slug: str) -> dict:
                     "name": r["name"] if owner else None, "agree": r.get("agree"), "crops": r.get("crops"),
                     "why_not": None if owner else (r.get("why") or "number owned by a stronger read"),
                     "squad": r["squad"]})
+    out += hand_windows(slug, doc)
     res = {"beat": "names_live", "slug": slug, "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, "
-           "kit colour on the track's team, number in the season's squad list; null = no label", "players": out}
+           "kit colour on the track's team, number in the season's squad list; or a hand label at a freeze, "
+           f"+-{WINDOW_S[0]} s around it, when no read of that track over the window gives another number "
+           "(source); null = no label", "players": out}
     from footage.pipeline import register
 
     register(slug, "v6/names_live_0.json", "names_live_0",
              {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result", "result": res})
     return res
+
+
+def hand_windows(slug: str, doc: dict) -> list[dict]:
+    """A freeze's hand-labelled player (moments/hand, named) on his track, +-WINDOW_S[0] around the freeze, for the
+    live file of the same camera shot: only when every shirt read of that track whose window overlaps reads his own
+    number or none (a track that reads another number may have switched), and his own freeze read does not
+    disagree."""
+    from footage.clips import load_config
+
+    out = []
+    for f in load_config()["featured"]:
+        if f["slug"] != slug:
+            continue
+        hand = clip_dir(slug) / "moments" / "hand" / f"{f['clip_ms']}.json"
+        if not hand.exists():
+            continue
+        m = json.loads((clip_dir(slug) / "moments" / f"{f['clip_ms']}.json").read_text())
+        tracks = "tracks/" + m["homography"]["source"].split("/")[1].split(" ")[0]
+        a, b = f["clip_ms"] / 1000 - WINDOW_S[0], f["clip_ms"] / 1000 + WINDOW_S[0]
+        for h in json.loads(hand.read_text())["players"]:
+            p = next((q for q in m["players"] if q.get("label") == h.get("label") and q["team"] == h["team"]), None)
+            if not h.get("name") or not p or p.get("track_id") is None or p.get("slot") == "GK":
+                continue
+            own = int(h["label"][1:]) if h["label"].startswith("#") else None
+            reads = [r for r in doc.values() if r.get("track_id") == p["track_id"] and r.get("tracks") == tracks and
+                     ((r.get("window_s") or [r["at_s"] - WINDOW_S[0], r["at_s"] + WINDOW_S[0]])[0] <= b) and
+                     ((r.get("window_s") or [r["at_s"] - WINDOW_S[0], r["at_s"] + WINDOW_S[0]])[1] >= a)]
+            if any(isinstance(x.get("number"), int) and x["number"] != own for r in reads for x in r["reads"]):
+                continue                        # a crop of this track shows another number: it may have switched
+            for path in sorted((clip_dir(slug) / "cache" / "v6").glob("live_[0-9]*.json")):
+                live = json.loads(path.read_text())["result"]
+                if live["source"]["tracks"].endswith(tracks) and live["start_clip_ms"] <= b * 1000 and \
+                        live["end_clip_ms"] >= a * 1000:
+                    out.append({"live": path.name, "tracks": tracks, "track_id": p["track_id"],
+                                "label": f"t{p['track_id']}", "team": p["team"], "from_clip_ms": round(a * 1000),
+                                "to_clip_ms": round(b * 1000), "shirt": own, "name": h["name"], "agree": None,
+                                "crops": None, "why_not": None, "squad": None,
+                                "source": f"hand label {h['label']} in moments/hand/{f['clip_ms']}.json; no read of "
+                                          f"track {p['track_id']} over the window shows another number"})
+    return out
 
 
 def crops(slug: str, t: dict) -> list[Path]:

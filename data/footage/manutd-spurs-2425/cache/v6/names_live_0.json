@@ -83,9 +83,25 @@
     "track_id": 32,
     "tracks": "tracks/84.json",
     "why_not": "no crop shows a number"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 681300,
+    "label": "t25",
+    "live": "live_662600.json",
+    "name": "Timo Werner",
+    "shirt": 16,
+    "source": "hand label #16 in moments/hand/682800.json; no read of track 25 over the window shows another number",
+    "squad": null,
+    "team": "away",
+    "to_clip_ms": 684300,
+    "track_id": 25,
+    "tracks": "tracks/84.json",
+    "why_not": null
    }
   ],
-  "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, kit colour on the track's team, number in the season's squad list; null = no label",
+  "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, kit colour on the track's team, number in the season's squad list; or a hand label at a freeze, +-1.5 s around it, when no read of that track over the window gives another number (source); null = no label",
   "slug": "manutd-spurs-2425"
  },
  "schema_version": "1.0.0"

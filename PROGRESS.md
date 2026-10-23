@@ -5,6 +5,20 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v6: hand-label windows in the live name lists (track B)
+
+- Track A asked for Amad (t19) and Casemiro (t16) in Amad's passage. `footage.shirts.hand_windows`: a freeze's
+  hand-labelled, named player gets a live window on his track, +-1.5 s around the freeze (the same window the
+  freeze reads use), on the live file of the same camera shot, only when no crop of that track over the window
+  shows another number. Amad: t19 875.5-878.5 s, shirt 16 (his hand label), no crop shows any number. Casemiro:
+  no window (t16 reads 18 at the freeze but 19 five times over the passage: the track may have switched), so the
+  follow-up shot at 879.5-880.1 s stays unlabelled. Also: Bruno, Szoboszlai, Salah, Eze, Saka, Werner around their
+  freezes (each agrees with its own shirt read where one exists).
+- `python -m footage.grounding` (track C's current edit_v6): 935 of 935 on-screen numbers bound (931 of 931 claims).
+- No model call. Verification: `pytest tests/footage` 59 passed (exit 0).
+
+---
+
 ## 2026-10-23 · Video v6 grounding back to 541 of 541 (track B)
 
 - Track C reworded the Arsenal caption to "the top pass option climbs to 0.19 xG" (7ccdce4); its source entry in

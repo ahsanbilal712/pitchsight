@@ -223,9 +223,41 @@
     "track_id": 82,
     "tracks": "tracks/62.json",
     "why_not": "no crop shows a number"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 873500,
+    "label": "t60",
+    "live": "live_802600.json",
+    "name": "Dominik Szoboszlai",
+    "shirt": 8,
+    "source": "hand label #8 in moments/hand/875000.json; no read of track 60 over the window shows another number",
+    "squad": null,
+    "team": "home",
+    "to_clip_ms": 876500,
+    "track_id": 60,
+    "tracks": "tracks/62.json",
+    "why_not": null
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 873500,
+    "label": "t72",
+    "live": "live_802600.json",
+    "name": "Mohamed Salah",
+    "shirt": 11,
+    "source": "hand label #11 in moments/hand/875000.json; no read of track 72 over the window shows another number",
+    "squad": null,
+    "team": "home",
+    "to_clip_ms": 876500,
+    "track_id": 72,
+    "tracks": "tracks/62.json",
+    "why_not": null
    }
   ],
-  "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, kit colour on the track's team, number in the season's squad list; null = no label",
+  "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, kit colour on the track's team, number in the season's squad list; or a hand label at a freeze, +-1.5 s around it, when no read of that track over the window gives another number (source); null = no label",
   "slug": "liverpool-mancity-2526"
  },
  "schema_version": "1.0.0"
