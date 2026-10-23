@@ -814,6 +814,7 @@
    1920,
    1080
   ],
+  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; label/track_id are internal ids, never shown",
   "match_id": "m_9002",
   "period": 1,
   "rules": {
@@ -837,7 +838,8 @@
    "tracks": "manutd-mancity-2526/tracks/xe_0009.json"
   },
   "start_clip_ms": 319000,
-  "step_ms": 100
+  "step_ms": 100,
+  "threat_def": "Threat = the higher of the ball carrier's shot-now xG and the best pass's xG after the pass (pass completion x the reference xG from the receiver's spot); null when the ball is not held in the opponents' half"
  },
  "schema_version": "1.0.0"
 }

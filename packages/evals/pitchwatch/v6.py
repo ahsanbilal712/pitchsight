@@ -21,6 +21,9 @@ from evals.pitchwatch.insights import FOOTAGE, keeper_tracks
 from evals.pitchwatch.v5 import GOAL_Y, SOURCE, L, W, options_xg, shot_xg, team_frame
 
 HZ = 10
+THREAT_DEF = ("Threat = the higher of the ball carrier's shot-now xG and the best pass's xG after the pass (pass "
+              "completion x the reference xG from the receiver's spot); null when the ball is not held in the "
+              "opponents' half")
 HOLD_M = 2.5                       # holder: the tracked player nearest the ball, within this
 FLIGHT_MS = 12.0                   # ball ground speed above this (m/s, over ~0.2 s): a pass or in the air, no holder
 SETTLE = 3                         # possession switches after this many consecutive samples (0.3 s)
@@ -51,18 +54,49 @@ def _goal_strikes(slug: str) -> list[int]:
     return [r["release_clip_ms"] for r in rows if r["slug"] == slug and r.get("goal") and r.get("release_clip_ms")]
 
 
-def _hand(slug: str, shot_id) -> tuple[dict[int, str], dict[int, str]]:
-    """track id -> name and track id -> fix ("referee" | "home" | "away" | "<side>:goalkeeper"), from track B's
-    moment files and moments/overrides.json for moments in the same camera shot (track ids are unique per shot)."""
+def _hand(slug: str, shot_id, F: list[dict]) -> tuple[dict[int, str], dict[int, int], dict[int, str]]:
+    """track id -> verified name, -> shirt number, -> fix ("referee" | "home" | "away" | "<side>:goalkeeper").
+    Names only from track B's names_verified.json: linked through a moment in the same camera shot (track ids are
+    unique per shot), or for an event link through that shot's reviewed strike (the shooter's track in its strike
+    window, or the player within 1.5 m of the shooter's spot at the strike frame). Shirts from the hand-read "#NN"
+    labels of those moments; fixes from moments/overrides.json."""
+    import re
+
     from footage.freeze import load
     from footage.from_tracks import overrides
-    names, fixes = {}, {}
+    verified = json.loads((FOOTAGE / slug / "names_verified.json").read_text())["names"]
+    names, shirts, fixes = {}, {}, {}
     for p in (FOOTAGE / slug / "moments").glob("[0-9]*.json"):
         m = load(slug, int(p.stem))
-        if (m.get("tracking") or {}).get("shot_id") == shot_id:
-            names.update({q["track_id"]: q["name"] for q in m["players"] if q.get("name") and "track_id" in q})
-            fixes.update({int(k): v for k, v in overrides(FOOTAGE / slug, int(p.stem)).items()})
-    return names, fixes
+        if (m.get("tracking") or {}).get("shot_id") != shot_id:
+            continue
+        for q in m["players"]:
+            if "track_id" not in q:
+                continue
+            if q.get("name") in verified:
+                names[q["track_id"]] = q["name"]
+            if re.fullmatch(r"#\d+", q.get("label") or ""):
+                shirts[q["track_id"]] = int(q["label"][1:])
+        fixes.update({int(k): v for k, v in overrides(FOOTAGE / slug, int(p.stem)).items()})
+    rows = {r["event_id"]: r for r in json.loads((FOOTAGE / "insights" / "shots_xg.json").read_text())["shots"]
+            if r["slug"] == slug and r.get("release_clip_ms")}
+    for name, v in verified.items():
+        for link in v["links"]:
+            r = rows.get(link.get("event"))
+            if not r:
+                continue
+            if f"x{r['event_id']}" == str(shot_id) and r.get("shooter_track") is not None:
+                names[r["shooter_track"]] = name
+                continue
+            fr = min(F, key=lambda f: abs(f["t"] * 1000 - r["release_clip_ms"]))
+            if abs(fr["t"] * 1000 - r["release_clip_ms"]) > 100 or not fr["calib_ok"]:
+                continue
+            sx, sy = r["shooter_xy_near"]
+            near = [(math.hypot(q["xy"][0] - sx, (W - q["xy"][1]) - sy), q["track_id"]) for q in fr["players"]
+                    if q["xy"]]
+            if near and min(near)[0] <= 1.5:
+                names.setdefault(min(near)[1], name)
+    return names, shirts, fixes
 
 
 def _near(xy) -> tuple[float, float]:
@@ -79,7 +113,7 @@ def live_shot(slug: str, shot_id) -> dict:
     fps, F = tracks["fps"], tracks["frames"]
     team_side = {int(k): side(v.get("name", ""), META[slug]) for k, v in tracks["teams"].items()}
     keepers = keeper_tracks(tracks)
-    names, fixes = _hand(slug, shot_id)
+    names, shirts, fixes = _hand(slug, shot_id, F)
     start, end = F[0]["t"], F[-1]["t"]
     period = _period(slug, int(start * 1000))
     home_plus = HOME_ATTACKS_P2[slug] * (1 if period == 2 else -1) > 0
@@ -106,7 +140,8 @@ def live_shot(slug: str, shot_id) -> dict:
                 team = "home" if (x < L / 2) == home_plus else "away"
             else:
                 team = team_side.get(p["team"]) if p["team"] in (0, 1) else None
-            players.append({"label": f"t{p['track_id']}", "name": names.get(p["track_id"]), "team": team,
+            players.append({"label": f"t{p['track_id']}", "track_id": p["track_id"], "name": names.get(p["track_id"]),
+                            "shirt": shirts.get(p["track_id"]), "team": team,
                             "keeper": keeper, "x": x, "y": y,
                             "px": [round(v) for v in p["foot_px"]]})
         row = {"clip_ms": clip_ms, "trusted": False, "null_reason": None, "ball": None, "attacking": None,
@@ -157,7 +192,7 @@ def live_shot(slug: str, shot_id) -> dict:
         attacks_plus = home_plus == (team == "home")
         u0, v0 = team_frame((near["x"], near["y"]), attacks_plus)
         row.update({"attacking": team, "attacks": "+x" if attacks_plus else "-x",
-                    "holder": {k: near[k] for k in ("label", "name", "x", "y", "px")},
+                    "holder": {k: near[k] for k in ("label", "track_id", "name", "shirt", "x", "y", "px")},
                     "in_opponent_half": bool(u0 >= L / 2)})
         if u0 < L / 2:
             row["null_reason"] = "own half"
@@ -166,19 +201,23 @@ def live_shot(slug: str, shot_id) -> dict:
         opps = [p for p in players if p["team"] and p["team"] != team]
         shot = shot_xg(min(u0, L - 0.5), v0)              # same goal-line clamp as the receivers
         opts = options_xg(near, mates, opps, attacks_plus) if mates else []
-        px = {p["label"]: p["px"] for p in mates}
+        who = {p["label"]: p for p in mates}
         row["options"] = [{k: o[k] for k in ("label", "name", "x", "y", "p_pass", "xg_receiver", "xg_after_pass",
-                                             "onside_margin_m", "offside_risk")} | {"px": px[o["label"]]}
-                          for o in opts]
+                                             "onside_margin_m", "offside_risk")}
+                          | {k: who[o["label"]][k] for k in ("track_id", "shirt", "px")} for o in opts]
         best = next((o for o in opts if not o["offside_risk"] and o["xg_after_pass"] is not None), None)
         row["shot_now_xg"] = round(shot, 2)
-        row["best"] = best and {"label": best["label"], "xg_after_pass": best["xg_after_pass"]}
+        row["best"] = best and {"label": best["label"], "track_id": who[best["label"]]["track_id"],
+                                "name": best["name"], "shirt": who[best["label"]]["shirt"],
+                                "xg_after_pass": best["xg_after_pass"]}
         bxg = best["xg_after_pass_exact"] if best else -1.0
         row["threat"] = round(max(shot, bxg), 2)
         row["threat_from"] = "pass" if bxg > shot else "shot"
     return {"shot_id": shot_id, "period": period, "home_attacks": "+x" if home_plus else "-x", "hz": HZ,
             "step_ms": 1000 // HZ, "start_clip_ms": frames[0]["clip_ms"], "end_clip_ms": frames[-1]["clip_ms"],
-            "image_size": _image_size(slug, shot_id), "formula": SOURCE, "rules": RULES,
+            "image_size": _image_size(slug, shot_id), "formula": SOURCE, "rules": RULES, "threat_def": THREAT_DEF,
+            "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; "
+                      "label/track_id are internal ids, never shown",
             "coordinates": "pitch metres, x from the left goal line, y from the NEAR touchline (moment-file frame); "
                            "px = image pixel (feet / ball centre)",
             "frames": frames,
