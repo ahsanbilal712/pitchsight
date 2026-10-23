@@ -10,7 +10,8 @@ sampled every 0.25 m) is projected through the current camera and the summed, ca
 
 Camera: the main broadcast camera stands in one place and pans, tilts and zooms, so per clip its position C is fixed
 and each frame has four parameters (rotation vector, focal length; principal point at the image centre, square
-pixels, no lens distortion). C comes from a keyframe: the full camera (rotation, position, focal length) is fitted to
+pixels, no lens distortion). A shot from another camera gets its own keyframe (calib/keyframe_<shot>.json) and its
+own position (calib/camera_<shot>.json). C comes from a keyframe: the full camera (rotation, position, focal length) is fitted to
 that frame's lines plus a few hand-marked correspondences, starting from a camera behind the near touchline looking at
 where the marked points' homography puts the image centre. A new shot starts with a coarse search over pan, tilt and
 focal length; each next frame starts from the previous one.
@@ -141,9 +142,10 @@ def project(H: np.ndarray, xy: np.ndarray) -> np.ndarray:
 
 
 def look_at(C: np.ndarray, target: np.ndarray) -> np.ndarray:
-    """Rotation vector of an upright camera at C looking at target (image x along pitch x, z down)."""
+    """Rotation vector of an upright camera at C looking at target (world z points down, so image right is
+    down x forward; for the main camera behind the near touchline that is pitch +x)."""
     fwd = (target - C) / np.linalg.norm(target - C)
-    xc = np.array([1.0, 0.0, 0.0]) - fwd[0] * fwd
+    xc = np.cross(np.array([0.0, 0.0, 1.0]), fwd)
     xc /= np.linalg.norm(xc)
     rvec, _ = cv2.Rodrigues(np.vstack([xc, np.cross(fwd, xc), fwd]))
     return rvec.ravel()
@@ -279,13 +281,21 @@ def camera_from_keyframe(cap, key: dict, model: np.ndarray, point_weight: float 
                              nan=1e4)
 
     best = None
-    for dist in (15.0, 30.0, 50.0, 80.0):
+    if not np.all(np.isfinite(centre)):                   # the image centre is above the horizon
+        centre = P[:, 2:4].mean(axis=0)
+    starts = [(centre[0], WD + d) for d in (15.0, 30.0, 50.0, 80.0)]          # the main camera: behind the near side
+    starts += [(centre[0], -d) for d in (15.0, 30.0, 50.0)]                    # the reverse angle: behind the far side
+    starts += [(x, y) for x in (-25.0, L + 25.0) for y in (centre[1], WD + 20.0)]  # behind a goal line, or a corner
+    for cx, cy in starts:
         for height in (10.0, 20.0, 35.0):
-            C0 = np.array([centre[0], WD + dist, -height])
+            C0 = np.array([cx, cy, -height])
             x0 = np.concatenate([look_at(C0, np.array([centre[0], centre[1], 0.0])), C0, [1800.0]])
             r = least_squares(point_res, x0, x_scale=scale, max_nfev=400)
-            if r.x[5] < 0 and r.x[4] > WD and (best is None or r.cost < best.cost):    # above the pitch, near side
+            outside = not (0 <= r.x[3] <= L and 0 <= r.x[4] <= WD)
+            if r.x[5] < 0 and outside and (best is None or r.cost < best.cost):    # above the ground, off the pitch
                 best = r
+    if best is None:
+        raise RuntimeError("no camera position above the ground and off the pitch fits the keyframe points")
 
     def res(x):
         H = H_pitch_to_img(x[:3], x[6], x[3:6], size)
@@ -396,7 +406,17 @@ def main(argv: list[str] | None = None) -> int:
     shots = json.loads((args.slug_dir / "shots.json").read_text())["shots"]
     wanted = {int(s) for s in args.shots.split(",") if s} or {s["id"] for s in shots if s["usable"]}
     for shot in (s for s in shots if s["id"] in wanted):
-        frames = calibrate_shot(cap, shot, cam, model, every=args.every)
+        shot_cam = cam
+        key_path = args.slug_dir / "calib" / f"keyframe_{shot['id']}.json"
+        if key_path.exists():                # a shot from another camera (not the main one) has its own position
+            sc_path = out / f"camera_{shot['id']}.json"
+            if not sc_path.exists():
+                sc = camera_from_keyframe(cap, json.loads(key_path.read_text()), model)
+                sc_path.write_text(json.dumps(sc, indent=1) + "\n")
+            shot_cam = json.loads(sc_path.read_text())
+            print(f"shot {shot['id']}: own camera C = {np.round(shot_cam['C'], 2).tolist()} m, "
+                  f"keyframe rms {shot_cam['rms_px']:.2f} px")
+        frames = calibrate_shot(cap, shot, shot_cam, model, every=args.every)
         doc = {"slug": args.slug_dir.name, "shot_id": shot["id"], "fps": fps, "image_size": cam["size"],
                "pitch": {"length_m": L, "width_m": WD, "frame": "x from left goal line, y from far touchline"},
                "camera": {"C": cam["C"], "model": "fixed position, rotation + focal length per frame"},

@@ -131,8 +131,9 @@ def speed_gun(slug: str, shots: list[int], player_at: list[tuple[float, int | st
                      "top_kmh": round(float(np.max(kmh[ok & ~bad])), 1) if (ok & ~bad).any() else None,
                      "trusted_share": round(float(ok.mean()), 3)})
     gaps = []
-    for a, b in zip(segs, segs[1:], strict=False):
-        e, s = a["frames"][-1], b["frames"][0]
+    for a, b in zip(segs, segs[1:], strict=False):        # between the last and first trusted positions
+        e = next(r for r in reversed(a["frames"]) if r["calib_ok"])
+        s = next(r for r in b["frames"] if r["calib_ok"])
         gaps.append({"from_t": e["t"], "to_t": s["t"], "straight_line_m": round(math.dist(e["xy"], s["xy"]), 1),
                      "note": "not on the wide camera; straight-line distance is a lower bound"})
     return {"slug": slug, "segments": segs, "gaps": gaps,
@@ -143,8 +144,38 @@ def speed_gun(slug: str, shots: list[int], player_at: list[tuple[float, int | st
 
 
 # ---------------------------------------------------------------------------------------------------- line
+def keeper_tracks(tracks: dict, depth_m: float = 12.0, half_width_m: float = 12.0) -> set[int]:
+    """Tracks that behave like goalkeepers: median position over the shot within depth_m of a goal line and within
+    half_width_m of the centre line, at most one per goal (the one nearest the line; attackers parked in the box
+    are further out). Kit clustering puts some keepers in an outfield team (their kit matches
+    neither), which would make the opposing keeper a "pass option"; position over the shot does not lie."""
+    pts: dict[int, list] = {}
+    for r in tracks["frames"]:
+        for p in r["players"]:
+            if p["xy"]:
+                pts.setdefault(p["track_id"], []).append(p["xy"])
+    best: dict[int, tuple[float, int]] = {}                # goal side -> (distance to its line, track)
+    for tid, xy in pts.items():
+        if len(xy) < 10:
+            continue
+        x, y = np.median(np.array(xy), axis=0)
+        if abs(y - GOAL_Y) >= half_width_m:
+            continue
+        for side, dist in ((0, x), (1, L - x)):
+            if dist < depth_m and (side not in best or dist < best[side][0]):
+                best[side] = (dist, tid)
+    return {tid for _, tid in best.values()}          # at most one keeper per goal
+
+
 def team_directions(tracks: dict) -> dict[int, int]:
-    """+1 when the team attacks +x: the team whose players sit further left on average defends the left goal."""
+    """+1 when the team attacks +x. From the clip's reviewed directions.json when it lists the shot (the reliable
+    source: a side under sustained pressure sits in its own half, which fools the fallback); otherwise the team
+    whose players sit further left on average defends the left goal."""
+    path = FOOTAGE / tracks["slug"] / "directions.json"
+    if path.exists():
+        by = json.loads(path.read_text())["by_shot"].get(str(tracks["shot_id"]))
+        if by:
+            return {int(k): int(v) for k, v in by.items()}
     xs = {0: [], 1: []}
     for r in tracks["frames"]:
         for p in r["players"]:
@@ -210,6 +241,51 @@ def defensive_line(slug: str, shot: int) -> dict:
                     "ball; a pass is a change of holder within a team."}
 
 
+def offside_checks(slug: str, shot: int) -> list[dict]:
+    """For every detected pass: the receiver's position against the offside line at the moment the ball was played
+    (the last frame the passer was nearest the ball). Law 11: offside position = in the opponents' half and nearer
+    their goal line than both the ball and the second-last opponent. margin_m = receiver's distance past the deepest
+    of (second-last defender, ball, halfway line), in the attacking direction; > 0 offside position, < 0 onside."""
+    res = defensive_line(slug, shot)
+    tracks, cal = load(slug, shot)
+    dirs = team_directions(tracks)
+    keepers = keeper_tracks(tracks)
+    frames = tracks["frames"]
+    nearest = [(nearest_player(r) or {}).get("track_id") for r in frames]
+    index = {r["frame"]: i for i, r in enumerate(frames)}
+    out = []
+    for row in res["frames"]:
+        if "pass" not in row:
+            continue
+        att_team, passer, receiver = row["pass"]["team"], row["pass"]["from"], row["pass"]["to"]
+        i = index[row["frame"]]
+        j = next((k for k in range(i, max(-1, i - 60), -1) if nearest[k] == passer), None)
+        if j is None:
+            continue
+        r = frames[j]
+        pos = {p["track_id"]: p for p in r["players"] if p["xy"]}
+        if passer not in pos or receiver not in pos or not calib_ok(cal, r["frame"]):
+            continue
+        d = dirs[att_team]                                           # attacking direction of the passing team
+
+        def u(xy, d=d):
+            return xy[0] if d > 0 else L - xy[0]
+        defenders = sorted((u(p["xy"]) for p in r["players"] if p["xy"] and (p["team"] == 1 - att_team
+                            or (p["track_id"] in keepers and u(p["xy"]) > L / 2))), reverse=True)
+        if len(defenders) < MIN_LINE_PLAYERS:
+            continue
+        second_last, ball_u, recv_u = defenders[1], u(pos[passer]["xy"]), u(pos[receiver]["xy"])
+        line_u = max(second_last, ball_u, L / 2)
+        out.append({"pass_frame": r["frame"], "pass_t": round(r["frame"] / tracks["fps"], 3),
+                    "received_t": row["t"], "team": att_team, "passer": passer, "receiver": receiver,
+                    "second_last_x": round(second_last if d > 0 else L - second_last, 2),
+                    "ball_x": pos[passer]["xy"][0], "line_x": round(line_u if d > 0 else L - line_u, 2),
+                    "receiver_xy": pos[receiver]["xy"], "margin_m": round(recv_u - line_u, 2),
+                    "decided_by": "defender" if line_u == second_last else ("ball" if line_u == ball_u else "halfway"),
+                    "defenders_seen": len(defenders), "attacking_dir": "+x" if d > 0 else "-x"})
+    return out
+
+
 # ---------------------------------------------------------------------------------------------------- xray
 def control(players: list[tuple[float, float, int]], pts: np.ndarray, team: int) -> np.ndarray:
     """Team's share of control at points (the pitch-control model of physics.pitch_control, players in view)."""
@@ -230,6 +306,15 @@ def xray(slug: str, shot: int) -> dict:
     tracks, cal = load(slug, shot)
     dirs = team_directions(tracks)
     ph, xh = PassHead(), XGHead()
+    excl_path = FOOTAGE / slug / "exclude.json"           # reviewed: referees and others kit clustering misplaced
+    excluded = set(json.loads(excl_path.read_text()).get(str(shot), [])) if excl_path.exists() else set()
+    keepers = keeper_tracks(tracks)
+    for r in tracks["frames"]:
+        r["players"] = [p for p in r["players"] if p["track_id"] not in excluded and p["xy"]
+                        and -1.0 <= p["xy"][0] <= L + 1.0 and -0.5 <= p["xy"][1] <= W + 0.5]    # off-pitch: bench
+        for p in r["players"]:
+            if p["track_id"] in keepers:              # keepers: never a pass option, counted as keepers
+                p["team"], p["role"] = None, "keeper"
     out = []
     for r in tracks["frames"]:
         h = nearest_player(r)
@@ -266,10 +351,17 @@ def xray(slug: str, shot: int) -> dict:
                           "body_part": 0, "defenders_in_cone": cone_count(u, v, ou, ov),
                           "keeper_line_m": L - keeper_u, "under_pressure": int(np.min(np.hypot(ou - u, ov - v)) < 2.5),
                           "control_at_shot": float(control(players, np.array([[u, v]]), team)[0]), "penalty": 0})
+        keepers = [uv(p["xy"])[0] for p in r["players"] if p["team"] is None and p["xy"] and uv(p["xy"])[0] > L - 20]
+        srows.append({"distance_m": float(goal_distance(u0, v0)), "angle_rad": float(goal_angle(u0, v0)), "body_part": 0,
+                      "defenders_in_cone": cone_count(u0, v0, ou, ov),
+                      "keeper_line_m": L - (max(keepers) if keepers else L - 1.0),
+                      "under_pressure": int(np.min(np.hypot(ou - u0, ov - v0)) < 2.5),
+                      "control_at_shot": float(control(players, np.array([[u0, v0]]), team)[0]), "penalty": 0})
         pc = ph.predict(pd.DataFrame(prows))
-        xg = xh.predict(pd.DataFrame(srows))
+        xg_all = xh.predict(pd.DataFrame(srows))
+        xg, shot_now = xg_all[:-1], float(xg_all[-1])
         out.append({"frame": r["frame"], "t": round(r["frame"] / tracks["fps"], 3), "calib_ok": calib_ok(cal, r["frame"]),
-                    "carrier": h["track_id"], "team": team,
+                    "carrier": h["track_id"], "team": team, "carrier_xy": h["xy"], "shoot_now_xg": round(shot_now, 4),
                     "options": sorted([{"track_id": m["track_id"], "xy": m["xy"], "p_pass": round(float(a), 3),
                                         "xg_if_shot": round(float(b), 3), "value": round(float(a * b), 4)}
                                        for m, a, b in zip(mates, pc, xg, strict=True)], key=lambda o: -o["value"])})

@@ -1,0 +1,151 @@
+{
+ "clips": {
+  "arsenal-chelsea-2526": {
+   "calibration": {
+    "shots": [
+     109,
+     113,
+     177,
+     186,
+     190
+    ],
+    "frames": 1955,
+    "ok_share": 0.603,
+    "line_residual_px": {
+     "median": 3.5,
+     "p95": 5.58
+    },
+    "paint_drift_p95_px_refined": {
+     "median": 1.5,
+     "shots": "track C refinement"
+    }
+   },
+   "tracking": {
+    "shots": [
+     113,
+     177,
+     190
+    ],
+    "player_minutes": 9.7,
+    "interior_track_starts": 45,
+    "per_player_minute": 4.64
+   }
+  },
+  "liverpool-mancity-2526": {
+   "detection": {
+    "frames": 200,
+    "recall": 0.9927,
+    "precision": 0.9005,
+    "missed": 23,
+    "true_boxes": 3114
+   },
+   "calibration": {
+    "shots": [
+     62
+    ],
+    "frames": 4420,
+    "ok_share": 0.894,
+    "line_residual_px": {
+     "median": 3.35,
+     "p95": 5.47
+    },
+    "paint_drift_p95_px_refined": {
+     "median": 1.5,
+     "shots": "track C refinement"
+    },
+    "check_points_m": {
+     "n": 20,
+     "mean": 0.315,
+     "max": 2.206,
+     "source": "eval_refined.json"
+    }
+   },
+   "tracking": {
+    "shots": [
+     62
+    ],
+    "player_minutes": 24.8,
+    "interior_track_starts": 24,
+    "per_player_minute": 0.97
+   }
+  },
+  "manutd-mancity-2526": {
+   "calibration": {
+    "shots": [
+     104,
+     127,
+     137
+    ],
+    "frames": 1010,
+    "ok_share": 0.606,
+    "line_residual_px": {
+     "median": 2.54,
+     "p95": 4.94
+    },
+    "paint_drift_p95_px_refined": {
+     "median": 2.28,
+     "shots": "track C refinement"
+    }
+   },
+   "tracking": {
+    "shots": [
+     104
+    ],
+    "player_minutes": 2.7,
+    "interior_track_starts": 20,
+    "per_player_minute": 7.42
+   }
+  },
+  "manutd-spurs-2425": {
+   "calibration": {
+    "shots": [
+     23,
+     25,
+     84,
+     90
+    ],
+    "frames": 2748,
+    "ok_share": 0.759,
+    "line_residual_px": {
+     "median": 2.83,
+     "p95": 5.83
+    },
+    "paint_drift_p95_px_refined": {
+     "median": 1.85,
+     "shots": "track C refinement"
+    }
+   },
+   "tracking": {
+    "shots": [
+     23,
+     25,
+     84,
+     90
+    ],
+    "player_minutes": 19.9,
+    "interior_track_starts": 33,
+    "per_player_minute": 1.66
+   }
+  }
+ },
+ "ball": {
+  "arsenal-chelsea-2526": {
+   "frames": 833,
+   "ball_detected_share": 0.946
+  },
+  "liverpool-mancity-2526": {
+   "frames": 2210,
+   "ball_detected_share": 0.838
+  },
+  "manutd-mancity-2526": {
+   "frames": 178,
+   "ball_detected_share": 0.871
+  },
+  "manutd-spurs-2425": {
+   "frames": 2193,
+   "ball_detected_share": 0.862
+  }
+ },
+ "ball_note": "share of tracked wide frames with a ball detection (RF-DETR sports-ball class, conf >= 0.2): a detection rate, not recall (balls are not hand-labelled); includes false detections",
+ "definitions": "Real-footage measurement card (track A, video v3): detection recall, calibration quality, tracking continuity.\n\n    python -m evals.pitchwatch.insights metrics      # writes data/footage/insights/metrics.json\n\n- Detection recall: from <slug>/recall.json (200 frames labelled by eye, T-105); only clips that have labels.\n- Calibration, per clip and over every calibrated shot: share of frames whose fit is trusted (ok) and the median and\n  p95 line residual of those frames, in pixels (distance from the projected pitch model to the detected line\n  segments; includes about half a line width of edge bias). Where track C refined a shot against the paint\n  (calib/<shot>_refined.json) its drift to the paint centre is reported too, and the 20 check points of T-104 give\n  metres.\n- Tracking continuity: interior track starts per player-minute. A track that starts mid-shot with its box at least\n  EDGE_PX from the picture border is a player the tracker lost and picked up again under a new id (an ID switch or\n  a re-identification after occlusion); a player walking into the picture starts at the edge and does not count.\n  This is an upper bound on true ID switches (ids are not hand-labelled).\n"
+}

@@ -4,11 +4,11 @@
   "fps": 25.0,
   "duration_s": 1532.3,
   "n_shots": 213,
-  "n_usable_wide": 19,
-  "n_replays": 103,
-  "replay_wide_dropped": 17,
-  "usable_wide_s": 318.6,
-  "usable_wide_share": 0.208,
+  "n_usable_wide": 21,
+  "n_replays": 101,
+  "replay_wide_dropped": 15,
+  "usable_wide_s": 346.0,
+  "usable_wide_share": 0.226,
   "longest_wide_s": 35.0,
   "wipes": [
    54.8,
@@ -1969,7 +1969,7 @@
    "frame_end": 20925,
    "kind": "wide",
    "wide_share": 0.93,
-   "replay": true,
+   "replay": false,
    "replay_share": 1.0,
    "replay_segment": [
     755.4,
@@ -1980,7 +1980,8 @@
     814.8,
     837.0
    ],
-   "usable": false
+   "usable": true,
+   "override": "live"
   },
   {
    "id": 110,
@@ -3272,14 +3273,15 @@
    "frame_end": 34305,
    "kind": "wide",
    "wide_share": 1.0,
-   "replay": true,
+   "replay": false,
    "replay_share": 1.0,
    "replay_segment": [
     1345.8,
     1378.2
    ],
    "green_mean": 0.713,
-   "usable": false
+   "usable": true,
+   "override": "live"
   },
   {
    "id": 187,
