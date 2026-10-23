@@ -554,7 +554,8 @@ moments:
     data: data/footage/manutd-mancity-2526/cache/v6/pipeline_manutd-mancity-2526_877000.json   # track B a611812
     clip_ms: 877000
     pre_s: 0.0
-    hold_s: 8.6
+    hold_s: 10.5
+    left: packages/demo/out/footage/mci_amad_arcs_v6_v6.png   # demo.composite mci_amad_arcs_v6 --png --style v6
 
   # v6 freezes: v5's drawing under v6 rules (no count-up, no placeholders, a small goal tag)
 
@@ -606,6 +607,19 @@ moments:
     target: null
     xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json
     line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_877000.json   # track B, on the freeze value (528ac3f)
+
+  mci_amad_arcs_v6:                  # the pipeline's left half: Amad's freeze with the arcs alone (no card, no line)
+    clip: manutd-mancity-2526
+    style: v6
+    no_card: true
+    t_s: 877.0
+    moment_file: manutd-mancity-2526/moments/877000.json
+    attacks: "-x"
+    team_name: "Man Utd"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    actor: {player: "#16", label: "Amad"}
+    target: null
+    xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json
 
   mci_mbeumo_v6:                     # the strike (shots_0: 0.10 xG, the same as the decision file)
     clip: manutd-mancity-2526

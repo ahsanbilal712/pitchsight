@@ -1,10 +1,13 @@
-# Video v6 edit decision list, DRAFT 1 (owner, 23 Oct: broadcast-grade live analytics; no cartoon, no placeholders;
+# Video v6 edit decision list, DRAFT 2 (owner, 23 Oct: broadcast-grade live analytics; no cartoon, no placeholders;
 # the agent pipeline shown as it works). Assembled by
 #   python packages/demo/assemble.py packages/demo/edit_v6.yaml
 # Live analytics: track A cache/v6 (2305ca9): every frame's carrier, shot-now xG and pass options (P(complete), xG
 # after the pass) from tracking, nulls where tracking is not trusted (the panel holds a value up to 2 s with its age).
 # Pipeline: track B pipeline_877000. Freezes: demo.composite --style v6. Labels: a verified name, else a shirt number,
 # else none. v5 draft 3 (edit_v5.yaml) is the fallback.
+# Draft 2 (lead's review): type 1.5-2x (HUD values the biggest on screen, top 3 options labelled), pass lines draw on
+# in 150 ms, the best one pulses, the threat meter eases and shifts colour; the pipeline is a full-height split (the
+# frozen arcs left, cards that open as each agent fires, arrows drawing on, ON AIR and the line sliding onto the frame).
 
 out: packages/demo/out/final_v6.mp4
 size: [1920, 1080]
@@ -27,9 +30,9 @@ clips:
 
   - shot: footage/mci_pipeline_v6      # the newsroom, node by node, putting the line on air
     from: 0.0
-    to: 8.6
+    to: 10.5
     captions:
-      - {from: 0.2, to: 8.4, text: "Behind the line: the agents flag it, price every option, draft it, check every number, and put it on air."}
+      - {from: 0.2, to: 10.3, text: "Behind the line: the agents flag it, price every option, draft it, check every number, and put it on air."}
 
   - shot: footage/mci_amad_v6_v6
     from: 9.8

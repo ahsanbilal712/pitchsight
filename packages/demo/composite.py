@@ -823,7 +823,7 @@ class Painter:
         c = window(t, *T_CARD) * (1 - fade)
         if self.v5:
             self._v5_labels(im, t, fade)
-            if c > 0 and self.xg:
+            if c > 0 and self.xg and not self.m.get("no_card"):   # no_card: the arcs alone (the pipeline's left half)
                 self._card_v5(im, c, window(t, *T_SWING), t)
         if self.v4 and getattr(self, "lanes", None):
             self._lane_labels(im, window(t, T_ALT[1] - 0.2, T_ALT[1] + 0.4) * (1 - fade))
