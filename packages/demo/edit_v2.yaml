@@ -7,10 +7,12 @@
 # under the written permission in docs/permissions/). Synthetic shots come from the v1 takes (T-062).
 # Captions only, English, no voice, no music. Every number in a caption has a source below.
 #
-# Fixed from v1 (frame review): no studio take with empty panels ("No cues yet"); the architecture page joins once
-# it is fully built (no blank fade-in); the Oracle take (plain pitch until its last second) is out.
-# Open (storyboard scenes 3 and 5 on real clips): no featured referee call or Oracle moment on the real clips yet,
-# so the Fourth Official beat is the synthetic take and the Oracle beat is out.
+# Viewer modes are shown on the Liverpool freeze (demo.composite --mode analyst|casual|player_cam), not the
+# synthetic league; synthetic visuals remain only in the studio takes and the architecture page, which say so.
+# Fixed from v1 (frame review): the studio takes are re-recorded on a warmed-up newsroom (full panels) and the
+# demo veto now clears the pending card; the architecture page joins once it is fully built (no blank fade-in).
+# Storyboard scenes 2, 3 and 5 are on real clips: Sliding Doors (four featured moments, three used), the Fourth
+# Official (Man Utd v Spurs 40:57) and the Oracle (Liverpool 86:15-86:23, leading into the Sliding Doors freeze).
 
 out: packages/demo/out/final_v2.mp4
 size: [1920, 1080]
@@ -18,13 +20,19 @@ fps: 30
 caption_band: 120
 
 clips:
-  - shot: footage/lfc_sliding_doors
+  - shot: footage/lfc_oracle          # 86:14-86:23 playing, the Oracle drawn live; ends on the freeze instant
     from: 0.0
-    to: 14.0
+    to: 9.0
     captions:
       - {from: 0.2, to: 3.9, text: "Football broadcasts tell you what happened. Nobody tells you why it mattered."}
-      - {from: 4.1, to: 10.6, text: "WHYLINE freezes the real frame, reads the players and replays the moment 200 times."}
-      - {from: 10.8, to: 13.9, text: "Szoboszlai shot. The pass to Salah was worth 2 more points of win chance."}
+      - {from: 4.1, to: 8.9, text: "It sees danger coming: Liverpool's chance of a shot in the next 10 seconds climbs to 60%."}
+
+  - shot: footage/lfc_sliding_doors   # from the freeze (4.0 s into the clip): continuous with the Oracle shot
+    from: 4.0
+    to: 14.0
+    captions:
+      - {from: 0.2, to: 6.4, text: "Then it freezes the real frame, reads the players and replays the moment 200 times."}
+      - {from: 6.6, to: 9.9, text: "Szoboszlai shot. The pass to Salah was worth 2 more points of win chance."}
 
   - shot: footage/ars_sliding_doors
     from: 2.0
@@ -39,19 +47,32 @@ clips:
     captions:
       - {from: 0.2, to: 9.9, text: "And it says when the player got it right: the pass into the box was no better."}
 
-  - shot: fourth_official
-    from: 1.0
-    to: 9.0
+  - shot: footage/mun_tot_fourth_official   # 40:57, Fernandes on Maddison; ends before the close-up cut (777 s)
+    from: 2.0
+    to: 13.5
     captions:
-      - {from: 0.3, to: 7.8, text: "Every refereeing call explained, with the lines drawn."}
+      - {from: 0.2, to: 5.9, text: "Every refereeing call explained from the tracking: the run, the contact, the closing speed."}
+      - {from: 6.1, to: 11.4, text: "An assessment, not a ruling: about 15 km/h into the challenge, outside the box."}
 
   - layout: split3
-    shots: [split_analyst, split_casual, split_player_cam]
+    shots: [footage/lfc_sliding_doors_analyst, footage/lfc_sliding_doors_casual, footage/lfc_sliding_doors_player_cam]
     labels: [Analyst, Casual, Player-Cam]
-    from: 0.0
-    to: 12.0
+    from: 0.6
+    to: 10.4
     captions:
-      - {from: 0.3, to: 11.8, text: "The same intelligence becomes an analyst's breakdown, a casual fan's line, and a player's story."}
+      - {from: 0.3, to: 9.6, text: "The same intelligence becomes an analyst's breakdown, a casual fan's line, and a player's story."}
+
+  - shot: v2/panel_kill_studio       # warmed-up session (record_t062_sessions.sh, packages/demo/out/v2/)
+    from: 18.0
+    to: 25.0
+    captions:
+      - {from: 0.2, to: 6.9, text: "Kill the newsroom mid-moment: the run resumes from its checkpoint and the cue still airs."}
+
+  - shot: v2/veto_studio
+    from: 21.0
+    to: 26.5
+    captions:
+      - {from: 0.2, to: 5.4, text: "A producer can veto anything before it airs."}
 
   - shot: architecture
     from: 9.0
@@ -67,5 +88,8 @@ clips:
 sources:
   "200": "counterfactual cf_000001 of liverpool-mancity-2526 (data/footage/liverpool-mancity-2526/cache/counterfactuals/cf_000001.json) n = 200; the card prints 'n = 200, 8 s, seed 9001'"
   "2": "cf_000001 (liverpool-mancity-2526): win_prob_home 0.0837 shot -> 0.1035 pass (delta 0.0198, +2 pts); reviewed line mo_00001 'adds 2 points of win chance'"
+  "10": "Oracle window window_867000 (data/footage/liverpool-mancity-2526/cache/oracle/): p_shot_10s, a shot in the next 10 s"
+  "60%": "window_867000 sample clip_ms 875000: p_shot_10s_smoothed.home 0.5956 (the card prints 60%)"
+  "15": "Fourth Official cue c_907724 claim '15 km/h' (f_000901, verified); ruling_772400 closing_speed_kmh 15.3"
   "141": "packages/evals/results.md, Groundedness: 141/141 = 1.000"
   "500": "packages/evals/results.md, Fact Checker planted errors caught: 500/500 = 100.0%"

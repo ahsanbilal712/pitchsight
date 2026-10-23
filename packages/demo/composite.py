@@ -151,6 +151,13 @@ def camera_for(m: dict, frame: np.ndarray, refit: bool = False) -> tuple[Camera,
         if doc.get("key") == key:
             return Camera.from_json(doc), Drift(**doc["drift"])
     lines, top = fit_spec(m)
+    if spec.get("refine") is False:                     # too little paint in view to refine on: the seed as it is
+        cam = seed_camera(m)
+        cam = Camera(cam.h, size=(frame.shape[1], frame.shape[0]))
+        drift = drift_px(cam, frame, lines, top=top)
+        OUT.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"key": key, **cam.to_json(), "drift": drift.__dict__}, indent=1))
+        return cam, drift
     if spec.get("landmarks"):
         fit = fit_from_lines(frame, spec["landmarks"]["pitch"], spec["landmarks"]["pixel"], lines, top=top)
     else:
@@ -318,7 +325,13 @@ class Painter:
             self.ghosts = [g for g in (self._branch(fut.baseline, shot_to, WHITE, T_BASE),
                                        self._branch(fut.alternative, self.target_m, ORANGE, T_ALT)) if g]
         self.trail_px = None
-        if self.target_m is not None:                            # stop at the receiver's ring
+        self.ruling = load_json(m.get("ruling"), "result")
+        self.contact_px = None
+        if self.ruling:                                          # Fourth Official: the fouler's run, the contact
+            run = densify(self.ruling["fouler_run"], 0.1)
+            self.trail_px = cam.project(run)
+            self.contact_px = cam.project(ground_circle(self.ruling["contact_point"], 0.75))
+        elif self.target_m is not None:                          # stop at the receiver's ring
             curve = pass_curve(self.ball, self.target_m)
             far = np.linalg.norm(curve - self.target_m, axis=1) > RING_R + 0.35
             self.trail_px = cam.project(curve[far])
@@ -328,11 +341,14 @@ class Painter:
             self.trail_px = cam.project(path[np.linalg.norm(path - path[0], axis=1) > RING_R + 0.35])
         self.spot = self._spotlight()
         self.heat = self._heatmap() if mode == "analyst" else None
-        self.font = {s: ImageFont.truetype(FONT, s) for s in (22, 26, 30, 34, 50, 64)}
+        self.font = {s: ImageFont.truetype(FONT, s) for s in (22, 26, 30, 34, 50, 64)}  # bold sizes
         self.line = None
         if m.get("line") and (ROOT / m["line"]).exists():          # the reviewed lower-third (T-109)
             doc = json.loads((ROOT / m["line"]).read_text())
             self.line = doc["json"] if doc.get("verified") else None
+        cue = load_json(m.get("cue"))
+        if cue and all(c.get("verified") for c in cue["explain"]["claims"]):   # a Fact-Checked cue's own text
+            self.line = cue["text"]
         self.font_reg = {s: ImageFont.truetype(FONT_REG, s) for s in (20, 22)}
 
     def _branch(self, paths, anchor, colour, span) -> dict | None:
@@ -431,7 +447,18 @@ class Painter:
                         solid_capstyle="round")
                 ax.plot(ring[:, 0], ring[:, 1], color=(*col, rings * a_all), lw=lw, solid_capstyle="round")
         trail = window(t, *T_TRAIL)
-        if trail > 0 and self.trail_px is not None:
+        if trail > 0 and self.trail_px is not None and self.ruling:
+            k = max(2, int(round(trail * (len(self.trail_px) - 1))) + 1)
+            p = self.trail_px[:k]
+            col = np.array(YELLOW) / 255
+            ax.plot(p[:, 0], p[:, 1], color=(0, 0, 0, 0.6 * a_all), lw=9.5, solid_capstyle="round")
+            ax.plot(p[:, 0], p[:, 1], color=(*col, a_all), lw=5.2, solid_capstyle="round")
+            if trail >= 1:
+                self._arrowhead(ax, p, col, a_all, size=26.0)
+                c = self.contact_px
+                ax.add_patch(Polygon(c, closed=True, fc=(*col, 0.35 * a_all), ec=(0, 0, 0, 0.6 * a_all), lw=2.5))
+                ax.plot(c[:, 0], c[:, 1], color=(*col, a_all), lw=2.5)
+        elif trail > 0 and self.trail_px is not None:
             k = max(2, int(round(trail * (len(self.trail_px) - 1))) + 1)
             p = self.trail_px[:k]
             col = np.array(ORANGE) / 255
@@ -469,16 +496,20 @@ class Painter:
         g = self._graphics(t, fade)
         f = f * (1 - g[..., 3:4]) + g[..., :3] * g[..., 3:4]
         im = Image.fromarray(np.clip(f * 255, 0, 255).astype(np.uint8))
+        im, to_screen = self._zoom(im, t, fade)
         a = window(t, *T_RINGS) * (1 - fade)
         if a > 0:
-            self._tag(im, self.m["actor"].get("label"), self.actor_m, WHITE, a)
+            tags = [(self.m["actor"].get("label"), self.actor_m, WHITE)]
             if self.target_m is not None:
-                self._tag(im, self.m["target"].get("label"), self.target_m, ORANGE, a)
+                tags.append((self.m["target"].get("label"), self.target_m, ORANGE))
+            self._tags(im, tags, to_screen, a)
         if self.mode == "player_cam":
             return self._phone(im, t, fade)
         c = window(t, *T_CARD) * (1 - fade)
         if c > 0 and self.fut and self.mode != "casual":
             self._card(im, c, window(t, *T_SWING))
+        elif c > 0 and self.ruling:
+            self._ruling_card(im, c)
         lt = window(t, *T_LOWER) * (1 - fade)
         if lt > 0 and self.line:
             self._lower_third(im, lt, body=self.mode != "casual")
@@ -494,19 +525,45 @@ class Painter:
         jac = np.c_[self.cam.project([m + [e, 0], m + [0, e]]).T - self.cam.project([m]).T] / e
         return 1 / np.linalg.norm(np.linalg.solve(jac, [1.0, 0.0]))
 
-    def _tag(self, im: Image.Image, label: str | None, where_m, colour, a: float):
-        """A pill just above the player's head."""
-        if not label:
-            return
-        feet = self.cam.project([where_m])[0]
-        y = feet[1] - APPARENT_HEIGHT_M * self._lateral_px_per_m(feet) - 14
+    def _zoom(self, im: Image.Image, t: float, fade: float):
+        """A punch-in on `zoom: {factor, at}` (metres) while frozen, for a moment far from the camera (Fourth
+        Official): eases in with the rings and out with the fade. Returns the image and the pixel map for what is
+        drawn after it (tags), so those stay sharp."""
+        z = self.m.get("zoom")
+        k = 1 + (float(z["factor"]) - 1) * window(t, *T_GRADE) * (1 - fade) if z else 1.0
+        if k <= 1.0001:
+            return im, lambda p: np.asarray(p, float)
+        cx, cy = self.cam.project([z["at"]])[0]
+        bw, bh = W / k, H / k
+        x0, y0 = float(np.clip(cx - bw / 2, 0, W - bw)), float(np.clip(cy - bh / 2, 0, H - bh))
+        im = im.resize((W, H), Image.Resampling.LANCZOS, box=(x0, y0, x0 + bw, y0 + bh))
+        return im, lambda p: (np.asarray(p, float) - [x0, y0]) * k
+
+    def _tags(self, im: Image.Image, tags, to_screen, a: float):
+        """Pills just above the players' heads; two that would overlap are pushed apart sideways."""
+        font = self.font[26]
+        d0 = ImageDraw.Draw(im)
+        boxes = []
+        for label, where_m, colour in tags:
+            if not label:
+                continue
+            feet = self.cam.project([where_m])[0]
+            head = feet - [0, APPARENT_HEIGHT_M * self._lateral_px_per_m(feet)]
+            fx, hy = to_screen(feet)[0], to_screen(head)[1]
+            w = d0.textlength(label.upper(), font=font) + 28
+            boxes.append([fx - w / 2, hy - 54, w, label, colour])
+        boxes.sort(key=lambda b: b[0])
+        for left, right in zip(boxes, boxes[1:], strict=False):
+            overlap = left[0] + left[2] + 12 - right[0]
+            if overlap > 0 and abs(left[1] - right[1]) < 44:
+                left[0] -= overlap / 2
+                right[0] += overlap / 2
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
-        font = self.font[26]
-        w = d.textlength(label.upper(), font=font)
-        box = (feet[0] - w / 2 - 14, y - 40, feet[0] + w / 2 + 14, y)
-        d.rounded_rectangle(box, radius=8, fill=(*PANEL, int(215 * a)), outline=(*colour, int(255 * a)), width=3)
-        d.text((feet[0], y - 20), label.upper(), font=font, fill=(*colour, int(255 * a)), anchor="mm")
+        for x, y, w, label, colour in boxes:
+            d.rounded_rectangle((x, y, x + w, y + 40), radius=8, fill=(*PANEL, int(215 * a)),
+                                outline=(*colour, int(255 * a)), width=3)
+            d.text((x + w / 2, y + 20), label.upper(), font=font, fill=(*colour, int(255 * a)), anchor="mm")
         im.paste(layer, (0, 0), layer)
 
     def _panel_x(self, a: float) -> int:
@@ -538,9 +595,35 @@ class Painter:
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*WHITE, al))
-        d.text((x0 + 32, y0 + 18), self.line["headline"], font=self.font[30], fill=(255, 255, 255, al))
+        size = next(z for z in (30, 26, 22) if d.textlength(self.line["headline"], font=self.font[z]) <= w - 60
+                    or z == 22)
+        d.text((x0 + 32, y0 + 18 + (30 - size) // 2), self.line["headline"], font=self.font[size],
+               fill=(255, 255, 255, al))
         for i, row in enumerate(body):
             d.text((x0 + 32, y0 + 64 + 32 * i), row, font=self.font_reg[22], fill=(214, 222, 232, al))
+        im.paste(layer, (0, 0), layer)
+
+    def _ruling_card(self, im: Image.Image, a: float):
+        """Fourth Official: the assessment's numbers (closing speed, where the contact was, the card shown), and
+        that it is an assessment from tracking, not a ruling."""
+        r = self.ruling
+        x0, w, h = self._panel_x(a), PANEL_W, CARD_H
+        y0 = H - 96 - h
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        al = int(255 * a)
+        d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
+        d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*YELLOW, al))
+        d.text((x0 + 32, y0 + 20), "FOURTH OFFICIAL", font=self.font[22], fill=(169, 180, 194, al))
+        rows = [("Closing speed", f"{round(r['closing_speed_kmh'])} km/h"),
+                ("Contact", "inside the box" if r["in_box"] else "outside the box"),
+                ("Card shown", r["card"])]
+        for i, (label, value) in enumerate(rows):
+            y = y0 + 60 + 40 * i
+            d.text((x0 + 32, y), label, font=self.font_reg[22], fill=(230, 236, 242, al))
+            d.text((x0 + w - 28, y + 13), value, font=self.font[30], fill=(*YELLOW, al), anchor="rm")
+        d.text((x0 + w - 28, y0 + h - 16), "an assessment from tracking, not a ruling", font=self.font_reg[20],
+               fill=(169, 180, 194, al), anchor="rb")
         im.paste(layer, (0, 0), layer)
 
     def _card(self, im: Image.Image, a: float, swing: float):
@@ -633,6 +716,14 @@ class Painter:
         return rows
 
 
+def load_json(rel: str | None, key: str | None = None):
+    """A repo-relative JSON file (optionally one key of it), or None when the spec does not name one."""
+    if not rel:
+        return None
+    doc = json.loads((ROOT / rel).read_text())
+    return doc[key] if key else doc
+
+
 def cache_dir(m: dict) -> Path | None:
     return (ROOT / m["counterfactual"]).parents[1] if m.get("counterfactual") else None
 
@@ -705,6 +796,104 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
     return path
 
 
+# ---------------------------------------------------------------------------------------------- oracle (live clip)
+def ellipse_m(z: dict, n: int = 72) -> np.ndarray:
+    """A threat zone {cx, cy, rx, ry, angle_deg} as a ground polygon in metres."""
+    t = np.linspace(0, 2 * np.pi, n)
+    a = np.radians(z["angle_deg"])
+    x, y = z["rx"] * np.cos(t), z["ry"] * np.sin(t)
+    return np.c_[z["cx"] + x * np.cos(a) - y * np.sin(a), z["cy"] + x * np.sin(a) + y * np.cos(a)]
+
+
+def oracle_at(samples: list[dict], t_ms: float, team: str) -> tuple[float, float, dict | None]:
+    """(bar value eased between samples, the latest sample's value, the threat zone interpolated between the two
+    samples around t_ms; the nearer one's when either has none)."""
+    times = np.array([s["clip_ms"] for s in samples], float)
+    i = int(np.clip(np.searchsorted(times, t_ms, side="right") - 1, 0, len(samples) - 1))
+    j = min(i + 1, len(samples) - 1)
+    f = 0.0 if j == i else float(np.clip((t_ms - times[i]) / (times[j] - times[i]), 0, 1))
+    pi, pj = (samples[k]["p_shot_10s_smoothed"][team] for k in (i, j))
+    zi, zj = (samples[k]["threat_zone"][team] for k in (i, j))
+    if zi and zj:
+        zone = {k: zi[k] + (zj[k] - zi[k]) * f for k in ("cx", "cy", "rx", "ry")}
+        da = (zj["angle_deg"] - zi["angle_deg"] + 90) % 180 - 90          # an ellipse's angle is mod 180
+        zone["angle_deg"] = zi["angle_deg"] + da * f
+    else:
+        zone = (zj if f > 0.5 else zi) or zi or zj
+    return pi + (pj - pi) * ease(f), pi, zone
+
+
+def export_oracle(m: dict, path: Path) -> Path:
+    """The Oracle on the playing clip (FOOTAGE_ADDENDUM §2, scene 5): over track B's window (cache/oracle, a sample
+    every 0.5 s: the attacking team's p(shot in the next 10 s) and its 2-sigma threat zone in the moment-file frame),
+    every frame drawn through that frame's paint-refined calibration, the zone on the grass and the card bottom left.
+    The card prints the latest sample's value; only the bar moves between samples. 30 fps, no audio."""
+    win = load_json(m["window"], "result")
+    samples, team = win["samples"], m.get("team", "home")
+    shots = json.loads((FOOTAGE / m["clip"] / "shots.json").read_text())["shots"]
+    t0, t1 = win["start_clip_ms"] / 1000, win["end_clip_ms"] / 1000
+    shot = next(s["id"] for s in shots if s.get("usable") and s["start"] <= t0 <= s["end"])
+    calib_dir = FOOTAGE / m["clip"] / "calib"
+    calib = json.loads(next(p for p in (calib_dir / f"{shot}_refined.json", calib_dir / f"{shot}.json")
+                            if p.exists()).read_text())
+    fps_clip = float(calib.get("fps", 50.0))
+    pre = float(m.get("pre_s", 1.0))
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t0 - pre:.3f}", "-i", str(clip_path(m)), "-t",
+                          f"{t1 - t0 + pre:.3f}", "-vf", f"fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                         capture_output=True, check=True).stdout
+    frames = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
+    kit = np.array((m.get("kits") or {}).get(team, ORANGE)) / 255
+    fig = Figure(figsize=(W / 100, H / 100), dpi=100)
+    fig.patch.set_alpha(0)
+    canvas = FigureCanvasAgg(fig)
+    ax = fig.add_axes((0, 0, 1, 1))
+    font = {z: ImageFont.truetype(FONT, z) for z in (22, 64)}
+    small = ImageFont.truetype(FONT_REG, 20)
+    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
+                            "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium", "-crf", "16",
+                            "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(path)], stdin=subprocess.PIPE)
+    for i, img in enumerate(frames):
+        t = t0 - pre + i / FPS
+        a = window(t, t0 - 0.2, t0 + 0.4)
+        bar, value, zone = oracle_at(samples, t * 1000, team)
+        cam = from_pitchwatch(calib, int(round(t * fps_clip)))
+        ax.clear()
+        ax.set_xlim(0, W)
+        ax.set_ylim(H, 0)
+        ax.axis("off")
+        if zone and a > 0:
+            poly = cam.project(ellipse_m(zone))
+            ax.add_patch(Polygon(poly, closed=True, fc=(*kit, 0.30 * a), ec=(0, 0, 0, 0.5 * a), lw=5.5))
+            ax.add_patch(Polygon(poly, closed=True, fill=False, ec=(*kit, a), lw=3.0))
+        canvas.draw()
+        g = np.asarray(canvas.buffer_rgba(), float) / 255
+        f = img.astype(float) / 255 * (1 - g[..., 3:4]) + g[..., :3] * g[..., 3:4]
+        im = Image.fromarray(np.clip(f * 255, 0, 255).astype(np.uint8))
+        if a > 0:
+            layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+            d = ImageDraw.Draw(layer)
+            al = int(255 * a)
+            x0, w, h = 96 - int((1 - a) * 40), PANEL_W, 196
+            y0 = H - 96 - h
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
+            d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*(kit * 255).astype(int), al))
+            d.text((x0 + 32, y0 + 20), m.get("oracle_label", "Shot in the next 10 s").upper(), font=font[22],
+                   fill=(169, 180, 194, al))
+            d.text((x0 + 32, y0 + 50), f"{round(value * 100)}%", font=font[64], fill=(255, 255, 255, al))
+            bx0, bx1, by = x0 + 32, x0 + w - 28, y0 + 132
+            d.rounded_rectangle((bx0, by, bx1, by + 12), radius=6, fill=(255, 255, 255, int(28 * a)))
+            d.rounded_rectangle((bx0, by, bx0 + max(12, (bx1 - bx0) * bar), by + 12), radius=6,
+                                fill=(*(kit * 255).astype(int), al))
+            d.text((x0 + w - 28, y0 + h - 16), f"n = {win['n']} per 0.5 s, {win['horizon_s']:g} s, seed {win['seed']}",
+                   font=small, fill=(169, 180, 194, al), anchor="rb")
+            im.paste(layer, (0, 0), layer)
+        enc.stdin.write(im.tobytes())
+    enc.stdin.close()
+    if enc.wait():
+        raise RuntimeError("ffmpeg encode failed")
+    return path
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("moment")
@@ -721,6 +910,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"composite: {clip_path(m).relative_to(ROOT)} is not here (clips are never committed)", file=sys.stderr)
         return 1
     OUT.mkdir(parents=True, exist_ok=True)
+    if m.get("kind") == "oracle":
+        print(f"wrote {export_oracle(m, OUT / f'{m["name"]}.mp4').relative_to(ROOT)}")
+        return 0
     frame = frame_at(m, m["t_s"])
     Image.fromarray(frame).save(OUT / f"{m['name']}_frame.png")
     cam, drift = camera_for(m, frame, refit=args.refit)
@@ -734,14 +926,16 @@ def main(argv: list[str] | None = None) -> int:
               f"{', '.join(pw[1].lines)}" + ("; using it" if pw[1].p95 <= drift.p95 else "; keeping the line fit"))
         if pw[1].p95 <= drift.p95:
             cam, drift = pw[0], pw[1]
-    fut = load_futures(m, cam, args.standin)
+    fut = None if m.get("kind") == "fourth_official" else load_futures(m, cam, args.standin)
     p = Painter(m, frame, cam, fut, mode=args.mode)
-    s = stem(m, fut.standin) + ("" if args.mode == "broadcast" else f"_{args.mode}")
+    standin = bool(fut and fut.standin)
+    s = stem(m, standin) + ("" if args.mode == "broadcast" else f"_{args.mode}")
     if args.png or not args.clip:
-        print(f"wrote {export_png(p, OUT / f'{s}.png', fut.standin).relative_to(ROOT)}")
+        print(f"wrote {export_png(p, OUT / f'{s}.png', standin).relative_to(ROOT)}")
     if args.clip:
-        pre, post, freeze = (4.0, 3.0, FREEZE_S) if args.mode == "broadcast" else (0.0, 0.0, MODES_FREEZE_S)
-        print(f"wrote {export_clip(m, p, OUT / f'{s}.mp4', fut.standin, pre, post, freeze).relative_to(ROOT)}")
+        pre, post, freeze = ((m.get("pre_s", 4.0), m.get("post_s", 3.0), FREEZE_S) if args.mode == "broadcast"
+                             else (0.0, 0.0, MODES_FREEZE_S))
+        print(f"wrote {export_clip(m, p, OUT / f'{s}.mp4', standin, pre, post, freeze).relative_to(ROOT)}")
     return 0
 
 

@@ -74,3 +74,31 @@ moments:
     line: data/footage/manutd-spurs-2425/cache/lines/mo_00001.json
     options: {actual: "Shot", alternative: "Round the keeper"}
     panels: right                    # the goal and the carry are on the left of the frame
+
+  # Fourth Official on a real clip (track B, 3a4fb65): Bruno Fernandes on James Maddison, 40:57. The close-up cut is
+  # at 777 s, so the clip resumes for 2.5 s only.
+  mun_tot_fourth_official:
+    clip: manutd-spurs-2425
+    t_s: 772.4
+    kind: fourth_official
+    moment_file: manutd-spurs-2425/moments/772400.json
+    actor: {player: "#8", label: "Fernandes"}
+    target: {player: "#10", label: "Maddison"}
+    cue: data/footage/manutd-spurs-2425/cache/fourth_official/c_907724.json
+    ruling: data/footage/manutd-spurs-2425/cache/fourth_official/ruling_772400.json
+    post_s: 2.5
+    zoom: {factor: 2.2, at: [69.84, 53.47]}   # punch in on the contact point while frozen (far side of the pitch)
+    camera: {refine: false}          # only an arc of the centre circle in view: refining on it degenerates (k1
+                                     # -0.046); the moment file's homography (track A, calib/90) is used as it is
+
+  # The Oracle on the playing clip (track B, 0a03108): Liverpool's chance of a shot in the next 10 s over 86:15-86:23,
+  # ending on the Sliding Doors freeze (875 s). Each frame through calib/62_refined.json.
+  lfc_oracle:
+    clip: liverpool-mancity-2526
+    kind: oracle
+    t_s: 867.0
+    pre_s: 1.0
+    window: data/footage/liverpool-mancity-2526/cache/oracle/window_867000.json
+    team: home
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    oracle_label: "Liverpool: shot in the next 10 s"
