@@ -33,6 +33,8 @@ from evals.pitchwatch.shotxg import CLIPS, reference_xg
 
 L, W, GOAL_Y = 105.0, 68.0, 34.0
 PENALTY_XG = 0.76
+OFFSIDE_ERROR_M = 0.5          # tracking error: a receiver within this of the line may be offside
+CLOSE_CALL_XG = 0.02           # display rule: gaps under two display steps are a close call (no interval exists)
 BENCH = [("six-yard box, central (6 m)", 6.0, 0.0, 0.30, 0.50), ("penalty spot, open play (11 m)", 11.0, 0.0, 0.12, 0.30),
          ("edge of the box, central (16.5 m)", 16.5, 0.0, 0.06, 0.12), ("30 m, central", 30.0, 0.0, 0.02, 0.04)]
 SOURCE = ("xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass "
@@ -82,14 +84,39 @@ def options_xg(holder: dict, mates: list[dict], opps: list[dict], attacks_plus: 
                      "nearest_opp_m": float(np.min(np.hypot(ou - u0, ov - v0))) if len(ou) else 30.0})
         meta.append((m, 0.0, u, v))           # his spot when the pass is played (no run projection, see docstring)
     p = PassHead().predict(pd.DataFrame(rows)) if rows else []
+    deep = sorted(ou, reverse=True)
+    line_u = max(deep[1] if len(deep) > 1 else (deep[0] if len(deep) else L / 2), u0, L / 2)
     out = []
     for (m, _t, ua, va), pc in zip(meta, p, strict=True):
         xa = shot_xg(min(ua, L - 0.5), va)
         out.append({"label": m.get("label"), "name": m.get("name"), "x": m["x"], "y": m["y"],
                     "p_pass": round(float(pc), 2), "xg_receiver": round(xa, 2),
                     "gate": gate_value(xa, L - min(ua, L - 0.5), abs(va - GOAL_Y)),
+                    "onside_margin_m": round(line_u - ua, 2),
+                    "offside_risk": bool(line_u - ua < OFFSIDE_ERROR_M),
                     "xg_after_pass": round(float(pc) * xa, 2), "xg_after_pass_exact": round(float(pc) * xa, 4)})
     return sorted(out, key=lambda o: -o["xg_after_pass_exact"])
+
+
+def linked_shot(slug: str, clip_ms: int, team: str) -> dict:
+    """The tagged shot this freeze leads to (same team, within 4 s after): its event, reviewed strike time and
+    outcome, from data/footage/insights/shots_xg.json. Empty when none is linked."""
+    from evals.pitchwatch.insights import FOOTAGE
+    path = FOOTAGE / "insights" / "shots_xg.json"
+    if not path.exists():
+        return {}
+    cand = [r for r in json.loads(path.read_text())["shots"] if r["slug"] == slug and r["team"] == team
+            and -1000 <= r["clip_ms"] - clip_ms <= 4000]
+    if not cand:
+        return {}
+    r = min(cand, key=lambda r: abs(r["clip_ms"] - clip_ms))
+    strike_xg = None
+    if r.get("measured") and not r.get("header") and r.get("xg_reference") is not None:
+        strike_xg = round(r["xg_reference"], 2)
+    return {"event_id": r["event_id"], "outcome": r["outcome"], "strike_xg": strike_xg,
+            "strike_distance_m": r.get("features", {}).get("distance_m"),
+            "strike_clip_ms": r.get("release_clip_ms") if r.get("measured") else None,
+            "strike_reviewed": bool(r.get("reviewed")) if r.get("measured") else False}
 
 
 def decision(slug: str, clip_ms: int) -> dict:
@@ -105,16 +132,24 @@ def decision(slug: str, clip_ms: int) -> dict:
     u0, v0 = team_frame((holder["x"], holder["y"]), attacks_plus)
     shot = shot_xg(u0, v0)
     opts = options_xg(holder, mates, opps, attacks_plus)
-    best = opts[0] if opts else None
+    best = next((o for o in opts if not o["offside_risk"]), None)
+    strike = linked_shot(slug, clip_ms, team)
     return {"clip_ms": clip_ms, "clock": m["clock"], "team": team, "holder": holder_label,
             "holder_name": holder.get("name"),
             "actual": {"kind": m["actual"]["kind"], "label": "Shot" if m["actual"]["kind"] == "shoot" else m["actual"]["kind"],
                        "xg": round(shot, 2) if m["actual"]["kind"] == "shoot" else None,
-                       "distance_m": round(math.hypot(L - u0, v0 - GOAL_Y), 1)},
+                       "xg_exact": round(shot, 4) if m["actual"]["kind"] == "shoot" else None,
+                       "distance_m": round(math.hypot(L - u0, v0 - GOAL_Y), 1), "x": holder["x"], "y": holder["y"],
+                       **strike},
             "alternatives": opts, "best_alternative": best,
             "comparison": None if not best or m["actual"]["kind"] != "shoot" else
-            ("pass higher" if best["xg_after_pass"] > round(shot, 2) else
-             "shot higher" if best["xg_after_pass"] < round(shot, 2) else "equal at 2 decimals"),
+            ("close call" if abs(best["xg_after_pass_exact"] - shot) < CLOSE_CALL_XG else
+             "pass higher" if best["xg_after_pass_exact"] > shot else "shot higher"),
+            "comparison_rule": f"no statistical interval exists for these deterministic models; a gap under "
+                               f"{CLOSE_CALL_XG} xG (two display steps) is reported as a close call",
+            "frame_role": "freeze: the decision moment (track B's moment file), before the strike",
+            "best_rule": f"highest xg_after_pass among receivers at least {OFFSIDE_ERROR_M} m onside of the line "
+                         "(second-last defender, ball or halfway, players in view)",
             "formula": SOURCE, "deterministic": True, "players_seen": len(seen),
             "source": {"moment": f"{slug}/moments/{clip_ms}.json", "pass_model": "packages/heads/artifacts/pass",
                        "shot_model": "evals.pitchwatch.shotxg.reference_xg"}}
@@ -209,6 +244,8 @@ def shots_beats() -> list[Path]:
             shots.append(row)
         shots.sort(key=lambda x: x["clip_ms"])
         outs.append(write(slug, "shots", 0, {"shots": shots, "model": model, "decimals": 2,
+                                             "frame_role": "strike: the reviewed frame the ball is struck (or the "
+                                                           "named moment file where stated in source.position)",
                                              "note": "xg null where the strike has no trusted wide view (and it is not "
                                                      "a penalty); names only from names_verified.json"}, version="v5"))
         cum = {"home": 0.0, "away": 0.0}
