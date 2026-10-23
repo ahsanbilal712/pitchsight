@@ -357,6 +357,7 @@ moments:
     actor: {player: "#8", label: "Szoboszlai"}
     target: null
     xg: data/footage/liverpool-mancity-2526/cache/v5/xg_decision_875000.json
+    line_v5: data/footage/liverpool-mancity-2526/cache/v5/lines_875000.json   # track B's reviewed strike line
 
   ars_v5:                           # a shot-only beat at the reviewed strike (lead: no better pass here)
     clip: arsenal-chelsea-2526
@@ -373,6 +374,7 @@ moments:
     actor: {player: "#10", label: "Eze"}
     target: null
     xg: data/footage/arsenal-chelsea-2526/cache/v5/xg_decision_1300500.json
+    line_v5: data/footage/arsenal-chelsea-2526/cache/v5/lines_1300500.json   # track B's reviewed strike line
 
   mci_amad_v5:
     clip: manutd-mancity-2526
@@ -387,7 +389,7 @@ moments:
     actor: {player: "#16", label: "Amad"}
     target: null
     xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json
-    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_877000.json   # track B's reviewed v5 lower-third
+    # lower-third off until track B's line gives the freeze value (lead: card on 0.06, 'Shot from here')
 
   mci_mbeumo_v5:                     # the strike (shots_0: 0.10 xG, the same as the decision file)
     clip: manutd-mancity-2526
@@ -510,7 +512,7 @@ moments:
   mci_ghost_v5:                      # Amad 56:41: the other timeline after the pass to #19 (the medoid of 2,000)
     clip: manutd-mancity-2526
     kind: ghost_future
-    data: data/footage/manutd-mancity-2526/cache/v4/ghost_future_877000.json
+    data: data/footage/manutd-mancity-2526/cache/v5/ghost_future_877000.json   # track A 11225f1 (same medoid as v4)
     shot_id: 104
     team: home
     speed: 2.0

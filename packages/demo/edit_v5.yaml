@@ -52,6 +52,13 @@ clips:
     from: 9.8
     to: 12.8
 
+  - shot: v3/studio_lfc                # the newsroom putting that line on air (track B's v5 run, cf0d598)
+    from: 8.0
+    to: 14.0
+    crop: [0, 0, 1522, 856]
+    captions:
+      - {from: 0.2, to: 5.8, text: "Behind every line, the newsroom: each agent step traced, every number checked before air."}
+
   - shot: footage/mci_amad_v5_v5        # Man Utd v Man City 56:41
     from: 1.2
     to: 9.1
@@ -124,7 +131,7 @@ sources:
   "0.76": "shots_0 (liverpool-mancity-2526) 92:43 e_0048 penalty: Wyscout's fixed penalty value 0.76"
   "86": "the Liverpool clip's broadcast clock 86:23-86:25 (moments/875000.json, shots_0 875560)"
   "29": "shots_0 (liverpool-mancity-2526) strike 875560 distance_m 28.8"
-  "0.06": "xg_decision_877000 actual xg 0.06 (Amad, the decision freeze, frame_role freeze)"
+  "0.06": "xg_decision_877000 actual xg 0.06 (Amad, the decision freeze, frame_role freeze; labelled 'from here')"
   "0.11": "xg_decision_877000 best_alternative #19 xg_after_pass 0.11 (pass higher; gap 0.05 >= 0.04; onside)"
   "0.32": "shots_0 (manutd-mancity-2526) 56:44 xg 0.32 (saved)"
   "16": "shots_0 (arsenal-chelsea-2526) strike 1301080 distance_m 16.4; xg_decision_682800 strike_distance_m 16.404 (Werner)"
@@ -135,4 +142,4 @@ sources:
   "20": "xg_race_0 (liverpool-mancity-2526) series over the clip's final 20 minutes"
   "1.21": "xg_race_0 (liverpool-mancity-2526) final away_xg 1.21 (measured shots and penalties)"
   "0.20": "xg_race_0 (liverpool-mancity-2526) final home_xg 0.20 (measured shots and penalties)"
-  "2,000": "ghost_future_877000 n 2000 (the pass to #19 replayed; medoid world 1427)"
+  "2,000": "cache/v5/ghost_future_877000 n 2000 (the pass to #19 replayed; medoid world 1427; track A 11225f1)"

@@ -342,11 +342,15 @@ class Painter:
             doc = load_json(m["strike"]["file"])
             shots = (doc.get("result") or doc)["shots"]
             hit = next(x for x in shots if x["clip_ms"] == int(m["strike"]["clip_ms"]))
-            self.xg = {**(self.xg or {}), "actual": {"kind": "shoot", "xg": hit["xg"], "strike_xg": hit["xg"], "label": "Shot",
-                                                     "distance_m": hit.get("distance_m"), "outcome": hit["outcome"]},
-                       "comparison": "finish", "formula": (doc.get("result") or doc)["model"]["xg"]}
-            self.ball = np.array([hit["x"], hit["y"]], float)
-            self.actor_m = self.ball                      # the shooter is where he struck it
+            strike = {"kind": "shoot", "xg": hit["xg"], "strike_xg": hit["xg"], "label": "Shot",
+                      "distance_m": hit.get("distance_m"), "outcome": hit["outcome"]}
+            if m["strike"].get("value_only"):             # a decision freeze: the strike's number, the freeze's picture
+                self.xg = {**(self.xg or {}), "actual": {**(self.xg or {}).get("actual", {}), **strike}}
+            else:
+                self.xg = {**(self.xg or {}), "actual": strike, "comparison": "finish",
+                           "formula": (doc.get("result") or doc)["model"]["xg"]}
+                self.ball = np.array([hit["x"], hit["y"]], float)
+                self.actor_m = self.ball                  # the shooter is where he struck it
         if self.v5:
             self.v5_geom = self._v5_geometry()
         if self.v4 and not self.v5 and self.goal10 and "options" in self.goal10:
