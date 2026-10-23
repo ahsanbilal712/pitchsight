@@ -130,3 +130,17 @@ def test_v8_counter_and_old_name(tmp_path):
                                               {"card": "end", "title": "WHYLINE", "lines": ["Every line has a why."]}]}))
     (row,) = v8_screen_text(edit)
     assert row["claims_verified"] == row["claims"] - 1 and "WHYLINE" in row["diff"][0]
+
+
+def test_v8_explainer_binds_the_models_card_and_counts_its_graphic():
+    import yaml
+
+    from footage.grounding import ROOT, v8_explainer
+
+    beat = yaml.safe_load((ROOT / "packages/demo/footage_moments.yaml").read_text())["moments"]["explainer_v8"]
+    rows, counters = v8_explainer({"explainer_v8": beat})
+    card = next(r for r in rows if "models card" in r["item"])
+    assert card["numbers"] == card["numbers_bound"] == 5                  # 2.1, 1,600, 8,451, 2017/18
+    bad, _ = v8_explainer({"explainer_v8": {**beat, "models": [{"name": "Pass model", "lines": ["3.2 million passes"]}]}})
+    assert next(r for r in bad if "models card" in r["item"])["numbers_bound"] == 0
+    assert counters and "of" in counters[0]["item"]

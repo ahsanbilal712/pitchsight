@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v8 draft 2: the explainer's numbers; the counter must read 1,306 (track B)
+
+- `footage.grounding.v8_explainer`: the how-it-works beat's option pills at options_at (top 3: p_pass x xG at the
+  receiver, names only inside a verified read), the models card (2.1 million and 1,600 from the pass model's
+  metrics.json, 8,451 and 2017/18 from the published model's citation), the claims it ticks (the pipeline view's
+  facts); its "N of N" graphic is a counter, checked like the caption counter.
+- On track C's working draft 2: everything outside the counters = **1,306**, so both counters must print
+  "1,306 of 1,306" (they print 1,292: flagged until changed).
+- Wording sent back: MEASURE "price every pass and every shot" is not exact (passes to team-mates in view; headers
+  and shots without a trusted view carry no xG); EXPLAIN "fact-checks every number before air" reads as all
+  on-screen numbers (the newsroom checks its lines; the overlay numbers are checked by this grounding).
+- No model call. Verification: `pytest tests/footage/test_grounding.py` (exit 0).
+
+---
+
 ## 2026-10-23 · Video v8 grounding: 1,297 of 1,297 on draft 1 (track B)
 
 - `python -m footage.grounding` on track C's committed edit_v8.yaml (b4fdce6): **1,297 of 1,297 on-screen numbers

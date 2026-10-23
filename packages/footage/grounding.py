@@ -383,7 +383,9 @@ def run(version: str = "v3", edit: Path | None = None) -> dict:
             v6_pipeline(beats) + video_captions("v8", edit)
         counters = [r for r in rows if r["group"] == "video caption" and COUNTER.search(r["item"])]
         rows = [r for r in rows if r not in counters]
-        rows += v8_screen_text(edit)
+        explainer, graphic = v8_explainer(beats)
+        rows += explainer + v8_screen_text(edit)
+        counters += graphic
         return _write(rows, version, edit, counters=counters)
     if version == "v7":
         beats = _v6_beats(edit)
@@ -826,6 +828,54 @@ def v8_screen_text(edit: Path) -> list[dict]:
     return [{"group": "v8 name", "item": f"{len(texts)} captions and card lines", "claims": len(texts),
              "claims_verified": len(texts) - len(bad), "numbers": 0, "numbers_bound": 0,
              "diff": [f"says WHYLINE: {t!r}" for t in bad], "rejected": []}]
+
+
+def v8_explainer(beats: dict) -> tuple[list[dict], list[dict]]:
+    """The "how it works" explainer (demo.v8.Explainer): the option pills at `options_at` (the top three of that
+    frame, each p_pass x xG at the receiver to the two decimals shown, names only inside a verified live read),
+    the models card (the pass model's training size from its metrics, the published xG model's citation), the
+    claims it ticks (numbers from the pipeline view's facts). Its "N of N" graphic is a counter like the caption:
+    returned separately, checked against everything else."""
+    rows, counters = [], []
+    for name, b in sorted(beats.items()):
+        if b.get("kind") != "explainer":
+            continue
+        live = json.loads((ROOT / b["data"]).read_text())["result"]
+        fr = next(f for f in live["frames"] if f["clip_ms"] == b["options_at"])
+        names = json.loads((ROOT / b["names_live"]).read_text())["result"]["players"] if b.get("names_live") else []
+        ok_names = {(x["label"], x["from_clip_ms"], x["to_clip_ms"]) for x in names if x["name"] or x["shirt"]}
+        opts = [o for o in fr.get("options") or [] if o.get("xg_after_pass") is not None and not o.get("offside_risk")]
+        opts = sorted(opts, key=lambda o: -o["xg_after_pass"])[:3]
+        diff = []
+        for o in opts:
+            if abs(o["p_pass"] * o["xg_receiver"] - o["xg_after_pass"]) > 0.011:
+                diff.append(f"pill {o['label']}: {o['xg_after_pass']} is not {o['p_pass']} x {o['xg_receiver']}")
+            if (o.get("name") or o.get("shirt")) and not any(
+                    lab == o["label"] and a <= fr["clip_ms"] <= z for lab, a, z in ok_names):
+                diff.append(f"pill {o['label']}: a name outside a verified read")
+        rows.append(_row("v8 overlay", f"{name}: option pills at {b['options_at']}", b["data"], 2 * len(opts),
+                         2 * len(opts) - len(diff), diff))
+        src = v8_caption_sources()
+        allowed = {THOUSANDS.sub("", t) for spec in (src["A pass model we trained on 2.1 million passes from 1,600 "
+                                                         "simulated matches"],
+                                                    src["A published xG model (Soccermatics), fitted on 8,451 Premier "
+                                                        "League shots from 2017/18 (Wyscout data)"])
+                   for t, *_ in spec} | {"2.1"}
+        toks = [t for card in b.get("models", []) for ln in [card["name"], *card["lines"]]
+                for t in _tokens(THOUSANDS.sub("", ln))]
+        bad = [t for t in toks if t not in allowed]
+        rows.append(_row("v8 overlay", f"{name}: the models card", "packages/heads/artifacts/metrics.json + citation",
+                         len(toks), len(toks) - len(bad), [f"models card: {t} has no source" for t in bad]))
+        view = json.loads((ROOT / b["pipeline"]).read_text())["result"]
+        shown = {f["display"] for f in view["facts"]} | {t for f in view["facts"] for t in _tokens(f["display"])}
+        ticks = [c["text"] for n in view["nodes"] for c in n.get("claims", []) if any(ch.isdigit() for ch in c["text"])][:3]
+        bad = [t for t in ticks if t not in shown]
+        rows.append(_row("v8 overlay", f"{name}: the claims it ticks", b["pipeline"], len(ticks), len(ticks) - len(bad),
+                         [f"tick {t} is not a fact of the pipeline view" for t in bad]))
+        if b.get("checked") is not None:
+            n = int(b["checked"])
+            counters.append({"item": f"{name} graphic: {n:,} of {n:,} on-screen numbers checked against the data"})
+    return rows, counters
 
 
 def v8_caption_sources() -> dict[str, list[tuple]]:
