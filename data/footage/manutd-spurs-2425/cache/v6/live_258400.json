@@ -1,0 +1,9334 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "live",
+  "coordinates": "pitch metres, x from the left goal line, y from the NEAR touchline (moment-file frame); px = image pixel (feet / ball centre)",
+  "end_clip_ms": 263500,
+  "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+  "frames": [
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      393,
+      852
+     ],
+     "speed_ms": 0.5,
+     "x": 80.45,
+     "y": 64.4
+    },
+    "best": null,
+    "clip_ms": 258400,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      403,
+      860
+     ],
+     "speed_ms": 163.7,
+     "x": 80.43,
+     "y": 64.45
+    },
+    "best": null,
+    "clip_ms": 258500,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       472,
+       938
+      ],
+      "team": "away",
+      "x": 77.84,
+      "y": 65.44
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1218,
+       693
+      ],
+      "team": "home",
+      "x": 74.65,
+      "y": 51.64
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       1022,
+       522
+      ],
+      "team": "home",
+      "x": 83.3,
+      "y": 45.47
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       1007,
+       664
+      ],
+      "team": "away",
+      "x": 78.41,
+      "y": 52.61
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1080,
+       662
+      ],
+      "team": "home",
+      "x": 77.42,
+      "y": 51.78
+     },
+     {
+      "keeper": false,
+      "label": "t5",
+      "name": null,
+      "px": [
+       1893,
+       511
+      ],
+      "team": null,
+      "x": 68.94,
+      "y": 33.96
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1744,
+       503
+      ],
+      "team": "home",
+      "x": 71.68,
+      "y": 35.22
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1789,
+       813
+      ],
+      "team": "away",
+      "x": 65.17,
+      "y": 50.88
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1232,
+       497
+      ],
+      "team": "away",
+      "x": 80.72,
+      "y": 41.28
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       821,
+       679
+      ],
+      "team": "home",
+      "x": 80.54,
+      "y": 55.12
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1289,
+       448
+      ],
+      "team": "home",
+      "x": 81.82,
+      "y": 36.99
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1790,
+       421
+      ],
+      "team": "home",
+      "x": 73.3,
+      "y": 27.78
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1738,
+       383
+      ],
+      "team": "away",
+      "x": 75.75,
+      "y": 24.66
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       743,
+       355
+      ],
+      "team": "home",
+      "x": 98.74,
+      "y": 37.29
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1839,
+       738
+      ],
+      "team": null,
+      "x": 65.56,
+      "y": 47.45
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      977,
+      363
+     ],
+     "speed_ms": 164.4,
+     "x": 93.69,
+     "y": 34.45
+    },
+    "best": null,
+    "clip_ms": 258600,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       468,
+       919
+      ],
+      "team": "away",
+      "x": 78.78,
+      "y": 64.93
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1224,
+       687
+      ],
+      "team": "home",
+      "x": 75.44,
+      "y": 51.13
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       1014,
+       531
+      ],
+      "team": "home",
+      "x": 83.81,
+      "y": 45.92
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       994,
+       641
+      ],
+      "team": "away",
+      "x": 79.98,
+      "y": 51.6
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1063,
+       652
+      ],
+      "team": "home",
+      "x": 78.67,
+      "y": 51.3
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1764,
+       502
+      ],
+      "team": "home",
+      "x": 72.33,
+      "y": 34.73
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1799,
+       820
+      ],
+      "team": "away",
+      "x": 65.67,
+      "y": 50.77
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1226,
+       506
+      ],
+      "team": "away",
+      "x": 81.32,
+      "y": 41.76
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       840,
+       670
+      ],
+      "team": "home",
+      "x": 81.22,
+      "y": 54.4
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1288,
+       459
+      ],
+      "team": "home",
+      "x": 82.22,
+      "y": 37.71
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1799,
+       423
+      ],
+      "team": "home",
+      "x": 74.18,
+      "y": 27.62
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1732,
+       387
+      ],
+      "team": "away",
+      "x": 76.86,
+      "y": 24.99
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       756,
+       362
+      ],
+      "team": "home",
+      "x": 98.76,
+      "y": 37.55
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1842,
+       748
+      ],
+      "team": null,
+      "x": 66.15,
+      "y": 47.59
+     },
+     {
+      "keeper": false,
+      "label": "t5",
+      "name": null,
+      "px": [
+       1911,
+       504
+      ],
+      "team": null,
+      "x": 69.8,
+      "y": 33.02
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      991,
+      366
+     ],
+     "speed_ms": 0.1,
+     "x": 93.77,
+     "y": 34.39
+    },
+    "best": null,
+    "clip_ms": 258700,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       467,
+       920
+      ],
+      "team": "away",
+      "x": 79.12,
+      "y": 64.78
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1229,
+       682
+      ],
+      "team": "home",
+      "x": 75.98,
+      "y": 50.69
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       1018,
+       532
+      ],
+      "team": "home",
+      "x": 84.25,
+      "y": 45.74
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       992,
+       648
+      ],
+      "team": "away",
+      "x": 80.24,
+      "y": 51.75
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1058,
+       654
+      ],
+      "team": "home",
+      "x": 79.15,
+      "y": 51.27
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1772,
+       503
+      ],
+      "team": "home",
+      "x": 72.81,
+      "y": 34.53
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1800,
+       833
+      ],
+      "team": "away",
+      "x": 65.98,
+      "y": 51.03
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1228,
+       506
+      ],
+      "team": "away",
+      "x": 81.83,
+      "y": 41.58
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       853,
+       658
+      ],
+      "team": "home",
+      "x": 81.86,
+      "y": 53.63
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1292,
+       458
+      ],
+      "team": "home",
+      "x": 82.8,
+      "y": 37.41
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1805,
+       420
+      ],
+      "team": "home",
+      "x": 74.86,
+      "y": 27.18
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1741,
+       391
+      ],
+      "team": "away",
+      "x": 77.24,
+      "y": 25.2
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       766,
+       364
+      ],
+      "team": "home",
+      "x": 98.89,
+      "y": 37.47
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1836,
+       724
+      ],
+      "team": null,
+      "x": 67.13,
+      "y": 46.4
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      1018,
+      371
+     ],
+     "speed_ms": 0.6,
+     "x": 93.71,
+     "y": 34.44
+    },
+    "best": null,
+    "clip_ms": 258800,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       471,
+       926
+      ],
+      "team": "away",
+      "x": 79.43,
+      "y": 64.68
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1227,
+       692
+      ],
+      "team": "home",
+      "x": 76.48,
+      "y": 50.93
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       1014,
+       537
+      ],
+      "team": "home",
+      "x": 84.85,
+      "y": 45.96
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       988,
+       634
+      ],
+      "team": "away",
+      "x": 81.51,
+      "y": 50.99
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1056,
+       638
+      ],
+      "team": "home",
+      "x": 80.39,
+      "y": 50.46
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1781,
+       512
+      ],
+      "team": "home",
+      "x": 73.41,
+      "y": 34.98
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1816,
+       841
+      ],
+      "team": "away",
+      "x": 66.44,
+      "y": 50.98
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1220,
+       513
+      ],
+      "team": "away",
+      "x": 82.51,
+      "y": 42.01
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       869,
+       663
+      ],
+      "team": "home",
+      "x": 82.15,
+      "y": 53.48
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1293,
+       459
+      ],
+      "team": "home",
+      "x": 83.65,
+      "y": 37.38
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1811,
+       429
+      ],
+      "team": "home",
+      "x": 75.55,
+      "y": 27.92
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1744,
+       392
+      ],
+      "team": "away",
+      "x": 78.26,
+      "y": 25.3
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       775,
+       362
+      ],
+      "team": "home",
+      "x": 99.67,
+      "y": 37.12
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1836,
+       758
+      ],
+      "team": null,
+      "x": 67.42,
+      "y": 47.65
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      1033,
+      373
+     ],
+     "speed_ms": 91.7,
+     "x": 93.85,
+     "y": 34.29
+    },
+    "best": null,
+    "clip_ms": 258900,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       472,
+       919
+      ],
+      "team": "away",
+      "x": 79.92,
+      "y": 64.38
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1234,
+       690
+      ],
+      "team": "home",
+      "x": 76.93,
+      "y": 50.61
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       1008,
+       542
+      ],
+      "team": "home",
+      "x": 85.22,
+      "y": 46.19
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       979,
+       638
+      ],
+      "team": "away",
+      "x": 81.96,
+      "y": 51.11
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1053,
+       644
+      ],
+      "team": "home",
+      "x": 80.72,
+      "y": 50.58
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1794,
+       513
+      ],
+      "team": "home",
+      "x": 73.86,
+      "y": 34.74
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1821,
+       838
+      ],
+      "team": "away",
+      "x": 66.93,
+      "y": 50.65
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1221,
+       516
+      ],
+      "team": "away",
+      "x": 82.96,
+      "y": 42.02
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       884,
+       640
+      ],
+      "team": "home",
+      "x": 83.19,
+      "y": 52.26
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1295,
+       465
+      ],
+      "team": "home",
+      "x": 83.95,
+      "y": 37.67
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1819,
+       434
+      ],
+      "team": "home",
+      "x": 76.01,
+      "y": 28.07
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1748,
+       398
+      ],
+      "team": "away",
+      "x": 78.72,
+      "y": 25.69
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       783,
+       366
+      ],
+      "team": "home",
+      "x": 99.69,
+      "y": 37.29
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1840,
+       766
+      ],
+      "team": null,
+      "x": 67.79,
+      "y": 47.75
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      945,
+      604
+     ],
+     "speed_ms": 1.1,
+     "x": 84.08,
+     "y": 50.05
+    },
+    "best": null,
+    "clip_ms": 259000,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "possession unsettled",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       474,
+       917
+      ],
+      "team": "away",
+      "x": 80.38,
+      "y": 64.11
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1237,
+       687
+      ],
+      "team": "home",
+      "x": 77.6,
+      "y": 50.23
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       1000,
+       545
+      ],
+      "team": "home",
+      "x": 85.92,
+      "y": 46.21
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       968,
+       620
+      ],
+      "team": "away",
+      "x": 83.35,
+      "y": 50.26
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1054,
+       642
+      ],
+      "team": "home",
+      "x": 81.4,
+      "y": 50.28
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1806,
+       515
+      ],
+      "team": "home",
+      "x": 74.51,
+      "y": 34.46
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1829,
+       853
+      ],
+      "team": "away",
+      "x": 67.3,
+      "y": 50.8
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1217,
+       513
+      ],
+      "team": "away",
+      "x": 83.9,
+      "y": 41.68
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       888,
+       647
+      ],
+      "team": "home",
+      "x": 83.49,
+      "y": 52.27
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1299,
+       458
+      ],
+      "team": "home",
+      "x": 84.98,
+      "y": 36.96
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1830,
+       422
+      ],
+      "team": "home",
+      "x": 77.26,
+      "y": 26.62
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1752,
+       398
+      ],
+      "team": "away",
+      "x": 79.61,
+      "y": 25.5
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       793,
+       369
+      ],
+      "team": "home",
+      "x": 99.91,
+      "y": 37.31
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1826,
+       753
+      ],
+      "team": null,
+      "x": 68.87,
+      "y": 47.11
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      1072,
+      384
+     ],
+     "speed_ms": 91.7,
+     "x": 93.68,
+     "y": 34.44
+    },
+    "best": null,
+    "clip_ms": 259100,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       475,
+       919
+      ],
+      "team": "away",
+      "x": 80.66,
+      "y": 63.98
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1237,
+       693
+      ],
+      "team": "home",
+      "x": 77.93,
+      "y": 50.28
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       985,
+       551
+      ],
+      "team": "home",
+      "x": 86.35,
+      "y": 46.59
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       957,
+       626
+      ],
+      "team": "away",
+      "x": 83.75,
+      "y": 50.48
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1049,
+       633
+      ],
+      "team": "home",
+      "x": 82.26,
+      "y": 49.75
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1813,
+       522
+      ],
+      "team": "home",
+      "x": 74.8,
+      "y": 34.76
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1837,
+       864
+      ],
+      "team": "away",
+      "x": 67.52,
+      "y": 50.93
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1205,
+       518
+      ],
+      "team": "away",
+      "x": 84.4,
+      "y": 42.01
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       897,
+       636
+      ],
+      "team": "home",
+      "x": 84.22,
+      "y": 51.54
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1296,
+       466
+      ],
+      "team": "home",
+      "x": 85.24,
+      "y": 37.43
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1825,
+       434
+      ],
+      "team": "home",
+      "x": 77.56,
+      "y": 27.67
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1746,
+       399
+      ],
+      "team": "away",
+      "x": 80.39,
+      "y": 25.59
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       797,
+       368
+      ],
+      "team": "home",
+      "x": 100.47,
+      "y": 37.0
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1833,
+       756
+      ],
+      "team": null,
+      "x": 69.24,
+      "y": 46.99
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      1092,
+      390
+     ],
+     "speed_ms": 0.2,
+     "x": 93.74,
+     "y": 34.46
+    },
+    "best": null,
+    "clip_ms": 259200,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       473,
+       905
+      ],
+      "team": "away",
+      "x": 81.54,
+      "y": 63.41
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1240,
+       690
+      ],
+      "team": "home",
+      "x": 78.66,
+      "y": 49.85
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       985,
+       550
+      ],
+      "team": "home",
+      "x": 87.11,
+      "y": 46.26
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       949,
+       613
+      ],
+      "team": "away",
+      "x": 85.04,
+      "y": 49.71
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1042,
+       640
+      ],
+      "team": "home",
+      "x": 82.81,
+      "y": 49.82
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1820,
+       527
+      ],
+      "team": "home",
+      "x": 75.47,
+      "y": 34.8
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1843,
+       866
+      ],
+      "team": "away",
+      "x": 68.12,
+      "y": 50.67
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1198,
+       516
+      ],
+      "team": "away",
+      "x": 85.39,
+      "y": 41.71
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       887,
+       634
+      ],
+      "team": "home",
+      "x": 85.07,
+      "y": 51.3
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1296,
+       467
+      ],
+      "team": "home",
+      "x": 86.05,
+      "y": 37.25
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1829,
+       442
+      ],
+      "team": "home",
+      "x": 78.2,
+      "y": 28.15
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1743,
+       408
+      ],
+      "team": "away",
+      "x": 81.07,
+      "y": 26.33
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       802,
+       375
+      ],
+      "team": "home",
+      "x": 100.56,
+      "y": 37.29
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1820,
+       757
+      ],
+      "team": null,
+      "x": 70.13,
+      "y": 46.86
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      1103,
+      394
+     ],
+     "speed_ms": 80.4,
+     "x": 93.73,
+     "y": 34.44
+    },
+    "best": null,
+    "clip_ms": 259300,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       471,
+       906
+      ],
+      "team": "away",
+      "x": 81.83,
+      "y": 63.23
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1242,
+       687
+      ],
+      "team": "home",
+      "x": 79.16,
+      "y": 49.45
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       969,
+       555
+      ],
+      "team": "home",
+      "x": 87.56,
+      "y": 46.46
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       929,
+       616
+      ],
+      "team": "away",
+      "x": 85.62,
+      "y": 49.78
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1039,
+       625
+      ],
+      "team": "home",
+      "x": 83.78,
+      "y": 48.99
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1823,
+       523
+      ],
+      "team": "home",
+      "x": 76.12,
+      "y": 34.2
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1847,
+       871
+      ],
+      "team": "away",
+      "x": 68.43,
+      "y": 50.55
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1184,
+       521
+      ],
+      "team": "away",
+      "x": 85.85,
+      "y": 41.94
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       894,
+       633
+      ],
+      "team": "home",
+      "x": 85.43,
+      "y": 50.94
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1289,
+       467
+      ],
+      "team": "home",
+      "x": 86.68,
+      "y": 37.09
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1830,
+       442
+      ],
+      "team": "home",
+      "x": 78.8,
+      "y": 27.92
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1744,
+       407
+      ],
+      "team": "away",
+      "x": 81.72,
+      "y": 25.99
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       806,
+       378
+      ],
+      "team": "home",
+      "x": 100.64,
+      "y": 37.28
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1824,
+       762
+      ],
+      "team": null,
+      "x": 70.45,
+      "y": 46.8
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      784,
+      583
+     ],
+     "speed_ms": 79.0,
+     "x": 89.43,
+     "y": 49.95
+    },
+    "best": null,
+    "clip_ms": 259400,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       476,
+       914
+      ],
+      "team": "away",
+      "x": 82.09,
+      "y": 63.1
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1236,
+       697
+      ],
+      "team": "home",
+      "x": 79.63,
+      "y": 49.64
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       962,
+       558
+      ],
+      "team": "home",
+      "x": 88.27,
+      "y": 46.39
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1036,
+       630
+      ],
+      "team": "home",
+      "x": 84.32,
+      "y": 48.98
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1827,
+       532
+      ],
+      "team": "home",
+      "x": 76.68,
+      "y": 34.51
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1846,
+       887
+      ],
+      "team": "away",
+      "x": 68.86,
+      "y": 50.83
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1178,
+       528
+      ],
+      "team": "away",
+      "x": 86.44,
+      "y": 42.14
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       885,
+       617
+      ],
+      "team": "home",
+      "x": 86.84,
+      "y": 50.07
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1283,
+       474
+      ],
+      "team": "home",
+      "x": 87.3,
+      "y": 37.37
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1825,
+       458
+      ],
+      "team": "home",
+      "x": 79.21,
+      "y": 29.12
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1737,
+       416
+      ],
+      "team": "away",
+      "x": 82.43,
+      "y": 26.68
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       815,
+       381
+      ],
+      "team": "home",
+      "x": 101.11,
+      "y": 37.07
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1817,
+       773
+      ],
+      "team": null,
+      "x": 71.04,
+      "y": 47.04
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       921,
+       607
+      ],
+      "team": "away",
+      "x": 86.75,
+      "y": 49.23
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      761,
+      578
+     ],
+     "speed_ms": 11.7,
+     "x": 90.42,
+     "y": 49.88
+    },
+    "best": null,
+    "clip_ms": 259500,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       483,
+       906
+      ],
+      "team": "away",
+      "x": 82.59,
+      "y": 62.74
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1242,
+       700
+      ],
+      "team": "home",
+      "x": 79.9,
+      "y": 49.57
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       953,
+       553
+      ],
+      "team": "home",
+      "x": 89.11,
+      "y": 46.1
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1038,
+       632
+      ],
+      "team": "home",
+      "x": 84.71,
+      "y": 48.87
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1828,
+       540
+      ],
+      "team": "home",
+      "x": 76.97,
+      "y": 34.87
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1856,
+       893
+      ],
+      "team": "away",
+      "x": 69.1,
+      "y": 50.77
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1173,
+       523
+      ],
+      "team": "away",
+      "x": 87.24,
+      "y": 41.76
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       893,
+       618
+      ],
+      "team": "home",
+      "x": 87.16,
+      "y": 49.87
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1277,
+       474
+      ],
+      "team": "home",
+      "x": 87.98,
+      "y": 37.29
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1822,
+       451
+      ],
+      "team": "home",
+      "x": 80.16,
+      "y": 28.4
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1733,
+       420
+      ],
+      "team": "away",
+      "x": 82.99,
+      "y": 26.92
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       820,
+       384
+      ],
+      "team": "home",
+      "x": 101.4,
+      "y": 37.07
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1812,
+       765
+      ],
+      "team": null,
+      "x": 71.7,
+      "y": 46.59
+     },
+     {
+      "keeper": false,
+      "label": "t3",
+      "name": null,
+      "px": [
+       906,
+       606
+      ],
+      "team": "away",
+      "x": 87.49,
+      "y": 49.19
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      729,
+      575
+     ],
+     "speed_ms": 10.5,
+     "x": 91.77,
+     "y": 49.83
+    },
+    "best": null,
+    "clip_ms": 259600,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       490,
+       904
+      ],
+      "team": "away",
+      "x": 83.1,
+      "y": 62.41
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1245,
+       693
+      ],
+      "team": "home",
+      "x": 80.81,
+      "y": 48.96
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       943,
+       561
+      ],
+      "team": "home",
+      "x": 89.69,
+      "y": 46.34
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1035,
+       615
+      ],
+      "team": "home",
+      "x": 86.16,
+      "y": 47.84
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1840,
+       542
+      ],
+      "team": "home",
+      "x": 77.69,
+      "y": 34.52
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1860,
+       891
+      ],
+      "team": "away",
+      "x": 69.77,
+      "y": 50.36
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1166,
+       533
+      ],
+      "team": "away",
+      "x": 87.75,
+      "y": 42.13
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       890,
+       614
+      ],
+      "team": "home",
+      "x": 88.13,
+      "y": 49.41
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1267,
+       488
+      ],
+      "team": "home",
+      "x": 88.36,
+      "y": 38.07
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1824,
+       461
+      ],
+      "team": "home",
+      "x": 80.83,
+      "y": 28.78
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1729,
+       419
+      ],
+      "team": "away",
+      "x": 84.16,
+      "y": 26.55
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       829,
+       388
+      ],
+      "team": "home",
+      "x": 101.84,
+      "y": 36.98
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1803,
+       777
+      ],
+      "team": null,
+      "x": 72.34,
+      "y": 46.81
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      708,
+      575
+     ],
+     "speed_ms": 10.0,
+     "x": 92.52,
+     "y": 49.84
+    },
+    "best": null,
+    "clip_ms": 259700,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       494,
+       907
+      ],
+      "team": "away",
+      "x": 83.32,
+      "y": 62.27
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1242,
+       702
+      ],
+      "team": "home",
+      "x": 81.01,
+      "y": 49.11
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       921,
+       563
+      ],
+      "team": "home",
+      "x": 90.42,
+      "y": 46.41
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1032,
+       627
+      ],
+      "team": "home",
+      "x": 86.22,
+      "y": 48.15
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1846,
+       545
+      ],
+      "team": "home",
+      "x": 78.08,
+      "y": 34.3
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1860,
+       904
+      ],
+      "team": "away",
+      "x": 69.94,
+      "y": 50.56
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1159,
+       533
+      ],
+      "team": "away",
+      "x": 88.41,
+      "y": 41.9
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       889,
+       603
+      ],
+      "team": "home",
+      "x": 89.09,
+      "y": 48.68
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1262,
+       492
+      ],
+      "team": "home",
+      "x": 88.81,
+      "y": 38.06
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1821,
+       470
+      ],
+      "team": "home",
+      "x": 81.1,
+      "y": 29.22
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1722,
+       428
+      ],
+      "team": "away",
+      "x": 84.51,
+      "y": 27.04
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       831,
+       391
+      ],
+      "team": "home",
+      "x": 102.23,
+      "y": 36.8
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1799,
+       787
+      ],
+      "team": null,
+      "x": 72.6,
+      "y": 47.01
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      680,
+      572
+     ],
+     "speed_ms": 9.6,
+     "x": 93.76,
+     "y": 49.75
+    },
+    "best": null,
+    "clip_ms": 259800,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       500,
+       902
+      ],
+      "team": "away",
+      "x": 83.95,
+      "y": 61.84
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1246,
+       706
+      ],
+      "team": "home",
+      "x": 81.56,
+      "y": 48.89
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       905,
+       578
+      ],
+      "team": "home",
+      "x": 90.71,
+      "y": 47.02
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1035,
+       628
+      ],
+      "team": "home",
+      "x": 86.85,
+      "y": 47.88
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1845,
+       557
+      ],
+      "team": "home",
+      "x": 78.59,
+      "y": 34.73
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1863,
+       919
+      ],
+      "team": "away",
+      "x": 70.34,
+      "y": 50.68
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1156,
+       532
+      ],
+      "team": "away",
+      "x": 89.3,
+      "y": 41.56
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1252,
+       491
+      ],
+      "team": "home",
+      "x": 89.87,
+      "y": 37.79
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1813,
+       466
+      ],
+      "team": "home",
+      "x": 82.4,
+      "y": 28.56
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1714,
+       431
+      ],
+      "team": "away",
+      "x": 85.5,
+      "y": 27.03
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       835,
+       398
+      ],
+      "team": "home",
+      "x": 102.52,
+      "y": 36.97
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1792,
+       786
+      ],
+      "team": null,
+      "x": 73.42,
+      "y": 46.69
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       881,
+       621
+      ],
+      "team": "home",
+      "x": 89.17,
+      "y": 49.26
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      662,
+      574
+     ],
+     "speed_ms": 8.4,
+     "x": 94.43,
+     "y": 49.81
+    },
+    "best": null,
+    "clip_ms": 259900,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       500,
+       899
+      ],
+      "team": "away",
+      "x": 84.41,
+      "y": 61.6
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1247,
+       701
+      ],
+      "team": "home",
+      "x": 82.18,
+      "y": 48.52
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1038,
+       614
+      ],
+      "team": "home",
+      "x": 87.86,
+      "y": 47.01
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1850,
+       562
+      ],
+      "team": "home",
+      "x": 78.98,
+      "y": 34.84
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1868,
+       918
+      ],
+      "team": "away",
+      "x": 70.77,
+      "y": 50.45
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1151,
+       541
+      ],
+      "team": "away",
+      "x": 89.51,
+      "y": 41.94
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       897,
+       621
+      ],
+      "team": "home",
+      "x": 89.42,
+      "y": 48.9
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1242,
+       497
+      ],
+      "team": "home",
+      "x": 90.29,
+      "y": 38.14
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1805,
+       473
+      ],
+      "team": "home",
+      "x": 82.85,
+      "y": 29.14
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1706,
+       432
+      ],
+      "team": "away",
+      "x": 86.26,
+      "y": 27.08
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       843,
+       403
+      ],
+      "team": "home",
+      "x": 102.55,
+      "y": 37.09
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1788,
+       785
+      ],
+      "team": null,
+      "x": 73.97,
+      "y": 46.53
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       823,
+       596
+      ],
+      "team": "away",
+      "x": 91.5,
+      "y": 48.62
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       883,
+       551
+      ],
+      "team": "home",
+      "x": 92.85,
+      "y": 45.74
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      641,
+      572
+     ],
+     "speed_ms": 7.9,
+     "x": 95.43,
+     "y": 49.7
+    },
+    "best": null,
+    "clip_ms": 260000,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       509,
+       908
+      ],
+      "team": "away",
+      "x": 84.54,
+      "y": 61.46
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1237,
+       714
+      ],
+      "team": "home",
+      "x": 82.56,
+      "y": 48.82
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1040,
+       621
+      ],
+      "team": "home",
+      "x": 88.28,
+      "y": 46.95
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1851,
+       561
+      ],
+      "team": "home",
+      "x": 79.83,
+      "y": 34.36
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1870,
+       922
+      ],
+      "team": "away",
+      "x": 71.29,
+      "y": 50.24
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1145,
+       545
+      ],
+      "team": "away",
+      "x": 90.18,
+      "y": 41.87
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       873,
+       608
+      ],
+      "team": "home",
+      "x": 90.98,
+      "y": 48.27
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1235,
+       501
+      ],
+      "team": "home",
+      "x": 91.04,
+      "y": 38.1
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1806,
+       485
+      ],
+      "team": "home",
+      "x": 83.27,
+      "y": 29.65
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1690,
+       445
+      ],
+      "team": "away",
+      "x": 86.85,
+      "y": 27.96
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       851,
+       410
+      ],
+      "team": "home",
+      "x": 102.73,
+      "y": 37.11
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1767,
+       801
+      ],
+      "team": null,
+      "x": 74.53,
+      "y": 46.99
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       802,
+       605
+      ],
+      "team": "away",
+      "x": 92.06,
+      "y": 48.94
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       856,
+       555
+      ],
+      "team": "home",
+      "x": 93.74,
+      "y": 45.93
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      626,
+      574
+     ],
+     "speed_ms": 6.9,
+     "x": 96.01,
+     "y": 49.67
+    },
+    "best": null,
+    "clip_ms": 260100,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       512,
+       910
+      ],
+      "team": "away",
+      "x": 84.8,
+      "y": 61.26
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1229,
+       720
+      ],
+      "team": "home",
+      "x": 82.87,
+      "y": 48.89
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       836,
+       572
+      ],
+      "team": "home",
+      "x": 93.59,
+      "y": 46.77
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1043,
+       624
+      ],
+      "team": "home",
+      "x": 88.55,
+      "y": 46.81
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1853,
+       566
+      ],
+      "team": "home",
+      "x": 80.16,
+      "y": 34.37
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1857,
+       936
+      ],
+      "team": "away",
+      "x": 71.57,
+      "y": 50.54
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1142,
+       538
+      ],
+      "team": "away",
+      "x": 91.05,
+      "y": 41.24
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       865,
+       618
+      ],
+      "team": "home",
+      "x": 91.07,
+      "y": 48.56
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1229,
+       500
+      ],
+      "team": "home",
+      "x": 91.67,
+      "y": 37.85
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1798,
+       489
+      ],
+      "team": "home",
+      "x": 83.8,
+      "y": 29.74
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1675,
+       436
+      ],
+      "team": "away",
+      "x": 88.12,
+      "y": 27.12
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       846,
+       417
+      ],
+      "team": "home",
+      "x": 102.84,
+      "y": 37.37
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1761,
+       811
+      ],
+      "team": null,
+      "x": 74.8,
+      "y": 47.18
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       783,
+       594
+      ],
+      "team": "away",
+      "x": 93.22,
+      "y": 48.44
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      605,
+      574
+     ],
+     "speed_ms": 6.8,
+     "x": 96.8,
+     "y": 49.55
+    },
+    "best": null,
+    "clip_ms": 260200,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       516,
+       902
+      ],
+      "team": "away",
+      "x": 85.36,
+      "y": 60.76
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1223,
+       720
+      ],
+      "team": "home",
+      "x": 83.46,
+      "y": 48.57
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       809,
+       587
+      ],
+      "team": "home",
+      "x": 93.79,
+      "y": 47.39
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1042,
+       611
+      ],
+      "team": "home",
+      "x": 89.66,
+      "y": 45.79
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1849,
+       575
+      ],
+      "team": "home",
+      "x": 80.56,
+      "y": 34.49
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1857,
+       942
+      ],
+      "team": "away",
+      "x": 71.91,
+      "y": 50.38
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1128,
+       545
+      ],
+      "team": "away",
+      "x": 91.53,
+      "y": 41.35
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       864,
+       616
+      ],
+      "team": "home",
+      "x": 91.7,
+      "y": 48.1
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1213,
+       508
+      ],
+      "team": "home",
+      "x": 92.13,
+      "y": 38.11
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1787,
+       493
+      ],
+      "team": "home",
+      "x": 84.5,
+      "y": 29.63
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1656,
+       451
+      ],
+      "team": "away",
+      "x": 88.43,
+      "y": 28.06
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       845,
+       424
+      ],
+      "team": "home",
+      "x": 103.02,
+      "y": 37.42
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1740,
+       805
+      ],
+      "team": null,
+      "x": 75.63,
+      "y": 46.77
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       738,
+       603
+      ],
+      "team": "away",
+      "x": 93.95,
+      "y": 48.96
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      590,
+      574
+     ],
+     "speed_ms": 7.2,
+     "x": 97.36,
+     "y": 49.49
+    },
+    "best": null,
+    "clip_ms": 260300,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       516,
+       908
+      ],
+      "team": "away",
+      "x": 85.45,
+      "y": 60.72
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1215,
+       723
+      ],
+      "team": "home",
+      "x": 83.81,
+      "y": 48.53
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       786,
+       580
+      ],
+      "team": "home",
+      "x": 94.79,
+      "y": 47.12
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1041,
+       619
+      ],
+      "team": "home",
+      "x": 89.72,
+      "y": 45.94
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1845,
+       582
+      ],
+      "team": "home",
+      "x": 80.81,
+      "y": 34.66
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1851,
+       939
+      ],
+      "team": "away",
+      "x": 72.33,
+      "y": 50.12
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1123,
+       542
+      ],
+      "team": "away",
+      "x": 92.12,
+      "y": 41.04
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       855,
+       606
+      ],
+      "team": "home",
+      "x": 92.64,
+      "y": 47.5
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1205,
+       510
+      ],
+      "team": "home",
+      "x": 92.61,
+      "y": 38.03
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1775,
+       497
+      ],
+      "team": "home",
+      "x": 84.99,
+      "y": 29.76
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1644,
+       451
+      ],
+      "team": "away",
+      "x": 89.08,
+      "y": 27.92
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       842,
+       433
+      ],
+      "team": "home",
+      "x": 102.87,
+      "y": 37.82
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1721,
+       814
+      ],
+      "team": null,
+      "x": 75.97,
+      "y": 47.05
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       721,
+       598
+      ],
+      "team": "away",
+      "x": 94.77,
+      "y": 48.7
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      568,
+      574
+     ],
+     "speed_ms": 6.8,
+     "x": 98.22,
+     "y": 49.36
+    },
+    "best": null,
+    "clip_ms": 260400,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball loose",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       514,
+       912
+      ],
+      "team": "away",
+      "x": 85.77,
+      "y": 60.53
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1196,
+       732
+      ],
+      "team": "home",
+      "x": 84.24,
+      "y": 48.72
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       755,
+       589
+      ],
+      "team": "home",
+      "x": 95.3,
+      "y": 47.52
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1036,
+       623
+      ],
+      "team": "home",
+      "x": 90.15,
+      "y": 45.83
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1840,
+       585
+      ],
+      "team": "home",
+      "x": 81.38,
+      "y": 34.51
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1839,
+       948
+      ],
+      "team": "away",
+      "x": 72.71,
+      "y": 50.2
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1109,
+       540
+      ],
+      "team": "away",
+      "x": 93.0,
+      "y": 40.69
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       839,
+       617
+      ],
+      "team": "home",
+      "x": 92.89,
+      "y": 47.8
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1188,
+       511
+      ],
+      "team": "home",
+      "x": 93.41,
+      "y": 37.92
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1750,
+       511
+      ],
+      "team": "home",
+      "x": 85.41,
+      "y": 30.69
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1619,
+       456
+      ],
+      "team": "away",
+      "x": 89.89,
+      "y": 28.24
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1701,
+       819
+      ],
+      "team": null,
+      "x": 76.53,
+      "y": 47.12
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       671,
+       604
+      ],
+      "team": "away",
+      "x": 95.65,
+      "y": 49.19
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       837,
+       437
+      ],
+      "team": "home",
+      "x": 103.27,
+      "y": 37.76
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      551,
+      574
+     ],
+     "speed_ms": 6.5,
+     "x": 98.72,
+     "y": 49.36
+    },
+    "best": null,
+    "clip_ms": 260500,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "possession unsettled",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       510,
+       901
+      ],
+      "team": "away",
+      "x": 86.42,
+      "y": 60.09
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1187,
+       732
+      ],
+      "team": "home",
+      "x": 84.68,
+      "y": 48.63
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       734,
+       589
+      ],
+      "team": "home",
+      "x": 95.92,
+      "y": 47.55
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1034,
+       611
+      ],
+      "team": "home",
+      "x": 91.03,
+      "y": 45.11
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1840,
+       592
+      ],
+      "team": "home",
+      "x": 81.6,
+      "y": 34.8
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1831,
+       958
+      ],
+      "team": "away",
+      "x": 72.98,
+      "y": 50.38
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1093,
+       547
+      ],
+      "team": "away",
+      "x": 93.26,
+      "y": 41.08
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       820,
+       618
+      ],
+      "team": "home",
+      "x": 93.42,
+      "y": 47.86
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1174,
+       512
+      ],
+      "team": "home",
+      "x": 93.9,
+      "y": 38.03
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1742,
+       509
+      ],
+      "team": "home",
+      "x": 86.04,
+      "y": 30.56
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1595,
+       461
+      ],
+      "team": "away",
+      "x": 90.42,
+      "y": 28.89
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1683,
+       810
+      ],
+      "team": null,
+      "x": 77.28,
+      "y": 46.78
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       642,
+       601
+      ],
+      "team": "away",
+      "x": 96.46,
+      "y": 49.2
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       835,
+       442
+      ],
+      "team": "home",
+      "x": 103.29,
+      "y": 37.97
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "px": [
+      526,
+      574
+     ],
+     "speed_ms": 6.8,
+     "x": 99.51,
+     "y": 49.25
+    },
+    "best": null,
+    "clip_ms": 260600,
+    "holder": {
+     "label": "t15",
+     "name": null,
+     "px": [
+      598,
+      597
+     ],
+     "x": 97.69,
+     "y": 49.14
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       506,
+       908
+      ],
+      "team": "away",
+      "x": 86.61,
+      "y": 59.96
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1174,
+       737
+      ],
+      "team": "home",
+      "x": 85.09,
+      "y": 48.63
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       690,
+       590
+      ],
+      "team": "home",
+      "x": 96.86,
+      "y": 47.75
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1029,
+       614
+      ],
+      "team": "home",
+      "x": 91.45,
+      "y": 44.91
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1836,
+       601
+      ],
+      "team": "home",
+      "x": 81.85,
+      "y": 35.07
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1818,
+       960
+      ],
+      "team": "away",
+      "x": 73.47,
+      "y": 50.27
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1080,
+       540
+      ],
+      "team": "away",
+      "x": 94.27,
+      "y": 40.49
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       802,
+       606
+      ],
+      "team": "home",
+      "x": 94.66,
+      "y": 47.14
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1156,
+       511
+      ],
+      "team": "home",
+      "x": 94.73,
+      "y": 37.79
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1721,
+       514
+      ],
+      "team": "home",
+      "x": 86.71,
+      "y": 30.78
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1560,
+       455
+      ],
+      "team": "away",
+      "x": 91.87,
+      "y": 28.49
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       836,
+       448
+      ],
+      "team": "home",
+      "x": 103.36,
+      "y": 37.95
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1655,
+       818
+      ],
+      "team": null,
+      "x": 77.83,
+      "y": 47.02
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       598,
+       597
+      ],
+      "team": "away",
+      "x": 97.69,
+      "y": 49.14
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "px": [
+      511,
+      573
+     ],
+     "speed_ms": 6.1,
+     "x": 100.06,
+     "y": 49.17
+    },
+    "best": null,
+    "clip_ms": 260700,
+    "holder": {
+     "label": "t15",
+     "name": null,
+     "px": [
+      586,
+      601
+     ],
+     "x": 97.94,
+     "y": 49.23
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       502,
+       912
+      ],
+      "team": "away",
+      "x": 86.76,
+      "y": 59.91
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1156,
+       744
+      ],
+      "team": "home",
+      "x": 85.35,
+      "y": 48.88
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       665,
+       596
+      ],
+      "team": "home",
+      "x": 97.19,
+      "y": 48.09
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1026,
+       616
+      ],
+      "team": "home",
+      "x": 91.66,
+      "y": 44.89
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1837,
+       604
+      ],
+      "team": "home",
+      "x": 82.08,
+      "y": 35.09
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1813,
+       962
+      ],
+      "team": "away",
+      "x": 73.75,
+      "y": 50.2
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1065,
+       546
+      ],
+      "team": "away",
+      "x": 94.5,
+      "y": 40.8
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       796,
+       613
+      ],
+      "team": "home",
+      "x": 94.68,
+      "y": 47.35
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1139,
+       514
+      ],
+      "team": "home",
+      "x": 95.13,
+      "y": 38.04
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1707,
+       516
+      ],
+      "team": "home",
+      "x": 87.14,
+      "y": 30.99
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1548,
+       460
+      ],
+      "team": "away",
+      "x": 92.15,
+      "y": 28.9
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1643,
+       824
+      ],
+      "team": null,
+      "x": 78.11,
+      "y": 47.17
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       586,
+       601
+      ],
+      "team": "away",
+      "x": 97.94,
+      "y": 49.23
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       836,
+       452
+      ],
+      "team": "home",
+      "x": 103.41,
+      "y": 38.0
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "px": [
+      489,
+      573
+     ],
+     "speed_ms": 5.5,
+     "x": 100.71,
+     "y": 49.08
+    },
+    "best": null,
+    "clip_ms": 260800,
+    "holder": {
+     "label": "t15",
+     "name": null,
+     "px": [
+      535,
+      578
+     ],
+     "x": 100.2,
+     "y": 48.45
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       505,
+       907
+      ],
+      "team": "away",
+      "x": 87.23,
+      "y": 59.44
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1144,
+       753
+      ],
+      "team": "home",
+      "x": 85.64,
+      "y": 48.98
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       630,
+       586
+      ],
+      "team": "home",
+      "x": 98.56,
+      "y": 47.7
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1025,
+       608
+      ],
+      "team": "home",
+      "x": 92.53,
+      "y": 44.13
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1836,
+       611
+      ],
+      "team": "home",
+      "x": 82.42,
+      "y": 35.14
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1797,
+       976
+      ],
+      "team": "away",
+      "x": 74.07,
+      "y": 50.44
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1055,
+       545
+      ],
+      "team": "away",
+      "x": 95.14,
+      "y": 40.53
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       784,
+       612
+      ],
+      "team": "home",
+      "x": 95.3,
+      "y": 47.08
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1120,
+       520
+      ],
+      "team": "home",
+      "x": 95.57,
+      "y": 38.26
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1695,
+       515
+      ],
+      "team": "home",
+      "x": 87.94,
+      "y": 30.7
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1523,
+       457
+      ],
+      "team": "away",
+      "x": 93.28,
+      "y": 28.61
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1618,
+       816
+      ],
+      "team": null,
+      "x": 79.02,
+      "y": 46.76
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       535,
+       578
+      ],
+      "team": "away",
+      "x": 100.2,
+      "y": 48.45
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       836,
+       456
+      ],
+      "team": "home",
+      "x": 103.58,
+      "y": 37.91
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "px": [
+      472,
+      574
+     ],
+     "speed_ms": 4.5,
+     "x": 101.16,
+     "y": 49.1
+    },
+    "best": null,
+    "clip_ms": 260900,
+    "holder": {
+     "label": "t15",
+     "name": null,
+     "px": [
+      514,
+      584
+     ],
+     "x": 100.45,
+     "y": 48.73
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       505,
+       908
+      ],
+      "team": "away",
+      "x": 87.47,
+      "y": 59.24
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1130,
+       755
+      ],
+      "team": "home",
+      "x": 86.03,
+      "y": 48.98
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       607,
+       589
+      ],
+      "team": "home",
+      "x": 99.02,
+      "y": 47.86
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1025,
+       608
+      ],
+      "team": "home",
+      "x": 92.82,
+      "y": 43.95
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1840,
+       615
+      ],
+      "team": "home",
+      "x": 82.61,
+      "y": 35.12
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1792,
+       979
+      ],
+      "team": "away",
+      "x": 74.35,
+      "y": 50.39
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1036,
+       527
+      ],
+      "team": "away",
+      "x": 96.7,
+      "y": 39.51
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       776,
+       606
+      ],
+      "team": "home",
+      "x": 96.0,
+      "y": 46.69
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1101,
+       517
+      ],
+      "team": "home",
+      "x": 96.37,
+      "y": 38.09
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1682,
+       522
+      ],
+      "team": "home",
+      "x": 88.19,
+      "y": 31.17
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1501,
+       461
+      ],
+      "team": "away",
+      "x": 93.76,
+      "y": 29.03
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       834,
+       461
+      ],
+      "team": "home",
+      "x": 103.58,
+      "y": 38.07
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1604,
+       821
+      ],
+      "team": null,
+      "x": 79.32,
+      "y": 46.92
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       514,
+       584
+      ],
+      "team": "away",
+      "x": 100.45,
+      "y": 48.73
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 261000,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       496,
+       916
+      ],
+      "team": "away",
+      "x": 87.7,
+      "y": 59.15
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1117,
+       764
+      ],
+      "team": "home",
+      "x": 86.34,
+      "y": 49.06
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       570,
+       587
+      ],
+      "team": "home",
+      "x": 100.03,
+      "y": 47.77
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1023,
+       614
+      ],
+      "team": "home",
+      "x": 93.11,
+      "y": 43.83
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1838,
+       624
+      ],
+      "team": "home",
+      "x": 82.91,
+      "y": 35.31
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1788,
+       981
+      ],
+      "team": "away",
+      "x": 74.8,
+      "y": 50.15
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1012,
+       525
+      ],
+      "team": "away",
+      "x": 97.69,
+      "y": 39.25
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       749,
+       612
+      ],
+      "team": "home",
+      "x": 96.53,
+      "y": 46.82
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1074,
+       523
+      ],
+      "team": "home",
+      "x": 96.95,
+      "y": 38.38
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1662,
+       531
+      ],
+      "team": "home",
+      "x": 88.69,
+      "y": 31.62
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1473,
+       464
+      ],
+      "team": "away",
+      "x": 94.62,
+      "y": 29.26
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       836,
+       467
+      ],
+      "team": "home",
+      "x": 103.67,
+      "y": 37.98
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1582,
+       830
+      ],
+      "team": null,
+      "x": 79.81,
+      "y": 47.08
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       477,
+       589
+      ],
+      "team": "away",
+      "x": 101.1,
+      "y": 48.94
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 261100,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       494,
+       922
+      ],
+      "team": "away",
+      "x": 87.84,
+      "y": 59.05
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1104,
+       769
+      ],
+      "team": "home",
+      "x": 86.64,
+      "y": 49.15
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       551,
+       585
+      ],
+      "team": "home",
+      "x": 100.66,
+      "y": 47.67
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1042,
+       610
+      ],
+      "team": "home",
+      "x": 93.41,
+      "y": 43.18
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1842,
+       628
+      ],
+      "team": "home",
+      "x": 83.16,
+      "y": 35.29
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1788,
+       988
+      ],
+      "team": "away",
+      "x": 75.04,
+      "y": 50.13
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       1001,
+       531
+      ],
+      "team": "away",
+      "x": 97.84,
+      "y": 39.54
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       738,
+       614
+      ],
+      "team": "home",
+      "x": 96.85,
+      "y": 46.83
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1047,
+       508
+      ],
+      "team": "home",
+      "x": 98.5,
+      "y": 37.6
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1658,
+       528
+      ],
+      "team": "home",
+      "x": 89.31,
+      "y": 31.29
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1451,
+       457
+      ],
+      "team": "away",
+      "x": 95.76,
+      "y": 28.83
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1573,
+       829
+      ],
+      "team": null,
+      "x": 80.29,
+      "y": 46.89
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       466,
+       594
+      ],
+      "team": "away",
+      "x": 101.23,
+      "y": 49.05
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       840,
+       471
+      ],
+      "team": "home",
+      "x": 103.66,
+      "y": 37.99
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 261200,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       485,
+       914
+      ],
+      "team": "away",
+      "x": 88.52,
+      "y": 58.62
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1087,
+       775
+      ],
+      "team": "home",
+      "x": 87.09,
+      "y": 49.19
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       512,
+       585
+      ],
+      "team": "home",
+      "x": 101.6,
+      "y": 47.75
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1022,
+       607
+      ],
+      "team": "home",
+      "x": 94.25,
+      "y": 42.96
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1845,
+       633
+      ],
+      "team": "home",
+      "x": 83.54,
+      "y": 35.24
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1786,
+       1001
+      ],
+      "team": "away",
+      "x": 75.27,
+      "y": 50.25
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       983,
+       536
+      ],
+      "team": "away",
+      "x": 98.27,
+      "y": 39.74
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       729,
+       610
+      ],
+      "team": "home",
+      "x": 97.65,
+      "y": 46.37
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       1018,
+       516
+      ],
+      "team": "home",
+      "x": 98.93,
+      "y": 38.14
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1643,
+       529
+      ],
+      "team": "home",
+      "x": 90.03,
+      "y": 31.29
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1417,
+       466
+      ],
+      "team": "away",
+      "x": 96.27,
+      "y": 29.72
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1559,
+       832
+      ],
+      "team": null,
+      "x": 80.83,
+      "y": 46.83
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       435,
+       580
+      ],
+      "team": "away",
+      "x": 102.8,
+      "y": 48.44
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       842,
+       479
+      ],
+      "team": "home",
+      "x": 103.61,
+      "y": 38.1
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 261300,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       482,
+       921
+      ],
+      "team": "away",
+      "x": 88.55,
+      "y": 58.56
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1074,
+       784
+      ],
+      "team": "home",
+      "x": 87.17,
+      "y": 49.39
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1015,
+       610
+      ],
+      "team": "home",
+      "x": 94.42,
+      "y": 42.97
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1845,
+       637
+      ],
+      "team": "home",
+      "x": 83.7,
+      "y": 35.28
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1777,
+       1005
+      ],
+      "team": "away",
+      "x": 75.52,
+      "y": 50.23
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       960,
+       530
+      ],
+      "team": "away",
+      "x": 99.13,
+      "y": 39.44
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       711,
+       608
+      ],
+      "team": "home",
+      "x": 98.13,
+      "y": 46.27
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       994,
+       524
+      ],
+      "team": "home",
+      "x": 99.0,
+      "y": 38.69
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1632,
+       534
+      ],
+      "team": "home",
+      "x": 90.23,
+      "y": 31.57
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1395,
+       463
+      ],
+      "team": "away",
+      "x": 97.01,
+      "y": 29.6
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1537,
+       838
+      ],
+      "team": null,
+      "x": 81.14,
+      "y": 47.03
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       492,
+       584
+      ],
+      "team": "home",
+      "x": 102.08,
+      "y": 47.68
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       837,
+       481
+      ],
+      "team": "home",
+      "x": 103.7,
+      "y": 38.11
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       411,
+       585
+      ],
+      "team": "away",
+      "x": 102.99,
+      "y": 48.68
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 261400,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       476,
+       929
+      ],
+      "team": "away",
+      "x": 88.64,
+      "y": 58.45
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1061,
+       791
+      ],
+      "team": "home",
+      "x": 87.4,
+      "y": 49.45
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       452,
+       580
+      ],
+      "team": "home",
+      "x": 103.0,
+      "y": 47.63
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1006,
+       608
+      ],
+      "team": "home",
+      "x": 94.94,
+      "y": 42.65
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1844,
+       642
+      ],
+      "team": "home",
+      "x": 83.99,
+      "y": 35.31
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1773,
+       1001
+      ],
+      "team": "away",
+      "x": 76.0,
+      "y": 49.87
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       938,
+       535
+      ],
+      "team": "away",
+      "x": 99.45,
+      "y": 39.67
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       693,
+       612
+      ],
+      "team": "home",
+      "x": 98.43,
+      "y": 46.31
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1611,
+       538
+      ],
+      "team": "home",
+      "x": 90.72,
+      "y": 31.86
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1354,
+       466
+      ],
+      "team": "away",
+      "x": 97.82,
+      "y": 30.11
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       842,
+       486
+      ],
+      "team": "home",
+      "x": 103.63,
+      "y": 38.0
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1516,
+       837
+      ],
+      "team": null,
+      "x": 81.74,
+      "y": 46.88
+     },
+     {
+      "keeper": false,
+      "label": "t10",
+      "name": null,
+      "px": [
+       959,
+       522
+      ],
+      "team": "home",
+      "x": 99.88,
+      "y": 38.73
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       358,
+       588
+      ],
+      "team": "away",
+      "x": 103.72,
+      "y": 49.03
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 261500,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       473,
+       926
+      ],
+      "team": "away",
+      "x": 88.98,
+      "y": 58.15
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1052,
+       797
+      ],
+      "team": "home",
+      "x": 87.58,
+      "y": 49.47
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       433,
+       582
+      ],
+      "team": "home",
+      "x": 103.43,
+      "y": 47.57
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1001,
+       601
+      ],
+      "team": "home",
+      "x": 95.59,
+      "y": 42.11
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1844,
+       646
+      ],
+      "team": "home",
+      "x": 84.16,
+      "y": 35.32
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1768,
+       1010
+      ],
+      "team": "away",
+      "x": 76.14,
+      "y": 49.95
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       927,
+       537
+      ],
+      "team": "away",
+      "x": 99.76,
+      "y": 39.63
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       679,
+       612
+      ],
+      "team": "home",
+      "x": 98.86,
+      "y": 46.16
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1598,
+       538
+      ],
+      "team": "home",
+      "x": 91.18,
+      "y": 31.81
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1335,
+       467
+      ],
+      "team": "away",
+      "x": 98.3,
+      "y": 30.19
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       845,
+       488
+      ],
+      "team": "home",
+      "x": 103.71,
+      "y": 37.84
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1501,
+       837
+      ],
+      "team": null,
+      "x": 82.16,
+      "y": 46.8
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       333,
+       587
+      ],
+      "team": "away",
+      "x": 104.35,
+      "y": 48.93
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      996,
+      483
+     ],
+     "speed_ms": 13.5,
+     "x": 101.89,
+     "y": 35.68
+    },
+    "best": null,
+    "clip_ms": 261600,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       466,
+       930
+      ],
+      "team": "away",
+      "x": 89.27,
+      "y": 57.84
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1041,
+       804
+      ],
+      "team": "home",
+      "x": 87.85,
+      "y": 49.39
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       407,
+       583
+      ],
+      "team": "home",
+      "x": 103.91,
+      "y": 47.47
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       995,
+       607
+      ],
+      "team": "home",
+      "x": 95.79,
+      "y": 42.02
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1843,
+       649
+      ],
+      "team": "home",
+      "x": 84.57,
+      "y": 35.15
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1764,
+       1022
+      ],
+      "team": "away",
+      "x": 76.39,
+      "y": 49.95
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       914,
+       530
+      ],
+      "team": "away",
+      "x": 100.63,
+      "y": 39.03
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       657,
+       612
+      ],
+      "team": "home",
+      "x": 99.46,
+      "y": 45.93
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1584,
+       544
+      ],
+      "team": "home",
+      "x": 91.6,
+      "y": 31.98
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1293,
+       463
+      ],
+      "team": "away",
+      "x": 99.5,
+      "y": 30.15
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       883,
+       533
+      ],
+      "team": "home",
+      "x": 100.86,
+      "y": 39.54
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1485,
+       846
+      ],
+      "team": null,
+      "x": 82.51,
+      "y": 46.86
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       296,
+       587
+      ],
+      "team": "away",
+      "x": 105.02,
+      "y": 48.86
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": {
+     "px": [
+      1051,
+      475
+     ],
+     "speed_ms": 15.2,
+     "x": 101.87,
+     "y": 34.33
+    },
+    "best": null,
+    "clip_ms": 261700,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       460,
+       936
+      ],
+      "team": "away",
+      "x": 89.4,
+      "y": 57.77
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1034,
+       807
+      ],
+      "team": "home",
+      "x": 88.1,
+      "y": 49.32
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       382,
+       584
+      ],
+      "team": "home",
+      "x": 104.4,
+      "y": 47.48
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       994,
+       608
+      ],
+      "team": "home",
+      "x": 96.03,
+      "y": 41.86
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1852,
+       652
+      ],
+      "team": "home",
+      "x": 84.72,
+      "y": 35.05
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1764,
+       1023
+      ],
+      "team": "away",
+      "x": 76.66,
+      "y": 49.78
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       899,
+       532
+      ],
+      "team": "home",
+      "x": 101.01,
+      "y": 39.04
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       643,
+       618
+      ],
+      "team": "home",
+      "x": 99.59,
+      "y": 46.06
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1574,
+       548
+      ],
+      "team": "home",
+      "x": 91.86,
+      "y": 32.18
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1270,
+       465
+      ],
+      "team": "away",
+      "x": 99.99,
+      "y": 30.42
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       864,
+       532
+      ],
+      "team": "away",
+      "x": 101.43,
+      "y": 39.47
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1473,
+       855
+      ],
+      "team": null,
+      "x": 82.69,
+      "y": 47.04
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       278,
+       590
+      ],
+      "team": "away",
+      "x": 105.29,
+      "y": 48.9
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": true
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 261800,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       457,
+       946
+      ],
+      "team": "away",
+      "x": 89.53,
+      "y": 57.67
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1028,
+       817
+      ],
+      "team": "home",
+      "x": 88.3,
+      "y": 49.41
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       994,
+       600
+      ],
+      "team": "home",
+      "x": 96.84,
+      "y": 41.23
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1865,
+       657
+      ],
+      "team": "home",
+      "x": 84.99,
+      "y": 35.03
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1768,
+       1029
+      ],
+      "team": "away",
+      "x": 77.03,
+      "y": 49.65
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       873,
+       534
+      ],
+      "team": "home",
+      "x": 101.6,
+      "y": 39.24
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       626,
+       618
+      ],
+      "team": "home",
+      "x": 100.16,
+      "y": 45.97
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1562,
+       550
+      ],
+      "team": "home",
+      "x": 92.41,
+      "y": 32.35
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1238,
+       470
+      ],
+      "team": "away",
+      "x": 100.58,
+      "y": 31.03
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1464,
+       857
+      ],
+      "team": null,
+      "x": 83.21,
+      "y": 46.95
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       362,
+       586
+      ],
+      "team": "home",
+      "x": 104.88,
+      "y": 47.45
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       833,
+       533
+      ],
+      "team": "away",
+      "x": 102.14,
+      "y": 39.67
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       244,
+       592
+      ],
+      "team": "home",
+      "x": 105.88,
+      "y": 49.03
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 261900,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       449,
+       946
+      ],
+      "team": "away",
+      "x": 89.85,
+      "y": 57.46
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1033,
+       820
+      ],
+      "team": "home",
+      "x": 88.43,
+      "y": 49.2
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       995,
+       605
+      ],
+      "team": "home",
+      "x": 96.89,
+      "y": 41.18
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1872,
+       662
+      ],
+      "team": "home",
+      "x": 85.07,
+      "y": 35.02
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1777,
+       1041
+      ],
+      "team": "away",
+      "x": 77.01,
+      "y": 49.7
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       872,
+       529
+      ],
+      "team": "home",
+      "x": 102.19,
+      "y": 38.68
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       617,
+       619
+      ],
+      "team": "home",
+      "x": 100.5,
+      "y": 45.79
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1557,
+       549
+      ],
+      "team": "home",
+      "x": 92.88,
+      "y": 32.05
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1215,
+       471
+      ],
+      "team": "away",
+      "x": 101.13,
+      "y": 31.11
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       816,
+       537
+      ],
+      "team": "away",
+      "x": 102.45,
+      "y": 39.73
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1463,
+       856
+      ],
+      "team": null,
+      "x": 83.54,
+      "y": 46.67
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       347,
+       589
+      ],
+      "team": "home",
+      "x": 105.15,
+      "y": 47.43
+     },
+     {
+      "keeper": false,
+      "label": "t15",
+      "name": null,
+      "px": [
+       200,
+       594
+      ],
+      "team": "home",
+      "x": 106.61,
+      "y": 49.2
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262000,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       447,
+       955
+      ],
+      "team": "away",
+      "x": 90.06,
+      "y": 57.2
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1028,
+       831
+      ],
+      "team": "home",
+      "x": 88.66,
+      "y": 49.16
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       996,
+       608
+      ],
+      "team": "home",
+      "x": 97.24,
+      "y": 40.9
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1886,
+       675
+      ],
+      "team": "home",
+      "x": 85.18,
+      "y": 35.18
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1787,
+       1056
+      ],
+      "team": "away",
+      "x": 77.22,
+      "y": 49.65
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       854,
+       535
+      ],
+      "team": "home",
+      "x": 102.56,
+      "y": 38.79
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       599,
+       627
+      ],
+      "team": "home",
+      "x": 100.73,
+      "y": 45.85
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1551,
+       556
+      ],
+      "team": "home",
+      "x": 93.21,
+      "y": 32.28
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1191,
+       473
+      ],
+      "team": "away",
+      "x": 101.86,
+      "y": 31.2
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       781,
+       537
+      ],
+      "team": "away",
+      "x": 103.3,
+      "y": 39.74
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1452,
+       872
+      ],
+      "team": null,
+      "x": 83.77,
+      "y": 46.9
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       920,
+       504
+      ],
+      "team": "away",
+      "x": 103.47,
+      "y": 36.35
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       328,
+       595
+      ],
+      "team": "home",
+      "x": 105.44,
+      "y": 47.35
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262100,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       443,
+       964
+      ],
+      "team": "away",
+      "x": 90.13,
+      "y": 57.11
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1027,
+       842
+      ],
+      "team": "home",
+      "x": 88.68,
+      "y": 49.22
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       993,
+       608
+      ],
+      "team": "home",
+      "x": 97.62,
+      "y": 40.64
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1893,
+       674
+      ],
+      "team": "home",
+      "x": 85.52,
+      "y": 34.89
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1792,
+       1058
+      ],
+      "team": "away",
+      "x": 77.51,
+      "y": 49.42
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       844,
+       540
+      ],
+      "team": "home",
+      "x": 102.68,
+      "y": 38.9
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       586,
+       628
+      ],
+      "team": "home",
+      "x": 101.13,
+      "y": 45.7
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1542,
+       561
+      ],
+      "team": "home",
+      "x": 93.49,
+      "y": 32.46
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1166,
+       475
+      ],
+      "team": "away",
+      "x": 102.38,
+      "y": 31.44
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1448,
+       879
+      ],
+      "team": null,
+      "x": 83.99,
+      "y": 46.91
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       928,
+       509
+      ],
+      "team": "away",
+      "x": 103.37,
+      "y": 36.29
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       312,
+       601
+      ],
+      "team": "home",
+      "x": 105.51,
+      "y": 47.44
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       760,
+       544
+      ],
+      "team": "away",
+      "x": 103.5,
+      "y": 40.01
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262200,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       439,
+       969
+      ],
+      "team": "away",
+      "x": 90.4,
+      "y": 56.74
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1028,
+       852
+      ],
+      "team": "home",
+      "x": 88.82,
+      "y": 49.06
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       994,
+       602
+      ],
+      "team": "home",
+      "x": 98.23,
+      "y": 40.0
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1906,
+       684
+      ],
+      "team": "home",
+      "x": 85.67,
+      "y": 34.96
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1795,
+       1069
+      ],
+      "team": "away",
+      "x": 77.84,
+      "y": 49.27
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       816,
+       539
+      ],
+      "team": "home",
+      "x": 103.38,
+      "y": 38.77
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       567,
+       633
+      ],
+      "team": "home",
+      "x": 101.37,
+      "y": 45.64
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1530,
+       564
+      ],
+      "team": "home",
+      "x": 94.0,
+      "y": 32.47
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1141,
+       479
+      ],
+      "team": "away",
+      "x": 102.79,
+      "y": 31.75
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       724,
+       546
+      ],
+      "team": "away",
+      "x": 104.05,
+      "y": 40.15
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1441,
+       882
+      ],
+      "team": null,
+      "x": 84.49,
+      "y": 46.65
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       942,
+       515
+      ],
+      "team": "away",
+      "x": 103.2,
+      "y": 36.12
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       283,
+       606
+      ],
+      "team": "home",
+      "x": 105.76,
+      "y": 47.45
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262300,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       440,
+       975
+      ],
+      "team": "away",
+      "x": 90.39,
+      "y": 56.57
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1034,
+       856
+      ],
+      "team": "home",
+      "x": 88.84,
+      "y": 48.85
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       996,
+       606
+      ],
+      "team": "home",
+      "x": 98.21,
+      "y": 39.86
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1799,
+       1074
+      ],
+      "team": "away",
+      "x": 77.94,
+      "y": 49.13
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       807,
+       540
+      ],
+      "team": "home",
+      "x": 103.55,
+      "y": 38.64
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       552,
+       631
+      ],
+      "team": "home",
+      "x": 101.76,
+      "y": 45.39
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1526,
+       565
+      ],
+      "team": "home",
+      "x": 94.23,
+      "y": 32.3
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1121,
+       473
+      ],
+      "team": "away",
+      "x": 103.53,
+      "y": 31.34
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       706,
+       548
+      ],
+      "team": "away",
+      "x": 104.31,
+      "y": 40.1
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1435,
+       880
+      ],
+      "team": null,
+      "x": 84.82,
+      "y": 46.34
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       955,
+       513
+      ],
+      "team": "away",
+      "x": 103.32,
+      "y": 35.56
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       272,
+       606
+      ],
+      "team": "home",
+      "x": 106.02,
+      "y": 47.21
+     },
+     {
+      "keeper": false,
+      "label": "t6",
+      "name": null,
+      "px": [
+       1913,
+       691
+      ],
+      "team": "home",
+      "x": 85.66,
+      "y": 34.97
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262400,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       435,
+       988
+      ],
+      "team": "away",
+      "x": 90.5,
+      "y": 56.45
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1038,
+       867
+      ],
+      "team": "home",
+      "x": 88.98,
+      "y": 48.79
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       998,
+       610
+      ],
+      "team": "home",
+      "x": 98.45,
+      "y": 39.72
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1797,
+       1078
+      ],
+      "team": "away",
+      "x": 78.44,
+      "y": 48.93
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       797,
+       544
+      ],
+      "team": "home",
+      "x": 103.82,
+      "y": 38.66
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       534,
+       637
+      ],
+      "team": "home",
+      "x": 102.02,
+      "y": 45.43
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1521,
+       575
+      ],
+      "team": "home",
+      "x": 94.37,
+      "y": 32.77
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1088,
+       481
+      ],
+      "team": "away",
+      "x": 103.85,
+      "y": 32.05
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       691,
+       552
+      ],
+      "team": "away",
+      "x": 104.6,
+      "y": 40.14
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1431,
+       893
+      ],
+      "team": null,
+      "x": 85.05,
+      "y": 46.46
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       957,
+       515
+      ],
+      "team": "away",
+      "x": 103.56,
+      "y": 35.42
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       246,
+       606
+      ],
+      "team": "home",
+      "x": 106.58,
+      "y": 47.06
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262500,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       437,
+       994
+      ],
+      "team": "away",
+      "x": 90.53,
+      "y": 56.33
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1040,
+       877
+      ],
+      "team": "home",
+      "x": 88.94,
+      "y": 48.83
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1002,
+       607
+      ],
+      "team": "home",
+      "x": 98.72,
+      "y": 39.39
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1785,
+       1080
+      ],
+      "team": "away",
+      "x": 78.76,
+      "y": 48.87
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       789,
+       546
+      ],
+      "team": "home",
+      "x": 104.0,
+      "y": 38.63
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       529,
+       641
+      ],
+      "team": "home",
+      "x": 102.09,
+      "y": 45.38
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1512,
+       577
+      ],
+      "team": "home",
+      "x": 94.61,
+      "y": 32.87
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       673,
+       550
+      ],
+      "team": "away",
+      "x": 105.04,
+      "y": 40.06
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1428,
+       899
+      ],
+      "team": null,
+      "x": 85.19,
+      "y": 46.47
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       962,
+       520
+      ],
+      "team": "away",
+      "x": 103.38,
+      "y": 35.51
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       232,
+       614
+      ],
+      "team": "home",
+      "x": 106.49,
+      "y": 47.21
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1068,
+       481
+      ],
+      "team": "away",
+      "x": 104.3,
+      "y": 32.11
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262600,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       431,
+       998
+      ],
+      "team": "away",
+      "x": 90.79,
+      "y": 56.09
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1040,
+       886
+      ],
+      "team": "home",
+      "x": 89.04,
+      "y": 48.79
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1005,
+       617
+      ],
+      "team": "home",
+      "x": 98.57,
+      "y": 39.55
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1779,
+       1079
+      ],
+      "team": "away",
+      "x": 79.22,
+      "y": 48.62
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       778,
+       541
+      ],
+      "team": "home",
+      "x": 104.61,
+      "y": 38.27
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       514,
+       642
+      ],
+      "team": "home",
+      "x": 102.43,
+      "y": 45.25
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1503,
+       578
+      ],
+      "team": "home",
+      "x": 95.05,
+      "y": 32.82
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       653,
+       557
+      ],
+      "team": "away",
+      "x": 105.18,
+      "y": 40.27
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1425,
+       904
+      ],
+      "team": null,
+      "x": 85.48,
+      "y": 46.37
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       973,
+       523
+      ],
+      "team": "away",
+      "x": 103.4,
+      "y": 35.31
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       214,
+       620
+      ],
+      "team": "home",
+      "x": 106.56,
+      "y": 47.27
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1041,
+       472
+      ],
+      "team": "away",
+      "x": 105.39,
+      "y": 31.72
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262700,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       432,
+       1000
+      ],
+      "team": "away",
+      "x": 90.9,
+      "y": 55.9
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1041,
+       893
+      ],
+      "team": "home",
+      "x": 89.02,
+      "y": 48.8
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1013,
+       617
+      ],
+      "team": "home",
+      "x": 98.66,
+      "y": 39.3
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1781,
+       1079
+      ],
+      "team": "away",
+      "x": 79.41,
+      "y": 48.45
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       770,
+       543
+      ],
+      "team": "home",
+      "x": 104.72,
+      "y": 38.27
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       508,
+       644
+      ],
+      "team": "home",
+      "x": 102.58,
+      "y": 45.15
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1495,
+       577
+      ],
+      "team": "home",
+      "x": 95.38,
+      "y": 32.7
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       639,
+       559
+      ],
+      "team": "away",
+      "x": 105.35,
+      "y": 40.32
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1423,
+       897
+      ],
+      "team": null,
+      "x": 85.87,
+      "y": 46.0
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       200,
+       623
+      ],
+      "team": "home",
+      "x": 106.64,
+      "y": 47.3
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       1022,
+       486
+      ],
+      "team": "away",
+      "x": 104.98,
+      "y": 32.57
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       972,
+       525
+      ],
+      "team": "away",
+      "x": 103.46,
+      "y": 35.26
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262800,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       433,
+       1009
+      ],
+      "team": "away",
+      "x": 90.86,
+      "y": 55.79
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1038,
+       903
+      ],
+      "team": "home",
+      "x": 89.05,
+      "y": 48.81
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       184,
+       631
+      ],
+      "team": "home",
+      "x": 106.55,
+      "y": 47.41
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1014,
+       614
+      ],
+      "team": "home",
+      "x": 99.03,
+      "y": 38.88
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1774,
+       1079
+      ],
+      "team": "away",
+      "x": 79.76,
+      "y": 48.25
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       761,
+       546
+      ],
+      "team": "home",
+      "x": 104.86,
+      "y": 38.22
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       488,
+       646
+      ],
+      "team": "home",
+      "x": 102.84,
+      "y": 45.11
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1486,
+       582
+      ],
+      "team": "home",
+      "x": 95.53,
+      "y": 32.88
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       629,
+       562
+      ],
+      "team": "away",
+      "x": 105.44,
+      "y": 40.3
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1422,
+       900
+      ],
+      "team": null,
+      "x": 86.1,
+      "y": 45.84
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       980,
+       526
+      ],
+      "team": "away",
+      "x": 103.51,
+      "y": 35.0
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 262900,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       435,
+       1013
+      ],
+      "team": "away",
+      "x": 90.88,
+      "y": 55.7
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1041,
+       908
+      ],
+      "team": "home",
+      "x": 89.06,
+      "y": 48.8
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1018,
+       610
+      ],
+      "team": "home",
+      "x": 99.27,
+      "y": 38.62
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1768,
+       1079
+      ],
+      "team": "away",
+      "x": 80.01,
+      "y": 48.17
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       758,
+       548
+      ],
+      "team": "home",
+      "x": 104.86,
+      "y": 38.3
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       481,
+       646
+      ],
+      "team": "home",
+      "x": 103.01,
+      "y": 45.05
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1479,
+       582
+      ],
+      "team": "home",
+      "x": 95.78,
+      "y": 32.9
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       614,
+       564
+      ],
+      "team": "away",
+      "x": 105.56,
+      "y": 40.45
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1423,
+       904
+      ],
+      "team": null,
+      "x": 86.16,
+      "y": 45.85
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       979,
+       530
+      ],
+      "team": "away",
+      "x": 103.44,
+      "y": 35.14
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       156,
+       634
+      ],
+      "team": "home",
+      "x": 106.76,
+      "y": 47.62
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       950,
+       496
+      ],
+      "team": "away",
+      "x": 105.52,
+      "y": 33.66
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 263000,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       437,
+       1010
+      ],
+      "team": "away",
+      "x": 91.1,
+      "y": 55.38
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1046,
+       915
+      ],
+      "team": "home",
+      "x": 89.0,
+      "y": 48.77
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1022,
+       612
+      ],
+      "team": "home",
+      "x": 99.25,
+      "y": 38.52
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1760,
+       1080
+      ],
+      "team": "away",
+      "x": 80.26,
+      "y": 48.08
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       752,
+       550
+      ],
+      "team": "home",
+      "x": 104.91,
+      "y": 38.26
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       475,
+       646
+      ],
+      "team": "home",
+      "x": 103.13,
+      "y": 44.91
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1468,
+       582
+      ],
+      "team": "home",
+      "x": 96.05,
+      "y": 32.9
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       592,
+       570
+      ],
+      "team": "away",
+      "x": 105.57,
+      "y": 40.74
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1428,
+       908
+      ],
+      "team": null,
+      "x": 86.23,
+      "y": 45.75
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       986,
+       532
+      ],
+      "team": "away",
+      "x": 103.3,
+      "y": 35.1
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       164,
+       638
+      ],
+      "team": "home",
+      "x": 106.51,
+      "y": 47.47
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       944,
+       499
+      ],
+      "team": "away",
+      "x": 105.49,
+      "y": 33.77
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 263100,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       435,
+       1011
+      ],
+      "team": "away",
+      "x": 91.19,
+      "y": 55.3
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1044,
+       919
+      ],
+      "team": "home",
+      "x": 89.03,
+      "y": 48.79
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1025,
+       614
+      ],
+      "team": "home",
+      "x": 99.25,
+      "y": 38.49
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1757,
+       1080
+      ],
+      "team": "away",
+      "x": 80.42,
+      "y": 48.02
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       748,
+       550
+      ],
+      "team": "home",
+      "x": 105.0,
+      "y": 38.25
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       468,
+       647
+      ],
+      "team": "home",
+      "x": 103.2,
+      "y": 44.93
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1466,
+       580
+      ],
+      "team": "home",
+      "x": 96.24,
+      "y": 32.83
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       580,
+       575
+      ],
+      "team": "away",
+      "x": 105.5,
+      "y": 40.99
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1431,
+       904
+      ],
+      "team": null,
+      "x": 86.44,
+      "y": 45.53
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       988,
+       533
+      ],
+      "team": "away",
+      "x": 103.31,
+      "y": 35.07
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       156,
+       640
+      ],
+      "team": "home",
+      "x": 106.53,
+      "y": 47.51
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       929,
+       505
+      ],
+      "team": "away",
+      "x": 105.39,
+      "y": 34.21
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 263200,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       430,
+       1019
+      ],
+      "team": "away",
+      "x": 91.14,
+      "y": 55.33
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1046,
+       924
+      ],
+      "team": "home",
+      "x": 89.03,
+      "y": 48.77
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1037,
+       615
+      ],
+      "team": "home",
+      "x": 99.19,
+      "y": 38.33
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1744,
+       1079
+      ],
+      "team": "away",
+      "x": 80.71,
+      "y": 47.94
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       745,
+       552
+      ],
+      "team": "home",
+      "x": 105.02,
+      "y": 38.25
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       456,
+       650
+      ],
+      "team": "home",
+      "x": 103.28,
+      "y": 44.98
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1461,
+       582
+      ],
+      "team": "home",
+      "x": 96.38,
+      "y": 32.84
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       564,
+       578
+      ],
+      "team": "away",
+      "x": 105.55,
+      "y": 41.18
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1436,
+       896
+      ],
+      "team": null,
+      "x": 86.77,
+      "y": 45.12
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       986,
+       534
+      ],
+      "team": "away",
+      "x": 103.36,
+      "y": 35.06
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       146,
+       633
+      ],
+      "team": "home",
+      "x": 107.04,
+      "y": 47.16
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       903,
+       519
+      ],
+      "team": "away",
+      "x": 105.0,
+      "y": 35.11
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 263300,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       432,
+       1020
+      ],
+      "team": "away",
+      "x": 91.15,
+      "y": 55.27
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1047,
+       926
+      ],
+      "team": "home",
+      "x": 89.03,
+      "y": 48.76
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1046,
+       615
+      ],
+      "team": "home",
+      "x": 99.15,
+      "y": 38.21
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1733,
+       1078
+      ],
+      "team": "away",
+      "x": 80.89,
+      "y": 47.94
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       742,
+       554
+      ],
+      "team": "home",
+      "x": 104.96,
+      "y": 38.33
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       453,
+       650
+      ],
+      "team": "home",
+      "x": 103.33,
+      "y": 44.94
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1460,
+       583
+      ],
+      "team": "home",
+      "x": 96.4,
+      "y": 32.9
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       558,
+       581
+      ],
+      "team": "away",
+      "x": 105.51,
+      "y": 41.28
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1441,
+       896
+      ],
+      "team": null,
+      "x": 86.79,
+      "y": 45.04
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       989,
+       535
+      ],
+      "team": "away",
+      "x": 103.29,
+      "y": 35.07
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       142,
+       636
+      ],
+      "team": "home",
+      "x": 106.93,
+      "y": 47.23
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       888,
+       520
+      ],
+      "team": "away",
+      "x": 105.14,
+      "y": 35.27
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 263400,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       431,
+       1008
+      ],
+      "team": "away",
+      "x": 91.57,
+      "y": 54.91
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1048,
+       930
+      ],
+      "team": "home",
+      "x": 89.04,
+      "y": 48.78
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1053,
+       615
+      ],
+      "team": "home",
+      "x": 99.15,
+      "y": 38.13
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1718,
+       1078
+      ],
+      "team": "away",
+      "x": 81.12,
+      "y": 47.98
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       739,
+       554
+      ],
+      "team": "home",
+      "x": 105.01,
+      "y": 38.35
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       447,
+       648
+      ],
+      "team": "home",
+      "x": 103.51,
+      "y": 44.86
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1450,
+       584
+      ],
+      "team": "home",
+      "x": 96.54,
+      "y": 33.06
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       539,
+       582
+      ],
+      "team": "away",
+      "x": 105.67,
+      "y": 41.46
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1443,
+       902
+      ],
+      "team": null,
+      "x": 86.75,
+      "y": 45.16
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       988,
+       536
+      ],
+      "team": "away",
+      "x": 103.32,
+      "y": 35.12
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       140,
+       637
+      ],
+      "team": "home",
+      "x": 106.93,
+      "y": 47.21
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       867,
+       523
+      ],
+      "team": "away",
+      "x": 105.25,
+      "y": 35.63
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   },
+   {
+    "attacking": null,
+    "attacks": null,
+    "ball": null,
+    "best": null,
+    "clip_ms": 263500,
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball not detected",
+    "options": [],
+    "players": [
+     {
+      "keeper": false,
+      "label": "t0",
+      "name": null,
+      "px": [
+       432,
+       1004
+      ],
+      "team": "away",
+      "x": 91.71,
+      "y": 54.77
+     },
+     {
+      "keeper": false,
+      "label": "t1",
+      "name": null,
+      "px": [
+       1050,
+       932
+      ],
+      "team": "home",
+      "x": 89.01,
+      "y": 48.77
+     },
+     {
+      "keeper": false,
+      "label": "t4",
+      "name": null,
+      "px": [
+       1057,
+       616
+      ],
+      "team": "home",
+      "x": 99.13,
+      "y": 38.07
+     },
+     {
+      "keeper": false,
+      "label": "t7",
+      "name": null,
+      "px": [
+       1702,
+       1078
+      ],
+      "team": "away",
+      "x": 81.28,
+      "y": 48.03
+     },
+     {
+      "keeper": false,
+      "label": "t8",
+      "name": null,
+      "px": [
+       741,
+       556
+      ],
+      "team": "home",
+      "x": 104.96,
+      "y": 38.36
+     },
+     {
+      "keeper": false,
+      "label": "t9",
+      "name": null,
+      "px": [
+       446,
+       647
+      ],
+      "team": "home",
+      "x": 103.63,
+      "y": 44.77
+     },
+     {
+      "keeper": false,
+      "label": "t11",
+      "name": null,
+      "px": [
+       1447,
+       584
+      ],
+      "team": "home",
+      "x": 96.64,
+      "y": 33.03
+     },
+     {
+      "keeper": false,
+      "label": "t13",
+      "name": null,
+      "px": [
+       525,
+       582
+      ],
+      "team": "away",
+      "x": 105.85,
+      "y": 41.55
+     },
+     {
+      "keeper": false,
+      "label": "t14",
+      "name": null,
+      "px": [
+       1446,
+       903
+      ],
+      "team": null,
+      "x": 86.74,
+      "y": 45.12
+     },
+     {
+      "keeper": true,
+      "label": "t16",
+      "name": null,
+      "px": [
+       992,
+       538
+      ],
+      "team": "away",
+      "x": 103.22,
+      "y": 35.13
+     },
+     {
+      "keeper": false,
+      "label": "t2",
+      "name": null,
+      "px": [
+       139,
+       618
+      ],
+      "team": "home",
+      "x": 107.9,
+      "y": 46.49
+     },
+     {
+      "keeper": false,
+      "label": "t12",
+      "name": null,
+      "px": [
+       858,
+       530
+      ],
+      "team": "away",
+      "x": 105.05,
+      "y": 36.0
+     }
+    ],
+    "shot_now_xg": null,
+    "threat": null,
+    "threat_from": null,
+    "trusted": false
+   }
+  ],
+  "home_attacks": "+x",
+  "hz": 10,
+  "image_size": [
+   1920,
+   1080
+  ],
+  "match_id": "m_9004",
+  "period": 1,
+  "rules": {
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
+   "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
+   "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
+   "keepers": "by position, one per goal, plus track B's hand corrections (moments/overrides.json, same camera shot, which also remove referees): opponents for control, never pass options",
+   "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
+   "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
+   "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
+   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+  },
+  "shot_id": 25,
+  "slug": "manutd-spurs-2425",
+  "source": {
+   "calib": "manutd-spurs-2425/calib/25.json",
+   "names": "track B's moment files for this camera shot",
+   "pass_model": "packages/heads/artifacts/pass",
+   "shot_model": "evals.pitchwatch.shotxg.reference_xg",
+   "tracks": "manutd-spurs-2425/tracks/25.json"
+  },
+  "start_clip_ms": 258400,
+  "step_ms": 100
+ },
+ "schema_version": "1.0.0"
+}

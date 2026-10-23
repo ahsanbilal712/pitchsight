@@ -1,0 +1,194 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "away": "Manchester City",
+  "beat": "xg_running",
+  "events": [
+   {
+    "clip_ms": 96500,
+    "clock": "73:26",
+    "kind": "goal",
+    "label": "Dominik Szoboszlai",
+    "measured": true,
+    "team": "home",
+    "xg": 0.02
+   },
+   {
+    "clip_ms": 707000,
+    "clock": "83:36",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   },
+   {
+    "clip_ms": 708080,
+    "clock": "83:37",
+    "kind": "goal",
+    "label": "Bernardo Silva",
+    "measured": true,
+    "team": "away",
+    "xg": 0.28
+   },
+   {
+    "clip_ms": 875560,
+    "clock": "86:25",
+    "kind": "shot",
+    "label": "Dominik Szoboszlai",
+    "measured": true,
+    "team": "home",
+    "xg": 0.02
+   },
+   {
+    "clip_ms": 1006000,
+    "clock": "88:36",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "home",
+    "xg": null
+   },
+   {
+    "clip_ms": 1253000,
+    "clock": "92:43",
+    "kind": "goal",
+    "label": "Haaland",
+    "measured": true,
+    "team": "away",
+    "xg": 0.76
+   },
+   {
+    "clip_ms": 1366000,
+    "clock": "94:36",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "home",
+    "xg": null
+   },
+   {
+    "clip_ms": 1475920,
+    "clock": "96:25",
+    "kind": "shot",
+    "label": null,
+    "measured": true,
+    "team": "away",
+    "xg": 0.17
+   },
+   {
+    "clip_ms": 1571860,
+    "clock": "98:01",
+    "kind": "shot",
+    "label": null,
+    "measured": true,
+    "team": "home",
+    "xg": 0.16
+   },
+   {
+    "clip_ms": 1651000,
+    "clock": "99:21",
+    "kind": "goal",
+    "label": "Cherki",
+    "measured": false,
+    "team": "away",
+    "xg": null
+   },
+   {
+    "clip_ms": 1959000,
+    "clock": "99:30",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   }
+  ],
+  "home": "Liverpool",
+  "match_id": "m_9001",
+  "model": {
+   "penalty": "0.76 (Wyscout's fixed penalty value)",
+   "url": "https://soccermatics.readthedocs.io/en/latest/gallery/lesson2/plot_xGModelFit.html",
+   "xg": "Soccermatics combined logistic model, 8,451 non-penalty PL 2017/18 shots (Wyscout), at the strike point from tracking"
+  },
+  "note": "cumulative xG of measured shots and penalties; shots without a trusted wide view are listed with xg null and add nothing",
+  "series": [
+   {
+    "away_xg": 0.0,
+    "clip_ms": 96500,
+    "clock": "73:26",
+    "home_xg": 0.02
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 707000,
+    "clock": "83:36",
+    "home_xg": 0.02
+   },
+   {
+    "away_xg": 0.28,
+    "clip_ms": 708080,
+    "clock": "83:37",
+    "home_xg": 0.02
+   },
+   {
+    "away_xg": 0.28,
+    "clip_ms": 875560,
+    "clock": "86:25",
+    "home_xg": 0.04
+   },
+   {
+    "away_xg": 0.28,
+    "clip_ms": 1006000,
+    "clock": "88:36",
+    "home_xg": 0.04
+   },
+   {
+    "away_xg": 1.04,
+    "clip_ms": 1253000,
+    "clock": "92:43",
+    "home_xg": 0.04
+   },
+   {
+    "away_xg": 1.04,
+    "clip_ms": 1366000,
+    "clock": "94:36",
+    "home_xg": 0.04
+   },
+   {
+    "away_xg": 1.21,
+    "clip_ms": 1475920,
+    "clock": "96:25",
+    "home_xg": 0.04
+   },
+   {
+    "away_xg": 1.21,
+    "clip_ms": 1571860,
+    "clock": "98:01",
+    "home_xg": 0.2
+   },
+   {
+    "away_xg": 1.21,
+    "clip_ms": 1651000,
+    "clock": "99:21",
+    "home_xg": 0.2
+   },
+   {
+    "away_xg": 1.21,
+    "clip_ms": 1959000,
+    "clock": "99:30",
+    "home_xg": 0.2
+   }
+  ],
+  "slug": "liverpool-mancity-2526",
+  "source": {
+   "v5": "liverpool-mancity-2526/cache/v5/xg_race_0.json"
+  },
+  "unmeasured": {
+   "goals": 1,
+   "shots": 5
+  }
+ },
+ "schema_version": "1.0.0"
+}

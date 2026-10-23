@@ -1,0 +1,108 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "live_index",
+  "hz": 10,
+  "match_id": "m_9001",
+  "rules": {
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
+   "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
+   "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
+   "keepers": "by position, one per goal, plus track B's hand corrections (moments/overrides.json, same camera shot, which also remove referees): opponents for control, never pass options",
+   "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
+   "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
+   "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
+   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+  },
+  "shots": [
+   {
+    "end_clip_ms": 890900,
+    "frames": 884,
+    "max_threat": 0.08,
+    "path": "v6/live_802600.json",
+    "shot_id": 62,
+    "start_clip_ms": 802600,
+    "trusted_frames": 510,
+    "valued_frames": 95
+   },
+   {
+    "end_clip_ms": 98900,
+    "frames": 50,
+    "max_threat": 0.03,
+    "path": "v6/live_94000.json",
+    "shot_id": "xe_0006",
+    "start_clip_ms": 94000,
+    "trusted_frames": 23,
+    "valued_frames": 1
+   },
+   {
+    "end_clip_ms": 708900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_704000.json",
+    "shot_id": "xe_0026",
+    "start_clip_ms": 704000,
+    "trusted_frames": 11,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 709900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_705000.json",
+    "shot_id": "xe_0027",
+    "start_clip_ms": 705000,
+    "trusted_frames": 21,
+    "valued_frames": 0
+   },
+   {
+    "covered_by": 62,
+    "shot_id": "xe_0033"
+   },
+   {
+    "end_clip_ms": 1007900,
+    "frames": 50,
+    "max_threat": 0.03,
+    "path": "v6/live_1003000.json",
+    "shot_id": "xe_0039",
+    "start_clip_ms": 1003000,
+    "trusted_frames": 33,
+    "valued_frames": 12
+   },
+   {
+    "end_clip_ms": 1367900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_1363000.json",
+    "shot_id": "xe_0051",
+    "start_clip_ms": 1363000,
+    "trusted_frames": 17,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 1477900,
+    "frames": 50,
+    "max_threat": 0.13,
+    "path": "v6/live_1473000.json",
+    "shot_id": "xe_0058",
+    "start_clip_ms": 1473000,
+    "trusted_frames": 41,
+    "valued_frames": 11
+   },
+   {
+    "end_clip_ms": 1572900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_1568000.json",
+    "shot_id": "xe_0065",
+    "start_clip_ms": 1568000,
+    "trusted_frames": 23,
+    "valued_frames": 0
+   }
+  ],
+  "slug": "liverpool-mancity-2526"
+ },
+ "schema_version": "1.0.0"
+}

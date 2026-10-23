@@ -1,0 +1,142 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "live_index",
+  "hz": 10,
+  "match_id": "m_9004",
+  "rules": {
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
+   "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
+   "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
+   "keepers": "by position, one per goal, plus track B's hand corrections (moments/overrides.json, same camera shot, which also remove referees): opponents for control, never pass options",
+   "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
+   "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
+   "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
+   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+  },
+  "shots": [
+   {
+    "end_clip_ms": 255500,
+    "frames": 338,
+    "max_threat": 0.26,
+    "path": "v6/live_221800.json",
+    "shot_id": 23,
+    "start_clip_ms": 221800,
+    "trusted_frames": 224,
+    "valued_frames": 26
+   },
+   {
+    "end_clip_ms": 263500,
+    "frames": 52,
+    "max_threat": null,
+    "path": "v6/live_258400.json",
+    "shot_id": 25,
+    "start_clip_ms": 258400,
+    "trusted_frames": 28,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 699500,
+    "frames": 370,
+    "max_threat": 0.09,
+    "path": "v6/live_662600.json",
+    "shot_id": 84,
+    "start_clip_ms": 662600,
+    "trusted_frames": 309,
+    "valued_frames": 43
+   },
+   {
+    "end_clip_ms": 776700,
+    "frames": 156,
+    "max_threat": 0.02,
+    "path": "v6/live_761200.json",
+    "shot_id": 90,
+    "start_clip_ms": 761200,
+    "trusted_frames": 72,
+    "valued_frames": 14
+   },
+   {
+    "covered_by": 25,
+    "shot_id": "xe_0007"
+   },
+   {
+    "end_clip_ms": 416900,
+    "frames": 50,
+    "max_threat": 0.11,
+    "path": "v6/live_412000.json",
+    "shot_id": "xe_0016",
+    "start_clip_ms": 412000,
+    "trusted_frames": 20,
+    "valued_frames": 8
+   },
+   {
+    "end_clip_ms": 638500,
+    "frames": 46,
+    "max_threat": null,
+    "path": "v6/live_634000.json",
+    "shot_id": "xe_0027",
+    "start_clip_ms": 634000,
+    "trusted_frames": 3,
+    "valued_frames": 0
+   },
+   {
+    "covered_by": 84,
+    "shot_id": "xe_0030"
+   },
+   {
+    "end_clip_ms": 1035900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_1031000.json",
+    "shot_id": "xe_0044",
+    "start_clip_ms": 1031000,
+    "trusted_frames": 0,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 1133900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_1129000.json",
+    "shot_id": "xe_0050",
+    "start_clip_ms": 1129000,
+    "trusted_frames": 0,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 1205900,
+    "frames": 50,
+    "max_threat": 0.19,
+    "path": "v6/live_1201000.json",
+    "shot_id": "xe_0057",
+    "start_clip_ms": 1201000,
+    "trusted_frames": 23,
+    "valued_frames": 5
+   },
+   {
+    "end_clip_ms": 1269900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_1265000.json",
+    "shot_id": "xe_0061",
+    "start_clip_ms": 1265000,
+    "trusted_frames": 15,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 1458900,
+    "frames": 50,
+    "max_threat": 0.02,
+    "path": "v6/live_1454000.json",
+    "shot_id": "xe_0075",
+    "start_clip_ms": 1454000,
+    "trusted_frames": 21,
+    "valued_frames": 4
+   }
+  ],
+  "slug": "manutd-spurs-2425"
+ },
+ "schema_version": "1.0.0"
+}

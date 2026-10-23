@@ -1,0 +1,194 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "away": "Chelsea",
+  "beat": "xg_running",
+  "events": [
+   {
+    "clip_ms": 282360,
+    "clock": "14:33",
+    "kind": "shot",
+    "label": null,
+    "measured": true,
+    "team": "home",
+    "xg": 0.01
+   },
+   {
+    "clip_ms": 364000,
+    "clock": "20:44",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "home",
+    "xg": null
+   },
+   {
+    "clip_ms": 488000,
+    "clock": "43:18",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   },
+   {
+    "clip_ms": 832000,
+    "clock": "50:29",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   },
+   {
+    "clip_ms": 930000,
+    "clock": "52:30",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   },
+   {
+    "clip_ms": 974000,
+    "clock": "55:58",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   },
+   {
+    "clip_ms": 1071000,
+    "clock": "65:51",
+    "kind": "goal",
+    "label": "Jurrien Timber",
+    "measured": false,
+    "team": "home",
+    "xg": null
+   },
+   {
+    "clip_ms": 1301080,
+    "clock": "79:11",
+    "kind": "shot",
+    "label": "Eberechi Eze",
+    "measured": true,
+    "team": "home",
+    "xg": 0.08
+   },
+   {
+    "clip_ms": 1338000,
+    "clock": "86:17",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   },
+   {
+    "clip_ms": 1418000,
+    "clock": "94:51",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   },
+   {
+    "clip_ms": 1446000,
+    "clock": "95:19",
+    "kind": "shot",
+    "label": null,
+    "measured": false,
+    "team": "away",
+    "xg": null
+   }
+  ],
+  "home": "Arsenal",
+  "match_id": "m_9003",
+  "model": {
+   "penalty": "0.76 (Wyscout's fixed penalty value)",
+   "url": "https://soccermatics.readthedocs.io/en/latest/gallery/lesson2/plot_xGModelFit.html",
+   "xg": "Soccermatics combined logistic model, 8,451 non-penalty PL 2017/18 shots (Wyscout), at the strike point from tracking"
+  },
+  "note": "cumulative xG of measured shots and penalties; shots without a trusted wide view are listed with xg null and add nothing",
+  "series": [
+   {
+    "away_xg": 0.0,
+    "clip_ms": 282360,
+    "clock": "14:33",
+    "home_xg": 0.01
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 364000,
+    "clock": "20:44",
+    "home_xg": 0.01
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 488000,
+    "clock": "43:18",
+    "home_xg": 0.01
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 832000,
+    "clock": "50:29",
+    "home_xg": 0.01
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 930000,
+    "clock": "52:30",
+    "home_xg": 0.01
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 974000,
+    "clock": "55:58",
+    "home_xg": 0.01
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 1071000,
+    "clock": "65:51",
+    "home_xg": 0.01
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 1301080,
+    "clock": "79:11",
+    "home_xg": 0.09
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 1338000,
+    "clock": "86:17",
+    "home_xg": 0.09
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 1418000,
+    "clock": "94:51",
+    "home_xg": 0.09
+   },
+   {
+    "away_xg": 0.0,
+    "clip_ms": 1446000,
+    "clock": "95:19",
+    "home_xg": 0.09
+   }
+  ],
+  "slug": "arsenal-chelsea-2526",
+  "source": {
+   "v5": "arsenal-chelsea-2526/cache/v5/xg_race_0.json"
+  },
+  "unmeasured": {
+   "goals": 1,
+   "shots": 9
+  }
+ },
+ "schema_version": "1.0.0"
+}

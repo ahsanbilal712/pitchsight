@@ -1,0 +1,144 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "live_index",
+  "hz": 10,
+  "match_id": "m_9002",
+  "rules": {
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
+   "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
+   "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
+   "keepers": "by position, one per goal, plus track B's hand corrections (moments/overrides.json, same camera shot, which also remove referees): opponents for control, never pass options",
+   "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
+   "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
+   "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
+   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+  },
+  "shots": [
+   {
+    "end_clip_ms": 883100,
+    "frames": 142,
+    "max_threat": 0.33,
+    "path": "v6/live_869000.json",
+    "shot_id": 104,
+    "start_clip_ms": 869000,
+    "trusted_frames": 64,
+    "valued_frames": 12
+   },
+   {
+    "end_clip_ms": 1082700,
+    "frames": 206,
+    "max_threat": 0.05,
+    "path": "v6/live_1062200.json",
+    "shot_id": 127,
+    "start_clip_ms": 1062200,
+    "trusted_frames": 36,
+    "valued_frames": 15
+   },
+   {
+    "end_clip_ms": 1192700,
+    "frames": 56,
+    "max_threat": null,
+    "path": "v6/live_1187200.json",
+    "shot_id": 137,
+    "start_clip_ms": 1187200,
+    "trusted_frames": 22,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 1418500,
+    "frames": 286,
+    "max_threat": 0.08,
+    "path": "v6/live_1390000.json",
+    "shot_id": 160,
+    "start_clip_ms": 1390000,
+    "trusted_frames": 209,
+    "valued_frames": 54
+   },
+   {
+    "end_clip_ms": 323900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_319000.json",
+    "shot_id": "xe_0009",
+    "start_clip_ms": 319000,
+    "trusted_frames": 0,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 570900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_566000.json",
+    "shot_id": "xe_0024",
+    "start_clip_ms": 566000,
+    "trusted_frames": 9,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 601900,
+    "frames": 50,
+    "max_threat": 0.08,
+    "path": "v6/live_597000.json",
+    "shot_id": "xe_0026",
+    "start_clip_ms": 597000,
+    "trusted_frames": 31,
+    "valued_frames": 12
+   },
+   {
+    "covered_by": 104,
+    "shot_id": "xe_0036"
+   },
+   {
+    "covered_by": 104,
+    "shot_id": "xe_0038"
+   },
+   {
+    "end_clip_ms": 954900,
+    "frames": 50,
+    "max_threat": 0.08,
+    "path": "v6/live_950000.json",
+    "shot_id": "xe_0044",
+    "start_clip_ms": 950000,
+    "trusted_frames": 27,
+    "valued_frames": 3
+   },
+   {
+    "covered_by": 127,
+    "shot_id": "xe_0051"
+   },
+   {
+    "covered_by": 137,
+    "shot_id": "xe_0054"
+   },
+   {
+    "end_clip_ms": 1309900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_1305000.json",
+    "shot_id": "xe_0058",
+    "start_clip_ms": 1305000,
+    "trusted_frames": 0,
+    "valued_frames": 0
+   },
+   {
+    "end_clip_ms": 1333900,
+    "frames": 50,
+    "max_threat": null,
+    "path": "v6/live_1329000.json",
+    "shot_id": "xe_0063",
+    "start_clip_ms": 1329000,
+    "trusted_frames": 25,
+    "valued_frames": 0
+   },
+   {
+    "covered_by": 160,
+    "shot_id": "xe_0070"
+   }
+  ],
+  "slug": "manutd-mancity-2526"
+ },
+ "schema_version": "1.0.0"
+}
