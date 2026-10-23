@@ -1,6 +1,6 @@
 {
  "$schema": "model_cache.schema.json",
- "cost_usd": 0.007732,
+ "cost_usd": 0.008722,
  "json": {
   "claims": [
    {
@@ -9,7 +9,7 @@
      "cf_000001"
     ],
     "kind": "player",
-    "text": "Eberechi Eze",
+    "text": "Eze",
     "unit": "",
     "value_text": "p_948"
    },
@@ -18,26 +18,35 @@
      "f_000001"
     ],
     "kind": "number",
-    "text": "19.4 metres",
+    "text": "20.8 metres",
     "unit": "metres",
-    "value_number": 19.4
+    "value_number": 20.8
+   },
+   {
+    "evidence_ids": [
+     "e_0046"
+    ],
+    "kind": "player",
+    "text": "S\u00e1nchez",
+    "unit": "",
+    "value_text": "p_947"
    },
    {
     "evidence_ids": [
      "cf_000001"
     ],
     "kind": "number",
-    "text": "2%",
+    "text": "3%",
     "unit": "p_goal",
-    "value_number": 0.0221
+    "value_number": 0.0329
    },
    {
     "evidence_ids": [
-     "e_0045",
-     "cf_000001"
+     "cf_000001",
+     "f_000002"
     ],
     "kind": "player",
-    "text": "Bukayo Saka",
+    "text": "Saka",
     "unit": "",
     "value_text": "p_952"
    },
@@ -46,29 +55,29 @@
      "cf_000001"
     ],
     "kind": "number",
-    "text": "12%",
+    "text": "20%",
     "unit": "p_goal",
-    "value_number": 0.1219
+    "value_number": 0.1955
    },
    {
     "evidence_ids": [
      "cf_000001"
     ],
     "kind": "number",
-    "text": "+1 points",
+    "text": "+2 points",
     "unit": "win_prob_delta",
-    "value_number": 0.013
+    "value_number": 0.0212
    }
   ],
-  "confidence": 0.95,
-  "why": "Eberechi Eze shoots from 19.4 metres and sees his effort saved, an option that carries just a 2% goal chance. Returning the pass to Bukayo Saka lifts the goal chance to 12% and improves the win probability by +1 points."
+  "confidence": 0.92,
+  "why": "Eze shoots from 20.8 metres out and sees his effort saved by S\u00e1nchez, an option that carries just a 3% goal chance. Passing back to Saka instead raises the goal probability to 20% and improves the win chance by +2 points."
  },
- "latency_ms": 9361,
+ "latency_ms": 11136,
  "model": "gemini-4-argon",
  "record": "model_result",
  "schema_version": "1.0.0",
- "text": "{\"why\":\"Eberechi Eze shoots from 19.4 metres and sees his effort saved, an option that carries just a 2% goal chance. Returning the pass to Bukayo Saka lifts the goal chance to 12% and improves the win probability by +1 points.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Eberechi Eze\",\"kind\":\"player\",\"value_text\":\"p_948\",\"unit\":\"\",\"evidence_ids\":[\"e_0046\",\"cf_000001\"]},{\"text\":\"19.4 metres\",\"kind\":\"number\",\"value_number\":19.4,\"unit\":\"metres\",\"evidence_ids\":[\"f_000001\"]},{\"text\":\"2%\",\"kind\":\"number\",\"value_number\":0.0221,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"Bukayo Saka\",\"kind\":\"player\",\"value_text\":\"p_952\",\"unit\":\"\",\"evidence_ids\":[\"e_0045\",\"cf_000001\"]},{\"text\":\"12%\",\"kind\":\"number\",\"value_number\":0.1219,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"\\u002B1 points\",\"kind\":\"number\",\"value_number\":0.013,\"unit\":\"win_prob_delta\",\"evidence_ids\":[\"cf_000001\"]}]}",
- "tokens_in": 2191,
- "tokens_out": 335,
+ "text": "{\"why\": \"Eze shoots from 20.8 metres out and sees his effort saved by S\u00e1nchez, an option that carries just a 3% goal chance. Passing back to Saka instead raises the goal probability to 20% and improves the win chance by +2 points.\", \"confidence\": 0.92, \"claims\": [{\"text\": \"Eze\", \"kind\": \"player\", \"value_text\": \"p_948\", \"unit\": \"\", \"evidence_ids\": [\"e_0046\", \"cf_000001\"]}, {\"text\": \"20.8 metres\", \"kind\": \"number\", \"value_number\": 20.8, \"unit\": \"metres\", \"evidence_ids\": [\"f_000001\"]}, {\"text\": \"S\u00e1nchez\", \"kind\": \"player\", \"value_text\": \"p_947\", \"unit\": \"\", \"evidence_ids\": [\"e_0046\"]}, {\"text\": \"3%\", \"kind\": \"number\", \"value_number\": 0.0329, \"unit\": \"p_goal\", \"evidence_ids\": [\"cf_000001\"]}, {\"text\": \"Saka\", \"kind\": \"player\", \"value_text\": \"p_952\", \"unit\": \"\", \"evidence_ids\": [\"cf_000001\", \"f_000002\"]}, {\"text\": \"20%\", \"kind\": \"number\", \"value_number\": 0.1955, \"unit\": \"p_goal\", \"evidence_ids\": [\"cf_000001\"]}, {\"text\": \"+2 points\", \"kind\": \"number\", \"value_number\": 0.0212, \"unit\": \"win_prob_delta\", \"evidence_ids\": [\"cf_000001\"]}]}",
+ "tokens_in": 2196,
+ "tokens_out": 433,
  "via": "live"
 }

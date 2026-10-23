@@ -1,6 +1,6 @@
 {
  "$schema": "model_cache.schema.json",
- "cost_usd": 0.007452,
+ "cost_usd": 0.007432,
  "json": {
   "claims": [
    {
@@ -27,7 +27,7 @@
      "e_0037"
     ],
     "kind": "player",
-    "text": "Gianluigi Donnarumma",
+    "text": "Donnarumma",
     "unit": "",
     "value_text": "p_926"
    },
@@ -36,18 +36,18 @@
      "cf_000001"
     ],
     "kind": "number",
-    "text": "2%",
+    "text": "3%",
     "unit": "p_goal",
-    "value_number": 0.0219
+    "value_number": 0.0278
    },
    {
     "evidence_ids": [
      "f_000002"
     ],
     "kind": "number",
-    "text": "11.9 metres",
+    "text": "12.5 metres",
     "unit": "metres",
-    "value_number": 11.9
+    "value_number": 12.5
    },
    {
     "evidence_ids": [
@@ -56,18 +56,18 @@
     "kind": "number",
     "text": "2%",
     "unit": "p_goal",
-    "value_number": 0.0164
+    "value_number": 0.0173
    }
   ],
-  "confidence": 0.9,
-  "why": "Amad shoots from 18 metres out, seeing his effort saved by Gianluigi Donnarumma. Taking the shot carries a 2% goal chance, whereas passing to the number 19 at 11.9 metres drops that chance to 2%."
+  "confidence": 0.95,
+  "why": "Amad shoots from 18 metres out and Donnarumma saves the effort. Taking the shot gives a 3% goal chance, whereas passing to the number 19 at 12.5 metres lowers the goal chance to 2%."
  },
- "latency_ms": 9708,
+ "latency_ms": 9535,
  "model": "gemini-4-argon",
  "record": "model_result",
  "schema_version": "1.0.0",
- "text": "{\"why\":\"Amad shoots from 18 metres out, seeing his effort saved by Gianluigi Donnarumma. Taking the shot carries a 2% goal chance, whereas passing to the number 19 at 11.9 metres drops that chance to 2%.\",\"confidence\":0.9,\"claims\":[{\"text\":\"Amad\",\"kind\":\"player\",\"value_text\":\"p_928\",\"unit\":\"\",\"evidence_ids\":[\"e_0036\",\"cf_000001\"]},{\"text\":\"18 metres\",\"kind\":\"number\",\"value_number\":18.0,\"unit\":\"metres\",\"evidence_ids\":[\"f_000001\"]},{\"text\":\"Gianluigi Donnarumma\",\"kind\":\"player\",\"value_text\":\"p_926\",\"unit\":\"\",\"evidence_ids\":[\"e_0037\"]},{\"text\":\"2%\",\"kind\":\"number\",\"value_number\":0.0219,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"11.9 metres\",\"kind\":\"number\",\"value_number\":11.9,\"unit\":\"metres\",\"evidence_ids\":[\"f_000002\"]},{\"text\":\"2%\",\"kind\":\"number\",\"value_number\":0.0164,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]}]}",
- "tokens_in": 2151,
- "tokens_out": 315,
+ "text": "{\"why\":\"Amad shoots from 18 metres out and Donnarumma saves the effort. Taking the shot gives a 3% goal chance, whereas passing to the number 19 at 12.5 metres lowers the goal chance to 2%.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Amad\",\"kind\":\"player\",\"value_text\":\"p_928\",\"unit\":\"\",\"evidence_ids\":[\"e_0036\",\"cf_000001\"]},{\"text\":\"18 metres\",\"kind\":\"number\",\"value_number\":18.0,\"unit\":\"metres\",\"evidence_ids\":[\"f_000001\"]},{\"text\":\"Donnarumma\",\"kind\":\"player\",\"value_text\":\"p_926\",\"unit\":\"\",\"evidence_ids\":[\"e_0037\"]},{\"text\":\"3%\",\"kind\":\"number\",\"value_number\":0.0278,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"12.5 metres\",\"kind\":\"number\",\"value_number\":12.5,\"unit\":\"metres\",\"evidence_ids\":[\"f_000002\"]},{\"text\":\"2%\",\"kind\":\"number\",\"value_number\":0.0173,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]}]}",
+ "tokens_in": 2161,
+ "tokens_out": 311,
  "via": "live"
 }

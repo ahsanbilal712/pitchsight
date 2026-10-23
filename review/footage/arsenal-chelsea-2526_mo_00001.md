@@ -1,19 +1,17 @@
 # Arsenal v Chelsea · mo_00001
 
-Re-reviewed 23 Oct: positions from tracking (track A's calib and tracks) moved the numbers.
+Model why: Eze shoots from 20.8 metres out and sees his effort saved by Sánchez, an option that carries just a 3% goal chance. Passing back to Saka instead raises the goal probability to 20% and improves the win chance by +2 points.
 
-Model why: Eberechi Eze shoots from 19.4 metres and sees his effort saved, an option that carries just a 2% goal chance. Returning the pass to Bukayo Saka lifts the goal chance to 12% and improves the win probability by +1 points.
-
-Fact Checker on the model output: verified
+Fact Checker on the model output: [{"where": "claims[2]", "text": "S\u00e1nchez", "reject_reason": "player_not_in_evidence"}]
 
 ```json
 {
  "slug": "arsenal-chelsea-2526",
  "moment_id": "mo_00001",
- "why": "Eberechi Eze shoots from 21 metres and the shot is saved: a 3% goal chance. Bukayo Saka is still free on the right of the box; returning the pass lifts it to 20% and adds +2 points of win chance.",
+ "why": "Eze shoots from 21 metres out and sees his effort saved, an option that carries just a 3% goal chance. Passing back to Saka instead raises the goal chance to 20% and improves the win chance by +2 points.",
  "claims": [
   {
-   "text": "Eberechi Eze",
+   "text": "Eze",
    "kind": "player",
    "value": "p_948",
    "unit": null,
@@ -41,13 +39,13 @@ Fact Checker on the model output: verified
    ]
   },
   {
-   "text": "Bukayo Saka",
+   "text": "Saka",
    "kind": "player",
    "value": "p_952",
    "unit": null,
    "evidence_ids": [
-    "e_0045",
-    "cf_000001"
+    "cf_000001",
+    "f_000002"
    ]
   },
   {
@@ -71,7 +69,7 @@ Fact Checker on the model output: verified
  ],
  "line": {
   "headline": "Eze shoots, Saka was free",
-  "body": "Saved from 21 metres: a 3% goal chance. Back to Saka makes it 20% and adds +2 points of win chance."
+  "body": "Saved from 21 metres: a 3% goal chance. Back to Saka makes it 20%, +2 points of win chance."
  }
 }
 ```

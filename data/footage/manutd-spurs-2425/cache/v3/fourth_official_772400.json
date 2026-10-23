@@ -1,0 +1,98 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "fourth_official",
+  "caption": {
+   "claims": [
+    {
+     "evidence_ids": [
+      "f_800001"
+     ],
+     "kind": "player",
+     "reject_reason": null,
+     "text": "Bruno Fernandes",
+     "unit": null,
+     "value": "p_966",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800001"
+     ],
+     "kind": "player",
+     "reject_reason": null,
+     "text": "James Maddison",
+     "unit": null,
+     "value": "p_965",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800001"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "15 km/h",
+     "unit": "kmh",
+     "value": 15.3,
+     "verified": true
+    }
+   ],
+   "facts": [
+    {
+     "event_id": "e_0037",
+     "fact_id": "f_800001",
+     "label": "closing speed toward the fouled player (assessment)",
+     "match_id": "m_9004",
+     "players": [
+      "p_966",
+      "p_965"
+     ],
+     "source": "fourth_official/ruling_772400.json",
+     "unit": "kmh",
+     "value": 15.3
+    }
+   ],
+   "hand_reviewed": true,
+   "headline": "Bruno Fernandes red card: closing in at about 15 km/h",
+   "model": "gemini-4-argon",
+   "prompt_version": "insight_footage@2",
+   "why": "Bruno Fernandes receives a red card for a foul on James Maddison. Tracking estimates his closing speed toward the fouled player at about 15 km/h; this is an assessment, not a ruling."
+  },
+  "card": "red",
+  "clip_ms": 772400,
+  "clock": "40:57",
+  "closing_speed_kmh": 15.3,
+  "closing_speed_spread_kmh": [
+   15.3,
+   19.5,
+   25.5
+  ],
+  "contact_point": [
+   69.84,
+   53.47
+  ],
+  "error_note": "positions 0.5-1 m (few midfield lines); an assessment, not a ruling",
+  "foul_event_id": "e_0037",
+  "fouled": {
+   "label": "#10",
+   "name": "James Maddison",
+   "pid": "p_965",
+   "track_id": 3
+  },
+  "fouler": {
+   "label": "#8",
+   "name": "Bruno Fernandes",
+   "pid": "p_966",
+   "track_id": 22
+  },
+  "frame": 23172,
+  "in_box": false,
+  "match_id": "m_9004",
+  "measure": "closing speed toward the fouled player over the 0.5 s before contact, from tracking",
+  "slug": "manutd-spurs-2425",
+  "source": "fourth_official/ruling_772400.json"
+ },
+ "schema_version": "1.0.0"
+}

@@ -71,7 +71,7 @@ def import_(review_dir: Path = REVIEW_DIR) -> dict:
     from newsroom.factcheck import verify_claims
 
     imported, refused = [], {}
-    for path in sorted(review_dir.glob("*.md")):
+    for path in sorted(review_dir.glob("*_mo_*.md")):
         doc = json.loads(BLOCK.search(path.read_text()).group(1))
         slug, mid, line = doc["slug"], doc["moment_id"], doc["line"]
         manifest = open_cache(slug)

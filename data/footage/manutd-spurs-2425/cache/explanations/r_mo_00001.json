@@ -1,17 +1,8 @@
 {
  "$schema": "model_cache.schema.json",
- "cost_usd": 0.006626,
+ "cost_usd": 0.00756,
  "json": {
   "claims": [
-   {
-    "evidence_ids": [
-     "f_000001"
-    ],
-    "kind": "number",
-    "text": "21.1 metres",
-    "unit": "metres",
-    "value_number": 21.1
-   },
    {
     "evidence_ids": [
      "e_0030",
@@ -24,6 +15,15 @@
    },
    {
     "evidence_ids": [
+     "f_000001"
+    ],
+    "kind": "number",
+    "text": "22 metres",
+    "unit": "metres",
+    "value_number": 21.6
+   },
+   {
+    "evidence_ids": [
      "e_0031"
     ],
     "kind": "player",
@@ -33,32 +33,42 @@
    },
    {
     "evidence_ids": [
+     "e_0030",
      "cf_000001"
     ],
-    "kind": "number",
-    "text": "3%",
-    "unit": "p_goal",
-    "value_number": 0.0304
+    "kind": "team",
+    "text": "Spurs",
+    "unit": "",
+    "value_text": "tottenham"
    },
    {
     "evidence_ids": [
      "cf_000001"
     ],
     "kind": "number",
-    "text": "1%",
+    "text": "3%",
     "unit": "p_goal",
-    "value_number": 0.0115
+    "value_number": 0.0266
+   },
+   {
+    "evidence_ids": [
+     "cf_000001"
+    ],
+    "kind": "number",
+    "text": "2%",
+    "unit": "p_goal",
+    "value_number": 0.0174
    }
   ],
   "confidence": 0.9,
-  "why": "From 21.1 metres out, Werner takes the shot that Onana saves, and the simulation shows shooting is the better option here. The strike carries a 3% goal chance, whereas carrying the ball instead drops that chance to 1%."
+  "why": "Werner shoots from 22 metres out, and Onana saves the effort. Shooting gives Spurs a 3% goal chance, whereas carrying the ball drops that chance to 2%."
  },
- "latency_ms": 12465,
+ "latency_ms": 11541,
  "model": "gemini-4-argon",
  "record": "model_result",
  "schema_version": "1.0.0",
- "text": "{\"why\":\"From 21.1 metres out, Werner takes the shot that Onana saves, and the simulation shows shooting is the better option here. The strike carries a 3% goal chance, whereas carrying the ball instead drops that chance to 1%.\",\"confidence\":0.9,\"claims\":[{\"text\":\"21.1 metres\",\"kind\":\"number\",\"value_number\":21.1,\"unit\":\"metres\",\"evidence_ids\":[\"f_000001\"]},{\"text\":\"Werner\",\"kind\":\"player\",\"value_text\":\"p_960\",\"unit\":\"\",\"evidence_ids\":[\"e_0030\",\"cf_000001\"]},{\"text\":\"Onana\",\"kind\":\"player\",\"value_text\":\"p_962\",\"unit\":\"\",\"evidence_ids\":[\"e_0031\"]},{\"text\":\"3%\",\"kind\":\"number\",\"value_number\":0.0304,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]},{\"text\":\"1%\",\"kind\":\"number\",\"value_number\":0.0115,\"unit\":\"p_goal\",\"evidence_ids\":[\"cf_000001\"]}]}",
- "tokens_in": 1968,
- "tokens_out": 269,
+ "text": "{\"why\": \"Werner shoots from 22 metres out, and Onana saves the effort. Shooting gives Spurs a 3% goal chance, whereas carrying the ball drops that chance to 2%.\", \"confidence\": 0.9, \"claims\": [{\"text\": \"Werner\", \"kind\": \"player\", \"value_text\": \"p_960\", \"unit\": \"\", \"evidence_ids\": [\"e_0030\", \"cf_000001\"]}, {\"text\": \"22 metres\", \"kind\": \"number\", \"value_number\": 21.6, \"unit\": \"metres\", \"evidence_ids\": [\"f_000001\"]}, {\"text\": \"Onana\", \"kind\": \"player\", \"value_text\": \"p_962\", \"unit\": \"\", \"evidence_ids\": [\"e_0031\"]}, {\"text\": \"Spurs\", \"kind\": \"team\", \"value_text\": \"tottenham\", \"unit\": \"\", \"evidence_ids\": [\"e_0030\", \"cf_000001\"]}, {\"text\": \"3%\", \"kind\": \"number\", \"value_number\": 0.0266, \"unit\": \"p_goal\", \"evidence_ids\": [\"cf_000001\"]}, {\"text\": \"2%\", \"kind\": \"number\", \"value_number\": 0.0174, \"unit\": \"p_goal\", \"evidence_ids\": [\"cf_000001\"]}]}",
+ "tokens_in": 2005,
+ "tokens_out": 355,
  "via": "live"
 }

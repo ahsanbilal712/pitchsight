@@ -3,7 +3,7 @@
  "engine_hash": "d9e1bf248ee8796443a01c80d39e68dab9fdc21b",
  "entries": [
   {
-   "created_at": "2026-10-23T06:40:42Z",
+   "created_at": "2026-10-23T08:33:58Z",
    "hand_reviewed": false,
    "key": "m_9001/match/evidence@factcheck/none/s9001",
    "kind": "analytics",
@@ -12,8 +12,24 @@
    "path": "evidence.jsonl",
    "producer": "evidence",
    "seed": 9001,
-   "sha256": "e26e0a622c2fd7de865723e15e8b65d349fa0fc51990102d1f0c9c469da666bf",
+   "sha256": "131c320e81edc8f61768bec4ac705b737679cb90dd25647305572dcd4b14bcd7",
    "version": "factcheck"
+  },
+  {
+   "cost_usd": 0.009592,
+   "created_at": "2026-10-23T08:32:54Z",
+   "hand_reviewed": false,
+   "key": "m_9001/match/insight@insight_footage@1.win_prob_river_11000/gemini-4-argon/s9001",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "insights/win_prob_river_11000.json",
+   "producer": "insight",
+   "seed": 9001,
+   "sha256": "8c60f366554f5d286a049f1570851a5dcf23dc440908648a390a53cac3b53e67",
+   "tokens_in": 3371,
+   "tokens_out": 285,
+   "version": "insight_footage@1.win_prob_river_11000"
   },
   {
    "created_at": "2026-10-23T07:16:53Z",
@@ -29,7 +45,7 @@
    "version": "window_867000"
   },
   {
-   "created_at": "2026-10-23T08:27:02Z",
+   "created_at": "2026-10-23T08:38:39Z",
    "hand_reviewed": false,
    "key": "m_9001/match/river@wp_river@1/none/s9001",
    "kind": "analytics",
@@ -42,7 +58,7 @@
    "version": "wp_river@1"
   },
   {
-   "created_at": "2026-10-23T08:27:02Z",
+   "created_at": "2026-10-23T08:38:39Z",
    "hand_reviewed": false,
    "key": "m_9001/match/v3@win_prob_river_11000/none/s9001",
    "kind": "analytics",
@@ -51,11 +67,11 @@
    "path": "v3/win_prob_river_11000.json",
    "producer": "v3",
    "seed": 9001,
-   "sha256": "65b0ee6ef0c8ae545e85fd830d13998b87b10c0022314d0b869ef4be5608d08a",
+   "sha256": "3fa24ecaa7b1c12933340091fd84cfc4a691cb97994649e5f9b8ff31849e9550",
    "version": "win_prob_river_11000"
   },
   {
-   "created_at": "2026-10-23T06:39:01Z",
+   "created_at": "2026-10-23T08:35:42Z",
    "hand_reviewed": true,
    "key": "m_9001/mo_00001/explanation@reviewed/gemini-4-argon/s9001",
    "kind": "explanation",
@@ -64,11 +80,11 @@
    "path": "explanations/ex_000001.json",
    "producer": "explanation",
    "seed": 9001,
-   "sha256": "28d22d403dae9a7aea0e24e1ef35481de481dab5249cd1bcc2ea5cd062a8ffe0",
+   "sha256": "b80f318479d47e154591425b0aef281d3aa864fae22557751eefd72cdeeddff1",
    "version": "explanation@reviewed"
   },
   {
-   "created_at": "2026-10-23T06:39:01Z",
+   "created_at": "2026-10-23T08:35:42Z",
    "hand_reviewed": true,
    "key": "m_9001/mo_00001/narrator@footage_line@1/none/s9001",
    "kind": "fast_line",
@@ -77,11 +93,11 @@
    "path": "lines/mo_00001.json",
    "producer": "narrator",
    "seed": 9001,
-   "sha256": "e8ee0b25b6b1b03dc8723bcd622b48ce373da09b88bdd6602584383258eaf857",
+   "sha256": "e662c64600b32d7f1e3e6b5b5e681d25827b0f78f2901692f0b6f8632df13023",
    "version": "footage_line@1"
   },
   {
-   "created_at": "2026-10-23T06:40:42Z",
+   "created_at": "2026-10-23T08:33:47Z",
    "hand_reviewed": false,
    "key": "m_9001/mo_00001/pitch_control@pc@1/none/s9001",
    "kind": "pitch_control",
@@ -94,7 +110,7 @@
    "version": "pc@1"
   },
   {
-   "created_at": "2026-10-23T06:40:42Z",
+   "created_at": "2026-10-23T08:33:47Z",
    "hand_reviewed": false,
    "key": "m_9001/mo_00001/rollout@scripted_v1/scripted/s9001",
    "kind": "counterfactual",
@@ -103,13 +119,13 @@
    "path": "counterfactuals/cf_000001.json",
    "producer": "rollout",
    "seed": 9001,
-   "sha256": "be7ada4afe69952a7c3a5c313ae16a8c9ad4a28f91afd30796bd604515b0ba89",
+   "sha256": "aa8db3e3488d2dd2bd9e101f377aac19ecdf488fa790b6fcb85af929c1224989",
    "simulated_latency_ms": 1200,
    "version": "scripted_v1"
   },
   {
-   "cost_usd": 0.007634,
-   "created_at": "2026-10-22T20:29:34Z",
+   "cost_usd": 0.007642,
+   "created_at": "2026-10-23T08:33:58Z",
    "hand_reviewed": false,
    "key": "m_9001/mo_00001/tactician@tactician_footage@1/gemini-4-argon/s9001",
    "kind": "explanation",
@@ -118,9 +134,9 @@
    "path": "explanations/r_mo_00001.json",
    "producer": "tactician",
    "seed": 9001,
-   "sha256": "b2001afb417843a4c56b8bc20752b1e82834a3c4f77bb2d833ddee6ae9f5f2e7",
-   "simulated_latency_ms": 14762,
-   "tokens_in": 2197,
+   "sha256": "0419dda13c6c1464255a10e468f547b5938427c76cf7328e0918f45e5ad26254",
+   "simulated_latency_ms": 10016,
+   "tokens_in": 2201,
    "tokens_out": 324,
    "version": "tactician_footage@1"
   }
@@ -131,10 +147,10 @@
  "match_seed": 9001,
  "schema_version": "1.0.0",
  "totals": {
-  "cost_usd": 0.007634,
-  "entries": 9,
-  "tokens_in": 2197,
-  "tokens_out": 324
+  "cost_usd": 0.017234,
+  "entries": 10,
+  "tokens_in": 5572,
+  "tokens_out": 609
  },
  "tracking_sha256": "e7c7245acf18abcf8859255e10223215a63a86e93a57d93eb8b813df9a07aa1e"
 }

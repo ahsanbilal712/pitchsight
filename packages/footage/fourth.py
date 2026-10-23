@@ -16,7 +16,6 @@ from __future__ import annotations
 
 import json
 import math
-import re
 import sys
 from dataclasses import asdict
 
@@ -31,8 +30,6 @@ FOULER, FOULED = 22, 3                          # track ids at the contact frame
 LABELS = {FOULER: ("home", "#8", "Bruno Fernandes"), FOULED: ("away", "#10", "James Maddison")}
 T_MS, CLOCK, SCORE = 2_457_000, "40:57", [0, 1]  # score bug at the contact frame
 WINDOWS = ((FRAME - 15, FRAME), (FRAME - 18, FRAME - 3), (FRAME - 22, FRAME - 7))   # 0.5 s each at 30 fps
-REVIEW = ROOT / "review" / "footage" / f"fo_{SLUG}_{CLIP_MS}.md"
-BLOCK = re.compile(r"```json\n(.*?)\n```", re.S)
 
 
 def _positions(tracks: dict) -> dict[int, dict[int, np.ndarray]]:
@@ -102,6 +99,29 @@ def evidence(m: dict, ros: dict, r_ids: dict, speed_ms: float) -> tuple[list[dic
     return out, foul["id"], fact["fact_id"]
 
 
+def write_beat_doc(r, speeds: list[float], foul_id: str, ros: dict) -> dict | None:
+    """Track C's fourth_official beat (cache/v3/); returns its reviewed caption when it has one (kept across
+    re-runs while the ruling's numbers are unchanged)."""
+    from footage.v3 import write_beat
+
+    path = clip_dir(SLUG) / "cache" / "v3" / f"fourth_official_{CLIP_MS}.json"
+    old = json.loads(path.read_text())["result"] if path.exists() else {}
+    beat = {"clip_ms": CLIP_MS, "frame": FRAME, "clock": CLOCK,
+            "fouler": {"label": "#8", "name": "Bruno Fernandes", "pid": r.fouler, "track_id": FOULER},
+            "fouled": {"label": "#10", "name": "James Maddison", "pid": r.fouled_player, "track_id": FOULED},
+            "contact_point": r.contact_point, "in_box": r.in_box, "card": r.card, "foul_event_id": foul_id,
+            "closing_speed_kmh": round(r.closing_speed_ms * 3.6, 1),
+            "closing_speed_spread_kmh": [round(s * 3.6, 1) for s in speeds],
+            "measure": "closing speed toward the fouled player over the 0.5 s before contact, from tracking",
+            "error_note": "positions 0.5-1 m (few midfield lines); an assessment, not a ruling",
+            "source": f"fourth_official/ruling_{CLIP_MS}.json"}
+    numbers = ("closing_speed_kmh", "contact_point", "in_box", "card", "fouler", "fouled")
+    if old.get("caption") and all(old.get(k) == beat[k] for k in numbers):
+        beat["caption"] = old["caption"]
+    write_beat(SLUG, "fourth_official", CLIP_MS, beat)
+    return beat.get("caption")
+
+
 def run() -> dict:
     from blackboard import SqliteBlackboard
     from cache.manifest import CacheManifest
@@ -115,21 +135,25 @@ def run() -> dict:
     docs, foul_id, fact_id = evidence(m, ros, ros["ids"], 0.0)
     r, speeds, run_line = ruling(m, pos, fps, foul_id, ros["ids"])
     docs, foul_id, fact_id = evidence(m, ros, ros["ids"], r.closing_speed_ms)
-    review = json.loads(BLOCK.search(REVIEW.read_text()).group(1))
+    caption = write_beat_doc(r, speeds, foul_id, ros)
+    if caption is None:
+        return {"beat": "written", "next": "python -m footage.insights run manutd-spurs-2425 "
+                f"data/footage/{SLUG}/cache/v3/fourth_official_{CLIP_MS}.json, review, import, then re-run"}
+    review = {"headline": caption["headline"], "body": caption["why"], "why": caption["why"],
+              "claims": [{k: c[k] for k in ("text", "kind", "value", "unit", "evidence_ids")}
+                         for c in caption["claims"]]}
+    docs += [{"_collection": "facts", **f} for f in caption["facts"]]
     bb = SqliteBlackboard(":memory:")
     for d in docs:
         d = dict(d)
         bb.put(d.pop("_collection"), d)
     match_id, seed = CLIPS[SLUG]["match_id"], int(CLIPS[SLUG]["match_id"][2:])
-    claims = [{**c, "evidence_ids": [foul_id if e == "<foul>" else fact_id if e == "<fact>" else e
-                                     for e in c["evidence_ids"]],
-               "value": ros["ids"].get(c["value"], c["value"]) if isinstance(c["value"], str) else c["value"]}
-              for c in review["claims"]]
+    claims = review["claims"]
     check = verify_claims(match_id, claims, bb, {"headline": review["headline"], "body": review["body"],
                                                  "why": review["why"]})
     bb.close()
     if not check["verified"]:
-        raise SystemExit(f"Fact Checker refused the reviewed text: {check['diff']}")
+        raise SystemExit(f"Fact Checker refused the reviewed caption: {check['diff']}")
     cue = ruling_to_cue(r, T_MS, match_id=match_id, cue_id=f"c_9{CLIP_MS // 100:05d}", evidence_event_id=foul_id,
                         period=1)
     cue["clock"] = CLOCK

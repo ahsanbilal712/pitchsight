@@ -1,8 +1,6 @@
 # Liverpool v Manchester City · mo_00001
 
-Re-reviewed 23 Oct: positions from tracking (tracks/62.json through calib/62_refined.json) moved the numbers.
-
-Model why: Szoboszlai takes a shot from 31 metres that gets blocked, carrying a 3% goal chance. Passing to Salah raises the goal chance to 8% and adds +4 points to the win probability.
+Model why: Szoboszlai takes a shot from 31.7 metres that gets blocked by a defender, carrying just a 3% goal chance. Passing to Salah instead raises the goal chance to 5% and improves the win probability by +2 points.
 
 Fact Checker on the model output: verified
 
@@ -10,7 +8,7 @@ Fact Checker on the model output: verified
 {
  "slug": "liverpool-mancity-2526",
  "moment_id": "mo_00001",
- "why": "Szoboszlai shoots from 32 metres and the shot is blocked: a 3% goal chance. Salah is free on the right, and the pass to him makes it 5% and adds 2 points to the win chance.",
+ "why": "Szoboszlai takes a shot from 32 metres that gets blocked by a defender, carrying just a 3% goal chance. Passing to Salah instead raises the goal chance to 5% and improves the win probability by +2 points.",
  "claims": [
   {
    "text": "Szoboszlai",
@@ -19,8 +17,7 @@ Fact Checker on the model output: verified
    "unit": null,
    "evidence_ids": [
     "e_0033",
-    "cf_000001",
-    "f_000001"
+    "cf_000001"
    ]
   },
   {
@@ -61,7 +58,7 @@ Fact Checker on the model output: verified
    ]
   },
   {
-   "text": "2 points",
+   "text": "+2 points",
    "kind": "number",
    "value": 0.0198,
    "unit": "win_prob_delta",
@@ -72,7 +69,7 @@ Fact Checker on the model output: verified
  ],
  "line": {
   "headline": "Szoboszlai shoots, Salah was free",
-  "body": "Blocked from 32 metres: a 3% goal chance. The pass to Salah makes it 5% and adds 2 points of win chance."
+  "body": "Blocked from 32 metres: a 3% goal chance. The pass to Salah makes it 5%, +2 points of win chance."
  }
 }
 ```

@@ -21,7 +21,7 @@ from pathlib import Path
 
 from footage.clips import CLIPS, ROOT
 
-PROMPT, ROLE = "insight_footage@1", "tactician_golden"
+PROMPT, ROLE = "insight_footage@2", "tactician_golden"     # @1: the river caption (kept with its record)
 REVIEW_DIR = ROOT / "review" / "footage"
 BLOCK = re.compile(r"```json\n(.*?)\n```", re.S)
 SCHEMA = {"type": "object", "required": ["headline", "why", "claims", "confidence"], "properties": {
@@ -69,6 +69,10 @@ def facts_for(beat: dict) -> list[dict]:
                _fact(2, mid, "share of the goal covered, best point on the bisector", beat["coverage_best"],
                      "percent", beat["source"]),
                _fact(3, mid, "metres to the best point", beat["move_m"], "metres", beat["source"])]
+    elif kind == "fourth_official":
+        out = [_fact(1, mid, "closing speed toward the fouled player (assessment)", beat["closing_speed_kmh"], "kmh",
+                     beat["source"], players=[beat["fouler"]["pid"], beat["fouled"]["pid"]],
+                     event_id=beat["foul_event_id"])]
     elif kind == "red_card_cost":
         out = [_fact(1, mid, "win chance 11 v 11 (engine estimate)", beat["win_prob_11v11"], "win_prob",
                      beat["source"]),
@@ -120,13 +124,31 @@ def run(slug: str, beat_path: Path, dry_run: bool = False) -> dict:
     msgs = messages(slug, beat, facts)
     if dry_run:
         return {"facts": facts, "messages": msgs}
+    from cache.manifest import CacheManifest
+    from footage.featured import open_cache
     from newsroom import config
     from newsroom.llm import LiveClient
 
-    llm = LiveClient(mode="precompute")
-    res = asyncio.run(llm.complete(ROLE, msgs, None, match_id=CLIPS[slug]["match_id"], moment_id=None, schema=SCHEMA,
-                                   prompt_version=PROMPT, producer="insight", timeout_s=config.role(ROLE).timeout_s,
-                                   hedge_after_s=None))
+    beat_path = Path(beat_path).resolve()
+    match_id = CLIPS[slug]["match_id"]
+    version = f"{PROMPT}.{beat_path.stem}"
+    manifest = open_cache(slug)
+    cached = manifest.find(producer="insight", version=version)
+    if cached:                                 # the model answer is kept: a re-run never pays twice
+        res = manifest.read(cached[0])
+    else:
+        llm = LiveClient(mode="precompute")
+        res = asyncio.run(llm.complete(ROLE, msgs, None, match_id=match_id, moment_id=None, schema=SCHEMA,
+                                       prompt_version=PROMPT, producer="insight",
+                                       timeout_s=config.role(ROLE).timeout_s, hedge_after_s=None))
+        res = {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "model_result",
+               "via": "live", **{k: res.get(k) for k in ("json", "text", "model", "tokens_in", "tokens_out",
+                                                          "cost_usd", "latency_ms")}}
+        manifest.add(CacheManifest.key(match_id, None, "insight", version, res["model"], int(match_id[2:])),
+                     "analytics", res, f"insights/{beat_path.stem}.json", producer="insight", version=version,
+                     model=res["model"], seed=int(match_id[2:]), cost_usd=res.get("cost_usd"),
+                     tokens_in=res.get("tokens_in"), tokens_out=res.get("tokens_out"))
+        manifest.save()
     body = res.get("json") or {}
     bb = evidence_board(slug, facts)
     result = check(CLIPS[slug]["match_id"], body, bb)
@@ -136,7 +158,8 @@ def run(slug: str, beat_path: Path, dry_run: bool = False) -> dict:
     REVIEW_DIR.mkdir(parents=True, exist_ok=True)
     out = REVIEW_DIR / f"v3_{Path(beat_path).stem}.md"
     doc = {"slug": slug, "beat_file": str(Path(beat_path).relative_to(ROOT)), "headline": body.get("headline", ""),
-           "why": body.get("why", ""), "claims": claims, "model": res.get("model"), "cost_usd": res.get("cost_usd")}
+           "why": body.get("why", ""), "claims": claims, "model": res.get("model"), "cost_usd": res.get("cost_usd"),
+           "prompt_version": version.split(".")[0] if "." in version else PROMPT}
     out.write_text(f"# v3 caption · {beat['beat']} · {slug}\n\nModel draft (gemini-4-argon); Fact Checker on it: "
                    f"{'verified' if result['verified'] else json.dumps(result['diff'])}\n\n```json\n"
                    f"{json.dumps(doc, indent=1, ensure_ascii=False)}\n```\n")
@@ -164,7 +187,8 @@ def import_() -> dict:
             refused[path.name] = res["diff"] or "empty or too long"
             continue
         beat["caption"] = {"headline": doc["headline"], "why": doc["why"], "claims": res["claims"],
-                           "facts": facts, "model": doc.get("model"), "prompt_version": PROMPT, "hand_reviewed": True}
+                           "facts": facts, "model": doc.get("model"),
+                           "prompt_version": doc.get("prompt_version", "insight_footage@1"), "hand_reviewed": True}
         manifest = open_cache(doc["slug"])
         entry = next(e for e in manifest.entries if manifest.cache_dir / e["path"] == beat_file)
         manifest.add(entry["key"], entry["kind"], wrapper, entry["path"], producer=entry["producer"],

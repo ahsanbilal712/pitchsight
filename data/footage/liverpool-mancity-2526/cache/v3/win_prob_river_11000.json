@@ -4,6 +4,245 @@
  "result": {
   "away": "Manchester City",
   "beat": "win_prob_river",
+  "caption": {
+   "claims": [
+    {
+     "evidence_ids": [
+      "f_800005",
+      "f_800006"
+     ],
+     "kind": "team",
+     "reject_reason": null,
+     "text": "Liverpool",
+     "unit": null,
+     "value": "liverpool",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800012"
+     ],
+     "kind": "team",
+     "reject_reason": null,
+     "text": "Man City",
+     "unit": null,
+     "value": "man_city",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "e_0006",
+      "f_800002"
+     ],
+     "kind": "player",
+     "reject_reason": null,
+     "text": "Szoboszlai",
+     "unit": null,
+     "value": "p_912",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800005"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "91%",
+     "unit": "win_prob",
+     "value": 0.9093,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800012"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "96%",
+     "unit": "win_prob",
+     "value": 0.9647,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800006"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "9%",
+     "unit": "win_prob",
+     "value": 0.0869,
+     "verified": true
+    }
+   ],
+   "facts": [
+    {
+     "clock": "73:26",
+     "event_id": "e_0006",
+     "fact_id": "f_800001",
+     "label": "home_win_chance_before Szoboszlai 1-0",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.1513
+    },
+    {
+     "clock": "73:26",
+     "event_id": "e_0006",
+     "fact_id": "f_800002",
+     "label": "home_win_chance_after Szoboszlai 1-0",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.7805
+    },
+    {
+     "clock": "73:26",
+     "event_id": "e_0006",
+     "fact_id": "f_800003",
+     "label": "away_win_chance_before Szoboszlai 1-0",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.1669
+    },
+    {
+     "clock": "73:26",
+     "event_id": "e_0006",
+     "fact_id": "f_800004",
+     "label": "away_win_chance_after Szoboszlai 1-0",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0212
+    },
+    {
+     "clock": "83:37",
+     "event_id": "e_0027",
+     "fact_id": "f_800005",
+     "label": "home_win_chance_before Silva 1-1",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.9093
+    },
+    {
+     "clock": "83:37",
+     "event_id": "e_0027",
+     "fact_id": "f_800006",
+     "label": "home_win_chance_after Silva 1-1",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0869
+    },
+    {
+     "clock": "83:37",
+     "event_id": "e_0027",
+     "fact_id": "f_800007",
+     "label": "away_win_chance_before Silva 1-1",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0122
+    },
+    {
+     "clock": "83:37",
+     "event_id": "e_0027",
+     "fact_id": "f_800008",
+     "label": "away_win_chance_after Silva 1-1",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0734
+    },
+    {
+     "clock": "92:43",
+     "event_id": "e_0048",
+     "fact_id": "f_800009",
+     "label": "home_win_chance_before Haaland 1-2",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0334
+    },
+    {
+     "clock": "92:43",
+     "event_id": "e_0048",
+     "fact_id": "f_800010",
+     "label": "home_win_chance_after Haaland 1-2",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0072
+    },
+    {
+     "clock": "92:43",
+     "event_id": "e_0048",
+     "fact_id": "f_800011",
+     "label": "away_win_chance_before Haaland 1-2",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0217
+    },
+    {
+     "clock": "92:43",
+     "event_id": "e_0048",
+     "fact_id": "f_800012",
+     "label": "away_win_chance_after Haaland 1-2",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.9647
+    },
+    {
+     "clock": "99:21",
+     "event_id": "e_0073",
+     "fact_id": "f_800013",
+     "label": "home_win_chance_before Cherki 1-3",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0072
+    },
+    {
+     "clock": "99:21",
+     "event_id": "e_0073",
+     "fact_id": "f_800014",
+     "label": "home_win_chance_after Cherki 1-3",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.0036
+    },
+    {
+     "clock": "99:21",
+     "event_id": "e_0073",
+     "fact_id": "f_800015",
+     "label": "away_win_chance_before Cherki 1-3",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.9647
+    },
+    {
+     "clock": "99:21",
+     "event_id": "e_0073",
+     "fact_id": "f_800016",
+     "label": "away_win_chance_after Cherki 1-3",
+     "match_id": "m_9001",
+     "source": "m_9001/match/river@wp_river@1/none/s9001",
+     "unit": "win_prob",
+     "value": 0.9883
+    }
+   ],
+   "hand_reviewed": true,
+   "headline": "Liverpool reach 91% win chance before Man City rally",
+   "model": "gemini-4-argon",
+   "prompt_version": "insight_footage@1",
+   "why": "After Szoboszlai scores, Liverpool see their win chance estimate climb to 91% before the equaliser drops it to 9%. Man City later take the lead, sending their win chance estimate to 96%."
+  },
   "engine": "heads.WinProbHead (deterministic, no rollouts)",
   "events": [
    {

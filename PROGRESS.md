@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v3: Argon captions and explanations after the ADC refresh (track B)
+
+- ADC quota project set to ffc-19484 (owner: "no other"); WHYLINE calls go to ffc-19484 only.
+- Win-probability river caption (gemini-4-argon, insight_footage@1, $0.0096): "Liverpool reach 91% win chance
+  before Man City rally"; hand review added the "9%" claim (f_800006); in the beat's `caption`.
+- The four Sliding Doors explanations regenerated on Argon from the current (tracked) counterfactuals ($0.031);
+  Liverpool and Spurs verified as written, Man Utd v City ("the number 19", unbound) and Arsenal (Sánchez not in
+  the cited evidence) fixed in review; lines condensed from the reviewed why. The hand-written Fourth Official text
+  is gone: the cue now takes its text from the reviewed Argon caption of the new `fourth_official` beat
+  (insight_footage@2 adds km/h and "assessment, not a ruling"; $0.0049): "Bruno Fernandes red card: closing in at
+  about 15 km/h" ("15.3" -> "about 15" in review: other windows give 15-25 km/h).
+- Model answers are cached per beat (a re-run never pays twice); a beat keeps its reviewed caption while its data
+  is unchanged. Real-clip spend this round $0.0558; footage total so far $0.69.
+
+---
+
 ## 2026-10-23 · Video v3 item 4: win-probability river, Liverpool v Man City final 20 minutes (track B)
 
 - `python -m footage.river`: the engine's win-probability head on the real score (from the T-106 tagged goals) and

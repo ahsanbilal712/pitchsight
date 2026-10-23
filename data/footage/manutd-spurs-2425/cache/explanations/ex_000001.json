@@ -6,17 +6,6 @@
  "claims": [
   {
    "evidence_ids": [
-    "f_000001"
-   ],
-   "kind": "number",
-   "reject_reason": null,
-   "text": "22 metres",
-   "unit": "metres",
-   "value": 21.6,
-   "verified": true
-  },
-  {
-   "evidence_ids": [
     "e_0030",
     "cf_000001"
    ],
@@ -29,6 +18,17 @@
   },
   {
    "evidence_ids": [
+    "f_000001"
+   ],
+   "kind": "number",
+   "reject_reason": null,
+   "text": "22 metres",
+   "unit": "metres",
+   "value": 21.6,
+   "verified": true
+  },
+  {
+   "evidence_ids": [
     "e_0031"
    ],
    "kind": "player",
@@ -36,6 +36,18 @@
    "text": "Onana",
    "unit": null,
    "value": "p_962",
+   "verified": true
+  },
+  {
+   "evidence_ids": [
+    "e_0030",
+    "cf_000001"
+   ],
+   "kind": "team",
+   "reject_reason": null,
+   "text": "Spurs",
+   "unit": null,
+   "value": "tottenham",
    "verified": true
   },
   {
@@ -70,5 +82,5 @@
  "prompt_version": "tactician_footage@1",
  "schema_version": "1.0.0",
  "tool_trace_id": null,
- "why": "Werner is through and shoots from 22 metres; Onana saves. The shot is a 3% goal chance, and taking the ball round the keeper instead drops it to 2%, so shooting is the better choice."
+ "why": "Werner shoots from 22 metres out, and Onana saves the effort. Shooting gives Spurs a 3% goal chance, whereas carrying the ball drops that chance to 2%."
 }
