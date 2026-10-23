@@ -25,7 +25,7 @@ files touched, verification run, open issues. Keep entries short; details live i
   counterfactuals, traces, explanations, cues, requests), timed on the match clock: moment at its t_ms, traces
   0.3 s apart after it, the cue after the last trace. Every cue verifies inside its own sqlite.
 - Veto: a full-time recap of Liverpool v Man City (`footage.recap_beat` from the tagged goals and red card;
-  Argon caption "Manchester City rally past Liverpool", $0.0080; review added the count and scorer claims) goes
+  Argon caption "Manchester City rally past Liverpool", $0.0062; review added the count and scorer claims) goes
   through the Director, which holds it: `requests` doc req_m_9001_recap_0 at t_ms 6,281,900 (104:41.9).
   Goal scorers named outside the moment files are kept in roster.json `named` (ids frozen; overflow ids p_98x).
 - Keeper beat: the coverage assumptions are in its source line and a `small_print` field (lead's request).
