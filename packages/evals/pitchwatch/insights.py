@@ -274,7 +274,10 @@ def offside_checks(slug: str, shot: int) -> list[dict]:
                             or (p["track_id"] in keepers and u(p["xy"]) > L / 2))), reverse=True)
         if len(defenders) < MIN_LINE_PLAYERS:
             continue
-        second_last, ball_u, recv_u = defenders[1], u(pos[passer]["xy"]), u(pos[receiver]["xy"])
+        keeper_seen = any(p["track_id"] in keepers and p["xy"] and u(p["xy"]) > L / 2 for p in r["players"])
+        # the keeper is the last defender; off-screen, assume he is behind everyone in view
+        second_last = defenders[1] if keeper_seen else defenders[0]
+        ball_u, recv_u = u(pos[passer]["xy"]), u(pos[receiver]["xy"])
         line_u = max(second_last, ball_u, L / 2)
         out.append({"pass_frame": r["frame"], "pass_t": round(r["frame"] / tracks["fps"], 3),
                     "received_t": row["t"], "team": att_team, "passer": passer, "receiver": receiver,
@@ -282,7 +285,8 @@ def offside_checks(slug: str, shot: int) -> list[dict]:
                     "ball_x": pos[passer]["xy"][0], "line_x": round(line_u if d > 0 else L - line_u, 2),
                     "receiver_xy": pos[receiver]["xy"], "margin_m": round(recv_u - line_u, 2),
                     "decided_by": "defender" if line_u == second_last else ("ball" if line_u == ball_u else "halfway"),
-                    "defenders_seen": len(defenders), "attacking_dir": "+x" if d > 0 else "-x"})
+                    "defenders_seen": len(defenders), "keeper_seen": keeper_seen,
+                    "attacking_dir": "+x" if d > 0 else "-x"})
     return out
 
 
