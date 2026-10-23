@@ -5,6 +5,15 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v7 grounding: 969 of 969 on draft 1b (track B)
+
+- `python -m footage.grounding` on track C's committed edit_v7.yaml (a055dcb, with the dangerous-space caption on
+  lfc_live_v7): **969 of 969 on-screen numbers bound to verified evidence (965 of 965 claims verified)**;
+  data/footage/v7_grounding.json regenerated (it said 937 from the earlier edit).
+- No model call, no code change.
+
+---
+
 ## 2026-10-23 · Video v7 grounding on edit_v7.yaml: 937 of 937 (track B)
 
 - `python -m footage.grounding` on track C's edit_v7.yaml (draft 1, working tree): **937 of 937 on-screen numbers
