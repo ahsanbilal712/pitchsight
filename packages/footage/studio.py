@@ -183,9 +183,13 @@ async def run_moment(deps, f: dict, cache, ros: dict) -> None:
         msg = ctx.sent[0]
 
 
-def v4_line(slug: str, clip_ms: int) -> dict | None:
-    path = clip_dir(slug) / "cache" / "v4" / f"lines_{clip_ms}.json"
-    return json.loads(path.read_text())["result"] if path.exists() else None
+def video_line(slug: str, clip_ms: int) -> dict | None:
+    """The reviewed line of the latest video version that has one (v5 xG, else v4 goal in 10 s)."""
+    for tag in ("v5", "v4"):
+        path = clip_dir(slug) / "cache" / tag / f"lines_{clip_ms}.json"
+        if path.exists():
+            return json.loads(path.read_text())["result"]
+    return None
 
 
 def ghost_trail(slug: str, clip_ms: int) -> list[list[float]]:
@@ -198,10 +202,10 @@ def ghost_trail(slug: str, clip_ms: int) -> list[list[float]]:
     return [[round(float(f["ball"][0]), 2), round(float(f["ball"][1]), 2)] for f in g["frames"][::step]]
 
 
-async def run_moment_v4(deps, f: dict, line: dict) -> None:
-    """Video v4: the same executors on the moment, the metric is track A's goal chance in the next 10 s
-    (cache/v4/goal10_decision_<clip_ms>.json, n worlds per option) and the reviewed v4 line; no counterfactual and no
-    win chance. The facts the line cites go on the blackboard for the Fact Checker."""
+async def run_moment_line(deps, f: dict, line: dict) -> None:
+    """Video v4/v5: the same executors on the moment with the reviewed line; the metric is track A's goal chance in
+    the next 10 s (v4: cache/v4/goal10_decision, n worlds per option) or real-data xG (v5: cache/v5/xg_decision,
+    deterministic); no counterfactual and no win chance. The facts the line cites go on the blackboard."""
     from newsroom.cuebus import CueBus
     from newsroom.executors.base import trace_id_for
     from newsroom.executors.director import DirectorExecutor
@@ -216,16 +220,20 @@ async def run_moment_v4(deps, f: dict, line: dict) -> None:
     players = [x["pid"] for x in (d["holder"], d["alternative"]["target"]) if x and x.get("pid")]
     for fact in line["facts"]:
         deps.bb.put("facts", fact)
+    v5 = line["beat"] == "v5_line"
+    metric = ({"xg_decision": {"actual": round(d["actual"]["xg"], 2), "alternative": round(d["alternative"]["xg_after_pass"], 2),
+                      "verdict": line["verdict"], "source": line["source"]}} if v5 else
+              {"goal_in_10s": {"actual": d["actual"]["p_goal_10s"], "alternative": d["alternative"]["p_goal_10s"],
+                               "verdict": line["verdict"], "source": line["source"],
+                               "ghost_trail": ghost_trail(f["slug"], f["clip_ms"])}})
     moment = Moment(moment_id=f["moment_id"], match_id=m["match_id"], t_ms=m["t_ms"], clock=m["clock"],
                     period=m["period"], kind="big_chance", leverage=f.get("leverage"), team=team, players=players,
-                    selected_by="producer", clip_ms=f["clip_ms"],
-                    goal_in_10s={"actual": d["actual"]["p_goal_10s"], "alternative": d["alternative"]["p_goal_10s"],
-                                 "verdict": line["verdict"], "source": line["source"],
-                                 "ghost_trail": ghost_trail(f["slug"], f["clip_ms"])})
+                    selected_by="producer", clip_ms=f["clip_ms"], **metric)
     deps.bb.put("moments", moment.model_dump())
     run_id = f"run_{m['match_id']}_{f['moment_id']}"
-    alt = next(o["option"] for o in decision_options(f["slug"], f["clip_ms"])
-               if o.get("p_goal_10s") == d["alternative"]["p_goal_10s"] and "diff_vs_actual" in o)
+    alt = {"kind": "pass", "target": d["alternative"]["label"]} if v5 else \
+        next(o["option"] for o in decision_options(f["slug"], f["clip_ms"])
+             if o.get("p_goal_10s") == d["alternative"]["p_goal_10s"] and "diff_vs_actual" in o)
     env = RolloutDone(run_id=run_id, branch="explained", moment=moment, agent_path=list(PRECOMPUTED),
                       trace_id=trace_id_for(run_id), alternatives=[alt], counterfactual=None,
                       decision={"t_ms": m["t_ms"], "actor": (d["holder"] or {}).get("pid"),
@@ -233,11 +241,19 @@ async def run_moment_v4(deps, f: dict, line: dict) -> None:
                                 "actual": m["actual"], "anchor_event_id": None})
     _trace(deps.bb, env, "ingest", "ok", note="real-clip moment from the frozen frame (tracking)")
     _trace(deps.bb, env, "scout", "routed", note="producer-selected real-clip moment")
-    _trace(deps.bb, env, "proposer", "ok", model="every team-mate and a carry",
-           note=f"alternatives: every labelled team-mate and a carry; shown: {d['alternative']['choice']}")
-    _trace(deps.bb, env, "rollout", "ok", model=d["engine"],
-           note=f"goal in the next {d['horizon_s']:g} s: {d['n']} worlds per option, seed {d['seed']} "
-                f"(precomputed); {line['verdict'].replace('_', ' ')} on the 95% intervals")
+    if v5:
+        _trace(deps.bb, env, "proposer", "ok", model="every team-mate in view",
+               note=f"passes to every team-mate in view (offside positions left out: "
+                    f"{', '.join(d['excluded_offside']) or 'none'}); shown: {d['alternative']['choice']}")
+        _trace(deps.bb, env, "rollout", "ok", model="reference xG + pass model",
+               note=f"{d['formula']} (deterministic, precomputed); {line['verdict'].replace('_', ' ')} on the shown "
+                    "values (0.02 xG apart or more)")
+    else:
+        _trace(deps.bb, env, "proposer", "ok", model="every team-mate and a carry",
+               note=f"alternatives: every labelled team-mate and a carry; shown: {d['alternative']['choice']}")
+        _trace(deps.bb, env, "rollout", "ok", model=d["engine"],
+               note=f"goal in the next {d['horizon_s']:g} s: {d['n']} worlds per option, seed {d['seed']} "
+                    f"(precomputed); {line['verdict'].replace('_', ' ')} on the 95% intervals")
     steps = [TacticianExecutor("tactician", deps), NarratorExecutor("narrator", deps),
              FactCheckExecutor("factcheck", deps), DirectorExecutor("director", deps), CueBus("cuebus", deps)]
     msg = env
@@ -347,8 +363,9 @@ def write_sqlite(slug: str, out: list[dict], evidence_lines: list[str], path) ->
             for fact in (json.loads(f.read_text())["result"].get("caption") or {}).get("facts", []):
                 bb.put("facts", fact)
                 n += 1
-    for f in (clip_dir(slug) / "cache" / "v4").glob("lines_*.json"):       # video v4: the facts a v4 cue cites
-        for fact in json.loads(f.read_text())["result"]["facts"]:
+    for f in load_config()["featured"]:                                    # video v4/v5: the facts the cue cites
+        line = video_line(slug, f["clip_ms"]) if f["slug"] == slug else None   # (the aired version's only)
+        for fact in (line or {}).get("facts", []):
             bb.put("facts", fact)
             n += 1
     fo = clip_dir(slug) / "cache" / "fourth_official" / "evidence_772400.jsonl"
@@ -382,15 +399,15 @@ def run(slug: str) -> dict:
     bb = Recording(raw, None)
     ros = roster(slug)
     for f in featured:
-        line = v4_line(slug, f["clip_ms"])
-        if line:                          # video v4: goal chance in the next 10 s, the reviewed v4 line
+        line = video_line(slug, f["clip_ms"])
+        if line:                          # video v4/v5: the reviewed line of the latest version
             body = {"headline": line["lower_third"], "body": line["why"], "claims": [c["text"] for c in line["claims"]]}
             llm = CachedAnswers({"why": line["why"], "claims": line["claims"], "confidence": line["confidence"]},
                                 body, line.get("model") or "gemini-4-argon",
                                 {"explanation": line["cache_key"], "line": line["cache_key"]})
             deps = Deps(bb=bb, llm=llm, rollout=EvidenceTools(raw), mode="replay",
                         state={"tactician_prompt": line["prompt_version"]})
-            asyncio.run(run_moment_v4(deps, {**f, "leverage": leverage(slug, f["clip_ms"])}, line))
+            asyncio.run(run_moment_line(deps, {**f, "leverage": leverage(slug, f["clip_ms"])}, line))
             continue
         exp_entry = cache.find(moment_id=f["moment_id"], producer="explanation", version="explanation@reviewed")[0]
         line_entry = cache.find(moment_id=f["moment_id"], producer="narrator", version="footage_line@1")[0]

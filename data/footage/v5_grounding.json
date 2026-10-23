@@ -1,0 +1,468 @@
+{
+ "$schema": "model_cache.schema.json",
+ "schema_version": "1.0.0",
+ "record": "tool_result",
+ "result": {
+  "card_line": "100 of 103 on-screen numbers bound to verified evidence (97 of 99 claims verified)",
+  "claims": 99,
+  "claims_verified": 97,
+  "numbers": 103,
+  "numbers_bound": 100,
+  "groups": {
+   "studio cue": {
+    "items": 2,
+    "numbers": 10,
+    "numbers_bound": 10,
+    "claims": 10,
+    "claims_verified": 10
+   },
+   "v5 line": {
+    "items": 6,
+    "numbers": 19,
+    "numbers_bound": 19,
+    "claims": 16,
+    "claims_verified": 16
+   },
+   "v5 overlay": {
+    "items": 15,
+    "numbers": 56,
+    "numbers_bound": 54,
+    "claims": 56,
+    "claims_verified": 54
+   },
+   "video caption": {
+    "items": 13,
+    "numbers": 18,
+    "numbers_bound": 17,
+    "claims": 17,
+    "claims_verified": 17
+   }
+  },
+  "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
+  "scope": "text and numbers that reach the screen in video v5 (real-data xG): the re-recorded studio cue, the v5 lines, every number the v5 freeze, xG montage, xG race and pass X-ray print, burnt-in captions (edit_v5.yaml)",
+  "rows": [
+   {
+    "group": "studio cue",
+    "item": "liverpool-mancity-2526 sliding_doors (cue)",
+    "cue_id": "c_000011",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "studio cue",
+    "item": "liverpool-mancity-2526 recap (held recap)",
+    "cue_id": "c_000094",
+    "claims": 7,
+    "claims_verified": 7,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v5 line",
+    "item": "arsenal-chelsea-2526 79:10 (close_call)",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v5/lines_1300500.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v5 line",
+    "item": "liverpool-mancity-2526 86:23 (close_call)",
+    "file": "data/footage/liverpool-mancity-2526/cache/v5/lines_875000.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v5 line",
+    "item": "manutd-mancity-2526 64:27 (finishing)",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/lines_1079360.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "v5 line",
+    "item": "manutd-mancity-2526 75:28 (finishing)",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/lines_1189840.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "v5 line",
+    "item": "manutd-mancity-2526 56:41 (alternative_better)",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/lines_877000.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "v5 line",
+    "item": "manutd-spurs-2425 38:02 (shot_only)",
+    "file": "data/footage/manutd-spurs-2425/cache/v5/lines_682800.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "arsenal-chelsea-2526 79:10 freeze (close_call)",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v5/xg_decision_1300500.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "liverpool-mancity-2526 86:23 freeze (close_call)",
+    "file": "data/footage/liverpool-mancity-2526/cache/v5/xg_decision_875000.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "manutd-mancity-2526 64:27 freeze (finishing)",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_1079360.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "manutd-mancity-2526 75:28 freeze (finishing)",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_1189840.json",
+    "claims": 3,
+    "claims_verified": 2,
+    "numbers": 3,
+    "numbers_bound": 2,
+    "diff": [
+     "goal flash: prints 0.30, line shows 0.48"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "manutd-mancity-2526 56:41 freeze (alternative_better)",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json",
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "manutd-spurs-2425 38:02 freeze (shot_only)",
+    "file": "data/footage/manutd-spurs-2425/cache/v5/xg_decision_682800.json",
+    "claims": 3,
+    "claims_verified": 2,
+    "numbers": 3,
+    "numbers_bound": 2,
+    "diff": [
+     "shot: prints 0.04, line shows 0.08"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "arsenal-chelsea-2526 xG montage",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v5/shots_0.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "arsenal-chelsea-2526 xG race totals",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v5/xg_race_0.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "liverpool-mancity-2526 xG montage",
+    "file": "data/footage/liverpool-mancity-2526/cache/v5/shots_0.json",
+    "claims": 10,
+    "claims_verified": 10,
+    "numbers": 10,
+    "numbers_bound": 10,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "liverpool-mancity-2526 xG race totals",
+    "file": "data/footage/liverpool-mancity-2526/cache/v5/xg_race_0.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "manutd-mancity-2526 xG montage",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/shots_0.json",
+    "claims": 8,
+    "claims_verified": 8,
+    "numbers": 8,
+    "numbers_bound": 8,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "manutd-mancity-2526 xG race totals",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/xg_race_0.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "manutd-spurs-2425 xG montage",
+    "file": "data/footage/manutd-spurs-2425/cache/v5/shots_0.json",
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "manutd-spurs-2425 xG race totals",
+    "file": "data/footage/manutd-spurs-2425/cache/v5/xg_race_0.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "v5 overlay",
+    "item": "Man Utd v Spurs pass X-ray tags (xG after the pass)",
+    "file": "data/footage/manutd-spurs-2425/cache/v5/pass_xray_xg_240000.json",
+    "claims": 0,
+    "claims_verified": 0,
+    "numbers": 0,
+    "numbers_bound": 0,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Liverpool v Man City. Szoboszlai's free kick: 0.02 xG. In.",
+    "sources": [
+     "v5 shots_0 e_0006 xg"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Silva equalises: 0.28 xG.",
+    "sources": [
+     "v5 shots_0 e_0027 xg"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Haaland's penalty: 0.76.",
+    "sources": [
+     "v5 shots_0 e_0048 xg"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "86th minute, all square. Szoboszlai shoots from 29 m.",
+    "sources": [
+     "e_0033",
+     "v5 shots_0 e_0033 distance_m"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "0.02 xG: the keeper, the cone, the bodies in the way. Blocked.",
+    "sources": [
+     "v5 shots_0 e_0033 xg"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Man Utd v Man City. Amad shoots from here: 0.06 xG.",
+    "sources": [
+     "f_607701"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "The pass into the box was worth 0.11, almost twice as much.",
+    "sources": [
+     "f_607702"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Seconds later, 0.32 xG: saved.",
+    "sources": [
+     "v5 shots_0 e_0038 xg"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
+    "claims": 0,
+    "claims_verified": 0,
+    "numbers": 1,
+    "numbers_bound": 0,
+    "diff": [
+     "no source declared"
+    ],
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved.",
+    "sources": [
+     "v5 shots_0 e_0046 distance_m",
+     "v5 shots_0 e_0046 xg"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Mbeumo from here: 0.10 xG.",
+    "sources": [
+     "f_607931"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Dorgu, from 4.5 m: 0.48 xG.",
+    "sources": [
+     "v5 shots_0 e_0054 distance_m",
+     "f_608981"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20.",
+    "sources": [
+     "description.json title (Final 20 Minutes)",
+     "v5 xg_race_0 final away_xg",
+     "v5 xg_race_0 final home_xg"
+    ],
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   }
+  ],
+  "unbound": [
+   {
+    "item": "manutd-mancity-2526 75:28 freeze (finishing)",
+    "diff": [
+     "goal flash: prints 0.30, line shows 0.48"
+    ],
+    "owner": "track C: print actual.strike_xg on a finishing beat (the shot he scored)"
+   },
+   {
+    "item": "manutd-spurs-2425 38:02 freeze (shot_only)",
+    "diff": [
+     "shot: prints 0.04, line shows 0.08"
+    ],
+    "owner": "track C: print actual.strike_xg on a shot-only beat (the reviewed strike)"
+   },
+   {
+    "item": "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
+    "diff": [
+     "no source declared"
+    ],
+    "owner": "track C: cut the caption (track A 115f6a0: the X-ray was a clearance)"
+   }
+  ],
+  "pending": [],
+  "edit": "packages/demo/edit_v5.yaml"
+ }
+}

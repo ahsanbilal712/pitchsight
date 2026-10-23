@@ -1,0 +1,47 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.004802,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "player",
+    "text": "Patrick Dorgu",
+    "unit": "",
+    "value_text": "p_935"
+   },
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "team",
+    "text": "Man Utd",
+    "unit": "",
+    "value_text": "man_utd"
+   },
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "number",
+    "text": "0.48",
+    "unit": "xg",
+    "value_number": 0.48
+   }
+  ],
+  "confidence": 0.98,
+  "lower_third": "Patrick Dorgu scores: shot xG 0.48",
+  "why": "Patrick Dorgu scores for Man Utd from a shot with 0.48 xG."
+ },
+ "latency_ms": 7840,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1189840,\"clock\":\"75:28\",\"team\":\"Man Utd\",\"verdict\":\"finishing\",\"real_outcome\":\"Dorgu scores\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Patrick Dorgu\",\"pid\":\"p_935\",\"describe\":\"the team-mate in the box, central\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.48,\"measured\":\"xG of the shot he scored, at the strike (reviewed frame)\",\"fact\":\"f_608981\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":null},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_608981\",\"match_id\":\"m_9002\",\"label\":\"xG of the shot he scored, at the strike (reviewed frame) (published PL reference model)\",\"value\":0.48,\"unit\":\"xg\",\"display\":\"0.48\",\"source\":\"cache/v5/xg_decision_1189840.json\",\"players\":[\"p_935\"],\"role\":\"actual\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Patrick Dorgu scores: shot xG 0.48\",\"why\":\"Patrick Dorgu scores for Man Utd from a shot with 0.48 xG.\",\"confidence\":0.98,\"claims\":[{\"text\":\"Patrick Dorgu\",\"kind\":\"player\",\"value_text\":\"p_935\",\"unit\":\"\",\"evidence_ids\":[\"f_608981\"]},{\"text\":\"Man Utd\",\"kind\":\"team\",\"value_text\":\"man_utd\",\"unit\":\"\",\"evidence_ids\":[\"f_608981\"]},{\"text\":\"0.48\",\"kind\":\"number\",\"value_number\":0.48,\"unit\":\"xg\",\"evidence_ids\":[\"f_608981\"]}]}",
+ "tokens_in": 1531,
+ "tokens_out": 174,
+ "via": "live"
+}

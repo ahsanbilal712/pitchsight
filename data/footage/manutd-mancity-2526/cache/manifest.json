@@ -128,6 +128,54 @@
    "version": "insight_footage@5.goal10_1189840.n2000s4242"
   },
   {
+   "cost_usd": 0.004374,
+   "created_at": "2026-10-23T10:40:38Z",
+   "hand_reviewed": false,
+   "key": "m_9002/match/insight@insight_footage@6.xg_1079360/gemini-4-argon/s9002",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "captions/v5_1079360_insight_footage@6.json",
+   "producer": "insight",
+   "seed": 9002,
+   "sha256": "05646b48d38952ab47c631d1203214b7d13517e2f479d52826b9096d1e56d1fd",
+   "tokens_in": 1507,
+   "tokens_out": 136,
+   "version": "insight_footage@6.xg_1079360"
+  },
+  {
+   "cost_usd": 0.004802,
+   "created_at": "2026-10-23T10:43:33Z",
+   "hand_reviewed": false,
+   "key": "m_9002/match/insight@insight_footage@6.xg_1189840/gemini-4-argon/s9002",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "captions/v5_1189840_insight_footage@6.json",
+   "producer": "insight",
+   "seed": 9002,
+   "sha256": "5a28e4f4fae17bc988dc1bfe05e20c889fd8f912124560bfaa32788bb7d02bd7",
+   "tokens_in": 1531,
+   "tokens_out": 174,
+   "version": "insight_footage@6.xg_1189840"
+  },
+  {
+   "cost_usd": 0.006726,
+   "created_at": "2026-10-23T10:40:22Z",
+   "hand_reviewed": false,
+   "key": "m_9002/match/insight@insight_footage@6.xg_877000/gemini-4-argon/s9002",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "captions/v5_877000_insight_footage@6.json",
+   "producer": "insight",
+   "seed": 9002,
+   "sha256": "88a5ba6af0873c673d2482f5de828482eff0aca87b9d832500acd26a9fe6b413",
+   "tokens_in": 1853,
+   "tokens_out": 302,
+   "version": "insight_footage@6.xg_877000"
+  },
+  {
    "created_at": "2026-10-23T08:54:34Z",
    "hand_reviewed": true,
    "key": "m_9002/match/v3@ghost_defender_1078360/none/s9002",
@@ -310,6 +358,45 @@
    "version": "line_877000"
   },
   {
+   "created_at": "2026-10-23T10:52:30Z",
+   "hand_reviewed": true,
+   "key": "m_9002/match/v5@line_1079360/none/s9002",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v5/lines_1079360.json",
+   "producer": "v5",
+   "seed": 9002,
+   "sha256": "9c113392968c6cf7ef9ca1635094b94b454e7ec8fd632e0c952d929832625c7f",
+   "version": "line_1079360"
+  },
+  {
+   "created_at": "2026-10-23T10:52:30Z",
+   "hand_reviewed": true,
+   "key": "m_9002/match/v5@line_1189840/none/s9002",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v5/lines_1189840.json",
+   "producer": "v5",
+   "seed": 9002,
+   "sha256": "fbf892baf05feaecd034b131cdf4a686f46367913c8e80ec81a071f3530707ae",
+   "version": "line_1189840"
+  },
+  {
+   "created_at": "2026-10-23T10:43:48Z",
+   "hand_reviewed": true,
+   "key": "m_9002/match/v5@line_877000/none/s9002",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v5/lines_877000.json",
+   "producer": "v5",
+   "seed": 9002,
+   "sha256": "d1733da6f44fb257e05ff20a38b8a98373b7bc4ff4464f0e73e9a5d8f1495910",
+   "version": "line_877000"
+  },
+  {
    "created_at": "2026-10-23T10:39:34Z",
    "hand_reviewed": false,
    "key": "m_9002/match/v5@shots_0/none/s9002",
@@ -451,10 +538,10 @@
  "match_seed": 9002,
  "schema_version": "1.0.0",
  "totals": {
-  "cost_usd": 0.052864,
-  "entries": 32,
-  "tokens_in": 16107,
-  "tokens_out": 2065
+  "cost_usd": 0.068766,
+  "entries": 38,
+  "tokens_in": 20998,
+  "tokens_out": 2677
  },
  "tracking_sha256": "580b4d1830cae4cd5f8bd0206213d0e2eab7162d5a0f53a688efebcc57f2122d"
 }

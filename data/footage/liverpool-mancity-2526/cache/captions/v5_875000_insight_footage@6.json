@@ -1,0 +1,48 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.00595,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607501",
+     "f_607502"
+    ],
+    "kind": "player",
+    "text": "Dominik Szoboszlai",
+    "unit": "",
+    "value_text": "p_912"
+   },
+   {
+    "evidence_ids": [
+     "f_607501"
+    ],
+    "kind": "number",
+    "text": "0.02",
+    "unit": "xg",
+    "value_number": 0.02
+   },
+   {
+    "evidence_ids": [
+     "f_607502"
+    ],
+    "kind": "number",
+    "text": "0.03",
+    "unit": "xg",
+    "value_number": 0.03
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "CLOSE CALL: SHOT 0.02 XG, PASS 0.03 XG AFTER THE PASS",
+  "why": "Dominik Szoboszlai's blocked shot is 0.02 xG, a close call with 0.03 xG after the pass to the team-mate at the edge of the box, central."
+ },
+ "latency_ms": 9913,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":875000,\"clock\":\"86:23\",\"team\":\"Liverpool\",\"verdict\":\"close_call\",\"real_outcome\":\"shot blocked by a defender\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Dominik Szoboszlai\",\"pid\":\"p_912\",\"describe\":\"the team-mate further out, on the right\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.02,\"fact\":\"f_607501\"},\"alternative\":{\"choice\":\"pass to the team-mate at the edge of the box, central\",\"xg_after_pass\":0.03,\"p_pass\":0.56,\"xg_receiver\":0.06,\"label\":\"L4\",\"offside_margin_m\":-3.67,\"fact\":\"f_607502\",\"target\":{\"name\":null,\"pid\":null,\"describe\":\"the team-mate at the edge of the box, central\"}},\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":\"Pass\"},\"excluded_offside\":[\"L5\"],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_607501\",\"match_id\":\"m_9001\",\"label\":\"shot xG (published PL reference model) from where he shot\",\"value\":0.02,\"unit\":\"xg\",\"display\":\"0.02\",\"source\":\"cache/v5/xg_decision_875000.json\",\"players\":[\"p_912\"],\"role\":\"actual\"},{\"fact_id\":\"f_607502\",\"match_id\":\"m_9001\",\"label\":\"xG after the pass (P(pass completes) x reference xG at the receiver)\",\"value\":0.03,\"unit\":\"xg\",\"display\":\"0.03\",\"source\":\"cache/v5/xg_decision_875000.json\",\"players\":[\"p_912\"],\"role\":\"alternative\"},{\"fact_id\":\"f_607504\",\"match_id\":\"m_9001\",\"label\":\"chance the pass completes (pass model)\",\"value\":0.56,\"unit\":\"percent\",\"display\":\"56%\",\"source\":\"cache/v5/xg_decision_875000.json\",\"role\":\"p_pass\"},{\"fact_id\":\"f_607505\",\"match_id\":\"m_9001\",\"label\":\"reference xG of a shot from the receiver's spot\",\"value\":0.06,\"unit\":\"xg\",\"display\":\"0.06\",\"source\":\"cache/v5/xg_decision_875000.json\",\"role\":\"xg_receiver\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"CLOSE CALL: SHOT 0.02 XG, PASS 0.03 XG AFTER THE PASS\",\"why\":\"Dominik Szoboszlai's blocked shot is 0.02 xG, a close call with 0.03 xG after the pass to the team-mate at the edge of the box, central.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Dominik Szoboszlai\",\"kind\":\"player\",\"value_text\":\"p_912\",\"unit\":\"\",\"evidence_ids\":[\"f_607501\",\"f_607502\"]},{\"text\":\"0.02\",\"kind\":\"number\",\"value_number\":0.02,\"unit\":\"xg\",\"evidence_ids\":[\"f_607501\"]},{\"text\":\"0.03\",\"kind\":\"number\",\"value_number\":0.03,\"unit\":\"xg\",\"evidence_ids\":[\"f_607502\"]}]}",
+ "tokens_in": 1860,
+ "tokens_out": 223,
+ "via": "live"
+}

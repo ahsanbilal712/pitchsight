@@ -1,0 +1,89 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "v5_line",
+  "cache_key": "m_9002/match/insight@insight_footage@6.xg_1079360/gemini-4-argon/s9002",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Mbeumo",
+    "unit": null,
+    "value": "p_932",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.10",
+    "unit": "xg",
+    "value": 0.1,
+    "verified": true
+   }
+  ],
+  "clip_ms": 1079360,
+  "clock": "64:27",
+  "confidence": 0.95,
+  "decision": {
+   "actual": {
+    "choice": "shoot",
+    "fact": "f_607931",
+    "measured": "xG of the shot he took, at the strike (reviewed frame)",
+    "xg": 0.1
+   },
+   "alternative": null,
+   "clip_ms": 1079360,
+   "clock": "64:27",
+   "excluded_offside": [],
+   "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+   "holder": {
+    "describe": "the team-mate in the box, on the left",
+    "name": "Bryan Mbeumo",
+    "pid": "p_932"
+   },
+   "metric": "xG (published reference model); after a pass: P(complete) x xG",
+   "overlay_labels": {
+    "actual": "Shot",
+    "alternative": null
+   },
+   "real_outcome": "Mbeumo scores",
+   "team": "Man Utd",
+   "verdict": "finishing"
+  },
+  "display": {
+   "f_607931": "0.10"
+  },
+  "facts": [
+   {
+    "display": "0.10",
+    "fact_id": "f_607931",
+    "label": "xG of the shot he took, at the strike (reviewed frame) (published PL reference model)",
+    "match_id": "m_9002",
+    "players": [
+     "p_932"
+    ],
+    "role": "actual",
+    "source": "cache/v5/xg_decision_1079360.json",
+    "unit": "xg",
+    "value": 0.1
+   }
+  ],
+  "hand_reviewed": true,
+  "lower_third": "Mbeumo scores from a 0.10 xG chance",
+  "match_id": "m_9002",
+  "model": "gemini-4-argon",
+  "prompt_version": "insight_footage@6",
+  "slug": "manutd-mancity-2526",
+  "source": "cache/v5/xg_decision_1079360.json",
+  "verdict": "finishing",
+  "why": "Mbeumo scores from a chance worth 0.10 xG."
+ },
+ "schema_version": "1.0.0"
+}

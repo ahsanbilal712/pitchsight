@@ -26,10 +26,25 @@ def test_a_wrong_number_is_caught():
 
 
 def test_v4_lines_studio_and_captions_are_bound_and_the_overlay_is_checked():
-    assert version_of(latest_edit()) == "v4"
-    r = run("v4", latest_edit())
+    edit = latest_edit().with_name("edit_v4.yaml")
+    assert version_of(edit) == "v4" and version_of(latest_edit()) >= "v4"
+    r = run("v4", edit)
     for g in ("studio cue", "v4 line", "video caption"):
         x = r["groups"][g]
         assert x["numbers_bound"] == x["numbers"] > 0 and x["claims_verified"] == x["claims"], (g, x)
     assert r["groups"]["v4 overlay"]["items"] == 9      # six decision cards, the X-ray tags, the Oracle card, ghost footer
+    assert "win" not in " ".join(row["item"] for row in r["rows"]).lower()
+
+
+def test_v5_lines_studio_and_captions_are_bound():
+    from footage.grounding import ROOT
+
+    r = run("v5", ROOT / "packages" / "demo" / "edit_v5.yaml")
+    for g in ("studio cue", "v5 line"):
+        x = r["groups"][g]
+        assert x["numbers_bound"] == x["numbers"] > 0 and x["claims_verified"] == x["claims"], (g, x)
+    # whatever is not bound yet is listed with the change that binds it; nothing unexplained
+    assert all(u["owner"] != "open" for u in r["unbound"]), r["unbound"]
+    assert r["numbers"] - r["numbers_bound"] == sum(
+        row["numbers"] - row["numbers_bound"] for row in r["rows"] if row["item"] in {u["item"] for u in r["unbound"]})
     assert "win" not in " ".join(row["item"] for row in r["rows"]).lower()

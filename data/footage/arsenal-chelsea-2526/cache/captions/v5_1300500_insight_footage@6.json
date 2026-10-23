@@ -1,0 +1,48 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.005924,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_600051",
+     "f_600052"
+    ],
+    "kind": "player",
+    "text": "Eberechi Eze",
+    "unit": "",
+    "value_text": "p_948"
+   },
+   {
+    "evidence_ids": [
+     "f_600051"
+    ],
+    "kind": "number",
+    "text": "0.05",
+    "unit": "xg",
+    "value_number": 0.05
+   },
+   {
+    "evidence_ids": [
+     "f_600052"
+    ],
+    "kind": "number",
+    "text": "0.06",
+    "unit": "xg",
+    "value_number": 0.06
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Eberechi Eze: 0.05 xG shot, 0.06 xG pass",
+  "why": "It is a close call as Eberechi Eze's saved shot is 0.05 xG while the pass to the team-mate in the box, central is 0.06 xG after the pass."
+ },
+ "latency_ms": 9273,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1300500,\"clock\":\"79:10\",\"team\":\"Arsenal\",\"verdict\":\"close_call\",\"real_outcome\":\"shot saved by S\u00e1nchez\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Eberechi Eze\",\"pid\":\"p_948\",\"describe\":\"the team-mate at the edge of the box, on the right\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.05,\"fact\":\"f_600051\"},\"alternative\":{\"choice\":\"pass to the team-mate in the box, central\",\"xg_after_pass\":0.06,\"p_pass\":0.58,\"xg_receiver\":0.11,\"label\":\"A7\",\"offside_margin_m\":-1.41,\"fact\":\"f_600052\",\"target\":{\"name\":null,\"pid\":null,\"describe\":\"the team-mate in the box, central\"}},\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":\"Pass\"},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_600051\",\"match_id\":\"m_9003\",\"label\":\"shot xG (published PL reference model) from where he shot\",\"value\":0.05,\"unit\":\"xg\",\"display\":\"0.05\",\"source\":\"cache/v5/xg_decision_1300500.json\",\"players\":[\"p_948\"],\"role\":\"actual\"},{\"fact_id\":\"f_600052\",\"match_id\":\"m_9003\",\"label\":\"xG after the pass (P(pass completes) x reference xG at the receiver)\",\"value\":0.06,\"unit\":\"xg\",\"display\":\"0.06\",\"source\":\"cache/v5/xg_decision_1300500.json\",\"players\":[\"p_948\"],\"role\":\"alternative\"},{\"fact_id\":\"f_600054\",\"match_id\":\"m_9003\",\"label\":\"chance the pass completes (pass model)\",\"value\":0.58,\"unit\":\"percent\",\"display\":\"58%\",\"source\":\"cache/v5/xg_decision_1300500.json\",\"role\":\"p_pass\"},{\"fact_id\":\"f_600055\",\"match_id\":\"m_9003\",\"label\":\"reference xG of a shot from the receiver's spot\",\"value\":0.11,\"unit\":\"xg\",\"display\":\"0.11\",\"source\":\"cache/v5/xg_decision_1300500.json\",\"role\":\"xg_receiver\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Eberechi Eze: 0.05 xG shot, 0.06 xG pass\",\"why\":\"It is a close call as Eberechi Eze's saved shot is 0.05 xG while the pass to the team-mate in the box, central is 0.06 xG after the pass.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Eberechi Eze\",\"kind\":\"player\",\"value_text\":\"p_948\",\"unit\":\"\",\"evidence_ids\":[\"f_600051\",\"f_600052\"]},{\"text\":\"0.05\",\"kind\":\"number\",\"value_number\":0.05,\"unit\":\"xg\",\"evidence_ids\":[\"f_600051\"]},{\"text\":\"0.06\",\"kind\":\"number\",\"value_number\":0.06,\"unit\":\"xg\",\"evidence_ids\":[\"f_600052\"]}]}",
+ "tokens_in": 1852,
+ "tokens_out": 222,
+ "via": "live"
+}

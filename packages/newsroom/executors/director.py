@@ -167,15 +167,16 @@ class DirectorExecutor(NewsroomExecutor):
         g: dict = {"players_highlight": [p for p in m.players if isinstance(p, str) and len(p) == 5][:6],
                    "lines": []}
         cf = msg.counterfactual
-        g10 = getattr(m, "goal_in_10s", None)
-        if g10:          # real-clip v4: the precomputed goal chance in the next 10 s, never win chance
+        g10, xg = getattr(m, "goal_in_10s", None), getattr(m, "xg_decision", None)
+        if g10 or xg:    # real clips: v4 goal chance in the next 10 s, v5 xG (shot v pass); never win chance
             meta = self.deps.bb.query("events", match_id=m.match_id, type="match_metadata", limit=1)
             clubs = (meta[0]["attrs"].get("clubs") or {}) if meta else {}
             club = meta[0]["attrs"].get(m.team) if meta and m.team else None
             name = clubs.get(club, {}).get("short_name", "Attacking team")
-            g["bar"] = {"label": f"{name} goal chance, next 10 s", "from": g10["actual"], "to": g10["alternative"]}
-            if g10.get("ghost_trail"):
-                g["ghost_trail"] = g10["ghost_trail"]
+            metric, label = (xg, f"{name} xG, shot v pass") if xg else (g10, f"{name} goal chance, next 10 s")
+            g["bar"] = {"label": label, "from": metric["actual"], "to": metric["alternative"]}
+            if metric.get("ghost_trail"):
+                g["ghost_trail"] = metric["ghost_trail"]
         elif cf:
             g["pitch_control_snapshot"] = cf.get("pitch_control_snapshot_id")
             sample = (cf.get("futures_sample") or [[]])[0]

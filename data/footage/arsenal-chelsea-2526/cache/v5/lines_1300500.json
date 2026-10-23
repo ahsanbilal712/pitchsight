@@ -1,0 +1,149 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "v5_line",
+  "cache_key": "m_9003/match/insight@insight_footage@6.xg_1300500/gemini-4-argon/s9003",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_600051"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Eze",
+    "unit": null,
+    "value": "p_948",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_600051"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.05",
+    "unit": "xg",
+    "value": 0.0479,
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_600052"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.06",
+    "unit": "xg",
+    "value": 0.06,
+    "verified": true
+   }
+  ],
+  "clip_ms": 1300500,
+  "clock": "79:10",
+  "confidence": 0.95,
+  "decision": {
+   "actual": {
+    "choice": "shoot",
+    "fact": "f_600051",
+    "measured": "xG of a shot from where he stood at the freeze",
+    "xg": 0.0479
+   },
+   "alternative": {
+    "choice": "pass to the team-mate in the box, central",
+    "fact": "f_600052",
+    "label": "A7",
+    "offside_margin_m": -1.41,
+    "p_pass": 0.58,
+    "target": {
+     "describe": "the team-mate in the box, central",
+     "name": null,
+     "pid": null
+    },
+    "xg_after_pass": 0.06,
+    "xg_receiver": 0.11
+   },
+   "clip_ms": 1300500,
+   "clock": "79:10",
+   "excluded_offside": [],
+   "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+   "holder": {
+    "describe": "the team-mate at the edge of the box, on the right",
+    "name": "Eberechi Eze",
+    "pid": "p_948"
+   },
+   "metric": "xG (published reference model); after a pass: P(complete) x xG",
+   "overlay_labels": {
+    "actual": "Shot",
+    "alternative": "Pass"
+   },
+   "real_outcome": "shot saved by S\u00e1nchez",
+   "team": "Arsenal",
+   "verdict": "close_call"
+  },
+  "display": {
+   "f_600051": "0.05",
+   "f_600052": "0.06",
+   "f_600054": "58%",
+   "f_600055": "0.11"
+  },
+  "facts": [
+   {
+    "display": "0.05",
+    "fact_id": "f_600051",
+    "label": "xG of a shot from where he stood at the freeze (published PL reference model)",
+    "match_id": "m_9003",
+    "players": [
+     "p_948"
+    ],
+    "role": "actual",
+    "source": "cache/v5/xg_decision_1300500.json",
+    "unit": "xg",
+    "value": 0.0479
+   },
+   {
+    "display": "0.06",
+    "fact_id": "f_600052",
+    "label": "xG after the pass (P(pass completes) x reference xG at the receiver)",
+    "match_id": "m_9003",
+    "players": [
+     "p_948"
+    ],
+    "role": "alternative",
+    "source": "cache/v5/xg_decision_1300500.json",
+    "unit": "xg",
+    "value": 0.06
+   },
+   {
+    "display": "58%",
+    "fact_id": "f_600054",
+    "label": "chance the pass completes (pass model)",
+    "match_id": "m_9003",
+    "role": "p_pass",
+    "source": "cache/v5/xg_decision_1300500.json",
+    "unit": "percent",
+    "value": 0.58
+   },
+   {
+    "display": "0.11",
+    "fact_id": "f_600055",
+    "label": "reference xG of a shot from the receiver's spot",
+    "match_id": "m_9003",
+    "role": "xg_receiver",
+    "source": "cache/v5/xg_decision_1300500.json",
+    "unit": "xg",
+    "value": 0.11
+   }
+  ],
+  "hand_reviewed": true,
+  "lower_third": "Eze: shot 0.05 xG, pass 0.06 xG, a close call",
+  "match_id": "m_9003",
+  "model": "gemini-4-argon",
+  "prompt_version": "insight_footage@6",
+  "slug": "arsenal-chelsea-2526",
+  "source": "cache/v5/xg_decision_1300500.json",
+  "verdict": "close_call",
+  "why": "From where Eze stands a shot is worth 0.05 xG and the pass to the team-mate in the middle of the box 0.06, a close call; the shot is saved."
+ },
+ "schema_version": "1.0.0"
+}

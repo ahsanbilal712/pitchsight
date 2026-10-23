@@ -5,6 +5,31 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v5: real-data xG lines, studio, grounding 100 of 103 (track B)
+
+- **Lines** `data/footage/<slug>/cache/v5/lines_<clip_ms>.json` (`footage.v5_lines`, prompt `insight_footage@6`;
+  the writer is shared with v4 since 948ade2): gemini-4-argon, Fact Checker, gates, hand review.
+  - Szoboszlai 86:23 "shot 0.02 xG, pass 0.03 xG, a close call" (L5 left out: 0.43 m beyond City's second-last);
+  - Amad 56:41 "shot 0.06 xG, pass 0.11 xG" (arrives 84% of the time);
+  - Eze 79:10 "shot 0.05 xG, pass 0.06 xG, a close call";
+  - Mbeumo "scores from a 0.10 xG chance"; Dorgu "scores from a 0.48 xG chance"; Werner "shot: 0.08 xG, saved".
+  Rule: deterministic numbers, compared as shown (two decimals); "higher" only at 0.02 xG or more, else a close
+  call (track A's comparison_rule agrees). Comparisons use the shot "from where he stands" at the freeze; goals and
+  shot-only beats use the reviewed strike's xG (Dorgu 0.48 at 4.5 m, not 0.30 at the freeze; Werner 0.08).
+- **Studio:** Liverpool re-recorded on the v5 line: bar "Liverpool xG, shot v pass" 0.02 -> 0.03; the moment
+  carries `xg_decision` (renamed from `xg`: synthetic moments already use `xg` for a float); the sqlite loads only
+  the aired line's facts (v4 and v5 fact ids overlap).
+- **Grounding** `python -m footage.grounding --edit packages/demo/edit_v5.yaml` -> `data/footage/v5_grounding.json`:
+  **100 of 103** (97 of 99 claims). Unbound, each listed under `result.unbound` with its owner: Dorgu's goal
+  flash prints the freeze xG 0.30 (line 0.48), Werner's card prints 0.04 (line 0.08), and the Spurs X-ray caption
+  "climbs to 0.32" has no source since track A found the clip's directions reversed (115f6a0: it was a clearance).
+  v4 reads its studio from 6920af1 (170 of 170), v3 from 14d7679 (75 of 75).
+- **Spend:** 8 Argon calls, $0.0369; project $3.5172 of $50. No new GCP resource; quota project ffc-19484.
+- Verification: `pytest tests/footage tests/newsroom tests/cache` 224 passed, 4 skipped (exit 0); ruff clean;
+  validate_schemas OK (5437 documents); check_spend OK.
+
+---
+
 ## 2026-10-23 · Video v4 grounding: 170 of 170 (track B)
 
 - `python -m footage.grounding` on edit_v4.yaml (track C's draft 2, b90a302): **170 of 170 on-screen numbers bound

@@ -87,6 +87,22 @@
    "version": "insight_footage@4.goal10_682800.n2000s4242"
   },
   {
+   "cost_usd": 0.004466,
+   "created_at": "2026-10-23T10:52:16Z",
+   "hand_reviewed": false,
+   "key": "m_9004/match/insight@insight_footage@6.xg_682800/gemini-4-argon/s9004",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "captions/v5_682800_insight_footage@6.json",
+   "producer": "insight",
+   "seed": 9004,
+   "sha256": "03fcf82ca11c90596956e1bea24fe59f2ec0b4634ec153a319ac3ac883ae697c",
+   "tokens_in": 1533,
+   "tokens_out": 140,
+   "version": "insight_footage@6.xg_682800"
+  },
+  {
    "created_at": "2026-10-23T08:47:54Z",
    "hand_reviewed": true,
    "key": "m_9004/match/v3@fourth_official_772400/none/s9004",
@@ -202,6 +218,19 @@
    "seed": 9004,
    "sha256": "d8bee630b3bec816c68fcd8e8aab60e94d4a26c79ded50d63996bdfadc3e2637",
    "version": "pass_xray_goal10_240000"
+  },
+  {
+   "created_at": "2026-10-23T10:52:30Z",
+   "hand_reviewed": true,
+   "key": "m_9004/match/v5@line_682800/none/s9004",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v5/lines_682800.json",
+   "producer": "v5",
+   "seed": 9004,
+   "sha256": "3955516e3e2527759471e36b2b71c69d00bed6c583552de28aea52c9ddd51cd9",
+   "version": "line_682800"
   },
   {
    "created_at": "2026-10-23T10:49:54Z",
@@ -332,10 +361,10 @@
  "match_seed": 9004,
  "schema_version": "1.0.0",
  "totals": {
-  "cost_usd": 0.018662,
-  "entries": 22,
-  "tokens_in": 5276,
-  "tokens_out": 811
+  "cost_usd": 0.023128,
+  "entries": 26,
+  "tokens_in": 6809,
+  "tokens_out": 951
  },
  "tracking_sha256": "6cfd27656873e7e516fcf2daf12f83553406c6ea4e8341e25855ff199f518abe"
 }

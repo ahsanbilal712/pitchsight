@@ -29,6 +29,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 
 import yaml
@@ -38,6 +39,7 @@ from footage.clips import CLIPS, ROOT, clip_dir
 FOOTAGE = ROOT / "data" / "footage"
 OUT = FOOTAGE / "v3_grounding.json"
 V3_FINAL = "14d7679"              # Video v3 final cut: the studio as it was recorded
+V4_FINAL = "6920af1"              # v4 grounding at 170 of 170: the studio before the v5 re-record
 V4_STUDIO = ("liverpool-mancity-2526",)
 DIGITS = re.compile(r"\d")
 THOUSANDS = re.compile(r"(?<=\d),(?=\d{3}\b)")
@@ -85,9 +87,9 @@ def studio_cues(version: str = "v3") -> list[dict]:
     rows = []
     tmp = Path(tempfile.mkdtemp(prefix="grounding_"))
     for slug, clip in CLIPS.items():
-        if version == "v4" and slug not in V4_STUDIO:
+        if version in ("v4", "v5") and slug not in V4_STUDIO:
             continue
-        path = _sqlite_at(slug, V3_FINAL if version == "v3" else None, tmp)
+        path = _sqlite_at(slug, {"v3": V3_FINAL, "v4": V4_FINAL}.get(version), tmp)
         if path is None:
             continue
         bb = SqliteBlackboard(path)
@@ -185,7 +187,7 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
 
     edit = yaml.safe_load((edit_path or ROOT / "packages" / "demo" / f"edit_{version}.yaml").read_text())
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
-    sources = caption_sources() if version == "v3" else v4_caption_sources()
+    sources = {"v3": caption_sources, "v4": v4_caption_sources}.get(version, v5_caption_sources)()
     rows = []
     for n_caption, text in enumerate(shown, 1):
         if not DIGITS.search(text):
@@ -272,6 +274,60 @@ def v4_caption_sources() -> dict[str, list[tuple]]:
     }
 
 
+def v5_caption_sources() -> dict[str, list[tuple]]:
+    """Burnt-in caption text of video v5 -> [(number text, kind, unit, value, (slug, label, how))]: shots and the
+    race from track A's cache/v5 files, freezes from the reviewed v5 lines, the clip's span from its title."""
+    lfc, mci, ars, tot = ("liverpool-mancity-2526", "manutd-mancity-2526", "arsenal-chelsea-2526",
+                          "manutd-spurs-2425")
+
+    def shot(slug, eid):
+        s = next(x for x in _v5(slug, "shots_0.json")["shots"] if x["event_id"] == eid)
+        return s
+
+    def xg_of(tok, slug, eid):
+        return (tok, "number", "xg", shot(slug, eid)["xg"], (slug, f"v5 shots_0 {eid} xg", "fact"))
+
+    def dist_of(tok, slug, eid):
+        return (tok, "number", "metres", shot(slug, eid)["distance_m"], (slug, f"v5 shots_0 {eid} distance_m", "fact"))
+
+    def line(tok, slug, ms, role):
+        f = {f["role"]: f for f in _v5(slug, f"lines_{ms}.json")["facts"]}[role]
+        return (tok, "number", f["unit"], f, (slug, f["fact_id"], "line"))
+
+    race = _v5(lfc, "xg_race_0.json")["series"][-1]
+    xray = max((o for s in _v5(tot, "pass_xray_xg_240000.json")["samples"] for o in s.get("options", [])
+                if o.get("xg_after_pass") is not None), key=lambda o: o["xg_after_pass"], default=None)
+    title = json.loads((clip_dir(lfc) / "description.json").read_text())["title"]
+    return {
+        "Liverpool v Man City. Szoboszlai's free kick: 0.02 xG. In.": [xg_of("0.02", lfc, "e_0006")],
+        "Silva equalises: 0.28 xG.": [xg_of("0.28", lfc, "e_0027")],
+        "Haaland's penalty: 0.76.": [xg_of("0.76", lfc, "e_0048")],
+        "86th minute, all square. Szoboszlai shoots from 29 m.":
+            [("86th minute", "minute", "minute", 86, (lfc, "e_0033", "event")), dist_of("29 m", lfc, "e_0033")],
+        "0.02 xG: the keeper, the cone, the bodies in the way. Blocked.": [xg_of("0.02", lfc, "e_0033")],
+        "Man Utd v Man City. Amad shoots from here: 0.06 xG.": [line("0.06", mci, 877000, "actual")],
+        "The pass into the box was worth 0.11, almost twice as much.": [line("0.11", mci, 877000, "alternative")],
+        "Seconds later, 0.32 xG: saved.": [xg_of("0.32", mci, "e_0038")],
+        **({"Man Utd attack, priced live in xG: the top pass option climbs to 0.32.":
+            [("0.32", "number", "xg", xray["xg_after_pass"],
+              (tot, f"v5 pass_xray_xg_240000 {xray['label']} xg_after_pass", "fact"))]} if xray else {}),
+        # no X-ray values since track A's 115f6a0 (a Man Utd clearance in their own half, not an attack)
+        "Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved.":
+            [dist_of("16 m", ars, "e_0046"), xg_of("0.08", ars, "e_0046")],
+        "Mbeumo from here: 0.10 xG.": [line("0.10", mci, 1079360, "actual")],
+        "Dorgu, from 4.5 m: 0.48 xG.": [dist_of("4.5 m", mci, "e_0054"), line("0.48", mci, 1189840, "actual")],
+        "Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20.":
+            [("20", "number", "count", 20 if "Final 20 Minutes" in title else None,
+              (lfc, "description.json title (Final 20 Minutes)", "fact")),
+             ("1.21", "number", "xg", race["away_xg"], (lfc, "v5 xg_race_0 final away_xg", "fact")),
+             ("0.20", "number", "xg", race["home_xg"], (lfc, "v5 xg_race_0 final home_xg", "fact"))],
+    }
+
+
+def _v5(slug: str, name: str) -> dict:
+    return json.loads((clip_dir(slug) / "cache" / "v5" / name).read_text())["result"]
+
+
 def _xray() -> dict:
     return _beat_v4("manutd-spurs-2425", "pass_xray_goal10_240000.json")
 
@@ -284,16 +340,20 @@ def _beat_v4(slug: str, name: str) -> dict:
 
 def v4_lines() -> list[dict]:
     """The v4 lower-thirds and explanations, against the facts they cite and the clip evidence."""
+    return _lines_rows("v4")
+
+
+def _lines_rows(tag: str) -> list[dict]:
     from footage.insights import evidence_board
 
     rows = []
-    for path in sorted(FOOTAGE.glob("*/cache/v4/lines_*.json")):
+    for path in sorted(FOOTAGE.glob(f"*/cache/{tag}/lines_*.json")):
         line = json.loads(path.read_text())["result"]
         bb = evidence_board(line["slug"], line["facts"])
         claims = [{k: c[k] for k in ("text", "kind", "value", "unit", "evidence_ids")} for c in line["claims"]]
         r = _check(line["match_id"], claims, bb, {"lower_third": line["lower_third"], "why": line["why"]})
         bb.close()
-        rows.append({"group": "v4 line", "item": f"{line['slug']} {line['clock']} ({line['verdict']})",
+        rows.append({"group": f"{tag} line", "item": f"{line['slug']} {line['clock']} ({line['verdict']})",
                      "file": str(path.relative_to(ROOT)), **r})
     return rows
 
@@ -326,11 +386,113 @@ def v4_overlay() -> list[dict]:
 def run(version: str = "v3", edit: Path | None = None) -> dict:
     """Count for one video version; `edit` defaults to packages/demo/edit_<version>.yaml."""
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
+    if version == "v5":
+        captions = video_captions("v5", edit) if edit.exists() else []
+        return _write(studio_cues("v5") + v5_lines() + v5_decisions() + v5_shots_and_race() + v5_xray()
+                      + captions, version, edit)
     if version == "v4":
         captions = video_captions("v4", edit) if edit.exists() else []
         return _write(studio_cues("v4") + v4_lines() + v4_overlay() + v4_xray_overlay() + v4_small_print()
                       + captions, version, edit)
     return _write(studio_cues() + beat_captions() + video_captions("v3", edit), version, edit)
+
+
+# ---------------------------------------------------------------------------------------------------- v5
+
+V5_CITATION = {"8,451": 8451, "2017/18": None}   # the reference model's sample, as the formula line prints it
+
+
+def _row(group: str, item: str, file: str, numbers: int, bound: int, diff: list) -> dict:
+    return {"group": group, "item": item, "file": file, "claims": numbers, "claims_verified": bound,
+            "numbers": numbers, "numbers_bound": bound, "diff": diff, "rejected": []}
+
+
+def v5_lines() -> list[dict]:
+    return [{**r, "group": "v5 line"} for r in _lines_rows("v5")]
+
+
+def v5_decisions() -> list[dict]:
+    """Every number the v5 freeze prints (demo.composite: the shot label and card row, the hero pass and on a
+    'pass higher' beat one secondary, the goal flash on a finishing beat, the formula line), as its code formats
+    it ({:.2f} of the file's two-decimal values). The shot, the hero pass and the goal flash must read exactly as
+    the reviewed line's display; the secondary pass is the file's own value; the formula's numbers are the
+    published model's sample (shots_0 model.xg)."""
+    from footage.names import unverified_in
+
+    rows = []
+    for path in sorted(FOOTAGE.glob("*/cache/v5/xg_decision_*.json")):
+        x = json.loads(path.read_text())["result"]
+        slug, ms = x["slug"], x["clip_ms"]
+        line_path = path.with_name(f"lines_{ms}.json")
+        if not line_path.exists():
+            continue
+        line = json.loads(line_path.read_text())["result"]
+        roles = {f["role"]: f["display"] for f in line["facts"]}
+        shown, diff = [], []
+        finishing = line["verdict"] == "finishing"
+        if finishing:                                   # goal_flash: "<xg> xG · scored"
+            shown.append(("goal flash", f"{x['actual']['xg']:.2f}", roles["actual"]))
+        else:
+            shown.append(("shot", f"{x['actual']['xg']:.2f}", roles["actual"]))
+            if x.get("comparison") in ("pass higher", "close call") and x.get("best_alternative"):
+                hero = x["best_alternative"]
+                shown.append((f"pass {hero['label']}", f"{hero['xg_after_pass']:.2f}", roles.get("alternative")))
+                rest = sorted((o for o in x["alternatives"] if o.get("xg_after_pass") is not None
+                               and o["label"] != hero["label"]), key=lambda o: -o["xg_after_pass"])
+                if rest and x["comparison"] == "pass higher":
+                    o = rest[0]
+                    shown.append((f"secondary pass {o['label']}", f"{o['xg_after_pass']:.2f}",
+                                  f"{o['xg_after_pass']:.2f}"))
+                    if o.get("name") and (bad := unverified_in(slug, o["name"])):
+                        diff.append(f"secondary label names {bad}")
+        formula = x.get("formula", "")
+        cites = [t for t in V5_CITATION if t in formula]
+        diff += [f"{what}: prints {got}, line shows {want}" for what, got, want in shown if got != want]
+        n = len(shown) + len(cites)
+        rows.append(_row("v5 overlay", f"{slug} {x['clock']} freeze ({line['verdict']})",
+                         str(path.relative_to(ROOT)), n, n - len([1 for w, g, v in shown if g != v]), diff))
+    return rows
+
+
+def v5_shots_and_race() -> list[dict]:
+    """The xG montage (each measured shot's xG, its shooter's name only if names_verified has that shot) and the
+    xG race (its running totals must be the sums of the measured shots)."""
+    rows = []
+    for path in sorted(FOOTAGE.glob("*/cache/v5/shots_0.json")):
+        r = json.loads(path.read_text())["result"]
+        slug = r["slug"]
+        shots_v = json.loads((clip_dir(slug) / "names_verified.json").read_text())["shots"]
+        measured = [s for s in r["shots"] if s.get("xg") is not None]
+        diff = [f"{s['event_id']}: name {s['shooter']['name']!r} not verified for this shot" for s in measured
+                if s["shooter"].get("name") and (shots_v.get(s["event_id"]) or {}).get("name") is None]
+        named = sum(1 for s in measured if s["shooter"].get("name"))
+        rows.append(_row("v5 overlay", f"{slug} xG montage", str(path.relative_to(ROOT)), len(measured) + named,
+                         len(measured) + named - len(diff), diff))
+        race_path = path.with_name("xg_race_0.json")
+        if race_path.exists():
+            race = json.loads(race_path.read_text())["result"]
+            last = race["series"][-1]
+            diff = []
+            for side in ("home", "away"):
+                total = round(sum(Decimal(str(s["xg"])) for s in measured if s["team"] == side), 2)
+                if f"{last[f'{side}_xg']:.2f}" != f"{total:.2f}":
+                    diff.append(f"{side} race total {last[f'{side}_xg']:.2f} vs shots {total:.2f}")
+            rows.append(_row("v5 overlay", f"{slug} xG race totals", str(race_path.relative_to(ROOT)), 2,
+                             2 - len(diff), diff))
+    return rows
+
+
+def v5_xray() -> list[dict]:
+    path = FOOTAGE / "manutd-spurs-2425" / "cache" / "v5" / "pass_xray_xg_240000.json"
+    if not path.exists():
+        return []
+    r = json.loads(path.read_text())["result"]
+    tags = [o for s in r["samples"] for o in s.get("options", []) if o.get("xg_after_pass") is not None]
+    bad = [f"{o['label']}: {o['xg_after_pass']} vs exact {o['xg_after_pass_exact']}" for o in tags
+           if o.get("xg_after_pass_exact") is not None
+           and f"{o['xg_after_pass']:.2f}" != f"{Decimal(str(o['xg_after_pass_exact'])).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"]
+    return [_row("v5 overlay", "Man Utd v Spurs pass X-ray tags (xG after the pass)", str(path.relative_to(ROOT)),
+                 len(tags), len(tags) - len(bad), bad)]
 
 
 def v4_small_print() -> list[dict]:
@@ -390,6 +552,17 @@ def _write(rows: list[dict], version: str, edit: Path) -> dict:
               "scope": "text that reaches the screen in video v3: studio cues and the held recap, beat captions, "
                        "burnt-in captions; overlay graphics are drawn from the same beat fields",
               "rows": [{k: v for k, v in r.items() if k != "diff" or v} for r in rows]}
+    if version == "v5":
+        known = {"goal flash": "track C: print actual.strike_xg on a finishing beat (the shot he scored)",
+                 "shot: prints": "track C: print actual.strike_xg on a shot-only beat (the reviewed strike)",
+                 "no source declared": "track C: cut the caption (track A 115f6a0: the X-ray was a clearance)"}
+        result["unbound"] = [{"item": r["item"], "diff": r["diff"],
+                              "owner": next((v for k, v in known.items() if k in json.dumps(r["diff"])), "open")}
+                             for r in rows if r["numbers_bound"] < r["numbers"] or r["claims_verified"] < r["claims"]]
+        result["scope"] = ("text and numbers that reach the screen in video v5 (real-data xG): the re-recorded "
+                           "studio cue, the v5 lines, every number the v5 freeze, xG montage, xG race and pass X-ray "
+                           "print, burnt-in captions (edit_v5.yaml)")
+        result["pending"] = [] if edit.exists() else [f"burnt-in captions: {edit.name} does not exist yet"]
     if version == "v4":
         result["scope"] = ("text and numbers that reach the screen in video v4: the re-recorded studio cue, the v4 "
                            "lines, the v4 decision card, burnt-in captions (edit_v4.yaml)")

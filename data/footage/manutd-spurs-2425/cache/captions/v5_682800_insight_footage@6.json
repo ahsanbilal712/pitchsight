@@ -1,0 +1,38 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.004466,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608281"
+    ],
+    "kind": "player",
+    "text": "Timo Werner",
+    "unit": "",
+    "value_text": "p_960"
+   },
+   {
+    "evidence_ids": [
+     "f_608281"
+    ],
+    "kind": "number",
+    "text": "0.08",
+    "unit": "xg",
+    "value_number": 0.08
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Timo Werner shot saved: 0.08 xG",
+  "why": "Timo Werner takes a shot worth 0.08 xG, and the effort is saved."
+ },
+ "latency_ms": 8515,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":682800,\"clock\":\"38:02\",\"team\":\"Spurs\",\"verdict\":\"shot_only\",\"real_outcome\":\"shot saved by Onana\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Timo Werner\",\"pid\":\"p_960\",\"describe\":\"the team-mate at the edge of the box, on the left\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.08,\"measured\":\"xG of the shot he took, at the strike (reviewed frame)\",\"fact\":\"f_608281\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":null},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_608281\",\"match_id\":\"m_9004\",\"label\":\"xG of the shot he took, at the strike (reviewed frame) (published PL reference model)\",\"value\":0.08,\"unit\":\"xg\",\"display\":\"0.08\",\"source\":\"cache/v5/xg_decision_682800.json\",\"players\":[\"p_960\"],\"role\":\"actual\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Timo Werner shot saved: 0.08 xG\",\"why\":\"Timo Werner takes a shot worth 0.08 xG, and the effort is saved.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Timo Werner\",\"kind\":\"player\",\"value_text\":\"p_960\",\"unit\":\"\",\"evidence_ids\":[\"f_608281\"]},{\"text\":\"0.08\",\"kind\":\"number\",\"value_number\":0.08,\"unit\":\"xg\",\"evidence_ids\":[\"f_608281\"]}]}",
+ "tokens_in": 1533,
+ "tokens_out": 140,
+ "via": "live"
+}

@@ -64,6 +64,22 @@
    "version": "insight_footage@4.goal10_875000.n2000s4242"
   },
   {
+   "cost_usd": 0.00595,
+   "created_at": "2026-10-23T10:40:08Z",
+   "hand_reviewed": false,
+   "key": "m_9001/match/insight@insight_footage@6.xg_875000/gemini-4-argon/s9001",
+   "kind": "analytics",
+   "model": "gemini-4-argon",
+   "moment_id": null,
+   "path": "captions/v5_875000_insight_footage@6.json",
+   "producer": "insight",
+   "seed": 9001,
+   "sha256": "42af2674f82c0c5956f260509e7148e2c0a95cb989884119de250581aa019068",
+   "tokens_in": 1860,
+   "tokens_out": 223,
+   "version": "insight_footage@6.xg_875000"
+  },
+  {
    "created_at": "2026-10-23T07:16:53Z",
    "hand_reviewed": false,
    "key": "m_9001/match/oracle@window_867000/scripted/s9001",
@@ -181,6 +197,19 @@
    "version": "oracle_goal10_867000"
   },
   {
+   "created_at": "2026-10-23T10:43:48Z",
+   "hand_reviewed": true,
+   "key": "m_9001/match/v5@line_875000/none/s9001",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "v5/lines_875000.json",
+   "producer": "v5",
+   "seed": 9001,
+   "sha256": "3ffbd063b59b37dbacd127bedc3bd663ec5651c68dcaf730f6b6ba2213717225",
+   "version": "line_875000"
+  },
+  {
    "created_at": "2026-10-23T10:39:34Z",
    "hand_reviewed": false,
    "key": "m_9001/match/v5@shots_0/none/s9001",
@@ -296,10 +325,10 @@
  "match_seed": 9001,
  "schema_version": "1.0.0",
  "totals": {
-  "cost_usd": 0.029848,
-  "entries": 21,
-  "tokens_in": 9359,
-  "tokens_out": 1113
+  "cost_usd": 0.035798,
+  "entries": 23,
+  "tokens_in": 11219,
+  "tokens_out": 1336
  },
  "tracking_sha256": "e7c7245acf18abcf8859255e10223215a63a86e93a57d93eb8b813df9a07aa1e"
 }

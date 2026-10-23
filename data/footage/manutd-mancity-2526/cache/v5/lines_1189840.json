@@ -1,0 +1,89 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "v5_line",
+  "cache_key": "m_9002/match/insight@insight_footage@6.xg_1189840/gemini-4-argon/s9002",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Dorgu",
+    "unit": null,
+    "value": "p_935",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.48",
+    "unit": "xg",
+    "value": 0.48,
+    "verified": true
+   }
+  ],
+  "clip_ms": 1189840,
+  "clock": "75:28",
+  "confidence": 0.98,
+  "decision": {
+   "actual": {
+    "choice": "shoot",
+    "fact": "f_608981",
+    "measured": "xG of the shot he took, at the strike (reviewed frame)",
+    "xg": 0.48
+   },
+   "alternative": null,
+   "clip_ms": 1189840,
+   "clock": "75:28",
+   "excluded_offside": [],
+   "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+   "holder": {
+    "describe": "the team-mate in the box, central",
+    "name": "Patrick Dorgu",
+    "pid": "p_935"
+   },
+   "metric": "xG (published reference model); after a pass: P(complete) x xG",
+   "overlay_labels": {
+    "actual": "Shot",
+    "alternative": null
+   },
+   "real_outcome": "Dorgu scores",
+   "team": "Man Utd",
+   "verdict": "finishing"
+  },
+  "display": {
+   "f_608981": "0.48"
+  },
+  "facts": [
+   {
+    "display": "0.48",
+    "fact_id": "f_608981",
+    "label": "xG of the shot he took, at the strike (reviewed frame) (published PL reference model)",
+    "match_id": "m_9002",
+    "players": [
+     "p_935"
+    ],
+    "role": "actual",
+    "source": "cache/v5/xg_decision_1189840.json",
+    "unit": "xg",
+    "value": 0.48
+   }
+  ],
+  "hand_reviewed": true,
+  "lower_third": "Dorgu scores from a 0.48 xG chance",
+  "match_id": "m_9002",
+  "model": "gemini-4-argon",
+  "prompt_version": "insight_footage@6",
+  "slug": "manutd-mancity-2526",
+  "source": "cache/v5/xg_decision_1189840.json",
+  "verdict": "finishing",
+  "why": "Dorgu scores from a chance worth 0.48 xG, struck from close in."
+ },
+ "schema_version": "1.0.0"
+}

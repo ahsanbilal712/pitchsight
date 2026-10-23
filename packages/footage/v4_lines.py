@@ -39,7 +39,7 @@ SCHEMA = {"type": "object", "required": ["lower_third", "why", "claims", "confid
         "text": {"type": "string"}, "kind": {"type": "string", "enum": ["number", "player", "team", "minute"]},
         "value_number": {"type": "number"}, "value_text": {"type": "string"}, "unit": {"type": "string"},
         "evidence_ids": {"type": "array", "items": {"type": "string"}}}}}}}
-CLOSE, BETTER, BEST, FINISH = "close_call", "alternative_better", "actual_best", "finishing"
+CLOSE, BETTER, BEST, FINISH, SHOT_ONLY = "close_call", "alternative_better", "actual_best", "finishing", "shot_only"
 
 
 # ---------------------------------------------------------------------------------------------------- numbers
@@ -241,6 +241,8 @@ def gates(slug: str, body: dict, facts: list[dict], view: dict) -> list[str]:
     if v == FINISH and (not re.search(r"\bscor", text, re.I)
                         or re.search(r"\b(better|close call|instead|carry|carrying|pass|passing)\b", text, re.I)):
         problems.append("finishing: say he scored, and mention no other option")
+    if v == SHOT_ONLY and re.search(r"\b(better|close call|instead|carry|carrying|pass|passing)\b", text, re.I):
+        problems.append("shot only: no other option was measured, mention none")
     if len(body.get("lower_third", "")) > LOWER_MAX or not body.get("lower_third"):
         problems.append(f"lower_third empty or over {LOWER_MAX} characters")
     if len(body.get("why", "")) > WHY_MAX or not body.get("why"):
