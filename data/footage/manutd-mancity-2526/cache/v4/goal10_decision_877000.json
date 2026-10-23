@@ -1,0 +1,144 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "goal10_decision",
+  "best_alternative": {
+   "kind": "pass",
+   "target": "#19"
+  },
+  "clip_ms": 877000,
+  "clock": "56:41",
+  "engine": "scripted_v1",
+  "holder": "#16",
+  "horizon_s": 10.0,
+  "match_id": "m_9002",
+  "method": "P(attacking team scores within 10 s) counted over n simulated worlds; Wilson 95% interval; difference to the actual action paired by world (shared random streams)",
+  "n": 2000,
+  "options": [
+   {
+    "ci95": [
+     0.0186,
+     0.0322
+    ],
+    "goals": 49,
+    "option": {
+     "kind": "shoot",
+     "target": null
+    },
+    "p_goal_10s": 0.0245
+   },
+   {
+    "ci95": [
+     0.026,
+     0.0418
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0018,
+      0.0188
+     ],
+     "mean": 0.0085,
+     "verdict": "within noise"
+    },
+    "goals": 66,
+    "option": {
+     "kind": "pass",
+     "target": "#13"
+    },
+    "p_goal_10s": 0.033
+   },
+   {
+    "ci95": [
+     0.0368,
+     0.055
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      0.0093,
+      0.0317
+     ],
+     "mean": 0.0205,
+     "verdict": "better"
+    },
+    "goals": 90,
+    "option": {
+     "kind": "pass",
+     "target": "#19"
+    },
+    "p_goal_10s": 0.045
+   },
+   {
+    "ci95": [
+     0.0105,
+     0.0213
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0182,
+      -0.0008
+     ],
+     "mean": -0.0095,
+     "verdict": "worse"
+    },
+    "goals": 30,
+    "option": {
+     "kind": "pass",
+     "target": "#8"
+    },
+    "p_goal_10s": 0.015
+   },
+   {
+    "ci95": [
+     0.002,
+     0.0079
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0278,
+      -0.0132
+     ],
+     "mean": -0.0205,
+     "verdict": "worse"
+    },
+    "goals": 8,
+    "option": {
+     "kind": "pass",
+     "target": "U5"
+    },
+    "p_goal_10s": 0.004
+   },
+   {
+    "ci95": [
+     0.0034,
+     0.0105
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0261,
+      -0.0109
+     ],
+     "mean": -0.0185,
+     "verdict": "worse"
+    },
+    "goals": 12,
+    "option": {
+     "direction": [
+      -1.0,
+      0.0
+     ],
+     "kind": "carry"
+    },
+    "p_goal_10s": 0.006
+   }
+  ],
+  "seed": 4242,
+  "slug": "manutd-mancity-2526",
+  "source": {
+   "engine": "kickoff scripted_v1",
+   "moment": "manutd-mancity-2526/moments/877000.json"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}

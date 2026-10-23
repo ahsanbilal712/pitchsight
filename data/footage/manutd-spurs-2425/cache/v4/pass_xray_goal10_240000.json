@@ -1,0 +1,594 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "pass_xray_goal10",
+  "engine": "scripted_v1",
+  "horizon_s": 10.0,
+  "match_id": "m_9004",
+  "method": "each option forced as the first action from the tracked state, n worlds, P(the holder's team scores within 10 s), Wilson 95%; labels are track ids (t<id>) unless matched to a hand label",
+  "n": 1000,
+  "samples": [
+   {
+    "best_clear": true,
+    "clip_ms": 240000,
+    "holder": "t26",
+    "holder_xy": [
+     13.45,
+     54.79
+    ],
+    "options": [
+     {
+      "ci95": [
+       0.0939,
+       0.1331
+      ],
+      "kind": "pass",
+      "label": "t6",
+      "p_goal_10s": 0.112,
+      "x": 10.46,
+      "y": 38.87
+     },
+     {
+      "ci95": [
+       0.0793,
+       0.1158
+      ],
+      "kind": "pass",
+      "label": "t30",
+      "p_goal_10s": 0.096,
+      "x": 8.75,
+      "y": 36.33
+     },
+     {
+      "ci95": [
+       0.0576,
+       0.0897
+      ],
+      "kind": "shoot",
+      "label": "shoot",
+      "p_goal_10s": 0.072,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0338,
+       0.0597
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.045,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0338,
+       0.0597
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.045,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0244,
+       0.0471
+      ],
+      "kind": "pass",
+      "label": "t31",
+      "p_goal_10s": 0.034,
+      "x": 11.42,
+      "y": 26.42
+     },
+     {
+      "ci95": [
+       0.0178,
+       0.0378
+      ],
+      "kind": "pass",
+      "label": "t11",
+      "p_goal_10s": 0.026,
+      "x": 10.83,
+      "y": 47.32
+     },
+     {
+      "ci95": [
+       0.0099,
+       0.0258
+      ],
+      "kind": "pass",
+      "label": "t9",
+      "p_goal_10s": 0.016,
+      "x": 11.95,
+      "y": 44.09
+     },
+     {
+      "ci95": [
+       0.0062,
+       0.0196
+      ],
+      "kind": "pass",
+      "label": "t33",
+      "p_goal_10s": 0.011,
+      "x": 35.71,
+      "y": 21.08
+     },
+     {
+      "ci95": [
+       0.0047,
+       0.017
+      ],
+      "kind": "pass",
+      "label": "t24",
+      "p_goal_10s": 0.009,
+      "x": 13.63,
+      "y": 54.62
+     }
+    ],
+    "team": "home"
+   },
+   {
+    "clip_ms": 240500,
+    "holder": null,
+    "note": "ball loose (no player within 2.5 m)"
+   },
+   {
+    "best_clear": true,
+    "clip_ms": 241000,
+    "holder": "t26",
+    "holder_xy": [
+     8.01,
+     50.7
+    ],
+    "options": [
+     {
+      "ci95": [
+       0.0478,
+       0.0776
+      ],
+      "kind": "shoot",
+      "label": "shoot",
+      "p_goal_10s": 0.061,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0338,
+       0.0597
+      ],
+      "kind": "pass",
+      "label": "t31",
+      "p_goal_10s": 0.045,
+      "x": 6.33,
+      "y": 30.16
+     },
+     {
+      "ci95": [
+       0.0321,
+       0.0574
+      ],
+      "kind": "pass",
+      "label": "t30",
+      "p_goal_10s": 0.043,
+      "x": 5.44,
+      "y": 36.59
+     },
+     {
+      "ci95": [
+       0.0236,
+       0.046
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.033,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0236,
+       0.046
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.033,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0219,
+       0.0437
+      ],
+      "kind": "pass",
+      "label": "t6",
+      "p_goal_10s": 0.031,
+      "x": 6.19,
+      "y": 40.26
+     },
+     {
+      "ci95": [
+       0.0122,
+       0.0295
+      ],
+      "kind": "pass",
+      "label": "t11",
+      "p_goal_10s": 0.019,
+      "x": 6.15,
+      "y": 45.79
+     },
+     {
+      "ci95": [
+       0.0062,
+       0.0196
+      ],
+      "kind": "pass",
+      "label": "t24",
+      "p_goal_10s": 0.011,
+      "x": 6.69,
+      "y": 53.44
+     },
+     {
+      "ci95": [
+       0.0062,
+       0.0196
+      ],
+      "kind": "pass",
+      "label": "t9",
+      "p_goal_10s": 0.011,
+      "x": 9.0,
+      "y": 43.43
+     },
+     {
+      "ci95": [
+       0.0002,
+       0.0056
+      ],
+      "kind": "pass",
+      "label": "t33",
+      "p_goal_10s": 0.001,
+      "x": 32.91,
+      "y": 21.7
+     }
+    ],
+    "team": "home"
+   },
+   {
+    "best_clear": true,
+    "clip_ms": 241500,
+    "holder": "t9",
+    "holder_xy": [
+     8.98,
+     43.31
+    ],
+    "options": [
+     {
+      "ci95": [
+       0.082,
+       0.1191
+      ],
+      "kind": "shoot",
+      "label": "shoot",
+      "p_goal_10s": 0.099,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0638,
+       0.0974
+      ],
+      "kind": "pass",
+      "label": "t16",
+      "p_goal_10s": 0.079,
+      "x": 6.36,
+      "y": 39.52
+     },
+     {
+      "ci95": [
+       0.062,
+       0.0952
+      ],
+      "kind": "pass",
+      "label": "t30",
+      "p_goal_10s": 0.077,
+      "x": 5.34,
+      "y": 36.46
+     },
+     {
+      "ci95": [
+       0.0603,
+       0.093
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.075,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0603,
+       0.093
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.075,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0399,
+       0.0676
+      ],
+      "kind": "pass",
+      "label": "t31",
+      "p_goal_10s": 0.052,
+      "x": 4.46,
+      "y": 31.83
+     },
+     {
+      "ci95": [
+       0.0099,
+       0.0258
+      ],
+      "kind": "pass",
+      "label": "t33",
+      "p_goal_10s": 0.016,
+      "x": 31.66,
+      "y": 21.52
+     },
+     {
+      "ci95": [
+       0.0021,
+       0.0117
+      ],
+      "kind": "pass",
+      "label": "t11",
+      "p_goal_10s": 0.005,
+      "x": 4.39,
+      "y": 45.29
+     },
+     {
+      "ci95": [
+       0.001,
+       0.0088
+      ],
+      "kind": "pass",
+      "label": "t26",
+      "p_goal_10s": 0.003,
+      "x": 5.97,
+      "y": 50.08
+     }
+    ],
+    "team": "home"
+   },
+   {
+    "best_clear": true,
+    "clip_ms": 242000,
+    "holder": "t9",
+    "holder_xy": [
+     9.25,
+     44.6
+    ],
+    "options": [
+     {
+      "ci95": [
+       0.1811,
+       0.2311
+      ],
+      "kind": "pass",
+      "label": "t30",
+      "p_goal_10s": 0.205,
+      "x": 5.71,
+      "y": 36.29
+     },
+     {
+      "ci95": [
+       0.1735,
+       0.2228
+      ],
+      "kind": "pass",
+      "label": "t11",
+      "p_goal_10s": 0.197,
+      "x": 4.74,
+      "y": 43.46
+     },
+     {
+      "ci95": [
+       0.1603,
+       0.2082
+      ],
+      "kind": "pass",
+      "label": "t16",
+      "p_goal_10s": 0.183,
+      "x": 7.06,
+      "y": 38.54
+     },
+     {
+      "ci95": [
+       0.1301,
+       0.1745
+      ],
+      "kind": "pass",
+      "label": "t31",
+      "p_goal_10s": 0.151,
+      "x": 3.91,
+      "y": 32.67
+     },
+     {
+      "ci95": [
+       0.1189,
+       0.1618
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.139,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.1189,
+       0.1618
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.139,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0967,
+       0.1363
+      ],
+      "kind": "shoot",
+      "label": "shoot",
+      "p_goal_10s": 0.115,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0287,
+       0.0529
+      ],
+      "kind": "pass",
+      "label": "t26",
+      "p_goal_10s": 0.039,
+      "x": 5.1,
+      "y": 48.93
+     },
+     {
+      "ci95": [
+       0.0114,
+       0.0283
+      ],
+      "kind": "pass",
+      "label": "t33",
+      "p_goal_10s": 0.018,
+      "x": 30.75,
+      "y": 20.46
+     }
+    ],
+    "team": "home"
+   },
+   {
+    "best_clear": false,
+    "clip_ms": 242500,
+    "holder": "t22",
+    "holder_xy": [
+     2.51,
+     31.0
+    ],
+    "options": [
+     {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.0,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "kind": "pass",
+      "label": "t15",
+      "p_goal_10s": 0.0,
+      "x": 11.73,
+      "y": 42.83
+     },
+     {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "kind": "pass",
+      "label": "t16",
+      "p_goal_10s": 0.0,
+      "x": 6.73,
+      "y": 38.9
+     },
+     {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "kind": "pass",
+      "label": "t21",
+      "p_goal_10s": 0.0,
+      "x": 11.41,
+      "y": 49.17
+     },
+     {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "kind": "pass",
+      "label": "t24",
+      "p_goal_10s": 0.0,
+      "x": 1.15,
+      "y": 52.38
+     },
+     {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "kind": "pass",
+      "label": "t34",
+      "p_goal_10s": 0.0,
+      "x": 32.76,
+      "y": 23.11
+     },
+     {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "kind": "carry",
+      "label": "carry",
+      "p_goal_10s": 0.0,
+      "x": null,
+      "y": null
+     },
+     {
+      "ci95": [
+       0.0,
+       0.0038
+      ],
+      "kind": "shoot",
+      "label": "shoot",
+      "p_goal_10s": 0.0,
+      "x": null,
+      "y": null
+     }
+    ],
+    "team": "away"
+   }
+  ],
+  "seed": 4242,
+  "slug": "manutd-spurs-2425",
+  "source": {
+   "converter": "footage.from_tracks.moment_from_tracks",
+   "tracks": "manutd-spurs-2425/tracks/*.json"
+  },
+  "t0_clip_ms": 240000,
+  "t1_clip_ms": 242500
+ },
+ "schema_version": "1.0.0"
+}

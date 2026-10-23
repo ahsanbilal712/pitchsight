@@ -1,0 +1,127 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "goal10_decision",
+  "best_alternative": {
+   "direction": [
+    -1.0,
+    0.0
+   ],
+   "kind": "carry"
+  },
+  "clip_ms": 1079360,
+  "clock": "64:27",
+  "engine": "scripted_v1",
+  "holder": "Mbeumo",
+  "horizon_s": 10.0,
+  "match_id": "m_9002",
+  "method": "P(attacking team scores within 10 s) counted over n simulated worlds; Wilson 95% interval; difference to the actual action paired by world (shared random streams)",
+  "n": 2000,
+  "options": [
+   {
+    "ci95": [
+     0.03,
+     0.0468
+    ],
+    "goals": 75,
+    "option": {
+     "kind": "shoot",
+     "target": null
+    },
+    "p_goal_10s": 0.0375
+   },
+   {
+    "ci95": [
+     0.0118,
+     0.0231
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0309,
+      -0.0111
+     ],
+     "mean": -0.021,
+     "verdict": "worse"
+    },
+    "goals": 33,
+    "option": {
+     "kind": "pass",
+     "target": "t26"
+    },
+    "p_goal_10s": 0.0165
+   },
+   {
+    "ci95": [
+     0.0126,
+     0.0242
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0301,
+      -0.0099
+     ],
+     "mean": -0.02,
+     "verdict": "worse"
+    },
+    "goals": 35,
+    "option": {
+     "kind": "pass",
+     "target": "t30"
+    },
+    "p_goal_10s": 0.0175
+   },
+   {
+    "ci95": [
+     0.002,
+     0.0079
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0423,
+      -0.0247
+     ],
+     "mean": -0.0335,
+     "verdict": "worse"
+    },
+    "goals": 8,
+    "option": {
+     "kind": "pass",
+     "target": "t37"
+    },
+    "p_goal_10s": 0.004
+   },
+   {
+    "ci95": [
+     0.0363,
+     0.0544
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0052,
+      0.0192
+     ],
+     "mean": 0.007,
+     "verdict": "within noise"
+    },
+    "goals": 89,
+    "option": {
+     "direction": [
+      -1.0,
+      0.0
+     ],
+     "kind": "carry"
+    },
+    "p_goal_10s": 0.0445
+   }
+  ],
+  "seed": 4242,
+  "slug": "manutd-mancity-2526",
+  "source": {
+   "engine": "kickoff scripted_v1",
+   "moment": "manutd-mancity-2526/moments/1079360.json"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}

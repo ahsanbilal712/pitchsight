@@ -1,0 +1,67 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "goal10_decision",
+  "best_alternative": {
+   "direction": [
+    -1.0,
+    0.0
+   ],
+   "kind": "carry"
+  },
+  "clip_ms": 682800,
+  "clock": "38:02",
+  "engine": "scripted_v1",
+  "holder": "#16",
+  "horizon_s": 10.0,
+  "match_id": "m_9004",
+  "method": "P(attacking team scores within 10 s) counted over n simulated worlds; Wilson 95% interval; difference to the actual action paired by world (shared random streams)",
+  "n": 2000,
+  "options": [
+   {
+    "ci95": [
+     0.0097,
+     0.0202
+    ],
+    "goals": 28,
+    "option": {
+     "kind": "shoot",
+     "target": null
+    },
+    "p_goal_10s": 0.014
+   },
+   {
+    "ci95": [
+     0.0034,
+     0.0105
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0142,
+      -0.0018
+     ],
+     "mean": -0.008,
+     "verdict": "worse"
+    },
+    "goals": 12,
+    "option": {
+     "direction": [
+      -1.0,
+      0.0
+     ],
+     "kind": "carry"
+    },
+    "p_goal_10s": 0.006
+   }
+  ],
+  "seed": 4242,
+  "slug": "manutd-spurs-2425",
+  "source": {
+   "engine": "kickoff scripted_v1",
+   "moment": "manutd-spurs-2425/moments/682800.json"
+  },
+  "team": "away"
+ },
+ "schema_version": "1.0.0"
+}

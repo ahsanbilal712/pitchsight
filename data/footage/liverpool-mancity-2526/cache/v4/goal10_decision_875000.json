@@ -1,0 +1,191 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "goal10_decision",
+  "best_alternative": {
+   "kind": "pass",
+   "target": "L3"
+  },
+  "clip_ms": 875000,
+  "clock": "86:23",
+  "engine": "scripted_v1",
+  "holder": "#8",
+  "horizon_s": 10.0,
+  "match_id": "m_9001",
+  "method": "P(attacking team scores within 10 s) counted over n simulated worlds; Wilson 95% interval; difference to the actual action paired by world (shared random streams)",
+  "n": 2000,
+  "options": [
+   {
+    "ci95": [
+     0.0069,
+     0.016
+    ],
+    "goals": 21,
+    "option": {
+     "kind": "shoot",
+     "target": null
+    },
+    "p_goal_10s": 0.0105
+   },
+   {
+    "ci95": [
+     0.0057,
+     0.0142
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0076,
+      0.0046
+     ],
+     "mean": -0.0015,
+     "verdict": "within noise"
+    },
+    "goals": 18,
+    "option": {
+     "kind": "pass",
+     "target": "#11"
+    },
+    "p_goal_10s": 0.009
+   },
+   {
+    "ci95": [
+     0.0341,
+     0.0517
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      0.0217,
+      0.0413
+     ],
+     "mean": 0.0315,
+     "verdict": "better"
+    },
+    "goals": 84,
+    "option": {
+     "kind": "pass",
+     "target": "L3"
+    },
+    "p_goal_10s": 0.042
+   },
+   {
+    "ci95": [
+     0.0085,
+     0.0184
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0045,
+      0.0085
+     ],
+     "mean": 0.002,
+     "verdict": "within noise"
+    },
+    "goals": 25,
+    "option": {
+     "kind": "pass",
+     "target": "L4"
+    },
+    "p_goal_10s": 0.0125
+   },
+   {
+    "error": "BranchError: target offside",
+    "option": {
+     "kind": "pass",
+     "target": "L5"
+    }
+   },
+   {
+    "ci95": [
+     0.0081,
+     0.0178
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0051,
+      0.0081
+     ],
+     "mean": 0.0015,
+     "verdict": "within noise"
+    },
+    "goals": 24,
+    "option": {
+     "kind": "pass",
+     "target": "L6"
+    },
+    "p_goal_10s": 0.012
+   },
+   {
+    "ci95": [
+     0.0143,
+     0.0265
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      0.0014,
+      0.0166
+     ],
+     "mean": 0.009,
+     "verdict": "better"
+    },
+    "goals": 39,
+    "option": {
+     "kind": "pass",
+     "target": "L7"
+    },
+    "p_goal_10s": 0.0195
+   },
+   {
+    "ci95": [
+     0.0203,
+     0.0345
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      0.0078,
+      0.0242
+     ],
+     "mean": 0.016,
+     "verdict": "better"
+    },
+    "goals": 53,
+    "option": {
+     "kind": "pass",
+     "target": "L8"
+    },
+    "p_goal_10s": 0.0265
+   },
+   {
+    "ci95": [
+     0.0139,
+     0.026
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      0.0011,
+      0.0159
+     ],
+     "mean": 0.0085,
+     "verdict": "better"
+    },
+    "goals": 38,
+    "option": {
+     "direction": [
+      1.0,
+      0.0
+     ],
+     "kind": "carry"
+    },
+    "p_goal_10s": 0.019
+   }
+  ],
+  "seed": 4242,
+  "slug": "liverpool-mancity-2526",
+  "source": {
+   "engine": "kickoff scripted_v1",
+   "moment": "liverpool-mancity-2526/moments/875000.json"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}

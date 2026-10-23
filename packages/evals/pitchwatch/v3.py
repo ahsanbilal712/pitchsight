@@ -28,11 +28,26 @@ def ms(t: float) -> int:
     return int(round(t * 1000))
 
 
-def write(slug: str, beat: str, clip_ms: int, result: dict) -> Path:
-    """Through track B's footage.v3.write_beat: the model_cache envelope ($schema, schema_version, record) and an
-    entry in the clip's cache manifest, so validate_schemas and the replay index see it."""
-    from footage.v3 import write_beat
-    return Path(write_beat(slug, beat, clip_ms, result))
+def write(slug: str, beat: str, clip_ms: int, result: dict, version: str = "v3") -> Path:
+    """The model_cache envelope ($schema, schema_version, record) plus an entry in the clip's cache manifest, so
+    validate_schemas and the replay index see it: track B's footage.v3.write_beat for v3, the same for v4/."""
+    if version == "v3":
+        from footage.v3 import write_beat
+        return Path(write_beat(slug, beat, clip_ms, result))
+    from cache.manifest import CacheManifest
+    from footage.clips import CLIPS
+    from footage.featured import open_cache
+
+    match_id = CLIPS[slug]["match_id"]
+    seed = int(match_id[2:])
+    manifest = open_cache(slug)
+    path = f"{version}/{beat}_{clip_ms}.json"
+    manifest.add(CacheManifest.key(match_id, None, version, f"{beat}_{clip_ms}", None, seed), "analytics",
+                 {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result",
+                  "result": {"beat": beat, "slug": slug, "match_id": match_id, **result}},
+                 path, producer=version, version=f"{beat}_{clip_ms}", seed=seed)
+    manifest.save()
+    return manifest.cache_dir / path
 
 
 def speed_gun_beat() -> Path:

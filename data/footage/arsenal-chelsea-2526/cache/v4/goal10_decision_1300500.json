@@ -1,0 +1,184 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "goal10_decision",
+  "best_alternative": {
+   "kind": "pass",
+   "target": "A7"
+  },
+  "clip_ms": 1300500,
+  "clock": "79:10",
+  "engine": "scripted_v1",
+  "holder": "#10",
+  "horizon_s": 10.0,
+  "match_id": "m_9003",
+  "method": "P(attacking team scores within 10 s) counted over n simulated worlds; Wilson 95% interval; difference to the actual action paired by world (shared random streams)",
+  "n": 2000,
+  "options": [
+   {
+    "ci95": [
+     0.0199,
+     0.0339
+    ],
+    "goals": 52,
+    "option": {
+     "kind": "shoot",
+     "target": null
+    },
+    "p_goal_10s": 0.026
+   },
+   {
+    "ci95": [
+     0.0061,
+     0.0148
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0246,
+      -0.0084
+     ],
+     "mean": -0.0165,
+     "verdict": "worse"
+    },
+    "goals": 19,
+    "option": {
+     "kind": "pass",
+     "target": "#12"
+    },
+    "p_goal_10s": 0.0095
+   },
+   {
+    "ci95": [
+     0.0097,
+     0.0202
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0208,
+      -0.0032
+     ],
+     "mean": -0.012,
+     "verdict": "worse"
+    },
+    "goals": 28,
+    "option": {
+     "kind": "pass",
+     "target": "#16"
+    },
+    "p_goal_10s": 0.014
+   },
+   {
+    "ci95": [
+     0.0077,
+     0.0172
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0229,
+      -0.0061
+     ],
+     "mean": -0.0145,
+     "verdict": "worse"
+    },
+    "goals": 23,
+    "option": {
+     "kind": "pass",
+     "target": "#29"
+    },
+    "p_goal_10s": 0.0115
+   },
+   {
+    "ci95": [
+     0.0234,
+     0.0384
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0063,
+      0.0143
+     ],
+     "mean": 0.004,
+     "verdict": "within noise"
+    },
+    "goals": 60,
+    "option": {
+     "kind": "pass",
+     "target": "#7"
+    },
+    "p_goal_10s": 0.03
+   },
+   {
+    "ci95": [
+     0.0238,
+     0.039
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0059,
+      0.0149
+     ],
+     "mean": 0.0045,
+     "verdict": "within noise"
+    },
+    "goals": 61,
+    "option": {
+     "kind": "pass",
+     "target": "A6"
+    },
+    "p_goal_10s": 0.0305
+   },
+   {
+    "ci95": [
+     0.0477,
+     0.068
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      0.0185,
+      0.0435
+     ],
+     "mean": 0.031,
+     "verdict": "better"
+    },
+    "goals": 114,
+    "option": {
+     "kind": "pass",
+     "target": "A7"
+    },
+    "p_goal_10s": 0.057
+   },
+   {
+    "ci95": [
+     0.019,
+     0.0328
+    ],
+    "diff_vs_actual": {
+     "ci95": [
+      -0.0109,
+      0.0089
+     ],
+     "mean": -0.001,
+     "verdict": "within noise"
+    },
+    "goals": 50,
+    "option": {
+     "direction": [
+      1.0,
+      0.0
+     ],
+     "kind": "carry"
+    },
+    "p_goal_10s": 0.025
+   }
+  ],
+  "seed": 4242,
+  "slug": "arsenal-chelsea-2526",
+  "source": {
+   "engine": "kickoff scripted_v1",
+   "moment": "arsenal-chelsea-2526/moments/1300500.json"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}
