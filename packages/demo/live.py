@@ -104,7 +104,9 @@ class Live:
             shots = json.loads((FOOTAGE / self.m["clip"] / "shots.json").read_text())["shots"]
             t0 = self.span()[0]
             shot = next((s["id"] for s in shots if s["start"] <= t0 <= s["end"]), None)
-        d = FOOTAGE / self.m["clip"] / "calib"
+        if self.data.get("homography") and self.freeze_at() is not None:
+            return {"static": self.data["homography"]["image_to_pitch"]}    # a frozen beat's own camera, fitted on
+        d = FOOTAGE / self.m["clip"] / "calib"                             # its frame, before the shot's fits
         path = next((p for p in (d / f"{shot}_refined.json", d / f"{shot}.json") if p.exists()), None)
         if path is None and self.needs_camera:
             raise FileNotFoundError(f"{self.m['name']}: no calibration for shot {shot} (demo.refine_calib)")
@@ -115,6 +117,8 @@ class Live:
     def camera(self, t: float) -> Camera | None:
         if not self.calib:
             return None
+        if "static" in self.calib:                       # moment-file frame already (y from the near touchline)
+            return Camera(np.linalg.inv(np.asarray(self.calib["static"], float)))
         return from_pitchwatch(self.calib, int(round(t * self.fps_clip)))
 
     def freeze_at(self) -> float | None:
@@ -576,10 +580,20 @@ class KeeperCone(Still):
         c = window(tau, 2.0, 2.5)
         if c > 0:
             gap = float(np.hypot(r["best"]["x"] - r["keeper"]["x"], r["best"]["y"] - r["keeper"]["y"]))
-            self.card(d, self.m.get("label", f"{name}: where to stand"),
-                      [("Save chance where he stood", f"{round(r['save_actual'] * 100)}%", WHITE),
-                       (f"From the best spot, {gap:.1f} m away", f"{round(r['save_best'] * 100)}%", YELLOW)],
-                      f"n = {r['n']}, seed {r['seed']}", c, accent=kit)
+            if r.get("coverage_actual") is not None:         # geometry: share of the goal mouth he covers
+                a_ = r.get("assumptions", {})
+                self.card(d, self.m.get("label", f"{name}: where to stand"),
+                          [("Goal covered where he stood", f"{round(r['coverage_actual'] * 100)}%", WHITE),
+                           (f"From the best point, {r.get('move_m', gap):.1f} m out",
+                            f"{round(r['coverage_best'] * 100)}%", YELLOW)],
+                          f"geometry, not a save chance: reach {a_.get('standing_reach_m')} m standing to "
+                          f"{a_.get('max_reach_m')} m diving, {a_.get('reaction_s')} s to react, shot "
+                          f"{a_.get('shot_speed_ms')} m/s; {r.get('error_note', '')}", c, accent=kit)
+            else:
+                self.card(d, self.m.get("label", f"{name}: where to stand"),
+                          [("Save chance where he stood", f"{round(r['save_actual'] * 100)}%", WHITE),
+                           (f"From the best spot, {gap:.1f} m away", f"{round(r['save_best'] * 100)}%", YELLOW)],
+                          f"n = {r['n']}, seed {r['seed']}", c, accent=kit)
         im.paste(layer, (0, 0), layer)
 
 

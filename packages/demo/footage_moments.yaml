@@ -166,3 +166,13 @@ moments:
     kits: {home: [214, 32, 52], away: [120, 182, 232]}
     label: "Liverpool v Man City: who wins it, the last 20 minutes"
     foot: "win chance gap, from score and clock"
+
+  ars_keeper_cone:                   # track B (cache/v3): Raya's save at 92:15, shot from 4.5 m
+    clip: arsenal-chelsea-2526
+    kind: keeper_cone
+    data: data/footage/arsenal-chelsea-2526/cache/v3/keeper_cone_1382650.json
+    pre_s: 2.5
+    hold_s: 6.5
+    team: home
+    kits: {home: [219, 0, 7], away: [3, 70, 148]}
+    label: "Raya: where to stand"

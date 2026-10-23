@@ -6,8 +6,8 @@
 # number in a caption has a source below. v2 draft 3 (edit_v2.yaml, cc3b0d2) is the fallback.
 # Draft 2 (lead review): opens on the Sliding Doors freeze; the river is a compact line at the close; the line beat
 # is a decisive margin; the Fourth Official sits between the freezes; the X-ray waits for player names.
-# Still to come (track A/B data): speed gun (Van de Ven), ghost defender (Man Utd v City goals), keeper cone (Raya),
-# red-card cost (after the Fourth Official), the studio on the real-clip replay, grounded claims on the real cues.
+# Still to come (track A/B data): speed gun (Van de Ven), ghost defender (Man Utd v City goals), the studio on the
+# real-clip replay, grounded claims on the real cues. The red-card cost is dropped (no significant gap, lead 23 Oct).
 
 out: packages/demo/out/final_v3.mp4
 size: [1920, 1080]
@@ -43,6 +43,13 @@ clips:
     captions:
       - {from: 0.2, to: 4.1, text: "A refereeing call, explained from the tracking: the run, the contact, the closing speed."}
       - {from: 4.3, to: 8.2, text: "An assessment, not a ruling: about 15 km/h into the challenge, outside the box."}
+
+  - shot: footage/ars_keeper_cone      # Raya's save, stoppage time (track B geometry)
+    from: 1.0
+    to: 9.0
+    captions:
+      - {from: 0.2, to: 3.6, text: "Arsenal v Chelsea, stoppage time: a shot from 4.5 m."}
+      - {from: 3.8, to: 7.8, text: "Where Raya stood he covers 39% of the goal. 1.8 m further out, all of it."}
 
   - shot: footage/mun_mci_right_call
     from: 3.0
@@ -80,6 +87,9 @@ sources:
   "91%": "win_prob_river_11000 series max home 0.9093 at 83:30 (WinProbHead from score and clock)"
   "86": "the Liverpool clip's broadcast clock 86:23 at the freeze (moments/875000.json clock)"
   "2.3": "line_62.json pass at 822.12 s: beyond_m -2.26 (Liverpool's line, 10 players seen; demo.v3_data)"
+  "4.5": "keeper_cone_1382650 shot_distance_m 4.5 (fact f_800004, verified)"
+  "39%": "keeper_cone_1382650 coverage_actual 0.393 (fact f_800001, verified): share of the goal mouth covered, geometry"
+  "1.8": "keeper_cone_1382650 move_m 1.77 (fact f_800003, verified)"
   "0.3": "data/footage/insights/metrics.json liverpool-mancity-2526 calibration.check_points_m mean 0.315 (n = 20)"
   "200": "counterfactual cf_000001 of liverpool-mancity-2526 n = 200; the card prints 'n = 200, 8 s, seed 9001'"
   "2": "cf_000001 (liverpool-mancity-2526): win_prob_home 0.0837 shot -> 0.1035 pass (+2 pts); reviewed line mo_00001"
