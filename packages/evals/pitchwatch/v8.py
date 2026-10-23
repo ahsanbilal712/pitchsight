@@ -16,15 +16,16 @@ from evals.pitchwatch.insights import FOOTAGE
 from evals.pitchwatch.shotxg import reference_xg
 from evals.pitchwatch.v5 import GOAL_Y, SOURCE, L, W, gate
 
-SEE = ("liverpool-mancity-2526", 62, 870200, 3000)   # clip, camera shot, frame time, positions window (ms)
+SEES = [("liverpool-mancity-2526", 62, "live_802600.json", 870200, 870200, 873200),   # clip, shot, live file, frame,
+        ("manutd-mancity-2526", 104, "live_869000.json", 876400, 874400, 877400)]   # positions window (clip_ms)
+# Amad's window ends before track 4's identity switch at 878.1 s
 
 
-def see() -> tuple[str, int, dict]:
-    slug, shot, clip_ms, span = SEE
+def see(slug: str, shot: int, live_file: str, clip_ms: int, t0: int, t1: int) -> dict:
     d = FOOTAGE / slug
     tracks = json.loads((d / "tracks" / f"{shot}.json").read_text())
     tiled = json.loads((d / "tracks" / f"{shot}.ball_tiled.json").read_text())["frames"]
-    live = json.loads((d / "cache" / "v6" / "live_802600.json").read_text())["result"]
+    live = json.loads((d / "cache" / "v6" / live_file).read_text())["result"]
     calib = json.loads((d / "calib" / f"{shot}.json").read_text())
     r = min(tracks["frames"], key=lambda f: abs(f["t"] * 1000 - clip_ms))
     lf = {f["clip_ms"]: f for f in live["frames"]}
@@ -37,21 +38,22 @@ def see() -> tuple[str, int, dict]:
                       "role": ("goalkeeper" if q["keeper"] else "player") if q else "unassigned (referee or no team)",
                       "name": q["name"] if q else None, "shirt": q["shirt"] if q else None,
                       "feet_px": p["foot_px"], "pitch_xy": [q["x"], q["y"]] if q else None})
-    balls = tiled.get(str(r["frame"])) or []
+    key = min(tiled, key=lambda k: abs(int(k) - r["frame"]))             # the tiled pass keys its own sample frames
+    balls = tiled[key] if abs(int(key) - r["frame"]) <= tracks["step"] else []
     ball = {"bbox": balls[0]["bbox"], "conf": balls[0]["conf"], "source": "tiled (640 px tiles, full resolution)",
             "pitch_xy": lf[clip_ms]["ball"] and [lf[clip_ms]["ball"]["x"], lf[clip_ms]["ball"]["y"]]} if balls else None
     path = []
-    for t in range(clip_ms, clip_ms + span, 100):
+    for t in range(t0, t1, 100):
         f = lf.get(t)
         if f is None:
             continue
         path.append({"clip_ms": t, "ball": f["ball"] and {"x": f["ball"]["x"], "y": f["ball"]["y"]},
                      "players": [{k: p[k] for k in ("track_id", "team", "keeper", "name", "shirt", "x", "y")}
                                  for p in f["players"]]})
-    return slug, clip_ms, {
+    return {
         "shot_id": shot, "frame": r["frame"], "fps": tracks["fps"], "clip_ms": clip_ms, "image_size": calib["image_size"],
         "players_in_view": sum(1 for b in boxes if b["team"]), "boxes": boxes, "ball": ball,
-        "positions": {"hz": 10, "start_clip_ms": clip_ms, "end_clip_ms": path[-1]["clip_ms"], "samples": path},
+        "positions": {"hz": 10, "start_clip_ms": path[0]["clip_ms"], "end_clip_ms": path[-1]["clip_ms"], "samples": path},
         "how": {"detector": "RF-DETR Medium 1.11.2 (COCO-pretrained, Apache-2.0; not trained by us), threshold 0.3 "
                             "people; the ball on 640 px tiles of the full 1920x1080 frame, threshold 0.2",
                 "tracker": "trackers.ByteTrackTracker 2.6.1 (ids across frames)",
@@ -61,7 +63,7 @@ def see() -> tuple[str, int, dict]:
         "coordinates": "bbox/feet in image pixels of the clip frame; pitch_xy and positions in metres, x from the left "
                        "goal line, y from the NEAR touchline; names and shirts only within track B's names_live windows",
         "source": {"tracks": f"{slug}/tracks/{shot}.json", "ball": f"{slug}/tracks/{shot}.ball_tiled.json",
-                   "positions": f"{slug}/cache/v6/live_802600.json", "calib": f"{slug}/calib/{shot}.json"}}
+                   "positions": f"{slug}/cache/v6/{live_file}", "calib": f"{slug}/calib/{shot}.json"}}
 
 
 def xg_surface() -> dict:
@@ -128,10 +130,10 @@ def intro_facts() -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     from evals.pitchwatch.v3 import write
-    slug, clip_ms, res = see()
-    print(write(slug, "see", clip_ms, res, version="v8"))
-    print(write(slug, "xg_surface", 0, xg_surface(), version="v8"))
-    print(write(slug, "intro_facts", 0, intro_facts(), version="v8"))
+    for spec in SEES:
+        print(write(spec[0], "see", spec[3], see(*spec), version="v8"))
+    print(write(SEES[0][0], "xg_surface", 0, xg_surface(), version="v8"))
+    print(write(SEES[0][0], "intro_facts", 0, intro_facts(), version="v8"))
     return 0
 
 
