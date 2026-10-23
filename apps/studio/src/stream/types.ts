@@ -117,7 +117,9 @@ export interface Spend {
 
 export interface RequestInfo {
   request_id: string;
-  cue: Cue;
+  cue?: Cue;
+  /** Set when the request was decided (approved or vetoed), by any producer or the demo runner. */
+  decision?: "approved" | "vetoed";
 }
 
 export type Message =

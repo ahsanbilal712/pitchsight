@@ -90,6 +90,8 @@ export function reducer(state: StudioState, action: Action): StudioState {
       return { ...state, traces: [...state.traces, msg.payload].slice(-MAX_TRACES) };
     }
     case "request_info":
+      if (msg.payload.decision)
+        return { ...state, requests: state.requests.filter((r) => r.request_id !== msg.payload.request_id) };
       if (state.requests.some((r) => r.request_id === msg.payload.request_id)) return state;
       return { ...state, requests: [...state.requests, msg.payload] };
     case "mode":

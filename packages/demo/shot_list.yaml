@@ -64,6 +64,8 @@
   clock_out: "@kill+25s"
   speed: 1
   keyframes: ["@kill+2s", "@kill+20s"]
+  warm_from: "@kill-330s"            # v2: the studio opens on five minutes of newsroom history, not empty panels
+  warm_speed: 10
 
 - shot: oracle
   beat: oracle_dugout
@@ -127,6 +129,8 @@
   clock_out: "45:00+35s"
   speed: 1
   keyframes: ["45:00+22s", "45:00+32s"]
+  warm_from: "36:30"                 # v2: the session runs the demo script without the kill (record_t062_sessions.sh)
+  warm_speed: 10
 
 - shot: architecture
   beat: architecture

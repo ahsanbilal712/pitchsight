@@ -79,6 +79,22 @@ def test_approve_veto_hold_post_decisions(browser, studio_url, api_server):
         ctx.close()
 
 
+def test_decision_made_elsewhere_clears_the_pending_card(browser, studio_url, api_server):
+    """A veto from another studio or the demo runner (control.decide) removes the request from every studio's
+    producer panel (v1 frame review: the recap stayed 'pending' after the demo veto)."""
+    from api.control import decide
+    rid = f"req_{uuid.uuid4().hex[:6]}_elsewhere"
+    ctx, studio = open_studio(browser, studio_url, api_server.port)
+    try:
+        api_server.bb.put("requests", {"id": rid, "request_id": rid, "match_id": "m_4242",
+                                       "cue": {**cue_example("c_000501", 0, 1), "kind": "recap"}})
+        studio.locator(f"[data-request-id={rid}]").wait_for(timeout=3000)
+        decide(api_server.bb, api_server.app.state.hub, rid, "vetoed", "m_4242")
+        studio.locator(f"[data-request-id={rid}]").wait_for(state="detached", timeout=2000)
+    finally:
+        ctx.close()
+
+
 def test_veto_of_on_air_cue_leaves_the_overlay_within_200ms(browser, studio_url, overlay_url, api_server, out_dir):
     seek_and_wait(api_server.base, "50:00", 3_000_000)
     now = get(api_server.base, "/health")["stream_t_ms"]

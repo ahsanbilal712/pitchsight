@@ -16,7 +16,10 @@ for SHOT in ${SESSION1_SHOTS:-panel_kill_studio veto_studio}; do
 echo "== session 1 ($SHOT): fresh blackboard, demo script armed, newsroom running"
 D="$W/s1_$SHOT"; mkdir -p "$D"
 S1="WHYLINE_BLACKBOARD=$D/bb.sqlite WHYLINE_WORKER_PIDFILE=$D/newsroom.pid WHYLINE_CHECKPOINT_DIR=$D/ckpt WHYLINE_DEMO_LOG=$OUT/demo_$SHOT.log WHYLINE_SPEND_LEDGER=$D/ledger.jsonl"
-env $S1 WHYLINE_DEMO_SCRIPT=packages/demo/demo_script.yaml $PY -m api.replay --seed 4242 --port 8781 --feed >"$D/api.log" 2>&1 &
+# a take that warms up across the kill clock (veto_studio, v2) runs the demo script without the kill
+SCRIPT=packages/demo/demo_script.yaml
+[ "$SHOT" = veto_studio ] && { grep -v 'action: kill' "$SCRIPT" > "$D/demo_script.yaml"; SCRIPT="$D/demo_script.yaml"; }
+env $S1 WHYLINE_DEMO_SCRIPT="$SCRIPT" $PY -m api.replay --seed 4242 --port 8781 --feed >"$D/api.log" 2>&1 &
 A1=$!
 env $S1 $PY -m newsroom.supervisor --mode replay --match m_4242 >"$D/newsroom.log" 2>&1 &
 N1=$!

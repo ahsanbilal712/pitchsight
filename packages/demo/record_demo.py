@@ -5,7 +5,8 @@
 
 Chromium at 1920x1080 (the fan app at its 390x844 phone size), DPR 1, `record_video_dir`, GPU rendering (Metal via
 ANGLE: headless Chromium otherwise draws WebGL on the CPU). For each shot: pause the replay, seek to clock_in, set
-the speed, open the app with ?record=1&api=…&mode=<viewer>, wait for window.__whyline.ready, play until the stream
+the speed (after an optional warm-up: warm_from -> clock_in at warm_speed, then a settle), open the app with
+?record=1&api=…&mode=<viewer>, wait for window.__whyline.ready, play until the stream
 clock reaches clock_out, saving <shot>_<mmss>.png at each keyframe clock. Writes packages/demo/out/<shot>.webm and
 <shot>.json (wall-clock offsets of ready and play inside the video, so the edit can trim the page load).
 The apps are served from apps/<app>/dist on local ports. Needs the api running in replay mode.
@@ -55,6 +56,9 @@ class Shot:
     keyframes: list[int] = field(default_factory=list)
     file: str | None = None
     duration_s: float = 0.0
+    warm_from: int | None = None      # play from here at warm_speed first, so the studio opens on a full history
+    warm_speed: float = 10.0
+    warm_settle_s: float = 20.0       # then wait for the newsroom to finish what the warm-up raised
 
     @property
     def outputs(self) -> list[str]:
@@ -91,6 +95,12 @@ def load_shots(path: str | Path, moments: dict | None = None) -> list[Shot]:
             s.clock_in, s.clock_out = resolve(r["clock_in"], moments), resolve(r["clock_out"], moments)
             s.speed = float(r.get("speed", 1))
             s.keyframes = [resolve(k, moments) for k in r.get("keyframes", [])]
+            if r.get("warm_from") is not None:
+                s.warm_from = resolve(r["warm_from"], moments)
+                s.warm_speed = float(r.get("warm_speed", 10))
+                s.warm_settle_s = float(r.get("warm_settle_s", 20))
+                if not s.warm_from < s.clock_in:
+                    raise ValueError(f"{s.shot}: warm_from {fmt(s.warm_from)} is not before clock_in")
             if not s.clock_in < s.clock_out:
                 raise ValueError(f"{s.shot}: clock_in {fmt(s.clock_in)} is not before clock_out {fmt(s.clock_out)}")
             if any(not s.clock_in <= k <= s.clock_out for k in s.keyframes):
@@ -139,6 +149,23 @@ def page_url(base: str, shot: Shot, api: str) -> str:
 
 
 # ---------------------------------------------------------------------------------------------- recording
+def warm_up(api: str, shot: Shot) -> None:
+    """Play warm_from -> clock_in at warm_speed before the take (no page open), then let the newsroom settle: the
+    moments, traces and cues of those minutes are on the blackboard when the studio connects, so its panels show a
+    working newsroom instead of a fresh one (v1 frame review)."""
+    api_post(api, "/replay/control", {"action": "pause"})
+    api_post(api, "/replay/control", {"action": "seek", "value": shot.warm_from})
+    api_post(api, "/replay/control", {"action": "speed", "value": shot.warm_speed})
+    api_post(api, "/replay/control", {"action": "play"})
+    deadline = time.monotonic() + (shot.clock_in - shot.warm_from) / 1000 / shot.warm_speed + 60
+    while api_get(api, "/health")["stream_t_ms"] < shot.clock_in - 1000:
+        if time.monotonic() > deadline:
+            raise TimeoutError(f"{shot.shot}: warm-up clock stuck")
+        time.sleep(0.1)
+    api_post(api, "/replay/control", {"action": "pause"})
+    time.sleep(shot.warm_settle_s)
+
+
 def record_shot(browser, shot: Shot, bases: dict[str, str], api: str, out: Path) -> dict:
     w, h = SIZES[shot.app]
     tmp = Path(tempfile.mkdtemp(prefix=f"rec_{shot.shot}_"))
@@ -153,6 +180,8 @@ def record_shot(browser, shot: Shot, bases: dict[str, str], api: str, out: Path)
             marks["ready_s"] = time.monotonic() - t0
             page.wait_for_timeout(int(shot.duration_s * 1000))
         else:
+            if shot.warm_from is not None:
+                warm_up(api, shot)
             api_post(api, "/replay/control", {"action": "pause"})
             api_post(api, "/replay/control", {"action": "seek", "value": shot.clock_in})
             api_post(api, "/replay/control", {"action": "speed", "value": shot.speed})

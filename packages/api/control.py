@@ -79,6 +79,8 @@ def decide(bb, hub, request_id: str, status: str, match_id: str) -> dict:
     bb.put("decisions", {"id": request_id, "request_id": request_id, "decision": status,
                          "match_id": match_id, "t_ms": hub.now(), "decided_at": time.time()})
     removed = False
+    if status in ("approved", "vetoed"):        # every studio drops the request, whoever decided (demo runner too)
+        hub.send([envelope("request_info", {"request_id": request_id, "decision": status})])
     if CUE_ID.match(request_id):
         try:
             cue = bb.get("cues", request_id, match_id=match_id)
