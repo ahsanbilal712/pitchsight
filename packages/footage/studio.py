@@ -252,7 +252,7 @@ async def run_moment_line(deps, f: dict, line: dict) -> None:
                note=f"passes to every team-mate in view (offside risk left out: "
                     f"{', '.join(d['excluded_offside']) or 'none'}); shown: {shown}")
         _trace(deps.bb, env, "rollout", "ok", model="reference xG + pass model",
-               note=f"shot: xG of the reviewed strike ({d['actual']['event_id']}, {d['actual']['distance_m']} m); "
+               note=f"shot: {d['actual']['measured']} ({d['actual']['event_id']}, {d['actual']['distance_m']} m); "
                     f"{d['formula']} (deterministic, precomputed); {line['verdict'].replace('_', ' ')}")
     else:
         _trace(deps.bb, env, "proposer", "ok", model="every team-mate and a carry",

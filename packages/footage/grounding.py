@@ -41,6 +41,7 @@ OUT = FOOTAGE / "v3_grounding.json"
 V3_FINAL = "14d7679"              # Video v3 final cut: the studio as it was recorded
 V4_FINAL = "6920af1"              # v4 grounding at 170 of 170: the studio before the v5 re-record
 V4_STUDIO = ("liverpool-mancity-2526",)
+V5_STUDIO = ("liverpool-mancity-2526", "manutd-mancity-2526")   # re-recorded on the v5 lines (Amad's is the beat)
 DIGITS = re.compile(r"\d")
 THOUSANDS = re.compile(r"(?<=\d),(?=\d{3}\b)")
 
@@ -87,7 +88,7 @@ def studio_cues(version: str = "v3") -> list[dict]:
     rows = []
     tmp = Path(tempfile.mkdtemp(prefix="grounding_"))
     for slug, clip in CLIPS.items():
-        if version in ("v4", "v5") and slug not in V4_STUDIO:
+        if version in ("v4", "v5") and slug not in {"v4": V4_STUDIO, "v5": V5_STUDIO}[version]:
             continue
         path = _sqlite_at(slug, {"v3": V3_FINAL, "v4": V4_FINAL}.get(version), tmp)
         if path is None:
@@ -287,13 +288,16 @@ def v5_caption_sources() -> dict[str, list[tuple]]:
         "86th minute, all square. Szoboszlai shoots from 29 m.":
             [("86th minute", "minute", "minute", 86, (lfc, "e_0033", "event")), dist_of("29 m", lfc, "e_0033")],
         "0.02 xG: the keeper, the cone, the bodies in the way. Blocked.": [xg_of("0.02", lfc, "e_0033")],
-        "Man Utd v Man City. Amad shoots from here: 0.06 xG.": [line("0.06", mci, 877000, "actual")],
+        "Man Utd v Man City. Amad shoots from here: 0.06 xG.": [line("0.06", mci, 877000, "actual")],   # the freeze
         "The pass into the box was worth 0.11, almost twice as much.": [line("0.11", mci, 877000, "alternative")],
         "Seconds later, 0.32 xG: saved.": [xg_of("0.32", mci, "e_0038")],
         "Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved.":
             [dist_of("16 m", ars, "e_0046"), xg_of("0.08", ars, "e_0046")],
         "Mbeumo from here: 0.10 xG.": [line("0.10", mci, 1079360, "actual")],
         "Dorgu, from 4.5 m: 0.48 xG.": [dist_of("4.5 m", mci, "e_0054"), line("0.48", mci, 1189840, "actual")],
+        "It replays the pass 2,000 times. This is the most typical future, on the real pitch.":
+            [("2,000", "number", "count", _beat_v4(mci, "ghost_future_877000.json")["n"],
+              (mci, "v4 ghost_future_877000 n (the pass to #19, medoid of n futures)", "fact"))],
         "Werner, from 16 m: 0.08 xG. Saved.":
             [line("16 m", tot, 682800, "distance"), line("0.08", tot, 682800, "actual")],
         "Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20.":
@@ -387,14 +391,17 @@ def v5_lines() -> list[dict]:
 
 
 def v5_decisions() -> list[dict]:
-    """Every number a v5 beat prints (demo.composite, lead's rules): the shot at its reviewed strike (shots_0, the
-    card row and the goal flash alike), its distance on a strike beat, the one pass only where the line shows one
-    (+0.04 xG, more than 0.5 m onside), and the formula line's numbers; each as {:.2f} of the file's two-decimal
-    values, which must read exactly as the reviewed line's display."""
+    """Every number a v5 beat of the edit prints (demo.composite, lead's rules): the shot (on a decision freeze the
+    card's "Shot from here", the freeze value; on a strike or goal beat the reviewed strike from shots_0, card row
+    and goal flash alike), the one pass only where the line shows one (+0.04 xG, more than 0.5 m onside), and the
+    formula line's numbers; each as {:.2f} of the file's two-decimal values, which must read exactly as the
+    reviewed line's display."""
     from footage.v5_lines import strike
 
     rows = []
     for path in sorted(FOOTAGE.glob("*/cache/v5/xg_decision_*.json")):
+        if path.relative_to(ROOT).as_posix() not in _edit_decisions():
+            continue                                    # not a beat of the edit (e.g. Werner: montage only)
         x = json.loads(path.read_text())["result"]
         slug, ms = x["slug"], x["clip_ms"]
         line_path = path.with_name(f"lines_{ms}.json")
@@ -402,8 +409,9 @@ def v5_decisions() -> list[dict]:
             continue
         line = json.loads(line_path.read_text())["result"]
         roles = {f["role"]: f["display"] for f in line["facts"]}
-        shot = strike(slug, x["actual"]["event_id"])
-        shown = [("shot" if line["verdict"] != "finishing" else "goal flash", f"{shot['xg']:.2f}", roles["actual"])]
+        freeze = line["verdict"] == "alternative_better"     # a decision freeze: "Shot from here", act["xg"]
+        value = x["actual"]["xg"] if freeze else strike(slug, x["actual"]["event_id"])["xg"]
+        shown = [("shot" if line["verdict"] != "finishing" else "goal flash", f"{value:.2f}", roles["actual"])]
         if line["decision"]["alternative"]:
             hero = next(o for o in x["alternatives"] if o["label"] == line["decision"]["alternative"]["label"])
             shown.append((f"pass {hero['label']}", f"{hero['xg_after_pass']:.2f}", roles["alternative"]))
@@ -413,6 +421,17 @@ def v5_decisions() -> list[dict]:
         rows.append(_row("v5 overlay", f"{slug} {x['clock']} beat ({line['verdict']})", str(path.relative_to(ROOT)),
                          n, n - len(diff), diff))
     return rows
+
+
+def _edit_decisions(edit: Path | None = None) -> set[str]:
+    """The xg_decision files the v5 edit draws a beat from: an edit shot footage/<beat>_v5 is the beat <beat> of
+    packages/demo/footage_moments.yaml, whose `xg` names the file."""
+    edit = edit or ROOT / "packages" / "demo" / "edit_v5.yaml"
+    beats = yaml.safe_load((ROOT / "packages" / "demo" / "footage_moments.yaml").read_text())["moments"]
+    shots = {c["shot"].split("/")[-1].removesuffix("_v5") for c in yaml.safe_load(edit.read_text())["clips"]
+             if c.get("shot")}
+    return {f"data/footage/{beats[b]['xg'].removeprefix('data/footage/')}" for b in shots
+            if isinstance(beats.get(b), dict) and beats[b].get("xg")}
 
 
 def v5_shots_and_race() -> list[dict]:

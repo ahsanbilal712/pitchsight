@@ -1,11 +1,12 @@
 {
  "$schema": "model_cache.schema.json",
- "cost_usd": 0.0064,
+ "cost_usd": 0.00651,
  "json": {
   "claims": [
    {
     "evidence_ids": [
-     "f_607701"
+     "f_607701",
+     "f_607702"
     ],
     "kind": "player",
     "text": "Amad",
@@ -14,21 +15,21 @@
    },
    {
     "evidence_ids": [
+     "f_607701"
+    ],
+    "kind": "number",
+    "text": "0.06",
+    "unit": "xg",
+    "value_number": 0.06
+   },
+   {
+    "evidence_ids": [
      "f_607703"
     ],
     "kind": "number",
     "text": "18 m",
     "unit": "metres",
-    "value_number": 17.6
-   },
-   {
-    "evidence_ids": [
-     "f_607701"
-    ],
-    "kind": "number",
-    "text": "0.07",
-    "unit": "xg",
-    "value_number": 0.07
+    "value_number": 18.0
    },
    {
     "evidence_ids": [
@@ -41,16 +42,16 @@
    }
   ],
   "confidence": 0.95,
-  "lower_third": "Amad: shot 0.07 xG, pass worth 0.11 xG",
-  "why": "Amad sees his 18 m shot saved at 0.07 xG, while a pass to the team-mate in the box, central is worth more at 0.11 xG after the pass."
+  "lower_third": "Amad: 0.06 xG shot saved, pass worth 0.11 xG",
+  "why": "Amad sees his 0.06 xG shot from 18 m saved, while a pass to the team-mate in the box, central is worth 0.11 xG after the pass."
  },
- "latency_ms": 9552,
+ "latency_ms": 13819,
  "model": "gemini-4-argon",
- "payload": "{\"DECISION\":{\"clip_ms\":877000,\"clock\":\"56:41\",\"team\":\"Man Utd\",\"verdict\":\"alternative_better\",\"real_outcome\":\"shot saved by Donnarumma\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Amad\",\"pid\":\"p_928\",\"describe\":\"the team-mate in the box, on the right\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.07,\"distance_m\":17.6,\"event_id\":\"e_0036\",\"outcome\":\"saved\",\"measured\":\"xG of the shot he took, at the reviewed strike\",\"fact\":\"f_607701\"},\"alternative\":{\"choice\":\"pass to the team-mate in the box, central\",\"xg_after_pass\":0.11,\"p_pass\":0.84,\"xg_receiver\":0.13,\"label\":\"#19\",\"onside_margin_m\":0.75,\"fact\":\"f_607702\",\"target\":{\"name\":null,\"pid\":null,\"describe\":\"the team-mate in the box, central\"}},\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":\"Pass\"},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_607701\",\"match_id\":\"m_9002\",\"label\":\"xG of the shot he took, at the reviewed strike (published PL reference model)\",\"value\":0.07,\"unit\":\"xg\",\"display\":\"0.07\",\"source\":\"cache/v5/shots_0.json e_0036\",\"players\":[\"p_928\"],\"role\":\"actual\"},{\"fact_id\":\"f_607703\",\"match_id\":\"m_9002\",\"label\":\"distance of the strike from goal\",\"value\":17.6,\"unit\":\"metres\",\"display\":\"18 m\",\"source\":\"cache/v5/shots_0.json e_0036\",\"role\":\"distance\"},{\"fact_id\":\"f_607702\",\"match_id\":\"m_9002\",\"label\":\"xG after the pass (P(pass completes) x reference xG at the receiver)\",\"value\":0.11,\"unit\":\"xg\",\"display\":\"0.11\",\"source\":\"cache/v5/xg_decision_877000.json\",\"players\":[\"p_928\"],\"role\":\"alternative\"},{\"fact_id\":\"f_607704\",\"match_id\":\"m_9002\",\"label\":\"chance the pass completes (pass model)\",\"value\":0.84,\"unit\":\"percent\",\"display\":\"84%\",\"source\":\"cache/v5/xg_decision_877000.json\",\"role\":\"p_pass\"},{\"fact_id\":\"f_607705\",\"match_id\":\"m_9002\",\"label\":\"reference xG of a shot from the receiver's spot\",\"value\":0.13,\"unit\":\"xg\",\"display\":\"0.13\",\"source\":\"cache/v5/xg_decision_877000.json\",\"role\":\"xg_receiver\"}]}",
+ "payload": "{\"DECISION\":{\"clip_ms\":877000,\"clock\":\"56:41\",\"team\":\"Man Utd\",\"verdict\":\"alternative_better\",\"real_outcome\":\"shot saved by Donnarumma\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Amad\",\"pid\":\"p_928\",\"describe\":\"the team-mate in the box, on the right\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.0635,\"distance_m\":18.0,\"event_id\":\"e_0036\",\"outcome\":\"saved\",\"measured\":\"xG of a shot from here (the freeze, where the pass is compared)\",\"fact\":\"f_607701\"},\"alternative\":{\"choice\":\"pass to the team-mate in the box, central\",\"xg_after_pass\":0.11,\"p_pass\":0.84,\"xg_receiver\":0.13,\"label\":\"#19\",\"onside_margin_m\":0.75,\"fact\":\"f_607702\",\"target\":{\"name\":null,\"pid\":null,\"describe\":\"the team-mate in the box, central\"}},\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":\"Pass\"},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_607701\",\"match_id\":\"m_9002\",\"label\":\"xG of a shot from here (the freeze, where the pass is compared) (published PL reference model)\",\"value\":0.0635,\"unit\":\"xg\",\"display\":\"0.06\",\"source\":\"cache/v5/xg_decision_877000.json\",\"players\":[\"p_928\"],\"role\":\"actual\"},{\"fact_id\":\"f_607703\",\"match_id\":\"m_9002\",\"label\":\"distance from goal at the freeze\",\"value\":18.0,\"unit\":\"metres\",\"display\":\"18 m\",\"source\":\"cache/v5/xg_decision_877000.json\",\"role\":\"distance\"},{\"fact_id\":\"f_607702\",\"match_id\":\"m_9002\",\"label\":\"xG after the pass (P(pass completes) x reference xG at the receiver)\",\"value\":0.11,\"unit\":\"xg\",\"display\":\"0.11\",\"source\":\"cache/v5/xg_decision_877000.json\",\"players\":[\"p_928\"],\"role\":\"alternative\"},{\"fact_id\":\"f_607704\",\"match_id\":\"m_9002\",\"label\":\"chance the pass completes (pass model)\",\"value\":0.84,\"unit\":\"percent\",\"display\":\"84%\",\"source\":\"cache/v5/xg_decision_877000.json\",\"role\":\"p_pass\"},{\"fact_id\":\"f_607705\",\"match_id\":\"m_9002\",\"label\":\"reference xG of a shot from the receiver's spot\",\"value\":0.13,\"unit\":\"xg\",\"display\":\"0.13\",\"source\":\"cache/v5/xg_decision_877000.json\",\"role\":\"xg_receiver\"}]}",
  "record": "model_result",
  "schema_version": "1.0.0",
- "text": "{\"lower_third\":\"Amad: shot 0.07 xG, pass worth 0.11 xG\",\"why\":\"Amad sees his 18 m shot saved at 0.07 xG, while a pass to the team-mate in the box, central is worth more at 0.11 xG after the pass.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Amad\",\"kind\":\"player\",\"value_text\":\"p_928\",\"unit\":\"\",\"evidence_ids\":[\"f_607701\"]},{\"text\":\"18 m\",\"kind\":\"number\",\"value_number\":17.6,\"unit\":\"metres\",\"evidence_ids\":[\"f_607703\"]},{\"text\":\"0.07\",\"kind\":\"number\",\"value_number\":0.07,\"unit\":\"xg\",\"evidence_ids\":[\"f_607701\"]},{\"text\":\"0.11\",\"kind\":\"number\",\"value_number\":0.11,\"unit\":\"xg\",\"evidence_ids\":[\"f_607702\"]}]}",
- "tokens_in": 1965,
- "tokens_out": 247,
+ "text": "{\"lower_third\":\"Amad: 0.06 xG shot saved, pass worth 0.11 xG\",\"why\":\"Amad sees his 0.06 xG shot from 18 m saved, while a pass to the team-mate in the box, central is worth 0.11 xG after the pass.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Amad\",\"kind\":\"player\",\"value_text\":\"p_928\",\"unit\":\"\",\"evidence_ids\":[\"f_607701\",\"f_607702\"]},{\"text\":\"0.06\",\"kind\":\"number\",\"value_number\":0.06,\"unit\":\"xg\",\"evidence_ids\":[\"f_607701\"]},{\"text\":\"18 m\",\"kind\":\"number\",\"value_number\":18.0,\"unit\":\"metres\",\"evidence_ids\":[\"f_607703\"]},{\"text\":\"0.11\",\"kind\":\"number\",\"value_number\":0.11,\"unit\":\"xg\",\"evidence_ids\":[\"f_607702\"]}]}",
+ "tokens_in": 1980,
+ "tokens_out": 255,
  "via": "live"
 }

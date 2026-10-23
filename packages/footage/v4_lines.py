@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 import json
 import re
 import sys
@@ -316,7 +317,8 @@ def run(slug: str, clip_ms: int, dry_run: bool = False, v: Version = V4) -> dict
     from newsroom.llm import LiveClient
 
     match_id = CLIPS[slug]["match_id"]
-    version = v.key(slug, clip_ms)
+    digest = hashlib.sha256(msgs[1]["content"].encode()).hexdigest()[:8]     # one record per payload, never overwritten
+    version = f"{v.key(slug, clip_ms)}.{digest}"
     manifest = open_cache(slug)
     cached = [e for e in manifest.find(producer="insight", version=version)
               if json.loads((manifest.cache_dir / e["path"]).read_text()).get("payload") == msgs[1]["content"]]
@@ -332,7 +334,7 @@ def run(slug: str, clip_ms: int, dry_run: bool = False, v: Version = V4) -> dict
                **{k: out.get(k) for k in ("json", "text", "model", "tokens_in", "tokens_out", "cost_usd",
                                           "latency_ms")}}
         manifest.add(CacheManifest.key(match_id, None, "insight", version, res["model"], int(match_id[2:])),
-                     "analytics", res, f"captions/{v.tag}_{clip_ms}_{v.prompt}.json", producer="insight",
+                     "analytics", res, f"captions/{v.tag}_{clip_ms}_{v.prompt}_{digest}.json", producer="insight",
                      version=version,
                      model=res["model"], seed=int(match_id[2:]), cost_usd=res.get("cost_usd"),
                      tokens_in=res.get("tokens_in"), tokens_out=res.get("tokens_out"))

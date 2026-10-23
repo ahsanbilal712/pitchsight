@@ -6,10 +6,10 @@ Checker, the gates, hand review, import to cache/v5/lines_<clip_ms>.json).
     python -m footage.v5_lines import
 
 Shot xG is the published reference model at the shooter's spot; xG after a pass is P(pass completes) x the
-reference xG from the receiver's spot. Lead's rules for v5: every shot is shown with the xG of its reviewed strike
-(track A's shots_0, frame_role "strike"); a pass is shown, and called worth more, only when its xG after the pass is
-at least 0.04 above the shot as both are shown (two decimals) and the receiver is more than 0.5 m onside (track A's
-onside_margin_m; the tracking error). Otherwise the beat is shot-only. A goal gets a finishing line.
+reference xG from the receiver's spot. Lead's rules for v5: a pass is shown, and called worth more, only when its xG
+after the pass is at least 0.04 above the shot's, both at the freeze (the same instant) and as shown (two
+decimals), and the receiver is more than 0.5 m onside (track A's onside_margin_m; the tracking error); that shot is
+"from here" (the freeze). Every other beat is shot-only or a goal, with the xG of its reviewed strike (shots_0).
 """
 
 from __future__ import annotations
@@ -88,22 +88,27 @@ def facts_for(slug: str, clip_ms: int) -> tuple[list[dict], dict]:
             and not o.get("offside_risk") and (offside(m, team, o["x"]) or -1) <= 0]
     best = max(alts, key=lambda o: o.get("xg_after_pass_exact", o["xg_after_pass"]), default=None)
     real = outcome(slug, clip_ms)
+    freeze_xg = d["actual"].get("xg_exact", d["actual"]["xg"])
     if real and real.endswith(" scores"):
         verdict = FINISH
-    else:
-        verdict = compare(shot["xg"], best) if best else SHOT_ONLY
+    else:                              # a pass is compared with the shot at the same instant: the freeze
+        verdict = compare(freeze_xg, best) if best else SHOT_ONLY
     if verdict != BETTER:
         best = None                                        # no pass is shown on a shot-only or finishing beat
     holder = person(slug, m, d["holder"])
     target = person(slug, m, best["label"]) if best else None
     who = [x["pid"] for x in (holder, target) if x and x.get("pid")]
     k = 10 * (clip_ms // 100 % 1000)
-    ssrc = f"cache/v5/shots_0.json {shot['event_id']}"
-    shot_xg, shot_label = shot["xg"], "xG of the shot he took, at the reviewed strike"
+    if verdict == BETTER:              # a decision freeze, labelled "from here" on screen
+        ssrc, shot_xg, dist = src, freeze_xg, d["actual"]["distance_m"]
+        shot_label, dist_label = "xG of a shot from here (the freeze, where the pass is compared)", \
+            "distance from goal at the freeze"
+    else:                              # a shot-only or finishing beat: the shot he took, at the reviewed strike
+        ssrc, shot_xg, dist = f"cache/v5/shots_0.json {shot['event_id']}", shot["xg"], shot["distance_m"]
+        shot_label, dist_label = "xG of the shot he took, at the reviewed strike", "distance of the strike from goal"
     facts = [_fact(k + 1, mid, f"{shot_label} (published PL reference model)", shot_xg, "xg", xg(shot_xg), ssrc,
                    players=who, role="actual"),
-             _fact(k + 3, mid, "distance of the strike from goal", shot["distance_m"], "metres",
-                   metres(shot["distance_m"]), ssrc, role="distance")]
+             _fact(k + 3, mid, dist_label, dist, "metres", metres(dist), ssrc, role="distance")]
     if best:
         facts += [_fact(k + 2, mid, "xG after the pass (P(pass completes) x reference xG at the receiver)",
                         best["xg_after_pass"], "xg", xg(best["xg_after_pass"]), src, players=who, role="alternative"),
@@ -114,7 +119,7 @@ def facts_for(slug: str, clip_ms: int) -> tuple[list[dict], dict]:
     view = {"clip_ms": clip_ms, "clock": d["clock"], "team": CLIPS[slug][team + "_short"], "verdict": verdict,
             "real_outcome": real, "metric": "xG (published reference model); after a pass: P(complete) x xG",
             "holder": {x: holder.get(x) for x in ("name", "pid", "describe")} if holder else None,
-            "actual": {"choice": "shoot", "xg": shot_xg, "distance_m": shot["distance_m"], "event_id": shot["event_id"],
+            "actual": {"choice": "shoot", "xg": shot_xg, "distance_m": dist, "event_id": shot["event_id"],
                        "outcome": shot["outcome"], "measured": shot_label, "fact": facts[0]["fact_id"]},
             "alternative": None if not best else
             {"choice": f"pass to {target['name'] if target and target['name'] else (target or {}).get('describe')}",

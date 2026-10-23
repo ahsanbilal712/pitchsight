@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v5: Amad compared at the freeze, Amad studio, grounding 113 of 113 (track B)
+
+- **Amad 56:41** (track C's point, lead's rule 3): a decision freeze compares the shot and the pass at the same
+  instant, so the line gives the freeze value labelled "from here", as the card's "Shot from here" row does:
+  "Amad: shot from here 0.06 xG, pass 0.11 xG" (gap 0.05, #19 0.75 m onside). Argon re-draft, Fact Checker, hand
+  review. Shot-only and goal beats stay at the reviewed strike.
+- **Studio:** Man Utd v City recorded on Amad's v5 line (the studio beat track C waits for): sliding_doors cue,
+  bar "Man Utd xG, shot v pass" 0.06 -> 0.11; Liverpool re-recorded (shot-only); trace notes now name which shot
+  value is shown (freeze or strike).
+- **Grounding** on edit_v5.yaml (track C's draft 2, working tree): **113 of 113** (103 of 103 claims). Decision
+  overlays are counted only for beats in the edit (footage_moments `xg` of each edit shot; Werner is montage only);
+  both v5 studios counted; the ghost future's "2,000" bound to ghost_future_877000 n. v3 73 of 73, v4 121 of 121.
+- **Fixed:** the Amad re-run under the same prompt version overwrote the earlier @7 record at the same cache path
+  (that call's $0.0064 stays in the ledger). Caption records are now keyed and named by a hash of the payload, so a
+  different answer can never overwrite another.
+- **Spend:** 1 Argon call, $0.0065; project $3.5568 of $50.
+- Verification: `pytest tests/footage tests/newsroom tests/cache` 224 passed, 4 skipped (exit 0); ruff clean.
+
+---
+
 ## 2026-10-23 · Video v5 on the lead's rules; Spurs pass X-ray withdrawn from v3, v4, v5 (track B)
 
 - **Lines** (prompt `insight_footage@7`; Argon, Fact Checker, gates, hand review): every shot at its reviewed

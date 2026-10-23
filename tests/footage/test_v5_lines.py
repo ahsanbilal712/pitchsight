@@ -1,5 +1,5 @@
-"""Video v5 lines (real-data xG), lead's rules: every shot at its reviewed strike; a pass only when it is worth at
-least 0.04 xG more and the receiver is more than 0.5 m onside, else the beat is shot-only. Committed files only."""
+"""Video v5 lines (real-data xG), lead's rules: a pass only when worth at least 0.04 xG more than the shot at the
+same freeze and the receiver is more than 0.5 m onside; else a shot-only beat at the reviewed strike."""
 
 from footage.v4_lines import BETTER, FINISH, SHOT_ONLY
 from footage.v5_lines import compare, facts_for, metres, offside, xg
@@ -24,7 +24,8 @@ def test_liverpool_and_arsenal_are_shot_only_at_the_strike():
 def test_amad_pass_and_the_goals():
     facts, view = facts_for("manutd-mancity-2526", 877000)
     assert view["verdict"] == BETTER and view["alternative"]["label"] == "#19"
-    assert [f["display"] for f in facts if f["role"] in ("actual", "alternative")] == ["0.07", "0.11"]
+    assert [f["display"] for f in facts if f["role"] in ("actual", "alternative")] == ["0.06", "0.11"]
+    assert "from here" in facts[0]["label"]                                     # the freeze, not the strike (0.07)
     facts, view = facts_for("manutd-mancity-2526", 1189840)
     assert view["verdict"] == FINISH and facts[0]["display"] == "0.48"             # 0.30 at the freeze
     m = {"home_attacks": "+x", "ball": {"x": 79.27}, "players": [
