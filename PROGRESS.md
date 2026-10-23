@@ -5,6 +5,18 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v6 grounding: the pipeline's compact phrases (track B)
+
+- `footage.grounding.v6_pipeline` now also reads the beat's `compact` phrases (track C, footage_moments
+  mci_pipeline_v6, fef7d20): every number in them must be one of the pipeline view's facts ("18 m", "4", "56:43",
+  "8 s"); the Fact Checker card's "<n> claims checked" is bound to the count of its own claims (not to the
+  options' "4").
+- `python -m footage.grounding` on edit_v6: **941 of 941 on-screen numbers bound to verified evidence (937 of 937
+  claims verified)**. A test shows a wrong number in a compact phrase is caught.
+- No model call. Verification: `pytest tests/footage` (exit 0).
+
+---
+
 ## 2026-10-23 · Video v6: names for the late Man Utd passage (track B)
 
 - Track C's new live beat (mci_late_live_v6, live_1390000 1409.5-1415.0 s) added to `footage.shirts.PASSAGES`;

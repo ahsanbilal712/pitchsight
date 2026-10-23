@@ -649,8 +649,10 @@ def v6_shots(beats: dict) -> list[dict]:
 
 def v6_pipeline(beats: dict) -> list[dict]:
     """The pipeline beat (demo.v6.Pipeline on track B's view): every number it prints (the agents' says, the
-    options, the line, the latencies) must be a fact of the view, a latency of a node whose source is recorded,
-    measured or replay, or a number of the reviewed line; nothing printed where the source is "not recorded"."""
+    options, the line, the latencies, the compact phrases of footage_moments `compact`) must be a fact of the view,
+    a latency of a node whose source is recorded, measured or replay, or a number of the reviewed line; the
+    Fact Checker's "<n> claims checked" is the count of its own claims; nothing printed where the source is
+    "not recorded"."""
     rows = []
     for name, b in sorted(beats.items()):
         if b.get("kind") != "pipeline":
@@ -667,7 +669,15 @@ def v6_pipeline(beats: dict) -> list[dict]:
                 if n["latency_source"] == "not recorded":
                     diff.append(f"{n['agent']}: a latency printed without a recorded source")
                 printed.append((n["agent"], "latency"))
-        bad = [f"{a}: {t}" for a, t in printed if t != "latency" and t not in allowed
+        compact = b.get("compact") or {}             # each card's phrase once it compacts (track C)
+        for agent, text in compact.items():
+            printed += [(f"compact {agent}", t) for t in _tokens(text)]
+        checks = next((n for n in v["nodes"] if n["agent"] == "factcheck"), None)
+        if checks is not None and "factcheck" not in compact:   # the card prints "<n> claims checked"
+            printed.append(("compact factcheck", "claims"))
+            if not checks.get("claims"):
+                diff.append("factcheck: no claims to count")
+        bad = [f"{a}: {t}" for a, t in printed if t not in ("latency", "claims") and t not in allowed
                and t.replace("%", "") not in allowed]
         diff += bad
         rows.append(_row("v6 overlay", f"{name}: pipeline view ({len(v['nodes'])} agents)", b["data"], len(printed),

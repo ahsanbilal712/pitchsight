@@ -73,3 +73,15 @@ def test_v6_all_bound_and_the_live_product_check_bites(tmp_path):
     path.write_text(_json.dumps({"result": {"frames": [frame]}}))
     (row,) = v6_live({"x": {"kind": "live_hud", "data": str(path), "t0": 0.0, "t1": 2.0}})
     assert row["numbers_bound"] < row["numbers"] and "is not 0.5 x 0.2" in row["diff"][0]
+
+
+def test_v6_pipeline_compact_phrases_are_checked():
+    import yaml
+
+    from footage.grounding import ROOT, v6_pipeline
+
+    beat = yaml.safe_load((ROOT / "packages/demo/footage_moments.yaml").read_text())["moments"]["mci_pipeline_v6"]
+    (ok,) = v6_pipeline({"p": beat})
+    assert ok["numbers_bound"] == ok["numbers"]
+    (bad,) = v6_pipeline({"p": {**beat, "compact": {**beat["compact"], "proposer": "Shot + 9 passes priced"}}})
+    assert bad["numbers_bound"] == bad["numbers"] - 1 and any("9" in d for d in bad["diff"])
