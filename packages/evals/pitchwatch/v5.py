@@ -303,6 +303,45 @@ def _home_plus(slug: str, r: dict) -> bool:
     return HOME_ATTACKS_P2[slug] * (1 if period == 2 else -1) > 0
 
 
+def ghost(slug: str, clip_ms: int) -> dict:
+    """Track C's ghost_future for the v5 decision's better pass: the medoid (by ball path) of v4's N rollouts after
+    that pass, every player and the ball each engine tick (10 Hz), moment-file frame. Same seeds as v4, so it is
+    v4's world when v4 chose the same pass."""
+    from evals.pitchwatch.insights import FOOTAGE
+    from evals.pitchwatch.v4 import HORIZON_S, SEED, N, _branch, wilson
+    from footage.freeze import load, to_state
+    from kickoff.engine import TICK_MS
+
+    dec = json.loads((FOOTAGE / slug / "cache" / "v5" / f"xg_decision_{clip_ms}.json").read_text())["result"]
+    assert dec["comparison"] == "pass higher", "a ghost is drawn only for a better pass"
+    best = dec["best_alternative"]
+    spec = {"kind": "pass", "target": best["label"]}
+    moment = load(slug, clip_ms)
+    state = to_state(moment, seed=SEED)
+    names = {p.get("label"): p.get("name") for p in moment["players"] if p.get("label")}
+    b = _branch(state, moment, spec, N, SEED)
+    inv = {row: lab for lab, row in state.labels.items()}
+    P = b["paths"]
+    frames = [{"t_ms": i * TICK_MS, "ball": [round(float(P[i, 22, 0]), 2), round(float(P[i, 22, 1]), 2)],
+               "players": [{"label": inv.get(r), "name": names.get(inv.get(r)), "team": "home" if r < 11 else "away",
+                            "x": round(float(P[i, r, 0]), 2), "y": round(float(P[i, r, 1]), 2)} for r in range(22)]}
+              for i in range(P.shape[0])]
+    scored = bool(b["goals"][b["world"]])
+    k = int(b["goals"].sum())
+    return {"clip_ms": clip_ms, "clock": dec["clock"], "branch": "alternative", "option": spec,
+            "label": f"Pass to {best.get('name') or best['label']}", "xg_after_pass": best["xg_after_pass"],
+            "step_ms": TICK_MS, "horizon_s": HORIZON_S, "frames": frames,
+            "outcome": {"label": "goal" if scored else "no goal within 10 s", "at_ms": None}, "scored": scored,
+            "share_of_worlds_scoring": round(k / N, 4), "share_ci95": wilson(k, N),
+            "n": N, "seed": SEED, "engine": "scripted_v1", "attack": moment["home_attacks"] + " (home)",
+            "representative": {"which": "medoid", "world": b["world"], "world_seed": SEED + b["world"]},
+            "note": "The most typical of the n simulated futures (medoid by ball path), not the likeliest outcome; "
+                    "players without a label were placed by role prior at the freeze. The on-screen number for "
+                    "this pass stays the xG after the pass (xg_decision); the ghost is a picture of one future.",
+            "source": {"decision": f"{slug}/cache/v5/xg_decision_{clip_ms}.json",
+                       "moment": f"{slug}/moments/{clip_ms}.json"}}
+
+
 def main(argv: list[str] | None = None) -> int:
     from evals.pitchwatch.v3 import write
     from evals.pitchwatch.v4 import DECISION_MOMENTS
@@ -315,6 +354,9 @@ def main(argv: list[str] | None = None) -> int:
                 print(write(slug, "xg_decision", clip_ms, decision(slug, clip_ms), version="v5"))
     elif kind == "shots":
         print(*shots_beats(), sep="\n")
+    elif kind == "ghost":
+        slug, clip_ms = (argv or sys.argv[1:])[1], int((argv or sys.argv[1:])[2])
+        print(write(slug, "ghost_future", clip_ms, ghost(slug, clip_ms), version="v5"))
     elif kind == "xray":
         print(write("manutd-spurs-2425", "pass_xray_xg", 240000, xray(), version="v5"))
     return 0
