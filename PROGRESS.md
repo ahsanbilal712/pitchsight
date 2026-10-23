@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · T-107/T-109: Liverpool 86:23 moment from tracking (track B)
+
+- Track A's tracks/62.json (re-tracked, through track C's calib/62_refined.json) converted with
+  `footage.from_tracks --write`: 18 tracked players; 17 of 19 hand labels matched a same-team track (median 0.44 m,
+  max 2.16 m); L4 (one of a close pair at the D) has no track and keeps its hand mark; the occluded C2 is the
+  unlabelled track t69. Velocities are the tracks' 1 s differences (common mode +0.6, -1.8 m/s: both teams shifting
+  to the ball side, per track A/C, ~1.5 px calibration drift). Hand marks kept in moments/hand/875000.json.
+- Counterfactual from tracked positions: shot 3.1% (was 3.0%), pass to Salah **5.3%** (was 7.7%), **+2.0 points**
+  (was +4.2). The reviewed explanation failed its own check (test caught it); a fresh Argon call failed on expired
+  gcloud ADC (no spend), so the cached model explanation was re-reviewed by hand to the new evidence
+  (32 metres, 3%, 5%, 2 points), Fact Checker gate passed.
+- Converter: an untracked hand-marked player is kept only while his team has fewer than 11 (else an unlabelled
+  track is him). Verification: `pytest tests/footage` 21 passed; validate_schemas OK.
+
+---
+
 ## 2026-10-23 · T-107 part 2: Pitchwatch tracking -> moment files; licence scan fix (track B)
 
 - `python -m footage.from_tracks <slug> <clip_ms> [--write]` reads track A's Pitchwatch format v1 (shots.json,

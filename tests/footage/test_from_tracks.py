@@ -76,3 +76,10 @@ def test_keeper_without_kit_cluster_and_team_conflict_are_reported(tmp_path):
     gk = next(p for p in m["players"] if p["label"] == "GK")
     assert gk["team"] == "away" and gk["slot"] == "GK"               # home attacks +x: the right goal is away's
     assert m["team_conflicts"] == [{"label": "C4", "hand_team": "away", "track": "t4", "distance_m": 0.0}]
+
+
+def test_hand_marked_player_without_a_track_is_kept(tmp_path):
+    base = {**BASE, "players": [*BASE["players"], {"team": "away", "label": "C2", "x": 70.0, "y": 60.0}]}
+    m = moment_from_tracks("liverpool-mancity-2526", 875000, base, fixture(tmp_path))
+    c2 = next(p for p in m["players"] if p["label"] == "C2")
+    assert c2["source"] == "hand" and (c2["x"], c2["y"]) == (70.0, 60.0)

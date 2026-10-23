@@ -150,6 +150,12 @@ def inherit_labels(moment: dict, base: dict) -> dict:
             moment.setdefault("team_conflicts", []).append(
                 {"label": h["label"], "hand_team": h["team"], "track": moment["players"][min(other)[1]]["label"],
                  "distance_m": round(min(other)[0], 2)})
+    conflicted = {c["label"] for c in moment.get("team_conflicts", [])}
+    for h in base["players"]:                 # seen by hand but not tracked (occluded, merged boxes): keep the hand mark
+        if h.get("label") and h.get("source") != "prior" and h["label"] not in dist and h["label"] not in conflicted \
+                and sum(p["team"] == h["team"] for p in moment["players"]) < 11:   # else an unlabelled track is him
+            moment["players"].append({**{k: h.get(k) for k in ("team", "label", "name", "slot", "x", "y", "image")},
+                                      "vx": 0.0, "vy": 0.0, "source": "hand"})
     if base["ball"].get("holder") in dist:
         moment["ball"]["holder"] = base["ball"]["holder"]
     moment["label_match_m"] = dist

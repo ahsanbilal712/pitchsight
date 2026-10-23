@@ -3,120 +3,31 @@
  "slug": "liverpool-mancity-2526",
  "match_id": "m_9001",
  "clip_ms": 875000,
- "t_ms": 5183000,
- "period": 2,
- "clock": "86:23",
- "score": [
-  1,
-  1
- ],
- "home_attacks": "+x",
  "frame": "frames/moment_875000.png",
  "homography": {
   "image_to_pitch": [
    [
-    0.05608731,
-    0.2159708,
-    98.75799398
+    0.037420876,
+    0.129293035,
+    97.187282743
    ],
    [
-    -0.02278484,
-    -0.11967317,
-    171.83755672
+    -0.019102291,
+    -0.103240541,
+    140.137435629
    ],
    [
-    7.291e-05,
-    0.00383789,
+    -1.0064e-05,
+    0.002557045,
     1.0
    ]
   ],
-  "rms_m": 0.191,
   "image_size": [
    1920,
    1080
   ],
-  "points": [
-   {
-    "pitch": [
-     88.5,
-     54.16
-    ],
-    "image": [
-     575,
-     312
-    ]
-   },
-   {
-    "pitch": [
-     105,
-     54.16
-    ],
-    "image": [
-     1142,
-     265
-    ]
-   },
-   {
-    "pitch": [
-     88.5,
-     13.84
-    ],
-    "image": [
-     1540,
-     702
-    ]
-   },
-   {
-    "pitch": [
-     99.5,
-     43.16
-    ],
-    "image": [
-     1192,
-     344
-    ]
-   },
-   {
-    "pitch": [
-     99.5,
-     24.84
-    ],
-    "image": [
-     1682,
-     492
-    ]
-   },
-   {
-    "pitch": [
-     105,
-     43.16
-    ],
-    "image": [
-     1382,
-     327
-    ]
-   },
-   {
-    "pitch": [
-     105,
-     37.66
-    ],
-    "image": [
-     1523,
-     360
-    ]
-   },
-   {
-    "pitch": [
-     105,
-     30.34
-    ],
-    "image": [
-     1738,
-     414
-    ]
-   }
-  ]
+  "rms_px": 3.18,
+  "source": "calib/62.json frame 43750"
  },
  "players": [
   {
@@ -124,45 +35,288 @@
    "label": "#8",
    "name": "Dominik Szoboszlai",
    "slot": null,
-   "x": 77.91,
-   "y": 19.22,
-   "vx": 3.0,
-   "vy": 0.5,
-   "source": "hand",
+   "x": 77.35,
+   "y": 18.57,
+   "vx": 1.44,
+   "vy": -1.63,
+   "source": "tracking",
    "image": [
-    735,
-    697
-   ]
+    733,
+    709
+   ],
+   "track_id": 60
+  },
+  {
+   "team": "away",
+   "label": "C1",
+   "name": null,
+   "slot": null,
+   "x": 86.24,
+   "y": 46.86,
+   "vx": -0.09,
+   "vy": -1.32,
+   "source": "tracking",
+   "image": [
+    600,
+    367
+   ],
+   "track_id": 61
+  },
+  {
+   "team": "away",
+   "label": "C9",
+   "name": null,
+   "slot": null,
+   "x": 78.47,
+   "y": 34.81,
+   "vx": 0.58,
+   "vy": -3.16,
+   "source": "tracking",
+   "image": [
+    455,
+    498
+   ],
+   "track_id": 63
+  },
+  {
+   "team": "away",
+   "label": "C5",
+   "name": null,
+   "slot": null,
+   "x": 82.87,
+   "y": 25.68,
+   "vx": -0.18,
+   "vy": -5.34,
+   "source": "tracking",
+   "image": [
+    861,
+    575
+   ],
+   "track_id": 64
+  },
+  {
+   "team": "away",
+   "label": "C4",
+   "name": null,
+   "slot": null,
+   "x": 84.72,
+   "y": 33.56,
+   "vx": 1.48,
+   "vy": -1.48,
+   "source": "tracking",
+   "image": [
+    774,
+    481
+   ],
+   "track_id": 66
+  },
+  {
+   "team": "away",
+   "label": "C6",
+   "name": null,
+   "slot": null,
+   "x": 89.64,
+   "y": 29.51,
+   "vx": 0.52,
+   "vy": -3.35,
+   "source": "tracking",
+   "image": [
+    1097,
+    497
+   ],
+   "track_id": 70
+  },
+  {
+   "team": "away",
+   "label": "C3",
+   "name": null,
+   "slot": null,
+   "x": 89.27,
+   "y": 38.05,
+   "vx": 1.21,
+   "vy": -1.04,
+   "source": "tracking",
+   "image": [
+    884,
+    422
+   ],
+   "track_id": 71
   },
   {
    "team": "home",
    "label": "#11",
    "name": "Mohamed Salah",
    "slot": null,
-   "x": 87.51,
-   "y": 8.99,
-   "vx": 0,
-   "vy": 0,
-   "source": "hand",
+   "x": 87.38,
+   "y": 8.68,
+   "vx": 0.32,
+   "vy": -2.26,
+   "source": "tracking",
    "image": [
-    1698,
-    798
-   ]
+    1699,
+    807
+   ],
+   "track_id": 72
+  },
+  {
+   "team": "away",
+   "label": "C10",
+   "name": null,
+   "slot": null,
+   "x": 89.99,
+   "y": 18.71,
+   "vx": -0.47,
+   "vy": -3.28,
+   "source": "tracking",
+   "image": [
+    1439,
+    622
+   ],
+   "track_id": 73
+  },
+  {
+   "team": "home",
+   "label": "L5",
+   "name": null,
+   "slot": null,
+   "x": 90.42,
+   "y": 42.63,
+   "vx": -0.64,
+   "vy": -2.92,
+   "source": "tracking",
+   "image": [
+    842,
+    382
+   ],
+   "track_id": 75
+  },
+  {
+   "team": "home",
+   "label": "L6",
+   "name": null,
+   "slot": null,
+   "x": 74.14,
+   "y": 35.84,
+   "vx": 0.63,
+   "vy": -0.94,
+   "source": "tracking",
+   "image": [
+    227,
+    509
+   ],
+   "track_id": 76
+  },
+  {
+   "team": "away",
+   "label": "C7",
+   "name": null,
+   "slot": null,
+   "x": 79.94,
+   "y": 30.32,
+   "vx": 0.74,
+   "vy": -1.69,
+   "source": "tracking",
+   "image": [
+    609,
+    538
+   ],
+   "track_id": 78
+  },
+  {
+   "team": "home",
+   "label": "L8",
+   "name": null,
+   "slot": null,
+   "x": 80.46,
+   "y": 38.09,
+   "vx": 3.83,
+   "vy": -1.11,
+   "source": "tracking",
+   "image": [
+    494,
+    458
+   ],
+   "track_id": 79
+  },
+  {
+   "team": "away",
+   "label": "C8",
+   "name": null,
+   "slot": null,
+   "x": 78.89,
+   "y": 45.2,
+   "vx": -0.61,
+   "vy": -1.15,
+   "source": "tracking",
+   "image": [
+    319,
+    406
+   ],
+   "track_id": 80
+  },
+  {
+   "team": "away",
+   "label": "GK",
+   "name": null,
+   "slot": "GK",
+   "x": 101.81,
+   "y": 32.16,
+   "vx": -0.05,
+   "vy": -1.33,
+   "source": "tracking",
+   "image": [
+    1554,
+    418
+   ],
+   "track_id": 81
+  },
+  {
+   "team": "home",
+   "label": "L7",
+   "name": null,
+   "slot": null,
+   "x": 84.06,
+   "y": 50.25,
+   "vx": -0.92,
+   "vy": 0.9,
+   "source": "tracking",
+   "image": [
+    464,
+    352
+   ],
+   "track_id": 55
   },
   {
    "team": "home",
    "label": "L3",
    "name": null,
    "slot": null,
-   "x": 87.19,
-   "y": 41.55,
-   "vx": 0,
-   "vy": 0,
-   "source": "hand",
+   "x": 86.32,
+   "y": 39.57,
+   "vx": 0.94,
+   "vy": -1.27,
+   "source": "tracking",
    "image": [
-    722,
-    400
-   ]
+    728,
+    421
+   ],
+   "track_id": 68
+  },
+  {
+   "team": "away",
+   "label": "t69",
+   "name": null,
+   "slot": null,
+   "x": 87.93,
+   "y": 41.87,
+   "vx": 1.19,
+   "vy": 0.53,
+   "source": "tracking",
+   "image": [
+    754,
+    397
+   ],
+   "track_id": 69
   },
   {
    "team": "home",
@@ -171,252 +325,60 @@
    "slot": null,
    "x": 86.73,
    "y": 39.23,
-   "vx": 0,
-   "vy": 0,
-   "source": "hand",
    "image": [
     745,
     420
-   ]
-  },
-  {
-   "team": "home",
-   "label": "L5",
-   "name": null,
-   "slot": null,
-   "x": 90.52,
-   "y": 42.94,
-   "vx": 0,
-   "vy": 0,
-   "source": "hand",
-   "image": [
-    835,
-    377
-   ]
-  },
-  {
-   "team": "home",
-   "label": "L6",
-   "name": null,
-   "slot": null,
-   "x": 74.68,
-   "y": 36.23,
-   "vx": 0,
-   "vy": 0,
-   "source": "hand",
-   "image": [
-    225,
-    502
-   ]
-  },
-  {
-   "team": "home",
-   "label": "L7",
-   "name": null,
-   "slot": null,
-   "x": 84.4,
-   "y": 50.47,
-   "vx": 0,
-   "vy": 0,
-   "source": "hand",
-   "image": [
-    465,
-    348
-   ]
-  },
-  {
-   "team": "home",
-   "label": "L8",
-   "name": null,
-   "slot": null,
-   "x": 80.91,
-   "y": 38.65,
-   "vx": 0,
-   "vy": 0,
-   "source": "hand",
-   "image": [
-    492,
-    450
-   ]
-  },
-  {
-   "team": "away",
-   "label": "GK",
-   "name": null,
-   "slot": "GK",
-   "x": 102.02,
-   "y": 32.33,
+   ],
    "vx": 0.0,
    "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1554,
-    412
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C1",
-   "name": null,
-   "slot": null,
-   "x": 86.55,
-   "y": 47.2,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    600,
-    362
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C2",
-   "name": null,
-   "slot": null,
-   "x": 90.57,
-   "y": 47.68,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    752,
-    345
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C3",
-   "name": null,
-   "slot": null,
-   "x": 89.48,
-   "y": 38.44,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    880,
-    415
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C4",
-   "name": null,
-   "slot": null,
-   "x": 84.97,
-   "y": 33.83,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    772,
-    475
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C5",
-   "name": null,
-   "slot": null,
-   "x": 83.34,
-   "y": 26.57,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    855,
-    560
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C6",
-   "name": null,
-   "slot": null,
-   "x": 89.8,
-   "y": 29.83,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1092,
-    490
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C7",
-   "name": null,
-   "slot": null,
-   "x": 80.31,
-   "y": 30.55,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    610,
-    532
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C8",
-   "name": null,
-   "slot": null,
-   "x": 79.27,
-   "y": 45.39,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    318,
-    402
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C9",
-   "name": null,
-   "slot": null,
-   "x": 79.01,
-   "y": 35.27,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    457,
-    490
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C10",
-   "name": null,
-   "slot": null,
-   "x": 90.09,
-   "y": 18.9,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1437,
-    615
-   ]
+   "source": "hand"
   }
  ],
  "ball": {
-  "x": 79.68,
-  "y": 19.59,
+  "x": 79.27,
+  "y": 19.08,
   "holder": "#8",
   "image": [
-   832,
-   678
-  ]
+   833.5,
+   680.2
+  ],
+  "conf": 0.676
  },
+ "tracking": {
+  "shot_id": 62,
+  "frame": 43750,
+  "velocity_dt_s": 1.0
+ },
+ "t_ms": 5183000,
+ "period": 2,
+ "clock": "86:23",
+ "score": [
+  1,
+  1
+ ],
+ "home_attacks": "+x",
  "actual": {
   "kind": "shoot",
   "target": null
  },
- "notes": "Hand-marked starter frame (T-107) before tracking (T-105): feet and pitch landmarks read off the 1080p frame at clip 14:35 (86:23). Velocities: only #8's carry is estimated; others 0. Liverpool GK and two defenders are off-screen (role prior). Szoboszlai's shot at 86:24 is blocked; Salah (#11) is free wide right."
+ "notes": "Hand-marked starter frame (T-107) before tracking (T-105): feet and pitch landmarks read off the 1080p frame at clip 14:35 (86:23). Velocities: only #8's carry is estimated; others 0. Liverpool GK and two defenders are off-screen (role prior). Szoboszlai's shot at 86:24 is blocked; Salah (#11) is free wide right.",
+ "label_match_m": {
+  "#8": 0.86,
+  "#11": 0.34,
+  "L3": 2.16,
+  "L5": 0.33,
+  "L6": 0.67,
+  "L7": 0.4,
+  "L8": 0.72,
+  "GK": 0.27,
+  "C1": 0.46,
+  "C3": 0.44,
+  "C4": 0.37,
+  "C5": 1.01,
+  "C6": 0.36,
+  "C7": 0.44,
+  "C8": 0.42,
+  "C9": 0.71,
+  "C10": 0.21
+ }
 }
