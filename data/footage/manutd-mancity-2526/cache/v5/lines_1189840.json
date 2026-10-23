@@ -3,7 +3,7 @@
  "record": "tool_result",
  "result": {
   "beat": "v5_line",
-  "cache_key": "m_9002/match/insight@insight_footage@6.xg_1189840/gemini-4-argon/s9002",
+  "cache_key": "m_9002/match/insight@insight_footage@7.xg_1189840/gemini-4-argon/s9002",
   "claims": [
    {
     "evidence_ids": [
@@ -26,16 +26,30 @@
     "unit": "xg",
     "value": 0.48,
     "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_608983"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "4.5 m",
+    "unit": "metres",
+    "value": 4.5,
+    "verified": true
    }
   ],
   "clip_ms": 1189840,
   "clock": "75:28",
-  "confidence": 0.98,
+  "confidence": 0.95,
   "decision": {
    "actual": {
     "choice": "shoot",
+    "distance_m": 4.5,
+    "event_id": "e_0054",
     "fact": "f_608981",
-    "measured": "xG of the shot he took, at the strike (reviewed frame)",
+    "measured": "xG of the shot he took, at the reviewed strike",
+    "outcome": "goal",
     "xg": 0.48
    },
    "alternative": null,
@@ -58,32 +72,43 @@
    "verdict": "finishing"
   },
   "display": {
-   "f_608981": "0.48"
+   "f_608981": "0.48",
+   "f_608983": "4.5 m"
   },
   "facts": [
    {
     "display": "0.48",
     "fact_id": "f_608981",
-    "label": "xG of the shot he took, at the strike (reviewed frame) (published PL reference model)",
+    "label": "xG of the shot he took, at the reviewed strike (published PL reference model)",
     "match_id": "m_9002",
     "players": [
      "p_935"
     ],
     "role": "actual",
-    "source": "cache/v5/xg_decision_1189840.json",
+    "source": "cache/v5/shots_0.json e_0054",
     "unit": "xg",
     "value": 0.48
+   },
+   {
+    "display": "4.5 m",
+    "fact_id": "f_608983",
+    "label": "distance of the strike from goal",
+    "match_id": "m_9002",
+    "role": "distance",
+    "source": "cache/v5/shots_0.json e_0054",
+    "unit": "metres",
+    "value": 4.5
    }
   ],
   "hand_reviewed": true,
-  "lower_third": "Dorgu scores from a 0.48 xG chance",
+  "lower_third": "Dorgu scores from 4.5 m: 0.48 xG",
   "match_id": "m_9002",
   "model": "gemini-4-argon",
-  "prompt_version": "insight_footage@6",
+  "prompt_version": "insight_footage@7",
   "slug": "manutd-mancity-2526",
   "source": "cache/v5/xg_decision_1189840.json",
   "verdict": "finishing",
-  "why": "Dorgu scores from a chance worth 0.48 xG, struck from close in."
+  "why": "Dorgu scores from 4.5 m, a chance worth 0.48 xG."
  },
  "schema_version": "1.0.0"
 }

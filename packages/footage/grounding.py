@@ -29,7 +29,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from decimal import ROUND_HALF_UP, Decimal
+from decimal import Decimal
 from pathlib import Path
 
 import yaml
@@ -132,10 +132,7 @@ def caption_sources() -> dict[str, list[tuple]]:
     lfc, mci, ars, tot = (f"{s}" for s in ("liverpool-mancity-2526", "manutd-mancity-2526", "arsenal-chelsea-2526",
                                            "manutd-spurs-2425"))
     cf = json.loads((clip_dir(lfc) / "cache" / "counterfactuals" / "cf_000001.json").read_text())
-    xray = _beat(tot, "pass_xray_237767.json")
-    s = next(x for x in xray["samples"] if x["clip_ms"] == 241967)
-    runner = max(s["options"], key=lambda o: o["p_goal"])
-    gun = _beat(tot, "speed_gun_242700.json")
+    gun = _beat(tot, "speed_gun_242700.json")             # the Spurs pass X-ray caption is withdrawn (WITHDRAWN)
     fo = _beat(tot, "fourth_official_772400.json")
     kp = _beat(ars, "keeper_cone_1382650.json")
     gh = _beat(mci, "ghost_defender_1188840.json")
@@ -147,9 +144,6 @@ def caption_sources() -> dict[str, list[tuple]]:
             [("200 times", "number", "count", cf["n"], (lfc, "cf_000001 n", "fact"))],
         "Blocked. The pass to Salah was worth 2 more points of win chance.":
             [("2 more points", "number", "win_prob_delta", cf["delta_win_prob_home"], (lfc, "cf_000001", "cf"))],
-        "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%.":
-            [("28%", "number", "percent", runner["p_goal"], (tot, f"pass_xray_237767 {runner['label']} p_goal", "fact")),
-             ("3.2%", "number", "percent", s["shoot_now_p_goal"], (tot, "pass_xray_237767 shoot_now_p_goal", "fact"))],
         "37.0 km/h at the top, at least 91 m end to end.":
             [("37.0 km/h", "number", "kmh", gun["top_speed_kmh"], (tot, "speed_gun_242700 top_speed_kmh", "fact")),
              ("91 m", "number", "metres", gun["distance_m"], (tot, "speed_gun_242700 distance_m", "fact"))],
@@ -238,11 +232,7 @@ def v4_caption_sources() -> dict[str, list[tuple]]:
                           "manutd-spurs-2425")
     L, A = _line_facts(lfc, 875000), _line_facts(ars, 1300500)
     U, M, D = _line_facts(mci, 877000), _line_facts(mci, 1079360), _line_facts(mci, 1189840)
-    xray = _xray()
-    first = next(s for s in xray["samples"] if s["clip_ms"] == 240000)
-    late = next(s for s in xray["samples"] if s["clip_ms"] == 242000)
-    top = [max((o for o in s["options"] if o["kind"] == "pass"), key=lambda o: o["p_goal_10s"]) for s in (first, late)]
-    gun = _beat(tot, "speed_gun_242700.json")
+    gun = _beat(tot, "speed_gun_242700.json")             # the Spurs pass X-ray caption is withdrawn (WITHDRAWN)
 
     def line(tok, f, slug):
         unit = f["unit"]
@@ -255,12 +245,6 @@ def v4_caption_sources() -> dict[str, list[tuple]]:
             [line("2,000", L["n"], lfc)],
         "Shot: a 1.1% chance of a goal in the next 10 s. The pass to the edge of the box: 3.3%.":
             [line("1.1%", L["actual"], lfc), line("10", L["horizon"], lfc), line("3.3%", L["alternative"], lfc)],
-        "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.":
-            [("11%", "number", "p_goal", top[0]["p_goal_10s"],
-              (tot, f"pass_xray_goal10_240000 240000 {top[0]['label']} p_goal_10s", "fact")),
-             ("21%", "number", "p_goal", top[1]["p_goal_10s"],
-              (tot, f"pass_xray_goal10_240000 242000 {top[1]['label']} p_goal_10s", "fact")),
-             ("10", "number", "seconds", xray["horizon_s"], (tot, "pass_xray_goal10_240000 horizon_s", "fact"))],
         "37.0 km/h at the top, at least 91 m end to end.":
             [("37.0 km/h", "number", "kmh", gun["top_speed_kmh"], (tot, "speed_gun_242700 top_speed_kmh", "fact")),
              ("91 m", "number", "metres", gun["distance_m"], (tot, "speed_gun_242700 distance_m", "fact"))],
@@ -295,8 +279,6 @@ def v5_caption_sources() -> dict[str, list[tuple]]:
         return (tok, "number", f["unit"], f, (slug, f["fact_id"], "line"))
 
     race = _v5(lfc, "xg_race_0.json")["series"][-1]
-    xray = max((o for s in _v5(tot, "pass_xray_xg_240000.json")["samples"] for o in s.get("options", [])
-                if o.get("xg_after_pass") is not None), key=lambda o: o["xg_after_pass"], default=None)
     title = json.loads((clip_dir(lfc) / "description.json").read_text())["title"]
     return {
         "Liverpool v Man City. Szoboszlai's free kick: 0.02 xG. In.": [xg_of("0.02", lfc, "e_0006")],
@@ -308,14 +290,12 @@ def v5_caption_sources() -> dict[str, list[tuple]]:
         "Man Utd v Man City. Amad shoots from here: 0.06 xG.": [line("0.06", mci, 877000, "actual")],
         "The pass into the box was worth 0.11, almost twice as much.": [line("0.11", mci, 877000, "alternative")],
         "Seconds later, 0.32 xG: saved.": [xg_of("0.32", mci, "e_0038")],
-        **({"Man Utd attack, priced live in xG: the top pass option climbs to 0.32.":
-            [("0.32", "number", "xg", xray["xg_after_pass"],
-              (tot, f"v5 pass_xray_xg_240000 {xray['label']} xg_after_pass", "fact"))]} if xray else {}),
-        # no X-ray values since track A's 115f6a0 (a Man Utd clearance in their own half, not an attack)
         "Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved.":
             [dist_of("16 m", ars, "e_0046"), xg_of("0.08", ars, "e_0046")],
         "Mbeumo from here: 0.10 xG.": [line("0.10", mci, 1079360, "actual")],
         "Dorgu, from 4.5 m: 0.48 xG.": [dist_of("4.5 m", mci, "e_0054"), line("0.48", mci, 1189840, "actual")],
+        "Werner, from 16 m: 0.08 xG. Saved.":
+            [line("16 m", tot, 682800, "distance"), line("0.08", tot, 682800, "actual")],
         "Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20.":
             [("20", "number", "count", 20 if "Final 20 Minutes" in title else None,
               (lfc, "description.json title (Final 20 Minutes)", "fact")),
@@ -326,10 +306,6 @@ def v5_caption_sources() -> dict[str, list[tuple]]:
 
 def _v5(slug: str, name: str) -> dict:
     return json.loads((clip_dir(slug) / "cache" / "v5" / name).read_text())["result"]
-
-
-def _xray() -> dict:
-    return _beat_v4("manutd-spurs-2425", "pass_xray_goal10_240000.json")
 
 
 def _beat_v4(slug: str, name: str) -> dict:
@@ -388,12 +364,11 @@ def run(version: str = "v3", edit: Path | None = None) -> dict:
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
     if version == "v5":
         captions = video_captions("v5", edit) if edit.exists() else []
-        return _write(studio_cues("v5") + v5_lines() + v5_decisions() + v5_shots_and_race() + v5_xray()
-                      + captions, version, edit)
+        return _write(studio_cues("v5") + v5_lines() + v5_decisions() + v5_shots_and_race() + captions, version,
+                      edit)
     if version == "v4":
         captions = video_captions("v4", edit) if edit.exists() else []
-        return _write(studio_cues("v4") + v4_lines() + v4_overlay() + v4_xray_overlay() + v4_small_print()
-                      + captions, version, edit)
+        return _write(studio_cues("v4") + v4_lines() + v4_overlay() + v4_small_print() + captions, version, edit)
     return _write(studio_cues() + beat_captions() + video_captions("v3", edit), version, edit)
 
 
@@ -412,12 +387,11 @@ def v5_lines() -> list[dict]:
 
 
 def v5_decisions() -> list[dict]:
-    """Every number the v5 freeze prints (demo.composite: the shot label and card row, the hero pass and on a
-    'pass higher' beat one secondary, the goal flash on a finishing beat, the formula line), as its code formats
-    it ({:.2f} of the file's two-decimal values). The shot, the hero pass and the goal flash must read exactly as
-    the reviewed line's display; the secondary pass is the file's own value; the formula's numbers are the
-    published model's sample (shots_0 model.xg)."""
-    from footage.names import unverified_in
+    """Every number a v5 beat prints (demo.composite, lead's rules): the shot at its reviewed strike (shots_0, the
+    card row and the goal flash alike), its distance on a strike beat, the one pass only where the line shows one
+    (+0.04 xG, more than 0.5 m onside), and the formula line's numbers; each as {:.2f} of the file's two-decimal
+    values, which must read exactly as the reviewed line's display."""
+    from footage.v5_lines import strike
 
     rows = []
     for path in sorted(FOOTAGE.glob("*/cache/v5/xg_decision_*.json")):
@@ -428,29 +402,16 @@ def v5_decisions() -> list[dict]:
             continue
         line = json.loads(line_path.read_text())["result"]
         roles = {f["role"]: f["display"] for f in line["facts"]}
-        shown, diff = [], []
-        finishing = line["verdict"] == "finishing"
-        if finishing:                                   # goal_flash: "<xg> xG · scored"
-            shown.append(("goal flash", f"{x['actual']['xg']:.2f}", roles["actual"]))
-        else:
-            shown.append(("shot", f"{x['actual']['xg']:.2f}", roles["actual"]))
-            if x.get("comparison") in ("pass higher", "close call") and x.get("best_alternative"):
-                hero = x["best_alternative"]
-                shown.append((f"pass {hero['label']}", f"{hero['xg_after_pass']:.2f}", roles.get("alternative")))
-                rest = sorted((o for o in x["alternatives"] if o.get("xg_after_pass") is not None
-                               and o["label"] != hero["label"]), key=lambda o: -o["xg_after_pass"])
-                if rest and x["comparison"] == "pass higher":
-                    o = rest[0]
-                    shown.append((f"secondary pass {o['label']}", f"{o['xg_after_pass']:.2f}",
-                                  f"{o['xg_after_pass']:.2f}"))
-                    if o.get("name") and (bad := unverified_in(slug, o["name"])):
-                        diff.append(f"secondary label names {bad}")
-        formula = x.get("formula", "")
-        cites = [t for t in V5_CITATION if t in formula]
-        diff += [f"{what}: prints {got}, line shows {want}" for what, got, want in shown if got != want]
+        shot = strike(slug, x["actual"]["event_id"])
+        shown = [("shot" if line["verdict"] != "finishing" else "goal flash", f"{shot['xg']:.2f}", roles["actual"])]
+        if line["decision"]["alternative"]:
+            hero = next(o for o in x["alternatives"] if o["label"] == line["decision"]["alternative"]["label"])
+            shown.append((f"pass {hero['label']}", f"{hero['xg_after_pass']:.2f}", roles["alternative"]))
+        cites = [t for t in V5_CITATION if t in x.get("formula", "")]
+        diff = [f"{what}: prints {got}, line shows {want}" for what, got, want in shown if got != want]
         n = len(shown) + len(cites)
-        rows.append(_row("v5 overlay", f"{slug} {x['clock']} freeze ({line['verdict']})",
-                         str(path.relative_to(ROOT)), n, n - len([1 for w, g, v in shown if g != v]), diff))
+        rows.append(_row("v5 overlay", f"{slug} {x['clock']} beat ({line['verdict']})", str(path.relative_to(ROOT)),
+                         n, n - len(diff), diff))
     return rows
 
 
@@ -482,19 +443,6 @@ def v5_shots_and_race() -> list[dict]:
     return rows
 
 
-def v5_xray() -> list[dict]:
-    path = FOOTAGE / "manutd-spurs-2425" / "cache" / "v5" / "pass_xray_xg_240000.json"
-    if not path.exists():
-        return []
-    r = json.loads(path.read_text())["result"]
-    tags = [o for s in r["samples"] for o in s.get("options", []) if o.get("xg_after_pass") is not None]
-    bad = [f"{o['label']}: {o['xg_after_pass']} vs exact {o['xg_after_pass_exact']}" for o in tags
-           if o.get("xg_after_pass_exact") is not None
-           and f"{o['xg_after_pass']:.2f}" != f"{Decimal(str(o['xg_after_pass_exact'])).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"]
-    return [_row("v5 overlay", "Man Utd v Spurs pass X-ray tags (xG after the pass)", str(path.relative_to(ROOT)),
-                 len(tags), len(tags) - len(bad), bad)]
-
-
 def v4_small_print() -> list[dict]:
     """The Liverpool Oracle card (each sample's goal chance as demo.live.pct prints it, and its "n = 2,000 per
     0.5 s, 10 s, seed 4242") and the ghost future's "the most typical of 2,000 simulated futures, seed 4242": each
@@ -522,22 +470,20 @@ def v4_small_print() -> list[dict]:
     return rows
 
 
-def v4_xray_overlay() -> list[dict]:
-    """The pass X-ray tags every option with its goal chance at every sample; each tag as the overlay formats it
-    (demo.composite.fmt_pct) must read as the one display (footage.v4_lines.pct), else it counts as unbound."""
-    from demo.composite import fmt_pct
-    from footage.v4_lines import pct
-
-    tags = [(s["clip_ms"], o["label"], o["p_goal_10s"]) for s in _xray()["samples"] for o in s.get("options", [])
-            if o.get("p_goal_10s") is not None]
-    drift = [f"{ms} {lab}: overlay {fmt_pct(p)} vs {pct(p)}" for ms, lab, p in tags if fmt_pct(p) != pct(p)]
-    return [{"group": "v4 overlay", "item": "Man Utd v Spurs pass X-ray tags", "file":
-             "data/footage/manutd-spurs-2425/cache/v4/pass_xray_goal10_240000.json", "claims": len(tags),
-             "claims_verified": len(tags), "numbers": len(tags), "numbers_bound": len(tags) - len(drift),
-             "diff": drift, "rejected": []}]
+WITHDRAWN_REASON = ("withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is "
+                    "Man Utd clearing their own box, valued as an attack")
+WITHDRAWN = {                     # Man Utd v Spurs pass X-ray captions: not counted, listed with the reason
+    "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%.",
+    "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s.",
+    "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.",
+    "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
+}
 
 
 def _write(rows: list[dict], version: str, edit: Path) -> dict:
+    in_edit = {r["item"] for r in rows}
+    withdrawn = [{"caption": c, "still_in_edit": c in in_edit, "reason": WITHDRAWN_REASON} for c in sorted(WITHDRAWN)]
+    rows = [r for r in rows if r["item"] not in WITHDRAWN]
     total = {k: sum(r[k] for r in rows) for k in ("claims", "claims_verified", "numbers", "numbers_bound")}
     groups = {}
     for r in rows:
@@ -551,11 +497,14 @@ def _write(rows: list[dict], version: str, edit: Path) -> dict:
               **total, "groups": groups, "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
               "scope": "text that reaches the screen in video v3: studio cues and the held recap, beat captions, "
                        "burnt-in captions; overlay graphics are drawn from the same beat fields",
-              "rows": [{k: v for k, v in r.items() if k != "diff" or v} for r in rows]}
+              "rows": [{k: v for k, v in r.items() if k != "diff" or v} for r in rows],
+              "withdrawn": {"beats": "Man Utd v Spurs pass X-ray (v3 28% / 3.2%, v4 11% -> 21%, v5 0.32), "
+                                     "its tags and its caption", "captions": withdrawn}}
     if version == "v5":
-        known = {"goal flash": "track C: print actual.strike_xg on a finishing beat (the shot he scored)",
-                 "shot: prints": "track C: print actual.strike_xg on a shot-only beat (the reviewed strike)",
-                 "no source declared": "track C: cut the caption (track A 115f6a0: the X-ray was a clearance)"}
+        known = {"goal flash": "track C: print the strike's xG on a finishing beat (the shot he scored)",
+                 "shot: prints": "track C: print the strike's xG (shots_0) on the beat",
+                 "text_value_mismatch": "track C: the caption must give the strike's xG (lead: every shot at its "
+                                        "reviewed strike; Amad 0.07)"}
         result["unbound"] = [{"item": r["item"], "diff": r["diff"],
                               "owner": next((v for k, v in known.items() if k in json.dumps(r["diff"])), "open")}
                              for r in rows if r["numbers_bound"] < r["numbers"] or r["claims_verified"] < r["claims"]]

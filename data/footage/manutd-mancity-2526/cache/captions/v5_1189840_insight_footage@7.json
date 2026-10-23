@@ -1,0 +1,47 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.005264,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "player",
+    "text": "Patrick Dorgu",
+    "unit": "",
+    "value_text": "p_935"
+   },
+   {
+    "evidence_ids": [
+     "f_608981"
+    ],
+    "kind": "number",
+    "text": "0.48",
+    "unit": "xg",
+    "value_number": 0.48
+   },
+   {
+    "evidence_ids": [
+     "f_608983"
+    ],
+    "kind": "number",
+    "text": "4.5 m",
+    "unit": "metres",
+    "value_number": 4.5
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Patrick Dorgu scores from 4.5 m (0.48 xG)",
+  "why": "Patrick Dorgu takes a 0.48 xG shot from 4.5 m out and scores."
+ },
+ "latency_ms": 8336,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1189840,\"clock\":\"75:28\",\"team\":\"Man Utd\",\"verdict\":\"finishing\",\"real_outcome\":\"Dorgu scores\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Patrick Dorgu\",\"pid\":\"p_935\",\"describe\":\"the team-mate in the box, central\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.48,\"distance_m\":4.5,\"event_id\":\"e_0054\",\"outcome\":\"goal\",\"measured\":\"xG of the shot he took, at the reviewed strike\",\"fact\":\"f_608981\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":null},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_608981\",\"match_id\":\"m_9002\",\"label\":\"xG of the shot he took, at the reviewed strike (published PL reference model)\",\"value\":0.48,\"unit\":\"xg\",\"display\":\"0.48\",\"source\":\"cache/v5/shots_0.json e_0054\",\"players\":[\"p_935\"],\"role\":\"actual\"},{\"fact_id\":\"f_608983\",\"match_id\":\"m_9002\",\"label\":\"distance of the strike from goal\",\"value\":4.5,\"unit\":\"metres\",\"display\":\"4.5 m\",\"source\":\"cache/v5/shots_0.json e_0054\",\"role\":\"distance\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Patrick Dorgu scores from 4.5 m (0.48 xG)\", \"why\":\"Patrick Dorgu takes a 0.48 xG shot from 4.5 m out and scores.\", \"confidence\":0.95, \"claims\":[{\"text\":\"Patrick Dorgu\", \"kind\":\"player\", \"value_text\":\"p_935\", \"unit\":\"\", \"evidence_ids\":[\"f_608981\"]}, {\"text\":\"0.48\", \"kind\":\"number\", \"value_number\":0.48, \"unit\":\"xg\", \"evidence_ids\":[\"f_608981\"]}, {\"text\":\"4.5 m\", \"kind\":\"number\", \"value_number\":4.5, \"unit\":\"metres\", \"evidence_ids\":[\"f_608983\"]}]}",
+ "tokens_in": 1617,
+ "tokens_out": 203,
+ "via": "live"
+}

@@ -1,0 +1,47 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.0052,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607501"
+    ],
+    "kind": "player",
+    "text": "Dominik Szoboszlai",
+    "unit": "",
+    "value_text": "p_912"
+   },
+   {
+    "evidence_ids": [
+     "f_607503"
+    ],
+    "kind": "number",
+    "text": "29 m",
+    "unit": "metres",
+    "value_number": 28.8
+   },
+   {
+    "evidence_ids": [
+     "f_607501"
+    ],
+    "kind": "number",
+    "text": "0.02",
+    "unit": "xg",
+    "value_number": 0.02
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Dominik Szoboszlai shot from 29 m: 0.02 xG",
+  "why": "Dominik Szoboszlai shoots from 29 m out (0.02 xG) and the shot is blocked by a defender."
+ },
+ "latency_ms": 11593,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":875000,\"clock\":\"86:23\",\"team\":\"Liverpool\",\"verdict\":\"shot_only\",\"real_outcome\":\"shot blocked by a defender\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Dominik Szoboszlai\",\"pid\":\"p_912\",\"describe\":\"the team-mate further out, on the right\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.02,\"distance_m\":28.8,\"event_id\":\"e_0033\",\"outcome\":\"blocked\",\"measured\":\"xG of the shot he took, at the reviewed strike\",\"fact\":\"f_607501\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":null},\"excluded_offside\":[\"L5\"],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_607501\",\"match_id\":\"m_9001\",\"label\":\"xG of the shot he took, at the reviewed strike (published PL reference model)\",\"value\":0.02,\"unit\":\"xg\",\"display\":\"0.02\",\"source\":\"cache/v5/shots_0.json e_0033\",\"players\":[\"p_912\"],\"role\":\"actual\"},{\"fact_id\":\"f_607503\",\"match_id\":\"m_9001\",\"label\":\"distance of the strike from goal\",\"value\":28.8,\"unit\":\"metres\",\"display\":\"29 m\",\"source\":\"cache/v5/shots_0.json e_0033\",\"role\":\"distance\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Dominik Szoboszlai shot from 29 m: 0.02 xG\",\"why\":\"Dominik Szoboszlai shoots from 29 m out (0.02 xG) and the shot is blocked by a defender.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Dominik Szoboszlai\",\"kind\":\"player\",\"value_text\":\"p_912\",\"unit\":\"\",\"evidence_ids\":[\"f_607501\"]},{\"text\":\"29 m\",\"kind\":\"number\",\"value_number\":28.8,\"unit\":\"metres\",\"evidence_ids\":[\"f_607503\"]},{\"text\":\"0.02\",\"kind\":\"number\",\"value_number\":0.02,\"unit\":\"xg\",\"evidence_ids\":[\"f_607501\"]}]}",
+ "tokens_in": 1620,
+ "tokens_out": 196,
+ "via": "live"
+}

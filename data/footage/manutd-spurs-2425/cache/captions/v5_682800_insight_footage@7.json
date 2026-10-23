@@ -1,0 +1,47 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.005522,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_608281"
+    ],
+    "kind": "player",
+    "text": "Timo Werner",
+    "unit": "",
+    "value_text": "p_960"
+   },
+   {
+    "evidence_ids": [
+     "f_608281"
+    ],
+    "kind": "number",
+    "text": "0.08",
+    "unit": "xg",
+    "value_number": 0.08
+   },
+   {
+    "evidence_ids": [
+     "f_608283"
+    ],
+    "kind": "number",
+    "text": "16 m",
+    "unit": "metres",
+    "value_number": 16.4
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Timo Werner's 16 m shot: 0.08 xG, saved",
+  "why": "Timo Werner shoots from 16 m with an xG of 0.08 and sees his effort saved by the keeper."
+ },
+ "latency_ms": 10385,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":682800,\"clock\":\"38:02\",\"team\":\"Spurs\",\"verdict\":\"shot_only\",\"real_outcome\":\"shot saved by Onana\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Timo Werner\",\"pid\":\"p_960\",\"describe\":\"the team-mate at the edge of the box, on the left\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.08,\"distance_m\":16.4,\"event_id\":\"e_0030\",\"outcome\":\"saved\",\"measured\":\"xG of the shot he took, at the reviewed strike\",\"fact\":\"f_608281\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":null},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_608281\",\"match_id\":\"m_9004\",\"label\":\"xG of the shot he took, at the reviewed strike (published PL reference model)\",\"value\":0.08,\"unit\":\"xg\",\"display\":\"0.08\",\"source\":\"cache/v5/shots_0.json e_0030\",\"players\":[\"p_960\"],\"role\":\"actual\"},{\"fact_id\":\"f_608283\",\"match_id\":\"m_9004\",\"label\":\"distance of the strike from goal\",\"value\":16.4,\"unit\":\"metres\",\"display\":\"16 m\",\"source\":\"cache/v5/shots_0.json e_0030\",\"role\":\"distance\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\": \"Timo Werner's 16 m shot: 0.08 xG, saved\", \"why\": \"Timo Werner shoots from 16 m with an xG of 0.08 and sees his effort saved by the keeper.\", \"confidence\": 0.95, \"claims\": [{\"text\": \"Timo Werner\", \"kind\": \"player\", \"value_text\": \"p_960\", \"unit\": \"\", \"evidence_ids\": [\"f_608281\"]}, {\"text\": \"0.08\", \"kind\": \"number\", \"value_number\": 0.08, \"unit\": \"xg\", \"evidence_ids\": [\"f_608281\"]}, {\"text\": \"16 m\", \"kind\": \"number\", \"value_number\": 16.4, \"unit\": \"metres\", \"evidence_ids\": [\"f_608283\"]}]}",
+ "tokens_in": 1621,
+ "tokens_out": 228,
+ "via": "live"
+}

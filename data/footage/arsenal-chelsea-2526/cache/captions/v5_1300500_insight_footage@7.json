@@ -1,0 +1,47 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.005128,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_600051"
+    ],
+    "kind": "player",
+    "text": "Eberechi Eze",
+    "unit": "",
+    "value_text": "p_948"
+   },
+   {
+    "evidence_ids": [
+     "f_600051"
+    ],
+    "kind": "number",
+    "text": "0.08",
+    "unit": "xg",
+    "value_number": 0.08
+   },
+   {
+    "evidence_ids": [
+     "f_600053"
+    ],
+    "kind": "number",
+    "text": "16 m",
+    "unit": "metres",
+    "value_number": 16.4
+   }
+  ],
+  "confidence": 0.95,
+  "lower_third": "Eberechi Eze: 0.08 xG strike from 16 m saved",
+  "why": "Eberechi Eze takes a 0.08 xG shot from 16 m out, and the strike is saved."
+ },
+ "latency_ms": 10711,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1300500,\"clock\":\"79:10\",\"team\":\"Arsenal\",\"verdict\":\"shot_only\",\"real_outcome\":\"shot saved by S\u00e1nchez\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Eberechi Eze\",\"pid\":\"p_948\",\"describe\":\"the team-mate at the edge of the box, on the right\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.08,\"distance_m\":16.4,\"event_id\":\"e_0046\",\"outcome\":\"saved\",\"measured\":\"xG of the shot he took, at the reviewed strike\",\"fact\":\"f_600051\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":null},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_600051\",\"match_id\":\"m_9003\",\"label\":\"xG of the shot he took, at the reviewed strike (published PL reference model)\",\"value\":0.08,\"unit\":\"xg\",\"display\":\"0.08\",\"source\":\"cache/v5/shots_0.json e_0046\",\"players\":[\"p_948\"],\"role\":\"actual\"},{\"fact_id\":\"f_600053\",\"match_id\":\"m_9003\",\"label\":\"distance of the strike from goal\",\"value\":16.4,\"unit\":\"metres\",\"display\":\"16 m\",\"source\":\"cache/v5/shots_0.json e_0046\",\"role\":\"distance\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Eberechi Eze: 0.08 xG strike from 16 m saved\",\"why\":\"Eberechi Eze takes a 0.08 xG shot from 16 m out, and the strike is saved.\",\"confidence\":0.95,\"claims\":[{\"text\":\"Eberechi Eze\",\"kind\":\"player\",\"value_text\":\"p_948\",\"unit\":\"\",\"evidence_ids\":[\"f_600051\"]},{\"text\":\"0.08\",\"kind\":\"number\",\"value_number\":0.08,\"unit\":\"xg\",\"evidence_ids\":[\"f_600051\"]},{\"text\":\"16 m\",\"kind\":\"number\",\"value_number\":16.4,\"unit\":\"metres\",\"evidence_ids\":[\"f_600053\"]}]}",
+ "tokens_in": 1614,
+ "tokens_out": 190,
+ "via": "live"
+}

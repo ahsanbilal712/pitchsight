@@ -1,0 +1,56 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.005636,
+ "json": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "player",
+    "text": "Bryan Mbeumo",
+    "unit": "",
+    "value_text": "p_932"
+   },
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "team",
+    "text": "Man Utd",
+    "unit": "",
+    "value_text": "man_utd"
+   },
+   {
+    "evidence_ids": [
+     "f_607933"
+    ],
+    "kind": "number",
+    "text": "15 m",
+    "unit": "metres",
+    "value_number": 14.7
+   },
+   {
+    "evidence_ids": [
+     "f_607931"
+    ],
+    "kind": "number",
+    "text": "0.10",
+    "unit": "xg",
+    "value_number": 0.1
+   }
+  ],
+  "confidence": 1.0,
+  "lower_third": "Bryan Mbeumo scores from 15 m (0.10 xG)",
+  "why": "Bryan Mbeumo scores for Man Utd from 15 m, converting a shot worth 0.10 xG."
+ },
+ "latency_ms": 11934,
+ "model": "gemini-4-argon",
+ "payload": "{\"DECISION\":{\"clip_ms\":1079360,\"clock\":\"64:27\",\"team\":\"Man Utd\",\"verdict\":\"finishing\",\"real_outcome\":\"Mbeumo scores\",\"metric\":\"xG (published reference model); after a pass: P(complete) x xG\",\"holder\":{\"name\":\"Bryan Mbeumo\",\"pid\":\"p_932\",\"describe\":\"the team-mate in the box, on the left\"},\"actual\":{\"choice\":\"shoot\",\"xg\":0.1,\"distance_m\":14.7,\"event_id\":\"e_0051\",\"outcome\":\"goal\",\"measured\":\"xG of the shot he took, at the reviewed strike\",\"fact\":\"f_607931\"},\"alternative\":null,\"overlay_labels\":{\"actual\":\"Shot\",\"alternative\":null},\"excluded_offside\":[],\"formula\":\"xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played\"},\"FACTS\":[{\"fact_id\":\"f_607931\",\"match_id\":\"m_9002\",\"label\":\"xG of the shot he took, at the reviewed strike (published PL reference model)\",\"value\":0.1,\"unit\":\"xg\",\"display\":\"0.10\",\"source\":\"cache/v5/shots_0.json e_0051\",\"players\":[\"p_932\"],\"role\":\"actual\"},{\"fact_id\":\"f_607933\",\"match_id\":\"m_9002\",\"label\":\"distance of the strike from goal\",\"value\":14.7,\"unit\":\"metres\",\"display\":\"15 m\",\"source\":\"cache/v5/shots_0.json e_0051\",\"role\":\"distance\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"lower_third\":\"Bryan Mbeumo scores from 15 m (0.10 xG)\", \"why\":\"Bryan Mbeumo scores for Man Utd from 15 m, converting a shot worth 0.10 xG.\", \"confidence\":1.0, \"claims\":[{\"text\":\"Bryan Mbeumo\", \"kind\":\"player\", \"value_text\":\"p_932\", \"unit\":\"\", \"evidence_ids\":[\"f_607931\"]}, {\"text\":\"Man Utd\", \"kind\":\"team\", \"value_text\":\"man_utd\", \"unit\":\"\", \"evidence_ids\":[\"f_607931\"]}, {\"text\":\"15 m\", \"kind\":\"number\", \"value_number\":14.7, \"unit\":\"metres\", \"evidence_ids\":[\"f_607933\"]}, {\"text\":\"0.10\", \"kind\":\"number\", \"value_number\":0.1, \"unit\":\"xg\", \"evidence_ids\":[\"f_607931\"]}]}",
+ "tokens_in": 1618,
+ "tokens_out": 240,
+ "via": "live"
+}

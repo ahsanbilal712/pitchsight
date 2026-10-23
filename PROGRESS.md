@@ -5,6 +5,24 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v5 on the lead's rules; Spurs pass X-ray withdrawn from v3, v4, v5 (track B)
+
+- **Lines** (prompt `insight_footage@7`; Argon, Fact Checker, gates, hand review): every shot at its reviewed
+  strike (track A's shots_0); a pass only when worth >= 0.04 xG more and the receiver > 0.5 m onside, else the
+  beat is shot-only. "Szoboszlai from 29 m: 0.02 xG, blocked"; "Amad: shot 0.07 xG, pass 0.11 xG";
+  "Eze from 16 m: 0.08 xG, saved"; "Werner from 16 m: 0.08 xG, saved"; "Mbeumo scores from 15 m: 0.10 xG";
+  "Dorgu scores from 4.5 m: 0.48 xG". Strike distances in the lines (one decimal under 10 m).
+- **Studio:** Liverpool airs the shot-only cue (big_chance, no bar); the trace says why no pass is shown.
+- **Withdrawn:** the Man Utd v Spurs pass X-ray (track A 115f6a0: attack directions were reversed; a clearance
+  valued as an attack): v3 28% / 3.2%, v4 11% -> 21% and its tags, v5 0.32. Not counted; listed in
+  `result.withdrawn` of every vN_grounding.json. **v3 73 of 73** (was 75), **v4 121 of 121** (was 170).
+- **v5 grounding 107 of 108**: Amad's caption gives the freeze value 0.06; the strike (and the card) is 0.07
+  (track C, listed in `result.unbound`).
+- **Spend:** 6 Argon calls, $0.0331; project $3.5503 of $50.
+- Verification: `pytest tests/footage tests/newsroom tests/cache` 224 passed, 4 skipped (exit 0); ruff clean.
+
+---
+
 ## 2026-10-23 · Video v5: real-data xG lines, studio, grounding 100 of 103 (track B)
 
 - **Lines** `data/footage/<slug>/cache/v5/lines_<clip_ms>.json` (`footage.v5_lines`, prompt `insight_footage@6`;

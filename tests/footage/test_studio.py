@@ -14,16 +14,15 @@ def test_real_executors_give_a_verified_cue_with_only_real_names(restore_clip_ca
     restore_clip_cache("liverpool-mancity-2526")
     with ThreadPoolExecutor(1) as pool:            # run() uses asyncio.run: off the main thread (Playwright loop)
         out = pool.submit(run, "liverpool-mancity-2526").result()
-    assert [c[1:] for c in out["cues"]] == [("sliding_doors", "Szoboszlai: shot 0.02 xG, pass 0.03 xG, a close call",
-                                             True)]
+    assert [c[1:] for c in out["cues"]] == [("big_chance", "Szoboszlai from 29 m: 0.02 xG, blocked", True)]
     lines = [json.loads(line) for line in (ROOT / out["path"]).read_text().splitlines()]
     execs = [r["doc"]["executor"] for r in lines if r["collection"] == "traces" and r["doc"]["moment_id"] == "mo_00001"]
     assert execs == ["ingest", "scout", "proposer", "rollout", "tactician", "narrator", "factcheck", "director",
                      "cuebus"]
     exp = next(r["doc"] for r in lines if r["collection"] == "explanations")
     cue = next(r["doc"] for r in lines if r["collection"] == "cues")
-    assert exp["prompt_version"] == "insight_footage@6" and exp["counterfactual_id"] is None      # video v5
-    assert cue["graphics"]["bar"] == {"label": "Liverpool xG, shot v pass", "from": 0.02, "to": 0.03}
+    assert exp["prompt_version"] == "insight_footage@7" and exp["counterfactual_id"] is None      # video v5
+    assert not cue["graphics"].get("bar")                       # shot-only: no pass cleared the lead's rule
     assert "win" not in json.dumps([r["doc"] for r in lines if r["doc"].get("moment_id") == "mo_00001"]).lower()
     league = json.loads((ROOT / "data" / "league" / "players.json").read_text())
     surnames = {p["name"].split()[-1] for p in league if len(p["name"].split()[-1]) > 3}

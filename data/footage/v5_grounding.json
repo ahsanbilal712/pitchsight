@@ -3,11 +3,11 @@
  "schema_version": "1.0.0",
  "record": "tool_result",
  "result": {
-  "card_line": "100 of 103 on-screen numbers bound to verified evidence (97 of 99 claims verified)",
-  "claims": 99,
-  "claims_verified": 97,
-  "numbers": 103,
-  "numbers_bound": 100,
+  "card_line": "107 of 108 on-screen numbers bound to verified evidence (101 of 102 claims verified)",
+  "claims": 102,
+  "claims_verified": 101,
+  "numbers": 108,
+  "numbers_bound": 107,
   "groups": {
    "studio cue": {
     "items": 2,
@@ -18,24 +18,24 @@
    },
    "v5 line": {
     "items": 6,
-    "numbers": 19,
-    "numbers_bound": 19,
-    "claims": 16,
-    "claims_verified": 16
+    "numbers": 26,
+    "numbers_bound": 26,
+    "claims": 20,
+    "claims_verified": 20
    },
    "v5 overlay": {
-    "items": 15,
-    "numbers": 56,
-    "numbers_bound": 54,
-    "claims": 56,
-    "claims_verified": 54
+    "items": 14,
+    "numbers": 53,
+    "numbers_bound": 53,
+    "claims": 53,
+    "claims_verified": 53
    },
    "video caption": {
     "items": 13,
-    "numbers": 18,
-    "numbers_bound": 17,
-    "claims": 17,
-    "claims_verified": 17
+    "numbers": 19,
+    "numbers_bound": 18,
+    "claims": 19,
+    "claims_verified": 18
    }
   },
   "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
@@ -43,7 +43,7 @@
   "rows": [
    {
     "group": "studio cue",
-    "item": "liverpool-mancity-2526 sliding_doors (cue)",
+    "item": "liverpool-mancity-2526 big_chance (cue)",
     "cue_id": "c_000011",
     "claims": 3,
     "claims_verified": 3,
@@ -63,7 +63,7 @@
    },
    {
     "group": "v5 line",
-    "item": "arsenal-chelsea-2526 79:10 (close_call)",
+    "item": "arsenal-chelsea-2526 79:10 (shot_only)",
     "file": "data/footage/arsenal-chelsea-2526/cache/v5/lines_1300500.json",
     "claims": 3,
     "claims_verified": 3,
@@ -73,7 +73,7 @@
    },
    {
     "group": "v5 line",
-    "item": "liverpool-mancity-2526 86:23 (close_call)",
+    "item": "liverpool-mancity-2526 86:23 (shot_only)",
     "file": "data/footage/liverpool-mancity-2526/cache/v5/lines_875000.json",
     "claims": 3,
     "claims_verified": 3,
@@ -85,65 +85,65 @@
     "group": "v5 line",
     "item": "manutd-mancity-2526 64:27 (finishing)",
     "file": "data/footage/manutd-mancity-2526/cache/v5/lines_1079360.json",
-    "claims": 2,
-    "claims_verified": 2,
-    "numbers": 2,
-    "numbers_bound": 2,
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
     "rejected": []
    },
    {
     "group": "v5 line",
     "item": "manutd-mancity-2526 75:28 (finishing)",
     "file": "data/footage/manutd-mancity-2526/cache/v5/lines_1189840.json",
-    "claims": 2,
-    "claims_verified": 2,
-    "numbers": 2,
-    "numbers_bound": 2,
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
     "rejected": []
    },
    {
     "group": "v5 line",
     "item": "manutd-mancity-2526 56:41 (alternative_better)",
     "file": "data/footage/manutd-mancity-2526/cache/v5/lines_877000.json",
-    "claims": 4,
-    "claims_verified": 4,
-    "numbers": 5,
-    "numbers_bound": 5,
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 6,
+    "numbers_bound": 6,
     "rejected": []
    },
    {
     "group": "v5 line",
     "item": "manutd-spurs-2425 38:02 (shot_only)",
     "file": "data/footage/manutd-spurs-2425/cache/v5/lines_682800.json",
-    "claims": 2,
-    "claims_verified": 2,
-    "numbers": 2,
-    "numbers_bound": 2,
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
     "rejected": []
    },
    {
     "group": "v5 overlay",
-    "item": "arsenal-chelsea-2526 79:10 freeze (close_call)",
+    "item": "arsenal-chelsea-2526 79:10 beat (shot_only)",
     "file": "data/footage/arsenal-chelsea-2526/cache/v5/xg_decision_1300500.json",
-    "claims": 4,
-    "claims_verified": 4,
-    "numbers": 4,
-    "numbers_bound": 4,
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
     "rejected": []
    },
    {
     "group": "v5 overlay",
-    "item": "liverpool-mancity-2526 86:23 freeze (close_call)",
+    "item": "liverpool-mancity-2526 86:23 beat (shot_only)",
     "file": "data/footage/liverpool-mancity-2526/cache/v5/xg_decision_875000.json",
-    "claims": 4,
-    "claims_verified": 4,
-    "numbers": 4,
-    "numbers_bound": 4,
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
     "rejected": []
    },
    {
     "group": "v5 overlay",
-    "item": "manutd-mancity-2526 64:27 freeze (finishing)",
+    "item": "manutd-mancity-2526 64:27 beat (finishing)",
     "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_1079360.json",
     "claims": 3,
     "claims_verified": 3,
@@ -153,38 +153,32 @@
    },
    {
     "group": "v5 overlay",
-    "item": "manutd-mancity-2526 75:28 freeze (finishing)",
+    "item": "manutd-mancity-2526 75:28 beat (finishing)",
     "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_1189840.json",
     "claims": 3,
-    "claims_verified": 2,
+    "claims_verified": 3,
     "numbers": 3,
-    "numbers_bound": 2,
-    "diff": [
-     "goal flash: prints 0.30, line shows 0.48"
-    ],
+    "numbers_bound": 3,
     "rejected": []
    },
    {
     "group": "v5 overlay",
-    "item": "manutd-mancity-2526 56:41 freeze (alternative_better)",
+    "item": "manutd-mancity-2526 56:41 beat (alternative_better)",
     "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json",
-    "claims": 5,
-    "claims_verified": 5,
-    "numbers": 5,
-    "numbers_bound": 5,
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 4,
+    "numbers_bound": 4,
     "rejected": []
    },
    {
     "group": "v5 overlay",
-    "item": "manutd-spurs-2425 38:02 freeze (shot_only)",
+    "item": "manutd-spurs-2425 38:02 beat (shot_only)",
     "file": "data/footage/manutd-spurs-2425/cache/v5/xg_decision_682800.json",
     "claims": 3,
-    "claims_verified": 2,
+    "claims_verified": 3,
     "numbers": 3,
-    "numbers_bound": 2,
-    "diff": [
-     "shot: prints 0.04, line shows 0.08"
-    ],
+    "numbers_bound": 3,
     "rejected": []
    },
    {
@@ -268,16 +262,6 @@
     "rejected": []
    },
    {
-    "group": "v5 overlay",
-    "item": "Man Utd v Spurs pass X-ray tags (xG after the pass)",
-    "file": "data/footage/manutd-spurs-2425/cache/v5/pass_xray_xg_240000.json",
-    "claims": 0,
-    "claims_verified": 0,
-    "numbers": 0,
-    "numbers_bound": 0,
-    "rejected": []
-   },
-   {
     "group": "video caption",
     "item": "Liverpool v Man City. Szoboszlai's free kick: 0.02 xG. In.",
     "sources": [
@@ -345,10 +329,28 @@
      "f_607701"
     ],
     "claims": 1,
-    "claims_verified": 1,
+    "claims_verified": 0,
     "numbers": 1,
-    "numbers_bound": 1,
-    "rejected": []
+    "numbers_bound": 0,
+    "diff": [
+     {
+      "where": "claims[0]",
+      "text": "0.06",
+      "reject_reason": "text_value_mismatch"
+     },
+     {
+      "where": "caption",
+      "token": "0.06",
+      "reject_reason": "unbound_number"
+     }
+    ],
+    "rejected": [
+     {
+      "where": "claims[0]",
+      "text": "0.06",
+      "reject_reason": "text_value_mismatch"
+     }
+    ]
    },
    {
     "group": "video caption",
@@ -376,14 +378,15 @@
    },
    {
     "group": "video caption",
-    "item": "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
-    "claims": 0,
-    "claims_verified": 0,
-    "numbers": 1,
-    "numbers_bound": 0,
-    "diff": [
-     "no source declared"
+    "item": "Werner, from 16 m: 0.08 xG. Saved.",
+    "sources": [
+     "f_608283",
+     "f_608281"
     ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
     "rejected": []
    },
    {
@@ -439,27 +442,47 @@
     "rejected": []
    }
   ],
+  "withdrawn": {
+   "beats": "Man Utd v Spurs pass X-ray (v3 28% / 3.2%, v4 11% -> 21%, v5 0.32), its tags and its caption",
+   "captions": [
+    {
+     "caption": "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    }
+   ]
+  },
   "unbound": [
    {
-    "item": "manutd-mancity-2526 75:28 freeze (finishing)",
+    "item": "Man Utd v Man City. Amad shoots from here: 0.06 xG.",
     "diff": [
-     "goal flash: prints 0.30, line shows 0.48"
+     {
+      "where": "claims[0]",
+      "text": "0.06",
+      "reject_reason": "text_value_mismatch"
+     },
+     {
+      "where": "caption",
+      "token": "0.06",
+      "reject_reason": "unbound_number"
+     }
     ],
-    "owner": "track C: print actual.strike_xg on a finishing beat (the shot he scored)"
-   },
-   {
-    "item": "manutd-spurs-2425 38:02 freeze (shot_only)",
-    "diff": [
-     "shot: prints 0.04, line shows 0.08"
-    ],
-    "owner": "track C: print actual.strike_xg on a shot-only beat (the reviewed strike)"
-   },
-   {
-    "item": "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
-    "diff": [
-     "no source declared"
-    ],
-    "owner": "track C: cut the caption (track A 115f6a0: the X-ray was a clearance)"
+    "owner": "track C: the caption must give the strike's xG (lead: every shot at its reviewed strike; Amad 0.07)"
    }
   ],
   "pending": [],

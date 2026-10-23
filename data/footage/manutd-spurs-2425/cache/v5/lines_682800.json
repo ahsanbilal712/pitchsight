@@ -3,7 +3,7 @@
  "record": "tool_result",
  "result": {
   "beat": "v5_line",
-  "cache_key": "m_9004/match/insight@insight_footage@6.xg_682800/gemini-4-argon/s9004",
+  "cache_key": "m_9004/match/insight@insight_footage@7.xg_682800/gemini-4-argon/s9004",
   "claims": [
    {
     "evidence_ids": [
@@ -26,6 +26,17 @@
     "unit": "xg",
     "value": 0.08,
     "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_608283"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "16 m",
+    "unit": "metres",
+    "value": 16.4,
+    "verified": true
    }
   ],
   "clip_ms": 682800,
@@ -34,8 +45,11 @@
   "decision": {
    "actual": {
     "choice": "shoot",
+    "distance_m": 16.4,
+    "event_id": "e_0030",
     "fact": "f_608281",
-    "measured": "xG of the shot he took, at the strike (reviewed frame)",
+    "measured": "xG of the shot he took, at the reviewed strike",
+    "outcome": "saved",
     "xg": 0.08
    },
    "alternative": null,
@@ -58,32 +72,43 @@
    "verdict": "shot_only"
   },
   "display": {
-   "f_608281": "0.08"
+   "f_608281": "0.08",
+   "f_608283": "16 m"
   },
   "facts": [
    {
     "display": "0.08",
     "fact_id": "f_608281",
-    "label": "xG of the shot he took, at the strike (reviewed frame) (published PL reference model)",
+    "label": "xG of the shot he took, at the reviewed strike (published PL reference model)",
     "match_id": "m_9004",
     "players": [
      "p_960"
     ],
     "role": "actual",
-    "source": "cache/v5/xg_decision_682800.json",
+    "source": "cache/v5/shots_0.json e_0030",
     "unit": "xg",
     "value": 0.08
+   },
+   {
+    "display": "16 m",
+    "fact_id": "f_608283",
+    "label": "distance of the strike from goal",
+    "match_id": "m_9004",
+    "role": "distance",
+    "source": "cache/v5/shots_0.json e_0030",
+    "unit": "metres",
+    "value": 16.4
    }
   ],
   "hand_reviewed": true,
-  "lower_third": "Werner's shot: 0.08 xG, saved",
+  "lower_third": "Werner from 16 m: 0.08 xG, saved",
   "match_id": "m_9004",
   "model": "gemini-4-argon",
-  "prompt_version": "insight_footage@6",
+  "prompt_version": "insight_footage@7",
   "slug": "manutd-spurs-2425",
   "source": "cache/v5/xg_decision_682800.json",
   "verdict": "shot_only",
-  "why": "Werner's shot is worth 0.08 xG, and it is saved."
+  "why": "Werner shoots from 16 m, a chance worth 0.08 xG, and it is saved."
  },
  "schema_version": "1.0.0"
 }

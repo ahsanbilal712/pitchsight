@@ -3,7 +3,7 @@
  "record": "tool_result",
  "result": {
   "beat": "v5_line",
-  "cache_key": "m_9002/match/insight@insight_footage@6.xg_1079360/gemini-4-argon/s9002",
+  "cache_key": "m_9002/match/insight@insight_footage@7.xg_1079360/gemini-4-argon/s9002",
   "claims": [
    {
     "evidence_ids": [
@@ -26,16 +26,30 @@
     "unit": "xg",
     "value": 0.1,
     "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_607933"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "15 m",
+    "unit": "metres",
+    "value": 14.7,
+    "verified": true
    }
   ],
   "clip_ms": 1079360,
   "clock": "64:27",
-  "confidence": 0.95,
+  "confidence": 1.0,
   "decision": {
    "actual": {
     "choice": "shoot",
+    "distance_m": 14.7,
+    "event_id": "e_0051",
     "fact": "f_607931",
-    "measured": "xG of the shot he took, at the strike (reviewed frame)",
+    "measured": "xG of the shot he took, at the reviewed strike",
+    "outcome": "goal",
     "xg": 0.1
    },
    "alternative": null,
@@ -58,32 +72,43 @@
    "verdict": "finishing"
   },
   "display": {
-   "f_607931": "0.10"
+   "f_607931": "0.10",
+   "f_607933": "15 m"
   },
   "facts": [
    {
     "display": "0.10",
     "fact_id": "f_607931",
-    "label": "xG of the shot he took, at the strike (reviewed frame) (published PL reference model)",
+    "label": "xG of the shot he took, at the reviewed strike (published PL reference model)",
     "match_id": "m_9002",
     "players": [
      "p_932"
     ],
     "role": "actual",
-    "source": "cache/v5/xg_decision_1079360.json",
+    "source": "cache/v5/shots_0.json e_0051",
     "unit": "xg",
     "value": 0.1
+   },
+   {
+    "display": "15 m",
+    "fact_id": "f_607933",
+    "label": "distance of the strike from goal",
+    "match_id": "m_9002",
+    "role": "distance",
+    "source": "cache/v5/shots_0.json e_0051",
+    "unit": "metres",
+    "value": 14.7
    }
   ],
   "hand_reviewed": true,
-  "lower_third": "Mbeumo scores from a 0.10 xG chance",
+  "lower_third": "Mbeumo scores from 15 m: 0.10 xG",
   "match_id": "m_9002",
   "model": "gemini-4-argon",
-  "prompt_version": "insight_footage@6",
+  "prompt_version": "insight_footage@7",
   "slug": "manutd-mancity-2526",
   "source": "cache/v5/xg_decision_1079360.json",
   "verdict": "finishing",
-  "why": "Mbeumo scores from a chance worth 0.10 xG."
+  "why": "Mbeumo scores from 15 m, a chance worth 0.10 xG."
  },
  "schema_version": "1.0.0"
 }

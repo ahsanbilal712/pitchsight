@@ -217,37 +217,43 @@ async def run_moment_line(deps, f: dict, line: dict) -> None:
     m = load(f["slug"], f["clip_ms"])
     d = line["decision"]
     team = next(p["team"] for p in m["players"] if p.get("label") == m["ball"]["holder"])
-    players = [x["pid"] for x in (d["holder"], d["alternative"]["target"]) if x and x.get("pid")]
+    players = [x["pid"] for x in (d["holder"], (d["alternative"] or {}).get("target")) if x and x.get("pid")]
     for fact in line["facts"]:
         deps.bb.put("facts", fact)
     v5 = line["beat"] == "v5_line"
-    metric = ({"xg_decision": {"actual": round(d["actual"]["xg"], 2), "alternative": round(d["alternative"]["xg_after_pass"], 2),
-                      "verdict": line["verdict"], "source": line["source"]}} if v5 else
-              {"goal_in_10s": {"actual": d["actual"]["p_goal_10s"], "alternative": d["alternative"]["p_goal_10s"],
-                               "verdict": line["verdict"], "source": line["source"],
-                               "ghost_trail": ghost_trail(f["slug"], f["clip_ms"])}})
+    if v5:                                 # shot-only / finishing beats carry no comparison and no bar
+        metric = {} if not d["alternative"] else \
+            {"xg_decision": {"actual": round(d["actual"]["xg"], 2),
+                             "alternative": round(d["alternative"]["xg_after_pass"], 2),
+                             "verdict": line["verdict"], "source": line["source"]}}
+    else:
+        metric = {"goal_in_10s": {"actual": d["actual"]["p_goal_10s"], "alternative": d["alternative"]["p_goal_10s"],
+                                  "verdict": line["verdict"], "source": line["source"],
+                                  "ghost_trail": ghost_trail(f["slug"], f["clip_ms"])}}
     moment = Moment(moment_id=f["moment_id"], match_id=m["match_id"], t_ms=m["t_ms"], clock=m["clock"],
                     period=m["period"], kind="big_chance", leverage=f.get("leverage"), team=team, players=players,
                     selected_by="producer", clip_ms=f["clip_ms"], **metric)
     deps.bb.put("moments", moment.model_dump())
     run_id = f"run_{m['match_id']}_{f['moment_id']}"
-    alt = {"kind": "pass", "target": d["alternative"]["label"]} if v5 else \
+    alt = ({"kind": "pass", "target": d["alternative"]["label"]} if d["alternative"] else None) if v5 else \
         next(o["option"] for o in decision_options(f["slug"], f["clip_ms"])
              if o.get("p_goal_10s") == d["alternative"]["p_goal_10s"] and "diff_vs_actual" in o)
     env = RolloutDone(run_id=run_id, branch="explained", moment=moment, agent_path=list(PRECOMPUTED),
-                      trace_id=trace_id_for(run_id), alternatives=[alt], counterfactual=None,
+                      trace_id=trace_id_for(run_id), alternatives=[alt] if alt else [], counterfactual=None,
                       decision={"t_ms": m["t_ms"], "actor": (d["holder"] or {}).get("pid"),
                                 "actor_name": (d["holder"] or {}).get("name"), "team": team,
                                 "actual": m["actual"], "anchor_event_id": None})
     _trace(deps.bb, env, "ingest", "ok", note="real-clip moment from the frozen frame (tracking)")
     _trace(deps.bb, env, "scout", "routed", note="producer-selected real-clip moment")
     if v5:
+        shown = d["alternative"]["choice"] if d["alternative"] else "none (no pass 0.04 xG above the shot to a " \
+            "team-mate more than 0.5 m onside)"
         _trace(deps.bb, env, "proposer", "ok", model="every team-mate in view",
-               note=f"passes to every team-mate in view (offside positions left out: "
-                    f"{', '.join(d['excluded_offside']) or 'none'}); shown: {d['alternative']['choice']}")
+               note=f"passes to every team-mate in view (offside risk left out: "
+                    f"{', '.join(d['excluded_offside']) or 'none'}); shown: {shown}")
         _trace(deps.bb, env, "rollout", "ok", model="reference xG + pass model",
-               note=f"{d['formula']} (deterministic, precomputed); {line['verdict'].replace('_', ' ')} on the shown "
-                    "values (0.02 xG apart or more)")
+               note=f"shot: xG of the reviewed strike ({d['actual']['event_id']}, {d['actual']['distance_m']} m); "
+                    f"{d['formula']} (deterministic, precomputed); {line['verdict'].replace('_', ' ')}")
     else:
         _trace(deps.bb, env, "proposer", "ok", model="every team-mate and a carry",
                note=f"alternatives: every labelled team-mate and a carry; shown: {d['alternative']['choice']}")

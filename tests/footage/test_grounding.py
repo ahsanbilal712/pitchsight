@@ -32,7 +32,7 @@ def test_v4_lines_studio_and_captions_are_bound_and_the_overlay_is_checked():
     for g in ("studio cue", "v4 line", "video caption"):
         x = r["groups"][g]
         assert x["numbers_bound"] == x["numbers"] > 0 and x["claims_verified"] == x["claims"], (g, x)
-    assert r["groups"]["v4 overlay"]["items"] == 9      # six decision cards, the X-ray tags, the Oracle card, ghost footer
+    assert r["groups"]["v4 overlay"]["items"] == 8      # six decision cards, the Oracle card, the ghost footer
     assert "win" not in " ".join(row["item"] for row in r["rows"]).lower()
 
 
