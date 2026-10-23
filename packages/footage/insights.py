@@ -60,9 +60,16 @@ def facts_for(beat: dict) -> list[dict]:
                 out.append(_fact(n, mid, f"{side}_win_chance_after {e['label']}", after[side], "win_prob",
                                  beat["source"], event_id=e["source"], clock=e["clock"]))
     elif kind == "ghost_defender":
-        out = [_fact(1, mid, "goal chance, actual positions", beat["p_goal_actual"], "p_goal", beat["source"]),
-               _fact(2, mid, "goal chance, defender at the ghost spot", beat["p_goal_ghost"], "p_goal", beat["source"]),
-               _fact(3, mid, "metres the defender needed", beat["metres_needed"], "metres", beat["source"])]
+        who = [p for p in (beat["shooter"].get("pid"), beat["defender"].get("pid")) if p]
+        out = [_fact(1, mid, "goal chance, actual positions (engine rollouts)", beat["p_goal_actual"], "p_goal",
+                     beat["source"], players=who),
+               _fact(2, mid, "goal chance, defender at the ghost spot (engine rollouts)", beat["p_goal_ghost"],
+                     "p_goal", beat["source"], players=who),
+               _fact(3, mid, "metres the defender needed", beat["metres_needed"], "metres", beat["source"],
+                     players=who),
+               _fact(4, mid, "metres he could cover at top speed in the time", beat["reach_m"], "metres",
+                     beat["source"]),
+               _fact(5, mid, "seconds available (before the shot)", beat["t_avail_s"], "seconds", beat["source"])]
     elif kind == "keeper_cone":
         out = [_fact(1, mid, "share of the goal covered, actual position", beat["coverage_actual"], "percent",
                      beat["source"]),

@@ -5,6 +5,21 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v3 item 2: ghost defender on Mbeumo's and Dorgu's goals (track B)
+
+- `python -m footage.ghost_beat`: shot frames from track A's tracks (127: Mbeumo, track 25, clip 1079.36 s; 137:
+  Dorgu, track 6, clip 1189.84 s; the tags put both goals at 64:27 and 75:30), City positions one second earlier,
+  `footage.ghost` (the defender with least ground into the shooting cone at 7 m/s) and 200 forced-shot rollouts.
+- **Dorgu (75:28):** a City defender (track 1, shirt not readable) needed **6.5 m**, within the 7 m he could cover
+  in the second: the engine's goal chance falls from **26% to 19%** with him there (formula 15.6% -> 10.5%).
+- **Mbeumo (64:27):** the closest City defender (track 28) needed **10.7 m** in that second, beyond 7 m: no City
+  defender could have got into the shooting lane; with one there 5% -> 4%.
+- Captions on gemini-4-argon (insight_footage@2, $0.0152), both verified first time; review: Mbeumo's headline leads
+  with the finding, "7.0" -> "7". Beats `manutd-mancity-2526/cache/v3/ghost_defender_{1078360,1188840}.json`
+  (freeze one second before the shot, homography included).
+
+---
+
 ## 2026-10-23 · Video v3 item 1: what Bruno's red card cost, engine estimate: no clear cost (track B)
 
 - `python -m footage.redcard run 11v11|11v10` + `combine`: from the frozen 40:57 state (Man Utd 0-1 Spurs) the

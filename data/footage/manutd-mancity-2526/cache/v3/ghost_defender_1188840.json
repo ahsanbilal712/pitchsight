@@ -1,0 +1,200 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "ghost_defender",
+  "caption": {
+   "claims": [
+    {
+     "evidence_ids": [
+      "f_800001",
+      "f_800002"
+     ],
+     "kind": "player",
+     "reject_reason": null,
+     "text": "Patrick Dorgu",
+     "unit": null,
+     "value": "p_935",
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800001"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "26%",
+     "unit": "p_goal",
+     "value": 0.2581,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800002"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "19%",
+     "unit": "p_goal",
+     "value": 0.1929,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800003"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "6.5 metres",
+     "unit": "metres",
+     "value": 6.5,
+     "verified": true
+    },
+    {
+     "evidence_ids": [
+      "f_800004"
+     ],
+     "kind": "number",
+     "reject_reason": null,
+     "text": "7 metres",
+     "unit": "metres",
+     "value": 7.0,
+     "verified": true
+    }
+   ],
+   "facts": [
+    {
+     "fact_id": "f_800001",
+     "label": "goal chance, actual positions (engine rollouts)",
+     "match_id": "m_9002",
+     "players": [
+      "p_935",
+      "p_934"
+     ],
+     "source": "moments/1189840.json + tracks/137.json + footage.ghost",
+     "unit": "p_goal",
+     "value": 0.2581
+    },
+    {
+     "fact_id": "f_800002",
+     "label": "goal chance, defender at the ghost spot (engine rollouts)",
+     "match_id": "m_9002",
+     "players": [
+      "p_935",
+      "p_934"
+     ],
+     "source": "moments/1189840.json + tracks/137.json + footage.ghost",
+     "unit": "p_goal",
+     "value": 0.1929
+    },
+    {
+     "fact_id": "f_800003",
+     "label": "metres the defender needed",
+     "match_id": "m_9002",
+     "players": [
+      "p_935",
+      "p_934"
+     ],
+     "source": "moments/1189840.json + tracks/137.json + footage.ghost",
+     "unit": "metres",
+     "value": 6.5
+    },
+    {
+     "fact_id": "f_800004",
+     "label": "metres he could cover at top speed in the time",
+     "match_id": "m_9002",
+     "source": "moments/1189840.json + tracks/137.json + footage.ghost",
+     "unit": "metres",
+     "value": 7.0
+    },
+    {
+     "fact_id": "f_800005",
+     "label": "seconds available (before the shot)",
+     "match_id": "m_9002",
+     "source": "moments/1189840.json + tracks/137.json + footage.ghost",
+     "unit": "seconds",
+     "value": 1.0
+    }
+   ],
+   "hand_reviewed": true,
+   "headline": "Ghost spot cuts Dorgu goal chance from 26% to 19%",
+   "model": "gemini-4-argon",
+   "prompt_version": "insight_footage@2",
+   "why": "Moving 6.5 metres into the shooting cone is within the 7 metres the defender can cover at top speed. In the engine's replay, reaching the ghost spot drops the goal chance on the Patrick Dorgu shot from 26% to 19%."
+  },
+  "clip_ms": 1188840,
+  "clock": "75:28",
+  "defender": {
+   "at_shot": [
+    8.75,
+    33.9
+   ],
+   "label": "CITY-Dorgu",
+   "name": null,
+   "pid": "p_934",
+   "track_id": 1,
+   "x": 12.45,
+   "y": 35.48
+  },
+  "engine": "scripted_v1",
+  "error_note": "tracking about 0.5 m (not paint-refined)",
+  "ghost": {
+   "x": 6.25,
+   "y": 33.5
+  },
+  "homography": {
+   "image_size": [
+    1920,
+    1080
+   ],
+   "image_to_pitch": [
+    [
+     0.032153642,
+     0.14605068,
+     -78.682760241
+    ],
+    [
+     0.025985726,
+     -0.054563864,
+     83.549239103
+    ],
+    [
+     -1.0616e-05,
+     0.002698872,
+     1.0
+    ]
+   ],
+   "rms_px": 1.95,
+   "source": "calib/137.json frame 29746"
+  },
+  "horizon_s": 2.0,
+  "match_id": "m_9002",
+  "measure": "goal chance of the shot in the engine (forced shot, n rollouts); the defender moved into the shooting cone from where he was one second before the shot, at up to 7 m/s",
+  "metres_needed": 6.5,
+  "n": 200,
+  "p_goal_actual": 0.2581,
+  "p_goal_formula": {
+   "actual": 0.156,
+   "ghost": 0.105
+  },
+  "p_goal_ghost": 0.1929,
+  "reach_m": 7.0,
+  "reachable": true,
+  "seed": 9002,
+  "shooter": {
+   "label": "Dorgu",
+   "name": "Patrick Dorgu",
+   "pid": "p_935",
+   "track_id": 6,
+   "x": 7.36,
+   "y": 33.51
+  },
+  "shot_clip_ms": 1189840,
+  "shot_id": 137,
+  "slug": "manutd-mancity-2526",
+  "source": "moments/1189840.json + tracks/137.json + footage.ghost",
+  "t_avail_s": 1.0,
+  "top_speed_ms": 7.0
+ },
+ "schema_version": "1.0.0"
+}
