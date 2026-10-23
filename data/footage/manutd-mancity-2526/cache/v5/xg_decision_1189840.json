@@ -1,0 +1,87 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "actual": {
+   "distance_m": 7.4,
+   "kind": "shoot",
+   "label": "Shot",
+   "xg": 0.3
+  },
+  "alternatives": [
+   {
+    "gate": null,
+    "label": "t11",
+    "name": null,
+    "p_pass": 0.87,
+    "x": 16.04,
+    "xg_after_pass": 0.08,
+    "xg_after_pass_exact": 0.0801,
+    "xg_receiver": 0.09,
+    "y": 35.62
+   },
+   {
+    "gate": null,
+    "label": "t14",
+    "name": null,
+    "p_pass": 0.79,
+    "x": 10.98,
+    "xg_after_pass": 0.07,
+    "xg_after_pass_exact": 0.0677,
+    "xg_receiver": 0.09,
+    "y": 44.8
+   },
+   {
+    "gate": null,
+    "label": "t8",
+    "name": null,
+    "p_pass": 0.8,
+    "x": 16.93,
+    "xg_after_pass": 0.05,
+    "xg_after_pass_exact": 0.0474,
+    "xg_receiver": 0.06,
+    "y": 42.72
+   },
+   {
+    "gate": null,
+    "label": "t2",
+    "name": null,
+    "p_pass": 0.63,
+    "x": 32.8,
+    "xg_after_pass": 0.01,
+    "xg_after_pass_exact": 0.01,
+    "xg_receiver": 0.02,
+    "y": 22.07
+   }
+  ],
+  "beat": "xg_decision",
+  "best_alternative": {
+   "gate": null,
+   "label": "t11",
+   "name": null,
+   "p_pass": 0.87,
+   "x": 16.04,
+   "xg_after_pass": 0.08,
+   "xg_after_pass_exact": 0.0801,
+   "xg_receiver": 0.09,
+   "y": 35.62
+  },
+  "clip_ms": 1189840,
+  "clock": "75:28",
+  "comparison": "shot higher",
+  "deterministic": true,
+  "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+  "holder": "Dorgu",
+  "holder_name": "Patrick Dorgu",
+  "match_id": "m_9002",
+  "players_seen": 14,
+  "slug": "manutd-mancity-2526",
+  "source": {
+   "moment": "manutd-mancity-2526/moments/1189840.json",
+   "pass_model": "packages/heads/artifacts/pass",
+   "shot_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}

@@ -1,0 +1,109 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "actual": {
+   "distance_m": 20.8,
+   "kind": "shoot",
+   "label": "Shot",
+   "xg": 0.05
+  },
+  "alternatives": [
+   {
+    "gate": null,
+    "label": "A7",
+    "name": null,
+    "p_pass": 0.58,
+    "x": 89.94,
+    "xg_after_pass": 0.06,
+    "xg_after_pass_exact": 0.0614,
+    "xg_receiver": 0.11,
+    "y": 33.21
+   },
+   {
+    "gate": null,
+    "label": "A6",
+    "name": null,
+    "p_pass": 0.84,
+    "x": 82.99,
+    "xg_after_pass": 0.04,
+    "xg_after_pass_exact": 0.0381,
+    "xg_receiver": 0.05,
+    "y": 37.34
+   },
+   {
+    "gate": null,
+    "label": "#7",
+    "name": "Bukayo Saka",
+    "p_pass": 0.65,
+    "x": 88.9,
+    "xg_after_pass": 0.02,
+    "xg_after_pass_exact": 0.0194,
+    "xg_receiver": 0.03,
+    "y": 14.52
+   },
+   {
+    "gate": null,
+    "label": "#12",
+    "name": null,
+    "p_pass": 0.92,
+    "x": 71.7,
+    "xg_after_pass": 0.01,
+    "xg_after_pass_exact": 0.0145,
+    "xg_receiver": 0.02,
+    "y": 8.95
+   },
+   {
+    "gate": null,
+    "label": "#16",
+    "name": null,
+    "p_pass": 0.9,
+    "x": 70.15,
+    "xg_after_pass": 0.01,
+    "xg_after_pass_exact": 0.0125,
+    "xg_receiver": 0.01,
+    "y": 16.62
+   },
+   {
+    "gate": null,
+    "label": "#29",
+    "name": null,
+    "p_pass": 0.66,
+    "x": 79.47,
+    "xg_after_pass": 0.01,
+    "xg_after_pass_exact": 0.0125,
+    "xg_receiver": 0.02,
+    "y": 10.98
+   }
+  ],
+  "beat": "xg_decision",
+  "best_alternative": {
+   "gate": null,
+   "label": "A7",
+   "name": null,
+   "p_pass": 0.58,
+   "x": 89.94,
+   "xg_after_pass": 0.06,
+   "xg_after_pass_exact": 0.0614,
+   "xg_receiver": 0.11,
+   "y": 33.21
+  },
+  "clip_ms": 1300500,
+  "clock": "79:10",
+  "comparison": "pass higher",
+  "deterministic": true,
+  "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+  "holder": "#10",
+  "holder_name": "Eberechi Eze",
+  "match_id": "m_9003",
+  "players_seen": 15,
+  "slug": "arsenal-chelsea-2526",
+  "source": {
+   "moment": "arsenal-chelsea-2526/moments/1300500.json",
+   "pass_model": "packages/heads/artifacts/pass",
+   "shot_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}

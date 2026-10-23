@@ -251,6 +251,21 @@ def xg_all() -> dict:
                     "team": e["team"], "player": e["attrs"].get("player_name"), "outcome": e["outcome"],
                     "goal": e["outcome"] == "goal", "note": e["attrs"].get("note"), "camera_shot": shot["camera_shot"]}
             ov = ovs.get(e["id"], {})
+            if ov.get("disallowed"):
+                base.update({"goal": False, "outcome": "disallowed", "disallowed": ov["disallowed"]})
+            if "moment" in ov:                         # spot from a hand-reviewed moment file (track B)
+                from footage.freeze import load as load_moment
+                mo = load_moment(slug, ov["moment"])
+                pl = next(p for p in mo["players"] if p.get("label") == ov["label"])
+                d_att = attack_dir(slug, e["period"], e["team"])
+                xy_far = [pl["x"], W - pl["y"]]
+                u0, v0 = (xy_far[0], xy_far[1]) if d_att > 0 else (L - xy_far[0], W - xy_far[1])
+                rows.append({**base, "measured": True, "release_frame": None, "release_clip_ms": ov["moment"],
+                             "shooter_track": None, "shooter_label": ov["label"], "set_piece": None,
+                             "shooter_xy_near": [pl["x"], pl["y"]], "features": {}, "keeper_in_view": None,
+                             "header": False, "xg_ours": None, "xg_reference": round(reference_xg(L - u0, abs(v0 - GOAL_Y)), 3),
+                             "reviewed": True, "calib_ok": True, "spot_source": f"{slug}/moments/{ov['moment']}.json"})
+                continue
             if not shot["measurable"] or ov.get("exclude"):
                 rows.append({**base, "measured": False,
                              "reason": ov.get("exclude") or "no wide main-camera view (replay, close-up or graphic)"})
@@ -285,7 +300,8 @@ def xg_all() -> dict:
 
 
 def summary(doc: dict) -> dict:
-    m = [r for r in doc["shots"] if r["measured"] and not r["header"] and not r.get("set_piece")]
+    m = [r for r in doc["shots"] if r["measured"] and not r["header"] and not r.get("set_piece")
+         and r.get("xg_ours") is not None]
     a, b = np.array([r["xg_ours"] for r in m]), np.array([r["xg_reference"] for r in m])
     goals = np.array([r["goal"] for r in m], dtype=float)
     out = {"measured": len([r for r in doc["shots"] if r["measured"]]), "total": len(doc["shots"]),

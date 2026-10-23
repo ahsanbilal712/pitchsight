@@ -1,0 +1,313 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "shots",
+  "decimals": 2,
+  "match_id": "m_9001",
+  "model": {
+   "penalty": "0.76 (Wyscout's fixed penalty value)",
+   "url": "https://soccermatics.readthedocs.io/en/latest/gallery/lesson2/plot_xGModelFit.html",
+   "xg": "Soccermatics combined logistic model, 8,451 non-penalty PL 2017/18 shots (Wyscout), at the strike point from tracking"
+  },
+  "note": "xg null where the strike has no trusted wide view (and it is not a penalty); names only from names_verified.json",
+  "shots": [
+   {
+    "camera_ok": true,
+    "clip_ms": 96500,
+    "clock": "73:26",
+    "disallowed": null,
+    "distance_m": 30.4,
+    "event_id": "e_0006",
+    "frame": 4825,
+    "gate": null,
+    "goal": true,
+    "header": false,
+    "outcome": "goal",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": "direct free kick",
+    "shooter": {
+     "label": "t1",
+     "name": "Dominik Szoboszlai",
+     "name_source": "score_bug goal"
+    },
+    "shot_id": 6,
+    "source": {
+     "calib": "liverpool-mancity-2526/calib/xe_0006.json",
+     "event": "e_0006",
+     "position": "liverpool-mancity-2526/tracks/xe_0006.json"
+    },
+    "team": "home",
+    "team_name": "Liverpool",
+    "x": 74.6,
+    "xg": 0.02,
+    "y": 35.03
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 707000,
+    "clock": "83:36",
+    "disallowed": null,
+    "event_id": "e_0026",
+    "goal": false,
+    "outcome": "blocked",
+    "penalty": false,
+    "reason": "same sequence as e_0027 within 1 s (Haaland's touch is blocked, Bernardo Silva finishes); the two touches are not separable in the wide view",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0026"
+    },
+    "team": "away",
+    "team_name": "Manchester City",
+    "xg": null
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 708080,
+    "clock": "83:37",
+    "disallowed": null,
+    "distance_m": 7.7,
+    "event_id": "e_0027",
+    "frame": 35404,
+    "gate": null,
+    "goal": true,
+    "header": false,
+    "outcome": "goal",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t19",
+     "name": "Bernardo Silva",
+     "name_source": "score_bug goal"
+    },
+    "shot_id": 49,
+    "source": {
+     "calib": "liverpool-mancity-2526/calib/xe_0027.json",
+     "event": "e_0027",
+     "position": "liverpool-mancity-2526/tracks/xe_0027.json"
+    },
+    "team": "away",
+    "team_name": "Manchester City",
+    "x": 7.44,
+    "xg": 0.28,
+    "y": 36.11
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 875560,
+    "clock": "86:25",
+    "disallowed": null,
+    "distance_m": 28.8,
+    "event_id": "e_0033",
+    "frame": 43778,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "blocked",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t0",
+     "name": "Dominik Szoboszlai",
+     "name_source": "moments/hand/875000.json (holder shoots)"
+    },
+    "shot_id": 62,
+    "source": {
+     "calib": "liverpool-mancity-2526/calib/xe_0033.json",
+     "event": "e_0033",
+     "position": "liverpool-mancity-2526/tracks/xe_0033.json"
+    },
+    "team": "home",
+    "team_name": "Liverpool",
+    "x": 80.33,
+    "xg": 0.02,
+    "y": 19.1
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1006000,
+    "clock": "88:36",
+    "disallowed": null,
+    "event_id": "e_0039",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "strike not identifiable among the wide-view candidates (ball and shooter ambiguous)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0039"
+    },
+    "team": "home",
+    "team_name": "Liverpool",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1253000,
+    "clock": "92:43",
+    "disallowed": null,
+    "event_id": "e_0048",
+    "goal": true,
+    "outcome": "goal",
+    "penalty": true,
+    "shooter": {
+     "label": null,
+     "name": "Haaland",
+     "name_source": "score_bug goal"
+    },
+    "source": {
+     "event": "e_0048",
+     "xg": "penalty constant"
+    },
+    "team": "away",
+    "team_name": "Manchester City",
+    "x": null,
+    "xg": 0.76,
+    "y": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1366000,
+    "clock": "94:36",
+    "disallowed": null,
+    "event_id": "e_0051",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no ball detection at the strike in the wide view",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0051"
+    },
+    "team": "home",
+    "team_name": "Liverpool",
+    "xg": null
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 1475920,
+    "clock": "96:25",
+    "disallowed": null,
+    "distance_m": 9.9,
+    "event_id": "e_0058",
+    "frame": 73796,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t1",
+     "name": null,
+     "name_source": null
+    },
+    "shot_id": 120,
+    "source": {
+     "calib": "liverpool-mancity-2526/calib/xe_0058.json",
+     "event": "e_0058",
+     "position": "liverpool-mancity-2526/tracks/xe_0058.json"
+    },
+    "team": "away",
+    "team_name": "Manchester City",
+    "x": 4.82,
+    "xg": 0.17,
+    "y": 25.31
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 1571860,
+    "clock": "98:01",
+    "disallowed": null,
+    "distance_m": 11.4,
+    "event_id": "e_0065",
+    "frame": 78593,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t13",
+     "name": null,
+     "name_source": null
+    },
+    "shot_id": 127,
+    "source": {
+     "calib": "liverpool-mancity-2526/calib/xe_0065.json",
+     "event": "e_0065",
+     "position": "liverpool-mancity-2526/tracks/xe_0065.json"
+    },
+    "team": "home",
+    "team_name": "Liverpool",
+    "x": 93.83,
+    "xg": 0.16,
+    "y": 31.52
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1651000,
+    "clock": "99:21",
+    "disallowed": null,
+    "event_id": "e_0073",
+    "goal": true,
+    "outcome": "goal",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": "Cherki",
+     "name_source": "score_bug goal"
+    },
+    "source": {
+     "event": "e_0073"
+    },
+    "team": "away",
+    "team_name": "Manchester City",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1959000,
+    "clock": "99:30",
+    "disallowed": null,
+    "event_id": "e_0076",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0076"
+    },
+    "team": "away",
+    "team_name": "Manchester City",
+    "xg": null
+   }
+  ],
+  "slug": "liverpool-mancity-2526"
+ },
+ "schema_version": "1.0.0"
+}

@@ -1,0 +1,87 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "actual": {
+   "distance_m": 18.0,
+   "kind": "shoot",
+   "label": "Shot",
+   "xg": 0.06
+  },
+  "alternatives": [
+   {
+    "gate": null,
+    "label": "#19",
+    "name": null,
+    "p_pass": 0.84,
+    "x": 11.46,
+    "xg_after_pass": 0.11,
+    "xg_after_pass_exact": 0.1137,
+    "xg_receiver": 0.13,
+    "y": 28.89
+   },
+   {
+    "gate": null,
+    "label": "#8",
+    "name": "Bruno Fernandes",
+    "p_pass": 0.83,
+    "x": 17.55,
+    "xg_after_pass": 0.07,
+    "xg_after_pass_exact": 0.0669,
+    "xg_receiver": 0.08,
+    "y": 33.9
+   },
+   {
+    "gate": null,
+    "label": "U5",
+    "name": null,
+    "p_pass": 0.74,
+    "x": 17.82,
+    "xg_after_pass": 0.04,
+    "xg_after_pass_exact": 0.0426,
+    "xg_receiver": 0.06,
+    "y": 41.64
+   },
+   {
+    "gate": null,
+    "label": "#13",
+    "name": null,
+    "p_pass": 0.52,
+    "x": 17.26,
+    "xg_after_pass": 0.02,
+    "xg_after_pass_exact": 0.0218,
+    "xg_receiver": 0.04,
+    "y": 20.21
+   }
+  ],
+  "beat": "xg_decision",
+  "best_alternative": {
+   "gate": null,
+   "label": "#19",
+   "name": null,
+   "p_pass": 0.84,
+   "x": 11.46,
+   "xg_after_pass": 0.11,
+   "xg_after_pass_exact": 0.1137,
+   "xg_receiver": 0.13,
+   "y": 28.89
+  },
+  "clip_ms": 877000,
+  "clock": "56:41",
+  "comparison": "pass higher",
+  "deterministic": true,
+  "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+  "holder": "#16",
+  "holder_name": "Amad",
+  "match_id": "m_9002",
+  "players_seen": 12,
+  "slug": "manutd-mancity-2526",
+  "source": {
+   "moment": "manutd-mancity-2526/moments/877000.json",
+   "pass_model": "packages/heads/artifacts/pass",
+   "shot_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}

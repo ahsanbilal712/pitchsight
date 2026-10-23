@@ -1,0 +1,281 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "shots",
+  "decimals": 2,
+  "match_id": "m_9003",
+  "model": {
+   "penalty": "0.76 (Wyscout's fixed penalty value)",
+   "url": "https://soccermatics.readthedocs.io/en/latest/gallery/lesson2/plot_xGModelFit.html",
+   "xg": "Soccermatics combined logistic model, 8,451 non-penalty PL 2017/18 shots (Wyscout), at the strike point from tracking"
+  },
+  "note": "xg null where the strike has no trusted wide view (and it is not a penalty); names only from names_verified.json",
+  "shots": [
+   {
+    "camera_ok": true,
+    "clip_ms": 282360,
+    "clock": "14:33",
+    "disallowed": null,
+    "distance_m": 52.3,
+    "event_id": "e_0004",
+    "frame": 7059,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t3",
+     "name": null,
+     "name_source": null
+    },
+    "shot_id": 33,
+    "source": {
+     "calib": "arsenal-chelsea-2526/calib/xe_0004.json",
+     "event": "e_0004",
+     "position": "arsenal-chelsea-2526/tracks/xe_0004.json"
+    },
+    "team": "home",
+    "team_name": "Arsenal",
+    "x": 51.56,
+    "xg": 0.01,
+    "y": 42.75
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 364000,
+    "clock": "20:44",
+    "disallowed": null,
+    "event_id": "e_0010",
+    "goal": false,
+    "outcome": "blocked",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0010"
+    },
+    "team": "home",
+    "team_name": "Arsenal",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 488000,
+    "clock": "43:18",
+    "disallowed": null,
+    "event_id": "e_0014",
+    "goal": false,
+    "outcome": "blocked",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0014"
+    },
+    "team": "away",
+    "team_name": "Chelsea",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 832000,
+    "clock": "50:29",
+    "disallowed": null,
+    "event_id": "e_0024",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no ball detection at the strike in the wide view",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0024"
+    },
+    "team": "away",
+    "team_name": "Chelsea",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 930000,
+    "clock": "52:30",
+    "disallowed": null,
+    "event_id": "e_0029",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0029"
+    },
+    "team": "away",
+    "team_name": "Chelsea",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 974000,
+    "clock": "55:58",
+    "disallowed": null,
+    "event_id": "e_0033",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0033"
+    },
+    "team": "away",
+    "team_name": "Chelsea",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1071000,
+    "clock": "65:51",
+    "disallowed": null,
+    "event_id": "e_0038",
+    "goal": true,
+    "outcome": "goal",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": "Jurrien Timber",
+     "name_source": "score_bug goal"
+    },
+    "source": {
+     "event": "e_0038"
+    },
+    "team": "home",
+    "team_name": "Arsenal",
+    "xg": null
+   },
+   {
+    "camera_ok": true,
+    "clip_ms": 1301080,
+    "clock": "79:11",
+    "disallowed": null,
+    "distance_m": 16.4,
+    "event_id": "e_0046",
+    "frame": 32527,
+    "gate": null,
+    "goal": false,
+    "header": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reviewed": true,
+    "set_piece": null,
+    "shooter": {
+     "label": "t3",
+     "name": "Eberechi Eze",
+     "name_source": "moments/hand/1300500.json (holder shoots)"
+    },
+    "shot_id": 177,
+    "source": {
+     "calib": "arsenal-chelsea-2526/calib/xe_0046.json",
+     "event": "e_0046",
+     "position": "arsenal-chelsea-2526/tracks/xe_0046.json"
+    },
+    "team": "home",
+    "team_name": "Arsenal",
+    "x": 90.29,
+    "xg": 0.08,
+    "y": 26.75
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1338000,
+    "clock": "86:17",
+    "disallowed": null,
+    "event_id": "e_0049",
+    "goal": false,
+    "outcome": "wide",
+    "penalty": false,
+    "reason": "no ball detection at the strike in the wide view",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0049"
+    },
+    "team": "away",
+    "team_name": "Chelsea",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1418000,
+    "clock": "94:51",
+    "disallowed": null,
+    "event_id": "e_0053",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no ball detection at the strike in the wide view",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0053"
+    },
+    "team": "away",
+    "team_name": "Chelsea",
+    "xg": null
+   },
+   {
+    "camera_ok": false,
+    "clip_ms": 1446000,
+    "clock": "95:19",
+    "disallowed": null,
+    "event_id": "e_0057",
+    "goal": false,
+    "outcome": "saved",
+    "penalty": false,
+    "reason": "no wide main-camera view (replay, close-up or graphic)",
+    "shooter": {
+     "label": null,
+     "name": null,
+     "name_source": null
+    },
+    "source": {
+     "event": "e_0057"
+    },
+    "team": "away",
+    "team_name": "Chelsea",
+    "xg": null
+   }
+  ],
+  "slug": "arsenal-chelsea-2526"
+ },
+ "schema_version": "1.0.0"
+}

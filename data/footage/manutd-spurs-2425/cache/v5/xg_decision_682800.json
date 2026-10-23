@@ -1,0 +1,32 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "actual": {
+   "distance_m": 21.6,
+   "kind": "shoot",
+   "label": "Shot",
+   "xg": 0.04
+  },
+  "alternatives": [],
+  "beat": "xg_decision",
+  "best_alternative": null,
+  "clip_ms": 682800,
+  "clock": "38:02",
+  "comparison": null,
+  "deterministic": true,
+  "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+  "holder": "#16",
+  "holder_name": "Timo Werner",
+  "match_id": "m_9004",
+  "players_seen": 5,
+  "slug": "manutd-spurs-2425",
+  "source": {
+   "moment": "manutd-spurs-2425/moments/682800.json",
+   "pass_model": "packages/heads/artifacts/pass",
+   "shot_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "team": "away"
+ },
+ "schema_version": "1.0.0"
+}

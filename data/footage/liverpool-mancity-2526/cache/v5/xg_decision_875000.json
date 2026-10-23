@@ -1,0 +1,120 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "actual": {
+   "distance_m": 31.7,
+   "kind": "shoot",
+   "label": "Shot",
+   "xg": 0.02
+  },
+  "alternatives": [
+   {
+    "gate": null,
+    "label": "L5",
+    "name": null,
+    "p_pass": 0.46,
+    "x": 90.42,
+    "xg_after_pass": 0.03,
+    "xg_after_pass_exact": 0.0341,
+    "xg_receiver": 0.07,
+    "y": 42.63
+   },
+   {
+    "gate": null,
+    "label": "L4",
+    "name": null,
+    "p_pass": 0.56,
+    "x": 86.32,
+    "xg_after_pass": 0.03,
+    "xg_after_pass_exact": 0.0327,
+    "xg_receiver": 0.06,
+    "y": 39.57
+   },
+   {
+    "gate": null,
+    "label": "L8",
+    "name": null,
+    "p_pass": 0.72,
+    "x": 80.46,
+    "xg_after_pass": 0.03,
+    "xg_after_pass_exact": 0.0254,
+    "xg_receiver": 0.04,
+    "y": 38.09
+   },
+   {
+    "gate": null,
+    "label": "L3",
+    "name": null,
+    "p_pass": 0.37,
+    "x": 87.19,
+    "xg_after_pass": 0.02,
+    "xg_after_pass_exact": 0.0215,
+    "xg_receiver": 0.06,
+    "y": 41.55
+   },
+   {
+    "gate": null,
+    "label": "#11",
+    "name": "Mohamed Salah",
+    "p_pass": 0.96,
+    "x": 87.38,
+    "xg_after_pass": 0.02,
+    "xg_after_pass_exact": 0.0202,
+    "xg_receiver": 0.02,
+    "y": 8.68
+   },
+   {
+    "gate": null,
+    "label": "L6",
+    "name": null,
+    "p_pass": 0.89,
+    "x": 74.14,
+    "xg_after_pass": 0.02,
+    "xg_after_pass_exact": 0.02,
+    "xg_receiver": 0.02,
+    "y": 35.84
+   },
+   {
+    "gate": null,
+    "label": "L7",
+    "name": null,
+    "p_pass": 0.41,
+    "x": 84.06,
+    "xg_after_pass": 0.01,
+    "xg_after_pass_exact": 0.0117,
+    "xg_receiver": 0.03,
+    "y": 50.25
+   }
+  ],
+  "beat": "xg_decision",
+  "best_alternative": {
+   "gate": null,
+   "label": "L5",
+   "name": null,
+   "p_pass": 0.46,
+   "x": 90.42,
+   "xg_after_pass": 0.03,
+   "xg_after_pass_exact": 0.0341,
+   "xg_receiver": 0.07,
+   "y": 42.63
+  },
+  "clip_ms": 875000,
+  "clock": "86:23",
+  "comparison": "pass higher",
+  "deterministic": true,
+  "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+  "holder": "#8",
+  "holder_name": "Dominik Szoboszlai",
+  "match_id": "m_9001",
+  "players_seen": 19,
+  "slug": "liverpool-mancity-2526",
+  "source": {
+   "moment": "liverpool-mancity-2526/moments/875000.json",
+   "pass_model": "packages/heads/artifacts/pass",
+   "shot_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}

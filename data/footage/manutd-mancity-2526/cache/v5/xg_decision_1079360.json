@@ -1,0 +1,76 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "actual": {
+   "distance_m": 14.7,
+   "kind": "shoot",
+   "label": "Shot",
+   "xg": 0.1
+  },
+  "alternatives": [
+   {
+    "gate": null,
+    "label": "t26",
+    "name": null,
+    "p_pass": 0.98,
+    "x": 16.84,
+    "xg_after_pass": 0.05,
+    "xg_after_pass_exact": 0.0459,
+    "xg_receiver": 0.05,
+    "y": 21.61
+   },
+   {
+    "gate": null,
+    "label": "t30",
+    "name": null,
+    "p_pass": 0.97,
+    "x": 22.61,
+    "xg_after_pass": 0.05,
+    "xg_after_pass_exact": 0.0454,
+    "xg_receiver": 0.05,
+    "y": 34.54
+   },
+   {
+    "gate": null,
+    "label": "t37",
+    "name": null,
+    "p_pass": 0.41,
+    "x": 16.02,
+    "xg_after_pass": 0.03,
+    "xg_after_pass_exact": 0.0258,
+    "xg_receiver": 0.06,
+    "y": 42.99
+   }
+  ],
+  "beat": "xg_decision",
+  "best_alternative": {
+   "gate": null,
+   "label": "t26",
+   "name": null,
+   "p_pass": 0.98,
+   "x": 16.84,
+   "xg_after_pass": 0.05,
+   "xg_after_pass_exact": 0.0459,
+   "xg_receiver": 0.05,
+   "y": 21.61
+  },
+  "clip_ms": 1079360,
+  "clock": "64:27",
+  "comparison": "shot higher",
+  "deterministic": true,
+  "formula": "xG = Soccermatics' logistic fit on 8,451 PL 2017/18 shots (Wyscout); after a pass = P(complete, our pass model) x that xG from the receiver's spot when the pass is played",
+  "holder": "Mbeumo",
+  "holder_name": "Bryan Mbeumo",
+  "match_id": "m_9002",
+  "players_seen": 9,
+  "slug": "manutd-mancity-2526",
+  "source": {
+   "moment": "manutd-mancity-2526/moments/1079360.json",
+   "pass_model": "packages/heads/artifacts/pass",
+   "shot_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "team": "home"
+ },
+ "schema_version": "1.0.0"
+}
