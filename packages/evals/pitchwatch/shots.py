@@ -171,6 +171,7 @@ def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
             cv2.imwrite(str(frames_dir / f"{tag}_{k:03d}_{int(start) // 60:02d}m{int(start) % 60:02d}s.jpg"),
                         samples[sh[len(sh) // 2]]["img"])
         out.append(rec)
+    apply_overrides(out, out_dir / "shots_overrides.json")
     duration = n_frames / fps
     usable = [s for s in out if s["usable"]]
     summary = {"clip": clip.name, "fps": round(fps, 2), "duration_s": round(duration, 1), "n_shots": len(out),
@@ -190,6 +191,22 @@ def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
     (out_dir / "shots.json").write_text(json.dumps({"summary": summary, "shots": out}, indent=1) + "\n")
     (out_dir / "shots_review.md").write_text(review_md(out_dir.name, summary, out))
     return summary
+
+
+def apply_overrides(shots: list[dict], path: Path) -> None:
+    """Reviewed corrections: {"live": [[start_s, end_s], ...], "replay": [...]}; a shot whose middle falls in a
+    range takes that label (and is usable again if it is wide and long enough). Highlight packages use the same
+    wipe between segments as around replays, so their wipe pairing needs this review."""
+    if not path.exists():
+        return
+    ov = json.loads(path.read_text())
+    for s in shots:
+        mid = (s["start"] + s["end"]) / 2
+        for label in ("live", "replay"):
+            if any(a <= mid < b for a, b in ov.get(label, [])):
+                s["replay"] = label == "replay"
+                s["override"] = label
+        s["usable"] = s["kind"] == "wide" and not s["replay"] and s["duration"] >= MIN_WIDE_S
 
 
 def _mmss(t: float) -> str:
