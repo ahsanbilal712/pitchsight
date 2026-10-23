@@ -846,7 +846,10 @@ def v8_caption_sources() -> dict[str, list[tuple]]:
     for text, spec in (("A pass model we trained on 2.1 million passes from 1,600 simulated matches", model),
                        ("A published xG model (Soccermatics), fitted on 8,451 Premier League shots from 2017/18 "
                         "(Wyscout data)", shots)):
-        out[text] = out[text + "."] = spec
+        out[text] = out[text + "."] = out[text + ","] = spec
+    out["plus a published xG model built on 8,451 Premier League shots,"] = shots[:1]       # draft 1's short form
+    out["Liverpool v Man City, 86th minute: the pass options re-price as the play moves."] = \
+        [("86th minute", "minute", "minute", 86, (lfc, "e_0033", "event"))]
     return out
 
 

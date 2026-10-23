@@ -5,6 +5,18 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v8 grounding on track C's draft: 1,295 of 1,295 (track B)
+
+- Sources for draft 1's intro wording (the pass-model line with a trailing comma; "plus a published xG model built on
+  8,451 Premier League shots,"; "Liverpool v Man City, 86th minute: the pass options re-price as the play moves.").
+- `python -m footage.grounding` on track C's working edit_v8.yaml (uncommitted draft): **1,295 of 1,295 on-screen
+  numbers bound to verified evidence (1,316 of 1,316 claims verified)**; no WHYLINE in any of 21 captions and card
+  lines; the VERIFY counter caption is not in the draft yet (when it is, it must print 1,295 of 1,295 unless other
+  numbers change: it is excluded from its own count). v8_grounding.json is regenerated when the edit is committed.
+- No model call. Verification: `pytest tests/footage/test_grounding.py` (exit 0).
+
+---
+
 ## 2026-10-23 · Video v8: intro caption sources; How-it-works checked against the graph (track B)
 
 - v8 caption sources (`footage.grounding.v8_caption_sources`): track A's corrected intro wordings
