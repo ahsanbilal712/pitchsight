@@ -20,6 +20,7 @@ import sys
 from decimal import ROUND_HALF_UP, Decimal
 
 from footage.clips import CLIPS, ROOT, clip_dir
+from footage.names import short
 from footage.v4_lines import (
     BETTER,
     FINISH,
@@ -127,7 +128,7 @@ def facts_for(slug: str, clip_ms: int) -> tuple[list[dict], dict]:
              "label": best["label"], "onside_margin_m": best.get("onside_margin_m"), "fact": facts[2]["fact_id"],
              "target": {x: target.get(x) for x in ("name", "pid", "describe")} if target else None},
             "overlay_labels": {"actual": "Shot", "alternative": None if not best else
-                               (f"Pass to {target['name'].split()[-1]}" if target and target["name"] else "Pass")},
+                               (f"Pass to {short(target['name'])}" if target and target["name"] else "Pass")},
             "excluded_offside": [o["label"] for o in d.get("alternatives") or []
                                  if o.get("offside_risk") or (offside(m, team, o["x"]) or 0) > 0],
             "formula": d.get("formula")}

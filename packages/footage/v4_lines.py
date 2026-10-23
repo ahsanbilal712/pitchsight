@@ -28,6 +28,7 @@ from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
 
 from footage.clips import CLIPS, ROOT, clip_dir
+from footage.names import short
 
 PROMPT, ROLE = "insight_footage@5", "tactician_golden"     # @3: no real outcome; @4: no finishing verdict
 REVIEW_DIR = ROOT / "review" / "footage"
@@ -112,18 +113,14 @@ def describe(m: dict, p: dict) -> str:
 
 def person(slug: str, m: dict, label: str | None) -> dict | None:
     from footage.featured import roster
-    from footage.names import _same, verified
+    from footage.names import name_at
 
     if label is None:
         return None
     p = next((q for q in m["players"] if q.get("label") == label), None)
     if p is None:
         return {"label": label, "name": None, "pid": None, "describe": "a team-mate"}
-    ok = verified(slug)
-    name = p.get("name") if p.get("name") and any(_same(p["name"], k) for k in ok) else None
-    if name is None:                   # a name verified for this label at this moment (e.g. a shirt read)
-        name = next((n for n, e in ok.items() for lk in e["links"]
-                     if lk.get("clip_ms") == m.get("clip_ms") and lk.get("label") == label), None)
+    name = name_at(slug, m, label)     # hand label, a read at this moment, or the track's live-passage read
     pid = roster(slug)["ids"].get(f"{p['team']}:{label}")
     return {"label": label, "name": name, "pid": pid if name else None, "describe": describe(m, p),
             "x": p["x"], "y": p["y"]}
@@ -141,7 +138,7 @@ def outcome(slug: str, clip_ms: int) -> str | None:
     for name, e in verified(slug).items():
         if any(src["kind"] == "score_bug" for src in e["sources"]) and \
                 any(lk.get("event") and -2000 <= lk["clip_ms"] - clip_ms <= 5000 for lk in e["links"]):
-            return f"{name.split()[-1]} scores"
+            return f"{short(name)} scores"
     return None
 
 
@@ -158,7 +155,7 @@ def overlay_label(o: dict, who: dict | None) -> str:
     """The short label on the graphic: a verified name or none, never an internal label ("L3", "#19", "A7")."""
     k = o["option"]["kind"]
     if k == "pass":
-        return f"Pass to {who['name'].split()[-1]}" if who and who.get("name") else "Pass"
+        return f"Pass to {short(who['name'])}" if who and who.get("name") else "Pass"
     return {"shoot": "Shot", "carry": "Carry on"}.get(k, k.capitalize())
 
 

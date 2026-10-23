@@ -5,6 +5,30 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v6: names for track A's live passages, the pipeline view in track C's format (track B)
+
+- **Live names** (`cache/v6/names_live_0.json` per clip, for track A to attach to its live frames): every track
+  that carries the ball or is a pass option inside track C's five v6 passages, shirt read on 8 crops spread over
+  its window there, plus two new checks: the crop's torso colour must be the track's own team kit (teams.json),
+  and an outfield track never maps to a goalkeeper's number. One number per team per passage. Each name holds
+  only from_clip_ms..to_clip_ms on that camera shot's track (Liverpool t69 is Wirtz at 867.2-870.9 s and a City
+  player at the freeze). Named: Man Utd v City 6 of 11 (Mbeumo, Bruno, Dorgu, Casemiro), Liverpool 6 of 11
+  (Salah, Szoboszlai, Kerkez, Mac Allister, Gravenberch, Wirtz), Chelsea 3 of 9 (Palmer, Neto, Enzo Fernández),
+  Spurs 1 of 4 (Werner). Rejected: a second #19 in the Amad passage, a 28 read (a goalkeeper's number).
+- `footage.names`: live links (track, window); `name_at` gives a player's verified name at a moment (hand, a read
+  at that moment, or his track's live read in the same camera shot covering it); `short` keeps surname particles
+  ("Mac Allister", "van de Ven"). Squad files now list their goalkeepers.
+- **Pipeline view** (`cache/v6/pipeline_<slug>_<clip_ms>.json`, track C's format): agents scout, proposer
+  (options named by name_at, else "Pass"), rollout, tactician (the verdict and Argon's draft), factcheck (each
+  claim, ok, evidence), director ("On air 56:43, lower third, 8 s"), cuebus (the line); latency_ms with its
+  source; every number in a `says` listed in `facts`. Both v6 pipeline files and the live name lists are in the
+  clips' cache manifests (validate_schemas sees them).
+- **Spend:** 35 Flash calls, $0.2875; project $4.139 of $50.
+- Verification: `pytest tests/footage tests/newsroom tests/cache` 231 passed, 4 skipped (exit 0); ruff clean;
+  validate_schemas OK (5501 documents).
+
+---
+
 ## 2026-10-23 · Video v6: shirt-number names, agent-pipeline records (track B)
 
 - **Shirt numbers -> names** (`footage.shirts`, `data/footage/<slug>/shirts.json`): for the attacking team's labelled

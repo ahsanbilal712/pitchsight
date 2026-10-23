@@ -2,7 +2,8 @@
 really recorded, with every timing labelled by where it comes from. No latency is invented.
 
     python -m footage.pipeline [<slug> <clip_ms>]    # default: Amad 56:41 and Liverpool 86:23
-    # -> data/footage/<slug>/cache/v6/pipeline_<clip_ms>.json (model_cache tool_result, under result)
+    # -> data/footage/<slug>/cache/v6/pipeline_<clip_ms>.json (the full record) and
+    #    pipeline_<slug>_<clip_ms>.json (track C's view), both in the clip's cache manifest
 
 Nodes: Freeze (the tracked frame), Scout (what flagged the moment), Proposer (every option listed), Model (the xG
 computation), Tactician (gemini-4-argon's draft), Fact Checker (each claim against its evidence), Producer review
@@ -158,10 +159,107 @@ def build(slug: str, clip_ms: int) -> dict:
               "sources": {"line": f"cache/v5/lines_{clip_ms}.json", "decision": f"cache/v5/xg_decision_{clip_ms}.json",
                           "studio": "cache/studio/stream.jsonl", "model_call": call_entry["path"]}}
     v6.mkdir(exist_ok=True)
-    (v6 / f"pipeline_{clip_ms}.json").write_text(json.dumps(
-        {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result", "result": result},
-        indent=1, ensure_ascii=False) + "\n")
+    register(slug, f"v6/pipeline_{clip_ms}.json", f"pipeline_{clip_ms}",
+             {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result", "result": result})
     return result
+
+
+# ---------------------------------------------------------------------------------------------------- track C's view
+
+def _clock(t_ms: int) -> str:
+    return f"{t_ms // 60000:02d}:{t_ms // 1000 % 60:02d}"
+
+
+def view(slug: str, clip_ms: int, rec: dict | None = None) -> dict:
+    """Track C's format (track-c-v6-formats.md, 4): pipeline_<slug>_<moment>.json, agents scout to cuebus, each
+    with what it said from the recorded run, its latency and that latency's source. Every number in a `says` is a
+    fact in `facts` (display and source), so grounding binds it like a caption."""
+    from footage.names import name_at, short
+    from footage.v4_lines import moment as load_moment
+
+    rec = rec or build(slug, clip_ms)
+    n = {x["node"]: x for x in rec["nodes"]}
+    line = json.loads((clip_dir(slug) / "cache" / "v5" / f"lines_{clip_ms}.json").read_text())["result"]
+    m = load_moment(slug, clip_ms)
+    facts: list[dict] = []
+
+    def fact(display: str, value, source: str) -> str:
+        if not any(f["display"] == display and f["source"] == source for f in facts):
+            facts.append({"display": display, "value": value, "source": source})
+        return display
+
+    def who(label: str) -> str | None:
+        name = name_at(slug, m, label)
+        return short(name) if name else None        # a verified name or no label (never an internal one)
+
+    holder = who(m["ball"]["holder"])
+    d = line["decision"]
+    F = {f["role"]: f for f in line["facts"]}
+    shot_d = fact(F["distance"]["display"], F["distance"]["value"], f"v5 lines_{clip_ms} {F['distance']['fact_id']}")
+    shot_xg = fact(F["actual"]["display"], F["actual"]["value"], f"v5 lines_{clip_ms} {F['actual']['fact_id']}")
+    options = [{"label": "Shot", "xg": shot_xg}]
+    for o in n["Proposer"]["outputs"]["options"]:
+        nm = who(o["label"])
+        options.append({"label": f"Pass to {nm}" if nm else "Pass", "xg_after_pass": fact(
+            f"{o['xg_after_pass']:.2f}", o["xg_after_pass"], f"v5 xg_decision_{clip_ms} {o['label']} xg_after_pass"),
+            "p_pass": fact(f"{round(o['p_pass'] * 100)}%", o["p_pass"], f"v5 xg_decision_{clip_ms} {o['label']} p_pass"),
+            "offside_risk": o["offside_risk"]})
+    k = n["Model"]["outputs"]["options_computed"]
+    nodes = [
+        {"agent": "scout", "t_ms": m["t_ms"], **_lat(n["Scout"]),
+         "says": f"Big chance: {holder or 'the carrier'} shoots from {shot_d} (producer-selected)"},
+        {"agent": "proposer", "options": options, **_lat(n["Proposer"]),
+         "says": f"The shot and {fact(str(k), k, f'v5 xg_decision_{clip_ms} alternatives')} passes to team-mates "
+                 "in view"},
+        {"agent": "rollout", "n": k, **_lat(n["Model"]),
+         "says": "Reference xG + pass model, deterministic (no rollouts)"},
+    ]
+    if d["alternative"]:
+        a, b = F["actual"], F["alternative"]
+        gap = round(b["value"] - a["value"], 2) if a["display"] != b["display"] else 0
+        target = who(d["alternative"]["label"])
+        src = f"v5 lines_{clip_ms}: {b['fact_id']} - {a['fact_id']}"
+        says = (f"The pass{' to ' + target if target else ''} beats the shot by "
+                f"{fact(f'{gap:.2f}', gap, src)} xG")
+    else:
+        says = f"No pass clears the rule: the shot alone, {shot_xg} xG"
+    nodes.append({"agent": "tactician", **_lat(n["Tactician"]), "says": says,
+                  "draft": n["Tactician"]["outputs"]["lower_third"], "model": "gemini-4-argon"})
+    nodes.append({"agent": "factcheck", **_lat(n["Fact Checker"]),
+                  "claims": [{"text": c["text"], "ok": c["verified"],
+                              "evidence": "; ".join(f"{e.get('label', e['id'])} = {e.get('display', '?')}"
+                                                    for e in c["evidence"])}
+                             for c in n["Fact Checker"]["outputs"]["claims"]]})
+    dr = n["Director"]["outputs"]
+    secs = (dr["t_out_ms"] - dr["t_in_ms"]) // 1000
+    nodes.append({"agent": "director", **_lat(n["Director"]),
+                  "says": f"On air {fact(_clock(dr['t_in_ms']), dr['t_in_ms'], 'studio cue t_in_ms')}, "
+                          f"{dr['layer'].replace('_', ' ')}, {fact(f'{secs} s', secs, 'studio cue t_out_ms - t_in_ms')}"})
+    nodes.append({"agent": "cuebus", **_lat(n["On air"]), "line": line["lower_third"]})
+    for f in line["facts"]:                          # the line's own numbers
+        fact(f["display"], f["value"], f["source"])
+    res = {"beat": "pipeline", "moment_id": "mo_00001", "slug": slug, "match_id": CLIPS[slug]["match_id"],
+           "clip_ms": clip_ms, "clock": m["clock"], "nodes": nodes, "facts": facts,
+           "timing_rule": "latency_source: recorded live | measured re-run | replay (cache-served, whole ms) | "
+                          "not recorded (latency_ms null)", "record": f"cache/v6/pipeline_{clip_ms}.json"}
+    register(slug, f"v6/pipeline_{slug}_{clip_ms}.json", f"pipeline_view_{clip_ms}",
+             {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result", "result": res})
+    return res
+
+
+def register(slug: str, rel: str, version: str, doc: dict) -> None:
+    """Write a v6 file through the clip's cache manifest (loaded just before the save: other tracks write it too)."""
+    from footage.featured import open_cache
+
+    manifest = open_cache(slug)
+    mid = CLIPS[slug]["match_id"]
+    manifest.add(f"{mid}/match/v6@{version}/none/s{mid[2:]}", "analytics", doc, rel, producer="v6", version=version,
+                 seed=int(mid[2:]))
+    manifest.save()
+
+
+def _lat(node: dict) -> dict:
+    return {"latency_ms": node["timing"]["ms"], "latency_source": node["timing"]["source"]}
 
 
 if __name__ == "__main__":
@@ -170,3 +268,4 @@ if __name__ == "__main__":
     for slug, ms in targets:
         r = build(slug, ms)
         print(slug, ms, [(n["node"], n["timing"]["source"], n["timing"]["ms"]) for n in r["nodes"]])
+        view(slug, ms, r)

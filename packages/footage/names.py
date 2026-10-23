@@ -167,8 +167,13 @@ def verify(slug: str) -> dict:
             rejected.append({"name": r["name"], "label": label, "at": at,
                              "why": f"shirt read disagrees with the hand label {r['name_now']}"})
             continue
-        link = {"event": at, "label": label, "clip_ms": round(r["at_s"] * 1000)} if at.startswith("e_") else \
-            {"clip_ms": int(at), "label": label, "track_id": r.get("track_id")}
+        if at.startswith("live"):          # a v6 live passage: the track, only inside its window
+            link = {"live": f"live_{at[4:]}.json", "label": label.split("@")[0], "track_id": r.get("track_id"),
+                    "from_clip_ms": round(r["window_s"][0] * 1000), "to_clip_ms": round(r["window_s"][1] * 1000)}
+        elif at.startswith("e_"):
+            link = {"event": at, "label": label, "clip_ms": round(r["at_s"] * 1000)}
+        else:
+            link = {"clip_ms": int(at), "label": label, "track_id": r.get("track_id")}
         add(r["name"], r["team"], {"kind": "shirt", "ref": f"shirts.json {key}: #{r['number']} in {r['agree']} of "
                                    f"{r['crops']} crops; squad {r['squad']['source']}"}, link)
 
@@ -218,6 +223,41 @@ def shot_names(slug: str, names: dict[str, dict]) -> dict[str, dict]:
         out[e["id"]] = {"clip_ms": a["clip_ms"], "tagger_name": a.get("player_name"), "name": name,
                         "source": source}
     return out
+
+
+PARTICLES = {"mac", "van", "von", "de", "der", "den", "di", "da", "dos", "le", "la", "el", "al", "ter"}
+
+
+def short(name: str) -> str:
+    """The name as a caption shows it: the surname with its particle ("Mac Allister", "van de Ven", "Mbeumo")."""
+    words = name.split()
+    i = len(words) - 1
+    while i > 0 and words[i - 1].lower() in PARTICLES:
+        i -= 1
+    return " ".join(words[i:])
+
+
+def name_at(slug: str, m: dict, label: str) -> str | None:
+    """The verified name of a moment-file player: his own (hand) name, a name verified for that label at that
+    moment, or a live-passage shirt read of the same track in the same camera shot whose window covers the
+    moment. None means no label on screen."""
+    p = next((q for q in m["players"] if q.get("label") == label), None)
+    if p is None:
+        return None
+    ok = verified(slug)
+    if p.get("name") and any(_same(p["name"], k) for k in ok):
+        return p["name"]
+    shot = (m.get("homography") or {}).get("source", "").split(" ")[0].replace("calib/", "tracks/")
+    for n, e in ok.items():
+        for lk in e["links"]:
+            if lk.get("clip_ms") == m.get("clip_ms") and lk.get("label") == label:
+                return n
+            if lk.get("live") and lk.get("track_id") == p.get("track_id") and \
+                    lk["from_clip_ms"] <= m.get("clip_ms", -1) <= lk["to_clip_ms"]:
+                live = clip_dir(slug) / "cache" / "v6" / lk["live"]
+                if live.exists() and json.loads(live.read_text())["result"]["source"]["tracks"].endswith(shot):
+                    return n
+    return None
 
 
 def verified(slug: str) -> dict[str, dict]:

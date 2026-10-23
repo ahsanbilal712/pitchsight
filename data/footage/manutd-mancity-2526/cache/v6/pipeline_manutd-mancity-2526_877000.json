@@ -1,0 +1,211 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "pipeline",
+  "clip_ms": 877000,
+  "clock": "56:41",
+  "facts": [
+   {
+    "display": "18 m",
+    "source": "v5 lines_877000 f_607703",
+    "value": 18.0
+   },
+   {
+    "display": "0.06",
+    "source": "v5 lines_877000 f_607701",
+    "value": 0.0635
+   },
+   {
+    "display": "0.11",
+    "source": "v5 xg_decision_877000 #19 xg_after_pass",
+    "value": 0.11
+   },
+   {
+    "display": "84%",
+    "source": "v5 xg_decision_877000 #19 p_pass",
+    "value": 0.84
+   },
+   {
+    "display": "0.07",
+    "source": "v5 xg_decision_877000 #8 xg_after_pass",
+    "value": 0.07
+   },
+   {
+    "display": "83%",
+    "source": "v5 xg_decision_877000 #8 p_pass",
+    "value": 0.83
+   },
+   {
+    "display": "0.04",
+    "source": "v5 xg_decision_877000 U5 xg_after_pass",
+    "value": 0.04
+   },
+   {
+    "display": "74%",
+    "source": "v5 xg_decision_877000 U5 p_pass",
+    "value": 0.74
+   },
+   {
+    "display": "0.02",
+    "source": "v5 xg_decision_877000 #13 xg_after_pass",
+    "value": 0.02
+   },
+   {
+    "display": "52%",
+    "source": "v5 xg_decision_877000 #13 p_pass",
+    "value": 0.52
+   },
+   {
+    "display": "4",
+    "source": "v5 xg_decision_877000 alternatives",
+    "value": 4
+   },
+   {
+    "display": "0.05",
+    "source": "v5 lines_877000: f_607702 - f_607701",
+    "value": 0.05
+   },
+   {
+    "display": "56:43",
+    "source": "studio cue t_in_ms",
+    "value": 3403700
+   },
+   {
+    "display": "8 s",
+    "source": "studio cue t_out_ms - t_in_ms",
+    "value": 8
+   },
+   {
+    "display": "0.06",
+    "source": "cache/v5/xg_decision_877000.json",
+    "value": 0.0635
+   },
+   {
+    "display": "18 m",
+    "source": "cache/v5/xg_decision_877000.json",
+    "value": 18.0
+   },
+   {
+    "display": "0.11",
+    "source": "cache/v5/xg_decision_877000.json",
+    "value": 0.11
+   },
+   {
+    "display": "84%",
+    "source": "cache/v5/xg_decision_877000.json",
+    "value": 0.84
+   },
+   {
+    "display": "0.13",
+    "source": "cache/v5/xg_decision_877000.json",
+    "value": 0.13
+   }
+  ],
+  "match_id": "m_9002",
+  "moment_id": "mo_00001",
+  "nodes": [
+   {
+    "agent": "scout",
+    "latency_ms": 45.775,
+    "latency_source": "measured re-run",
+    "says": "Big chance: Amad shoots from 18 m (producer-selected)",
+    "t_ms": 3401000
+   },
+   {
+    "agent": "proposer",
+    "latency_ms": null,
+    "latency_source": "not recorded",
+    "options": [
+     {
+      "label": "Shot",
+      "xg": "0.06"
+     },
+     {
+      "label": "Pass to Mbeumo",
+      "offside_risk": false,
+      "p_pass": "84%",
+      "xg_after_pass": "0.11"
+     },
+     {
+      "label": "Pass to Fernandes",
+      "offside_risk": false,
+      "p_pass": "83%",
+      "xg_after_pass": "0.07"
+     },
+     {
+      "label": "Pass to Casemiro",
+      "offside_risk": false,
+      "p_pass": "74%",
+      "xg_after_pass": "0.04"
+     },
+     {
+      "label": "Pass to Dorgu",
+      "offside_risk": false,
+      "p_pass": "52%",
+      "xg_after_pass": "0.02"
+     }
+    ],
+    "says": "The shot and 4 passes to team-mates in view"
+   },
+   {
+    "agent": "rollout",
+    "latency_ms": 54.527,
+    "latency_source": "measured re-run",
+    "n": 4,
+    "says": "Reference xG + pass model, deterministic (no rollouts)"
+   },
+   {
+    "agent": "tactician",
+    "draft": "Amad: 0.06 xG shot saved, pass worth 0.11 xG",
+    "latency_ms": 13819,
+    "latency_source": "recorded live",
+    "model": "gemini-4-argon",
+    "says": "The pass to Mbeumo beats the shot by 0.05 xG"
+   },
+   {
+    "agent": "factcheck",
+    "claims": [
+     {
+      "evidence": "xG of a shot from here (the freeze, where the pass is compared) (published PL reference model) = 0.06",
+      "ok": true,
+      "text": "Amad"
+     },
+     {
+      "evidence": "xG of a shot from here (the freeze, where the pass is compared) (published PL reference model) = 0.06",
+      "ok": true,
+      "text": "0.06"
+     },
+     {
+      "evidence": "xG after the pass (P(pass completes) x reference xG at the receiver) = 0.11",
+      "ok": true,
+      "text": "0.11"
+     },
+     {
+      "evidence": "chance the pass completes (pass model) = 84%",
+      "ok": true,
+      "text": "84%"
+     }
+    ],
+    "latency_ms": 5.674,
+    "latency_source": "measured re-run"
+   },
+   {
+    "agent": "director",
+    "latency_ms": 0,
+    "latency_source": "replay",
+    "says": "On air 56:43, lower third, 8 s"
+   },
+   {
+    "agent": "cuebus",
+    "latency_ms": 0,
+    "latency_source": "replay",
+    "line": "Amad: shot from here 0.06 xG, pass 0.11 xG"
+   }
+  ],
+  "record": "cache/v6/pipeline_877000.json",
+  "slug": "manutd-mancity-2526",
+  "timing_rule": "latency_source: recorded live | measured re-run | replay (cache-served, whole ms) | not recorded (latency_ms null)"
+ },
+ "schema_version": "1.0.0"
+}

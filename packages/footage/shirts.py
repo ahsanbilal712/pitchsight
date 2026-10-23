@@ -79,14 +79,85 @@ def targets(slug: str) -> list[dict]:
     return out
 
 
+PASSAGES = {                       # track C's v6 live passages (clip ms)
+    "manutd-mancity-2526": [(873000, 880000), (1075000, 1079400)], "liverpool-mancity-2526": [(867000, 875600)],
+    "arsenal-chelsea-2526": [(829000, 836000)], "manutd-spurs-2425": [(679800, 683400)]}
+
+
+def live_targets(slug: str) -> list[dict]:
+    """Every track that carries the ball or is a pass option inside a v6 live passage (track A's live files)."""
+    out = []
+    for a, b in PASSAGES.get(slug, []):
+        for path in sorted((clip_dir(slug) / "cache" / "v6").glob("live_[0-9]*.json")):
+            r = json.loads(path.read_text())["result"]
+            if r["start_clip_ms"] > b or r["end_clip_ms"] < a:
+                continue
+            when: dict[str, list[int]] = {}
+            team: dict[str, str] = {}
+            keeper: dict[str, bool] = {}
+            for fr in r["frames"]:
+                if not a <= fr["clip_ms"] <= b:
+                    continue
+                for p in fr.get("players") or []:
+                    if p.get("team"):
+                        team.setdefault(p["label"], p["team"])
+                        keeper[p["label"]] = keeper.get(p["label"], False) or bool(p.get("keeper"))
+                for who in [fr.get("holder")] + list(fr.get("options") or []):
+                    if who and who["label"].startswith("t"):
+                        when.setdefault(who["label"], []).append(fr["clip_ms"])
+            for label, ts in when.items():
+                if label in team:
+                    out.append({"key": f"live{r['start_clip_ms']}:{label}@{min(ts)}-{max(ts)}", "team": team[label],
+                                "label": label, "name_now": None, "tracks": r["source"]["tracks"].split("/", 1)[1],
+                                "track_id": int(label[1:]), "window_s": [min(ts) / 1000, max(ts) / 1000],
+                                "at_s": (min(ts) + max(ts)) / 2000, "live": path.name, "shot_id": r["shot_id"],
+                                "keeper": keeper.get(label, False)})
+    return out
+
+
+def names_live(slug: str) -> dict:
+    """For track A's live data: verified shirt and name per (camera shot, track, time window); one number per team
+    per passage (the stronger read keeps it)."""
+    doc = json.loads((clip_dir(slug) / "shirts.json").read_text())["players"]
+    rows = [{"key": k, **r} for k, r in doc.items() if k.startswith("live")]
+    best = {}
+    for r in rows:
+        if r.get("number") is not None:
+            k = (r["key"].split(":")[0], r["team"], r["number"])
+            if k not in best or r["agree"] > best[k]["agree"]:
+                best[k] = r
+    out = []
+    for r in rows:
+        owner = r.get("number") is not None and best[(r["key"].split(":")[0], r["team"], r["number"])] is r
+        out.append({"live": f"live_{r['key'][4:].split(':')[0]}.json", "tracks": r["tracks"], "track_id": r["track_id"],
+                    "label": r["label"], "team": r["team"], "from_clip_ms": round(r["window_s"][0] * 1000),
+                    "to_clip_ms": round(r["window_s"][1] * 1000), "shirt": r["number"] if owner else None,
+                    "name": r["name"] if owner else None, "agree": r.get("agree"), "crops": r.get("crops"),
+                    "why_not": None if owner else (r.get("why") or "number owned by a stronger read"),
+                    "squad": r["squad"]})
+    res = {"beat": "names_live", "slug": slug, "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, "
+           "kit colour on the track's team, number in the season's squad list; null = no label", "players": out}
+    from footage.pipeline import register
+
+    register(slug, "v6/names_live_0.json", "names_live_0",
+             {"$schema": "model_cache.schema.json", "schema_version": "1.0.0", "record": "tool_result", "result": res})
+    return res
+
+
 def crops(slug: str, t: dict) -> list[Path]:
     tracks = json.loads((clip_dir(slug) / t["tracks"]).read_text())
     every = [(f["t"], p["bbox"]) for f in tracks["frames"] for p in f["players"]
              if p["track_id"] == t["track_id"] and p.get("bbox")]
-    for w in WINDOW_S:                                          # the label holds at its moment, not the whole shot
-        seen = [s for s in every if abs(s[0] - t["at_s"]) <= w]
-        if len(seen) >= CROPS:
-            break
+    if t.get("window_s"):                                       # a live passage: wherever he carries or is an option
+        a, b = t["window_s"]
+        if b - a < 1.0:                                         # a moment, not a span: a second around it
+            a, b = (a + b) / 2 - 0.5, (a + b) / 2 + 0.5
+        seen = [s for s in every if a <= s[0] <= b]
+    else:
+        for w in WINDOW_S:                                      # the label holds at its moment, not the whole shot
+            seen = [s for s in every if abs(s[0] - t["at_s"]) <= w]
+            if len(seen) >= CROPS:
+                break
     seen.sort(key=lambda s: -(s[1][3] - s[1][1]))              # the largest boxes first: digits are biggest there
     pick = sorted(seen[:max(CROPS * 3, CROPS)], key=lambda s: s[0])
     pick = [pick[round(i * (len(pick) - 1) / max(CROPS - 1, 1))] for i in range(min(CROPS, len(pick)))]
@@ -128,7 +199,22 @@ def read(client, guard, slug: str, t: dict, paths: list[Path]) -> dict:
         reads = json.loads(resp.text or "{}").get("reads", [])
     except json.JSONDecodeError:
         reads = []
-    return {"reads": reads, "tokens_in": tin, "tokens_out": tout, "cost_usd": row["cost_usd"], "latency_ms": latency}
+    return {"reads": reads, "tokens_in": tin, "tokens_out": tout, "cost_usd": row["cost_usd"], "latency_ms": latency,
+            "kit": [kit_side(slug, pth) for pth in paths]}
+
+
+def kit_side(slug: str, path: Path) -> str:
+    """The team whose kit colour (teams.json kit_rgb) is nearest the crop's torso (median of its upper middle)."""
+    import numpy as np
+    from PIL import Image
+
+    im = np.asarray(Image.open(path).convert("RGB"), float)
+    h, w = im.shape[:2]
+    torso = im[int(0.2 * h):int(0.45 * h), int(0.38 * w):int(0.62 * w)].reshape(-1, 3)
+    med = np.median(torso, axis=0)
+    kits = [t["kit_rgb"] for t in json.loads((clip_dir(slug) / "teams.json").read_text())["teams"]]
+    d = [float(np.linalg.norm(med - np.asarray(k, float))) for k in kits]
+    return ("home", "away")[int(np.argmin(d))]
 
 
 def vote(reads: list[dict]) -> dict:
@@ -146,7 +232,7 @@ def vote(reads: list[dict]) -> dict:
 def run(slug: str, dry_run: bool = False) -> dict:
     out_path = clip_dir(slug) / "shirts.json"
     done = json.loads(out_path.read_text())["players"] if out_path.exists() else {}
-    todo = [t for t in targets(slug) if t["key"] not in done]
+    todo = [t for t in targets(slug) + live_targets(slug) if t["key"] not in done]
     if dry_run:
         return {"slug": slug, "todo": [t["key"] for t in todo], "done": list(done)}
     from api.spend import SpendGuard
@@ -157,10 +243,17 @@ def run(slug: str, dry_run: bool = False) -> dict:
         paths = crops(slug, t)
         r = read(client, guard, slug, t, paths)
         v = vote(r["reads"])
+        kit_ok = sum(k == t["team"] for k in r["kit"]) > len(r["kit"]) / 2
+        if v["number"] is not None and not kit_ok:          # the track's team label and the shirt disagree
+            v = {**v, "number": None, "consistent": False, "why": f"kit: {r['kit']} for a {t['team']} label"}
         sq = squad(slug, t["team"])
+        if v["number"] is not None and str(v["number"]) in sq.get("goalkeepers", []) and not t.get("keeper"):
+            v = {**v, "number": None, "consistent": False, "why": f"{v['number']} is a goalkeeper's number; an "
+                 "outfield track"}                          # a misread or another player: no name
         name = sq["numbers"].get(str(v["number"])) if v["number"] is not None else None
-        done[t["key"]] = {**{k: t[k] for k in ("team", "label", "name_now", "tracks", "track_id", "at_s")},
-                          "reads": r["reads"], **v, "name": name,
+        done[t["key"]] = {**{k: t.get(k) for k in ("team", "label", "name_now", "tracks", "track_id", "at_s")},
+                          "reads": r["reads"], "kit": r["kit"], **v, "name": name,
+                          **({"window_s": t["window_s"]} if t.get("window_s") else {}),
                           "squad": {"club": sq["club"], "season": sq["season"], "source": sq["source"],
                                     "retrieved": sq["retrieved"]},
                           "model": MODEL, "cost_usd": r["cost_usd"], "latency_ms": r["latency_ms"],
@@ -170,7 +263,9 @@ def run(slug: str, dry_run: bool = False) -> dict:
         out_path.write_text(json.dumps({"slug": slug, "rule": f"a number needs {MIN_AGREE}+ agreeing crops of "
                                         f"{CROPS}, two thirds of the crops with a number, and no rival read twice",
                                         "players": done}, indent=1, ensure_ascii=False) + "\n")
-    return {"slug": slug, "players": len(done), "named": sum(1 for p in done.values() if p.get("name"))}
+    live = names_live(slug) if any(k.startswith("live") for k in done) else {"players": []}
+    return {"slug": slug, "players": len(done), "named": sum(1 for p in done.values() if p.get("name")),
+            "live_named": sum(1 for p in live["players"] if p["name"])}
 
 
 def main(argv: list[str] | None = None) -> int:

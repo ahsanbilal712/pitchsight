@@ -1,0 +1,234 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "pipeline",
+  "clip_ms": 875000,
+  "clock": "86:23",
+  "facts": [
+   {
+    "display": "29 m",
+    "source": "v5 lines_875000 f_607503",
+    "value": 28.8
+   },
+   {
+    "display": "0.02",
+    "source": "v5 lines_875000 f_607501",
+    "value": 0.02
+   },
+   {
+    "display": "0.03",
+    "source": "v5 xg_decision_875000 L5 xg_after_pass",
+    "value": 0.03
+   },
+   {
+    "display": "46%",
+    "source": "v5 xg_decision_875000 L5 p_pass",
+    "value": 0.46
+   },
+   {
+    "display": "0.03",
+    "source": "v5 xg_decision_875000 L4 xg_after_pass",
+    "value": 0.03
+   },
+   {
+    "display": "56%",
+    "source": "v5 xg_decision_875000 L4 p_pass",
+    "value": 0.56
+   },
+   {
+    "display": "0.03",
+    "source": "v5 xg_decision_875000 L8 xg_after_pass",
+    "value": 0.03
+   },
+   {
+    "display": "72%",
+    "source": "v5 xg_decision_875000 L8 p_pass",
+    "value": 0.72
+   },
+   {
+    "display": "0.02",
+    "source": "v5 xg_decision_875000 L3 xg_after_pass",
+    "value": 0.02
+   },
+   {
+    "display": "37%",
+    "source": "v5 xg_decision_875000 L3 p_pass",
+    "value": 0.37
+   },
+   {
+    "display": "0.02",
+    "source": "v5 xg_decision_875000 #11 xg_after_pass",
+    "value": 0.02
+   },
+   {
+    "display": "96%",
+    "source": "v5 xg_decision_875000 #11 p_pass",
+    "value": 0.96
+   },
+   {
+    "display": "0.02",
+    "source": "v5 xg_decision_875000 L6 xg_after_pass",
+    "value": 0.02
+   },
+   {
+    "display": "89%",
+    "source": "v5 xg_decision_875000 L6 p_pass",
+    "value": 0.89
+   },
+   {
+    "display": "0.01",
+    "source": "v5 xg_decision_875000 L7 xg_after_pass",
+    "value": 0.01
+   },
+   {
+    "display": "41%",
+    "source": "v5 xg_decision_875000 L7 p_pass",
+    "value": 0.41
+   },
+   {
+    "display": "7",
+    "source": "v5 xg_decision_875000 alternatives",
+    "value": 7
+   },
+   {
+    "display": "86:25",
+    "source": "studio cue t_in_ms",
+    "value": 5185700
+   },
+   {
+    "display": "8 s",
+    "source": "studio cue t_out_ms - t_in_ms",
+    "value": 8
+   },
+   {
+    "display": "0.02",
+    "source": "cache/v5/shots_0.json e_0033",
+    "value": 0.02
+   },
+   {
+    "display": "29 m",
+    "source": "cache/v5/shots_0.json e_0033",
+    "value": 28.8
+   }
+  ],
+  "match_id": "m_9001",
+  "moment_id": "mo_00001",
+  "nodes": [
+   {
+    "agent": "scout",
+    "latency_ms": 85.968,
+    "latency_source": "measured re-run",
+    "says": "Big chance: Szoboszlai shoots from 29 m (producer-selected)",
+    "t_ms": 5183000
+   },
+   {
+    "agent": "proposer",
+    "latency_ms": null,
+    "latency_source": "not recorded",
+    "options": [
+     {
+      "label": "Shot",
+      "xg": "0.02"
+     },
+     {
+      "label": "Pass",
+      "offside_risk": true,
+      "p_pass": "46%",
+      "xg_after_pass": "0.03"
+     },
+     {
+      "label": "Pass",
+      "offside_risk": false,
+      "p_pass": "56%",
+      "xg_after_pass": "0.03"
+     },
+     {
+      "label": "Pass to Mac Allister",
+      "offside_risk": false,
+      "p_pass": "72%",
+      "xg_after_pass": "0.03"
+     },
+     {
+      "label": "Pass",
+      "offside_risk": false,
+      "p_pass": "37%",
+      "xg_after_pass": "0.02"
+     },
+     {
+      "label": "Pass to Salah",
+      "offside_risk": false,
+      "p_pass": "96%",
+      "xg_after_pass": "0.02"
+     },
+     {
+      "label": "Pass to Gravenberch",
+      "offside_risk": false,
+      "p_pass": "89%",
+      "xg_after_pass": "0.02"
+     },
+     {
+      "label": "Pass to Kerkez",
+      "offside_risk": false,
+      "p_pass": "41%",
+      "xg_after_pass": "0.01"
+     }
+    ],
+    "says": "The shot and 7 passes to team-mates in view"
+   },
+   {
+    "agent": "rollout",
+    "latency_ms": 476.515,
+    "latency_source": "measured re-run",
+    "n": 7,
+    "says": "Reference xG + pass model, deterministic (no rollouts)"
+   },
+   {
+    "agent": "tactician",
+    "draft": "Dominik Szoboszlai shot from 29 m: 0.02 xG",
+    "latency_ms": 11593,
+    "latency_source": "recorded live",
+    "model": "gemini-4-argon",
+    "says": "No pass clears the rule: the shot alone, 0.02 xG"
+   },
+   {
+    "agent": "factcheck",
+    "claims": [
+     {
+      "evidence": "xG of the shot he took, at the reviewed strike (published PL reference model) = 0.02",
+      "ok": true,
+      "text": "Szoboszlai"
+     },
+     {
+      "evidence": "xG of the shot he took, at the reviewed strike (published PL reference model) = 0.02",
+      "ok": true,
+      "text": "0.02"
+     },
+     {
+      "evidence": "distance of the strike from goal = 29 m",
+      "ok": true,
+      "text": "29 m"
+     }
+    ],
+    "latency_ms": 5.441,
+    "latency_source": "measured re-run"
+   },
+   {
+    "agent": "director",
+    "latency_ms": 0,
+    "latency_source": "replay",
+    "says": "On air 86:25, lower third, 8 s"
+   },
+   {
+    "agent": "cuebus",
+    "latency_ms": 0,
+    "latency_source": "replay",
+    "line": "Szoboszlai from 29 m: 0.02 xG, blocked"
+   }
+  ],
+  "record": "cache/v6/pipeline_875000.json",
+  "slug": "liverpool-mancity-2526",
+  "timing_rule": "latency_source: recorded live | measured re-run | replay (cache-served, whole ms) | not recorded (latency_ms null)"
+ },
+ "schema_version": "1.0.0"
+}

@@ -1,0 +1,92 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "names_live",
+  "players": [
+   {
+    "agree": 8,
+    "crops": 8,
+    "from_clip_ms": 680100,
+    "label": "t25",
+    "live": "live_662600.json",
+    "name": "Timo Werner",
+    "shirt": 16,
+    "squad": {
+     "club": "tottenham",
+     "retrieved": "2026-10-23",
+     "season": "2024-25",
+     "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
+    },
+    "team": "away",
+    "to_clip_ms": 682300,
+    "track_id": 25,
+    "tracks": "tracks/84.json",
+    "why_not": null
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 680100,
+    "label": "t33",
+    "live": "live_662600.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "tottenham",
+     "retrieved": "2026-10-23",
+     "season": "2024-25",
+     "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
+    },
+    "team": "away",
+    "to_clip_ms": 681400,
+    "track_id": 33,
+    "tracks": "tracks/84.json",
+    "why_not": "no crop shows a number"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 680100,
+    "label": "t26",
+    "live": "live_662600.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "tottenham",
+     "retrieved": "2026-10-23",
+     "season": "2024-25",
+     "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
+    },
+    "team": "away",
+    "to_clip_ms": 680100,
+    "track_id": 26,
+    "tracks": "tracks/84.json",
+    "why_not": "no crop shows a number"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 680100,
+    "label": "t32",
+    "live": "live_662600.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "tottenham",
+     "retrieved": "2026-10-23",
+     "season": "2024-25",
+     "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
+    },
+    "team": "away",
+    "to_clip_ms": 680100,
+    "track_id": 32,
+    "tracks": "tracks/84.json",
+    "why_not": "no crop shows a number"
+   }
+  ],
+  "rule": "shirt read on 8 crops spread over the window, 3+ agreeing, kit colour on the track's team, number in the season's squad list; null = no label",
+  "slug": "manutd-spurs-2425"
+ },
+ "schema_version": "1.0.0"
+}
