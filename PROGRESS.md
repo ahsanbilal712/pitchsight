@@ -5,6 +5,20 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v3 metrics card: grounded on-screen numbers (track B)
+
+- `python -m footage.grounding` -> `data/footage/v3_grounding.json` (`result.card_line`): every number that reaches
+  the screen in video v3, checked by the Fact Checker (`verify_claims`, rules 1-8) against its evidence:
+  **75 of 75 on-screen numbers bound to verified evidence (81 of 81 claims verified)**. Groups: studio replay cues and
+  the held recap, against their own sqlite (35/35 numbers, 33/33 claims); the six reviewed beat captions, against
+  the beat facts and clip evidence (23/23, 31/31); the video's burnt-in captions (edit_v3.yaml), each number a claim
+  on a fact built from its source file: counterfactual, pass X-ray, speed gun, keeper, ghost, Fourth Official,
+  pitchwatch results (17/17). Overlay graphics are drawn from the same beat fields and not counted separately.
+- Fact Checker gains a `px` unit (tolerance 0.05) for graphics drift. Tests: all bound, and a number off by more
+  than the tolerance or without a claim is caught. No model call.
+
+---
+
 ## 2026-10-23 · Video v3 item 5, option (c): real newsroom executors over the real-clip moments, cached (track B)
 
 - `python -m footage.studio`: per clip, the real Tactician, Narrator, Fact Checker, Director and CueBus executors run

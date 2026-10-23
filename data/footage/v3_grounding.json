@@ -1,0 +1,286 @@
+{
+ "$schema": "model_cache.schema.json",
+ "schema_version": "1.0.0",
+ "record": "tool_result",
+ "result": {
+  "card_line": "75 of 75 on-screen numbers bound to verified evidence (81 of 81 claims verified)",
+  "claims": 81,
+  "claims_verified": 81,
+  "numbers": 75,
+  "numbers_bound": 75,
+  "groups": {
+   "studio cue": {
+    "items": 6,
+    "numbers": 35,
+    "numbers_bound": 35,
+    "claims": 33,
+    "claims_verified": 33
+   },
+   "beat caption": {
+    "items": 6,
+    "numbers": 23,
+    "numbers_bound": 23,
+    "claims": 31,
+    "claims_verified": 31
+   },
+   "video caption": {
+    "items": 10,
+    "numbers": 17,
+    "numbers_bound": 17,
+    "claims": 17,
+    "claims_verified": 17
+   }
+  },
+  "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
+  "scope": "text that reaches the screen in video v3: studio cues and the held recap, beat captions, burnt-in captions; overlay graphics are drawn from the same beat fields",
+  "rows": [
+   {
+    "group": "studio cue",
+    "item": "liverpool-mancity-2526 sliding_doors (cue)",
+    "cue_id": "c_000011",
+    "claims": 6,
+    "claims_verified": 6,
+    "numbers": 8,
+    "numbers_bound": 8,
+    "rejected": []
+   },
+   {
+    "group": "studio cue",
+    "item": "liverpool-mancity-2526 recap (held recap)",
+    "cue_id": "c_000094",
+    "claims": 7,
+    "claims_verified": 7,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "studio cue",
+    "item": "manutd-mancity-2526 sliding_doors (cue)",
+    "cue_id": "c_000011",
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "studio cue",
+    "item": "arsenal-chelsea-2526 sliding_doors (cue)",
+    "cue_id": "c_000011",
+    "claims": 6,
+    "claims_verified": 6,
+    "numbers": 8,
+    "numbers_bound": 8,
+    "rejected": []
+   },
+   {
+    "group": "studio cue",
+    "item": "manutd-spurs-2425 sliding_doors (cue)",
+    "cue_id": "c_000011",
+    "claims": 6,
+    "claims_verified": 6,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "studio cue",
+    "item": "manutd-spurs-2425 fourth_official (cue)",
+    "cue_id": "c_000023",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   },
+   {
+    "group": "beat caption",
+    "item": "arsenal-chelsea-2526 keeper_cone",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v3/keeper_cone_1382650.json",
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "beat caption",
+    "item": "liverpool-mancity-2526 recap",
+    "file": "data/footage/liverpool-mancity-2526/cache/v3/recap_1971000.json",
+    "claims": 7,
+    "claims_verified": 7,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "beat caption",
+    "item": "liverpool-mancity-2526 win_prob_river",
+    "file": "data/footage/liverpool-mancity-2526/cache/v3/win_prob_river_11000.json",
+    "claims": 6,
+    "claims_verified": 6,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "beat caption",
+    "item": "manutd-mancity-2526 ghost_defender",
+    "file": "data/footage/manutd-mancity-2526/cache/v3/ghost_defender_1078360.json",
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "beat caption",
+    "item": "manutd-mancity-2526 ghost_defender",
+    "file": "data/footage/manutd-mancity-2526/cache/v3/ghost_defender_1188840.json",
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "beat caption",
+    "item": "manutd-spurs-2425 fourth_official",
+    "file": "data/footage/manutd-spurs-2425/cache/v3/fourth_official_772400.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Liverpool v Man City, 86th minute, all square.",
+    "sources": [
+     "e_0033"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Szoboszlai shoots. WHYLINE freezes the real frame and replays the moment 200 times.",
+    "sources": [
+     "cf_000001 n"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Blocked. The pass to Salah was worth 2 more points of win chance.",
+    "sources": [
+     "cf_000001"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%.",
+    "sources": [
+     "pass_xray_237767 t31 p_goal",
+     "pass_xray_237767 shoot_now_p_goal"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "37.0 km/h at the top, at least 91 m end to end.",
+    "sources": [
+     "speed_gun_242700 top_speed_kmh",
+     "speed_gun_242700 distance_m"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "An assessment, not a ruling: about 15 km/h into the challenge, outside the box.",
+    "sources": [
+     "fourth_official_772400"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Arsenal v Chelsea, stoppage time: a shot from 4.5 m.",
+    "sources": [
+     "keeper_cone_1382650"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Where Raya stood he covers 39% of the goal. 1.8 m further out, all of it.",
+    "sources": [
+     "keeper_cone_1382650",
+     "keeper_cone_1382650"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "City's defender needed 6.5 m and could cover 7.0. There, the goal chance falls from 26% to 19%.",
+    "sources": [
+     "ghost_defender_1188840",
+     "ghost_defender_1188840",
+     "ghost_defender_1188840",
+     "ghost_defender_1188840"
+    ],
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Measured on this footage: 99.3% of players found, graphics within 1.5 px of the painted lines.",
+    "sources": [
+     "packages/evals/pitchwatch/results.json detection.recall",
+     "packages/evals/pitchwatch/results.json paint_drift_p95_px_refined.median"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   }
+  ]
+ }
+}

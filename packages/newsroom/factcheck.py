@@ -31,7 +31,8 @@ ROOT = Path(__file__).resolve().parents[2]
 LEAGUE = ROOT / "data" / "league"
 
 TOLERANCE = {"xg": 0.005, "p_goal": 0.01, "win_prob": 0.01, "percent": 0.01, "win_prob_delta": 0.01,
-             "metres": 0.5, "kmh": 1.0, "minute": 1.0, "xt": 0.005, "seconds": 0.5, "count": 0.0}
+             "metres": 0.5, "kmh": 1.0, "minute": 1.0, "xt": 0.005, "seconds": 0.5, "count": 0.0,
+             "px": 0.05}                                   # graphics drift on real clips (pixels)
 PROBABILITY_UNITS = {"p_goal", "win_prob", "percent", "win_prob_delta"}
 UNIT_ALIASES = {"m": "metres", "meters": "metres", "km/h": "kmh", "kph": "kmh", "s": "seconds", "sec": "seconds",
                 "%": "percent", "pct": "percent", "minutes": "minute", "min": "minute", "n": "count"}
