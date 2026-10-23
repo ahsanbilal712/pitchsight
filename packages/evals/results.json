@@ -103,7 +103,7 @@
   {
    "id": "cost_project",
    "number": "Project spend",
-   "measured": "$2.68 over 634 calls",
+   "measured": "$3.40 over 691 calls",
    "threshold": "<= $50",
    "status": "pass",
    "script": "evals/cost.py (ledger)",
@@ -113,7 +113,7 @@
   {
    "id": "groundedness",
    "number": "Groundedness (own evaluator: numbers on screen bound to verified claims)",
-   "measured": "141/141 = 1.000",
+   "measured": "150/150 = 1.000",
    "threshold": ">= 0.95",
    "status": "pass",
    "script": "evals/groundedness.py",

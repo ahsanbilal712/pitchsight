@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Working-tree tidy after the v3 final: ledger, eval table, footage tests (track B)
+
+- **Ledger:** two smoke rows of 23 Oct 08:30 UTC (Flash $0.000009, Argon $0.000126) committed; the ledger stays the
+  spend proof. Project spend **$3.40 over 691 calls** (cap $50).
+- **Eval table** `packages/evals/results.{md,json}`, `out/groundedness.json`: regenerated with
+  `evals.run_evals --seeds 1..50` (no model call). Project spend now matches the ledger; groundedness
+  **150/150 = 1.000** (was 141/141: the Fact Checker's number handling from T-109 and 6a6c2b9 now counts 9 more
+  numbers in the golden Sliding Doors cues, all bound).
+- **Studio cache restored:** the Liverpool studio `stream.jsonl`, `blackboard.sqlite` and two manifest timestamps
+  differed from 14d7679 only in run timings (`started_ms`, `latency_ms`, `created_at`), rewritten by
+  `tests/footage/test_studio.py` and `test_river.py` during a test run. Restored to what the video recorded.
+- **Fix:** `tests/footage/conftest.py` `restore_clip_cache` puts the clip cache back byte for byte after those two
+  tests, so `make ci` leaves the tree clean.
+- Verification: `make ci`: lint, schemas (5376 documents) and spend OK; unit **486 passed, 2 failed**: track A's
+  wall-clock budgets `tests/rollout/test_perf.py` (cpu p90 1.71 s vs 1.3 s) and `test_policy_perf.py` (0.36-0.42 s
+  vs 0.30 s), also failing when run alone, with the machine under system load (kdc, StorageManagement; load average
+  11-50). No rollout code changed; thresholds untouched. The clip caches stayed clean through the run.
+
+---
+
 ## 2026-10-23 · T-110 video v3 (real footage only) and T-111 README and JUDGES (track C)
 
 - **Video v3 final cut** `packages/demo/out/final_v3.mp4` (git-ignored), **116.3 s**, captions only, real Premier

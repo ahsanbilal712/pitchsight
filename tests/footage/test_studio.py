@@ -10,7 +10,8 @@ from footage.studio import run
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_real_executors_give_a_verified_cue_with_only_real_names():
+def test_real_executors_give_a_verified_cue_with_only_real_names(restore_clip_cache):
+    restore_clip_cache("liverpool-mancity-2526")
     with ThreadPoolExecutor(1) as pool:            # run() uses asyncio.run: off the main thread (Playwright loop)
         out = pool.submit(run, "liverpool-mancity-2526").result()
     assert [c[1:] for c in out["cues"]] == [("sliding_doors", "Szoboszlai shoots, Salah was free", True)]

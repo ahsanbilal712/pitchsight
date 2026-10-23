@@ -12,7 +12,8 @@ def test_goals_and_final_score_follow_the_broadcast():
     assert score_at(gs, 10**9) == [1, 3] and clock(6_285_000) == "104:45"
 
 
-def test_river_swings_with_the_score_and_marks_the_moments():
+def test_river_swings_with_the_score_and_marks_the_moments(restore_clip_cache):
+    restore_clip_cache(SLUG)
     d = run(SLUG)
     by = {s["clock"]: s for s in d["samples"]}
     assert by["73:15"]["wp"]["draw"] > 0.5 and by["74:00"]["wp"]["home"] > 0.7     # Szoboszlai's free kick
