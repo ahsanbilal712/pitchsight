@@ -1,0 +1,1484 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "always",
+  "control_model": "time-to-intercept pitch control (insights.control, from physics.pitch_control; simplified Spearman 2018): each player in view reaches a point after a 0.7 s reaction then at 5 m/s; a team's control is its softmin share of the arrival times; positions only, no ball travel time",
+  "danger_def": "Dangerous space in view: the dangerous zone is every cell in front of the goal in view from which a shot is worth at least 0.05 xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as in v5/v6). Each team's share = sum over the zone's cells in view of its pitch control x that cell's xG, divided by the sum of the xG; home + away = 1. Printed only when at least 70% of the zone's cells are in view; 2 dp",
+  "end_clip_ms": 98900,
+  "frames": [
+   {
+    "ball_layer": false,
+    "clip_ms": 94000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94100,
+    "control": "/////////////////////////////////////////8G5r//////////////////////////////////////////////////NycS7sKH/////////////////////////////////////////////0tDPzMe/sZ6K/////////////////////////////////////////9rW09LRz8vDs5qAav///////////////////////////////////////+Lb1tPR0c/Jt5NwWk3//////////////////////////////////////+3m3dbR0NHQvoBVRj/////////////////////////////////////////y7OLVzcvN0UQ2NDIw///////////////////////////////////////59/Pp07qqezMpJyUkI//////////////////////////////////////8/Pv58c1uLhYTExQVFhf////////////////////////////////////9/f39/POECQEDBQcKDA0P/////////////////////////////////////v7+/v3HFwICAgMEBgcJ/////////////////////////////////////v7+/fzfSAsEAwMDBAUG/////////////////////////////////////v7+/frjfiMMBgQEBAUG/////////////////////////////////////v7+/vvrtWc2IBYRDg0N//////////////////////////////////////7+/v38+O7XsolmTT0x//////////////////////////////////////7+/v7+/v78+O/exquQ//////////////////////////////////////7+/v7+/v7+/vz69Ove//////////////////////////////////////7+/v7+/v7+/v79/Pr2///////////////////////////////////////+/v7+/v7+/v7+/v38///////////////////////////////////////+/v7+/v7+/v7+/v79///////////////////////////////////////+/v7+/v7+/v7+/v7+///////////////////////////////////////+/v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+//////////////////////////////////////////7+/v7+/v7+/v7+",
+    "danger": {
+     "away": 0.67,
+     "home": 0.33
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94200,
+    "control": "/////////////////////////////////////////8W9sv/////////////////////////////////////////////////Rzsi/s6P/////////////////////////////////////////////1tXT0cvDtKCK/////////////////////////////////////////9zZ19bV09DHtpyAaf///////////////////////////////////////+Pe2dfW1dTNupRuV0r//////////////////////////////////////+3n39nV1dXUwYBTQjv////////////////////////////////////////y7OPY0dDS1kIzMC4s///////////////////////////////////////59/Pp1b6uey4lIyIhIP/////////////////////////////////////8/Pv58cxvLxYSEhMUFBX////////////////////////////////////9/f39/PODCQEDBQcJCwwO/////////////////////////////////////v7+/vzGFgIBAgMEBgcI/////////////////////////////////////v7+/fzeRwsEAgIDBAQF/////////////////////////////////////v7+/frjfCILBgQEBAUF/////////////////////////////////////v7+/vvqs2U0HhUQDg0M//////////////////////////////////////7+/v38+O3Vr4ZjSzsw//////////////////////////////////////7+/v7+/v38+O7dxKmO//////////////////////////////////////7+/v7+/v7+/vz69Ovd//////////////////////////////////////7+/v7+/v7+/v79/Pr2///////////////////////////////////////+/v7+/v7+/v7+/v38///////////////////////////////////////+/v7+/v7+/v7+/v79///////////////////////////////////////+/v7+/v7+/v7+/v7+///////////////////////////////////////+/v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+//////////////////////////////////////////7+/v7+/v7+/v7+",
+    "danger": {
+     "away": 0.68,
+     "home": 0.32
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94300,
+    "control": "/////////////////////////////////////////8jAtf/////////////////////////////////////////////////U0cvCtqX/////////////////////////////////////////////2djW1M/Gt6OM/////////////////////////////////////////9/c2tnY1tLKuZ+Baf///////////////////////////////////////+Xg3NrZ2NbQvZdwV0n//////////////////////////////////////+7o4tvY2NnXxINTQTn////////////////////////////////////////z7eTa1NTW2EUxLisp///////////////////////////////////////69/Pq18KzfioiISAfHv/////////////////////////////////////8/Pv58c1yMRYRERITFBT////////////////////////////////////9/f39/POFCgEDBQcJCwwN/////////////////////////////////////v79/v3HFgICAgMEBgcI/////////////////////////////////////v7+/fzfRwsEAgIDBAUF/////////////////////////////////////v7+/frjfSMLBgQEBAUF/////////////////////////////////////v7+/vvqtGY1HxURDg0M//////////////////////////////////////7+/v38+O7WsIdlTTwx//////////////////////////////////////7+/v7+/v38+O7dxaqP//////////////////////////////////////7+/v7+/v7+/vz69Ove//////////////////////////////////////7+/v7+/v7+/v79/Pr2///////////////////////////////////////+/v7+/v7+/v7+/v38///////////////////////////////////////+/v7+/v7+/v7+/v79///////////////////////////////////////+/v7+/v7+/v7+/v7+///////////////////////////////////////+/v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+//////////////////////////////////////////7+/v7+/v7+/v7+",
+    "danger": {
+     "away": 0.68,
+     "home": 0.32
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94400,
+    "control": "/////////////////////////////////////////6qhlf////////////////////////////////////////////////+7tq6jlof/////////////////////////////////////////////xsO/urOnmIVz/////////////////////////////////////////9XOysbDv7mtmoJrW////////////////////////////////////////+DX0MrHxL+1nnxgT0b//////////////////////////////////////+zl29HLyMbApm9OQj3////////////////////////////////////////y7OHTysjIwEk5NjQy///////////////////////////////////////59/Pp1MC3mUEyLispJ//////////////////////////////////////8/Pv58c5/RCMbGhobGxz////////////////////////////////////9/f39/POGCwIEBwsNDxET/////////////////////////////////////v7+/vzHFwMCAwUGCAoM/////////////////////////////////////v7+/fzeRwsEAwMEBQYI/////////////////////////////////////v7+/frjfCMMBgUFBQYH/////////////////////////////////////v7+/vvqs2U1HxYRDw4N//////////////////////////////////////7+/v38+O3WsIdlTTwx//////////////////////////////////////7+/v7+/v38+O7dxqqQ//////////////////////////////////////7+/v7+/v7+/vz69Ove//////////////////////////////////////7+/v7+/v7+/v79/Pr2///////////////////////////////////////+/v7+/v7+/v7+/v38///////////////////////////////////////+/v7+/v7+/v7+/v79///////////////////////////////////////+/v7+/v7+/v7+/v7+///////////////////////////////////////+/v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+//////////////////////////////////////////7+/v7+/v7+/v7+",
+    "danger": {
+     "away": 0.67,
+     "home": 0.33
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94500,
+    "control": "/////////////////////////////////////////56Uif////////////////////////////////////////////////+xqqKXiXv/////////////////////////////////////////////vrq2sKebi3lp/////////////////////////////////////////9HJw7+7ta2gjXdjVf///////////////////////////////////////93Uy8TAvLWpkXJZTEX//////////////////////////////////////+vj2c3Fwb61mWdLQj3////////////////////////////////////////x6t/QxsPCs0g7OTc1///////////////////////////////////////59/Lo07+5okg4My8tK//////////////////////////////////////8/Pv58c6GTyogHh4eHh7////////////////////////////////////9/f39/POGDAIFCQwPERMV/////////////////////////////////////v79/vzFFgMCAwUHCQsN/////////////////////////////////////v7+/fzdRQsEAwQFBgcJ/////////////////////////////////////v7+/frieSILBgUFBgcI/////////////////////////////////////v7+/vvpsWMzHhURDw4O//////////////////////////////////////7+/v37+O3Vr4ZkTDwx//////////////////////////////////////7+/v7+/v38+O7dxaqP//////////////////////////////////////7+/v7+/v7+/vz69Ovd//////////////////////////////////////7+/v7+/v7+/v79/Pr2///////////////////////////////////////+/v7+/v7+/v7+/v38///////////////////////////////////////+/v7+/v7+/v7+/v79///////////////////////////////////////+/v7+/v7+/v7+/v7+///////////////////////////////////////+/v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+//////////////////////////////////////////7+/v7+/v7+/v7+",
+    "danger": {
+     "away": 0.67,
+     "home": 0.33
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94600,
+    "control": "/////////////////////////////////////////52Th/////////////////////////////////////////////////+xqqGViHn/////////////////////////////////////////////v7u2sKaZiXdm/////////////////////////////////////////9LLxcC7tq2fi3RgUv///////////////////////////////////////97VzcbBvbaoj29WSUL//////////////////////////////////////+zk2s/Hw7+1l2RIPzr////////////////////////////////////////y6+DSyMXEsUc5NjQy///////////////////////////////////////59/Pp1MK9pkY2MS0rKf/////////////////////////////////////8/Pv58c+JUisgHh0dHR7////////////////////////////////////9/f39/POGDAIFCQ0PERMU/////////////////////////////////////v79/vzFFgMCBAYICgwN/////////////////////////////////////v7+/fzdRQsEAwQFBggJ/////////////////////////////////////v7+/frheiIMBwUFBgcI/////////////////////////////////////v7+/vvpsmY2IBYSEA8O//////////////////////////////////////7+/v38+O7XsolnTj4z//////////////////////////////////////7+/v7+/v78+O/exquR//////////////////////////////////////7+/v7+/v7+/vz69Ove//////////////////////////////////////7+/v7+/v7+/v79/Pr2///////////////////////////////////////+/v7+/v7+/v7+/v38///////////////////////////////////////+/v7+/v7+/v7+/v79///////////////////////////////////////+/v7+/v7+/v7+/v7+///////////////////////////////////////+/v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+//////////////////////////////////////////7+/v7+/v7+/v7+",
+    "danger": {
+     "away": 0.67,
+     "home": 0.33
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94700,
+    "control": "/////////////////////////////////////////7Knmv/////////////////////////////////////////////////Evraqm4r/////////////////////////////////////////////z8zIw7qunYhz/////////////////////////////////////////9zX0s/MyMCzn4VrWP///////////////////////////////////////+Xe2NPQzce7o39fTEH//////////////////////////////////////+/p4dnT0c7Gq3JMPTb////////////////////////////////////////z7uXa0tHRwFA1MC0r///////////////////////////////////////6+PTr2crFqjIpJyUjIv/////////////////////////////////////8/Pv58dCNUiccGRkZGRn////////////////////////////////////9/f39/POHDQIFCQsODxES/////////////////////////////////////v79/fzFFgMCBAUHCQoM/////////////////////////////////////v7+/fzcRAsEAwQFBgcI/////////////////////////////////////v7+/frheSIMBgUFBgcH/////////////////////////////////////v7+/vvpsWQ0HxYSDw4O//////////////////////////////////////7+/v38+O3WsIdlTT0y//////////////////////////////////////7+/v7+/v38+O7dxaqQ//////////////////////////////////////7+/v7+/v7+/vz69Ovd//////////////////////////////////////7+/v7+/v7+/v79/Pr2///////////////////////////////////////+/v7+/v7+/v7+/v38///////////////////////////////////////+/v7+/v7+/v7+/v79///////////////////////////////////////+/v7+/v7+/v7+/v7+///////////////////////////////////////+/v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+/////////////////////////////////////////v7+/v7+/v7+/v7+//////////////////////////////////////////7+/v7+/v7+/v7+",
+    "danger": {
+     "away": 0.67,
+     "home": 0.33
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94800,
+    "control": "/////////////////////////////////////////66jl//////////////////////////////////////////////////AurKmmIf/////////////////////////////////////////////zMnFv7eqmYVx/////////////////////////////////////////9rU0MzJxL2vm4JqWP///////////////////////////////////////+Tc1tDNycS3n3xeTEL//////////////////////////////////////+7o39fRzsvDpnBMPjj////////////////////////////////////////z7eTY0M/Ouk82MS8s///////////////////////////////////////59/Pq2MjEqTMrKCYkI//////////////////////////////////////8/Pv58c+OVSkdGhkZGRn////////////////////////////////////9/f39/POFDQMFCQwOEBES/////////////////////////////////////v79/fzDFgMCBAUHCQoM/////////////////////////////////////v7+/fzbQgsEAwQEBQYH/////////////////////////////////////v7+/PTDRxAGAwMDAwQE/////////////////////////////////////v7++r00CAICAgICAgMD//////////////////////////////////////7+9oQZAwEBAgIDAwQE//////////////////////////////////////797rdXCwIDBAUFBgYG//////////////////////////////////////779vPlhiYTDw0MDAsL//////////////////////////////////////37+/z976laNCQcGBUT///////////////////////////////////////8/f39+eSxeVM8LiYg///////////////////////////////////////9/f38+vHatIpoUEA1///////////////////////////////////////9/f38+/bq1LWUd2FP///////////////////////////////////////9/f38+/fw48+2m4Jt/////////////////////////////////////////f38+/j0697Mtp+K/////////////////////////////////////////f38+/n28ObZybaj/////////////////////////////////////////fz8+/n38uzi1se2/////////////////////////////////////////fz8+/r49O/o39PF//////////////////////////////////////////z8+/r49fLs5dzQ",
+    "danger": {
+     "away": 0.96,
+     "home": 0.04
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 94900,
+    "control": "/////////////////////////////////////////6iekf////////////////////////////////////////////////+7taygkoP/////////////////////////////////////////////x8S/ubGklIFv/////////////////////////////////////////9jSzMjEv7epln5oV////////////////////////////////////////+La083IxL6xmXhdTEP//////////////////////////////////////+7n3tTNyca8oG5NQDn////////////////////////////////////////y7OLWzcvJslI5NDAu///////////////////////////////////////59/Lo1sbEsDUuKickIv/////////////////////////////////////8+/r478uPXC0dGRcWFRT////////////////////////////////////9/f38++93DQMFBggJCgsL/////////////////////////////////////v39/fugCgEBAQIDBAUG/////////////////////////////////////v79/fihDgEBAQEBAgMD/////////////////////////////////////v7++umFFQMBAQEBAQIC/////////////////////////////////////v7++bItBwIBAQEBAQIC//////////////////////////////////////7+9X8XAwEBAgIDAwMD//////////////////////////////////////797rZWCwIDBAUFBgYG//////////////////////////////////////779vPmhicUDw0MDAsL//////////////////////////////////////37+/z976pbNSUdGBUT///////////////////////////////////////8/f39+eSyelQ9LyYh///////////////////////////////////////9/f39+vLbtYtqUUE1///////////////////////////////////////9/f38+/bq1LaWeWJQ///////////////////////////////////////9/f38+/jx5NC3nINu/////////////////////////////////////////f38+/n0697Mt6GL/////////////////////////////////////////f38+/n28Ofayrek/////////////////////////////////////////f38+/r38+zj18i3/////////////////////////////////////////fz8+/r49O/o39TG//////////////////////////////////////////z8+/r49vLs5dzR",
+    "danger": {
+     "away": 0.96,
+     "home": 0.04
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.67,
+        18.18
+       ],
+       [
+        85.64,
+        24.48
+       ],
+       [
+        86.06,
+        27.24
+       ],
+       [
+        85.22,
+        38.27
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95000,
+    "control": "/////////////////////////////////////////6+lmP/////////////////////////////////////////////////Bu7OnmYn/////////////////////////////////////////////zcnFwLermodz/////////////////////////////////////////9zW0c3Jxb2wnIRsWv///////////////////////////////////////+Xe19HOysS4oH5hTkP//////////////////////////////////////+/p4djSzsvCpnRQQDj////////////////////////////////////////z7eTZ0c/Ot1g5Mi4r///////////////////////////////////////59/Pp2MrIti4qJyQiH//////////////////////////////////////8+/r478ySXywcGBYVFBP////////////////////////////////////9/fz8++51DQMFBggJCgsL/////////////////////////////////////v39/fuaCQEBAgMEBQUG/////////////////////////////////////v79/PefDwEBAQECAgMD/////////////////////////////////////v79+uiFFwQBAQEBAQIC/////////////////////////////////////v7++KkmBgIBAQEBAgIC//////////////////////////////////////7+9HUUAwEBAgIDAwME//////////////////////////////////////797LNTCwMEBQUGBgYH//////////////////////////////////////779vPnjy8YEg8ODQwM//////////////////////////////////////37/Pz98bVnPishHBgV///////////////////////////////////////8/f39+ui9h19FNiwl///////////////////////////////////////9/f39+/Thv5h2XEo9///////////////////////////////////////9/f39+/ft28CihW1a///////////////////////////////////////9/f38+/nz6NfBqI96/////////////////////////////////////////f38+/n27+TUwayX/////////////////////////////////////////f38/Pr38uvg0sGv/////////////////////////////////////////f38/Pr49e/n3dDB/////////////////////////////////////////f38/Pv59vLs5NrP/////////////////////////////////////////f38/Pv59/Tv6eLY",
+    "danger": {
+     "away": 0.96,
+     "home": 0.04
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.75,
+        18.44
+       ],
+       [
+        85.67,
+        24.58
+       ],
+       [
+        85.89,
+        26.83
+       ],
+       [
+        85.1,
+        38.02
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95100,
+    "control": "/////////////////////////////////////////6yhlf////////////////////////////////////////////////+/ubCklob/////////////////////////////////////////////zMjEvbWol4Rx/////////////////////////////////////////9zV0MzIw7utmYFpWP///////////////////////////////////////+Xe19HMyMK1nHtfTUL//////////////////////////////////////+/p4NjRzcm/o3FPPzj////////////////////////////////////////z7eTZ0c/Ms1c5Mi4r///////////////////////////////////////59/Pp2MvKuy0qJyQhH//////////////////////////////////////8+/r4782ZZy8dGBYVFBP////////////////////////////////////9/fz8++94DwMFBwgJCgsL/////////////////////////////////////v39/fubCQEBAgMEBQYG/////////////////////////////////////v79/fehDwEBAQECAgME/////////////////////////////////////v7++umIGAQBAQEBAQIC/////////////////////////////////////v7++KwpBgIBAQEBAgIC//////////////////////////////////////7+9HcVAwEBAgIDAwME//////////////////////////////////////797LJSCwMEBAUGBgYG//////////////////////////////////////779fPmiiwWEQ4NDQwM//////////////////////////////////////37/Pz98bFjOykgGhcV///////////////////////////////////////8/f39+ee6g1tDNCok///////////////////////////////////////9/f39+/PfvJRyWUc7///////////////////////////////////////9/f39+/ft2b6egmpY///////////////////////////////////////9/f38+/jy59W+pYx3/////////////////////////////////////////f38+/n17uLSvqmU/////////////////////////////////////////f38+/r38urf0L+s/////////////////////////////////////////f38+/r49O7m286//////////////////////////////////////////f38/Pr59vHr49nN//////////////////////////////////////////38/Pv59/Pv6ODX",
+    "danger": {
+     "away": 0.96,
+     "home": 0.04
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.72,
+        18.56
+       ],
+       [
+        85.74,
+        24.68
+       ],
+       [
+        85.9,
+        26.8
+       ],
+       [
+        85.14,
+        38.12
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95200,
+    "control": "/////////////////////////////////////////7Oom//////////////////////////////////////////////////Gv7ernIr/////////////////////////////////////////////0c7KxLuunYh0/////////////////////////////////////////97Z1dHOycGznoRsWP///////////////////////////////////////+bg2tXSzsi7oX5gTED//////////////////////////////////////+/p4tvW08/Fp3NOPTX////////////////////////////////////////z7uXb1dTRtVU3Lysn///////////////////////////////////////59/Pq2s/OtygmIyAeHP/////////////////////////////////////8+/r4786bYykZFRMSERH////////////////////////////////////9/fz8++95DwMEBgcICQkK/////////////////////////////////////v39/fubCQEBAgIDBAUF/////////////////////////////////////v79/fehDwEBAQECAgID/////////////////////////////////////v7++umJGAQBAQEBAQIC/////////////////////////////////////v7++bIuBwIBAQEBAgIC//////////////////////////////////////7+9X0XAwEBAgIDAwMD//////////////////////////////////////797bVUCwIDBAUFBgYG//////////////////////////////////////779fPlgyYTDw0MDAsL//////////////////////////////////////37+/z976hZNCQcGBUT///////////////////////////////////////8/f39+eOxeVI8LiYg///////////////////////////////////////9/f38+vHas4poUEA1///////////////////////////////////////9/f38+/Xq07WUd2BP///////////////////////////////////////9/f38+/fw48+1m4Jt/////////////////////////////////////////f38+/j0697Ltp+K/////////////////////////////////////////f38+/n18ObZybaj/////////////////////////////////////////fz8+/n38uzi1se2/////////////////////////////////////////fz8+/r49O/o39PF//////////////////////////////////////////z8+/r49fHs5dvQ",
+    "danger": {
+     "away": 0.96,
+     "home": 0.04
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.64,
+        18.67
+       ],
+       [
+        85.74,
+        24.72
+       ],
+       [
+        85.92,
+        26.82
+       ],
+       [
+        85.21,
+        38.31
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95300,
+    "control": "/////////////////////////////////////////7Knmv/////////////////////////////////////////////////Gv7aqmon/////////////////////////////////////////////0c7KxLuunIdy/////////////////////////////////////////97Z1dLOycGznYNqV////////////////////////////////////////+bg2tbSzsi6oH1eSj///////////////////////////////////////+/p4tvW08/FpXFMPDT////////////////////////////////////////z7eXc1tTSs1Q1Liom///////////////////////////////////////59/Lp2tDPtyclIyAdG//////////////////////////////////////8+/r3786cYykZFBIRERD////////////////////////////////////9/fz8++95DwMEBgcICAkJ/////////////////////////////////////v39/fucCQEBAgIDBAUF/////////////////////////////////////v79/feiDwEBAQECAgMD/////////////////////////////////////v7++umLGQQBAQEBAQIC/////////////////////////////////////v7++bItBwIBAQEBAgIC//////////////////////////////////////7+9X0XAwEBAgIDAwMD//////////////////////////////////////797bVVCwMDBAUGBgYG//////////////////////////////////////779fPmiCkVEA4NDAwL//////////////////////////////////////37+/z98KxdNyYeGRYU///////////////////////////////////////8/f39+eW0fVY/MSgi///////////////////////////////////////9/f39+vLct45sVEM3///////////////////////////////////////9/f38+/br1biYe2RS///////////////////////////////////////9/f38+/jx5NG4noZx/////////////////////////////////////////f38+/n07N/OuaON/////////////////////////////////////////f38+/n28Ofby7mm/////////////////////////////////////////f38+/r38+3k2Mm5/////////////////////////////////////////fz8+/r49fDp4NXI//////////////////////////////////////////z8+/r49vLt5t3T",
+    "danger": {
+     "away": 0.96,
+     "home": 0.04
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.63,
+        18.69
+       ],
+       [
+        85.73,
+        24.67
+       ],
+       [
+        85.91,
+        26.76
+       ],
+       [
+        85.19,
+        38.24
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95400,
+    "control": "/////////////////////////////////////////7ClmP/////////////////////////////////////////////////EvbSomYj/////////////////////////////////////////////0M3IwrmsmoVx/////////////////////////////////////////97Z1NDNx7+xnIJpV////////////////////////////////////////+bg2dXRzca4nnxeSz///////////////////////////////////////+/p4trV0s3Co3FNPTT////////////////////////////////////////y7eXb1dPQsFY3Lion///////////////////////////////////////59vLp2c/PvSgmIyAdG//////////////////////////////////////8+/r37s2eZioZFRMSERH////////////////////////////////////9/fz8++53EAMFBgcICQoK/////////////////////////////////////v39/fubCQEBAgMDBAUG/////////////////////////////////////v79/fejEAIBAQECAgMD/////////////////////////////////////v7++uqOGgQCAQEBAQIC/////////////////////////////////////v7++bgyCAIBAQECAgIC//////////////////////////////////////7+9oQaBAEBAgIDAwMD//////////////////////////////////////797rhXCwIDBAUFBgYG//////////////////////////////////////779vPlgSQSDgwMCwsK//////////////////////////////////////37+/z97qRUMSIbFhQS///////////////////////////////////////8/f39+OGsc044LCQf///////////////////////////////////////9/f38+vDXr4VjTDwy///////////////////////////////////////9/f38+vXo0LCPclxL///////////////////////////////////////9/f38+vfv4cuxlX1o/////////////////////////////////////////f38+/jz6dvIsZqF/////////////////////////////////////////fz8+/n17uTWxbGd/////////////////////////////////////////fz8+/n28erg0sOy/////////////////////////////////////////fz8+/n38+7m3M/B//////////////////////////////////////////z8+/r49fDq4tnN",
+    "danger": {
+     "away": 0.96,
+     "home": 0.04
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.62,
+        18.83
+       ],
+       [
+        85.68,
+        24.6
+       ],
+       [
+        85.89,
+        26.73
+       ],
+       [
+        85.27,
+        38.41
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95500,
+    "control": "/////////////////////////////////////////6CUh/////////////////////////////////////////////////+2rqSXiHj/////////////////////////////////////////////xsG7s6maiXZl/////////////////////////////////////////9nSzMbBuq+ginNeT////////////////////////////////////////+Pc1M3HwbenjW5VRj3//////////////////////////////////////+3n39XNyMGzkmVIOzX////////////////////////////////////////y7OPXzsrEn1E3MC0q///////////////////////////////////////49vHo18zMyS0rKCQhHv/////////////////////////////////////7+/n37s+oeTQgGhcVFBP////////////////////////////////////9/Pz8+u5/FQUGCAkKCgsL/////////////////////////////////////fz8/fqXCgEBAgMEBQUG/////////////////////////////////////v37+utiCAEBAQECAgMD/////////////////////////////////////v786ZYVAQEBAQEBAQIC/////////////////////////////////////v7961UJAQEBAQEBAQEC//////////////////////////////////////7+72IRAgEBAgICAwMD//////////////////////////////////////797K9SCwMEBQUFBgYG//////////////////////////////////////779fPnjy4XEQ8NDAwL//////////////////////////////////////37+/z98bRmPSogGxcU///////////////////////////////////////8/f39+ei8hl5ENSsk///////////////////////////////////////9/f39+/Pgvpd0W0g7///////////////////////////////////////9/f39+/ft2r+ghGxZ///////////////////////////////////////9/f38+/nz6NbApo54/////////////////////////////////////////f38+/n17uPTwKuW/////////////////////////////////////////f38+/r38urf0cCu/////////////////////////////////////////f38+/r49O/n3M/A/////////////////////////////////////////f38/Pr59vLs5NrO//////////////////////////////////////////38/Pv59/Tv6eHY",
+    "danger": {
+     "away": 0.96,
+     "home": 0.04
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.54,
+        18.9
+       ],
+       [
+        85.69,
+        24.63
+       ],
+       [
+        86.05,
+        27.17
+       ],
+       [
+        85.12,
+        38.05
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "5 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95600,
+    "control": "/////////////////////////////////////////52Rg/////////////////////////////////////////////////+0rKGThHT/////////////////////////////////////////////xsC6saaXhXJh/////////////////////////////////////////9rTzMbAuK2chm9aTP///////////////////////////////////////+Pc1M3HwLakiWpSQzv//////////////////////////////////////+7n39bOyMCwjmFGOjX////////////////////////////////////////y7OPY0MvCmk42MTEy///////////////////////////////////////59vLp2s/Pxi0tMDM4Pf/////////////////////////////////////8+/r379W1iEQ5P0VLT1L////////////////////////////////////9/Pz8+/KkUTZWYmVmZmZl/////////////////////////////////////f39/fvElryXioN9eXVy/////////////////////////////////////v38+vCMYJSck4qDfnl1/////////////////////////////////////v787aMiBhY/WmVoaGdm/////////////////////////////////////v7+72IOBAYOGicyOkBF//////////////////////////////////////7+824UAwECBQoQFx4k//////////////////////////////////////797rJUCwMEBQYICw8T//////////////////////////////////////779fLmiikVEA4NDg4Q//////////////////////////////////////37+/z98a9fOCYeGRcV///////////////////////////////////////8/f39+ea3f1c/MSgj///////////////////////////////////////9/f39+vLduZBtVUM4///////////////////////////////////////9/f38+/br17qafWVT///////////////////////////////////////9/f38+/jx5dK6oIdy/////////////////////////////////////////f38+/n17eDPuqSP/////////////////////////////////////////f38+/n28ejczbun/////////////////////////////////////////f38+/r38+3k2cu7/////////////////////////////////////////fz8+/r49fDq4dbJ//////////////////////////////////////////z8+/r59vLt597U",
+    "danger": {
+     "away": 0.75,
+     "home": 0.25
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.53,
+        18.99
+       ],
+       [
+        85.72,
+        24.72
+       ],
+       [
+        84.19,
+        31.62
+       ],
+       [
+        85.26,
+        38.24
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95700,
+    "control": "/////////////////////////////////////////5iLfv////////////////////////////////////////////////+xp5yOf2//////////////////////////////////////////////w722raGSgG1c/////////////////////////////////////////9jRysS9taiXgWpWSf///////////////////////////////////////+Lb08vEvbKfg2VOQTn//////////////////////////////////////+3m3tTMxr2rh1xDODP////////////////////////////////////////x6+LXzsm+kks1Ly4v///////////////////////////////////////49vHo2c/OvS0sLTA1Ov/////////////////////////////////////7+/n37tS3ij4xN0BITlP////////////////////////////////////9/Pz8+/GfPSJHXWZqbG1t/////////////////////////////////////f39/fvCg62glpCLh4OA/////////////////////////////////////v38+/GPbrm7rqOak46J/////////////////////////////////////v787aYlCCZifoWGhIF//////////////////////////////////////v7+8GgQBgsZLT5LVFpe//////////////////////////////////////7+9HQUAwIDCBAaJC02//////////////////////////////////////798LJUCwMEBQgLEBYc//////////////////////////////////////789fLliikVEA4ODxEU//////////////////////////////////////37+/z98a9fOCceGhgX///////////////////////////////////////8/f39+ea3f1dAMSkj///////////////////////////////////////9/f39+vPeuZBuVUQ4///////////////////////////////////////9/f38+/bs17qafWZU///////////////////////////////////////9/f38+/jy5tO7oIhy/////////////////////////////////////////f38+/n17eHPu6WP/////////////////////////////////////////f38+/n28enczbuo/////////////////////////////////////////f38+/r38+3l2cu7/////////////////////////////////////////f38+/r49fHq4dbJ//////////////////////////////////////////z8+/r59vPu597U",
+    "danger": {
+     "away": 0.69,
+     "home": 0.31
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.46,
+        19.08
+       ],
+       [
+        85.72,
+        24.66
+       ],
+       [
+        84.2,
+        31.63
+       ],
+       [
+        85.25,
+        38.23
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95800,
+    "control": "/////////////////////////////////////////6eai/////////////////////////////////////////////////+/t6ydjHr/////////////////////////////////////////////z8vFvLGhjXdj/////////////////////////////////////////97Z1NDKw7imjnNcS////////////////////////////////////////+bg2tXQysCukG1RQDf//////////////////////////////////////+7p4tzW0cq6lGJDNS/////////////////////////////////////////y7ebd2NTLnUsxKigp///////////////////////////////////////49vLq3tfXtyYlJSgtMv/////////////////////////////////////7+/r379i5fTElLDZASE/////////////////////////////////////9/Pz8+/KfMRc2UF9na25w/////////////////////////////////////f39/fzCaYSYl5SQjYuI/////////////////////////////////////v38+vCNcNDOvbGooZuW/////////////////////////////////////v787qQmCzyHnqCdmZWS/////////////////////////////////////v7+820SCBEpRVlnb3R2//////////////////////////////////////7+9XgUAwIFDhopN0NM//////////////////////////////////////798LNWDAMEBwsRGSIr//////////////////////////////////////779vPoljIZExERFBcc//////////////////////////////////////37/Pz987prQCwjHhwd///////////////////////////////////////8/f39+urAi2JIOC4p///////////////////////////////////////9/f39+/Tiwpt4Xkw////////////////////////////////////////9/f39+/ju3cOkiG9d///////////////////////////////////////9/f39+/n06dnDqpJ8/////////////////////////////////////////f38/Pr27+XWw66Z/////////////////////////////////////////f38/Pr48+zh08Ox/////////////////////////////////////////f38/Pr49fDo3tLD/////////////////////////////////////////f38/Pv59vPt5dzQ//////////////////////////////////////////38/Pv59/Tw6uPa",
+    "danger": {
+     "away": 0.64,
+     "home": 0.36
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.44,
+        19.15
+       ],
+       [
+        85.82,
+        24.78
+       ],
+       [
+        84.18,
+        31.62
+       ],
+       [
+        85.18,
+        37.98
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 95900,
+    "control": "/////////////////////////////////////////7uun//////////////////////////////////////////////////Qyb6xn4z/////////////////////////////////////////////3NjUzcO0oIlx/////////////////////////////////////////+bj39zY0sm5oYRoUv///////////////////////////////////////+vn4+Dc2NDAo31bRTn///////////////////////////////////////Ht6eTg3djKpnBJNi7////////////////////////////////////////08Ovl4d7YrVUyKCUk///////////////////////////////////////59/Tt5N/guiUfHyImLP/////////////////////////////////////8+/r48dzAeCYeJC43P0X////////////////////////////////////9/Pz8+/OmNhguRVNbYGNl/////////////////////////////////////f39/fzDY2qEiIaEgoB+/////////////////////////////////////v38+vCOc9LJtaifmJKN/////////////////////////////////////v787qQnDEKLnp6alZCM/////////////////////////////////////v7+9HESCRIsSVxob3N1//////////////////////////////////////7+9n0UAwIGDx0sOkVO//////////////////////////////////////798bRVDAMFBwwSGyQt//////////////////////////////////////789vPolzMaExESFRke//////////////////////////////////////37/Pz987tuQi4kHx4e///////////////////////////////////////9/f39+uvCjmRKOjAq///////////////////////////////////////9/f39+/XkxJ57YU5B///////////////////////////////////////9/f39+/jv3sWninJf///////////////////////////////////////9/f39/Pn06trFrZV//////////////////////////////////////////f39/Pr28ObXxbGc/////////////////////////////////////////f39/Pr49O3j1cW0/////////////////////////////////////////f38/Pv59vHp4NPF/////////////////////////////////////////f38/Pv59/Pu593S//////////////////////////////////////////38/Pv6+PXx6+Tb",
+    "danger": {
+     "away": 0.65,
+     "home": 0.35
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.57,
+        19.6
+       ],
+       [
+        85.97,
+        25.11
+       ],
+       [
+        84.18,
+        31.68
+       ],
+       [
+        85.14,
+        37.91
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96000,
+    "control": "/////////////////////////////////////////6SXiP////////////////////////////////////////////////+8s6iZiXf/////////////////////////////////////////////zsnCua2dinVi/////////////////////////////////////////+Da1M7IwLSii3FbS////////////////////////////////////////+ji29XOx7ypjWxSQTj///////////////////////////////////////Dr5N3Wz8e1kGNFNzD////////////////////////////////////////z7+je19HGmVA0LCkp///////////////////////////////////////59/Ps4NjWtSwmJicrL//////////////////////////////////////8+/r48dzGkTMlKTE5QUf////////////////////////////////////9/Pz8+/StQRosQ1FaYGNm/////////////////////////////////////f39/fzCW1d6goSDgYB+/////////////////////////////////////v38+u+JcdbKtqmgmZOP/////////////////////////////////////v797qAmDU2XpqOemZSQ/////////////////////////////////////v7+9XQSChY0U2Zxd3p8//////////////////////////////////////7+94EUAwIHEiIzQk1W//////////////////////////////////////798rRUDQQFCA0VHyo0//////////////////////////////////////379vPpmTYbFBMUFxwi//////////////////////////////////////38/P39875yRTAmISAg///////////////////////////////////////9/f39+uzFkWdMPDIs///////////////////////////////////////9/f39+/Xlx6F/ZFFD///////////////////////////////////////9/f39/Pjw4MeqjnVi///////////////////////////////////////9/f39/Pr169zIsJiC/////////////////////////////////////////f39/Pr38efayLSg/////////////////////////////////////////f39/Pv49O7k18i3/////////////////////////////////////////f39/Pv59vHr4dbI/////////////////////////////////////////f39/Pv69/Tv6N/U//////////////////////////////////////////39/Pv6+Pby7Obd",
+    "danger": {
+     "away": 0.63,
+     "home": 0.37
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.5,
+        19.64
+       ],
+       [
+        86.02,
+        25.28
+       ],
+       [
+        84.13,
+        31.66
+       ],
+       [
+        85.09,
+        37.81
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96100,
+    "control": "/////////////////////////////////////////6aZi/////////////////////////////////////////////////+9tKmcjHv/////////////////////////////////////////////zsnCuq6fjXlm/////////////////////////////////////////+Ha1M7IwLWkjnZgT////////////////////////////////////////+ni29XOx7yrkHBXRjv///////////////////////////////////////Hs5d3Vz8a1k2dJOjP////////////////////////////////////////07+je1tDFmlU4Lysp///////////////////////////////////////59/Ts39bVszEoJiUnK//////////////////////////////////////8+/r48dzGkTEiIigwOUL////////////////////////////////////9/fz8+/OrPBIaLkJRW2Np/////////////////////////////////////f39/fu7MyBQcoCGiYqK/////////////////////////////////////v38+u5+WMXTxLqyraik/////////////////////////////////////v798J4kEY3Qz8jAurSw/////////////////////////////////////v7+93wVETV0l6Spqqmo//////////////////////////////////////7+94QUBAUUMlJre4WM//////////////////////////////////////798bRSDQUIECAzR1hl//////////////////////////////////////379vTqmzoeGBohKzhE//////////////////////////////////////z7/P3988F2SjUtLC81///////////////////////////////////////9/f39+uzIlm1SQzs5///////////////////////////////////////9/f39+/bmyqaEaVdM///////////////////////////////////////9/f39/Pnx4suvk3to///////////////////////////////////////9/f39/Pr17d7LtJ2I/////////////////////////////////////////f39/Pr38uncy7ik/////////////////////////////////////////f39/Pv59e/m2su7/////////////////////////////////////////f39/Pv59/Ls49jL/////////////////////////////////////////f39/Pv6+PXw6uHX/////////////////////////////////////////f39/Pv6+fbz7uff",
+    "danger": {
+     "away": 0.52,
+     "home": 0.48
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.45,
+        19.81
+       ],
+       [
+        86.07,
+        25.47
+       ],
+       [
+        84.05,
+        31.7
+       ],
+       [
+        84.93,
+        37.64
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96200,
+    "control": "/////////////////////////////////////////3htY/////////////////////////////////////////////////+Rh3tvZFn/////////////////////////////////////////////raKYjYByZFdN/////////////////////////////////////////9HFuKyglId2ZVZKQf///////////////////////////////////////9/Ux7mrnpB8Z1NFPTn//////////////////////////////////////+zk2Mm5q5yHaU4/OTb////////////////////////////////////////x6t7NvK2ZcEY4NTQ0///////////////////////////////////////49fDm0sC3izc1NDQ1N//////////////////////////////////////7+/n37tXEslE5NDc7QET////////////////////////////////////9/Pz8+/O3YicsO0ZOU1dZ/////////////////////////////////////f39/fzFYD9baGxtbW1s/////////////////////////////////////v38+vCPf9q5oZOLhIB8/////////////////////////////////////v7986krEVyZn5iQiYR//////////////////////////////////////v7++ZIYDh08VWNqbW5u//////////////////////////////////////7++Z8cBQMIEiEvO0RM//////////////////////////////////////799MBcDAMEBwwSGyMs//////////////////////////////////////379/ToiCcTDw4PEhYc//////////////////////////////////////z7/Pz97qZWMSIcGRgZ///////////////////////////////////////8/f39+OKsc044LCUh///////////////////////////////////////9/f38+vDXr4RiSzwy///////////////////////////////////////9/f38+vXo0LCOcVpK///////////////////////////////////////9/f38+/fv4cuwlHtm/////////////////////////////////////////f38+/jz6dvHsJmD/////////////////////////////////////////f38+/n17uTWxLCc/////////////////////////////////////////fz8+/n28erg0sKx/////////////////////////////////////////fz8+/n38+7m3M/A/////////////////////////////////////////fz8+/r49fDq4tjM",
+    "danger": {
+     "away": 0.68,
+     "home": 0.32
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.25,
+        19.76
+       ],
+       [
+        86.18,
+        25.6
+       ],
+       [
+        84.07,
+        31.67
+       ],
+       [
+        85.24,
+        38.23
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96300,
+    "control": "/////////////////////////////////////////3ZsYf////////////////////////////////////////////////+RhnpuYVb/////////////////////////////////////////////rqOYjH9xYlVK/////////////////////////////////////////9HFua2hlIZ1Y1NHP////////////////////////////////////////9/Ux7msn498ZVBDOzb//////////////////////////////////////+zk2cq7rJ2HaEw9NjT////////////////////////////////////////w6t7Ova+ab0Q2MzMz///////////////////////////////////////49fDm08O5jTUzMzU3Of/////////////////////////////////////7+vn37tfHulQ9OjxARUn////////////////////////////////////9/Pz8+/O7bjg5RU5UWFtd/////////////////////////////////////f39/fzFWjJdam5vb29u/////////////////////////////////////v38+vGTfdCsmI2GgX16/////////////////////////////////////v799bAuEVePlI6Hgn15/////////////////////////////////////v7++qIbDRs3TVpgY2Rl//////////////////////////////////////7++q0fBQMHEBwoMztC//////////////////////////////////////799MBbDAIDBgoPFh4l//////////////////////////////////////379vPmhSQRDQ0OEBMY//////////////////////////////////////z7/Pz976ZUMCEaFxYX///////////////////////////////////////8/f39+eOtc0w3KyMg///////////////////////////////////////9/f39+vHYsIRiSjsx///////////////////////////////////////9/f38+/Xp0bCOcVpJ///////////////////////////////////////9/f38+/fw4syxlXtm/////////////////////////////////////////f38+/jz6tzIsZmD/////////////////////////////////////////f38+/n17+XXxbGd/////////////////////////////////////////f38+/n38uvh08Oy/////////////////////////////////////////fz8+/r39O7n3dDB//////////////////////////////////////////z8+/r49fHr49nN",
+    "danger": {
+     "away": 0.69,
+     "home": 0.31
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.37,
+        19.78
+       ],
+       [
+        86.02,
+        26.14
+       ],
+       [
+        84.07,
+        31.73
+       ],
+       [
+        85.41,
+        38.36
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96400,
+    "control": "/////////////////////////////////////////21jWv////////////////////////////////////////////////+JfXFlWlD/////////////////////////////////////////////rZ6Rg3ZoW1BG/////////////////////////////////////////9nLu6ubjHxsXE5EPf///////////////////////////////////////+bczbuol4ZzXk1BOjb///////////////////////////////////////Dq38+6ppN9Yko8NjT////////////////////////////////////////07+TSu6aOaUU3NDQ1///////////////////////////////////////59/Tr172sgjo0NTc6PP/////////////////////////////////////8+/r48dvHyVRBQEFER0r////////////////////////////////////9/fz8+/XNo2tQTlFVV1lb/////////////////////////////////////f39/fzLYDtTYWZoaWlp/////////////////////////////////////v38+vCObLaKgXx6d3Vz/////////////////////////////////////v7997MvFWiRjoiDf3t2/////////////////////////////////////v7+/LchEi5geX56c2tk//////////////////////////////////////7+/NZTJyo9R0Q9NzMw//////////////////////////////////////7++/Ljs1EYDAkJCgsN//////////////////////////////////////79/fz72zoHAgICAgMD//////////////////////////////////////39/f392RoBAQEBAQEB///////////////////////////////////////9/fz4uRUCAQEBAQEB///////////////////////////////////////8+/jqlBwEAgEBAQEB///////////////////////////////////////7+PHVfiQJAwIBAQEB///////////////////////////////////////48+W/cSoOBQMCAQEB////////////////////////////////////////69isaS8TCAQDAgEB////////////////////////////////////////4sqeYzMYCwYEAwIC////////////////////////////////////////2b2SYDYcDwgFAwMC////////////////////////////////////////z7KJXTggEgsHBQMD/////////////////////////////////////////6iCWzojFQ0IBgQD",
+    "danger": {
+     "away": 0.71,
+     "home": 0.29
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.68,
+        20.38
+       ],
+       [
+        86.21,
+        27.5
+       ],
+       [
+        84.03,
+        31.79
+       ],
+       [
+        88.39,
+        44.98
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": true,
+    "clip_ms": 96500,
+    "control": "/////////////////////////////////////////2NaUv////////////////////////////////////////////////99cWZcUkr/////////////////////////////////////////////pJSFd2peU0lC/////////////////////////////////////////9bHtaKPf3BiVElAO////////////////////////////////////////+TZybSei3lnVkc+OTf//////////////////////////////////////+/p3cuzm4ZwWUU7Nzb////////////////////////////////////////z7uPPspmBX0I3Njg5///////////////////////////////////////59/Pq07SedTo3Oj0/Qf/////////////////////////////////////7+/r48djAwltJRkdJTE7////////////////////////////////////8/Pz8+/XMqXZXU1VYWltd/////////////////////////////////////f39/fzLYzxUYmdpaWlp/////////////////////////////////////f38+vCObbWJgHt5d3Vz/////////////////////////////////////v799bQwFWiPjIeCfXh0/////////////////////////////////////v7+/MYnEy9fdnl0bWVf//////////////////////////////////////7+/eVhJycyNTQyMC8v//////////////////////////////////////7+/PPajCYKBgYICgwO//////////////////////////////////////79/Pv3sRUDAgICAwME//////////////////////////////////////39/f39ww4BAQEBAQIC///////////////////////////////////////9/Pz3ux8EAgICAQIC///////////////////////////////////////8+/nurjYMBQMCAgIC///////////////////////////////////////7+fTipkkYCgUDAwIC///////////////////////////////////////59u7XoVYkEAkFBAMD////////////////////////////////////////8ufOnV8wGA0IBgQD////////////////////////////////////////7eDGmmU6IBILCAYE////////////////////////////////////////6NrAmGpDKBgPCggG////////////////////////////////////////5NS6l25KLx4UDgoH/////////////////////////////////////////862lnFQNiQYEQwJ",
+    "danger": {
+     "away": 0.72,
+     "home": 0.28
+    },
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.98
+    },
+    "null_reason": null,
+    "shape": {
+     "away": {
+      "back_line": [
+       [
+        85.65,
+        20.44
+       ],
+       [
+        86.2,
+        27.5
+       ],
+       [
+        84.03,
+        31.75
+       ],
+       [
+        87.78,
+        43.72
+       ]
+      ],
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 4,
+      "null_reason": "4 of 10 outfield players in view (lines, width, depth need 9)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 5,
+      "null_reason": "the space behind the back line is not in view (a deeper player could be hidden)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 96900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 97900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 98900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "dead ball after the goal",
+    "shape": null,
+    "trusted": false
+   }
+  ],
+  "gates": {
+   "scope": "visible region only: control and danger use the cells the camera shows",
+   "trusted": "the tracking's camera fit is trusted at the frame, both teams in view, not after a goal (dead ball)"
+  },
+  "grid": {
+   "dx": 2.5,
+   "dy": 2.519,
+   "encoding": "base64 uint8, row-major y then x (y from the NEAR touchline): P(home controls) x 254 rounded; 255 = cell not in view",
+   "nx": 42,
+   "ny": 27,
+   "x0": 0.0,
+   "y0": 0.0
+  },
+  "home_attacks": "+x",
+  "hz": 10,
+  "live": "v6/live_94000.json",
+  "match_id": "m_9001",
+  "period": 2,
+  "shape_def": "by depth from the team's own goal line, outfield players in view: back_line = the 4 deepest, drawn only when >= 85% of the strip behind the deepest (to the goal line, the penalty area's width) is in view; lines = back 4 / the rest / the 3 most advanced; width_m = touchline-to-touchline spread; depth_m = front line - back line (mean depths); line_gap_m = midfield line - back line; lines, width, depth and gap need >= 9 of 10 outfield players; metres, 2 dp; points listed touchline to touchline (y ascending)",
+  "shot_id": "xe_0006",
+  "slug": "liverpool-mancity-2526",
+  "source": {
+   "calib": "liverpool-mancity-2526/calib/xe_0006.json",
+   "players": "liverpool-mancity-2526/cache/v6/live_94000.json",
+   "xg_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "start_clip_ms": 94000,
+  "step_ms": 100,
+  "team_names": {
+   "away": "Manchester City",
+   "home": "Liverpool"
+  }
+ },
+ "schema_version": "1.0.0"
+}

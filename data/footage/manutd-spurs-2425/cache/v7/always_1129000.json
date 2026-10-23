@@ -1,0 +1,545 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "always",
+  "control_model": "time-to-intercept pitch control (insights.control, from physics.pitch_control; simplified Spearman 2018): each player in view reaches a point after a 0.7 s reaction then at 5 m/s; a team's control is its softmin share of the arrival times; positions only, no ball travel time",
+  "danger_def": "Dangerous space in view: the dangerous zone is every cell in front of the goal in view from which a shot is worth at least 0.05 xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as in v5/v6). Each team's share = sum over the zone's cells in view of its pitch control x that cell's xG, divided by the sum of the xG; home + away = 1. Printed only when at least 70% of the zone's cells are in view; 2 dp",
+  "end_clip_ms": 1133900,
+  "frames": [
+   {
+    "ball_layer": false,
+    "clip_ms": 1129000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1129900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1130900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1131900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1132900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1133900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   }
+  ],
+  "gates": {
+   "scope": "visible region only: control and danger use the cells the camera shows",
+   "trusted": "the tracking's camera fit is trusted at the frame, both teams in view, not after a goal (dead ball)"
+  },
+  "grid": {
+   "dx": 2.5,
+   "dy": 2.519,
+   "encoding": "base64 uint8, row-major y then x (y from the NEAR touchline): P(home controls) x 254 rounded; 255 = cell not in view",
+   "nx": 42,
+   "ny": 27,
+   "x0": 0.0,
+   "y0": 0.0
+  },
+  "home_attacks": "-x",
+  "hz": 10,
+  "live": "v6/live_1129000.json",
+  "match_id": "m_9004",
+  "period": 2,
+  "shape_def": "by depth from the team's own goal line, outfield players in view: back_line = the 4 deepest, drawn only when >= 85% of the strip behind the deepest (to the goal line, the penalty area's width) is in view; lines = back 4 / the rest / the 3 most advanced; width_m = touchline-to-touchline spread; depth_m = front line - back line (mean depths); line_gap_m = midfield line - back line; lines, width, depth and gap need >= 9 of 10 outfield players; metres, 2 dp; points listed touchline to touchline (y ascending)",
+  "shot_id": "xe_0050",
+  "slug": "manutd-spurs-2425",
+  "source": {
+   "calib": "manutd-spurs-2425/calib/xe_0050.json",
+   "players": "manutd-spurs-2425/cache/v6/live_1129000.json",
+   "xg_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "start_clip_ms": 1129000,
+  "step_ms": 100,
+  "team_names": {
+   "away": "Tottenham Hotspur",
+   "home": "Manchester United"
+  }
+ },
+ "schema_version": "1.0.0"
+}

@@ -1,0 +1,2041 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "always",
+  "control_model": "time-to-intercept pitch control (insights.control, from physics.pitch_control; simplified Spearman 2018): each player in view reaches a point after a 0.7 s reaction then at 5 m/s; a team's control is its softmin share of the arrival times; positions only, no ball travel time",
+  "danger_def": "Dangerous space in view: the dangerous zone is every cell in front of the goal in view from which a shot is worth at least 0.05 xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as in v5/v6). Each team's share = sum over the zone's cells in view of its pitch control x that cell's xG, divided by the sum of the xG; home + away = 1. Printed only when at least 70% of the zone's cells are in view; 2 dp",
+  "end_clip_ms": 1425300,
+  "frames": [
+   {
+    "ball_layer": false,
+    "clip_ms": 1408200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1408300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1408400,
+    "control": "//////////////////////////////////////////8AAAAAAAAAAAAA////////////////////////////////////////////AAAAAAEDAgAA/////////////////////////////////////////////wQFDCJIMA4E//////////////////////////////////////////////9gp97v5rJb///////////////////////////////////////////////s+v3+/fvt/////////////////////////////////////////////////v7+/v79//////////////////////////////////////////////////7+/v7+///////////////////////////////////////////////////+/v7+/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.1
+    },
+    "null_reason": "dangerous zone 10% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1408500,
+    "control": "//////////////////////////////////////////8AAAAAAAI+7/7+////////////////////////////////////////////AAAAAQZR6/3+/////////////////////////////////////////////wQGDi2M6Pz+//////////////////////////////////////////////9mreL1+vz9///////////////////////////////////////////////u+v3+/v7+/////////////////////////////////////////////////v7+/v7+//////////////////////////////////////////////////7+/v7+///////////////////////////////////////////////////+/v7+/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.1
+    },
+    "null_reason": "dangerous zone 10% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1408600,
+    "control": "//////////////////////////////////////////8AAAAAAAAAAAAA////////////////////////////////////////////AAAAAAEDAQAA/////////////////////////////////////////////wQHDiVCIQgC//////////////////////////////////////////////9ytOHt2Y88///////////////////////////////////////////////x+/3+/fjf/////////////////////////////////////////////////v7+/v78//////////////////////////////////////////////////7+/v7+///////////////////////////////////////////////////+/v7+/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.1
+    },
+    "null_reason": "dangerous zone 10% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 2,
+      "null_reason": "2 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1408700,
+    "control": "//////////////////////////////////////////8AAAAAAAAAAAAA////////////////////////////////////////////AAAAAAACAQAA/////////////////////////////////////////////wIDBhMsGwYC//////////////////////////////////////////////9Agsfhznwv///////////////////////////////////////////////i9/z9/PXU/////////////////////////////////////////////////v7+/v36//////////////////////////////////////////////////7+/v7+///////////////////////////////////////////////////+/v7+/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.1
+    },
+    "null_reason": "dangerous zone 10% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1408800,
+    "control": "//////////////////////////////////////////8AAAAAAAAAAAAA////////////////////////////////////////////AAAAAAECAQAA/////////////////////////////////////////////wICBhQnEQQB//////////////////////////////////////////////9Bhsjct1gd///////////////////////////////////////////////l+P39+++9/////////////////////////////////////////////////v7+/v34//////////////////////////////////////////////////7+/v79///////////////////////////////////////////////////+/v7+/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.1
+    },
+    "null_reason": "dangerous zone 10% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1408900,
+    "control": "//////////////////////////////////////////8AAAAAAAAAAAAA////////////////////////////////////////////AAAAAAECAQAA/////////////////////////////////////////////wIDBxY0IQcC//////////////////////////////////////////////9Dic3m1YIt////////////////////////////////////////////////+P39/fbT//////////////////////////////////////////////////7+/v77///////////////////////////////////////////////////+/v7+/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.08
+    },
+    "null_reason": "dangerous zone 8% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409000,
+    "control": "//////////////////////////////////////////8AAAAAAAAAAAAA////////////////////////////////////////////AAAAAAECAQAA/////////////////////////////////////////////wIECRw3GwYC//////////////////////////////////////////////9TnNfnz3Up////////////////////////////////////////////////+v39/PTO//////////////////////////////////////////////////7+/v36///////////////////////////////////////////////////+/v79/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.08
+    },
+    "null_reason": "dangerous zone 8% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409100,
+    "control": "//////////////////////////////////////////8AAAAAAAAAAAAA////////////////////////////////////////////AAAAAAECAQAA/////////////////////////////////////////////wIECRozGAUB//////////////////////////////////////////////9VndXlyW0l////////////////////////////////////////////////+v39/PPJ//////////////////////////////////////////////////7+/v35///////////////////////////////////////////////////+/v79/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.06
+    },
+    "null_reason": "dangerous zone 6% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409200,
+    "control": "////////////////////////////////////////////AAAAAAAAAAAA/////////////////////////////////////////////wAAAAECAQAA/////////////////////////////////////////////wIECRw3GwUB//////////////////////////////////////////////9YoNjnznEk////////////////////////////////////////////////+v39/PTK//////////////////////////////////////////////////7+/v36///////////////////////////////////////////////////+/v79/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.05
+    },
+    "null_reason": "dangerous zone 5% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409300,
+    "control": "////////////////////////////////////////////AAAAAAAAAAAA/////////////////////////////////////////////wAAAAECAQAA//////////////////////////////////////////////8EChw3GwUB////////////////////////////////////////////////otjnzGsg////////////////////////////////////////////////+v39/PPE//////////////////////////////////////////////////7+/v35///////////////////////////////////////////////////+/v79/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.05
+    },
+    "null_reason": "dangerous zone 5% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409400,
+    "control": "////////////////////////////////////////////AAAAAAAAAAAA/////////////////////////////////////////////wAAAAEDAQAA//////////////////////////////////////////////8HEClIJAgC////////////////////////////////////////////////vOXu2YQv//////////////////////////////////////////////////3+/fbS///////////////////////////////////////////////////+/v36///////////////////////////////////////////////////+/v79/////////////////////////////////////////////////////v7+//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.05
+    },
+    "null_reason": "dangerous zone 5% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409500,
+    "control": "////////////////////////////////////////////AAAAAAAAAAAA/////////////////////////////////////////////wAAAAEDAgAA//////////////////////////////////////////////8HDiVLLQkC////////////////////////////////////////////////tOLv348x//////////////////////////////////////////////////3+/ffU///////////////////////////////////////////////////+/v36/////////////////////////////////////////////////////v79//////////////////////////////////////////////////////7+///////////////////////////////////////////////////////+///////////////////////////////////////////////////////+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////",
+    "danger": null,
+    "danger_zone": {
+     "attacked_by": "home",
+     "goal_x": 105.0,
+     "in_view": 0.03
+    },
+    "null_reason": "dangerous zone 3% in view (needs 70%)",
+    "shape": {
+     "away": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 3,
+      "null_reason": "3 outfield players in view (back line needs 4)",
+      "width_m": null
+     },
+     "home": {
+      "back_line": null,
+      "depth_m": null,
+      "line_gap_m": null,
+      "lines": null,
+      "n_players_seen": 1,
+      "null_reason": "1 outfield players in view (back line needs 4)",
+      "width_m": null
+     }
+    },
+    "trusted": true
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1409900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1410900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1411900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1412900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1413900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1414900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1415900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1416900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1417900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "one team not in view",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1418900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1419900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1420900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1421900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1422900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1423900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424400,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424500,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424600,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424700,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424800,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1424900,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1425000,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1425100,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1425200,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   },
+   {
+    "ball_layer": false,
+    "clip_ms": 1425300,
+    "control": null,
+    "danger": null,
+    "danger_zone": null,
+    "null_reason": "camera fit not trusted",
+    "shape": null,
+    "trusted": false
+   }
+  ],
+  "gates": {
+   "scope": "visible region only: control and danger use the cells the camera shows",
+   "trusted": "the tracking's camera fit is trusted at the frame, both teams in view, not after a goal (dead ball)"
+  },
+  "grid": {
+   "dx": 2.5,
+   "dy": 2.519,
+   "encoding": "base64 uint8, row-major y then x (y from the NEAR touchline): P(home controls) x 254 rounded; 255 = cell not in view",
+   "nx": 42,
+   "ny": 27,
+   "x0": 0.0,
+   "y0": 0.0
+  },
+  "home_attacks": "+x",
+  "hz": 10,
+  "live": "v6/live_1408200.json",
+  "match_id": "m_9003",
+  "period": 2,
+  "shape_def": "by depth from the team's own goal line, outfield players in view: back_line = the 4 deepest, drawn only when >= 85% of the strip behind the deepest (to the goal line, the penalty area's width) is in view; lines = back 4 / the rest / the 3 most advanced; width_m = touchline-to-touchline spread; depth_m = front line - back line (mean depths); line_gap_m = midfield line - back line; lines, width, depth and gap need >= 9 of 10 outfield players; metres, 2 dp; points listed touchline to touchline (y ascending)",
+  "shot_id": 195,
+  "slug": "arsenal-chelsea-2526",
+  "source": {
+   "calib": "arsenal-chelsea-2526/calib/195.json",
+   "players": "arsenal-chelsea-2526/cache/v6/live_1408200.json",
+   "xg_model": "evals.pitchwatch.shotxg.reference_xg"
+  },
+  "start_clip_ms": 1408200,
+  "step_ms": 100,
+  "team_names": {
+   "away": "Chelsea",
+   "home": "Arsenal"
+  }
+ },
+ "schema_version": "1.0.0"
+}
