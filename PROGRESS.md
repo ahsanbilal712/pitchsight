@@ -5,6 +5,17 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v7 grounding on edit_v7.yaml: 937 of 937 (track B)
+
+- `python -m footage.grounding` on track C's edit_v7.yaml (draft 1, working tree): **937 of 937 on-screen numbers
+  bound to verified evidence (933 of 933 claims verified)**: the always_on beats' v6 ball layer (747 with the v6
+  freezes, shot map, strip, pipeline), the always-on layer 156 (danger sentence = share, attacking team; shape
+  width/depth/gap = their lines), lines 17, captions 17. New caption source: "Seconds later, 0.32 xG: saved."
+  (shots_0 e_0038, as in v5).
+- No model call. Verification: `pytest tests/footage` (exit 0).
+
+---
+
 ## 2026-10-23 · Video v7: the "dangerous space in view" caption; v7 grounding ready (track B)
 
 - **Caption** (`footage.v7_caption`, `cache/v7/caption_danger.json`, Man Utd v City manifest): "Dangerous space in
