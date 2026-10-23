@@ -1,5 +1,7 @@
 # Manchester United v Tottenham Hotspur · mo_00001
 
+Re-reviewed 23 Oct: positions from tracking (track A's calib and tracks) moved the numbers.
+
 Model why: From 21.1 metres out, Werner takes the shot that Onana saves, and the simulation shows shooting is the better option here. The strike carries a 3% goal chance, whereas carrying the ball instead drops that chance to 1%.
 
 Fact Checker on the model output: verified
@@ -8,12 +10,12 @@ Fact Checker on the model output: verified
 {
  "slug": "manutd-spurs-2425",
  "moment_id": "mo_00001",
- "why": "Werner is through and shoots from 21 metres; Onana saves. The shot is a 3% goal chance, and taking the ball round the keeper instead drops it to 1%, so shooting is the better choice.",
+ "why": "Werner is through and shoots from 22 metres; Onana saves. The shot is a 3% goal chance, and taking the ball round the keeper instead drops it to 2%, so shooting is the better choice.",
  "claims": [
   {
-   "text": "21 metres",
+   "text": "22 metres",
    "kind": "number",
-   "value": 21.1,
+   "value": 21.6,
    "unit": "metres",
    "evidence_ids": [
     "f_000001"
@@ -41,16 +43,16 @@ Fact Checker on the model output: verified
   {
    "text": "3%",
    "kind": "number",
-   "value": 0.0304,
+   "value": 0.0266,
    "unit": "p_goal",
    "evidence_ids": [
     "cf_000001"
    ]
   },
   {
-   "text": "1%",
+   "text": "2%",
    "kind": "number",
-   "value": 0.0115,
+   "value": 0.0174,
    "unit": "p_goal",
    "evidence_ids": [
     "cf_000001"
@@ -59,7 +61,7 @@ Fact Checker on the model output: verified
  ],
  "line": {
   "headline": "Werner was right to shoot",
-  "body": "Onana saves from 21 metres: a 3% goal chance. Taking it round the keeper: 1%."
+  "body": "Onana saves from 22 metres: a 3% goal chance. Taking it round the keeper: 2%."
  }
 }
 ```

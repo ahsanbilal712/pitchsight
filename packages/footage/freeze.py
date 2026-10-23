@@ -209,7 +209,7 @@ def slot_of(state, label: str) -> int:
 
 
 def clip_moments(slug: str) -> list[int]:
-    return sorted(int(p.stem) for p in moments_dir(slug).glob("*.json"))
+    return sorted(int(p.stem) for p in moments_dir(slug).glob("*.json") if p.stem.isdigit())
 
 
 __all__ = ["CLIPS", "fill", "fit_homography", "load", "save", "to_state"]

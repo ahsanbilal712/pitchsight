@@ -83,3 +83,12 @@ def test_hand_marked_player_without_a_track_is_kept(tmp_path):
     m = moment_from_tracks("liverpool-mancity-2526", 875000, base, fixture(tmp_path))
     c2 = next(p for p in m["players"] if p["label"] == "C2")
     assert c2["source"] == "hand" and (c2["x"], c2["y"]) == (70.0, 60.0)
+
+
+def test_overrides_fix_referee_and_keeper_labels(tmp_path):
+    folder = fixture(tmp_path)
+    (folder / "moments").mkdir()
+    (folder / "moments" / "overrides.json").write_text(json.dumps({"875000": {"4": "referee", "3": "away:goalkeeper"}}))
+    m = moment_from_tracks("liverpool-mancity-2526", 875000, BASE, folder)
+    assert "t4" not in {p["label"] for p in m["players"]}
+    assert next(p for p in m["players"] if p["label"] == "GK")["slot"] == "GK"

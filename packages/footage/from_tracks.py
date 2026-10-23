@@ -29,6 +29,22 @@ FLIP = np.array([[1.0, 0.0, 0.0], [0.0, -1.0, PITCH_W], [0.0, 0.0, 1.0]])   # (x
 MATCH_RADIUS_M = 2.5
 
 
+def overrides(folder: Path, clip_ms: int) -> dict[str, str]:
+    """Hand corrections of tracking labels for one frame, moments/overrides.json {"<clip_ms>": {"<track_id>":
+    "referee" | "home" | "away" | "home:goalkeeper" | "away:goalkeeper"}} (kit clusters and ID switches)."""
+    path = folder / "moments" / "overrides.json"
+    return json.loads(path.read_text()).get(str(clip_ms), {}) if path.exists() else {}
+
+
+def apply_override(p: dict, fix: str | None) -> dict:
+    if not fix:
+        return p
+    if fix == "referee":
+        return {**p, "role": "referee", "team": None}
+    team, _, role = fix.partition(":")
+    return {**p, "team": team, "role": role or ("goalkeeper" if p.get("role") == "goalkeeper" else "player")}
+
+
 def usable_shot(folder: Path, clip_s: float) -> dict:
     shots = json.loads((folder / "shots.json").read_text())["shots"]
     for s in shots:
@@ -68,8 +84,10 @@ def moment_from_tracks(slug: str, clip_ms: int, base: dict | None = None, folder
     prev = {p["track_id"]: _flip(p["xy"]) for p in before["players"] if p.get("xy")}
     team_side = {int(k): side(v.get("name", ""), clip) for k, v in tracks["teams"].items()}
     team_side.update({"home": "home", "away": "away"})
+    fixes = overrides(folder, clip_ms)
     players = []
     for p in now["players"]:
+        p = apply_override(p, fixes.get(str(p["track_id"])))
         if p.get("role") == "referee" or not p.get("xy"):
             continue
         x, y = _flip(p["xy"])

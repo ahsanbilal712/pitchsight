@@ -1,5 +1,7 @@
 # Manchester United v Manchester City · mo_00001
 
+Re-reviewed 23 Oct: positions from tracking (track A's calib and tracks) moved the numbers.
+
 Model why: Amad shoots from 18 metres out, seeing his effort saved by Gianluigi Donnarumma. Taking the shot carries a 2% goal chance, whereas passing to the number 19 at 11.9 metres drops that chance to 2%.
 
 Fact Checker on the model output: [{"where": "why", "token": "19", "reject_reason": "unbound_number"}]
@@ -8,7 +10,7 @@ Fact Checker on the model output: [{"where": "why", "token": "19", "reject_reaso
 {
  "slug": "manutd-mancity-2526",
  "moment_id": "mo_00001",
- "why": "Amad shoots from 18 metres and Gianluigi Donnarumma saves: a 2% goal chance. The pass to the unmarked team-mate in the middle of the box is no better, so the shot is the right call.",
+ "why": "Amad shoots from 18 metres and Gianluigi Donnarumma saves: a 3% goal chance. The pass to the unmarked team-mate in the middle of the box is no better, so the shot is the right call.",
  "claims": [
   {
    "text": "Amad",
@@ -39,9 +41,9 @@ Fact Checker on the model output: [{"where": "why", "token": "19", "reject_reaso
    ]
   },
   {
-   "text": "2%",
+   "text": "3%",
    "kind": "number",
-   "value": 0.0219,
+   "value": 0.0278,
    "unit": "p_goal",
    "evidence_ids": [
     "cf_000001"
@@ -50,7 +52,7 @@ Fact Checker on the model output: [{"where": "why", "token": "19", "reject_reaso
  ],
  "line": {
   "headline": "Amad's shot was the right call",
-  "body": "Donnarumma saves from 18 metres: a 2% goal chance. The pass into the middle of the box was no better."
+  "body": "Donnarumma saves from 18 metres: a 3% goal chance. The pass into the middle of the box was no better."
  }
 }
 ```

@@ -3,6 +3,129 @@
  "slug": "manutd-spurs-2425",
  "match_id": "m_9004",
  "clip_ms": 682800,
+ "frame": "frames/moment_682800.png",
+ "homography": {
+  "image_to_pitch": [
+   [
+    0.039436507,
+    0.163836816,
+    -78.473177159
+   ],
+   [
+    0.026797496,
+    -0.062232625,
+    88.850541776
+   ],
+   [
+    1.8109e-05,
+    0.003048056,
+    1.0
+   ]
+  ],
+  "image_size": [
+   1920,
+   1080
+  ],
+  "rms_px": 1.68,
+  "source": "calib/84.json frame 20484"
+ },
+ "players": [
+  {
+   "team": "away",
+   "label": "#16",
+   "name": "Timo Werner",
+   "slot": null,
+   "x": 19.24,
+   "y": 24.18,
+   "vx": -7.68,
+   "vy": 4.28,
+   "source": "tracking",
+   "image": [
+    801,
+    631
+   ],
+   "track_id": 25
+  },
+  {
+   "team": "home",
+   "label": "#4",
+   "name": null,
+   "slot": null,
+   "x": 21.88,
+   "y": 25.7,
+   "vx": -8.35,
+   "vy": 1.95,
+   "source": "tracking",
+   "image": [
+    991,
+    635
+   ],
+   "track_id": 34
+  },
+  {
+   "team": "home",
+   "label": "U4",
+   "name": null,
+   "slot": null,
+   "x": 32.18,
+   "y": 30.64,
+   "vx": -6.66,
+   "vy": -0.21,
+   "source": "tracking",
+   "image": [
+    1723,
+    665
+   ],
+   "track_id": 35
+  },
+  {
+   "team": "home",
+   "label": "U3",
+   "name": null,
+   "slot": null,
+   "x": 26.33,
+   "y": 40.84,
+   "vx": -8.48,
+   "vy": -2.53,
+   "source": "tracking",
+   "image": [
+    1646,
+    487
+   ],
+   "track_id": 36
+  },
+  {
+   "team": "home",
+   "label": "GK",
+   "name": "Andr\u00e9 Onana",
+   "slot": "GK",
+   "x": 12.9,
+   "y": 28.08,
+   "vx": 3.45,
+   "vy": -2.19,
+   "source": "tracking",
+   "image": [
+    655,
+    528
+   ],
+   "track_id": 37
+  }
+ ],
+ "ball": {
+  "x": 11.21,
+  "y": 33.92,
+  "holder": "#16",
+  "image": [
+   781.5,
+   452.4
+  ],
+  "conf": 0.492
+ },
+ "tracking": {
+  "shot_id": 84,
+  "frame": 20484,
+  "velocity_dt_s": 1.0
+ },
  "t_ms": 2282000,
  "period": 1,
  "clock": "38:02",
@@ -11,222 +134,16 @@
   1
  ],
  "home_attacks": "+x",
- "frame": "frames/moment_682800.png",
- "homography": {
-  "image_to_pitch": [
-   [
-    0.0368617755,
-    0.154054612,
-    -73.5986750169
-   ],
-   [
-    0.0245745754,
-    -0.063835374,
-    85.7043616237
-   ],
-   [
-    -1.00015e-05,
-    0.0027475142,
-    1.0
-   ]
-  ],
-  "rms_m": 0.188,
-  "image_size": [
-   1920,
-   1080
-  ],
-  "points": [
-   {
-    "pitch": [
-     0,
-     30.34
-    ],
-    "image": [
-     245,
-     418
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     37.66
-    ],
-    "image": [
-     500,
-     358
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     43.16
-    ],
-    "image": [
-     660,
-     324
-    ]
-   },
-   {
-    "pitch": [
-     5.5,
-     43.16
-    ],
-    "image": [
-     835,
-     349
-    ]
-   },
-   {
-    "pitch": [
-     5.5,
-     24.84
-    ],
-    "image": [
-     240,
-     505
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     24.84
-    ],
-    "image": [
-     35,
-     469
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     54.16
-    ],
-    "image": [
-     912,
-     257
-    ]
-   },
-   {
-    "pitch": [
-     16.5,
-     54.16
-    ],
-    "image": [
-     1486,
-     323
-    ]
-   },
-   {
-    "pitch": [
-     16.5,
-     41.31
-    ],
-    "image": [
-     1198,
-     420
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     68
-    ],
-    "image": [
-     1195,
-     191
-    ]
-   }
-  ]
- },
- "players": [
-  {
-   "team": "home",
-   "label": "GK",
-   "name": "Andr\u00e9 Onana",
-   "slot": "GK",
-   "x": 12.75,
-   "y": 27.93,
-   "vx": 3.0,
-   "vy": -0.5,
-   "source": "hand",
-   "image": [
-    645,
-    525
-   ]
-  },
-  {
-   "team": "home",
-   "label": "#4",
-   "name": null,
-   "slot": null,
-   "x": 21.73,
-   "y": 25.97,
-   "vx": -6.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    986,
-    623
-   ]
-  },
-  {
-   "team": "home",
-   "label": "U3",
-   "name": null,
-   "slot": null,
-   "x": 26.42,
-   "y": 41.43,
-   "vx": -4.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1641,
-    480
-   ]
-  },
-  {
-   "team": "home",
-   "label": "U4",
-   "name": null,
-   "slot": null,
-   "x": 32.21,
-   "y": 30.98,
-   "vx": -5.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1698,
-    651
-   ]
-  },
-  {
-   "team": "away",
-   "label": "#16",
-   "name": "Timo Werner",
-   "slot": null,
-   "x": 18.92,
-   "y": 24.6,
-   "vx": -6.5,
-   "vy": 0.5,
-   "source": "hand",
-   "image": [
-    800,
-    616
-   ]
-  }
- ],
- "ball": {
-  "x": 19.18,
-  "y": 24.7,
-  "holder": "#16",
-  "image": [
-   816,
-   617
-  ]
- },
  "actual": {
   "kind": "shoot",
   "target": null
  },
- "notes": "Hand-marked (T-109) before tracking: clip 11:22.8 (38:02). Kulusevski's through ball has put Werner (#16) clean through; Onana comes off his line and Werner's shot at 38:03 is saved. Only four Man Utd players and Werner are in view; everyone else is placed by the role prior (off camera). Velocities are hand estimates."
+ "notes": "Hand-marked (T-109) before tracking: clip 11:22.8 (38:02). Kulusevski's through ball has put Werner (#16) clean through; Onana comes off his line and Werner's shot at 38:03 is saved. Only four Man Utd players and Werner are in view; everyone else is placed by the role prior (off camera). Velocities are hand estimates.",
+ "label_match_m": {
+  "GK": 0.21,
+  "#4": 0.31,
+  "U3": 0.6,
+  "U4": 0.34,
+  "#16": 0.53
+ }
 }

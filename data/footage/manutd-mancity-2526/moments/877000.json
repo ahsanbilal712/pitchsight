@@ -3,6 +3,241 @@
  "slug": "manutd-mancity-2526",
  "match_id": "m_9002",
  "clip_ms": 877000,
+ "frame": "frames/moment_877000.png",
+ "homography": {
+  "image_to_pitch": [
+   [
+    0.038526227,
+    0.176847953,
+    -93.648808639
+   ],
+   [
+    0.031752736,
+    -0.066238524,
+    87.50341546
+   ],
+   [
+    -1.7632e-05,
+    0.003260078,
+    1.0
+   ]
+  ],
+  "image_size": [
+   1920,
+   1080
+  ],
+  "rms_px": 1.28,
+  "source": "calib/104.json frame 21925"
+ },
+ "players": [
+  {
+   "team": "away",
+   "label": "#14",
+   "name": null,
+   "slot": null,
+   "x": 12.23,
+   "y": 32.46,
+   "vx": -5.54,
+   "vy": -0.94,
+   "source": "tracking",
+   "image": [
+    963,
+    501
+   ],
+   "track_id": 3
+  },
+  {
+   "team": "home",
+   "label": "#19",
+   "name": null,
+   "slot": null,
+   "x": 11.46,
+   "y": 28.89,
+   "vx": -3.74,
+   "vy": 0.31,
+   "source": "tracking",
+   "image": [
+    811,
+    528
+   ],
+   "track_id": 4
+  },
+  {
+   "team": "away",
+   "label": "#45",
+   "name": null,
+   "slot": null,
+   "x": 17.26,
+   "y": 22.7,
+   "vx": -5.12,
+   "vy": 2.35,
+   "source": "tracking",
+   "image": [
+    830,
+    652
+   ],
+   "track_id": 5
+  },
+  {
+   "team": "away",
+   "label": "#82",
+   "name": null,
+   "slot": null,
+   "x": 23.35,
+   "y": 21.58,
+   "vx": -3.65,
+   "vy": 3.12,
+   "source": "tracking",
+   "image": [
+    1092,
+    740
+   ],
+   "track_id": 6
+  },
+  {
+   "team": "away",
+   "label": "C2",
+   "name": null,
+   "slot": null,
+   "x": 10.71,
+   "y": 39.07,
+   "vx": -2.71,
+   "vy": 1.89,
+   "source": "tracking",
+   "image": [
+    1102,
+    435
+   ],
+   "track_id": 8
+  },
+  {
+   "team": "home",
+   "label": "#8",
+   "name": "Bruno Fernandes",
+   "slot": null,
+   "x": 17.55,
+   "y": 33.9,
+   "vx": -2.24,
+   "vy": -0.06,
+   "source": "tracking",
+   "image": [
+    1233,
+    529
+   ],
+   "track_id": 15
+  },
+  {
+   "team": "home",
+   "label": "U5",
+   "name": null,
+   "slot": null,
+   "x": 17.82,
+   "y": 41.64,
+   "vx": -6.17,
+   "vy": -1.01,
+   "source": "tracking",
+   "image": [
+    1458,
+    462
+   ],
+   "track_id": 16
+  },
+  {
+   "team": "away",
+   "label": "C1",
+   "name": null,
+   "slot": null,
+   "x": 11.97,
+   "y": 45.92,
+   "vx": -1.02,
+   "vy": -3.28,
+   "source": "tracking",
+   "image": [
+    1329,
+    393
+   ],
+   "track_id": 17
+  },
+  {
+   "team": "home",
+   "label": "#16",
+   "name": "Amad",
+   "slot": null,
+   "x": 13.71,
+   "y": 45.69,
+   "vx": 0.67,
+   "vy": -4.97,
+   "source": "tracking",
+   "image": [
+    1390,
+    405
+   ],
+   "track_id": 19
+  },
+  {
+   "team": "home",
+   "label": "#13",
+   "name": null,
+   "slot": null,
+   "x": 17.26,
+   "y": 20.21,
+   "vx": -6.37,
+   "vy": 4.0,
+   "source": "tracking",
+   "image": [
+    726,
+    686
+   ],
+   "track_id": 22
+  },
+  {
+   "team": "away",
+   "label": "C3",
+   "name": null,
+   "slot": null,
+   "x": 21.3,
+   "y": 42.05,
+   "vx": -6.1,
+   "vy": -1.62,
+   "source": "tracking",
+   "image": [
+    1622,
+    483
+   ],
+   "track_id": 23
+  },
+  {
+   "team": "away",
+   "label": "GK",
+   "name": "Gianluigi Donnarumma",
+   "slot": "GK",
+   "x": 2.88,
+   "y": 36.25,
+   "vx": 0.36,
+   "vy": -0.55,
+   "source": "tracking",
+   "image": [
+    735,
+    407
+   ],
+   "track_id": 20
+  }
+ ],
+ "ball": {
+  "x": 13.93,
+  "y": 45.33,
+  "holder": "#16",
+  "image": [
+   1389.9,
+   403.3
+  ],
+  "conf": 0.348
+ },
+ "tracking": {
+  "shot_id": 104,
+  "frame": 21925,
+  "velocity_dt_s": 1.04
+ },
  "t_ms": 3401000,
  "period": 2,
  "clock": "56:41",
@@ -11,327 +246,23 @@
   0
  ],
  "home_attacks": "-x",
- "frame": "frames/moment_877000.png",
- "homography": {
-  "image_to_pitch": [
-   [
-    0.0383839739,
-    0.1760733468,
-    -93.3890869952
-   ],
-   [
-    0.0315527505,
-    -0.0670789939,
-    87.7239192292
-   ],
-   [
-    -2.86026e-05,
-    0.0032715948,
-    1.0
-   ]
-  ],
-  "rms_m": 0.194,
-  "image_size": [
-   1920,
-   1080
-  ],
-  "points": [
-   {
-    "pitch": [
-     0,
-     30.34
-    ],
-    "image": [
-     447,
-     432
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     37.66
-    ],
-    "image": [
-     687,
-     377
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     43.16
-    ],
-    "image": [
-     845,
-     347
-    ]
-   },
-   {
-    "pitch": [
-     5.5,
-     43.16
-    ],
-    "image": [
-     1020,
-     376
-    ]
-   },
-   {
-    "pitch": [
-     5.5,
-     24.84
-    ],
-    "image": [
-     440,
-     519
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     24.84
-    ],
-    "image": [
-     245,
-     479
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     54.16
-    ],
-    "image": [
-     1110,
-     290
-    ]
-   },
-   {
-    "pitch": [
-     16.5,
-     54.16
-    ],
-    "image": [
-     1682,
-     365
-    ]
-   },
-   {
-    "pitch": [
-     16.5,
-     13.84
-    ],
-    "image": [
-     402,
-     772
-    ]
-   },
-   {
-    "pitch": [
-     0,
-     68
-    ],
-    "image": [
-     1388,
-     228
-    ]
-   }
-  ]
- },
- "players": [
-  {
-   "team": "home",
-   "label": "#16",
-   "name": "Amad",
-   "slot": null,
-   "x": 13.31,
-   "y": 46.1,
-   "vx": -2.5,
-   "vy": -0.5,
-   "source": "hand",
-   "image": [
-    1385,
-    400
-   ]
-  },
-  {
-   "team": "home",
-   "label": "#8",
-   "name": "Bruno Fernandes",
-   "slot": null,
-   "x": 17.2,
-   "y": 34.32,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1236,
-    522
-   ]
-  },
-  {
-   "team": "home",
-   "label": "#19",
-   "name": null,
-   "slot": null,
-   "x": 10.95,
-   "y": 29.3,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    812,
-    520
-   ]
-  },
-  {
-   "team": "home",
-   "label": "#13",
-   "name": null,
-   "slot": null,
-   "x": 16.78,
-   "y": 20.47,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    727,
-    676
-   ]
-  },
-  {
-   "team": "home",
-   "label": "U5",
-   "name": null,
-   "slot": null,
-   "x": 17.51,
-   "y": 42.23,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1462,
-    455
-   ]
-  },
-  {
-   "team": "away",
-   "label": "GK",
-   "name": "Gianluigi Donnarumma",
-   "slot": "GK",
-   "x": 2.41,
-   "y": 36.56,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    733,
-    402
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C1",
-   "name": null,
-   "slot": null,
-   "x": 11.23,
-   "y": 47.02,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1328,
-    382
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C2",
-   "name": null,
-   "slot": null,
-   "x": 10.52,
-   "y": 39.29,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1104,
-    432
-   ]
-  },
-  {
-   "team": "away",
-   "label": "C3",
-   "name": null,
-   "slot": null,
-   "x": 21.11,
-   "y": 42.48,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1625,
-    478
-   ]
-  },
-  {
-   "team": "away",
-   "label": "#14",
-   "name": null,
-   "slot": null,
-   "x": 11.62,
-   "y": 33.12,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    965,
-    490
-   ]
-  },
-  {
-   "team": "away",
-   "label": "#45",
-   "name": null,
-   "slot": null,
-   "x": 16.64,
-   "y": 23.1,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    828,
-    640
-   ]
-  },
-  {
-   "team": "away",
-   "label": "#82",
-   "name": null,
-   "slot": null,
-   "x": 23.26,
-   "y": 21.41,
-   "vx": 0.0,
-   "vy": 0.0,
-   "source": "hand",
-   "image": [
-    1093,
-    740
-   ]
-  }
- ],
- "ball": {
-  "x": 13.51,
-  "y": 45.98,
-  "holder": "#16",
-  "image": [
-   1390,
-   402
-  ]
- },
  "actual": {
   "kind": "shoot",
   "target": null
  },
- "notes": "Hand-marked (T-109) before tracking: clip 14:37.0 (56:41). Amad shoots from the right corner of the box at 56:42 and Donnarumma saves; #19 is unmarked in the middle of the box and Bruno Fernandes (#8) at the edge. Only Amad's carry velocity is estimated; Man Utd GK and five more players are off-screen (role prior)."
+ "notes": "Hand-marked (T-109) before tracking: clip 14:37.0 (56:41). Amad shoots from the right corner of the box at 56:42 and Donnarumma saves; #19 is unmarked in the middle of the box and Bruno Fernandes (#8) at the edge. Only Amad's carry velocity is estimated; Man Utd GK and five more players are off-screen (role prior).",
+ "label_match_m": {
+  "#16": 0.57,
+  "#8": 0.55,
+  "#19": 0.65,
+  "#13": 0.55,
+  "U5": 0.67,
+  "GK": 0.56,
+  "C1": 1.33,
+  "C2": 0.29,
+  "C3": 0.47,
+  "#14": 0.9,
+  "#45": 0.74,
+  "#82": 0.19
+ }
 }

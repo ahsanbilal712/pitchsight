@@ -48,6 +48,8 @@ def roster(slug: str) -> dict:
     k = list(CLIPS).index(slug)
     seen: dict[str, str | None] = {}
     for path in sorted(moments_dir(slug).glob("*.json")):
+        if not path.stem.isdigit():          # overrides.json
+            continue
         for p in json.loads(path.read_text())["players"]:
             if p.get("label"):
                 key = f"{p['team']}:{p['label']}"

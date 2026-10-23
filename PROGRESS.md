@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · T-107/T-109: all four featured moments from tracking (track B)
+
+- Track A's tracks for Man Utd v Man City (shot 104), Arsenal v Chelsea (177) and Man Utd v Spurs (84) converted
+  with `footage.from_tracks --write`; every hand label matched a same-team track (12/12 median 0.57 m, 15/15
+  median 1.16 m, 5/5 median 0.34 m). Label fixes per frame in `moments/overrides.json` (applied by the converter):
+  referees t11 (MUN v MCI) and t38 (ARS v CHE), t15 = Chelsea, keepers t47 (CHE), t20 = **City's** Donnarumma
+  (the goal Man Utd attack) and t37 = **Man Utd's** Onana (the goal Werner attacks); the hand marks and the frames
+  decide the two keepers where the suggested labels had them the other way round. Hand files kept in moments/hand/.
+- Counterfactuals recomputed (200 x 8 s): Man Utd v Man City shot 2.8% vs pass to #19 1.7% (shot right);
+  Arsenal v Chelsea shot 3.3% vs back to Saka **19.6%**, +2.1 points (was 12.2%, +1.3); Man Utd v Spurs shot 2.7%
+  vs round the keeper 1.7% (shot right). Reviews updated to the new numbers by hand (no model call; ADC expired),
+  Fact Checker gate passed for all four. `roster`/`clip_moments` skip overrides.json.
+- Verification: `pytest tests/footage` 23 passed; validate_schemas OK.
+
+---
+
 ## 2026-10-23 · T-107/T-109: Liverpool 86:23 moment from tracking (track B)
 
 - Track A's tracks/62.json (re-tracked, through track C's calib/62_refined.json) converted with
