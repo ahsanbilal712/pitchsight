@@ -58,7 +58,7 @@ def who(p: dict | None, shirts: bool | None = None) -> str | None:
         return None
     if p.get("name"):
         return p["name"].split()[-1]
-    if p.get("shirt") and (SHIRTS_VERIFIED if shirts is None else shirts):
+    if p.get("shirt") and (p.get("shirt_verified") or (SHIRTS_VERIFIED if shirts is None else shirts)):
         return f"#{str(p['shirt']).lstrip('#')}"
     return None
 
@@ -81,6 +81,19 @@ class LiveHUD(Live):
         if lo is not None or hi is not None:
             d["samples"] = [x for x in d["samples"] if (lo or 0) <= x["clip_ms"] / 1000 <= (hi or 1e9)]
             d["start_clip_ms"], d["end_clip_ms"] = d["samples"][0]["clip_ms"], d["samples"][-1]["clip_ms"]
+        if m.get("names_live"):                            # track B's per-passage reads, inside their windows
+            doc = json.loads((ROOT / m["names_live"]).read_text())
+            reads = [r for r in doc.get("result", doc)["players"] if r.get("name") or r.get("shirt")]
+            for x in d["samples"]:
+                for p in [x.get("carrier")] + list(x.get("options") or []):
+                    if not p:
+                        continue
+                    hit = next((r for r in reads if r["track_id"] == p.get("track_id")
+                                and r["from_clip_ms"] <= x["clip_ms"] <= r["to_clip_ms"]), None)
+                    if hit:
+                        p["name"] = hit.get("name") or p.get("name")
+                        if hit.get("shirt"):
+                            p["shirt"], p["shirt_verified"] = hit["shirt"], True
         race = m.get("race")
         if race:
             doc = json.loads((ROOT / race).read_text())
@@ -341,6 +354,12 @@ class Pipeline(Still):
         super().__init__(m)
         if self.data.get("nodes") and "node" in self.data["nodes"][0]:
             self.data = {**self.data, "nodes": nodes_from_track_b(self.data)}
+        for n in self.data["nodes"]:                       # track B's own format: latency with its source
+            if "latency_source" in n:
+                ms = n.get("latency_ms")
+                n["latency_ms"] = None if ms is None else (round(ms) if ms >= 1 else "<1")
+                n["timing_source"] = {"measured re-run": "re-run", "recorded live": "live",
+                                      "replay": "replay"}.get(n["latency_source"])
 
     def dim(self, t):
         return 0.55 * window(self.tau(t), 0.0, 0.4)
@@ -399,6 +418,11 @@ class Pipeline(Still):
         out = []
         if n.get("says"):
             out.append((n["says"], (230, 236, 242), None))
+        opts = [o for o in n.get("options", []) if o.get("label", "").startswith("Pass to")]
+        if opts:                                           # the options the proposer put on the table
+            out.append(("   ".join(f"{o['label'][8:]} {o['xg_after_pass']}" for o in opts[:4]), (230, 236, 242), None))
+        if n.get("draft"):
+            out.append((f"draft: \u201c{n['draft']}\u201d", MUTED, None))
         claims = n.get("claims", [])
         if claims:                                        # one row: every claim with its tick
             ok = all(c.get("ok") for c in claims)
