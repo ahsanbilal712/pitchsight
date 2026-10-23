@@ -208,3 +208,25 @@ def test_refine_brings_a_seed_camera_to_the_paint():
     print(f"\nrefine: seed p95 {out['seed_drift_p95_px']} px -> {out.get('drift_p95_px')} px (k1 {out.get('k1')})")
     assert out["refined"] and out["drift_p95_px"] <= 2.0 < out["seed_drift_p95_px"]
     assert abs(out["k1"] - TRUE.k1) < 0.01
+
+
+def test_viewer_modes_on_a_real_freeze():
+    """Player-Cam is a phone screen carrying the moment's verified numbers; the analyst heatmap reads the mirrored
+    pitch-control grid in the frame's coordinates; casual mode drops the card (T-110: the modes on real footage)."""
+    fut = C.standin_futures(np.array([79.5, 19.6]), np.array([87.7, 9.1]))
+    frame = synthetic_frame(TRUE)
+    phone = C.Painter(MOMENT, frame, TRUE, fut, mode="player_cam")
+    assert phone.render(3.5).size == C.PHONE[:2]
+    rows = phone._phone_rows()
+    assert rows[-1][0] == "Win chance" and any(r[0] == "Distance to goal" and r[1] == "32 m" for r in rows)
+    casual = np.asarray(C.Painter(MOMENT, frame, TRUE, fut, mode="casual").render(5.0))
+    broadcast = np.asarray(C.Painter(MOMENT, frame, TRUE, fut).render(5.0))
+    card = (slice(C.H - 96 - C.CARD_H + 20, C.H - 116), slice(140, 600))       # where the card sits
+    assert np.abs(casual[card].astype(int) - broadcast[card].astype(int)).mean() > 20
+    fut.cf = fut.cf | {"pitch_control_snapshot_id": "pc_000001"}            # the Liverpool moment's snapshot
+    analyst = C.Painter(MOMENT, frame, TRUE, fut, mode="analyst")
+    grid, mirrored = C.pitch_control_for(MOMENT, fut.cf)
+    assert mirrored and analyst.heat is not None
+    near_own_goal = TRUE.project([[100.0, 34.0]])[0].astype(int)          # Man City's box: away control
+    colour = analyst.heat[near_own_goal[1], near_own_goal[0], :3]
+    assert colour[2] > colour[0], colour                                    # sky blue, not Liverpool red

@@ -35,8 +35,11 @@ from matplotlib.collections import LineCollection  # noqa: E402
 from matplotlib.figure import Figure  # noqa: E402
 from matplotlib.patches import Polygon  # noqa: E402
 from PIL import Image, ImageDraw, ImageFilter, ImageFont  # noqa: E402
+from scipy import ndimage as ndi  # noqa: E402
 
 from demo.footage import (  # noqa: E402
+    PITCH_L,
+    PITCH_W,
     Camera,
     Drift,
     board_top,
@@ -44,6 +47,7 @@ from demo.footage import (  # noqa: E402
     fit_from_lines,
     from_pitchwatch,
     model_lines,
+    occluders,
 )
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -274,6 +278,7 @@ def window(t: float, a: float, b: float) -> float:
 
 # ---------------------------------------------------------------------------------------------- timeline
 FREEZE_S = 7.0
+MODES_FREEZE_S = 11.0     # viewer-mode clips (split screen): the built overlay held long enough to read
 FADE_OUT = (6.3, 6.9)
 T_GRADE = (0.0, 0.35)
 T_RINGS = (0.2, 0.8)
@@ -283,6 +288,8 @@ T_TRAIL = (1.8, 2.6)
 T_CARD = (2.6, 3.0)
 T_SWING = (3.0, 4.2)
 T_LOWER = (2.3, 2.7)
+HEAT_ALPHA = 0.30
+PHONE = (780, 1688, 640)   # Player-Cam screen (2x a 390 x 844 phone) and the frame width cropped round the player
 CARD_H = 222
 PANEL_W = 540              # lower-third and swing card, bottom left; clear of the players in the featured frames
 
@@ -293,8 +300,8 @@ class Painter:
     pitch graphics, PIL for the grade, the tags and the card."""
 
     def __init__(self, m: dict, frame: np.ndarray, cam: Camera, fut: Futures | None,
-                 referee_lines: list | None = None):
-        self.m, self.frame, self.cam, self.fut = m, frame, cam, fut
+                 referee_lines: list | None = None, mode: str = "broadcast"):
+        self.m, self.frame, self.cam, self.fut, self.mode = m, frame, cam, fut, mode
         self.fig = Figure(figsize=(W / 100, H / 100), dpi=100)
         self.fig.patch.set_alpha(0)
         self.canvas = FigureCanvasAgg(self.fig)
@@ -320,7 +327,8 @@ class Painter:
             path = catmull_rom(med)[: SUBDIV + 1]
             self.trail_px = cam.project(path[np.linalg.norm(path - path[0], axis=1) > RING_R + 0.35])
         self.spot = self._spotlight()
-        self.font = {s: ImageFont.truetype(FONT, s) for s in (22, 26, 30, 34, 64)}
+        self.heat = self._heatmap() if mode == "analyst" else None
+        self.font = {s: ImageFont.truetype(FONT, s) for s in (22, 26, 30, 34, 50, 64)}
         self.line = None
         if m.get("line") and (ROOT / m["line"]).exists():          # the reviewed lower-third (T-109)
             doc = json.loads((ROOT / m["line"]).read_text())
@@ -350,6 +358,33 @@ class Painter:
             alpha.append(np.maximum(fade_t, fade_d)[1:])
             bold.append(rank % (GHOST_KEEP // GHOST_REPS) == 0)
         return {"segs": segs, "alpha": alpha, "bold": bold, "colour": np.array(colour) / 255, "span": span}
+
+    def _heatmap(self) -> np.ndarray | None:
+        """Analyst mode: the frozen moment's pitch-control snapshot (T-109, same grid as the overlay's heatmap: home
+        share in 2 m cells) laid on the grass in the two kits' colours, RGBA in [0, 1]; contested cells stay clear,
+        and nothing is painted over the players or above the boards."""
+        pc = pitch_control_for(self.m, self.fut.cf if self.fut else None)
+        if pc is None:
+            return None
+        grid, mirrored = pc
+        step = 2
+        vs, us = np.mgrid[0:H:step, 0:W:step]
+        xy = self.cam.unproject(np.c_[us.ravel(), vs.ravel()]).reshape(vs.shape + (2,))
+        x, y = xy[..., 0], xy[..., 1]
+        if mirrored:                                   # the grid is in the engine's frame for the period
+            x, y = PITCH_L - x, PITCH_W - y
+        cell = PITCH_L / grid.shape[1]
+        v = ndi.map_coordinates(grid.astype(float), [y / 2.0 - 0.5, x / cell - 0.5], order=1, mode="nearest")
+        on = (xy[..., 0] >= 0) & (xy[..., 0] <= PITCH_L) & (xy[..., 1] >= 0) & (xy[..., 1] <= PITCH_W)
+        kits = self.m.get("kits") or {"home": (63, 167, 255), "away": (255, 61, 90)}
+        rgb = np.where((v >= 0.5)[..., None], np.array(kits["home"]) / 255, np.array(kits["away"]) / 255)
+        alpha = HEAT_ALPHA * np.clip(np.abs(v - 0.5) * 2, 0, 1) * on
+        out = np.concatenate([rgb, alpha[..., None]], axis=-1).repeat(step, 0).repeat(step, 1)[:H, :W]
+        _, top = fit_spec(self.m)
+        out[np.arange(H)[:, None] < top[None, :], 3] = 0
+        out[occluders(self.frame), 3] = 0
+        out[..., 3] = ndi.gaussian_filter(out[..., 3], 1.5)
+        return out
 
     def _spotlight(self) -> np.ndarray:
         """1 on the grass within ~3 m of the lit players, falling to 0, in pixels."""
@@ -428,6 +463,9 @@ class Painter:
         dim = 1 - grade * (0.30 * (1 - self.spot))                      # lit players, the rest a step down
         sat = 1 - 0.25 * grade * (1 - self.spot)
         f = (lum[..., None] + (f - lum[..., None]) * sat) * dim
+        if self.heat is not None:
+            ha = self.heat[..., 3:4] * window(t, *T_RINGS) * (1 - fade)
+            f = f * (1 - ha) + self.heat[..., :3] * ha
         g = self._graphics(t, fade)
         f = f * (1 - g[..., 3:4]) + g[..., :3] * g[..., 3:4]
         im = Image.fromarray(np.clip(f * 255, 0, 255).astype(np.uint8))
@@ -436,12 +474,14 @@ class Painter:
             self._tag(im, self.m["actor"].get("label"), self.actor_m, WHITE, a)
             if self.target_m is not None:
                 self._tag(im, self.m["target"].get("label"), self.target_m, ORANGE, a)
+        if self.mode == "player_cam":
+            return self._phone(im, t, fade)
         c = window(t, *T_CARD) * (1 - fade)
-        if c > 0 and self.fut:
+        if c > 0 and self.fut and self.mode != "casual":
             self._card(im, c, window(t, *T_SWING))
         lt = window(t, *T_LOWER) * (1 - fade)
         if lt > 0 and self.line:
-            self._lower_third(im, lt)
+            self._lower_third(im, lt, body=self.mode != "casual")
         if standin_mark:
             d = ImageDraw.Draw(im)
             d.text((W - 24, H - 24), "STAND-IN FUTURES (cf_000070), NOT THIS MOMENT", font=self.font[22],
@@ -486,12 +526,13 @@ class Painter:
                 lines.append(w)
         return lines
 
-    def _lower_third(self, im: Image.Image, a: float):
-        """The reviewed line (headline and body) above the swing card, as the overlay's lower-third."""
+    def _lower_third(self, im: Image.Image, a: float, body: bool = True):
+        """The reviewed line (headline and body) above the swing card, as the overlay's lower-third; casual mode
+        shows the headline alone at the foot of the frame (its one sentence)."""
         x0, w = self._panel_x(a), PANEL_W
-        body = self._wrap(self.line.get("body", ""), self.font_reg[22], w - 64)
+        body = self._wrap(self.line.get("body", ""), self.font_reg[22], w - 64) if body else []
         h = 70 + 32 * len(body)
-        y0 = H - 96 - CARD_H - 16 - h
+        y0 = H - 96 - CARD_H - 16 - h if self.mode != "casual" else H - 96 - h
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         al = int(255 * a)
@@ -539,6 +580,88 @@ class Painter:
         im.paste(layer, (0, 0), layer)
 
 
+    def _phone(self, im: Image.Image, t: float, fade: float) -> Image.Image:
+        """Player-Cam (the fan app's card) for the moment's actor, as a phone screen: the frozen frame cropped
+        round him with the drawn futures, then his card: name, club, and the moment's verified numbers (the
+        distance fact, each option's goal chance and win chance from the counterfactual)."""
+        pw, ph, crop_w = PHONE
+        crop_h = int(crop_w * 1.28)
+        feet = self.cam.project([self.actor_m])[0]
+        cx = int(np.clip(feet[0] + crop_w * 0.18, crop_w / 2, W - crop_w / 2))
+        cy = int(np.clip(feet[1] - crop_h * 0.38, crop_h / 2, H - crop_h / 2))
+        top = im.crop((cx - crop_w // 2, cy - crop_h // 2, cx + crop_w // 2, cy + crop_h // 2))
+        top = top.resize((pw, int(pw * crop_h / crop_w)), Image.Resampling.LANCZOS)
+        phone = Image.new("RGB", (pw, ph), PANEL)
+        phone.paste(top, (0, 0))
+        a = window(t, *T_CARD) * (1 - fade)
+        if a <= 0:
+            return phone
+        layer = Image.new("RGBA", phone.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        al = int(255 * a)
+        y = top.height + 36
+        d.rounded_rectangle((36, y, 36 + d.textlength("PLAYER-CAM", font=self.font[22]) + 28, y + 40), radius=8,
+                            fill=(*ORANGE, al))
+        d.text((50, y + 20), "PLAYER-CAM", font=self.font[22], fill=(255, 255, 255, al), anchor="lm")
+        who = self.m["player_cam"]
+        d.text((36, y + 70), who["name"], font=self.font[50], fill=(255, 255, 255, al))
+        d.text((36, y + 140), who["club"], font=self.font[30], fill=(169, 180, 194, al))
+        for i, (label, value, colour) in enumerate(self._phone_rows()):
+            ry = y + 220 + 70 * i
+            d.line((36, ry - 14, pw - 36, ry - 14), fill=(255, 255, 255, int(40 * a)), width=2)
+            d.text((36, ry + 14), label, font=self.font[30], fill=(214, 222, 232, al), anchor="lm")
+            d.text((pw - 36, ry + 14), value, font=self.font[34], fill=(*colour, al), anchor="rm")
+        cf = self.fut.cf
+        d.text((pw - 36, ph - 40), f"n = {cf['n']}, {cf['horizon_s']:g} s, seed {cf['seed']}", font=self.font_reg[22],
+               fill=(169, 180, 194, al), anchor="rb")
+        phone.paste(layer, (0, 0), layer)
+        return phone
+
+    def _phone_rows(self) -> list[tuple[str, str, tuple]]:
+        cf, who = self.fut.cf, self.m["player_cam"]
+        side = who.get("side", "home")
+        names = {"actual": "What he did", "alternative": "The alternative", **(self.m.get("options") or {})}
+        rows = []
+        for fact in facts_for(self.m, who.get("facts", [])):
+            rows.append((fact["caption"], f"{round(fact['value'])} m" if fact["unit"] == "metres"
+                         else f"{fact['value']} {fact['unit']}", WHITE))
+        rows += [(f"{names['actual']}: goal chance", f"{round(cf['baseline'][f'p_goal_{side}'] * 100)}%", WHITE),
+                 (f"{names['alternative']}: goal chance",
+                  f"{round(cf['alternative_outcome'][f'p_goal_{side}'] * 100)}%", ORANGE)]
+        lo, hi = cf["baseline"][f"win_prob_{side}"], cf["alternative_outcome"][f"win_prob_{side}"]
+        rows.append(("Win chance", f"{round(lo * 100)}% → {round(hi * 100)}%", ORANGE))
+        return rows
+
+
+def cache_dir(m: dict) -> Path | None:
+    return (ROOT / m["counterfactual"]).parents[1] if m.get("counterfactual") else None
+
+
+def evidence(m: dict, collection: str) -> list[dict]:
+    path = cache_dir(m) / "evidence.jsonl" if cache_dir(m) else None
+    if not path or not path.exists():
+        return []
+    docs = (json.loads(line) for line in path.read_text().splitlines() if line.strip())
+    return [d for d in docs if d.get("_collection") == collection]
+
+
+def facts_for(m: dict, wanted: list[dict]) -> list[dict]:
+    """The named facts from the moment's evidence (T-109), each with the caption the spec gives it."""
+    have = {f["fact_id"]: f for f in evidence(m, "facts")}
+    return [{**have[w["id"]], "caption": w["caption"]} for w in wanted if w["id"] in have]
+
+
+def pitch_control_for(m: dict, cf: dict | None):
+    """(grid, mirrored) of the counterfactual's pitch-control snapshot, or None."""
+    if not cf or not cache_dir(m):
+        return None
+    doc = next((d for d in evidence(m, "pitch_control") if d["snapshot_id"] == cf["pitch_control_snapshot_id"]), None)
+    path = cache_dir(m) / doc["grid_path"] if doc else None
+    if not path or not path.exists():
+        return None
+    return np.load(path)["grid"], bool(doc.get("mirrored"))
+
+
 # ---------------------------------------------------------------------------------------------- outputs
 def stem(m: dict, standin: bool) -> str:
     return m["name"] + ("_standin" if standin else "")
@@ -549,23 +672,32 @@ def export_png(p: Painter, path: Path, standin: bool) -> Path:
     return path
 
 
-def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4.0, post_s: float = 3.0) -> Path:
+def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4.0, post_s: float = 3.0,
+                freeze_s: float = FREEZE_S) -> Path:
     """Pre-roll of the real clip up to the freeze instant, the freeze with the overlay building and fading, then
-    the real clip resuming from the same instant. 30 fps H.264, no audio."""
+    the real clip resuming from the same instant. A freeze_s longer than FREEZE_S holds the built overlay before
+    it fades. 30 fps H.264, no audio."""
     t0 = m["t_s"]
-    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
+    size = p.render(0.0).size
+    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s",
+                            f"{size[0]}x{size[1]}",
                             "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium", "-crf", "16",
                             "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(path)], stdin=subprocess.PIPE)
 
     def real(start: float, dur: float):
+        if dur <= 0:
+            return
         dec = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{start:.3f}", "-i", str(clip_path(m)), "-t",
                               f"{dur:.3f}", "-vf", f"fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                              capture_output=True, check=True).stdout
         enc.stdin.write(dec)
 
     real(t0 - pre_s, pre_s)
-    for i in range(int(round(FREEZE_S * FPS))):
-        enc.stdin.write(p.render(i / FPS, standin_mark=standin).tobytes())
+    hold = max(0.0, freeze_s - FREEZE_S)
+    for i in range(int(round(freeze_s * FPS))):
+        t = i / FPS
+        t = t if t < FADE_OUT[0] else (FADE_OUT[0] - 0.01 if t < FADE_OUT[0] + hold else t - hold)
+        enc.stdin.write(p.render(t, standin_mark=standin).tobytes())
     real(t0, post_s)
     enc.stdin.close()
     if enc.wait():
@@ -580,6 +712,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--clip", action="store_true")
     ap.add_argument("--standin", action="store_true", help="re-anchored cf_000070 futures until T-109 lands")
     ap.add_argument("--refit", action="store_true", help="refit the camera even if cached")
+    ap.add_argument("--mode", choices=["broadcast", "analyst", "casual", "player_cam"], default="broadcast",
+                    help="viewer mode: analyst adds the pitch-control heatmap, casual keeps one sentence, "
+                         "player_cam is the actor's phone card; their clips are the freeze alone")
     args = ap.parse_args(argv)
     m = load_moment(args.moment)
     if not clip_path(m).exists():
@@ -600,12 +735,13 @@ def main(argv: list[str] | None = None) -> int:
         if pw[1].p95 <= drift.p95:
             cam, drift = pw[0], pw[1]
     fut = load_futures(m, cam, args.standin)
-    p = Painter(m, frame, cam, fut)
-    s = stem(m, fut.standin)
+    p = Painter(m, frame, cam, fut, mode=args.mode)
+    s = stem(m, fut.standin) + ("" if args.mode == "broadcast" else f"_{args.mode}")
     if args.png or not args.clip:
         print(f"wrote {export_png(p, OUT / f'{s}.png', fut.standin).relative_to(ROOT)}")
     if args.clip:
-        print(f"wrote {export_clip(m, p, OUT / f'{s}.mp4', fut.standin).relative_to(ROOT)}")
+        pre, post, freeze = (4.0, 3.0, FREEZE_S) if args.mode == "broadcast" else (0.0, 0.0, MODES_FREEZE_S)
+        print(f"wrote {export_clip(m, p, OUT / f'{s}.mp4', fut.standin, pre, post, freeze).relative_to(ROOT)}")
     return 0
 
 

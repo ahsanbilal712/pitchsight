@@ -7,7 +7,8 @@
 #   against; `top` is the advertising boards' lower edge as a polyline of pixels (nothing above it is pitch).
 #   Track A's per-frame calibration (T-104: calib/<shot>.json for the usable shot holding t_s) is measured the
 #   same way and used when its drift is no worse.
-# actor/target: `player` is a label in the moment file (players and ball in pitch metres); `label` is the tag drawn.
+# actor/target: `player` is a label in the moment file (players and ball in pitch metres); `label` is the tag drawn
+#   (real names on the featured clips: the written permission names club and player names, lead 23 Oct).
 # Pitch metres: x 0..105 towards the goal the attacking side faces, y 0..68 with y = 0 the touchline nearest
 # the main camera. Pixels are 1920x1080 frames.
 # counterfactual: the precomputed rollout for the moment (T-109, track B: first 100 futures the actual action, the
@@ -28,12 +29,18 @@ moments:
       lines: [penalty_box_right, goal_box_right, goal_line_right, touchline_far, penalty_arc_right]
       top: [[0, 249], [915, 208], [916, 200], [1919, 200]]
     moment_file: liverpool-mancity-2526/moments/875000.json    # T-107 hand-marked frame (track A, a152373)
-    actor: {player: "#8", feet: [728, 705], label: "Shoots"}    # feet: fallback without the moment file
+    actor: {player: "#8", feet: [728, 705], label: "Szoboszlai"}    # feet: fallback without the moment file
     ball: [832, 682]
-    target: {player: "#11", feet: [1700, 797], label: "Free"}
+    target: {player: "#11", feet: [1700, 797], label: "Salah · free"}
     counterfactual: data/footage/liverpool-mancity-2526/cache/counterfactuals/cf_000001.json   # T-109 (a751c1a)
     line: data/footage/liverpool-mancity-2526/cache/lines/mo_00001.json    # reviewed lower-third
     options: {actual: "Shot", alternative: "Pass to Salah"}
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}         # analyst heatmap: Liverpool red, City sky blue
+    player_cam:                                                # --mode player_cam
+      name: Dominik Szoboszlai
+      club: "#8 · Liverpool"
+      side: home
+      facts: [{id: f_000001, caption: "Distance to goal"}]
 
   # The other three featured moments (config/footage.yaml, T-109): no hand landmarks; the camera is seeded with the
   # moment file's homography and refined against the paint (far touchline and boards left out).
@@ -41,8 +48,8 @@ moments:
     clip: arsenal-chelsea-2526
     t_s: 1300.5                      # broadcast clock 79:10; Eze's shot is saved
     moment_file: arsenal-chelsea-2526/moments/1300500.json
-    actor: {player: "#10", label: "Shoots"}
-    target: {player: "#7", label: "Free"}
+    actor: {player: "#10", label: "Eze"}
+    target: {player: "#7", label: "Saka · free"}
     counterfactual: data/footage/arsenal-chelsea-2526/cache/counterfactuals/cf_000001.json
     line: data/footage/arsenal-chelsea-2526/cache/lines/mo_00001.json
     options: {actual: "Shot", alternative: "Back to Saka"}
@@ -51,8 +58,8 @@ moments:
     clip: manutd-mancity-2526
     t_s: 877.0                       # broadcast clock 56:41; Amad's shot is saved
     moment_file: manutd-mancity-2526/moments/877000.json
-    actor: {player: "#16", label: "Shoots"}
-    target: {player: "#19", label: "Unmarked"}
+    actor: {player: "#16", label: "Amad"}
+    target: {player: "#19", label: "#19 · unmarked"}           # no name in the moment file
     counterfactual: data/footage/manutd-mancity-2526/cache/counterfactuals/cf_000001.json
     line: data/footage/manutd-mancity-2526/cache/lines/mo_00001.json
     options: {actual: "Shot", alternative: "Pass into the box"}
@@ -61,7 +68,7 @@ moments:
     clip: manutd-spurs-2425
     t_s: 682.8                       # broadcast clock 38:02; Werner's shot is saved
     moment_file: manutd-spurs-2425/moments/682800.json
-    actor: {player: "#16", label: "Shoots"}
+    actor: {player: "#16", label: "Werner"}
     target: null                     # the alternative is a carry round the keeper: drawn from its futures
     counterfactual: data/footage/manutd-spurs-2425/cache/counterfactuals/cf_000001.json
     line: data/footage/manutd-spurs-2425/cache/lines/mo_00001.json
