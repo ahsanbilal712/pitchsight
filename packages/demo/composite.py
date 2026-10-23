@@ -58,8 +58,8 @@ MOMENTS = Path(__file__).with_name("footage_moments.yaml")
 OUT = ROOT / "packages" / "demo" / "out" / "footage"
 STANDIN_CF = ROOT / "data" / "matches" / "4242" / "cache" / "counterfactuals" / "cf_000070.json"
 W, H, FPS = 1920, 1080, 30
-FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-FONT_REG = "/System/Library/Fonts/Supplemental/Arial.ttf"
+FONT = str(Path(matplotlib.get_data_path()) / "fonts/ttf/DejaVuSans-Bold.ttf")   # open licence: docs/video/FONTS.md
+FONT_REG = str(Path(matplotlib.get_data_path()) / "fonts/ttf/DejaVuSans.ttf")
 ORANGE, WHITE, YELLOW = (255, 122, 26), (236, 242, 248), (255, 214, 10)
 PANEL = (12, 16, 22)
 SUBDIV = 10
@@ -332,9 +332,10 @@ class Painter:
             shot_to = np.median([p[1] for p in fut.baseline], axis=0) if fut.baseline else None
             self.ghosts = [g for g in (self._branch(fut.baseline, shot_to, WHITE, T_BASE),
                                        self._branch(fut.alternative, self.target_m, ORANGE, T_ALT)) if g]
-        self.v6 = m.get("style") == "v6"                   # v5's drawing with v6's rules (owner, 23 Oct)
-        self.v5 = m.get("style") in ("v5", "v6")
-        self.v4 = m.get("style") in ("v4", "v5", "v6")           # v5 keeps v4's ramp, punch-in, rewind and lower-thirds
+        self.v8 = m.get("style") == "v8"                   # PITCHSIGHT: v6's rules, the fixed right stack, glass
+        self.v6 = m.get("style") in ("v6", "v8")           # v5's drawing with v6's rules (owner, 23 Oct)
+        self.v5 = m.get("style") in ("v5", "v6", "v8")
+        self.v4 = m.get("style") in ("v4", "v5", "v6", "v8")           # v5 keeps v4's ramp, punch-in, rewind and lower-thirds
         self.xg = load_json(m.get("xg"), "result") if m.get("xg") else None
         if self.v5 and self.xg is None and m.get("xg"):
             self.xg = load_json(m["xg"])                   # track A writes v5 files bare or wrapped
@@ -525,23 +526,31 @@ class Painter:
         items = []
         a0 = window(t, T_BASE[1] - 0.3, T_BASE[1] + 0.3) * (1 - fade)
         if a0 > 0 and x.get("actual"):
-            items.append((self.v5_geom["target"], f"SHOT  {x['actual']['xg']:.2f} xG", WHITE, a0, -70))
+            items.append((self.v5_geom["target"], f"{'SHOT · ' if self.v8 else 'SHOT  '}{x['actual']['xg']:.2f} xG",
+                          WHITE, a0, -70))
         for k, o in enumerate(self.v5_options()):
             a = window(t, T_ALT[1] + 0.4 * k, T_ALT[1] + 0.4 * k + 0.4) * (1 - fade) * (1.0 if k == 0 else 0.6)
             end = [o["x"], o["y"]]
             label = self.option_label(o)
-            items.append((end, f"{label.upper() + '  → ' if label else 'PASS → '}{o['xg_after_pass']:.2f} xG",
-                          ORANGE if k == 0 else WHITE, a, 40))
+            if self.v8:                                  # the pass pill: name · arrives · worth
+                text = (f"{label} · " if label else "") + f"{o['p_pass'] * 100:.0f}% · {o['xg_after_pass']:.2f} xG"
+            else:
+                text = f"{label.upper() + '  → ' if label else 'PASS → '}{o['xg_after_pass']:.2f} xG"
+            items.append((end, text, ORANGE if k == 0 else WHITE, a, 40))
         for where, text, colour, a, dy in items:
             if a <= 0:
                 continue
             pt = self.cam.project([where])[0]
-            w = d.textlength(text, font=self.font[26]) + 28
+            f = ImageFont.truetype(FONT, 28) if self.v8 else self.font[26]
+            ph = 46 if self.v8 else 42
+            w = d.textlength(text, font=f) + 28
             x0 = float(np.clip(pt[0] - w / 2, 24, W - 24 - w))
             y0 = float(np.clip(pt[1] + dy, 24, H - 300))
-            d.rounded_rectangle((x0, y0, x0 + w, y0 + 42), radius=10, fill=(*PANEL, int(228 * a)),
+            if self.v8 and x0 + w > W - 64 - 760 - 12 and y0 + ph > H - 150 - 330:   # never under the card
+                x0 = max(24.0, W - 64 - 760 - 12 - w)
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + ph), radius=14 if self.v8 else 10, fill=(*PANEL, int(228 * a)),
                                 outline=(*colour, int(255 * a)), width=3)
-            d.text((x0 + w / 2, y0 + 21), text, font=self.font[26], fill=(*colour, int(255 * a)), anchor="mm")
+            d.text((x0 + w / 2, y0 + ph / 2), text, font=f, fill=(*colour, int(255 * a)), anchor="mm")
         im.paste(layer, (0, 0), layer)
 
     def _card_v5(self, im: Image.Image, a: float, swing: float, t: float):
@@ -592,6 +601,79 @@ class Painter:
         for k, line in enumerate(formula):
             d.text((x0 + 32, yy + 24 * k), line, font=self.font_reg[20], fill=(169, 180, 194, al))
         im.paste(layer, (0, 0), layer)
+
+    def _glass(self, im: Image.Image, box, a: float) -> ImageDraw.ImageDraw:
+        """v8: a dark glass panel (the picture blurred under it, a hairline, a thin team accent); returns a drawer on
+        a layer the caller pastes."""
+        from PIL import ImageFilter
+        box = tuple(int(v) for v in box)
+        region = im.crop(box).filter(ImageFilter.GaussianBlur(16))
+        mask = Image.new("L", region.size, 0)
+        ImageDraw.Draw(mask).rounded_rectangle((0, 0, region.size[0] - 1, region.size[1] - 1), radius=14,
+                                               fill=int(255 * a))
+        im.paste(region, box[:2], mask)
+        d = ImageDraw.Draw(im, "RGBA")
+        d.rounded_rectangle(box, radius=14, fill=(14, 18, 24, int(178 * a)), outline=(255, 255, 255, int(40 * a)),
+                            width=1)
+        kit = tuple((self.m.get("kits") or {}).get(self.m.get("team", "home"), ORANGE))   # the attacking side's kit
+        d.rounded_rectangle((box[0] + 14, box[1], box[2] - 14, box[1] + 4), radius=2, fill=(*kit, int(255 * a)))
+        return d
+
+    def _card_v8(self, im: Image.Image, a: float, swing: float, t: float):
+        """The xG card in the fixed right stack: the shot, the hero pass (when one beats it), the outcome; type from
+        28 px, no footnote (the explainer and the caption carry the model)."""
+        x = self.xg
+        act = x["actual"]
+        if self.m.get("strike"):
+            dist = act.get("distance_m")
+            if dist is None:
+                dist = float(np.hypot(self.ball[0] - self.v5_geom["gx"], self.ball[1] - 34))
+            shot_label = f"Shot from {dist:.0f} m"
+        else:
+            shot_label = "Shot from here"
+        rows = [(shot_label, act["xg"], (196, 204, 214))]
+        opts = self.v5_options()
+        if opts:
+            label = self.option_label(opts[0])
+            rows.append((f"Pass to {label}" if label else "Pass", opts[0]["xg_after_pass"], ORANGE))
+        note = self.m.get("card_note") or ("Scored." if self.m.get("finishing") else None)
+        w = 760
+        h = 76 + 92 * len(rows) + (56 if note else 0) + 12
+        x0, y0 = W - 64 - w + int((1 - a) * 60), H - 150 - h
+        d = self._glass(im, (x0, y0, x0 + w, y0 + h), a)
+        al = int(255 * a)
+        d.text((x0 + 28, y0 + 24), "EXPECTED GOALS (xG)", font=ImageFont.truetype(FONT, 26), fill=(169, 180, 194, al))
+        top = max(r[1] for r in rows) * 1.2 or 1.0
+        bx0, bx1 = x0 + 28, x0 + w - 170
+        for k, (label, v, col) in enumerate(rows):
+            grow = swing if k else 1.0
+            y = y0 + 70 + 92 * k
+            d.text((bx0, y), label, font=ImageFont.truetype(FONT_REG, 30), fill=(230, 236, 242, al))
+            by = y + 46
+            d.rounded_rectangle((bx0, by, bx1, by + 16), radius=8, fill=(58, 64, 74, al))
+            d.rounded_rectangle((bx0, by, bx0 + max(16, (bx1 - bx0) * v / top * grow), by + 16), radius=8,
+                                fill=(*col, al))
+            d.text((x0 + w - 28, y + 36), f"{v:.2f}", font=ImageFont.truetype(FONT, 52),
+                   fill=(*col, int(al * (1 if k == 0 else grow))), anchor="rm")
+        if note:
+            d.text((x0 + 28, y0 + 70 + 92 * len(rows)), note, font=ImageFont.truetype(FONT, 30), fill=(*ORANGE, al))
+
+    def _score_v8(self, im: Image.Image, a: float) -> None:
+        """Team xG under the broadcast score bug at the frozen moment (xg_running_0), as on the live beats."""
+        if not self.m.get("race") or a <= 0:
+            return
+        doc = json.loads((ROOT / self.m["race"]).read_text())
+        race = {**doc.get("result", doc), **(self.m.get("race_labels") or {})}
+        now = float(self.m["t_s"]) * 1000
+        pts = [p for p in race["series"] if p["clip_ms"] <= now] or [{"home_xg": 0.0, "away_xg": 0.0}]
+        cur = pts[-1]
+        f = ImageFont.truetype(FONT, 38)
+        text = f"xG  {race['home_short']} {cur['home_xg']:.2f} · {cur['away_xg']:.2f} {race['away_short']}"
+        probe = ImageDraw.Draw(im)
+        x0, y0 = 96.0, 164.0
+        w = probe.textlength(text, font=f) + 40
+        d = self._glass(im, (x0, y0, x0 + w, y0 + 60), a)
+        d.text((x0 + 22, y0 + 30), text, font=f, fill=(255, 255, 255, int(255 * a)), anchor="lm")
 
     def _straight_lane(self, a, b, colour, span, key) -> dict:
         pts = np.linspace(np.asarray(a, float), np.asarray(b, float), SUBDIV * 2 + 1)
@@ -824,7 +906,9 @@ class Painter:
         if self.v5:
             self._v5_labels(im, t, fade)
             if c > 0 and self.xg and not self.m.get("no_card"):   # no_card: the arcs alone (the pipeline's left half)
-                self._card_v5(im, c, window(t, *T_SWING), t)
+                (self._card_v8 if self.v8 else self._card_v5)(im, c, window(t, *T_SWING), t)
+            if self.v8 and not self.m.get("no_card"):     # the Newsroom's still is cropped: no strip on it
+                self._score_v8(im, 1 - fade)
         if self.v4 and getattr(self, "lanes", None):
             self._lane_labels(im, window(t, T_ALT[1] - 0.2, T_ALT[1] + 0.4) * (1 - fade))
         if c > 0 and self.v4 and not self.v5 and self.goal10 and self.mode != "casual":
@@ -834,7 +918,7 @@ class Painter:
         elif c > 0 and self.ruling:
             self._ruling_card(im, c)
         lt = window(t, *T_LOWER) * (1 - fade)
-        if lt > 0 and self.line:                         # v4 shows no win chance: the headline alone
+        if lt > 0 and self.line and not self.v8:        # v8: the caption line carries it                         # v4 shows no win chance: the headline alone
             self._lower_third(im, lt, body=self.mode != "casual" and not self.v4)
         if standin_mark:
             d = ImageDraw.Draw(im)
@@ -1217,9 +1301,12 @@ def goal_tag(m: dict, enc, frames: np.ndarray, start_s: float, p: Painter) -> No
         im = Image.fromarray(fr.copy())
         d = ImageDraw.Draw(im, "RGBA")
         w = d.textlength(text, font=f) + 44
-        x0, y0 = 96 - int((1 - a) * 40), H - 96 - 64
-        d.rounded_rectangle((x0, y0, x0 + w, y0 + 64), radius=10, fill=(*PANEL, int(235 * a)))
-        d.rectangle((x0, y0, x0 + 8, y0 + 64), fill=(*colour, int(255 * a)))
+        x0, y0 = 96 - int((1 - a) * 40), H - (150 if p.v8 else 96) - 64
+        if p.v8:
+            d = p._glass(im, (x0, y0, x0 + w, y0 + 64), a)
+        else:
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + 64), radius=10, fill=(*PANEL, int(235 * a)))
+            d.rectangle((x0, y0, x0 + 8, y0 + 64), fill=(*colour, int(255 * a)))
         d.text((x0 + 28, y0 + 32), text, font=f, fill=(255, 255, 255, int(255 * a)), anchor="lm")
         enc.stdin.write(np.asarray(im.convert("RGB")).tobytes())
 
@@ -1270,7 +1357,7 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
                              capture_output=True, check=True).stdout
         enc.stdin.write(dec)
 
-    if m.get("style") in ("v4", "v5", "v6"):           # a speed ramp into slow motion before the freeze
+    if m.get("style") in ("v4", "v5", "v6", "v8"):     # a speed ramp into slow motion before the freeze
         ramp = min(RAMP_SLOW_S, pre_s)
         real(t0 - pre_s, pre_s - ramp)
         frames = decode_range(m, t0 - ramp, ramp)
@@ -1289,13 +1376,13 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
         t = i / FPS
         t = t if t < FADE_OUT[0] else (FADE_OUT[0] - 0.01 if t < FADE_OUT[0] + hold else t - hold)
         enc.stdin.write(p.render(t, standin_mark=standin).tobytes())
-    if m.get("style") in ("v4", "v5", "v6") and post_s > 0:   # a rewind sting, then what really happened
+    if m.get("style") in ("v4", "v5", "v6", "v8") and post_s > 0:   # a rewind sting, then what really happened
         back = decode_range(m, t0 - REWIND_S, REWIND_S)[::-1][:: REWIND_STEP]
         for fr in back:
             g = fr.astype(float) * 0.82 + np.array([10, 18, 40]) * 0.18   # cool tint while it runs backwards
             enc.stdin.write(np.clip(g, 0, 255).astype(np.uint8).tobytes())
         if m.get("goal_clip_s") is not None:              # v5: the goal flash on the real replay
-            (goal_tag if m.get("style") == "v6" else goal_flash)(
+            (goal_tag if m.get("style") in ("v6", "v8") else goal_flash)(
                 m, enc, decode_range(m, t0 - REWIND_S, post_s + REWIND_S), t0 - REWIND_S, p)
         else:
             real(t0 - REWIND_S, post_s + REWIND_S)
@@ -1314,7 +1401,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--clip", action="store_true")
     ap.add_argument("--standin", action="store_true", help="re-anchored cf_000070 futures until T-109 lands")
     ap.add_argument("--refit", action="store_true", help="refit the camera even if cached")
-    ap.add_argument("--style", choices=["v3", "v4", "v5", "v6"], help="v4: median lanes, goal in the next 10 s, slow-motion "
+    ap.add_argument("--style", choices=["v3", "v4", "v5", "v6", "v8"], help="v4: median lanes, goal in the next 10 s, slow-motion "
                     "ramp and punch-in (video v4); default the moment's own")
     ap.add_argument("--mode", choices=["broadcast", "analyst", "casual", "player_cam"], default="broadcast",
                     help="viewer mode: analyst adds the pitch-control heatmap, casual keeps one sentence, "
@@ -1353,7 +1440,7 @@ def main(argv: list[str] | None = None) -> int:
     p = Painter(m, frame, cam, fut, mode=args.mode)
     standin = bool(fut and fut.standin)
     s = stem(m, standin) + ("" if args.mode == "broadcast" else f"_{args.mode}") + \
-        (f"_{m['style']}" if m.get("style") in ("v4", "v5", "v6") else "")
+        (f"_{m['style']}" if m.get("style") in ("v4", "v5", "v6", "v8") else "")
     if args.png or not args.clip:
         print(f"wrote {export_png(p, OUT / f'{s}.png', standin).relative_to(ROOT)}")
     if args.clip:

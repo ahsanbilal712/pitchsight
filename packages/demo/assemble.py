@@ -23,11 +23,13 @@ import sys
 import tempfile
 from pathlib import Path
 
+import matplotlib
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "packages" / "demo" / "out"
-FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"   # system font; no font files ship in the video
+FONT_DIR = Path(matplotlib.get_data_path()) / "fonts/ttf"      # DejaVu Sans, open licence (docs/video/FONTS.md)
+FONT = str(FONT_DIR / "DejaVuSans-Bold.ttf")
 BG = "0x0c1016"
 ACCENT = "0xff7a1a"
 NUMBER = re.compile(r"[$+\-−]?\d[\d.,]*%?")
@@ -138,17 +140,19 @@ def ts(t: float, sep: str = ",") -> str:
 
 
 def write_captions(timeline: list[tuple[float, float, str]], srt: Path, ass: Path, w: int, h: int,
-                   margin_v: int = 74) -> None:
+                   margin_v: int = 74, size: int = 40, one_line: bool = False) -> None:
+    """SubRip for upload and the burned-in ASS. one_line (v8): a single line, bottom centre, on a dark glass box;
+    a caption that would not fit on one line is an error, never wrapped or cut."""
     srt.write_text("".join(f"{i}\n{ts(a)} --> {ts(b)}\n{text}\n\n" for i, (a, b, text) in enumerate(timeline, 1)))
     head = f"""[Script Info]
 ScriptType: v4.00+
 PlayResX: {w}
 PlayResY: {h}
-WrapStyle: 0
+WrapStyle: {2 if one_line else 0}
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Caption,Arial,40,&H00FFFFFF,&H00FFFFFF,&H00101610,&H00101610,1,0,0,0,100,100,0,0,1,0,0,2,120,120,{margin_v},1
+Style: Caption,DejaVu Sans,{size},&H00FFFFFF,&H00FFFFFF,{"&H3A140F0C" if one_line else "&H00101610"},{"&H3A140F0C" if one_line else "&H00101610"},1,0,0,0,100,100,0,0,{3 if one_line else 1},{14 if one_line else 0},0,2,120,120,{margin_v},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -204,7 +208,16 @@ def assemble(edit_path: Path, keep: bool = False) -> Path:
         ph = h - band
         pw = int(round(ph * w / h / 2)) * 2
         vf = f"scale={pw}:{ph},pad={w}:{h}:{(w - pw) // 2}:0:color={BG}," + vf
-    write_captions(timeline, srt, ass, w, h, margin_v=max(20, band // 2 - 40) if band else 74)
+    cs = edit.get("caption_style") or {}
+    if cs.get("one_line"):                               # v8: every caption must fit one line at its size
+        from PIL import ImageFont
+        f = ImageFont.truetype(FONT, int(cs.get("size", 40)))
+        too_long = [t for _, _, t in timeline if f.getlength(t) > w - 240 - 28]
+        if too_long:
+            raise EditError("captions longer than one line: " + "; ".join(repr(t) for t in too_long))
+    write_captions(timeline, srt, ass, w, h, margin_v=int(cs.get("margin_v", max(20, band // 2 - 40) if band else 74)),
+                   size=int(cs.get("size", 40)), one_line=bool(cs.get("one_line")))
+    vf = vf.replace(f"ass={ass}", f"ass={ass}:fontsdir={FONT_DIR}")
     run(["ffmpeg", "-v", "error", "-y", "-i", str(joined), "-vf", vf, *encode_args(fps),
          "-movflags", "+faststart", str(out)])
     if keep:

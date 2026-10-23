@@ -16,8 +16,8 @@ import json
 import numpy as np
 from PIL import ImageDraw, ImageFont
 
-from demo.live import FONT, FONT_REG, MUTED, PANEL, ROOT, H, W, bracket
-from demo.v6 import ACCENT, LiveHUD, shrink
+from demo.live import FONT, FONT_REG, MUTED, ROOT, H, W, bracket
+from demo.v6 import ACCENT, ROLL_S, LiveHUD, shrink
 
 TINT_ALPHA = 0.10              # the control tint stays under everything
 LINE_ALPHA = 0.55              # team lines, the back line a step stronger
@@ -38,6 +38,10 @@ class AlwaysOn(LiveHUD):
 
     hud_above = DANGER_H + 16
 
+    @property
+    def danger_h(self) -> int:
+        return 150 if self.v8 else DANGER_H
+
     def __init__(self, m: dict):
         super().__init__(m)
         self.always = None
@@ -45,6 +49,8 @@ class AlwaysOn(LiveHUD):
             doc = json.loads((ROOT / m["always"]).read_text())
             self.always = doc.get("result", doc)
         self.standin = self.always is None
+        if self.v8:
+            self.hud_above = 150 + 16
         self.kits = {k: np.array(v) / 255 for k, v in (m.get("kits") or {}).items()}
 
     # -- the always-on data at t ----------------------------------------------------------------------------------
@@ -169,10 +175,9 @@ class AlwaysOn(LiveHUD):
         if sh.get("width_m") is None:                     # track A's 9-of-10 gate failed: the tint and line only
             return
         w, h = self.hud_w, self.hud_h                     # between carriers: the defending side's shape
-        x0, y0 = W - 64 - w, H - 64 - h
+        x0, y0 = W - 64 - w, H - self.bottom - h
         al = int(255 * a)
-        d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))
-        d.rectangle((x0, y0, x0 + w, y0 + 8), fill=(*ACCENT, al))
+        self._panel(d, (x0, y0, x0 + w, y0 + h), a)
         f_label = ImageFont.truetype(FONT_REG, 32)
         f_value = ImageFont.truetype(FONT, 56)
         self._header(d, x0, y0, w, "THEIR SHAPE", state, (255, 214, 10), al)
@@ -189,10 +194,10 @@ class AlwaysOn(LiveHUD):
     def _danger(self, d, lay, a) -> None:
         """The attacking side's one number: its control of the danger zone in view (track A's dangerous_space, the
         visible region; null under half the zone in view). Track A's own definition sits under it, verbatim."""
-        w, h = self.hud_w, DANGER_H
-        x0, y0 = W - 64 - w, H - 64 - self.hud_h - 16 - h
+        w, h = self.hud_w, self.danger_h
+        x0, y0 = W - 64 - w, H - self.bottom - self.hud_h - 16 - h
         al = int(255 * a)
-        d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))
+        self._panel(d, (x0, y0, x0 + w, y0 + h), a)
         f_small, f_big, f_note = (ImageFont.truetype(FONT, 24), ImageFont.truetype(FONT, 32),
                                   ImageFont.truetype(FONT_REG, 20))
         box = None                                         # name the box: the defending side's goal in view
@@ -217,11 +222,33 @@ class AlwaysOn(LiveHUD):
                    font=f_big, fill=(*MUTED, al))
         else:
             kit = tuple(int(c * 255) for c in self.kits.get(team, np.array((1, 1, 1))))
-            d.text((bx0, y), text, font=shrink(d, text, FONT, 32, bx1 - bx0), fill=(255, 255, 255, al))
+            if self.v8:                                    # two lines at 28 px, never under 24, never cut
+                f28 = ImageFont.truetype(FONT, 28)
+                old, since = self._prev_text(text)
+                new_l = self._wrap(d, text, f28, bx1 - bx0)
+                old_l = self._wrap(d, old, f28, bx1 - bx0) if old else []
+                for k, ln in enumerate(new_l[:2]):
+                    self.roll(d, (bx0, y - 4 + 34 * k), ln, old_l[k] if k < len(old_l) else None, since / ROLL_S,
+                              f28, (255, 255, 255), al)
+                y += 34
+            else:
+                d.text((bx0, y), text, font=shrink(d, text, FONT, 32, bx1 - bx0), fill=(255, 255, 255, al))
             d.rounded_rectangle((bx0, y + 44, bx1, y + 60), radius=8, fill=(58, 64, 74, al))
             d.rounded_rectangle((bx0, y + 44, bx0 + max(16, (bx1 - bx0) * v), y + 60), radius=8, fill=(*kit, al))
-        for k, ln in enumerate(self._wrap(d, DANGER_DEF, f_note, bx1 - bx0)):   # never cut: two lines
-            d.text((bx0, y0 + h - 54 + 24 * k), ln, font=f_note, fill=(*MUTED, al))
+        if not self.v8:                                    # v8: the caption explains it once; nothing under 24 px
+            for k, ln in enumerate(self._wrap(d, DANGER_DEF, f_note, bx1 - bx0)):   # never cut: two lines
+                d.text((bx0, y0 + h - 54 + 24 * k), ln, font=f_note, fill=(*MUTED, al))
+
+    def _prev_text(self, text: str) -> tuple[str | None, float]:
+        """The danger sentence shown before this one and how long ago it changed (for the roll)."""
+        prev, since, cur = None, 99.0, None
+        for f in (self.always or {}).get("frames", []):
+            if f["clip_ms"] > self._t * 1000:
+                break
+            v = (f.get("danger") or {}).get("text")
+            if v and v != cur:
+                prev, cur, since = cur, v, self._t - f["clip_ms"] / 1000
+        return (prev if cur == text else None), since
 
     def panels(self, im, cam, t):
         self._t = t

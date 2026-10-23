@@ -1,0 +1,121 @@
+# Video v8 edit decision list, DRAFT 1: PITCHSIGHT (owner-approved storyboard, 23 Oct). Assembled by
+#   python packages/demo/assemble.py packages/demo/edit_v8.yaml
+# Wording: track A intro_facts_0 (3056357) and track B (the newsroom's order, the EXPLAIN qualifier, not built yet).
+# 0:00 title sting; 0:06 how it works (SEE, MEASURE, EXPLAIN, VERIFY, NEXT) on one real frame and real data; 0:30 in
+# action, analytics on every frame (v7's always-on and ball layers, the freezes, the Newsroom) in one fixed layout;
+# the end card. DejaVu Sans throughout (docs/video/FONTS.md); one caption line, bottom centre. v7 2b is the fallback.
+
+out: packages/demo/out/final_v8.mp4
+size: [1920, 1080]
+fps: 30
+caption_band: 0
+caption_style: {one_line: true, size: 32, margin_v: 40}
+
+clips:
+  - shot: footage/title_v8               # 0:00 the sting
+    from: 0.0
+    to: 6.0
+
+  - shot: footage/explainer_v8           # 0:06 how it works
+    from: 0.0
+    to: 24.0
+    captions:
+      - {from: 0.3, to: 5.3, text: "Computer vision tracks every player in view from one broadcast camera."}
+      - {from: 5.6, to: 7.6, text: "A pass model we trained on 2.1 million passes from 1,600 simulated matches,"}
+      - {from: 7.6, to: 9.6, text: "plus a published xG model built on 8,451 Premier League shots,"}
+      - {from: 9.6, to: 10.8, text: "price every pass and shot."}
+      - {from: 11.1, to: 12.8, text: "An AI newsroom on Microsoft Agent Framework:"}
+      - {from: 12.8, to: 14.6, text: "agents reason with Gemini, pull match data through MCP tools,"}
+      - {from: 14.6, to: 16.3, text: "and fact-check every number before air."}
+      - {from: 16.6, to: 20.3, text: "1,295 of 1,295 on-screen numbers checked against the data."}
+      - {from: 20.6, to: 22.2, text: "Next (not built yet): an Azure AI Foundry deployment,"}
+      - {from: 22.2, to: 23.8, text: "live stadium feeds, more trained models."}
+
+  - shot: footage/mci_live_v8            # 0:30 in action: Amad's passage, both layers (56:38-56:41)
+    from: 0.3
+    to: 5.3
+    captions:
+      - {from: 0.1, to: 4.9, text: "Man Utd v Man City: every option priced live, the danger zone tracked."}
+
+  - shot: footage/mci_amad_v8_v8         # the decision freeze
+    from: 2.7
+    to: 9.1
+    captions:
+      - {from: 0.1, to: 2.8, text: "Amad shoots from here: 0.06 xG."}
+      - {from: 3.0, to: 6.3, text: "The pass to Mbeumo, arriving 84% of the time, was worth 0.11."}
+
+  - shot: footage/mci_pipeline_v8        # the Newsroom, ending ON AIR
+    from: 0.0
+    to: 10.5
+    captions:
+      - {from: 0.2, to: 10.3, text: "Behind the line: agents flag it, price it, draft it, check every number, put it on air."}
+
+  - shot: footage/ars_eze_live_v8        # Arsenal v Chelsea 79:07-79:11
+    from: 0.3
+    to: 4.3
+    captions:
+      - {from: 0.1, to: 4.0, text: "Arsenal win it back, Saka finds Eze, and their danger-zone share climbs."}
+
+  - shot: footage/ars_v8_v8              # Eze's strike
+    from: 2.7
+    to: 9.1
+    captions:
+      - {from: 0.1, to: 6.3, text: "Eze from 16 m: 0.08 xG. Saved."}
+
+  - shot: footage/lfc_live_v8            # Liverpool v Man City 86:17-86:24
+    from: 0.3
+    to: 6.9
+    captions:
+      - {from: 0.2, to: 6.6, text: "Liverpool v Man City, 86th minute: the pass options re-price as the play moves."}
+
+  - shot: footage/lfc_v8_v8              # Szoboszlai's strike
+    from: 2.7
+    to: 9.1
+    captions:
+      - {from: 0.1, to: 6.3, text: "Szoboszlai shoots from 29 m: 0.02 xG. Blocked."}
+
+  - shot: footage/mci_mbeumo_live_v8     # the move into Mbeumo's goal, on into the freeze
+    from: 0.3
+    to: 4.6
+
+  - shot: footage/mci_mbeumo_v8_v8
+    from: 2.7
+    to: 7.9
+    captions:
+      - {from: 0.1, to: 5.0, text: "Mbeumo from 15 m: 0.10 xG."}
+
+  - shot: footage/mci_mbeumo_v8_v8       # the goal, from its tag on
+    from: 12.8
+    to: 14.8
+
+  - shot: footage/mci_city_live_v8       # stoppage time: City keep it
+    from: 0.3
+    to: 8.3
+    captions:
+      - {from: 0.1, to: 7.9, text: "Stoppage time: City keep the ball, and their share of the danger zone creeps up."}
+
+  - shot: footage/mci_late_live_v8       # then Man Utd break
+    from: 0.3
+    to: 2.8
+    captions:
+      - {from: 0.1, to: 2.4, text: "Then Man Utd break: Cunha on the ball, Mount the best option."}
+
+  - shot: footage/end_v8                 # the close
+    from: 0.0
+    to: 10.0
+
+sources:
+  "1,295": "footage.grounding on this edit: numbers_bound for everything but the counter itself (track B's rule, 6930b18)"
+  "2.1": "cache/v8/intro_facts_0 (liverpool-mancity-2526): the pass model's 2,146,079 training passes"
+  "1,600": "cache/v8/intro_facts_0: the 1,600 simulated matches the pass model was trained on"
+  "8,451": "cache/v8/intro_facts_0: Soccermatics' published logistic fit on 8,451 PL 2017/18 Wyscout shots"
+  "0.06": "xg_decision_877000 actual xg 0.06 (Amad, the decision freeze; 'from here')"
+  "84%": "xg_decision_877000 best_alternative p_pass 0.84"
+  "0.11": "xg_decision_877000 best_alternative xg_after_pass 0.11"
+  "16": "shots_0 (arsenal-chelsea-2526) strike 1301080 distance_m 16.4 (Eze)"
+  "0.08": "shots_0 (arsenal-chelsea-2526) strike 1301080 xg 0.08 (Eze, saved)"
+  "86": "the Liverpool clip's broadcast clock 86:17-86:24 (live_802600)"
+  "29": "shots_0 (liverpool-mancity-2526) strike 875560 distance_m 28.8"
+  "0.02": "shots_0 (liverpool-mancity-2526) strike 875560 xg 0.02 (blocked)"
+  "15": "shots_0 (manutd-mancity-2526) 64:27 strike distance (Mbeumo), lines_1079360 display '15 m'"
+  "0.10": "shots_0 (manutd-mancity-2526) 64:27 xg 0.1 (Mbeumo, goal)"

@@ -30,8 +30,8 @@ from demo.footage import PITCH_W, Camera, from_pitchwatch  # noqa: E402
 ROOT = Path(__file__).resolve().parents[2]
 FOOTAGE = ROOT / "data" / "footage"
 W, H, FPS = 1920, 1080, 30
-FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-FONT_REG = "/System/Library/Fonts/Supplemental/Arial.ttf"
+FONT = str(Path(matplotlib.get_data_path()) / "fonts/ttf/DejaVuSans-Bold.ttf")   # open licence: docs/video/FONTS.md
+FONT_REG = str(Path(matplotlib.get_data_path()) / "fonts/ttf/DejaVuSans.ttf")
 ORANGE, WHITE, YELLOW, PANEL, MUTED = (255, 122, 26), (236, 242, 248), (255, 214, 10), (12, 16, 22), (169, 180, 194)
 PANEL_W = 540
 GHOST_DIM = 0.40         # ghost future: the players the story is not about
@@ -1281,7 +1281,9 @@ class XGRace(RiverStrip):
 def _v6_scenes() -> dict:
     from demo.v6 import LiveHUD, Pipeline, ShotMap  # v6 and v7 build on this module's base classes
     from demo.v7 import AlwaysOn
-    return {"live_hud": LiveHUD, "shot_map": ShotMap, "pipeline": Pipeline, "always_on": AlwaysOn}
+    from demo.v8 import EndCard, Explainer, TitleSting
+    return {"live_hud": LiveHUD, "shot_map": ShotMap, "pipeline": Pipeline, "always_on": AlwaysOn,
+            "title_sting": TitleSting, "explainer": Explainer, "end_card": EndCard}
 
 
 SCENES = {"oracle": Oracle, "metrics": Metrics, "river_strip": RiverStrip, "shot_xg": ShotXG,

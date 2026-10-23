@@ -46,6 +46,9 @@ DRAW_ON_MS = 150               # a new option's line draws on
 PULSE_S = 1.2                  # the best option's glow pulses this slowly
 LABEL_PX = 30                  # pass labels (phone-legible)
 HUD_W, HUD_H = 760, 290        # the live panel, bottom right
+V8_BOTTOM = 150                # v8: the analytics stack ends here, the caption line below it
+RADIUS = 14                    # v8: one corner radius for every panel and pill
+ROLL_S = 0.18                  # v8: a changed number rolls (old out, new in); no in-between values exist
 HOLD_FADE_S = 1.0              # a held value starts fading after this
 STATES = {"ball loose": "BALL LOOSE", "ball out of play": "OUT OF PLAY", "dead ball after the goal": "OUT OF PLAY",
           "ball not detected": "TRACKING THE BALL…", "camera fit not trusted": "CAMERA MOVING…",
@@ -71,12 +74,23 @@ def threat_colour(frac: float) -> tuple[int, int, int]:
     return stops[-1][1]
 
 
+PARTICLES = {"mac", "mc", "van", "von", "de", "der", "den", "di", "da", "dos", "le", "la", "el"}
+
+
+def surname(name: str) -> str:
+    """The on-screen surname: the last word, with its particle ("Mac Allister", "van Dijk", "De Bruyne")."""
+    parts = name.split()
+    if len(parts) >= 3 and parts[-2].lower() in PARTICLES:
+        return " ".join(parts[-2:])
+    return parts[-1]
+
+
 def who(p: dict | None, shirts: bool | None = None) -> str | None:
     """A verified name (surname), else a verified shirt number, else nothing (owner: no placeholders)."""
     if not p:
         return None
     if p.get("name"):
-        return p["name"].split()[-1]
+        return surname(p["name"])
     if p.get("shirt") and (p.get("shirt_verified") or (SHIRTS_VERIFIED if shirts is None else shirts)):
         return f"#{str(p['shirt']).lstrip('#')}"
     return None
@@ -94,6 +108,9 @@ class LiveHUD(Live):
 
     def __init__(self, m: dict):
         super().__init__(m)
+        self.v8 = m.get("theme") == "v8"                  # PITCHSIGHT: glass panels, one radius, team accents
+        self.bottom = V8_BOTTOM if self.v8 else 64         # v8: the stack sits clear of the one caption line
+        self._glass: list[tuple] = []
         d = self.data
         if "frames" in d and "samples" not in d:          # track A's layout -> the fields drawn here
             d["samples"] = [{**f, "carrier": f.get("holder") if f.get("trusted") else None}
@@ -197,6 +214,7 @@ class LiveHUD(Live):
         return v[i]["threat"] + (v[j]["threat"] - v[i]["threat"]) * ease_in_out(f)
 
     def panels(self, im, cam, t):
+        self._t, self._glass = t, []
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         x = self.sample(t)
@@ -211,11 +229,12 @@ class LiveHUD(Live):
                     continue
                 pt = cam.project([[o["x"], o["y"]]])[0]
                 name = who(o)
-                text = (f"{name}  " if name else "") + f"{o['p_pass'] * 100:.0f}% · {o['xg_after_pass']:.2f} xG"
+                sep = " · " if self.v8 else "  "
+                text = (f"{name}{sep}" if name else "") + f"{o['p_pass'] * 100:.0f}% · {o['xg_after_pass']:.2f} xG"
                 w = d.textlength(text, font=font) + 24
                 x0 = float(np.clip(pt[0] - w / 2, 12, W - 12 - w))
                 y0 = pt[1] + 22
-                hx0, hy0 = W - 64 - self.hud_w - 12, H - 64 - self.hud_h - self.hud_above - 12   # never under it
+                hx0, hy0 = W - 64 - self.hud_w - 12, H - self.bottom - self.hud_h - self.hud_above - 12   # not under it
                 if x0 + w > hx0 and y0 + LABEL_PX + 16 > hy0:
                     up = y0 + LABEL_PX + 16 - hy0
                     if up <= 40:                                   # a small nudge up keeps it by its player
@@ -227,14 +246,75 @@ class LiveHUD(Live):
                         y0 = by1 + 8
                 placed.append((x0, y0, x0 + w, y0 + LABEL_PX + 16))
                 col = ACCENT if k == 0 else WHITE
-                d.rounded_rectangle((x0, y0, x0 + w, y0 + LABEL_PX + 16), radius=8, fill=(*PANEL, 225),
+                d.rounded_rectangle((x0, y0, x0 + w, y0 + LABEL_PX + 16), radius=RADIUS if self.v8 else 8,
+                                    fill=(*PANEL, 225),
                                     outline=(*col, 255 if k == 0 else 140), width=3 if k == 0 else 2)
                 d.text((x0 + w / 2, y0 + (LABEL_PX + 16) / 2), text, font=font, fill=(*col, 255), anchor="mm")
         age = (t * 1000 - held["clip_ms"]) / 1000 if held is not None else None
         state = self.state(t) if x is None else None
         self._hud(d, held, a, age if age is not None and age > FRESH_S else None, state, self.threat_at(t))
         self._score(d, t, a)
+        self._frost(im)
         im.paste(layer, (0, 0), layer)
+
+    # -- v8 panel style ---------------------------------------------------------------------------------------
+    def accent(self) -> tuple[int, int, int]:
+        """The thin accent: the kit colour of the side attacking now (v8), else the brand orange."""
+        if not self.v8:
+            return ACCENT
+        s = self.data["samples"]
+        i, _, _ = bracket(s, self._t * 1000)
+        team = s[i].get("attacking") or self.m.get("team", "home")
+        return tuple((self.m.get("kits") or {}).get(team, ACCENT))
+
+    def _panel(self, d, box, a: float) -> None:
+        """One panel: v8 dark glass (the picture blurred under it), a hairline edge and a thin accent line on top."""
+        x0, y0, x1, y1 = box
+        if not self.v8:
+            d.rounded_rectangle(box, radius=14, fill=(*PANEL, int(235 * a)))
+            d.rectangle((x0, y0, x1, y0 + 8), fill=(*ACCENT, int(255 * a)))
+            return
+        self._glass.append(tuple(int(v) for v in box))
+        d.rounded_rectangle(box, radius=RADIUS, fill=(14, 18, 24, int(178 * a)), outline=(255, 255, 255, int(40 * a)),
+                            width=1)
+        d.rounded_rectangle((x0 + RADIUS, y0, x1 - RADIUS, y0 + 4), radius=2, fill=(*self.accent(), int(255 * a)))
+
+    def _frost(self, im) -> None:
+        from PIL import ImageFilter
+        for box in self._glass:
+            region = im.crop(box).filter(ImageFilter.GaussianBlur(16))
+            mask = Image.new("L", region.size, 0)
+            ImageDraw.Draw(mask).rounded_rectangle((0, 0, region.size[0] - 1, region.size[1] - 1), radius=RADIUS,
+                                                   fill=255)
+            im.paste(region, box[:2], mask)
+
+    def value_at(self, key, t: float):
+        """(value now, the value before it, seconds since it changed) over the valued samples, for the roll."""
+        cur = prev = None
+        since = None
+        for y in self.valued():
+            if y["clip_ms"] > t * 1000:
+                break
+            v = key(y)
+            if v != cur:
+                prev, cur, since = cur, v, y["clip_ms"] / 1000
+        return cur, prev, (t - since) if since is not None else 99.0
+
+    def roll(self, d, xy, text: str, old: str | None, f: float, font, fill, vis: int) -> None:
+        """A changed number: the old one slides up and out of its slot while the new one slides in (both real values,
+        clipped to the slot so they never overlap anything)."""
+        if not self.v8 or old is None or old == text or f >= 1:
+            d.text(xy, text, font=font, fill=(*fill, vis))
+            return
+        e = ease_in_out(f)
+        asc, desc = font.getmetrics()
+        hgt = asc + desc
+        wid = int(max(d.textlength(text, font=font), d.textlength(old, font=font))) + 4
+        slot = Image.new("RGBA", (wid, hgt), (0, 0, 0, 0))
+        sd = ImageDraw.Draw(slot)
+        sd.text((0, -hgt * e), old, font=font, fill=(*fill, int(vis * (1 - e))))
+        sd.text((0, hgt * (1 - e)), text, font=font, fill=(*fill, int(vis * e)))
+        d._image.alpha_composite(slot, (int(xy[0]), int(xy[1])))
 
     def state(self, t: float) -> str | None:
         """What the tracking says now when there is no live value: the frame's null reason as a broadcast state,
@@ -260,10 +340,9 @@ class LiveHUD(Live):
         """Bottom-right broadcast panel: who is on the ball, the two live values in the biggest type on screen,
         and a threat meter that moves smoothly and shifts colour as threat rises."""
         w, h = self.hud_w, self.hud_h
-        x0, y0 = W - 64 - w, H - 64 - h
+        x0, y0 = W - 64 - w, H - self.bottom - h
         al = int(255 * a)
-        d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=14, fill=(*PANEL, int(235 * a)))
-        d.rectangle((x0, y0, x0 + w, y0 + 8), fill=(*ACCENT, al))
+        self._panel(d, (x0, y0, x0 + w, y0 + h), a)
         f_label = ImageFont.truetype(FONT_REG, 32)
         f_value = ImageFont.truetype(FONT, 72)
         right = state
@@ -274,7 +353,9 @@ class LiveHUD(Live):
         self._header(d, x0, y0, w, "LIVE ANALYTICS", right, (255, 214, 10) if state else
                      (MUTED if age is not None else (255, 255, 255)), al)
         if x is None:
-            d.text((x0 + 28, y0 + 90), "waiting for a carrier in the attacking half", font=f_label, fill=(*MUTED, al))
+            if not self.v8:                                # v8: the state line alone, no filler text
+                d.text((x0 + 28, y0 + 90), "waiting for a carrier in the attacking half", font=f_label,
+                       fill=(*MUTED, al))
             return
         vis = al
         if age is not None:                                # a held value fades after HOLD_FADE_S
@@ -284,10 +365,13 @@ class LiveHUD(Live):
         if best is not None:
             bn = who(best)
             cols.append((f"Best pass{' · ' + bn if bn else ''}", best["xg_after_pass"], ACCENT))
+        keys = [lambda y: fmt_xg(y.get("shot_now_xg")),
+                lambda y: fmt_xg(((self.ranked(y) or [{}])[0]).get("xg_after_pass"))]
         for k, (label, value, col) in enumerate(cols):
             cx = x0 + 28 + k * (w - 56) // 2
             d.text((cx, y0 + 76), label, font=f_label, fill=(230, 236, 242, vis))
-            d.text((cx, y0 + 116), fmt_xg(value), font=f_value, fill=(*col, vis))
+            _, old, since = self.value_at(keys[k], self._t) if self.v8 else (None, None, 99.0)
+            self.roll(d, (cx, y0 + 116), fmt_xg(value), old, since / ROLL_S, f_value, col, vis)
             d.text((cx + d.textlength(fmt_xg(value), font=f_value) + 10, y0 + 152), "xG", font=f_label,
                    fill=(*col, vis))
         if threat is not None:
@@ -327,8 +411,11 @@ class LiveHUD(Live):
         text = f"xG  {race['home_short']} {cur['home_xg']:.2f} · {cur['away_xg']:.2f} {race['away_short']}"
         x0, y0 = float(self.m.get("score_x", 96)), float(self.m.get("score_y", 164))   # below the broadcast bug
         w = d.textlength(text, font=f) + 40
-        d.rounded_rectangle((x0, y0, x0 + w, y0 + 60), radius=10, fill=(*PANEL, int(230 * a)))
-        d.rectangle((x0, y0, x0 + 6, y0 + 60), fill=(*ACCENT, int(255 * a)))
+        if self.v8:
+            self._panel(d, (x0, y0, x0 + w, y0 + 60), a)
+        else:
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + 60), radius=10, fill=(*PANEL, int(230 * a)))
+            d.rectangle((x0, y0, x0 + 6, y0 + 60), fill=(*ACCENT, int(255 * a)))
         d.text((x0 + 22, y0 + 30), text, font=f, fill=(255, 255, 255, int(255 * a)), anchor="lm")
 
 
@@ -459,6 +546,8 @@ class Pipeline(Still):
         self.still = Image.open(ROOT / m["left"]).convert("RGB") if m.get("left") else None
         self.f = {z: ImageFont.truetype(FONT, z) for z in (24, 26, 30, 34, 40, 72)}
         self.r = {z: ImageFont.truetype(FONT_REG, z) for z in (22, 24, 27, 30)}
+        self.v8 = m.get("theme") == "v8"                  # PITCHSIGHT: nothing under 24 px, one radius, "Gemini"
+        self.small, self.floor = (24, 24) if self.v8 else (22, 14)
         tmp = ImageDraw.Draw(Image.new("RGB", (8, 8)))
         self.rows = [self._lines(n, tmp) for n in self.data["nodes"]]
         self.starts, t = [], self.INTRO_S + 0.2
@@ -529,7 +618,8 @@ class Pipeline(Still):
         x0 = self.LEFT_W + 40 + dx
         w = W - 48 - (self.LEFT_W + 40)
         d.text((x0, 52), "THE NEWSROOM", font=self.f[40], fill=(255, 255, 255, 255))
-        d.text((x0, 104), "how the line on air was made, agent by agent", font=self.r[24], fill=(*MUTED, 255))
+        sub_ = "Recorded run · real clip, replayed" if self.v8 else "how the line on air was made, agent by agent"
+        d.text((x0, 104), sub_, font=self.r[24], fill=(*MUTED, 255))
         y = 160
         boxes = []
         for k in range(len(self.data["nodes"])):
@@ -556,26 +646,27 @@ class Pipeline(Still):
     def _card(self, d, n, k, x0, y, w, h, g, state) -> None:
         al = 90 if state == "future" else 255
         col = {"active": ACCENT, "done": (90, 100, 112), "future": (70, 76, 86)}[state]
-        d.rounded_rectangle((x0, y, x0 + w, y + h), radius=12, fill=(28, 32, 40, 255 if state != "future" else 150),
+        d.rounded_rectangle((x0, y, x0 + w, y + h), radius=RADIUS if self.v8 else 12,
+                            fill=(28, 32, 40, 255 if state != "future" else 150),
                             outline=(*col, al), width=3 if state == "active" else 2)
         dot = GOOD if state == "done" else col
         d.ellipse((x0 + 18, y + 19, x0 + 38, y + 39), fill=(*dot, al))
         big = g > 0.5
-        d.text((x0 + 54, y + (12 if big else 14)), n["agent"].upper(), font=self.f[34 if big else 26],
+        d.text((x0 + 54, y + (12 if big else 14)), self.label(n), font=self.f[34 if big else 26],
                fill=(255, 255, 255, al))
         timing = self._timing(n, model=big)                # the model name only on the open card
         if timing:
-            d.text((x0 + w - 20, y + 18), timing, font=self.r[24 if big else 22], fill=(*MUTED, al), anchor="ra")
+            d.text((x0 + w - 20, y + 18), timing, font=self.r[24 if big else self.small], fill=(*MUTED, al), anchor="ra")
         if not big:                                        # compact: one short phrase, never cut
             short = self.short(n)
             if short and state != "future":
-                x1 = x0 + w - 20 - (d.textlength(timing, font=self.r[22]) + 24 if timing else 0)
-                nx = x0 + 54 + d.textlength(n["agent"].upper(), font=self.f[26]) + 20
+                x1 = x0 + w - 20 - (d.textlength(timing, font=self.r[self.small]) + 24 if timing else 0)
+                nx = x0 + 54 + d.textlength(self.label(n), font=self.f[26]) + 20
                 tx = nx
                 if n.get("claims") and all(c.get("ok") for c in n["claims"]):
                     d.line((tx, y + 30, tx + 6, y + 36, tx + 16, y + 24), fill=(*GOOD, al), width=4)
                     tx += 26
-                f = shrink(d, short, FONT_REG, 22, x1 - tx)
+                f = shrink(d, short, FONT_REG, self.small, x1 - tx, floor=self.floor)
                 d.text((tx, y + 29), short, font=f, fill=(*MUTED, al), anchor="lm")
             return
         a = int(255 * window(g, 0.6, 1.0))
@@ -593,7 +684,13 @@ class Pipeline(Still):
                     d.line((tx, yy - 7, tx + 14, yy + 7), fill=(*ORANGE, a), width=4)
                     d.line((tx, yy + 7, tx + 14, yy - 7), fill=(*ORANGE, a), width=4)
                 tx += 32
-            d.text((tx, ty), text, font=shrink(d, text, FONT_REG, 27, x0 + w - 24 - tx), fill=(*colour, a))
+            d.text((tx, ty), text, font=shrink(d, text, FONT_REG, 27, x0 + w - 24 - tx, floor=self.floor),
+                   fill=(*colour, a))
+
+    SCREEN = {"rollout": "Model", "factcheck": "Fact Checker", "cuebus": "On air"}   # track B, v8: what each does
+
+    def label(self, n: dict) -> str:
+        return (self.SCREEN.get(n["agent"], n["agent"]) if self.v8 else n["agent"]).upper()
 
     def short(self, n: dict) -> str | None:
         """The compact card's phrase: the beat's own (`compact` in the moment, numbers from the view's facts), else
@@ -613,8 +710,8 @@ class Pipeline(Still):
         text = f"{lat / 1000:.1f} s" if isinstance(lat, int | float) and lat >= 1000 else f"{lat} ms"
         if n.get("timing_source"):                         # where the number comes from, beside it
             text += f" · {n['timing_source']}"
-        if model and n.get("model"):
-            text += f" · {n['model']}"
+        if model and n.get("model"):                        # the family only on screen (lead, v8): "Gemini"
+            text += " · Gemini" if str(n["model"]).lower().startswith("gemini") else f" · {n['model']}"
         return text
 
     def _on_air(self, d: ImageDraw.ImageDraw, tau: float) -> None:
@@ -627,7 +724,7 @@ class Pipeline(Still):
         x0 = self.LEFT_W + 40
         w = d.textlength("ON AIR", font=f) + 120
         y0 = min(self._bottom + 10, H - 150)
-        d.rounded_rectangle((x0, y0, x0 + w, y0 + 110 * pop), radius=16, fill=(220, 40, 40, int(255 * a)))
+        d.rounded_rectangle((x0, y0, x0 + w, y0 + 110 * pop), radius=RADIUS, fill=(220, 40, 40, int(255 * a)))
         on = 0.5 + 0.5 * np.sin(2 * np.pi * (tau - self.air) / 1.0)
         d.ellipse((x0 + 26, y0 + 55 * pop - 14, x0 + 54, y0 + 55 * pop + 14), fill=(255, 255, 255, int(255 * a * (0.5 + 0.5 * on))))
         d.text((x0 + 72, y0 + 55 * pop), "ON AIR", font=f, fill=(255, 255, 255, int(255 * a)), anchor="lm")
@@ -640,7 +737,7 @@ class Pipeline(Still):
         bw = fx1 - fx0 - 40
         bx = fx0 + 20 - (1 - s) * (bw + 60)
         by = fy1 - bh - 24
-        d.rounded_rectangle((bx, by, bx + bw, by + bh), radius=10, fill=(*PANEL, 240))
+        d.rounded_rectangle((bx, by, bx + bw, by + bh), radius=RADIUS, fill=(*PANEL, 240))
         d.rectangle((bx, by, bx + 10, by + bh), fill=(220, 40, 40, 255))
         d.text((bx + 34, by + 14), "ON AIR", font=self.f[24], fill=(255, 90, 90, 255))
         for j, ln in enumerate(lines):
@@ -673,11 +770,11 @@ class Pipeline(Still):
         return out
 
 
-def shrink(d: ImageDraw.ImageDraw, text: str, face: str, size: int, width: float):
+def shrink(d: ImageDraw.ImageDraw, text: str, face: str, size: int, width: float, floor: int = 14):
     """The largest font up to `size` that fits the text on one line (nothing on screen is ever cut)."""
-    while size > 14:
+    while size >= max(floor, 14):
         f = ImageFont.truetype(face, size)
         if d.textlength(text, font=f) <= width:
             return f
         size -= 1
-    raise ValueError(f"does not fit on one line even at 14 px: {text!r}")
+    raise ValueError(f"does not fit on one line even at {max(floor, 14)} px: {text!r}")
