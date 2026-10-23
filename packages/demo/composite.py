@@ -50,6 +50,7 @@ from demo.footage import (  # noqa: E402
     occluders,
 )
 from demo.live import SCENES  # noqa: E402
+from demo.v3_data import build  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 FOOTAGE = ROOT / "data" / "footage"
@@ -813,6 +814,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"composite: {clip_path(m).relative_to(ROOT)} is not here (clips are never committed)", file=sys.stderr)
         return 1
     OUT.mkdir(parents=True, exist_ok=True)
+    if m.get("adapter"):                                # track A's insight files -> the beat's data (demo.v3_data)
+        m["data"] = build(m)
     if m.get("kind") in SCENES:                         # an overlay on the playing clip (demo.live)
         print(f"wrote {SCENES[m['kind']](m).export(OUT / (m['name'] + '.mp4')).relative_to(ROOT)}")
         return 0

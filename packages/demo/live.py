@@ -51,6 +51,11 @@ def ground_circle(c, r: float, n: int = 64) -> np.ndarray:
     return np.c_[c[0] + r * np.cos(t), c[1] + r * np.sin(t)]
 
 
+def pct(v: float) -> str:
+    """A probability for the screen: one decimal under 10%, whole points above."""
+    return f"{v * 100:.1f}%" if v < 0.1 else f"{round(v * 100)}%"
+
+
 def ellipse_m(z: dict, n: int = 72) -> np.ndarray:
     """A zone {cx, cy, rx, ry, angle_deg} as a ground polygon in metres."""
     t = np.linspace(0, 2 * np.pi, n)
@@ -98,12 +103,18 @@ class Live:
         if shot is None:
             shots = json.loads((FOOTAGE / self.m["clip"] / "shots.json").read_text())["shots"]
             t0 = self.span()[0]
-            shot = next(s["id"] for s in shots if s.get("usable") and s["start"] <= t0 <= s["end"])
+            shot = next((s["id"] for s in shots if s["start"] <= t0 <= s["end"]), None)
         d = FOOTAGE / self.m["clip"] / "calib"
-        path = next(p for p in (d / f"{shot}_refined.json", d / f"{shot}.json") if p.exists())
-        return json.loads(path.read_text())
+        path = next((p for p in (d / f"{shot}_refined.json", d / f"{shot}.json") if p.exists()), None)
+        if path is None and self.needs_camera:
+            raise FileNotFoundError(f"{self.m['name']}: no calibration for shot {shot} (demo.refine_calib)")
+        return json.loads(path.read_text()) if path else {}
 
-    def camera(self, t: float) -> Camera:
+    needs_camera = True                    # charts and cards over the frame draw nothing on the grass
+
+    def camera(self, t: float) -> Camera | None:
+        if not self.calib:
+            return None
         return from_pitchwatch(self.calib, int(round(t * self.fps_clip)))
 
     def freeze_at(self) -> float | None:
@@ -139,11 +150,13 @@ class Live:
     def card(self, d: ImageDraw.ImageDraw, title: str, rows: list[tuple[str, str, tuple]], foot: str, a: float,
              accent=None, big: str | None = None) -> None:
         """Bottom-left card: a title, an optional big number, label/value rows, a provenance line."""
-        h = 64 + (80 if big else 0) + 42 * len(rows) + 34
+        w = getattr(self, "card_w", PANEL_W)
+        foot_lines = self._wrap(d, foot, self.reg[20], w - 60)
+        h = 64 + (80 if big else 0) + 42 * len(rows) + 12 + 24 * len(foot_lines)
         x0, y0 = 96 - int((1 - a) * 40), H - 96 - h
         al = int(255 * a)
         accent = accent or tuple(int(v) for v in self.kit * 255)
-        d.rounded_rectangle((x0, y0, x0 + PANEL_W, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
+        d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*accent, al))
         d.text((x0 + 32, y0 + 20), title.upper(), font=self.font[22], fill=(*MUTED, al))
         y = y0 + 54
@@ -152,9 +165,22 @@ class Live:
             y += 80
         for label, value, colour in rows:
             d.text((x0 + 32, y + 4), label, font=self.reg[22], fill=(230, 236, 242, al))
-            d.text((x0 + PANEL_W - 28, y + 16), value, font=self.font[30], fill=(*colour, al), anchor="rm")
+            d.text((x0 + w - 28, y + 16), value, font=self.font[30], fill=(*colour, al), anchor="rm")
             y += 42
-        d.text((x0 + PANEL_W - 28, y0 + h - 14), foot, font=self.reg[20], fill=(*MUTED, al), anchor="rb")
+        for k, line in enumerate(foot_lines):
+            d.text((x0 + w - 28, y0 + h - 14 - 24 * (len(foot_lines) - 1 - k)), line, font=self.reg[20],
+                   fill=(*MUTED, al), anchor="rb")
+
+    @staticmethod
+    def _wrap(d, text: str, font, width: float) -> list[str]:
+        lines = [""]
+        for word in text.split():
+            trial = f"{lines[-1]} {word}".strip()
+            if d.textlength(trial, font=font) <= width or not lines[-1]:
+                lines[-1] = trial
+            else:
+                lines.append(word)
+        return [ln for ln in lines if ln]
 
     # -- export ----------------------------------------------------------------------------------------------
     def export(self, path: Path) -> Path:
@@ -373,15 +399,16 @@ class PassXray(Live):
         ranked = sorted((o for o in cur["options"] if o["label"] != cur["holder"]), key=lambda o: -o["p_goal"])
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
-        for rank, o in enumerate(ranked):
-            name = (o.get("name") or o["label"]).split()[-1]
-            self.tag(d, cam, place[o["label"]], f"{rank + 1}  {name}  {round(o['p_goal'] * 100)}%",
+        for rank, o in enumerate(ranked[: int(self.m.get("tags", 5))]):
+            name = f"  {o['name'].split()[-1]}" if o.get("name") else ""
+            self.tag(d, cam, place[o["label"]], f"{rank + 1}{name}  {pct(o['p_goal'])}",
                      ORANGE if rank == 0 else WHITE, font_size=26 if rank else 30, glow=rank == 0)
         a = window(t, s[0]["clip_ms"] / 1000, s[0]["clip_ms"] / 1000 + 0.5)
+        foot = (f"n = {self.data['n']}, {self.data['horizon_s']:g} s, seed {self.data['seed']}" if "n" in self.data
+                else self.m.get("foot", ""))
         self.card(d, self.m.get("label", "Pass X-ray: goal chance if passed to"),
-                  [(f"{k + 1}. {o.get('name') or o['label']}", f"{round(o['p_goal'] * 100)}%",
-                    ORANGE if k == 0 else WHITE) for k, o in enumerate(ranked[:3])],
-                  f"n = {self.data['n']}, {self.data['horizon_s']:g} s, seed {self.data['seed']}", a)
+                  [(f"{k + 1}. {o.get('name') or self.m.get('unnamed', 'Teammate')}", pct(o["p_goal"]),
+                    ORANGE if k == 0 else WHITE) for k, o in enumerate(ranked[:3])], foot, a)
         im.paste(layer, (0, 0), layer)
 
 
@@ -422,11 +449,13 @@ class Offside(Live):
             return
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
-        gap = self.data["gap_m"]
-        verdict = "Offside" if gap > 0 else "Onside"
-        self.card(d, "Offside line at the pass", [(verdict + " by", f"{abs(gap):.1f} m", YELLOW),
-                                                  ("Uncertainty", f"± {self.data['uncertainty_m']:.1f} m", WHITE)],
-                  "from broadcast tracking", a, accent=YELLOW)
+        gap, err = self.data["gap_m"], self.data["uncertainty_m"]
+        who = self.m.get("attacker", "Attacker")
+        verdict = "level: inside the error" if abs(gap) <= err else ("beyond the line" if gap > 0 else "onside")
+        self.card(d, self.m.get("label", "Last defender's line at the pass"),
+                  [(f"{who}", f"{'+' if gap > 0 else '−'}{abs(gap):.1f} m", YELLOW),
+                   ("Tracking error", f"± {err:.1f} m", WHITE), ("Verdict", verdict, YELLOW)],
+                  self.m.get("foot", "from broadcast tracking"), a, accent=YELLOW)
         im.paste(layer, (0, 0), layer)
 
 
@@ -558,6 +587,8 @@ class CardOnly(Still):
     """A card over the frozen, dimmed picture: the red-card cost (11 v 11 against 11 v 10) or the measurement card.
     `rows` are built from the data by the subclass."""
 
+    needs_camera = False
+
     def dim(self, t):
         return 0.35 * window(self.tau(t), 0.0, 0.6)
 
@@ -588,7 +619,10 @@ class RedCardCost(CardOnly):
 
 class River(Still):
     """Win probability across a stretch of the match as a stacked river (home, draw, away) drawn left to right
-    over the dimmed frame, with the events marked."""
+    over the dimmed frame, with the events marked (goals and red cards labelled, the rest as faint ticks)."""
+
+    needs_camera = False
+    LABELLED = ("goal", "red_card")
 
     def dim(self, t):
         return 0.62 * window(self.tau(t), 0.0, 0.6)
@@ -613,7 +647,9 @@ class River(Still):
         for e in r.get("events", []):
             ex = x0 + (e["clip_ms"] - x[0]) / (x[-1] - x[0]) * (x1 - x0)
             if ex <= x0 + (x1 - x0) * grow:
-                ax.plot([ex, ex], [y0 - 10, y1 + 10], color=(1, 1, 1, 0.9), lw=2, dashes=(3, 3))
+                strong = e.get("kind") in self.LABELLED
+                ax.plot([ex, ex], [y0 - 10, y1 + 10], color=(1, 1, 1, 0.9 if strong else 0.35), lw=2 if strong else 1.2,
+                        dashes=(3, 3))
 
     def panels(self, im, cam, t):
         r, tau = self.data, self.tau(t)
@@ -624,21 +660,41 @@ class River(Still):
         d = ImageDraw.Draw(layer)
         al = int(255 * a)
         d.text((160, 200), self.m.get("label", "Win probability").upper(), font=self.font[34], fill=(255, 255, 255, al))
-        d.text((160, 244), f"{r['home']} · draw · {r['away']}", font=self.reg[26], fill=(*MUTED, al))
+        hk = tuple((self.m.get("kits") or {}).get("home", ORANGE))
+        ak = tuple((self.m.get("kits") or {}).get("away", WHITE))
+        x = 160
+        for label, colour in ((r["home"], hk), ("draw", (140, 153, 168)), (r["away"], ak)):
+            d.rectangle((x, 250, x + 22, 272), fill=(*colour, al))
+            d.text((x + 32, 261), label, font=self.reg[26], fill=(230, 236, 242, al), anchor="lm")
+            x += 32 + d.textlength(label, font=self.reg[26]) + 40
         s = r["series"]
         x, x0, x1 = np.array([p["clip_ms"] for p in s], float), 160, W - 160
         grow = window(tau, 0.4, float(self.m.get("draw_s", 4.0)))
-        for e in r.get("events", []):
+        shown = [e for e in r.get("events", []) if e.get("kind") in self.LABELLED]
+        for k, e in enumerate(shown):
             ex = x0 + (e["clip_ms"] - x[0]) / (x[-1] - x[0]) * (x1 - x0)
             if ex <= x0 + (x1 - x0) * grow:
-                d.text((ex, 910), f"{e['clock']} {e['label']}", font=self.font[22], fill=(255, 255, 255, al),
-                       anchor="ma")
+                d.text((ex, 912 + 30 * (k % 2)), f"{e['clock']}  {e['label']}", font=self.font[22],
+                       fill=(255, 255, 255, al), anchor="ma")
         d.text((160, 890), s[0]["clock"], font=self.reg[22], fill=(*MUTED, al), anchor="la")
         d.text((W - 160, 890), s[-1]["clock"], font=self.reg[22], fill=(*MUTED, al), anchor="ra")
-        d.text((W - 160, 960), f"{r.get('engine', '')}, n = {r.get('n', '')} per point", font=self.reg[20],
-               fill=(*MUTED, al), anchor="ra")
+        d.text((W - 160, 1010), self.m.get("foot") or r.get("engine", ""), font=self.reg[20], fill=(*MUTED, al),
+               anchor="ra")
         im.paste(layer, (0, 0), layer)
 
 
-SCENES = {"oracle": Oracle, "speed_gun": SpeedGun, "pass_xray": PassXray, "offside": Offside,
+class Metrics(CardOnly):
+    """The measurement card from real footage only (track A's metrics.json, plus any rows the spec adds with their
+    source)."""
+
+    def content(self):
+        from demo.v3_data import metrics_rows
+        rows = [(label, value, WHITE) for label, value in metrics_rows(self.m["metrics_clip"])]
+        rows += [(r["label"], r["value"], WHITE) for r in self.m.get("extra_rows", [])]
+        return self.m.get("label", "Measured on this footage"), None, rows, self.m.get("foot", "")
+
+    card_w = 760                                       # long labels
+
+
+SCENES = {"oracle": Oracle, "metrics": Metrics, "speed_gun": SpeedGun, "pass_xray": PassXray, "offside": Offside,
           "ghost_defender": GhostDefender, "keeper_cone": KeeperCone, "red_card_cost": RedCardCost, "river": River}

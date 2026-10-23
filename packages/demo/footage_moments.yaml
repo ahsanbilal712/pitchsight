@@ -103,3 +103,55 @@ moments:
     team: home
     kits: {home: [214, 32, 52], away: [120, 182, 232]}
     label: "Liverpool: shot in the next 10 s"
+
+  # Video v3 beats from track A's insight files (580bad4) and track B's river (665fa36). `adapter` turns track A's
+  # per-frame files into the beat's data (demo.v3_data) before drawing.
+  lfc_xray:
+    clip: liverpool-mancity-2526
+    kind: pass_xray
+    adapter: xray
+    shot_id: 62
+    t0: 867.0
+    t1: 874.5
+    names_from: 875000               # moment file whose players carry track ids (Szoboszlai, Salah)
+    team: home
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    label: "Pass X-ray: goal chance if passed to"
+    unnamed: "Liverpool teammate"
+    tags: 4
+    foot: "P(pass completes) × xG from his spot, from tracked positions"
+
+  lfc_line:
+    clip: liverpool-mancity-2526
+    kind: offside
+    adapter: line
+    shot_id: 62
+    t0: 869.0
+    pass_t: 874.52                   # the pass to Szoboszlai (line_62.json)
+    hold_s: 3.0
+    attacker: "Most advanced Liverpool attacker"
+    label: "City's last line at the pass"
+    foot: "from broadcast tracking; error = mean of 20 checked points"
+
+  lfc_river:
+    clip: liverpool-mancity-2526
+    kind: river
+    data: data/footage/liverpool-mancity-2526/cache/v3/win_prob_river_11000.json
+    clip_ms: 11000
+    pre_s: 0.5
+    hold_s: 7.0
+    draw_s: 5.0
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    label: "Liverpool v Man City: the final 20 minutes"
+    foot: "win probability from score and clock (WinProbHead)"
+
+  lfc_metrics:
+    clip: liverpool-mancity-2526
+    kind: metrics
+    data: data/footage/insights/metrics.json
+    metrics_clip: liverpool-mancity-2526
+    clip_ms: 820000
+    pre_s: 0.5
+    hold_s: 6.0
+    label: "Measured on this footage"
+    foot: "track A, data/footage/insights/metrics.json"
