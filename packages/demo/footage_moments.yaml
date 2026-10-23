@@ -121,16 +121,16 @@ moments:
     tags: 4
     foot: "P(pass completes) × xG from his spot, from tracked positions"
 
-  lfc_line:
+  lfc_line:                          # lead review: a decisive margin, not one inside the error
     clip: liverpool-mancity-2526
     kind: offside
     adapter: line
     shot_id: 62
-    t0: 869.0
-    pass_t: 874.52                   # the pass to Szoboszlai (line_62.json)
+    t0: 819.0
+    pass_t: 822.12                   # City pass into Liverpool's half (line_62.json): all 10 outfielders in view
     hold_s: 3.0
-    attacker: "Most advanced Liverpool attacker"
-    label: "City's last line at the pass"
+    attacker: "Most advanced City attacker"
+    label: "Liverpool's last line at the pass"
     foot: "from broadcast tracking; error = mean of 20 checked points"
 
   lfc_river:
@@ -155,3 +155,14 @@ moments:
     hold_s: 6.0
     label: "Measured on this footage"
     foot: "track A, data/footage/insights/metrics.json"
+
+  lfc_river_strip:                   # lead review: the river as one line in the lower third of a playing clip
+    clip: liverpool-mancity-2526
+    kind: river_strip
+    data: data/footage/liverpool-mancity-2526/cache/v3/win_prob_river_11000.json
+    t0: 1.0                          # wide shot 0 (0-33 s) playing under the strip
+    duration_s: 9.0
+    draw_s: 6.5
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    label: "Liverpool v Man City: who wins it, the last 20 minutes"
+    foot: "win chance gap, from score and clock"

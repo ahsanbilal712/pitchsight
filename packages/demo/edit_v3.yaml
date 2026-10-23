@@ -1,9 +1,11 @@
-# Video v3 edit decision list, DRAFT 1 (owner, 23 Oct: "more crazier insights"; only real Premier League names and
+# Video v3 edit decision list, DRAFT 2 (owner, 23 Oct: "more crazier insights"; only real Premier League names and
 # footage on screen: no synthetic league, no golden-match studio, no synthetic numbers). Assembled by
 #   python packages/demo/assemble.py packages/demo/edit_v3.yaml
 # Every shot is a demo.composite / demo.live clip on the four data/footage/*/clip.mp4 (Premier League channel
 # uploads, under the written permission in docs/permissions/). Captions only, English, no voice, no music; every
 # number in a caption has a source below. v2 draft 3 (edit_v2.yaml, cc3b0d2) is the fallback.
+# Draft 2 (lead review): opens on the Sliding Doors freeze; the river is a compact line at the close; the line beat
+# is a decisive margin; the Fourth Official sits between the freezes; the X-ray waits for player names.
 # Still to come (track A/B data): speed gun (Van de Ven), ghost defender (Man Utd v City goals), keeper cone (Raya),
 # red-card cost (after the Fourth Official), the studio on the real-clip replay, grounded claims on the real cues.
 
@@ -13,32 +15,20 @@ fps: 30
 caption_band: 120
 
 clips:
-  - shot: footage/lfc_river            # hook: the whole story of the last 20 minutes in one picture
-    from: 0.5
-    to: 7.5
-    captions:
-      - {from: 0.2, to: 3.4, text: "Liverpool v Man City, the last 20 minutes. Liverpool's win chance peaks at 91%."}
-      - {from: 3.6, to: 6.9, text: "Then City score three. Here is what the broadcast could have shown."}
-
-  - shot: footage/lfc_xray             # 86:15-86:19 playing: every Liverpool option priced and ranked live
-    from: 0.5
-    to: 5.0
-    captions:
-      - {from: 0.2, to: 4.4, text: "Every Liverpool option, priced live: the goal chance if the ball goes to him, ranked."}
-
-  - shot: footage/lfc_line             # 86:19-86:23 playing, City's last line, holding at the pass to Szoboszlai
-    from: 3.0
-    to: 9.0
-    captions:
-      - {from: 0.2, to: 3.4, text: "City's last line, tracked as the play moves."}
-      - {from: 3.6, to: 5.9, text: "At the pass the furthest attacker is level: inside the 0.3 m tracking error."}
-
-  - shot: footage/lfc_sliding_doors    # the freeze at 86:23 (4.0 s into the clip)
-    from: 4.0
+  - shot: footage/lfc_sliding_doors    # hook: real play, then the freeze at 86:23
+    from: 2.0
     to: 14.0
     captions:
-      - {from: 0.2, to: 6.4, text: "Then it freezes the real frame, reads the players and replays the moment 200 times."}
-      - {from: 6.6, to: 9.9, text: "Szoboszlai shot. The pass to Salah was worth 2 more points of win chance."}
+      - {from: 0.2, to: 2.0, text: "Liverpool v Man City, 86th minute, all square."}
+      - {from: 2.2, to: 8.4, text: "Szoboszlai shoots. WHYLINE freezes the real frame and replays the moment 200 times."}
+      - {from: 8.6, to: 11.9, text: "Blocked. The pass to Salah was worth 2 more points of win chance."}
+
+  - shot: footage/lfc_line             # 85:26-85:30 playing; City's pass into Liverpool's half, held at the pass
+    from: 0.5
+    to: 6.6
+    captions:
+      - {from: 0.2, to: 3.0, text: "Liverpool's last line, tracked as the play moves."}
+      - {from: 3.2, to: 6.0, text: "At the pass City's runner is 2.3 m onside: far outside the 0.3 m tracking error."}
 
   - shot: footage/ars_sliding_doors
     from: 2.0
@@ -47,18 +37,18 @@ clips:
       - {from: 0.2, to: 5.8, text: "Every line is drawn on the real pitch, through the broadcast camera."}
       - {from: 6.0, to: 10.9, text: "Eze shot. Going back to Saka was the better ball."}
 
-  - shot: footage/mun_mci_right_call
-    from: 3.0
-    to: 13.0
-    captions:
-      - {from: 0.2, to: 9.9, text: "And it says when the player got it right: the pass into the box was no better."}
-
   - shot: footage/mun_tot_fourth_official
     from: 2.0
     to: 10.3
     captions:
       - {from: 0.2, to: 4.1, text: "A refereeing call, explained from the tracking: the run, the contact, the closing speed."}
       - {from: 4.3, to: 8.2, text: "An assessment, not a ruling: about 15 km/h into the challenge, outside the box."}
+
+  - shot: footage/mun_mci_right_call
+    from: 3.0
+    to: 13.0
+    captions:
+      - {from: 0.2, to: 9.9, text: "And it says when the player got it right: the pass into the box was no better."}
 
   - layout: split3
     shots: [footage/lfc_sliding_doors_analyst, footage/lfc_sliding_doors_casual, footage/lfc_sliding_doors_player_cam]
@@ -74,6 +64,12 @@ clips:
     captions:
       - {from: 0.3, to: 5.8, text: "Measured on this footage: 99.3% of players found, graphics within 1.5 px of the painted lines."}
 
+  - shot: footage/lfc_river_strip      # the close: how it ended
+    from: 0.0
+    to: 9.0
+    captions:
+      - {from: 0.3, to: 8.7, text: "How it ended: Liverpool led until Silva's equaliser, then City scored twice more."}
+
   - card: end
     duration: 4.0
     title: "WHYLINE"
@@ -82,6 +78,8 @@ clips:
 sources:
   "20": "data/footage/liverpool-mancity-2526/cache/v3/win_prob_river_11000.json series 72:00 -> 104:45 (the clip's final 20 minutes plus stoppage)"
   "91%": "win_prob_river_11000 series max home 0.9093 at 83:30 (WinProbHead from score and clock)"
+  "86": "the Liverpool clip's broadcast clock 86:23 at the freeze (moments/875000.json clock)"
+  "2.3": "line_62.json pass at 822.12 s: beyond_m -2.26 (Liverpool's line, 10 players seen; demo.v3_data)"
   "0.3": "data/footage/insights/metrics.json liverpool-mancity-2526 calibration.check_points_m mean 0.315 (n = 20)"
   "200": "counterfactual cf_000001 of liverpool-mancity-2526 n = 200; the card prints 'n = 200, 8 s, seed 9001'"
   "2": "cf_000001 (liverpool-mancity-2526): win_prob_home 0.0837 shot -> 0.1035 pass (+2 pts); reviewed line mo_00001"

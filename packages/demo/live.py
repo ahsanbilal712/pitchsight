@@ -696,5 +696,97 @@ class Metrics(CardOnly):
     card_w = 760                                       # long labels
 
 
-SCENES = {"oracle": Oracle, "metrics": Metrics, "speed_gun": SpeedGun, "pass_xray": PassXray, "offside": Offside,
+class RiverStrip(Live):
+    """The match's win probability as one line in a strip across the lower third of the playing clip: the gap
+    between the two teams' win chances (home win minus away win), the home side's colour above the middle and the
+    away side's below, drawn left to right while the clip plays; each goal's marker pulses as the line reaches it."""
+
+    needs_camera = False
+    BOX = (96, H - 96 - 320, W - 96, H - 96)
+
+    def span(self):
+        t0 = float(self.m["t0"])
+        return t0, t0 + float(self.m.get("duration_s", 9.0))
+
+    def curve(self) -> tuple[np.ndarray, np.ndarray]:
+        from scipy.interpolate import PchipInterpolator
+        s = self.data["series"]
+        x = np.array([p["clip_ms"] for p in s], float)
+        v = np.array([p["home"] - p["away"] for p in s])
+        xs = np.linspace(x[0], x[-1], 600)
+        return xs, PchipInterpolator(x, v)(xs)          # monotone between samples: no overshoot past the data
+
+    def geometry(self):
+        x0, y0, x1, y1 = self.BOX
+        top, bottom = y0 + 112, y1 - 24                  # title and the two rows of goal labels sit above
+        cx0, cx1, mid, half = x0 + 230, x1 - 40, (top + bottom) / 2, (bottom - top) / 2
+        s = self.data["series"]
+        X = lambda ms: cx0 + (ms - s[0]["clip_ms"]) / (s[-1]["clip_ms"] - s[0]["clip_ms"]) * (cx1 - cx0)  # noqa: E731
+        return X, (lambda v: mid - v * half), cx0, cx1, mid
+
+    def progress(self, t: float) -> float:
+        t0 = self.span()[0]
+        return window(t - t0, 0.6, 0.6 + float(self.m.get("draw_s", 6.0)))
+
+    def ground(self, ax, cam, t):
+        from matplotlib.patches import FancyBboxPatch
+        a = window(t - self.span()[0], 0.0, 0.5)
+        x0, y0, x1, y1 = self.BOX
+        ax.add_patch(FancyBboxPatch((x0, y0), x1 - x0, y1 - y0, boxstyle="round,pad=0,rounding_size=12",
+                                    fc=(*(np.array(PANEL) / 255), 0.82 * a), ec="none"))
+        X, Y, cx0, cx1, mid = self.geometry()
+        ax.plot([cx0, cx1], [mid, mid], color=(1, 1, 1, 0.25 * a), lw=1.5)
+        p = self.progress(t)
+        if p <= 0:
+            return
+        xs, vs = self.curve()
+        cut = xs <= xs[0] + (xs[-1] - xs[0]) * p
+        px, py = X(xs[cut]), Y(vs[cut])
+        home = np.array((self.m.get("kits") or {}).get("home", ORANGE)) / 255
+        away = np.array((self.m.get("kits") or {}).get("away", WHITE)) / 255
+        ax.fill_between(px, mid, py, where=vs[cut] >= 0, color=(*home, 0.45), lw=0, interpolate=True)
+        ax.fill_between(px, mid, py, where=vs[cut] < 0, color=(*away, 0.45), lw=0, interpolate=True)
+        ax.plot(px, py, color=(1, 1, 1, 0.95), lw=3, solid_joinstyle="round")
+        ax.scatter([px[-1]], [py[-1]], s=90, color=(1, 1, 1, 1), zorder=5)
+        now_ms = xs[cut][-1]
+        for e in self.data.get("events", []):
+            if e.get("kind") not in River.LABELLED or e["clip_ms"] > now_ms:
+                continue
+            ex, ey = X(e["clip_ms"]), Y(float(np.interp(e["clip_ms"], xs, vs)))
+            since = (now_ms - e["clip_ms"]) / (xs[-1] - xs[0]) * float(self.m.get("draw_s", 6.0))
+            pulse = max(0.0, 1 - since / 0.8)
+            if e.get("kind") == "red_card":
+                col = np.array((230, 30, 40)) / 255
+            else:                                        # a goal: the side the line swings towards
+                swing = np.interp(e["clip_ms"] + 8000, xs, vs) - np.interp(e["clip_ms"] - 8000, xs, vs)
+                col = home if swing > 0 else away
+            ax.scatter([ex], [ey], s=140 + 900 * pulse, color=(*col, 0.25 + 0.5 * pulse), lw=0, zorder=4)
+            ax.scatter([ex], [ey], s=110, color=(*col, 1.0), edgecolors="white", linewidths=2, zorder=6)
+
+    def panels(self, im, cam, t):
+        a = window(t - self.span()[0], 0.0, 0.5)
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        x0, y0, x1, y1 = self.BOX
+        al = int(255 * a)
+        d.text((x0 + 28, y0 + 18), self.m.get("label", "Who wins it").upper(), font=self.font[26],
+               fill=(255, 255, 255, al))
+        X, Y, cx0, cx1, mid = self.geometry()
+        home = tuple((self.m.get("kits") or {}).get("home", ORANGE))
+        away = tuple((self.m.get("kits") or {}).get("away", WHITE))
+        d.text((x0 + 28, Y(0.6)), f"{self.data['home']} ahead", font=self.font[22], fill=(*home, al), anchor="lm")
+        d.text((x0 + 28, Y(-0.6)), f"{self.data['away']} ahead", font=self.font[22], fill=(*away, al), anchor="lm")
+        xs, _ = self.curve()
+        now_ms = xs[0] + (xs[-1] - xs[0]) * self.progress(t)
+        for k, e in enumerate(e for e in self.data.get("events", []) if e.get("kind") in River.LABELLED):
+            if e["clip_ms"] <= now_ms:
+                text = f"{e['clock']}  {e['label']}"
+                half = d.textlength(text, font=self.font[22]) / 2
+                ex = min(max(X(e["clip_ms"]), x0 + 24 + half), x1 - 24 - half)      # inside the strip
+                d.text((ex, y0 + 66 + 26 * (k % 2)), text, font=self.font[22], fill=(255, 255, 255, al), anchor="mm")
+        d.text((x1 - 24, y0 + 18), self.m.get("foot", ""), font=self.reg[20], fill=(*MUTED, al), anchor="ra")
+        im.paste(layer, (0, 0), layer)
+
+
+SCENES = {"oracle": Oracle, "metrics": Metrics, "river_strip": RiverStrip, "speed_gun": SpeedGun, "pass_xray": PassXray, "offside": Offside,
           "ghost_defender": GhostDefender, "keeper_cone": KeeperCone, "red_card_cost": RedCardCost, "river": River}
