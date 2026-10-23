@@ -5,3 +5,7 @@
 *.mkv
 *.m4v
 frames/
+# per-frame Pitchwatch outputs: megabytes per shot and reproducible from the code (T-104/T-105); the camera,
+# keyframe, evaluation points and results stay committed
+*/calib/[0-9]*.json
+*/tracks/

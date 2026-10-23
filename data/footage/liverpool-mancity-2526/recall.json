@@ -1,0 +1,13 @@
+{
+ "frames": 200,
+ "boxes": 3458,
+ "true_boxes": 3114,
+ "false_boxes": 344,
+ "missed": 23,
+ "recall": 0.9927,
+ "precision": 0.9005,
+ "threshold_recall": 0.9,
+ "labelled_by": "Claude (the agent), by eye from the review sheets, with the owner's approval (23 Oct 2026); missed = people on the pitch with no box, false = boxes not on a person on the pitch (crowd, stewards, bench, substitutes warming up). Counts in dense penalty-box clusters are estimates.",
+ "detector": "RF-DETR Medium 1.11.2, COCO person, threshold 0.3",
+ "passed": true
+}
