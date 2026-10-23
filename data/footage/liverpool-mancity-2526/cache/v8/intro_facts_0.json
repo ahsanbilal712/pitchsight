@@ -1,0 +1,49 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "intro_facts",
+  "claims": [
+   {
+    "claim": "computer vision tracks all 22 players from one broadcast camera",
+    "facts": [
+     "players in view per tracked wide frame: about 11-16 on average in the featured passages (e.g. 15.6 in Liverpool 802600, 10.7 in Amad's 869000); 18 or more of 22 on about 11% of all tracked frames (v7 coverage report)",
+     "detector: RF-DETR Medium 1.11.2, COCO-pretrained (Apache-2.0), not trained by us; person recall 0.9927 on 200 hand-labelled frames (T-105, packages/evals/pitchwatch/recall.py)",
+     "tracker: ByteTrack (trackers 2.6.1); teams by kit colour; our camera calibration puts feet on the pitch in metres (check points mean 0.32 m, max 2.21 m against a 1.5 m gate, T-104 still open)",
+     "ball: the same detector on 640 px tiles; 32 of 32 sampled detections were the ball"
+    ],
+    "use": "Computer vision tracks every player in view from one broadcast camera",
+    "verdict": "not exact: the camera shows part of the pitch"
+   },
+   {
+    "claim": "models we trained",
+    "facts": [
+     "pass model (the one trained model behind the on-screen numbers): LightGBM, 2,146,079 training passes from 1,600 matches simulated by our Kickoff engine (val 200, test 200); test AUC 0.823, calibration error 0.0044",
+     "other heads trained on the same 2,000 simulated matches (xG, goal in 8 s, chaos, win probability) are not used for v5-v8 on-screen numbers: shot xG is the published reference model",
+     "MomentEncoder: trained on MPS on 360 simulated matches (486,000 states) in 3.8 min, test purity 0.7153 (gate 0.6); not behind any v5-v8 number",
+     "decision policy (set transformer, about 4.7M parameters): trained on MPS on 1,600 simulated matches plus 120 GRF games (Radke & Tilbury, licence unconfirmed); it failed its gate (top3_kind_target_accuracy 0.5050 misses >= 0.8), so the engine stayed scripted_v1; no v6-v8 number uses a rollout (v5's cut ghost-future figure used 2,000 scripted_v1 rollouts)"
+    ],
+    "use": "A pass model we trained on 2.1 million passes from 1,600 simulated matches",
+    "verdict": "true only if it names what was trained and that the training data is simulated"
+   },
+   {
+    "claim": "an xG model fitted on 8,451 Premier League shots",
+    "facts": [
+     "evals.pitchwatch.shotxg.reference_xg uses Soccermatics' published logistic coefficients (distance, angle and their interactions); we did not fit it",
+     "sanity bands pass: six-yard central 0.30-0.50, edge of box 0.06-0.12, 30 m 0.02-0.04; penalty 0.76 is Wyscout's fixed value (evals.pitchwatch.v5 gate)"
+    ],
+    "use": "A published xG model (Soccermatics), fitted on 8,451 Premier League shots from 2017/18 (Wyscout data)",
+    "verdict": "true for the model, but it is published, not ours"
+   }
+  ],
+  "match_id": "m_9001",
+  "slug": "liverpool-mancity-2526",
+  "source": {
+   "data": "docs/DATA.md",
+   "encoder": "packages/heads/artifacts/metrics_encoder.json",
+   "heads": "packages/heads/artifacts/metrics.json",
+   "policy": "packages/policy/artifacts/gate.json, dataset_report.json"
+  }
+ },
+ "schema_version": "1.0.0"
+}
