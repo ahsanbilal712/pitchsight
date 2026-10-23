@@ -1,7 +1,8 @@
 """whyline-api (TECH_PLAN 1.1, 1.4 api): REST, the WebSocket stream and the replay controller.
 
 Run: `PYTHONPATH=packages uvicorn api.main:app --port 8000`, or `python -m api.replay --seed 4242`.
-WHYLINE_MATCH_SEED picks the match under data/matches/, WHYLINE_REPLAY_SPEED the starting speed (x1..x10),
+WHYLINE_MATCH_SEED picks the match under data/matches/ (WHYLINE_MATCH=m_9001 serves a real-clip match from the
+blackboard alone, video v3), WHYLINE_REPLAY_SPEED the starting speed (x1..x10),
 WHYLINE_BLACKBOARD the blackboard file the newsroom writes cues into, WHYLINE_REPLAY_FEED=1 the replay feed
 (cached analytics, oracle and moments on the clock; api/replay_feed.py).
 """
@@ -32,8 +33,10 @@ def spend_payload(match_id: str) -> dict:
 
 
 def create_app(seed: int | str | None = None, speed: float | None = None, playing: bool = True,
-               wall: Callable[[], float] | None = None, bb=None, feed: bool | None = None) -> FastAPI:
+               wall: Callable[[], float] | None = None, bb=None, feed: bool | None = None,
+               match: str | None = None) -> FastAPI:
     seed = seed if seed is not None else os.environ.get("WHYLINE_MATCH_SEED", "4242")
+    match = match or os.environ.get("WHYLINE_MATCH") or None   # a real-clip match served from the blackboard
     feed = feed if feed is not None else os.environ.get("WHYLINE_REPLAY_FEED") == "1"
     speed = speed if speed is not None else float(os.environ.get("WHYLINE_REPLAY_SPEED") or 1)
     mode = os.environ.get("WHYLINE_MODE", "replay")
@@ -46,15 +49,15 @@ def create_app(seed: int | str | None = None, speed: float | None = None, playin
 
     @contextlib.asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-        data = MatchData.load(seed)
-        kwargs = {"wall": wall} if wall else {}
-        clock = ReplayClock(data.end_ms, speed=speed, playing=playing, **kwargs)
         if bb is None:
             from blackboard import SqliteBlackboard
 
             board = SqliteBlackboard()
         else:
             board = bb
+        data = MatchData.from_blackboard(board, match) if match else MatchData.load(seed)
+        kwargs = {"wall": wall} if wall else {}
+        clock = ReplayClock(data.end_ms, speed=speed, playing=playing, **kwargs)
         app.state.data, app.state.clock, app.state.bb = data, clock, board
         replay_feed = None
         if feed:

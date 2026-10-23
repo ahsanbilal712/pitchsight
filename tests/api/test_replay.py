@@ -155,3 +155,25 @@ def test_clock_is_published_to_the_blackboard(client):
     assert doc["speed"] == 7 and doc["playing"] is True
     client.post("/replay/control", json={"action": "speed", "value": 1})
     assert client.app.state.bb.get("replay", "m_4242")["speed"] == 1
+
+
+def test_real_clip_match_from_the_blackboard_alone(tmp_path):
+    """Video v3 studio: a real-clip match with no tracking, served from the blackboard (WHYLINE_MATCH): the clock
+    spans its timed documents, hello carries the real clubs, goals give the score."""
+    from api.replay import MatchData
+
+    bb = SqliteBlackboard(tmp_path / "bb.sqlite")
+    bb.put("match_metadata", {"id": "m_9001", "match_id": "m_9001", "home": "Liverpool", "away": "Manchester City"})
+    bb.put("events", {"id": "e_0006", "match_id": "m_9001", "t_ms": 4406000, "type": "goal", "team": "home"})
+    bb.put("moments", {"id": "mo_00001", "moment_id": "mo_00001", "match_id": "m_9001", "t_ms": 5183000})
+    data = MatchData.from_blackboard(bb, "m_9001")
+    assert data.t_ms[0] == 4406000 - 60_000 and data.t_ms[-1] >= 5183000 + 59_000
+    assert data.clubs == {"home": "Liverpool", "away": "Manchester City"}
+    assert data.score_at(5183000) == [1, 0]
+    with TestClient(create_app(match="m_9001", speed=1, bb=bb, playing=False)) as c:
+        c.post("/replay/control", json={"action": "seek", "value": "86:23"})
+        with c.websocket_connect("/ws?viewer=studio") as ws:
+            hello = lines(ws)[0]
+            assert hello["type"] == "hello"
+            assert hello["payload"]["match_id"] == "m_9001"
+            assert hello["payload"]["clubs"] == {"home": "Liverpool", "away": "Manchester City"}

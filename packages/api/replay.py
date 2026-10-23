@@ -58,6 +58,31 @@ class MatchData:
         data.event_t = [int(e["t_ms"]) for e in events]
         return data
 
+    @classmethod
+    def from_blackboard(cls, bb, match_id: str, pad_ms: int = 60_000) -> MatchData:
+        """A real-clip match with no tracking (video v3 studio): the clock spans the blackboard's timed documents
+        (moments, cues, events) plus `pad_ms` each side; events (goals for the score, match_metadata for the
+        clubs) come from the blackboard's `events` and `match_metadata` collections. Tracking frames are empty: the
+        studio shows no pitch."""
+        events = sorted(bb.query("events", match_id=match_id), key=lambda e: int(e["t_ms"]))
+        meta = next(iter(bb.query("match_metadata", match_id=match_id)), None)
+        if meta:
+            events.insert(0, {"type": "match_metadata", "t_ms": 0, "match_id": match_id,
+                              "attrs": {k: meta[k] for k in ("home", "away") if k in meta}})
+        times = [int(d["t_ms"]) for coll in ("moments", "cues", "events")
+                 for d in bb.query(coll, match_id=match_id) if d.get("t_ms") is not None]
+        times += [int(d["t_in_ms"]) for d in bb.query("cues", match_id=match_id) if d.get("t_in_ms") is not None]
+        if not times:
+            raise ValueError(f"blackboard has no timed documents for {match_id}")
+        t = np.arange(max(0, min(times) - pad_ms), max(times) + pad_ms + 1, 1000, dtype=np.int64)
+        n = len(t)
+        data = cls(match_id=match_id, t_ms=t, period=np.full(n, 2 if min(times) >= 45 * 60_000 else 1, np.int8),
+                   S=np.zeros((n, 23, 6), np.float32), ball_z=np.zeros(n, np.float32),
+                   holder=np.full(n, -1, np.int16), possession=np.full(n, -1, np.int8), player_ids=[], subs=[],
+                   events=events)
+        data.event_t = [int(e["t_ms"]) for e in events]
+        return data
+
     @property
     def clubs(self) -> dict | None:
         """{home, away} club ids from the match_metadata event, if the match has one."""
@@ -206,7 +231,10 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--port", type=int, default=int(os.environ.get("WHYLINE_API_PORT", "8000")))
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--feed", action="store_true", help="play the golden cache on the clock (api/replay_feed.py)")
+    parser.add_argument("--match", help="a real-clip match from the blackboard alone (WHYLINE_BLACKBOARD), e.g. m_9001")
     args = parser.parse_args(argv)
+    if args.match:
+        os.environ["WHYLINE_MATCH"] = args.match
     if args.feed:
         os.environ["WHYLINE_REPLAY_FEED"] = "1"
     os.environ["WHYLINE_MATCH_SEED"] = str(args.seed)
