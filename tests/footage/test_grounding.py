@@ -58,3 +58,18 @@ def test_v5_from_here_binds_the_freeze_and_any_other_shot_the_strike():
     assert amad[3] == 0.0635 and "freeze" in amad[4][1]                    # strike would be 0.07
     eze = src["Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved."][1]
     assert eze[3] == 0.08 and "shots_0 e_0046" in eze[4][1]                # strike; the freeze was 0.05
+
+
+def test_v6_all_bound_and_the_live_product_check_bites(tmp_path):
+    import json as _json
+
+    from footage.grounding import ROOT, v6_live
+
+    r = run("v6", ROOT / "packages" / "demo" / "edit_v6.yaml")
+    assert r["numbers_bound"] == r["numbers"] > 400 and r["claims_verified"] == r["claims"]
+    frame = {"clip_ms": 1000, "shot_now_xg": 0.04, "options": [
+        {"label": "t4", "p_pass": 0.5, "xg_receiver": 0.2, "xg_after_pass": 0.15}]}      # 0.5 x 0.2 is 0.10
+    path = tmp_path / "live.json"
+    path.write_text(_json.dumps({"result": {"frames": [frame]}}))
+    (row,) = v6_live({"x": {"kind": "live_hud", "data": str(path), "t0": 0.0, "t1": 2.0}})
+    assert row["numbers_bound"] < row["numbers"] and "is not 0.5 x 0.2" in row["diff"][0]

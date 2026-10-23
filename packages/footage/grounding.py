@@ -182,7 +182,8 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
 
     edit = yaml.safe_load((edit_path or ROOT / "packages" / "demo" / f"edit_{version}.yaml").read_text())
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
-    sources = {"v3": caption_sources, "v4": v4_caption_sources}.get(version, v5_caption_sources)()
+    sources = {"v3": caption_sources, "v4": v4_caption_sources, "v5": v5_caption_sources,
+               "v6": v6_caption_sources}[version]()
     rows = []
     for n_caption, text in enumerate(shown, 1):
         if not DIGITS.search(text):
@@ -214,7 +215,7 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
         r = _check(CLIPS[slug]["match_id"], [{**c, "text": THOUSANDS.sub("", c["text"])} for c in claims], bb,
                    {"caption": THOUSANDS.sub("", text)})          # "2,000" reads as one number
         bb.close()
-        if version != "v3" and (bad := unverified_in(slug, text)):   # v4: names on screen are verified ones
+        if version != "v3" and (bad := unverified_in(slug, text)):   # v4+: names on screen are verified ones
             r["claims"] += len(bad)
             r["diff"] = [*r["diff"], f"unverified names: {bad}"]
         rows.append({"group": "video caption", "item": text, "sources": [x[4][1] for x in spec], **r})
@@ -376,6 +377,10 @@ def v4_overlay() -> list[dict]:
 def run(version: str = "v3", edit: Path | None = None) -> dict:
     """Count for one video version; `edit` defaults to packages/demo/edit_<version>.yaml."""
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
+    if version == "v6":
+        beats = _v6_beats(edit)
+        return _write(v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v6_shots(beats) + v6_pipeline(beats)
+                      + video_captions("v6", edit), version, edit)
     if version == "v5":
         captions = video_captions("v5", edit) if edit.exists() else []
         return _write(studio_cues("v5") + v5_lines() + v5_decisions() + v5_shots_and_race() + v5_ghost_footer(edit)
@@ -515,6 +520,204 @@ def v4_small_print() -> list[dict]:
                  "claims_verified": 2 if ok else 0, "numbers": 2, "numbers_bound": 2 if ok else 0, "diff": [],
                  "rejected": []})
     return rows
+
+
+# ---------------------------------------------------------------------------------------------------- v6
+
+def _v6_beats(edit: Path) -> dict[str, dict]:
+    """The beats of an edit: edit shot footage/<name> is footage_moments beat <name> (or <name> less its last
+    "_v6", the freezes' render suffix)."""
+    beats = yaml.safe_load((ROOT / "packages" / "demo" / "footage_moments.yaml").read_text())["moments"]
+    out = {}
+    for c in yaml.safe_load(edit.read_text())["clips"]:
+        name = (c.get("shot") or "").split("/")[-1]
+        for key in (name, name.removesuffix("_v6")):
+            if isinstance(beats.get(key), dict):
+                out[key] = beats[key]
+                break
+    return out
+
+
+def v6_lines(beats: dict) -> list[dict]:
+    """The reviewed lines the v6 freezes show (line_v5 of each freeze beat), against their facts."""
+    from footage.insights import evidence_board
+
+    rows = []
+    for name, b in sorted(beats.items()):
+        if not b.get("line_v5"):
+            continue
+        line = json.loads((ROOT / b["line_v5"]).read_text())["result"]
+        bb = evidence_board(line["slug"], line["facts"])
+        claims = [{k: c[k] for k in ("text", "kind", "value", "unit", "evidence_ids")} for c in line["claims"]]
+        r = _check(line["match_id"], claims, bb, {"lower_third": line["lower_third"], "why": line["why"]})
+        bb.close()
+        rows.append({"group": "v6 line", "item": f"{name}: {line['lower_third']}", "file": b["line_v5"], **r})
+    return rows
+
+
+def v6_freezes(beats: dict) -> list[dict]:
+    """The v6 freeze cards (v5's drawing): the same check as v5_decisions, on the beats of this edit."""
+    from footage.v5_lines import strike
+
+    rows = []
+    for name, b in sorted(beats.items()):
+        if not b.get("line_v5") or not b.get("xg"):
+            continue
+        x = json.loads((ROOT / b["xg"]).read_text())["result"]
+        line = json.loads((ROOT / b["line_v5"]).read_text())["result"]
+        roles = {f["role"]: f["display"] for f in line["facts"]}
+        freeze = line["verdict"] == "alternative_better"
+        value = x["actual"]["xg"] if freeze else strike(x["slug"], x["actual"]["event_id"])["xg"]
+        shown = [("shot", f"{value:.2f}", roles["actual"])]
+        if line["decision"]["alternative"]:
+            hero = next(o for o in x["alternatives"] if o["label"] == line["decision"]["alternative"]["label"])
+            shown += [("pass", f"{hero['xg_after_pass']:.2f}", roles["alternative"]),
+                      ("arrives", f"{round(hero['p_pass'] * 100)}%", roles["p_pass"])]
+        diff = [f"{w}: prints {g}, line shows {v}" for w, g, v in shown if g != v]
+        rows.append(_row("v6 overlay", f"{name}: freeze card", b["xg"], len(shown), len(shown) - len(diff), diff))
+    return rows
+
+
+def v6_live(beats: dict) -> list[dict]:
+    """The live HUD over each passage's on-screen window (demo.v6.LiveHUD): every option tag (p_pass, xG after
+    the pass), the shot-now and best-pass rows. Each printed value is its frame's own; it must also be the
+    product it claims to be (xG after the pass = p_pass x xG at the receiver, to the two decimals shown), and a
+    printed name or shirt must be a verified live read whose window covers the frame (names_live_0)."""
+    rows = []
+    for name, b in sorted(beats.items()):
+        if b.get("kind") != "live_hud":
+            continue
+        live = json.loads((ROOT / b["data"]).read_text())["result"]
+        names = json.loads((ROOT / b["names_live"]).read_text())["result"]["players"] if b.get("names_live") else []
+        ok_names = {(p["label"], p["from_clip_ms"], p["to_clip_ms"]) for p in names if p["name"] or p["shirt"]}
+        shown, diff = set(), []
+        for fr in live["frames"]:
+            if not b["t0"] * 1000 <= fr["clip_ms"] <= b["t1"] * 1000:
+                continue
+            if fr.get("shot_now_xg") is not None:
+                shown.add(("shot now", f"{fr['shot_now_xg']:.2f}"))
+            for o in fr.get("options") or []:
+                if o.get("xg_after_pass") is None:
+                    continue
+                shown.add((o["label"], f"{o['p_pass'] * 100:.0f}%", f"{o['xg_after_pass']:.2f}"))
+                want = o["p_pass"] * o["xg_receiver"]
+                if abs(want - o["xg_after_pass"]) > 0.011:
+                    diff.append(f"{fr['clip_ms']} {o['label']}: {o['xg_after_pass']} is not {o['p_pass']} x "
+                                f"{o['xg_receiver']}")
+                if (o.get("name") or o.get("shirt")) and not any(
+                        lab == o["label"] and a <= fr["clip_ms"] <= z for lab, a, z in ok_names):
+                    diff.append(f"{fr['clip_ms']} {o['label']}: a name or shirt outside a verified read")
+        n = sum(1 if len(t) == 2 else 2 for t in shown)
+        rows.append(_row("v6 overlay", f"{name}: live HUD {b['t0']:.1f}-{b['t1']:.1f} s ({len(shown)} distinct tags)",
+                         b["data"], n, n - len(diff), diff))
+    return rows
+
+
+def v6_shots(beats: dict) -> list[dict]:
+    """Single-shot beats and the shot map: each xG as printed, a name only where that shot is verified; the score
+    strip (xg_running_0) must add up to the shot map's measured shots."""
+    from footage.names import _same
+
+    rows = []
+    for name, b in sorted(beats.items()):
+        if b.get("kind") not in ("shot_xg", "shot_map"):
+            continue
+        slug = b.get("clip") or Path(b["data"]).parts[2]
+        doc = json.loads((ROOT / b["data"]).read_text())["result"]
+        shots = [x for x in doc["shots"] if x.get("xg") is not None and
+                 (b["kind"] == "shot_map" or x["clip_ms"] == b.get("clip_ms"))]
+        verified_shots = json.loads((clip_dir(slug) / "names_verified.json").read_text())["shots"]
+        diff = []
+        for x in shots:
+            nm = (x.get("shooter") or {}).get("name")
+            v = (verified_shots.get(x["event_id"]) or {}).get("name")
+            if nm and not (v and _same(nm, v)):
+                diff.append(f"{x['event_id']}: {nm} is not verified for this shot")
+        rows.append(_row("v6 overlay", f"{name}: {len(shots)} shot xG", b["data"], len(shots), len(shots) - len(diff),
+                         diff))
+        if b["kind"] == "shot_map":
+            run = json.loads((clip_dir(slug) / "cache" / "v6" / "xg_running_0.json").read_text())["result"]
+            last, diff = run["series"][-1], []
+            for side in ("home", "away"):
+                total = round(sum(Decimal(str(x["xg"])) for x in shots if x["team"] == side), 2)
+                if f"{last[f'{side}_xg']:.2f}" != f"{total:.2f}":
+                    diff.append(f"{side}: strip {last[f'{side}_xg']:.2f} vs shot map {total:.2f}")
+            rows.append(_row("v6 overlay", f"{slug}: score-strip xG totals", "cache/v6/xg_running_0.json", 2,
+                             2 - len(diff), diff))
+    return rows
+
+
+def v6_pipeline(beats: dict) -> list[dict]:
+    """The pipeline beat (demo.v6.Pipeline on track B's view): every number it prints (the agents' says, the
+    options, the line, the latencies) must be a fact of the view, a latency of a node whose source is recorded,
+    measured or replay, or a number of the reviewed line; nothing printed where the source is "not recorded"."""
+    rows = []
+    for name, b in sorted(beats.items()):
+        if b.get("kind") != "pipeline":
+            continue
+        v = json.loads((ROOT / b["data"]).read_text())["result"]
+        allowed = {f["display"] for f in v["facts"]} | {t for f in v["facts"] for t in _tokens(f["display"])}
+        printed, diff = [], []
+        for n in v["nodes"]:
+            for text in (n.get("says"), n.get("line"), n.get("draft"), *[c["text"] for c in n.get("claims", [])]):
+                printed += [(n["agent"], t) for t in _tokens(text or "")]
+            for o in n.get("options", []):
+                printed += [(n["agent"], o[k]) for k in ("xg", "xg_after_pass") if o.get(k)]
+            if n.get("latency_ms") is not None:
+                if n["latency_source"] == "not recorded":
+                    diff.append(f"{n['agent']}: a latency printed without a recorded source")
+                printed.append((n["agent"], "latency"))
+        bad = [f"{a}: {t}" for a, t in printed if t != "latency" and t not in allowed
+               and t.replace("%", "") not in allowed]
+        diff += bad
+        rows.append(_row("v6 overlay", f"{name}: pipeline view ({len(v['nodes'])} agents)", b["data"], len(printed),
+                         len(printed) - len(diff), diff))
+    return rows
+
+
+def v6_caption_sources() -> dict[str, list[tuple]]:
+    """Burnt-in caption text of video v6 -> sources: the v5 sources where the caption is the same, the live
+    passages from track A's cache/v6 files."""
+    lfc, mci, ars = "liverpool-mancity-2526", "manutd-mancity-2526", "arsenal-chelsea-2526"
+    v5 = v5_caption_sources()
+    live = _v6(ars, "live_823600.json")
+    best = next(f["best"] for f in live["frames"] if f["clip_ms"] == 834800)
+    shots = {x["event_id"]: x for x in _v5(lfc, "shots_0.json")["shots"]}
+    L = {f["role"]: f for f in _v5(mci, "lines_877000.json")["facts"]}
+
+    def line(tok, f, slug):
+        return (tok, "number", f["unit"], f, (slug, f["fact_id"], "line"))
+
+    def shot(tok, slug, eid):
+        x = next(s for s in _v5(slug, "shots_0.json")["shots"] if s["event_id"] == eid)
+        return (tok, "number", "xg", x["xg"], (slug, f"v5 shots_0 {eid} xg", "fact"))
+
+    out = {
+        "Amad shoots from here: 0.06 xG.": v5["Man Utd v Man City. Amad shoots from here: 0.06 xG."],
+        "The pass to Mbeumo, arriving 84% of the time, was worth 0.11.":
+            [line("84%", L["p_pass"], mci), line("0.11", L["alternative"], mci)],
+        "Szoboszlai shoots from 29 m: 0.02 xG. Blocked.":
+            [(("29 m", "number", "metres", shots["e_0033"]["distance_m"], (lfc, "v5 shots_0 e_0033 distance_m", "fact"))),
+             shot("0.02", lfc, "e_0033")],
+        "Silva: 0.28 xG.": [shot("0.28", lfc, "e_0027")],
+        "Haaland's penalty: 0.76.": v5["Haaland's penalty: 0.76."],
+        "Mbeumo from 15 m: 0.10 xG.":
+            [line("15 m", {r["role"]: r for r in _v5(mci, "lines_1079360.json")["facts"]}["distance"], mci),
+             line("0.10", {r["role"]: r for r in _v5(mci, "lines_1079360.json")["facts"]}["actual"], mci)],
+        "Dorgu from 4.5 m: 0.48 xG.": v5["Dorgu, from 4.5 m: 0.48 xG."],
+        "Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20.":
+            v5["Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20."],
+        "Liverpool v Man City, 86th minute. The pass options update as the play moves.":
+            [("86th minute", "minute", "minute", 86, (lfc, "e_0033", "event"))],
+        "Arsenal v Chelsea: as the ball moves forward, the best pass climbs to 0.19 xG.":
+            [("0.19", "number", "xg", best["xg_after_pass"], (ars, "v6 live_823600 frame 834800 best xg_after_pass",
+                                                               "fact"))],
+    }
+    return out
+
+
+def _v6(slug: str, name: str) -> dict:
+    return json.loads((clip_dir(slug) / "cache" / "v6" / name).read_text())["result"]
 
 
 WITHDRAWN_REASON = ("withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is "

@@ -5,6 +5,30 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v6 grounding: 541 of 541 (track B)
+
+- `python -m footage.grounding` (latest edit, edit_v6.yaml draft 1, f667c65): **541 of 541 on-screen numbers bound
+  to verified evidence (537 of 537 claims verified)**. Beats are read from the edit (each shot's footage_moments
+  beat):
+  - v6 lines 17/17: the reviewed lines the freezes show (line_v5: Amad, Szoboszlai, Mbeumo, Dorgu);
+  - freeze cards: shot (freeze value on a decision freeze, else the strike), the pass and its arrival chance,
+    each against the line's display;
+  - live HUD (5 passages, their on-screen windows): every distinct tag printed (p_pass, xG after the pass, shot
+    now): each must be the product it claims (p_pass x xG at the receiver, to the two decimals shown), and a
+    name or shirt only inside a verified live read's window;
+  - shot beats and the shot map (names only where the shot is verified), the score strip (xg_running_0) adding up
+    to the shot map;
+  - the pipeline view (every number in what the agents say is one of the view's facts; no latency printed where
+    the source is "not recorded");
+  - captions 16/16 with declared sources (v5's where unchanged; the Arsenal "0.19" is live_823600 frame 834800's
+    best xG after the pass).
+- v3 73 of 73, v4 121 of 121, v5 115 of 115 unchanged. No model call: the v6 freezes reuse the v5 lines (Argon,
+  Fact Checker, hand review).
+- Verification: `pytest tests/footage tests/newsroom tests/cache` 232 passed, 4 skipped (exit 0); a test shows the
+  live product check catching a wrong tag.
+
+---
+
 ## 2026-10-23 · Video v6: names for track A's live passages, the pipeline view in track C's format (track B)
 
 - **Live names** (`cache/v6/names_live_0.json` per clip, for track A to attach to its live frames): every track

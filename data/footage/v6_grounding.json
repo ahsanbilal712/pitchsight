@@ -1,0 +1,391 @@
+{
+ "$schema": "model_cache.schema.json",
+ "schema_version": "1.0.0",
+ "record": "tool_result",
+ "result": {
+  "card_line": "541 of 541 on-screen numbers bound to verified evidence (537 of 537 claims verified)",
+  "claims": 537,
+  "claims_verified": 537,
+  "numbers": 541,
+  "numbers_bound": 541,
+  "groups": {
+   "v6 line": {
+    "items": 4,
+    "numbers": 17,
+    "numbers_bound": 17,
+    "claims": 13,
+    "claims_verified": 13
+   },
+   "v6 overlay": {
+    "items": 16,
+    "numbers": 508,
+    "numbers_bound": 508,
+    "claims": 508,
+    "claims_verified": 508
+   },
+   "video caption": {
+    "items": 10,
+    "numbers": 16,
+    "numbers_bound": 16,
+    "claims": 16,
+    "claims_verified": 16
+   }
+  },
+  "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
+  "scope": "text that reaches the screen in video v3: studio cues and the held recap, beat captions, burnt-in captions; overlay graphics are drawn from the same beat fields",
+  "rows": [
+   {
+    "group": "v6 line",
+    "item": "lfc_v6: Szoboszlai from 29 m: 0.02 xG, blocked",
+    "file": "data/footage/liverpool-mancity-2526/cache/v5/lines_875000.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v6 line",
+    "item": "mci_amad_v6: Amad: shot from here 0.06 xG, pass 0.11 xG",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/lines_877000.json",
+    "claims": 4,
+    "claims_verified": 4,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "v6 line",
+    "item": "mci_dorgu_v6: Dorgu scores from 4.5 m: 0.48 xG",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/lines_1189840.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v6 line",
+    "item": "mci_mbeumo_v6: Mbeumo scores from 15 m: 0.10 xG",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/lines_1079360.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "lfc_v6: freeze card",
+    "file": "data/footage/liverpool-mancity-2526/cache/v5/xg_decision_875000.json",
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "mci_amad_v6: freeze card",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "mci_dorgu_v6: freeze card",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_1189840.json",
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "mci_mbeumo_v6: freeze card",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/xg_decision_1079360.json",
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "ars_live_v6: live HUD 829.5-836.0 s (51 distinct tags)",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v6/live_823600.json",
+    "claims": 95,
+    "claims_verified": 95,
+    "numbers": 95,
+    "numbers_bound": 95,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "lfc_live_v6: live HUD 867.2-875.5 s (142 distinct tags)",
+    "file": "data/footage/liverpool-mancity-2526/cache/v6/live_802600.json",
+    "claims": 282,
+    "claims_verified": 282,
+    "numbers": 282,
+    "numbers_bound": 282,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "mci_live_v6: live HUD 872.0-877.0 s (21 distinct tags)",
+    "file": "data/footage/manutd-mancity-2526/cache/v6/live_869000.json",
+    "claims": 40,
+    "claims_verified": 40,
+    "numbers": 40,
+    "numbers_bound": 40,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "mci_mbeumo_live_v6: live HUD 1074.8-1077.2 s (17 distinct tags)",
+    "file": "data/footage/manutd-mancity-2526/cache/v6/live_1062200.json",
+    "claims": 33,
+    "claims_verified": 33,
+    "numbers": 33,
+    "numbers_bound": 33,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "tot_live_v6: live HUD 679.8-683.4 s (10 distinct tags)",
+    "file": "data/footage/manutd-spurs-2425/cache/v6/live_662600.json",
+    "claims": 17,
+    "claims_verified": 17,
+    "numbers": 17,
+    "numbers_bound": 17,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "mci_shotmap_v6: 5 shot xG",
+    "file": "data/footage/manutd-mancity-2526/cache/v6/shot_map_0.json",
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "manutd-mancity-2526: score-strip xG totals",
+    "file": "cache/v6/xg_running_0.json",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "shot_lfc_haaland_v6: 1 shot xG",
+    "file": "data/footage/liverpool-mancity-2526/cache/v5/shots_0.json",
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "shot_lfc_silva_v6: 1 shot xG",
+    "file": "data/footage/liverpool-mancity-2526/cache/v5/shots_0.json",
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "shot_mci_save_v6: 1 shot xG",
+    "file": "data/footage/manutd-mancity-2526/cache/v5/shots_0.json",
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "shot_tot_werner_v6: 1 shot xG",
+    "file": "data/footage/manutd-spurs-2425/cache/v5/shots_0.json",
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "mci_pipeline_v6: pipeline view (7 agents)",
+    "file": "data/footage/manutd-mancity-2526/cache/v6/pipeline_manutd-mancity-2526_877000.json",
+    "claims": 24,
+    "claims_verified": 24,
+    "numbers": 24,
+    "numbers_bound": 24,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Amad shoots from here: 0.06 xG.",
+    "sources": [
+     "v5 xg_decision_877000 actual.xg (freeze)"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "The pass to Mbeumo, arriving 84% of the time, was worth 0.11.",
+    "sources": [
+     "f_607704",
+     "f_607702"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Liverpool v Man City, 86th minute. The pass options update as the play moves.",
+    "sources": [
+     "e_0033"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Szoboszlai shoots from 29 m: 0.02 xG. Blocked.",
+    "sources": [
+     "v5 shots_0 e_0033 distance_m",
+     "v5 shots_0 e_0033 xg"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Arsenal v Chelsea: as the ball moves forward, the best pass climbs to 0.19 xG.",
+    "sources": [
+     "v6 live_823600 frame 834800 best xg_after_pass"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Silva: 0.28 xG.",
+    "sources": [
+     "v5 shots_0 e_0027 xg"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Haaland's penalty: 0.76.",
+    "sources": [
+     "v5 shots_0 e_0048 xg"
+    ],
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Mbeumo from 15 m: 0.10 xG.",
+    "sources": [
+     "f_607933",
+     "f_607931"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Dorgu from 4.5 m: 0.48 xG.",
+    "sources": [
+     "v5 shots_0 e_0054 distance_m",
+     "f_608981"
+    ],
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "video caption",
+    "item": "Liverpool v Man City, the last 20 minutes in xG: City 1.21, Liverpool 0.20.",
+    "sources": [
+     "description.json title (Final 20 Minutes)",
+     "v5 xg_race_0 final away_xg",
+     "v5 xg_race_0 final home_xg"
+    ],
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   }
+  ],
+  "withdrawn": {
+   "beats": "Man Utd v Spurs pass X-ray (v3 28% / 3.2%, v4 11% -> 21%, v5 0.32), its tags and its caption",
+   "captions": [
+    {
+     "caption": "Man Utd attack, priced live in xG: the top pass option climbs to 0.32.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack, priced live: the best pass climbs from 11% to 21% chance of a goal in 10 s.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack, priced live: the top pass option climbs from 11% to 21% chance of a goal in 10 s.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    },
+    {
+     "caption": "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%.",
+     "still_in_edit": false,
+     "reason": "withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is Man Utd clearing their own box, valued as an attack"
+    }
+   ]
+  },
+  "edit": "packages/demo/edit_v6.yaml"
+ }
+}
