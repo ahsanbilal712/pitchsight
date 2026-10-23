@@ -53,6 +53,7 @@ class DecisionBatch:
     restart: np.ndarray      # [D] FREE | PASS_ONLY | CROSS | PENALTY | KICK_OFF
     noise: np.ndarray        # [D, >= RULE_NOISE] uniforms in [0, 1)
     force_act: np.ndarray | None = None   # [D] bool: release the ball this tick (rollout baselines decide now)
+    unavailable: np.ndarray | None = None  # [D, 11] bool: team-mates who cannot receive (sent off)
 
 
 @dataclass
@@ -112,6 +113,8 @@ class ScriptedRule:
         value_pass = value_pass + self.through_ball_bias * (mu > line[:, None] + 0.2)
         value_pass[:, 0] -= 0.01                                                            # back to the keeper
         value_pass[rows, b.holder] = -np.inf
+        if b.unavailable is not None:
+            value_pass[b.unavailable] = -np.inf
         value_pass[d < 3.0] = -np.inf
 
         # shoot, clear, carry

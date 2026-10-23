@@ -107,6 +107,7 @@ SIDES = ("H", "A")
 TEAM_ROWS = (np.arange(0, 11), np.arange(11, 22))
 TEAM_ORDER = np.array([np.r_[0:22], np.r_[11:22, 0:11]])     # a team's rows first, then its opponents'
 MOVE_HI = np.array([PITCH_L + 3.0, PITCH_W + 3.0])
+PARKED = np.array([PITCH_L / 2, -1.0e4])          # where a sent-off player stands (Engine.send_off)
 KEEPER_ROWS = np.array([0, 11])
 KIND_CODE = {"pass": PASS, "carry": CARRY, "shoot": SHOOT, "clear": CLEAR, "hold": HOLD}
 NOISE_BLOCK = 64                          # ticks of noise drawn per world at once
@@ -152,9 +153,11 @@ RESTART_KINDS = ("kick_off", "throw_in", "goal_kick", "corner", "free_kick", "pe
 
 @dataclass
 class Override:
-    """What a branch changes: the first on-ball action and/or team style deltas ({"home": {"press_height": 0.15}})."""
+    """What a branch changes: the first on-ball action, team style deltas ({"home": {"press_height": 0.15}}) and/or
+    players sent off from the branch point on ({"home": [8]}, team slots)."""
     first_action: Action | None = None
     styles: dict[str, dict[str, float]] | None = field(default=None)
+    sent_off: dict[str, list[int]] | None = field(default=None)    # {"home": [slot, ...]}: outfield slots 1-10
 
 
 class _WorldArrays:
@@ -298,6 +301,7 @@ class Engine:
         self.intensity = np.ones(B)
         self.shots = np.zeros((B, 2), dtype=np.int64)         # shots taken, for rollout futures
         self.vtop = np.tile([self._top_speed(p) for p in self.lineups[0][0] + self.lineups[1][0]], (B, 1))
+        self.sent_off: np.ndarray | None = None          # [22] bool, players sent off (send_off); None: nobody
         self.force: dict | None = None                        # forced first action of a branch (rollouts)
         self.force_pending = np.zeros(B, dtype=bool)
         self.first_kind = np.full(B, -1, dtype=np.int64)       # a branch's first decision per world (kind, team slot)
@@ -462,6 +466,8 @@ class Engine:
             outfield = rows[1:]
             d = np.hypot(self.S[b, outfield, 0] - w.restart_pos[0], self.S[b, outfield, 1] - w.restart_pos[1])
             w.restart_taker = int(outfield[int(np.argmin(d))])
+        if self.sent_off is not None and self.sent_off[w.restart_taker]:
+            self._pick_restart_taker(w)
 
     def _close_open(self, w: _World) -> None:
         b = w.b
@@ -569,6 +575,8 @@ class Engine:
             self._dead_tick(self.worlds[b])
         self._decide(noise)
         self._move_players()
+        if self.sent_off is not None:
+            self._park()
         self._move_ball()
         for b in np.flatnonzero(self._resolve_due()):
             self._resolve_ball(self.worlds[b], noise[b])
@@ -585,6 +593,8 @@ class Engine:
                 self._kickoff_positions(np.arange(self.B), kicking_team=1)
                 for w in self.worlds:
                     self._start_period(w)
+                if self.sent_off is not None:
+                    self._park()
             else:
                 self.finished = True
         out: list[Event] = []
@@ -714,6 +724,38 @@ class Engine:
         st.source = src
         return st
 
+    def send_off(self, rows: list[int]) -> None:
+        """Players leave play for the rest of the match in every world (a red card). Each tick they stand at PARKED:
+        on the halfway line (neutral for offside, where nobody is offside anyway) and far off the pitch, so no
+        distance-based choice (presser, cover, lane, cone, tackle, interception) ever picks them; they are never a
+        pass target or restart taker, and drop the ball if they hold it. The team keeps its other ten slots (no
+        reshuffle). Keepers cannot be sent off here."""
+        rows = sorted({int(r) for r in rows})
+        if any(r % 11 == 0 or not 0 <= r < 22 for r in rows):
+            raise BranchError("send_off takes outfield rows 1-10 and 12-21")
+        mask = np.zeros(22, dtype=bool) if self.sent_off is None else self.sent_off.copy()
+        mask[rows] = True
+        self.sent_off = mask
+        for w in self.worlds:
+            if int(self.holder[w.b]) in rows:
+                self._release(w, int(self.holder[w.b]))
+            if w.restart_taker in rows:
+                self._pick_restart_taker(w)
+        self._park()
+
+    def _park(self) -> None:
+        rows = np.flatnonzero(self.sent_off)
+        self.S[:, rows, 0:2] = PARKED
+        self.S[:, rows, 2:4] = 0.0
+
+    def _pick_restart_taker(self, w: _World) -> None:
+        """The nearest available outfield player of the restart team (a sent-off taker is replaced)."""
+        b, team = w.b, w.restart_team
+        outfield = np.arange(11 * team + 1, 11 * team + 11)
+        outfield = outfield[~self.sent_off[outfield]]
+        d = np.hypot(self.S[b, outfield, 0] - w.restart_pos[0], self.S[b, outfield, 1] - w.restart_pos[1])
+        w.restart_taker = int(outfield[int(np.argmin(d))])
+
     def branch(self, t_ms: int, batch: int, override: Override | None, seed: int | None = None,
                decide_now: bool = False) -> Engine:
         """Clone the match at t_ms into `batch` worlds. With `override.first_action`, the player in control makes that
@@ -727,6 +769,10 @@ class Engine:
                 for k, v in delta.items():
                     new.base_styles[team, STYLE_KEYS.index(k)] += float(v)
             new._update_truth_effects()
+        if override is not None and override.sent_off:
+            for key, slots in override.sent_off.items():
+                team = 0 if key in ("home", 0, self.home) else 1
+                new.send_off([11 * team + int(s) for s in slots])
         action = override.first_action if override is not None else None
         if action is not None or decide_now:
             row = int(new.holder[0])
@@ -825,7 +871,9 @@ class Engine:
         f = forced[idx]
         out = self.model.decide_batch(DecisionBatch(U=U, V=V, holder=h - 11 * team, styles=self.eff_styles[idx, team],
                                                     momentum=self.mom[idx, team], restart=self.restart_flag[idx],
-                                                    noise=noise[idx], force_act=f if f.any() else None))
+                                                    noise=noise[idx], force_act=f if f.any() else None,
+                                                    unavailable=None if self.sent_off is None
+                                                    else self.sent_off[order[:, :11]]))
         kind = np.asarray(out.kind).copy()
         target = np.asarray(out.target).copy()
         lofted = np.asarray(out.lofted).copy()
