@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v2: Oracle threat front on Liverpool v Man City (track B)
+
+- `python -m footage.threat <slug> <start_ms> <end_ms> [--step-ms] [--n]`: the Oracle (rollout.oracle) on every
+  sample of a tracked window: moment from track A's tracks, 100 unforced worlds x 8 s, p(shot in 10 s) per team
+  (Oracle's 8-10 s estimate), the attacking team's shot origins and their mean + 2-sigma ellipse (the threat zone)
+  in the moment file's pitch metres, plus that frame's homography; smoothed p for drawing. No model call, $0.
+- Window: clip 14:27-14:35 (86:15-86:23, shot 62, paint-refined calibration), 17 samples at 0.5 s. Liverpool's
+  smoothed p(shot in 10 s) builds from ~10% to 60% as Szoboszlai carries; the zone moves from left of centre
+  (97, 38.7) to central (96.4, 32.7) in front of goal. Cache: data/footage/liverpool-mancity-2526/cache/oracle/
+  window_867000.json (`result.samples[]`).
+- Converter fixes found on real tracks: ball detections off the pitch or under 0.3 confidence are ignored (a
+  fixed false ball at (106.3, 53.1)); a missing ball is taken from the nearest sample within 0.5 s; the window
+  keeps the last holder when no trustworthy ball is near. `pytest tests/footage` 25 passed.
+
+---
+
 ## 2026-10-23 · T-107/T-109: all four featured moments from tracking (track B)
 
 - Track A's tracks for Man Utd v Man City (shot 104), Arsenal v Chelsea (177) and Man Utd v Spurs (84) converted

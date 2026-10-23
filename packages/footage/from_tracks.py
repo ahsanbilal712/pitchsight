@@ -27,6 +27,7 @@ from footage.tag import side
 
 FLIP = np.array([[1.0, 0.0, 0.0], [0.0, -1.0, PITCH_W], [0.0, 0.0, 1.0]])   # (x, y_far) -> (x, y_near)
 MATCH_RADIUS_M = 2.5
+BALL_MIN_CONF = 0.3
 
 
 def overrides(folder: Path, clip_ms: int) -> dict[str, str]:
@@ -67,6 +68,14 @@ def _sample(tracks: dict, frame: int) -> dict:
     return min(tracks["frames"], key=lambda s: abs(s["frame"] - frame))
 
 
+def _good_ball(ball: dict | None) -> bool:
+    """A ball detection worth using: on the pitch (1 m margin) and not a low-confidence blob."""
+    if not ball or not ball.get("xy"):
+        return False
+    x, y = ball["xy"]
+    return (ball.get("conf") or 1.0) >= BALL_MIN_CONF and -1 <= x <= PITCH_L + 1 and -1 <= y <= PITCH_W + 1
+
+
 def _flip(xy) -> tuple[float, float]:
     return float(xy[0]), float(PITCH_W - xy[1])
 
@@ -103,12 +112,17 @@ def moment_from_tracks(slug: str, clip_ms: int, base: dict | None = None, folder
                         "vx": round(vx, 2), "vy": round(vy, 2), "source": "tracking",
                         "image": [round(v) for v in p["foot_px"]], "track_id": p["track_id"]})
     H, used = homography(calib, frame)
-    ball = now.get("ball")
-    if ball and ball.get("xy"):
+    ball, ball_frame = now.get("ball"), now["frame"]
+    if not _good_ball(ball):                  # occluded here: the nearest sample within half a second that has it
+        near = [s for s in tracks["frames"] if _good_ball(s.get("ball")) and abs(s["frame"] - frame) <= fps / 2]
+        if near:
+            best = min(near, key=lambda s: abs(s["frame"] - frame))
+            ball, ball_frame = best["ball"], best["frame"]
+    if _good_ball(ball):
         bx, by = _flip(ball["xy"])
         ball_doc = {"x": round(bx, 2), "y": round(by, 2), "holder": None, "image": ball.get("px"),
-                    "conf": ball.get("conf")}
-    elif base:
+                    "conf": ball.get("conf"), "frame": ball_frame}
+    elif base and base["ball"].get("x") is not None:
         ball_doc = {k: base["ball"].get(k) for k in ("x", "y", "image")} | {"holder": None, "source": "hand"}
     else:
         raise LookupError("no ball in the tracking sample and no hand-marked moment to take it from")
