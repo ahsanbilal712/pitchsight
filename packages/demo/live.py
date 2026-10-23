@@ -34,6 +34,8 @@ FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 FONT_REG = "/System/Library/Fonts/Supplemental/Arial.ttf"
 ORANGE, WHITE, YELLOW, PANEL, MUTED = (255, 122, 26), (236, 242, 248), (255, 214, 10), (12, 16, 22), (169, 180, 194)
 PANEL_W = 540
+GHOST_DIM = 0.25         # ghost future: the players the story is not about
+GHOST_TRAIL_MS = 800      # ghost future: each player's short motion trail
 RUNNER_RING_M = 0.65    # the speed gun's ring: tight, since a detector box can sit half a metre off a sprinting player
 APPARENT_HEIGHT_M = 1.42          # demo.composite: a player's height in the picture over the grass scale across it
 
@@ -191,7 +193,8 @@ class Live:
         y = feet[1] - APPARENT_HEIGHT_M * lateral_px_per_m(cam, xy) - 14
         font = self.font[font_size]
         w = d.textlength(text, font=font) + 28
-        box = (feet[0] - w / 2, y - font_size - 16, feet[0] + w / 2, y)
+        cx = float(np.clip(feet[0], 24 + w / 2, W - 24 - w / 2))          # inside the frame
+        box = (cx - w / 2, y - font_size - 16, cx + w / 2, y)
         if glow:
             d.rounded_rectangle((box[0] - 4, box[1] - 4, box[2] + 4, box[3] + 4), radius=12,
                                 fill=(*colour, int(90 * a)))
@@ -299,6 +302,22 @@ class Oracle(Live):
     def span(self):
         return self.data["start_clip_ms"] / 1000 - float(self.m.get("pre_s", 1.0)), self.data["end_clip_ms"] / 1000
 
+    def __init__(self, m: dict):
+        super().__init__(m)
+        g = json.loads((ROOT / m["goal_data"]).read_text()) if m.get("goal_data") else None
+        self.goal = g.get("result", g) if g else None
+
+    def goal_at(self, t: float) -> tuple[float, float] | None:
+        """(bar value eased between samples, the latest sample's value) from track A's goal-in-10s series; a sample
+        with no value (no ball detected) holds the one before."""
+        if not self.goal:
+            return None
+        team = self.m.get("team", "home")
+        s = [x for x in self.goal["samples"] if (x.get("p_goal_10s") or {}).get(team) is not None]
+        i, j, f = bracket(s, t * 1000)
+        pi, pj = s[i]["p_goal_10s"][team], s[j]["p_goal_10s"][team]
+        return pi + (pj - pi) * ease(f), pi
+
     def at(self, t: float):
         s, team = self.data["samples"], self.m.get("team", "home")
         i, j, f = bracket(s, t * 1000)
@@ -324,6 +343,9 @@ class Oracle(Live):
         if a <= 0:
             return
         bar, value, _ = self.at(t)
+        goal = self.goal_at(t)
+        if goal is not None:                             # v4: the owner's metric, goal in the next 10 s
+            bar, value = goal
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         x0, h = 96 - int((1 - a) * 40), 196
@@ -333,12 +355,15 @@ class Oracle(Live):
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*kit, al))
         d.text((x0 + 32, y0 + 20), self.m.get("label", "Shot in the next 10 s").upper(), font=self.font[22],
                fill=(*MUTED, al))
-        d.text((x0 + 32, y0 + 50), f"{round(value * 100)}%", font=self.font[64], fill=(255, 255, 255, al))
+        d.text((x0 + 32, y0 + 50), pct(value) if self.goal else f"{round(value * 100)}%", font=self.font[64],
+               fill=(255, 255, 255, al))
+        bar = min(1.0, bar / float(self.m.get("bar_max", 1.0)))   # a goal chance of a few % needs its own scale
         bx0, bx1, by = x0 + 32, x0 + PANEL_W - 28, y0 + 132
         d.rounded_rectangle((bx0, by, bx1, by + 12), radius=6, fill=(255, 255, 255, int(28 * a)))
         d.rounded_rectangle((bx0, by, bx0 + max(12, (bx1 - bx0) * bar), by + 12), radius=6, fill=(*kit, al))
+        src = self.goal or self.data
         d.text((x0 + PANEL_W - 28, y0 + h - 16),
-               f"n = {self.data['n']} per 0.5 s, {self.data['horizon_s']:g} s, seed {self.data['seed']}",
+               f"n = {src['n']:,} per 0.5 s, {src['horizon_s']:g} s, seed {src['seed']}",
                font=self.reg[20], fill=(*MUTED, al), anchor="rb")
         im.paste(layer, (0, 0), layer)
 
@@ -1016,19 +1041,40 @@ class GhostFuture(Still):
         f = (ms - i * step) / step if j > i else 0.0
         pa, pb = fr[i], fr[j]
         ball = np.array(pa["ball"]) + (np.array(pb["ball"]) - np.array(pa["ball"])) * f
-        nxt = {p["label"]: p for p in pb["players"]}
-        players = [{**p, "x": p["x"] + (nxt.get(p["label"], p)["x"] - p["x"]) * f,
-                    "y": p["y"] + (nxt.get(p["label"], p)["y"] - p["y"]) * f} for p in pa["players"]]
+        players = [{**p, "x": p["x"] + (q["x"] - p["x"]) * f, "y": p["y"] + (q["y"] - p["y"]) * f}
+                   for p, q in zip(pa["players"], pb["players"], strict=False)]   # by order: labels can repeat
         return {"ball": ball, "players": players}
 
+    def key_labels(self) -> set:
+        """The players the story is about (the passer and the receiver): bright; the rest faded."""
+        return {x for x in (self.m.get("passer"), self.m.get("receiver")) if x}
+
     def ground(self, ax, cam, t):
+        """Team-coloured ground discs with short motion trails; the passer, the receiver and the ball bright, the
+        other players faded to GHOST_DIM; the ball with a glowing trail."""
         if self.tau(t) < 0.6:
             return
-        ms = self.sim_ms(t)
-        trail = [self.at(x)["ball"] for x in np.arange(max(0, ms - 1500), ms + 1, 100)]
+        horizon_ms = (len(self.data["frames"]) - 1) * self.data.get("step_ms", 100)
+        ms = min(self.sim_ms(t), horizon_ms)
+        kits = self.m.get("kits") or {}
+        keys = self.key_labels()
+        now = self.at(ms)
+        past = self.at(max(0.0, ms - GHOST_TRAIL_MS))
+        pairs = list(zip(now["players"], past["players"], strict=False))   # same order every frame (labels repeat)
+        for p, q in sorted(pairs, key=lambda pq: pq[0]["label"] in keys):    # key players drawn last
+            col = np.array(kits.get(p.get("team", "home"), WHITE)) / 255
+            key = p["label"] in keys
+            a = 1.0 if key else GHOST_DIM
+            seg = cam.project(np.linspace([q["x"], q["y"]], [p["x"], p["y"]], 8))
+            ax.plot(seg[:, 0], seg[:, 1], color=(*col, 0.55 * a), lw=5 if key else 3, solid_capstyle="round")
+            disc = cam.project(ground_circle([p["x"], p["y"]], 0.9 if key else 0.7, 40))
+            ax.add_patch(Polygon(disc, closed=True, fc=(*col, 0.85 * a), ec=(1, 1, 1, 0.9 * a), lw=2.5 if key else 1))
+        trail = np.array([self.at(x)["ball"] for x in np.arange(max(0, ms - 2000), ms + 1, 100)])
         if len(trail) > 1:
-            px = cam.project(np.array(trail))
-            ax.plot(px[:, 0], px[:, 1], color=(*(np.array(ORANGE) / 255), 0.9), lw=4, solid_capstyle="round")
+            px = cam.project(trail)
+            o = np.array(ORANGE) / 255
+            ax.plot(px[:, 0], px[:, 1], color=(*o, 0.25), lw=16, solid_capstyle="round")      # glow
+            ax.plot(px[:, 0], px[:, 1], color=(*o, 1.0), lw=5, solid_capstyle="round")
 
     def panels(self, im, cam, t):
         tau = self.tau(t)
@@ -1044,11 +1090,13 @@ class GhostFuture(Still):
         ms = min(self.sim_ms(t), horizon_ms)
         state = self.at(ms)
         kits = self.m.get("kits") or {}
+        recv = self.m.get("receiver")
         for p in state["players"]:
-            col = tuple(kits.get(p.get("team", "home"), WHITE))
-            ghost_figure(d, cam, [p["x"], p["y"]], col, 0.85)
+            if p["label"] == recv and self.m.get("receiver_tag"):
+                self.tag(d, cam, [p["x"], p["y"]], self.m["receiver_tag"].upper(), ORANGE, font_size=26)
         b = cam.project([state["ball"]])[0]
-        d.ellipse((b[0] - 9, b[1] - 9, b[0] + 9, b[1] + 9), fill=(255, 255, 255, 240), outline=(*ORANGE, 255),
+        d.ellipse((b[0] - 14, b[1] - 14, b[0] + 14, b[1] + 14), fill=(*ORANGE, 90))
+        d.ellipse((b[0] - 8, b[1] - 8, b[0] + 8, b[1] + 8), fill=(255, 255, 255, 255), outline=(*ORANGE, 255),
                   width=3)
         d.text((W / 2, 120), f"THE OTHER TIMELINE  +{ms / 1000:.1f} s", font=self.font[34], fill=(255, 255, 255, 235),
                anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, 200))
@@ -1062,7 +1110,7 @@ class GhostFuture(Still):
             d.text((W / 2, H / 2 - 60), word, font=ImageFont.truetype(FONT, 140), fill=(*col, int(255 * o)),
                    anchor="mm", stroke_width=8, stroke_fill=(0, 0, 0, int(220 * o)))
         src = {**(self.data.get("source") or {}), **{k: self.data[k] for k in ("n", "seed") if k in self.data}}
-        d.text((W - 96, H - 60), f"the most typical of {src.get('n', '?')} simulated futures, seed {src.get('seed', '?')}",
+        d.text((W - 96, H - 60), f"the most typical of {src.get('n', 0):,} simulated futures, seed {src.get('seed', '?')}",
                font=self.reg[22], fill=(*MUTED, 230), anchor="rb")
         im.paste(layer, (0, 0), layer)
 

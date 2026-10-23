@@ -361,9 +361,13 @@ class Painter:
         if m.get("line") and (ROOT / m["line"]).exists():          # the reviewed lower-third (T-109)
             doc = json.loads((ROOT / m["line"]).read_text())
             self.line = doc["json"] if doc.get("verified") else None
-        if self.v4:                                       # v4 lower-thirds come only from track B's v4 captions
-            doc = load_json(m.get("line_v4"))
-            self.line = (doc.get("json") or doc) if doc else None
+        if self.v4:                                       # v4 lower-thirds come only from track B's v4 lines
+            doc = load_json(m.get("line_v4"), "result")
+            ok = doc and (doc.get("verdict") == "finishing") == bool(m.get("finishing"))   # a goal line never
+            self.line = {"headline": doc["lower_third"]} if ok and doc.get("lower_third") else None   # an alternative
+            if ok:                                        # their overlay labels, never internal ids
+                labels = {k: v for k, v in doc.get("decision", {}).get("overlay_labels", {}).items() if v}
+                m["options"] = {**(m.get("options") or {}), **labels}
         cue = load_json(m.get("cue"))
         if cue and all(c.get("verified") for c in cue["explain"]["claims"]):   # a Fact-Checked cue's own text
             self.line = cue["text"]
@@ -768,9 +772,7 @@ class Painter:
         d.text((x0 + 32, y0 + 20), "GOAL IN THE NEXT 10 S", font=self.font[22], fill=(169, 180, 194, al))
         lo = rows[0][1]["p"]
         hi = rows[1][1]["p"] if len(rows) > 1 else lo
-        if len(rows) > 1 and lo > 0:
-            d.text((x0 + w - 28, y0 + 16), f"×{hi / lo:.1f}", font=self.font[30],
-                   fill=(*ORANGE, int(255 * a * swing)), anchor="ra")
+        # no ratio printed: it divides two noisy estimates (track B, 23 Oct)
         note = self.m.get("card_note")                    # a finishing beat: "He scored."
         if note:
             d.text((x0 + 32, y0 + 58 + 78 * len(rows)), note, font=self.font[30], fill=(*ORANGE, al))
@@ -790,7 +792,7 @@ class Painter:
             if r.get("ci95"):
                 d.text((bx0, by + 18), f"95%: {fmt_pct(r['ci95'][0])}–{fmt_pct(r['ci95'][1])}",
                        font=self.font_reg[20], fill=(169, 180, 194, al))
-        d.text((x0 + w - 28, y0 + h - 14), f"n = {g['n']}, {g.get('horizon_s', 10):g} s, seed {g['seed']}",
+        d.text((x0 + w - 28, y0 + h - 14), f"n = {g['n']:,}, {g.get('horizon_s', 10):g} s, seed {g['seed']}",
                font=self.font_reg[20], fill=(169, 180, 194, al), anchor="rb")
         im.paste(layer, (0, 0), layer)
 

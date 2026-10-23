@@ -102,7 +102,9 @@ moments:
     data: data/footage/liverpool-mancity-2526/cache/oracle/window_867000.json
     team: home
     kits: {home: [214, 32, 52], away: [120, 182, 232]}
-    label: "Liverpool: shot in the next 10 s"
+    label: "Liverpool: goal in the next 10 s"
+    goal_data: data/footage/liverpool-mancity-2526/cache/v4/oracle_goal10_867000.json   # track A, n = 2000
+    bar_max: 0.05                    # the bar's full width is 5%
 
   # Video v3 beats from track A's insight files (580bad4) and track B's river (665fa36). `adapter` turns track A's
   # per-frame files into the beat's data (demo.v3_data) before drawing.
@@ -231,10 +233,10 @@ moments:
     moment_file: liverpool-mancity-2526/moments/875000.json
     attacks: "+x"
     actor: {player: "#8", label: "Szoboszlai"}
-    target: {player: "L3", label: "Liverpool runner · box"}     # no verified name (track B): labelled by role
+    target: {player: "L3", label: "Liverpool · edge of the box"}   # no verified name: team and where he stands
     goal10: data/footage/liverpool-mancity-2526/cache/v4/goal10_decision_875000.json
+    line_v4: data/footage/liverpool-mancity-2526/cache/v4/lines_875000.json      # track B's reviewed v4 lower-third
     alternative: L3
-    options: {actual: "Shot", alternative: "Pass to the runner"}
 
   ars_v4:
     clip: arsenal-chelsea-2526
@@ -245,10 +247,10 @@ moments:
     moment_file: arsenal-chelsea-2526/moments/1300500.json
     attacks: "+x"
     actor: {player: "#10", label: "Eze"}
-    target: {player: "A7", label: "Arsenal runner · box"}
+    target: {player: "A7", label: "Arsenal · in the box"}
     goal10: data/footage/arsenal-chelsea-2526/cache/v4/goal10_decision_1300500.json
+    line_v4: data/footage/arsenal-chelsea-2526/cache/v4/lines_1300500.json      # track B's reviewed v4 lower-third
     alternative: A7
-    options: {actual: "Shot", alternative: "Pass to the runner"}
 
   mci_amad_v4:
     clip: manutd-mancity-2526
@@ -259,10 +261,10 @@ moments:
     moment_file: manutd-mancity-2526/moments/877000.json
     attacks: "-x"
     actor: {player: "#16", label: "Amad"}
-    target: {player: "#19", label: "#19 · box"}
+    target: {player: "#19", label: "Man Utd · in the box"}
     goal10: data/footage/manutd-mancity-2526/cache/v4/goal10_decision_877000.json
+    line_v4: data/footage/manutd-mancity-2526/cache/v4/lines_877000.json      # track B's reviewed v4 lower-third
     alternative: "#19"
-    options: {actual: "Shot", alternative: "Pass to #19"}
 
   mci_mbeumo_v4:                     # a real goal: how hard the finish was, no alternative implied
     clip: manutd-mancity-2526
@@ -276,7 +278,8 @@ moments:
     actor: {player: "Mbeumo", label: "Mbeumo"}
     target: null
     goal10: data/footage/manutd-mancity-2526/cache/v4/goal10_decision_1079360.json
-    options: {actual: "From here"}
+    line_v4: data/footage/manutd-mancity-2526/cache/v4/lines_1079360.json      # track B's reviewed v4 lower-third
+    options: {actual: "Shot"}
     card_note: "He scored."
 
   mci_dorgu_v4:
@@ -291,12 +294,16 @@ moments:
     actor: {player: "Dorgu", label: "Dorgu"}
     target: null
     goal10: data/footage/manutd-mancity-2526/cache/v4/goal10_decision_1189840.json
-    options: {actual: "From here"}
+    line_v4: data/footage/manutd-mancity-2526/cache/v4/lines_1189840.json      # track B's reviewed v4 lower-third
+    options: {actual: "Shot"}
     card_note: "He scored."
 
-  lfc_ghost_v4:                      # the alternative timeline (pass to the runner), the medoid world
+  lfc_ghost_v4:                      # the alternative timeline (the pass), the medoid world
     clip: liverpool-mancity-2526
     kind: ghost_future
+    passer: "#8"
+    receiver: L3
+    receiver_tag: "Liverpool · edge of the box"
     data: data/footage/liverpool-mancity-2526/cache/v4/ghost_future_875000.json
     shot_id: 62
     team: home
@@ -306,6 +313,9 @@ moments:
   ars_ghost_v4:
     clip: arsenal-chelsea-2526
     kind: ghost_future
+    passer: "#10"
+    receiver: A7
+    receiver_tag: "Arsenal · in the box"
     data: data/footage/arsenal-chelsea-2526/cache/v4/ghost_future_1300500.json
     team: home
     speed: 2.0
