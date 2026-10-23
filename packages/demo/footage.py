@@ -259,22 +259,27 @@ class Fit:
 
 
 def fit_from_lines(frame: np.ndarray, pitch_pts, pixel_pts, names: list[str], top=0,
-                   search=(24, 16, 8, 8, 8, 8), min_peak: float = 10.0, lens: bool = True,
-                   seed: Camera | None = None) -> Fit:
+                   search=(24, 16, 8, 8, 8, 8), min_peak: float = 10.0, lens: bool | float = True,
+                   seed: Camera | None = None, prior=None) -> Fit:
     """DLT from hand landmarks (pitch metres <-> pixels), then refine H (8 parameters) and k1 ICP-style: find the
     centre of each named marking along the normal of its projection, fit the camera to those centres (robust loss,
     so players and noise do not pull the fit), repeat. The search window narrows over the iterations, so a line the
     landmarks leave loose (a far touchline) is still caught by the first ones. `seed` (a camera from elsewhere, e.g.
-    track A's per-frame calibration) replaces the landmarks."""
+    track A's per-frame calibration) replaces the landmarks. `lens`: True fits k1, False leaves it out, a number
+    holds it fixed (a per-clip value). `prior` = (pitch points, pixel targets, weight): soft residuals holding those
+    points near where another camera put them, for a side of the picture no visible line constrains."""
     size = (frame.shape[1], frame.shape[0])
     resp, occ = line_response(frame, top=top), occluders(frame)
+    free = lens is True
+    fixed = 0.0 if lens is False or lens is True else float(lens)
     cam = seed if seed is not None else Camera(dlt(np.asarray(pitch_pts, float), np.asarray(pixel_pts, float)),
                                                size=size)
+    cam = Camera(cam.h, cam.k1 if free else fixed, size)
     lines = model_lines(step=0.2)
     pts = np.vstack([lines[n] for n in names])
 
     def unpack(x):
-        return Camera(np.append(x[:8], 1.0).reshape(3, 3), float(x[8]) if lens else 0.0, size)
+        return Camera(np.append(x[:8], 1.0).reshape(3, 3), float(x[8]) if free else fixed, size)
 
     for win in search:
         tgt, nrm, _ = _targets(cam, resp, pts, occ=occ, search=win, min_peak=min_peak)
@@ -282,9 +287,13 @@ def fit_from_lines(frame: np.ndarray, pitch_pts, pixel_pts, names: list[str], to
         p, t, n = pts[keep], tgt[keep], nrm[keep]
 
         def resid(x, p=p, t=t, n=n):
-            return np.sum((unpack(x).project(p) - t) * n, axis=1)
+            c = unpack(x)
+            r = np.sum((c.project(p) - t) * n, axis=1)
+            if prior is not None and len(prior[0]):
+                r = np.concatenate([r, prior[2] * (c.project(prior[0]) - prior[1]).ravel()])
+            return r
 
-        x0 = np.append((cam.h / cam.h[2, 2]).ravel()[:8], [cam.k1] if lens else [])
+        x0 = np.append((cam.h / cam.h[2, 2]).ravel()[:8], [cam.k1] if free else [])
         cam = unpack(least_squares(resid, x0, loss="soft_l1", f_scale=1.0, x_scale="jac").x)
     return Fit(camera=cam, drift=drift_px(cam, frame, names, top=top), lines=names)
 

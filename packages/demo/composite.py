@@ -91,16 +91,18 @@ def top_rows(poly) -> np.ndarray:
     return np.ceil(np.interp(np.arange(W), p[:, 0], p[:, 1])).astype(int)
 
 
-def pitchwatch_camera(m: dict, frame: np.ndarray) -> tuple[Camera, Drift] | None:
-    """Track A's per-frame calibration (T-104) for the freeze instant, measured the same way, if published."""
+def pitchwatch_camera(m: dict, frame: np.ndarray) -> tuple[Camera, Drift, str] | None:
+    """Track A's per-frame calibration (T-104) for the freeze instant, measured the same way, if published; the
+    paint-refined file (demo.refine_calib) first."""
     shots = json.loads((FOOTAGE / m["clip"] / "shots.json").read_text())["shots"]
     shot = next((s["id"] for s in shots if s.get("usable") and s["start"] <= m["t_s"] <= s["end"]), None)
-    path = FOOTAGE / m["clip"] / "calib" / f"{shot}.json"
-    if shot is None or not path.exists():
+    calib_dir = FOOTAGE / m["clip"] / "calib"
+    path = next((p for p in (calib_dir / f"{shot}_refined.json", calib_dir / f"{shot}.json") if p.exists()), None)
+    if shot is None or path is None:
         return None
     calib = json.loads(path.read_text())
     cam = from_pitchwatch(calib, int(round(m["t_s"] * calib.get("fps", 50.0))))
-    return cam, drift_px(cam, frame, m["camera"]["lines"], top=top_rows(m["camera"]["top"]))
+    return cam, drift_px(cam, frame, m["camera"]["lines"], top=top_rows(m["camera"]["top"])), path.name
 
 
 def camera_for(m: dict, frame: np.ndarray, refit: bool = False) -> tuple[Camera, Drift]:
@@ -166,6 +168,8 @@ def standin_futures(start_m, target_m, goal_m=(105.0, 34.0)) -> Futures:
 def load_futures(m: dict, cam: Camera, standin: bool) -> Futures:
     if m.get("counterfactual"):
         cf = json.loads((ROOT / m["counterfactual"]).read_text())
+        if m.get("futures") == "alternative":            # every path is the alternative (featured moments today)
+            return Futures([], [np.asarray(p, float) for p in cf["futures_sample"][:200]], cf, standin=False)
         b, a = split(cf)
         return Futures(b, a, cf, standin=False)
     if not standin:
@@ -243,6 +247,8 @@ T_ALT = (1.8, 3.6)
 T_TRAIL = (1.8, 2.6)
 T_CARD = (2.6, 3.0)
 T_SWING = (3.0, 4.2)
+T_LOWER = (2.3, 2.7)
+PANEL_W = 540              # lower-third and swing card, bottom left; clear of the players in the featured frames
 
 
 # ---------------------------------------------------------------------------------------------- drawing
@@ -271,7 +277,11 @@ class Painter:
             far = np.linalg.norm(curve - self.target_m, axis=1) > RING_R + 0.35
             self.trail_px = cam.project(curve[far])
         self.spot = self._spotlight()
-        self.font = {s: ImageFont.truetype(FONT, s) for s in (22, 26, 30, 64)}
+        self.font = {s: ImageFont.truetype(FONT, s) for s in (22, 26, 30, 34, 64)}
+        self.line = None
+        if m.get("line") and (ROOT / m["line"]).exists():          # the reviewed lower-third (T-109)
+            doc = json.loads((ROOT / m["line"]).read_text())
+            self.line = doc["json"] if doc.get("verified") else None
         self.font_reg = {s: ImageFont.truetype(FONT_REG, s) for s in (20, 22)}
 
     def _spotlight(self) -> np.ndarray:
@@ -304,8 +314,9 @@ class Painter:
                 ax.plot(ring[:, 0], ring[:, 1], color=(*col, 0.35 * rings * a_all), lw=lw * 3.2,
                         solid_capstyle="round")
                 ax.plot(ring[:, 0], ring[:, 1], color=(*col, rings * a_all), lw=lw, solid_capstyle="round")
+        alt_alpha = 0.15 if getattr(self, "base_px", []) else 0.10    # 200 orange paths need a lighter stroke
         for paths, span, colour, alpha in ((getattr(self, "base_px", []), T_BASE, WHITE, 0.11),
-                                           (getattr(self, "alt_px", []), T_ALT, ORANGE, 0.15)):
+                                           (getattr(self, "alt_px", []), T_ALT, ORANGE, alt_alpha)):
             grow = window(t, *span)
             if grow <= 0 or not paths:
                 continue
@@ -363,6 +374,9 @@ class Painter:
         c = window(t, *T_CARD) * (1 - fade)
         if c > 0 and self.fut:
             self._card(im, c, window(t, *T_SWING))
+        lt = window(t, *T_LOWER) * (1 - fade)
+        if lt > 0 and self.line:
+            self._lower_third(im, lt)
         if standin_mark:
             d = ImageDraw.Draw(im)
             d.text((W - 24, H - 24), "STAND-IN FUTURES (cf_000070), NOT THIS MOMENT", font=self.font[22],
@@ -390,12 +404,38 @@ class Painter:
         d.text((feet[0], y - 20), label.upper(), font=font, fill=(*colour, int(255 * a)), anchor="mm")
         im.paste(layer, (0, 0), layer)
 
+    def _wrap(self, text: str, font, width: float) -> list[str]:
+        words, lines = text.split(), [""]
+        for w in words:
+            trial = f"{lines[-1]} {w}".strip()
+            if ImageDraw.Draw(Image.new("L", (1, 1))).textlength(trial, font=font) <= width:
+                lines[-1] = trial
+            else:
+                lines.append(w)
+        return lines
+
+    def _lower_third(self, im: Image.Image, a: float):
+        """The reviewed line (headline and body) above the swing card, as the overlay's lower-third."""
+        x0, w = 96 - int((1 - a) * 40), PANEL_W
+        body = self._wrap(self.line.get("body", ""), self.font_reg[22], w - 64)
+        h = 70 + 32 * len(body)
+        y0 = H - 96 - 168 - 16 - h
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        al = int(255 * a)
+        d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
+        d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*WHITE, al))
+        d.text((x0 + 32, y0 + 18), self.line["headline"], font=self.font[30], fill=(255, 255, 255, al))
+        for i, row in enumerate(body):
+            d.text((x0 + 32, y0 + 64 + 32 * i), row, font=self.font_reg[22], fill=(214, 222, 232, al))
+        im.paste(layer, (0, 0), layer)
+
     def _card(self, im: Image.Image, a: float, swing: float):
         """The swing card (the overlay's SwingBar): label, number, track, from -> to and the provenance line."""
         cf = self.fut.cf
         lo, hi = cf["baseline"]["win_prob_home"], cf["alternative_outcome"]["win_prob_home"]
         now = lo + (hi - lo) * swing
-        x0, y0, w, h = 96, H - 96 - 168, 640, 168
+        x0, y0, w, h = 96, H - 96 - 168, PANEL_W, 168
         x0 -= int((1 - a) * 40)
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
@@ -476,10 +516,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  {name:<20} median {v['median']:5} p95 {v['p95']:5} coverage {v['coverage']}")
     pw = pitchwatch_camera(m, frame)
     if pw:
-        print(f"track A calibration (no lens term): drift median {pw[1].median} px, p95 {pw[1].p95} px over "
+        print(f"track A calibration ({pw[2]}): drift median {pw[1].median} px, p95 {pw[1].p95} px over "
               f"{', '.join(pw[1].lines)}" + ("; using it" if pw[1].p95 <= drift.p95 else "; keeping the line fit"))
         if pw[1].p95 <= drift.p95:
-            cam, drift = pw
+            cam, drift = pw[0], pw[1]
     fut = load_futures(m, cam, args.standin)
     p = Painter(m, frame, cam, fut)
     s = stem(m, fut.standin)
