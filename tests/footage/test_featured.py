@@ -62,3 +62,11 @@ def test_cached_reviewed_explanation_still_verifies(f):
     result = verify_claims(manifest.data["match_id"], exp["claims"], bb, {"why": exp["why"]})
     bb.close()
     assert result["verified"], result["diff"]
+
+
+def test_futures_are_half_real_action_half_alternative():
+    m = load(SLUG, 875000)
+    ros = roster(SLUG)
+    cf = counterfactual(m, {"kind": "pass", "target": "#11"}, ros["ids"], "mo_00001", "cf_000001", ["e_0033"], 9001)
+    shot, alt = cf["futures_sample"][:100], cf["futures_sample"][100:]
+    assert len(shot) == len(alt) == 100 and shot != alt

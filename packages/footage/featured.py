@@ -118,7 +118,9 @@ def counterfactual(moment: dict, spec: dict, ids: dict, moment_id: str, cf_id: s
                   HORIZON_S, seed, events=[])
     if base.invalid_reason or alt.invalid_reason:
         raise ValueError(base.invalid_reason or alt.invalid_reason)
-    paths = alt.ball_paths[:200].astype(np.float64)
+    # ghost layer convention (overlay cue contract): first half the real action's futures, second half the
+    # alternative's
+    paths = np.concatenate([base.ball_paths[:N // 2], alt.ball_paths[:N // 2]]).astype(np.float64)
     if state.mirrored:                       # back into the moment file's coordinates (what the frame shows)
         paths = np.stack([PITCH_L - paths[..., 0], PITCH_W - paths[..., 1]], axis=-1)
     return {"schema_version": "1.0.0", "counterfactual_id": cf_id, "match_id": moment["match_id"],
