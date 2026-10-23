@@ -1,0 +1,129 @@
+{
+ "clock": "40:57",
+ "cue_id": "c_907724",
+ "explain": {
+  "claims": [
+   {
+    "evidence_ids": [
+     "e_0037"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Fernandes",
+    "unit": null,
+    "value": "p_966",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "e_0037"
+    ],
+    "kind": "player",
+    "reject_reason": null,
+    "text": "Maddison",
+    "unit": null,
+    "value": "p_965",
+    "verified": true
+   },
+   {
+    "evidence_ids": [
+     "f_000901"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "15 km/h",
+    "unit": "kmh",
+    "value": 15.3,
+    "verified": true
+   }
+  ],
+  "counterfactual_id": null,
+  "explanation_id": null,
+  "why": "An assessment from tracking, not a ruling: Fernandes closes on Maddison at about 15 km/h and the contact is in midfield, outside the penalty area."
+ },
+ "graphics": {
+  "bar": null,
+  "ghost_trail": [],
+  "lines": [
+   [
+    [
+     69.75,
+     51.77
+    ],
+    [
+     68.41,
+     52.63
+    ]
+   ],
+   [
+    [
+     68.41,
+     52.63
+    ],
+    [
+     69.15,
+     52.62
+    ]
+   ],
+   [
+    [
+     69.15,
+     52.62
+    ],
+    [
+     69.56,
+     53.48
+    ]
+   ]
+  ],
+  "pitch_control_snapshot": null,
+  "players_highlight": [
+   "p_966",
+   "p_965"
+  ]
+ },
+ "kind": "fourth_official",
+ "layer": "referee_line",
+ "leverage": null,
+ "match_id": "m_9004",
+ "moment_id": null,
+ "period": 1,
+ "priority": 0.7,
+ "producer_status": "auto",
+ "provenance": {
+  "agent_path": [
+   "scout",
+   "fourth_official",
+   "director"
+  ],
+  "cache_key": null,
+  "mode": "replay",
+  "model": null,
+  "prompt_version": null,
+  "resumed_from_checkpoint": null,
+  "trace_id": "fo_002457000"
+ },
+ "schema_version": "1.0.0",
+ "t_in_ms": 2457000,
+ "t_out_ms": 2465000,
+ "targets": {
+  "clubs": [
+   "any"
+  ],
+  "modes": [
+   "analyst",
+   "casual",
+   "player_cam",
+   "studio"
+  ],
+  "players": [
+   "p_966",
+   "p_965"
+  ]
+ },
+ "text": {
+  "body": "Assessment, not a ruling: contact in midfield, outside the penalty area. Fernandes closes in at about 15 km/h. The referee shows a red card.",
+  "headline": "Fourth Official: Fernandes on Maddison"
+ },
+ "verified": true
+}

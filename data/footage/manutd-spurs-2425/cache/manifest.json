@@ -16,6 +16,45 @@
    "version": "factcheck"
   },
   {
+   "created_at": "2026-10-23T07:22:12Z",
+   "hand_reviewed": false,
+   "key": "m_9004/match/evidence@fourth_official_772400/none/s9004",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "fourth_official/evidence_772400.jsonl",
+   "producer": "evidence",
+   "seed": 9004,
+   "sha256": "9b71449a9c37fbf1378a7b521b92a45a2f0d935c3c729c91087312bad23a594b",
+   "version": "fourth_official_772400"
+  },
+  {
+   "created_at": "2026-10-23T07:22:12Z",
+   "hand_reviewed": true,
+   "key": "m_9004/match/fourth_official@footage_772400/none/s9004",
+   "kind": "fourth_official",
+   "model": null,
+   "moment_id": null,
+   "path": "fourth_official/c_907724.json",
+   "producer": "fourth_official",
+   "seed": 9004,
+   "sha256": "494f09c77f28c32d4b154b85278252c7c4d523355083ba82e21752a0383ebf81",
+   "version": "footage_772400"
+  },
+  {
+   "created_at": "2026-10-23T07:22:12Z",
+   "hand_reviewed": false,
+   "key": "m_9004/match/fourth_official@ruling_772400/none/s9004",
+   "kind": "analytics",
+   "model": null,
+   "moment_id": null,
+   "path": "fourth_official/ruling_772400.json",
+   "producer": "fourth_official",
+   "seed": 9004,
+   "sha256": "47af26fc41b659e672ed72d777b93ab3650334eb94d972647ddb36f4efee546e",
+   "version": "ruling_772400"
+  },
+  {
    "created_at": "2026-10-23T07:12:04Z",
    "hand_reviewed": true,
    "key": "m_9004/mo_00001/explanation@reviewed/gemini-4-argon/s9004",
@@ -93,7 +132,7 @@
  "schema_version": "1.0.0",
  "totals": {
   "cost_usd": 0.006626,
-  "entries": 6,
+  "entries": 9,
   "tokens_in": 1968,
   "tokens_out": 269
  },

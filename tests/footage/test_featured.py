@@ -70,3 +70,24 @@ def test_futures_are_half_real_action_half_alternative():
     cf = counterfactual(m, {"kind": "pass", "target": "#11"}, ros["ids"], "mo_00001", "cf_000001", ["e_0033"], 9001)
     shot, alt = cf["futures_sample"][:100], cf["futures_sample"][100:]
     assert len(shot) == len(alt) == 100 and shot != alt
+
+
+def test_fourth_official_cue_is_an_assessment_and_verifies():
+    from blackboard import SqliteBlackboard
+    from newsroom.factcheck import verify_claims
+
+    manifest = open_cache("manutd-spurs-2425")
+    entry = manifest.find(producer="fourth_official", version="footage_772400")[0]
+    cue = manifest.read(entry)
+    assert not list(validator("cue.schema.json").iter_errors(cue))
+    assert "not a ruling" in cue["text"]["body"] and "not a ruling" in cue["explain"]["why"]
+    bb = SqliteBlackboard(":memory:")
+    ev = manifest.find(producer="evidence", version="fourth_official_772400")[0]
+    for line in (manifest.cache_dir / ev["path"]).read_text().splitlines():
+        doc = json.loads(line)
+        bb.put(doc.pop("_collection"), doc)
+    result = verify_claims(cue["match_id"], cue["explain"]["claims"], bb,
+                           {"headline": cue["text"]["headline"], "body": cue["text"]["body"],
+                            "why": cue["explain"]["why"]})
+    bb.close()
+    assert result["verified"], result["diff"]

@@ -5,6 +5,24 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v2: Fourth Official on Bruno Fernandes' red-card foul (track B)
+
+- Contact found in the live wide shot (shot 90, clip 772.4 s, 40:57; the score bug confirms it): track 3 (Spurs,
+  ball at his feet) is James Maddison, track 22 (Man Utd) closes in and meets him at frame 23172, so track 22 is
+  Bruno Fernandes (track A's first reading, t19/t12 at 41:01, was the aftermath).
+- `python -m footage.fourth`: moment `moments/772400.json` from tracks/90.json; the Fourth Official's measures:
+  contact point (69.8, 53.5) in midfield near the far touchline, **outside the penalty area**; closing speed
+  **4.25 m/s (15 km/h)** over the 0.5 s before contact (other windows 5.4 and 7.1 m/s, all above the 3 m/s "at
+  speed" line; positions are 0.5-1 m here); referee's decision reported as what happened (straight red at 41:04).
+- Text hand-written in review (`review/footage/fo_manutd-spurs-2425_772400.md`, no model call: ADC still expired),
+  always "assessment, not a ruling"; Fact Checker gate passed against the tagged foul and card events (linked to
+  the players) and a closing-speed fact. Cache: `fourth_official/c_907724.json` (cue.schema.json), `ruling_772400.json`
+  (contact point, speeds, Bruno's run for the line), `evidence_772400.jsonl`.
+- Player ids are now frozen per clip in `data/footage/<slug>/roster.json` (cached explanations cite them); new
+  labels get the next free id (Maddison p_965, Bruno p_966). Spend $0. `pytest tests/footage` 26 passed.
+
+---
+
 ## 2026-10-23 · Video v2: Oracle threat front on Liverpool v Man City (track B)
 
 - `python -m footage.threat <slug> <start_ms> <end_ms> [--step-ms] [--n]`: the Oracle (rollout.oracle) on every

@@ -42,7 +42,9 @@ GOAL_Y = PITCH_W / 2
 
 def roster(slug: str) -> dict:
     """{label_key: pid} for every labelled player in the clip's moment files, plus {pid: real name} for the named
-    ones and the clubs. label_key is "<team>:<label>"."""
+    ones and the clubs. label_key is "<team>:<label>". Ids are frozen in data/footage/<slug>/roster.json once given
+    (cached explanations cite them); a player labelled later gets the next free id. Tracking-only labels
+    (t<track_id>) get no id unless they had one before."""
     from footage.freeze import moments_dir
 
     k = list(CLIPS).index(slug)
@@ -54,10 +56,18 @@ def roster(slug: str) -> dict:
             if p.get("label"):
                 key = f"{p['team']}:{p['label']}"
                 seen[key] = seen.get(key) or p.get("name")
-    if len(seen) > 20:
-        raise ValueError(f"{slug}: more than 20 labelled players")
-    ids = {key: f"p_{ID_BASE + 20 * k + i:03d}" for i, key in enumerate(sorted(seen))}
-    names = {ids[key]: name for key, name in seen.items() if name}
+    path = clip_dir(slug) / "roster.json"
+    ids = json.loads(path.read_text())["ids"] if path.exists() else \
+        {key: f"p_{ID_BASE + 20 * k + i:03d}" for i, key in enumerate(sorted(seen))}
+    for key in seen:
+        if key not in ids and not key.split(":", 1)[1].startswith("t"):
+            n = max([int(v[2:]) for v in ids.values()], default=ID_BASE + 20 * k - 1) + 1
+            if n >= ID_BASE + 20 * (k + 1):
+                raise ValueError(f"{slug}: more than 20 player ids")
+            ids[key] = f"p_{n:03d}"
+    if not path.exists() or json.loads(path.read_text())["ids"] != ids:
+        path.write_text(json.dumps({"slug": slug, "ids": ids}, indent=1) + "\n")
+    names = {ids[key]: name for key, name in seen.items() if name and key in ids}
     clip = CLIPS[slug]
     clubs = {clip["home_id"]: {"name": clip["home"], "short_name": clip["home_short"]},
              clip["away_id"]: {"name": clip["away"], "short_name": clip["away_short"]}}
