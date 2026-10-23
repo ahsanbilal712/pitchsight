@@ -3,44 +3,54 @@
  "schema_version": "1.0.0",
  "record": "tool_result",
  "result": {
-  "card_line": "969 of 969 on-screen numbers bound to verified evidence (965 of 965 claims verified)",
-  "claims": 965,
-  "claims_verified": 965,
-  "numbers": 969,
-  "numbers_bound": 969,
+  "card_line": "1399 of 1399 on-screen numbers bound to verified evidence (1394 of 1394 claims verified)",
+  "claims": 1394,
+  "claims_verified": 1394,
+  "numbers": 1399,
+  "numbers_bound": 1399,
   "groups": {
    "v6 line": {
-    "items": 4,
-    "numbers": 17,
-    "numbers_bound": 17,
-    "claims": 13,
-    "claims_verified": 13
+    "items": 5,
+    "numbers": 21,
+    "numbers_bound": 21,
+    "claims": 16,
+    "claims_verified": 16
    },
    "v6 overlay": {
-    "items": 18,
-    "numbers": 777,
-    "numbers_bound": 777,
-    "claims": 777,
-    "claims_verified": 777
+    "items": 20,
+    "numbers": 1170,
+    "numbers_bound": 1170,
+    "claims": 1170,
+    "claims_verified": 1170
    },
    "v7 overlay": {
-    "items": 7,
-    "numbers": 158,
-    "numbers_bound": 158,
-    "claims": 158,
-    "claims_verified": 158
+    "items": 8,
+    "numbers": 190,
+    "numbers_bound": 190,
+    "claims": 190,
+    "claims_verified": 190
    },
    "video caption": {
     "items": 11,
-    "numbers": 17,
-    "numbers_bound": 17,
-    "claims": 17,
-    "claims_verified": 17
+    "numbers": 18,
+    "numbers_bound": 18,
+    "claims": 18,
+    "claims_verified": 18
    }
   },
   "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
   "scope": "text that reaches the screen in video v3: studio cues and the held recap, beat captions, burnt-in captions; overlay graphics are drawn from the same beat fields",
   "rows": [
+   {
+    "group": "v6 line",
+    "item": "ars_v6: Eze from 16 m: 0.08 xG, saved",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v5/lines_1300500.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "rejected": []
+   },
    {
     "group": "v6 line",
     "item": "lfc_v6: Szoboszlai from 29 m: 0.02 xG, blocked",
@@ -79,6 +89,16 @@
     "claims_verified": 3,
     "numbers": 4,
     "numbers_bound": 4,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "ars_v6: freeze card",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v5/xg_decision_1300500.json",
+    "claims": 1,
+    "claims_verified": 1,
+    "numbers": 1,
+    "numbers_bound": 1,
     "rejected": []
    },
    {
@@ -123,12 +143,12 @@
    },
    {
     "group": "v6 overlay",
-    "item": "ars_live_v7: live HUD 831.2-836.0 s (36 distinct tags)",
-    "file": "data/footage/arsenal-chelsea-2526/cache/v6/live_823600.json",
-    "claims": 63,
-    "claims_verified": 63,
-    "numbers": 63,
-    "numbers_bound": 63,
+    "item": "ars_eze_live_v7: live HUD 1297.0-1301.0 s (108 distinct tags)",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v6/live_1272000.json",
+    "claims": 209,
+    "claims_verified": 209,
+    "numbers": 209,
+    "numbers_bound": 209,
     "rejected": []
    },
    {
@@ -149,6 +169,16 @@
     "claims_verified": 34,
     "numbers": 34,
     "numbers_bound": 34,
+    "rejected": []
+   },
+   {
+    "group": "v6 overlay",
+    "item": "mci_city_live_v7: live HUD 1397.0-1405.0 s (124 distinct tags)",
+    "file": "data/footage/manutd-mancity-2526/cache/v6/live_1390000.json",
+    "claims": 246,
+    "claims_verified": 246,
+    "numbers": 246,
+    "numbers_bound": 246,
     "rejected": []
    },
    {
@@ -193,12 +223,12 @@
    },
    {
     "group": "v7 overlay",
-    "item": "ars_live_v7: always-on layer 831.2-836.0 s (23 distinct values)",
-    "file": "data/footage/arsenal-chelsea-2526/cache/v7/always_823600.json",
-    "claims": 23,
-    "claims_verified": 23,
-    "numbers": 23,
-    "numbers_bound": 23,
+    "item": "ars_eze_live_v7: always-on layer 1297.0-1301.0 s (21 distinct values)",
+    "file": "data/footage/arsenal-chelsea-2526/cache/v7/always_1272000.json",
+    "claims": 21,
+    "claims_verified": 21,
+    "numbers": 21,
+    "numbers_bound": 21,
     "rejected": []
    },
    {
@@ -219,6 +249,16 @@
     "claims_verified": 13,
     "numbers": 13,
     "numbers_bound": 13,
+    "rejected": []
+   },
+   {
+    "group": "v7 overlay",
+    "item": "mci_city_live_v7: always-on layer 1397.0-1405.0 s (34 distinct values)",
+    "file": "data/footage/manutd-mancity-2526/cache/v7/always_1390000.json",
+    "claims": 34,
+    "claims_verified": 34,
+    "numbers": 34,
+    "numbers_bound": 34,
     "rejected": []
    },
    {
@@ -395,14 +435,15 @@
    },
    {
     "group": "video caption",
-    "item": "Arsenal v Chelsea: as the ball moves forward, the top pass option climbs to 0.19 xG.",
+    "item": "Eze from 16 m: 0.08 xG. Saved.",
     "sources": [
-     "v6 live_823600 frame 834800 best xg_after_pass"
+     "v5 shots_0 e_0046 distance_m",
+     "v5 shots_0 e_0046 xg"
     ],
-    "claims": 1,
-    "claims_verified": 1,
-    "numbers": 1,
-    "numbers_bound": 1,
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
     "rejected": []
    },
    {

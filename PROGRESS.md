@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v7 draft 2: the Eze caption source; one caption flagged (track B)
+
+- v7 caption source added: "Eze from 16 m: 0.08 xG. Saved." (shots_0 e_0046, as in v5).
+  `python -m footage.grounding` on edit_v7 draft 2 (6516439): see v7_grounding.json.
+- Checked the two new number-less captions against the data: "Arsenal's share ... climbs" holds (1% at 1297.0 s
+  to 23% at 1301.0 s), but **"Eze wins it back" is wrong**: Arsenal regain the ball through an unnamed player
+  (t46, 1296.2-1296.4 s), Saka carries (1298.1 s) and passes to Eze (1299.4 s; tagged event e_0045). Track C asked
+  to reword ("Arsenal win it back, Saka finds Eze, ..."). City's "creeps up" holds (1% to a 22% peak, 14% at the
+  end): fine without numbers.
+- No model call. Verification: `pytest tests/footage` (exit 0).
+
+---
+
 ## 2026-10-23 · Video v7 grounding: 969 of 969 on draft 1b (track B)
 
 - `python -m footage.grounding` on track C's committed edit_v7.yaml (a055dcb, with the dangerous-space caption on

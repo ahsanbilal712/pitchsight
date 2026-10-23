@@ -785,7 +785,9 @@ def v7_always(beats: dict) -> list[dict]:
 def v7_caption_sources() -> dict[str, list[tuple]]:
     """v6's caption sources plus the caption that explains the metric (footage.v7_caption, reviewed)."""
     out = dict(v6_caption_sources())
-    out["Seconds later, 0.32 xG: saved."] = v5_caption_sources()["Seconds later, 0.32 xG: saved."]   # shots_0 e_0038
+    v5 = v5_caption_sources()
+    out["Seconds later, 0.32 xG: saved."] = v5["Seconds later, 0.32 xG: saved."]   # shots_0 e_0038
+    out["Eze from 16 m: 0.08 xG. Saved."] = v5["Arsenal v Chelsea. Eze from 16 m: 0.08 xG. Saved."]   # e_0046
     cap = json.loads((clip_dir("manutd-mancity-2526") / "cache" / "v7" / "caption_danger.json").read_text())["result"]
     f = {x["fact_id"]: x for x in cap["facts"]}
     out[cap["caption"]] = [(c["text"], "number", c["unit"], f[c["evidence_ids"][0]],
