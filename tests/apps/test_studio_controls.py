@@ -91,6 +91,10 @@ def test_decision_made_elsewhere_clears_the_pending_card(browser, studio_url, ap
         studio.locator(f"[data-request-id={rid}]").wait_for(timeout=3000)
         decide(api_server.bb, api_server.app.state.hub, rid, "vetoed", "m_4242")
         studio.locator(f"[data-request-id={rid}]").wait_for(state="detached", timeout=2000)
+        doc = api_server.bb.get("requests", rid)                  # the newsroom then marks the request resolved
+        api_server.bb.put("requests", {**doc, "status": "vetoed"})
+        studio.wait_for_timeout(800)                                  # the watcher re-sends it: it must stay gone
+        assert studio.locator(f"[data-request-id={rid}]").count() == 0
     finally:
         ctx.close()
 

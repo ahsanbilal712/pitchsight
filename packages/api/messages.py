@@ -95,4 +95,9 @@ def mode_payload(doc: dict) -> dict:
 
 
 def request_payload(doc: dict) -> dict:
-    return {"request_id": doc.get("request_id") or doc.get("id"), "cue": doc.get("cue")}
+    """A producer request as studios see it; once the newsroom marks it approved or vetoed, the decision rides
+    along, so a studio drops it instead of showing it as pending again."""
+    out = {"request_id": doc.get("request_id") or doc.get("id"), "cue": doc.get("cue")}
+    if doc.get("status") in ("approved", "vetoed"):
+        out["decision"] = doc["status"]
+    return out
