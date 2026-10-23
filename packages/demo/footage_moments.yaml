@@ -506,3 +506,26 @@ moments:
     outcome_after_s: 0.5
     post_s: 1.2
     kits: {home: [218, 41, 28], away: [235, 238, 245]}
+
+  mci_ghost_v5:                      # Amad 56:41: the other timeline after the pass to #19 (the medoid of 2,000)
+    clip: manutd-mancity-2526
+    kind: ghost_future
+    data: data/footage/manutd-mancity-2526/cache/v4/ghost_future_877000.json
+    shot_id: 104
+    team: home
+    speed: 2.0
+    passer: "#16"
+    receiver: "#19"
+    receiver_tag: "Man Utd · in the box"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+
+  lfc_watching_v5:                   # the threat zone live before the shot, no number (track B's window)
+    clip: liverpool-mancity-2526
+    kind: oracle
+    card: false
+    t_s: 867.0
+    pre_s: 1.0
+    data: data/footage/liverpool-mancity-2526/cache/oracle/window_867000.json
+    team: home
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+    label: "WHYLINE is watching: where Liverpool's next shot will come from"

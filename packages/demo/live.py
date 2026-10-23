@@ -342,6 +342,13 @@ class Oracle(Live):
         a = window(t, self.data["start_clip_ms"] / 1000 - 0.2, self.data["start_clip_ms"] / 1000 + 0.4)
         if a <= 0:
             return
+        if self.m.get("card") is False:                 # v5: the zone alone, a label and no number
+            layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
+            d = ImageDraw.Draw(layer)
+            d.text((W / 2, 120), self.m.get("label", "WHYLINE IS WATCHING").upper(), font=self.font[34],
+                   fill=(255, 255, 255, int(235 * a)), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, int(200 * a)))
+            im.paste(layer, (0, 0), layer)
+            return
         bar, value, _ = self.at(t)
         goal = self.goal_at(t)
         if goal is not None:                             # v4: the owner's metric, goal in the next 10 s

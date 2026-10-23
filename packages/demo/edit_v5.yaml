@@ -1,4 +1,4 @@
-# Video v5 edit decision list, DRAFT 1 (owner, 23 Oct: real-data xG; no goal-in-10s, no win chance, no speed gun;
+# Video v5 edit decision list, DRAFT 2 (owner, 23 Oct: real-data xG; no goal-in-10s, no win chance, no speed gun;
 # better pass lines and shot visuals). Assembled by
 #   python packages/demo/assemble.py packages/demo/edit_v5.yaml
 # Every number is xG from track A's real-data reference model (cache/v5, 82b6e74 and ca8eef7: Soccermatics'
@@ -8,8 +8,8 @@
 # The Spurs pass X-ray is cut: track A found the attack direction reversed there (115f6a0).
 # Lead's rules: a pass is called better only if it beats the shot by >= 0.04 xG with the receiver > 0.5 m onside
 # (Amad only); every shot shows its strike-frame xG (shots_0) except Amad's decision freeze ("from here").
-# Out of this draft: the ghost future (it plays the v4 pass to L3; track A's v5 best is L4), the Oracle (goal in 10 s)
-# and the studio beat (its line is the v4 goal-in-10s text) until v5 versions exist.
+# Draft 2 (lead): the system is back on screen: the threat zone live (no number), the ghost future after Amad's
+# better pass (track A's medoid of 2,000 pass-to-#19 futures). The studio beat waits for track B's Amad run.
 
 out: packages/demo/out/final_v5.mp4
 size: [1920, 1080]
@@ -35,8 +35,14 @@ clips:
     captions:
       - {from: 0.1, to: 2.5, text: "Haaland's penalty: 0.76."}
 
-  - shot: footage/lfc_v5_v5             # 86:23, all square: the decision
-    from: 1.2
+  - shot: footage/lfc_watching_v5       # WHYLINE is watching: Liverpool's threat zone live, 86:19-86:22 (no number)
+    from: 4.5
+    to: 7.5
+    captions:
+      - {from: 0.1, to: 2.9, text: "WHYLINE is watching: where Liverpool's next shot will come from."}
+
+  - shot: footage/lfc_v5_v5             # continuous: the strike at 86:25
+    from: 0.0
     to: 9.1
     captions:
       - {from: 0.2, to: 3.6, text: "86th minute, all square. Szoboszlai shoots from 29 m."}
@@ -52,6 +58,12 @@ clips:
     captions:
       - {from: 0.2, to: 3.6, text: "Man Utd v Man City. Amad shoots from here: 0.06 xG."}
       - {from: 3.8, to: 7.8, text: "The pass into the box was worth 0.11, almost twice as much."}
+
+  - shot: footage/mci_ghost_v5          # the other timeline after the pass to #19: the most typical of 2,000
+    from: 0.0
+    to: 6.8
+    captions:
+      - {from: 0.3, to: 6.6, text: "It replays the pass 2,000 times. This is the most typical future, on the real pitch."}
 
   - shot: footage/mci_amad_v5_v5
     from: 9.8
@@ -123,3 +135,4 @@ sources:
   "20": "xg_race_0 (liverpool-mancity-2526) series over the clip's final 20 minutes"
   "1.21": "xg_race_0 (liverpool-mancity-2526) final away_xg 1.21 (measured shots and penalties)"
   "0.20": "xg_race_0 (liverpool-mancity-2526) final home_xg 0.20 (measured shots and penalties)"
+  "2,000": "ghost_future_877000 n 2000 (the pass to #19 replayed; medoid world 1427)"
