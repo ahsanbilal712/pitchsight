@@ -80,7 +80,7 @@ def targets(slug: str) -> list[dict]:
 
 
 PASSAGES = {                       # track C's v6 live passages (clip ms)
-    "manutd-mancity-2526": [(873000, 880000), (1075000, 1079400)], "liverpool-mancity-2526": [(867000, 875600)],
+    "manutd-mancity-2526": [(873000, 880000), (1075000, 1079400), (1409500, 1415000)], "liverpool-mancity-2526": [(867000, 875600)],
     "arsenal-chelsea-2526": [(829000, 836000)], "manutd-spurs-2425": [(679800, 683400)]}
 
 

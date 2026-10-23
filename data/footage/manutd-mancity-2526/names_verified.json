@@ -164,6 +164,42 @@
     }
    ]
   },
+  "Mason Mount": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "shirt",
+     "ref": "shirts.json live1390000:t2@1409500-1414800: #7 in 7 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    }
+   ],
+   "links": [
+    {
+     "live": "live_1390000.json",
+     "label": "t2",
+     "track_id": 2,
+     "from_clip_ms": 1409500,
+     "to_clip_ms": 1414800
+    }
+   ]
+  },
+  "Matheus Cunha": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "shirt",
+     "ref": "shirts.json live1390000:t21@1409500-1414800: #10 in 3 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    }
+   ],
+   "links": [
+    {
+     "live": "live_1390000.json",
+     "label": "t21",
+     "track_id": 21,
+     "from_clip_ms": 1409500,
+     "to_clip_ms": 1414800
+    }
+   ]
+  },
   "Patrick Dorgu": {
    "team": "home",
    "sources": [
@@ -310,6 +346,12 @@
  },
  "rejected": [
   {
+   "name": "Bruno Fernandes",
+   "event": "e_0028",
+   "clip_ms": 644000,
+   "why": "score bug unchanged at 644000 ms (0-0)"
+  },
+  {
    "name": "Mason Mount",
    "event": "e_0070",
    "clip_ms": 1415000,
@@ -367,10 +409,6 @@
   },
   {
    "name": "Martínez",
-   "why": "tagger only"
-  },
-  {
-   "name": "Matheus Cunha",
    "why": "tagger only"
   },
   {

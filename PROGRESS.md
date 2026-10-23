@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v6: names for the late Man Utd passage (track B)
+
+- Track C's new live beat (mci_late_live_v6, live_1390000 1409.5-1415.0 s) added to `footage.shirts.PASSAGES`;
+  only its 8 tracks read (the other passages' reads stand on their windows; track A's re-cut windows differ
+  by a few hundred ms). Named: **Mason Mount** (#7, 7 of 7 crops), **Matheus Cunha** (#10, 3 crops); 6 tracks no
+  consistent number, no label.
+- Mount is now verified as a player on the pitch (shirt), not for his disallowed "3-0": the event-level
+  rejection is kept in names_verified.json (rejections tied to an event or a label are never dropped), and the
+  shot e_0070 stays unnamed.
+- Amad's opening beat: t19 is named 875.5-878.5 s from his hand label (3ff919c); t16 stays unnamed (its reads
+  disagree).
+- **Spend:** 8 Flash calls, $0.0762; project $4.2152 of $50. Grounding on edit_v6: 935 of 935.
+- Verification: `pytest tests/footage tests/newsroom tests/cache` 233 passed, 4 skipped (exit 0); ruff clean.
+
+---
+
 ## 2026-10-23 · Video v6: hand-label windows in the live name lists (track B)
 
 - Track A asked for Amad (t19) and Casemiro (t16) in Amad's passage. `footage.shirts.hand_windows`: a freeze's

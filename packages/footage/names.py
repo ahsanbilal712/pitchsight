@@ -179,7 +179,7 @@ def verify(slug: str) -> dict:
 
     shots = shot_names(slug, names)
     ok = {n for n in names}
-    rejected = [r for r in rejected if "label" in r or not any(_same(r["name"], n) for n in ok)] + \
+    rejected = [r for r in rejected if "label" in r or "event" in r or not any(_same(r["name"], n) for n in ok)] + \
                [{"name": n, "why": "tagger only"} for n in sorted(candidates(slug))
                 if not any(_same(n, k) for k in ok) and not any(r["name"] == n for r in rejected)]
     doc = {"slug": slug, "names": dict(sorted(names.items())), "shots": shots, "rejected": rejected,

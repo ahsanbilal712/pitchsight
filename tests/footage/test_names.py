@@ -24,7 +24,9 @@ def test_tagger_goals_need_the_score_bug_and_the_description():
 def test_unverified_names_in_a_line_are_caught():
     assert unverified_in("liverpool-mancity-2526", "Szoboszlai shoots; Salah was free") == []
     assert unverified_in("liverpool-mancity-2526", "Van Dijk heads clear from Szoboszlai") == ["Virgil van Dijk"]
-    assert unverified_in("manutd-mancity-2526", "Mount makes it three") == ["Mason Mount"]
+    assert "Marcus Rashford" in unverified_in("manutd-spurs-2425", "Rashford shoots")
+    # Mount is verified on the pitch (shirt 7 in stoppage time) but his disallowed "3-0" is never his shot
+    assert verify("manutd-mancity-2526")["shots"]["e_0070"]["name"] is None
 
 
 def test_a_shot_is_named_only_when_that_shot_is_verified():
