@@ -1,0 +1,189 @@
+{
+ "slug": "liverpool-mancity-2526",
+ "names": {
+  "Bernardo Silva": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 708000 + e_0027"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 708000 + e_0028"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 708000,
+     "event": "e_0027"
+    },
+    {
+     "clip_ms": 708000,
+     "event": "e_0028"
+    }
+   ]
+  },
+  "Cherki": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1651000 + e_0073"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1651000 + e_0074"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1651000,
+     "event": "e_0073"
+    },
+    {
+     "clip_ms": 1653000,
+     "event": "e_0074"
+    }
+   ]
+  },
+  "Dominik Szoboszlai": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/875000.json"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 97000 + e_0006"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 97000 + e_0007"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 875000,
+     "label": "#8",
+     "track_id": 60
+    },
+    {
+     "clip_ms": 97000,
+     "event": "e_0006"
+    },
+    {
+     "clip_ms": 98000,
+     "event": "e_0007"
+    }
+   ]
+  },
+  "Haaland": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1253000 + e_0048"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1253000 + e_0049"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1253000,
+     "event": "e_0048"
+    },
+    {
+     "clip_ms": 1254000,
+     "event": "e_0049"
+    }
+   ]
+  },
+  "Mohamed Salah": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/875000.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 875000,
+     "label": "#11",
+     "track_id": 72
+    }
+   ]
+  }
+ },
+ "rejected": [
+  {
+   "name": "Ait-Nouri",
+   "why": "tagger only"
+  },
+  {
+   "name": "Ake",
+   "why": "tagger only"
+  },
+  {
+   "name": "Alisson",
+   "why": "tagger only"
+  },
+  {
+   "name": "Aït-Nouri",
+   "why": "tagger only"
+  },
+  {
+   "name": "Chiesa",
+   "why": "tagger only"
+  },
+  {
+   "name": "Curtis Jones",
+   "why": "tagger only"
+  },
+  {
+   "name": "Donnarumma",
+   "why": "tagger only"
+  },
+  {
+   "name": "Florian Wirtz",
+   "why": "tagger only"
+  },
+  {
+   "name": "Kerkez",
+   "why": "tagger only"
+  },
+  {
+   "name": "Mac Allister",
+   "why": "tagger only"
+  },
+  {
+   "name": "Marc Guéhi",
+   "why": "tagger only"
+  },
+  {
+   "name": "Matheus Nunes",
+   "why": "tagger only"
+  },
+  {
+   "name": "O'Reilly",
+   "why": "tagger only"
+  },
+  {
+   "name": "Rodri",
+   "why": "tagger only"
+  },
+  {
+   "name": "Semenyo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Virgil van Dijk",
+   "why": "tagger only"
+  }
+ ],
+ "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"
+}

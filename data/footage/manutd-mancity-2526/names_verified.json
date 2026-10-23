@@ -1,0 +1,196 @@
+{
+ "slug": "manutd-mancity-2526",
+ "names": {
+  "Amad": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/877000.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 877000,
+     "label": "#16",
+     "track_id": 19
+    }
+   ]
+  },
+  "Bruno Fernandes": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/877000.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 877000,
+     "label": "#8",
+     "track_id": 15
+    }
+   ]
+  },
+  "Bryan Mbeumo": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json goal 65'"
+    },
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1079000 + e_0051"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1079000 + e_0052"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1079000,
+     "event": "e_0051"
+    },
+    {
+     "clip_ms": 1081000,
+     "event": "e_0052"
+    }
+   ]
+  },
+  "Gianluigi Donnarumma": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/877000.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 877000,
+     "label": "GK",
+     "track_id": 20
+    }
+   ]
+  },
+  "Patrick Dorgu": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json goal 76'"
+    },
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1190000 + e_0054"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1190000 + e_0055"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1190000,
+     "event": "e_0054"
+    },
+    {
+     "clip_ms": 1190000,
+     "event": "e_0055"
+    }
+   ]
+  }
+ },
+ "rejected": [
+  {
+   "name": "Mason Mount",
+   "event": "e_0070",
+   "clip_ms": 1415000,
+   "why": "the description lists the goals and not this one"
+  },
+  {
+   "name": "Abner",
+   "why": "tagger only"
+  },
+  {
+   "name": "Ait Nouri",
+   "why": "tagger only"
+  },
+  {
+   "name": "Antoine Semenyo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Ayden Heaven",
+   "why": "tagger only"
+  },
+  {
+   "name": "Casemiro",
+   "why": "tagger only"
+  },
+  {
+   "name": "Cherki",
+   "why": "tagger only"
+  },
+  {
+   "name": "Dalot",
+   "why": "tagger only"
+  },
+  {
+   "name": "Diogo Dalot",
+   "why": "tagger only"
+  },
+  {
+   "name": "Haaland",
+   "why": "tagger only"
+  },
+  {
+   "name": "Harry Maguire",
+   "why": "tagger only"
+  },
+  {
+   "name": "Jérémy Doku",
+   "why": "tagger only"
+  },
+  {
+   "name": "Lammens",
+   "why": "tagger only"
+  },
+  {
+   "name": "Martínez",
+   "why": "tagger only"
+  },
+  {
+   "name": "Matheus Cunha",
+   "why": "tagger only"
+  },
+  {
+   "name": "Maxence Lacroix",
+   "why": "tagger only"
+  },
+  {
+   "name": "Reijnders",
+   "why": "tagger only"
+  },
+  {
+   "name": "Rico Lewis",
+   "why": "tagger only"
+  },
+  {
+   "name": "Shaw",
+   "why": "tagger only"
+  }
+ ],
+ "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"
+}

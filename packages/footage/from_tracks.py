@@ -27,6 +27,7 @@ from footage.tag import side
 
 FLIP = np.array([[1.0, 0.0, 0.0], [0.0, -1.0, PITCH_W], [0.0, 0.0, 1.0]])   # (x, y_far) -> (x, y_near)
 MATCH_RADIUS_M = 2.5
+CONFLICT_IMAGE_PX = 12.0          # hand mark and track feet this close in the image are one player
 BALL_MIN_CONF = 0.3
 
 
@@ -160,24 +161,30 @@ def common_mode_velocity(players: list[dict]) -> tuple[float, float]:
 
 
 def inherit_labels(moment: dict, base: dict) -> dict:
-    """Each hand-marked labelled player gives his label and name to the nearest track of his team within 2.5 m; the
-    ball holder follows his label. Returns {label: distance_m} for the report."""
+    """Each hand-marked labelled player gives his label and name to the nearest track of his team within 2.5 m,
+    closest pairs first (two players in one merged box: the nearer hand mark takes the track, the other keeps his
+    hand mark); the ball holder follows his label. Returns {label: distance_m} for the report."""
     taken, dist = set(), {}
-    for h in base["players"]:
-        if not h.get("label") or h.get("source") == "prior":
+    hands = [h for h in base["players"] if h.get("label") and h.get("source") != "prior"]
+    pairs = sorted((math.hypot(p["x"] - h["x"], p["y"] - h["y"]), j, i) for j, h in enumerate(hands)
+                   for i, p in enumerate(moment["players"]) if p["team"] == h["team"])
+    for d, j, i in pairs:
+        h = hands[j]
+        if d > MATCH_RADIUS_M or i in taken or h["label"] in dist:
             continue
-        cands = [(math.hypot(p["x"] - h["x"], p["y"] - h["y"]), i) for i, p in enumerate(moment["players"])
-                 if p["team"] == h["team"] and i not in taken]
-        d, i = min(cands) if cands else (math.inf, -1)
-        if d <= MATCH_RADIUS_M:
-            taken.add(i)
-            moment["players"][i].update(label=h["label"], name=h.get("name"),
-                                        slot=h.get("slot") if h.get("slot") == "GK" else moment["players"][i]["slot"])
-            dist[h["label"]] = round(d, 2)
+        taken.add(i)
+        moment["players"][i].update(label=h["label"], name=h.get("name"),
+                                    slot=h.get("slot") if h.get("slot") == "GK" else moment["players"][i]["slot"])
+        dist[h["label"]] = round(d, 2)
+    for h in hands:
+        if h["label"] in dist:
             continue
-        # a track of the other team on the same spot: the kit cluster and the hand mark disagree
+        # a track of the other team on the same spot: the kit cluster and the hand mark disagree. Where both have
+        # image points, the same spot means the same feet (a different player standing close is not a conflict)
         other = [(math.hypot(p["x"] - h["x"], p["y"] - h["y"]), i) for i, p in enumerate(moment["players"])
-                 if p["team"] != h["team"] and i not in taken and p["label"].startswith("t")]
+                 if p["team"] != h["team"] and i not in taken and p["label"].startswith("t")
+                 and not (h.get("image") and p.get("image")
+                          and math.dist(h["image"], p["image"]) > CONFLICT_IMAGE_PX)]
         if other and min(other)[0] <= 1.0:
             moment.setdefault("team_conflicts", []).append(
                 {"label": h["label"], "hand_team": h["team"], "track": moment["players"][min(other)[1]]["label"],
@@ -207,6 +214,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--write", action="store_true")
     args = ap.parse_args(argv)
     path = moments_dir(args.slug) / f"{args.clip_ms}.json"
+    hand = moments_dir(args.slug) / "hand" / f"{args.clip_ms}.json"
+    path = hand if hand.exists() else path          # re-runs start from the hand marks, not the tracked file
     base = json.loads(path.read_text()) if path.exists() else None
     m = moment_from_tracks(args.slug, args.clip_ms, base)
     seen = {p["label"] for p in m["players"] if not p["label"].startswith("t")}

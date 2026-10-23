@@ -6,7 +6,7 @@ import json
 import numpy as np
 
 from footage.freeze import apply_h, to_state
-from footage.from_tracks import FLIP, moment_from_tracks
+from footage.from_tracks import FLIP, inherit_labels, moment_from_tracks
 
 FPS = 50.0
 H_A = np.array([[0.05, 0.002, 3.0], [0.001, 0.06, -2.0], [0.0, 0.00001, 1.0]])   # image -> (x, y from far side)
@@ -92,3 +92,17 @@ def test_overrides_fix_referee_and_keeper_labels(tmp_path):
     m = moment_from_tracks("liverpool-mancity-2526", 875000, BASE, folder)
     assert "t4" not in {p["label"] for p in m["players"]}
     assert next(p for p in m["players"] if p["label"] == "GK")["slot"] == "GK"
+
+
+def test_two_players_in_one_merged_box_closest_hand_mark_takes_the_track():
+    track = {"team": "home", "label": "t68", "slot": "CM", "x": 86.3, "y": 39.6, "image": [728, 421]}
+    city = {"team": "away", "label": "t69", "slot": "CB", "x": 87.9, "y": 41.9, "image": [754, 397]}
+    moment = {"players": [track, city], "ball": {"holder": None}}
+    base = {"ball": {"holder": None}, "players": [                       # Liverpool 86:23: L3 behind L4, one box
+        {"team": "home", "label": "L3", "x": 87.2, "y": 41.5, "image": [722, 400]},
+        {"team": "home", "label": "L4", "x": 86.7, "y": 39.2, "image": [745, 420]}]}
+    dist = inherit_labels(moment, base)
+    assert dist == {"L4": 0.57} and track["label"] == "L4"
+    l3 = next(p for p in moment["players"] if p["label"] == "L3")
+    assert l3["source"] == "hand" and (l3["x"], l3["y"]) == (87.2, 41.5)    # City's t69 stands close: no conflict
+    assert not moment.get("team_conflicts")

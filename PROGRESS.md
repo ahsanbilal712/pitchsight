@@ -5,6 +5,27 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v4: verified names, and two moment-file fixes under track A's goal-in-10s (track B)
+
+- **Verified names** `footage.names` -> `data/footage/<slug>/names_verified.json`. A name reaches the screen only
+  with a source: hand label (moments/hand), the clip's published description (frozen in `description.json`: goal
+  lines and mentions; clip.info.json stays ignored), or a tagger goal the **score bug** confirms (`score_bug.json`,
+  read by hand 8 s before and 40 s after every tagged goal). `unverified_in(slug, text)` flags any other name.
+  Result: 24 verified across the four clips; rejected include Bruno Fernandes's "goal" at 40:06 v City (bug stays
+  0-0), Mason Mount's 3-0 (the description lists two goals, 2-0), the duplicate Kulusevski at 47:49 (bug stays 0-2),
+  and every tagger-only name (e.g. Van Dijk, Maddison).
+- **Liverpool 86:23 moment:** L3 and L4 stand in one merged tracking box (track 68); the hand-mark-order matching
+  gave the track to L3 (1.9 m) instead of L4 (0.5 m), so L3 sat on L4's spot with the box's velocity, and track A's
+  "pass to L3, 4.2%" rested on it. `from_tracks.inherit_labels` now matches closest pairs first; a different player
+  standing close (City's t69, 32 px from L3's feet) is no longer a team conflict (`CONFLICT_IMAGE_PX` 12).
+  Frame-checked: two Liverpool players overlap at the D. Re-runs start from moments/hand.
+- **Arsenal 79:10 moment:** the ball was a stale tracking detection at x 106.66 (behind the goal line); re-derived,
+  it is the hand-marked ball at (88.78, 23.39) beside Eze.
+- Track A re-runs goal10_decision for 875000 and 1300500 on the fixed files. No model call; spend unchanged.
+- Verification: `pytest tests/footage` 39 passed; ruff clean; validate_schemas OK (5389 documents).
+
+---
+
 ## 2026-10-23 · Working-tree tidy after the v3 final: ledger, eval table, footage tests (track B)
 
 - **Ledger:** two smoke rows of 23 Oct 08:30 UTC (Flash $0.000009, Argon $0.000126) committed; the ledger stays the

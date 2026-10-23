@@ -1,0 +1,198 @@
+{
+ "slug": "arsenal-chelsea-2526",
+ "names": {
+  "Bukayo Saka": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/1300500.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1300500,
+     "label": "#7",
+     "track_id": 36
+    }
+   ]
+  },
+  "David Raya": {
+   "team": null,
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    }
+   ],
+   "links": []
+  },
+  "Eberechi Eze": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/1300500.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1300500,
+     "label": "#10",
+     "track_id": 18
+    }
+   ]
+  },
+  "Jurrien Timber": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json goal 66'"
+    },
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1071000 + e_0038"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1071000 + e_0039"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1071000 + e_0040"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1071000,
+     "event": "e_0038"
+    },
+    {
+     "clip_ms": 1071000,
+     "event": "e_0039"
+    },
+    {
+     "clip_ms": 1083000,
+     "event": "e_0040"
+    }
+   ]
+  },
+  "Piero Hincapié": {
+   "team": null,
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json goal 45'"
+    },
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    }
+   ],
+   "links": []
+  },
+  "Robert Sánchez": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/1300500.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1300500,
+     "label": "GK",
+     "track_id": 47
+    }
+   ]
+  },
+  "William Saliba": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json goal 21'"
+    },
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 365000 + e_0011"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 365000,
+     "event": "e_0011"
+    }
+   ]
+  }
+ },
+ "rejected": [
+  {
+   "name": "Caicedo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Chalobah",
+   "why": "tagger only"
+  },
+  {
+   "name": "Cole Palmer",
+   "why": "tagger only"
+  },
+  {
+   "name": "Declan Rice",
+   "why": "tagger only"
+  },
+  {
+   "name": "Enzo Fernández",
+   "why": "tagger only"
+  },
+  {
+   "name": "Gabriel",
+   "why": "tagger only"
+  },
+  {
+   "name": "Garnacho",
+   "why": "tagger only"
+  },
+  {
+   "name": "Gusto",
+   "why": "tagger only"
+  },
+  {
+   "name": "Gyökeres",
+   "why": "tagger only"
+  },
+  {
+   "name": "João Pedro",
+   "why": "tagger only"
+  },
+  {
+   "name": "Neto",
+   "why": "tagger only"
+  },
+  {
+   "name": "Pedro Neto",
+   "why": "tagger only"
+  },
+  {
+   "name": "Reece James",
+   "why": "tagger only"
+  },
+  {
+   "name": "Tosin",
+   "why": "tagger only"
+  }
+ ],
+ "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"
+}

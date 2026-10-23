@@ -1,0 +1,225 @@
+{
+ "slug": "manutd-spurs-2425",
+ "names": {
+  "André Onana": {
+   "team": "home",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/682800.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 682800,
+     "label": "GK",
+     "track_id": 37
+    }
+   ]
+  },
+  "Brennan Johnson": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 261000 + e_0007"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 261000 + e_0008"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 261000,
+     "event": "e_0007"
+    },
+    {
+     "clip_ms": 262000,
+     "event": "e_0008"
+    }
+   ]
+  },
+  "Bruno Fernandes": {
+   "team": null,
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    }
+   ],
+   "links": []
+  },
+  "Dejan Kulusevski": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1034000 + e_0044"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1034000 + e_0045"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1034000,
+     "event": "e_0044"
+    },
+    {
+     "clip_ms": 1035000,
+     "event": "e_0045"
+    }
+   ]
+  },
+  "Micky van de Ven": {
+   "team": null,
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    }
+   ],
+   "links": []
+  },
+  "Solanke": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1330000 + e_0067"
+    },
+    {
+     "kind": "score_bug",
+     "ref": "score_bug.json 1330000 + e_0068"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 1330000,
+     "event": "e_0067"
+    },
+    {
+     "clip_ms": 1330000,
+     "event": "e_0068"
+    }
+   ]
+  },
+  "Timo Werner": {
+   "team": "away",
+   "sources": [
+    {
+     "kind": "hand",
+     "ref": "moments/hand/682800.json"
+    }
+   ],
+   "links": [
+    {
+     "clip_ms": 682800,
+     "label": "#16",
+     "track_id": 25
+    }
+   ]
+  }
+ },
+ "rejected": [
+  {
+   "name": "Bergvall",
+   "why": "tagger only"
+  },
+  {
+   "name": "Casemiro",
+   "why": "tagger only"
+  },
+  {
+   "name": "Dalot",
+   "why": "tagger only"
+  },
+  {
+   "name": "Diogo Dalot",
+   "why": "tagger only"
+  },
+  {
+   "name": "Djed Spence",
+   "why": "tagger only"
+  },
+  {
+   "name": "Garnacho",
+   "why": "tagger only"
+  },
+  {
+   "name": "Guglielmo Vicario",
+   "why": "tagger only"
+  },
+  {
+   "name": "James Maddison",
+   "why": "tagger only"
+  },
+  {
+   "name": "Lisandro Martínez",
+   "why": "tagger only"
+  },
+  {
+   "name": "Maddison",
+   "why": "tagger only"
+  },
+  {
+   "name": "Mainoo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Marcus Rashford",
+   "why": "tagger only"
+  },
+  {
+   "name": "Matthijs de Ligt",
+   "why": "tagger only"
+  },
+  {
+   "name": "Mazraoui",
+   "why": "tagger only"
+  },
+  {
+   "name": "Moore",
+   "why": "tagger only"
+  },
+  {
+   "name": "Pedro Porro",
+   "why": "tagger only"
+  },
+  {
+   "name": "Porro",
+   "why": "tagger only"
+  },
+  {
+   "name": "Rashford",
+   "why": "tagger only"
+  },
+  {
+   "name": "Romero",
+   "why": "tagger only"
+  },
+  {
+   "name": "Sarr",
+   "why": "tagger only"
+  },
+  {
+   "name": "Vicario",
+   "why": "tagger only"
+  },
+  {
+   "name": "Zirkzee",
+   "why": "tagger only"
+  }
+ ],
+ "rule": "a name reaches the screen only with a hand, description or score_bug source (footage.names)"
+}
