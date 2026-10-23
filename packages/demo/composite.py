@@ -332,8 +332,9 @@ class Painter:
             shot_to = np.median([p[1] for p in fut.baseline], axis=0) if fut.baseline else None
             self.ghosts = [g for g in (self._branch(fut.baseline, shot_to, WHITE, T_BASE),
                                        self._branch(fut.alternative, self.target_m, ORANGE, T_ALT)) if g]
-        self.v5 = m.get("style") == "v5"
-        self.v4 = m.get("style") in ("v4", "v5")           # v5 keeps v4's ramp, punch-in, rewind and lower-thirds
+        self.v6 = m.get("style") == "v6"                   # v5's drawing with v6's rules (owner, 23 Oct)
+        self.v5 = m.get("style") in ("v5", "v6")
+        self.v4 = m.get("style") in ("v4", "v5", "v6")           # v5 keeps v4's ramp, punch-in, rewind and lower-thirds
         self.xg = load_json(m.get("xg"), "result") if m.get("xg") else None
         if self.v5 and self.xg is None and m.get("xg"):
             self.xg = load_json(m["xg"])                   # track A writes v5 files bare or wrapped
@@ -419,10 +420,13 @@ class Painter:
             return "edge of the box"
         return "outside the box"
 
-    def option_label(self, o: dict) -> str:
-        """'Saka' for a verified name, else the team and where he stands; never an internal id."""
+    def option_label(self, o: dict) -> str | None:
+        """'Saka' for a verified name; v6: else a shirt number, else nothing (no placeholders); before v6: the team
+        and where he stands. Never an internal id."""
         if o.get("name"):
             return o["name"].split()[-1]
+        if self.v6:
+            return f"#{o['shirt']}" if o.get("shirt") else None
         return f"{self.m.get('team_name', 'Teammate')} · {self.area_label(o['x'], o['y'])}"
 
     def _v5_geometry(self) -> dict:
@@ -506,7 +510,8 @@ class Painter:
         for k, o in enumerate(self.v5_options()):
             a = window(t, T_ALT[1] + 0.4 * k, T_ALT[1] + 0.4 * k + 0.4) * (1 - fade) * (1.0 if k == 0 else 0.6)
             end = [o["x"], o["y"]]
-            items.append((end, f"{self.option_label(o).upper()}  → {o['xg_after_pass']:.2f} xG",
+            label = self.option_label(o)
+            items.append((end, f"{label.upper() + '  → ' if label else 'PASS → '}{o['xg_after_pass']:.2f} xG",
                           ORANGE if k == 0 else WHITE, a, 40))
         for where, text, colour, a, dy in items:
             if a <= 0:
@@ -534,7 +539,8 @@ class Painter:
         rows = [(shot_label, act["xg"], (196, 204, 214))]
         opts = self.v5_options()
         if opts:
-            rows.append((f"Pass to {self.option_label(opts[0])}", opts[0]["xg_after_pass"], ORANGE))
+            label = self.option_label(opts[0])
+            rows.append((f"Pass to {label}" if label else "Pass", opts[0]["xg_after_pass"], ORANGE))
         x0, w = self._panel_x(a), PANEL_W + 60
         formula = self._wrap(x.get("formula", ""), self.font_reg[20], w - 64)
         has_note = bool(self.m.get("card_note") or self.m.get("finishing"))
@@ -549,14 +555,14 @@ class Painter:
         top = max(r[1] for r in rows) * 1.2 or 1.0
         bx0, bx1 = x0 + 32, x0 + w - 150
         for k, (label, v, col) in enumerate(rows):
-            grow = swing if k else window(t, T_CARD[0], T_CARD[0] + 0.8)       # the shot's number counts up
+            grow = swing if k else (1.0 if self.v6 else window(t, T_CARD[0], T_CARD[0] + 0.8))   # v6: no count-up
             y = y0 + 56 + 70 * k
             d.text((bx0, y), label, font=self.font_reg[22], fill=(230, 236, 242, al))
             by = y + 30
             d.rounded_rectangle((bx0, by, bx1, by + 12), radius=6, fill=(255, 255, 255, int(28 * a)))
             d.rounded_rectangle((bx0, by, bx0 + max(12, (bx1 - bx0) * v / top * grow), by + 12), radius=6,
                                 fill=(*col, al))
-            shown = v * grow if k == 0 else v                                  # a count-up, landing on the value
+            shown = v if self.v6 or k else v * grow                            # v6 prints only the value
             d.text((x0 + w - 28, by + 6), f"{shown:.2f}", font=self.font[34],
                    fill=(*col, int(al * (1 if k == 0 else grow))), anchor="rm")
         yy = y0 + 56 + 70 * len(rows)
@@ -1174,6 +1180,31 @@ def decode_range(m: dict, start: float, dur: float) -> np.ndarray:
     return np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
 
 
+def goal_tag(m: dict, enc, frames: np.ndarray, start_s: float, p: Painter) -> None:
+    """v6: no flash; a small broadcast tag 'GOAL · 0.48 xG' slides in at the bottom left when the ball crosses the
+    line (owner: the big flash was cartoonish)."""
+    goal_t = float(m["goal_clip_s"])
+    colour = tuple((m.get("kits") or {}).get(m.get("team", "home"), ORANGE))
+    act = (p.xg or {}).get("actual", {})
+    xg = act.get("strike_xg") if act.get("strike_xg") is not None else act.get("xg")
+    f = ImageFont.truetype(FONT, 34)
+    text = f"GOAL · {xg:.2f} xG" if xg is not None else "GOAL"
+    for i, fr in enumerate(frames):
+        dt = start_s + i / FPS - goal_t
+        if dt < 0:
+            enc.stdin.write(fr.tobytes())
+            continue
+        a = min(1.0, dt / 0.25)
+        im = Image.fromarray(fr.copy())
+        d = ImageDraw.Draw(im, "RGBA")
+        w = d.textlength(text, font=f) + 44
+        x0, y0 = 96 - int((1 - a) * 40), H - 96 - 64
+        d.rounded_rectangle((x0, y0, x0 + w, y0 + 64), radius=10, fill=(*PANEL, int(235 * a)))
+        d.rectangle((x0, y0, x0 + 8, y0 + 64), fill=(*colour, int(255 * a)))
+        d.text((x0 + 28, y0 + 32), text, font=f, fill=(255, 255, 255, int(255 * a)), anchor="lm")
+        enc.stdin.write(np.asarray(im.convert("RGB")).tobytes())
+
+
 def goal_flash(m: dict, enc, frames: np.ndarray, start_s: float, p: Painter) -> None:
     """The real replay with the goal marked: a flash in the team colour on the frame the ball crosses the line
     (`goal_clip_s`, from track A), then 'GOAL' and the shot's xG with 'scored' held to the end."""
@@ -1220,7 +1251,7 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
                              capture_output=True, check=True).stdout
         enc.stdin.write(dec)
 
-    if m.get("style") in ("v4", "v5"):                 # v4/v5: a speed ramp into slow motion before the freeze
+    if m.get("style") in ("v4", "v5", "v6"):           # a speed ramp into slow motion before the freeze
         ramp = min(RAMP_SLOW_S, pre_s)
         real(t0 - pre_s, pre_s - ramp)
         frames = decode_range(m, t0 - ramp, ramp)
@@ -1239,13 +1270,14 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
         t = i / FPS
         t = t if t < FADE_OUT[0] else (FADE_OUT[0] - 0.01 if t < FADE_OUT[0] + hold else t - hold)
         enc.stdin.write(p.render(t, standin_mark=standin).tobytes())
-    if m.get("style") in ("v4", "v5") and post_s > 0:  # a rewind sting, then what really happened
+    if m.get("style") in ("v4", "v5", "v6") and post_s > 0:   # a rewind sting, then what really happened
         back = decode_range(m, t0 - REWIND_S, REWIND_S)[::-1][:: REWIND_STEP]
         for fr in back:
             g = fr.astype(float) * 0.82 + np.array([10, 18, 40]) * 0.18   # cool tint while it runs backwards
             enc.stdin.write(np.clip(g, 0, 255).astype(np.uint8).tobytes())
         if m.get("goal_clip_s") is not None:              # v5: the goal flash on the real replay
-            goal_flash(m, enc, decode_range(m, t0 - REWIND_S, post_s + REWIND_S), t0 - REWIND_S, p)
+            (goal_tag if m.get("style") == "v6" else goal_flash)(
+                m, enc, decode_range(m, t0 - REWIND_S, post_s + REWIND_S), t0 - REWIND_S, p)
         else:
             real(t0 - REWIND_S, post_s + REWIND_S)
     else:
@@ -1263,7 +1295,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--clip", action="store_true")
     ap.add_argument("--standin", action="store_true", help="re-anchored cf_000070 futures until T-109 lands")
     ap.add_argument("--refit", action="store_true", help="refit the camera even if cached")
-    ap.add_argument("--style", choices=["v3", "v4", "v5"], help="v4: median lanes, goal in the next 10 s, slow-motion "
+    ap.add_argument("--style", choices=["v3", "v4", "v5", "v6"], help="v4: median lanes, goal in the next 10 s, slow-motion "
                     "ramp and punch-in (video v4); default the moment's own")
     ap.add_argument("--mode", choices=["broadcast", "analyst", "casual", "player_cam"], default="broadcast",
                     help="viewer mode: analyst adds the pitch-control heatmap, casual keeps one sentence, "
@@ -1302,7 +1334,7 @@ def main(argv: list[str] | None = None) -> int:
     p = Painter(m, frame, cam, fut, mode=args.mode)
     standin = bool(fut and fut.standin)
     s = stem(m, standin) + ("" if args.mode == "broadcast" else f"_{args.mode}") + \
-        (f"_{m['style']}" if m.get("style") in ("v4", "v5") else "")
+        (f"_{m['style']}" if m.get("style") in ("v4", "v5", "v6") else "")
     if args.png or not args.clip:
         print(f"wrote {export_png(p, OUT / f'{s}.png', standin).relative_to(ROOT)}")
     if args.clip:

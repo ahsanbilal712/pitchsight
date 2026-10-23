@@ -95,3 +95,12 @@ def test_v4_beats_render(tmp_path):
                                                  {"clip_ms": 900000, "clock": "87:00", "home_xg": 1.2,
                                                   "away_xg": 0.4}], "events": []}
     assert scene(L.XGRace, tmp_path, "race", race, t0=1.0).preview(9.0).size == (L.W, L.H)
+
+
+def test_v6_labels_never_placeholders():
+    """Owner (v6): a verified name, else a shirt number, else no label at all."""
+    from demo.v6 import who
+    assert who({"name": "Bruno Fernandes"}) == "Fernandes"
+    assert who({"name": None, "shirt": 19}) == "#19"
+    assert who({"name": None, "shirt": None, "track_id": 7}) is None
+    assert who(None) is None

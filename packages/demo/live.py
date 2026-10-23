@@ -1245,6 +1245,12 @@ class XGRace(RiverStrip):
         im.paste(layer, (0, 0), layer)
 
 
+def _v6_scenes() -> dict:
+    from demo.v6 import LiveHUD, Pipeline, ShotMap  # v6 builds on this module's base classes
+    return {"live_hud": LiveHUD, "shot_map": ShotMap, "pipeline": Pipeline}
+
+
 SCENES = {"oracle": Oracle, "metrics": Metrics, "river_strip": RiverStrip, "shot_xg": ShotXG,
           "ghost_future": GhostFuture, "xg_race": XGRace, "speed_gun": SpeedGun, "pass_xray": PassXray, "offside": Offside,
           "ghost_defender": GhostDefender, "keeper_cone": KeeperCone, "red_card_cost": RedCardCost, "river": River}
+SCENES.update(_v6_scenes())
