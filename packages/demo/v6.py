@@ -538,18 +538,20 @@ class Pipeline(Still):
         big = g > 0.5
         d.text((x0 + 54, y + (12 if big else 14)), n["agent"].upper(), font=self.f[34 if big else 26],
                fill=(255, 255, 255, al))
-        timing = self._timing(n)
+        timing = self._timing(n, model=big)                # the model name only on the open card
         if timing:
             d.text((x0 + w - 20, y + 18), timing, font=self.r[24 if big else 22], fill=(*MUTED, al), anchor="ra")
-        if not big:                                        # compact: its output on one line
-            rows = self.rows[k]
-            if n.get("claims"):                            # compact factcheck: the claims and the verdict
-                ok = all(c.get("ok") for c in n["claims"])
-                rows = [("  ".join(c["text"] for c in n["claims"]) + ("   all verified" if ok else ""), None, None)]
-            if rows and state != "future":
+        if not big:                                        # compact: one short phrase, never cut
+            short = self.short(n)
+            if short and state != "future":
                 x1 = x0 + w - 20 - (d.textlength(timing, font=self.r[22]) + 24 if timing else 0)
                 nx = x0 + 54 + d.textlength(n["agent"].upper(), font=self.f[26]) + 20
-                d.text((nx, y + 17), fit(d, rows[0][0], self.r[22], x1 - nx), font=self.r[22], fill=(*MUTED, al))
+                tx = nx
+                if n.get("claims") and all(c.get("ok") for c in n["claims"]):
+                    d.line((tx, y + 30, tx + 6, y + 36, tx + 16, y + 24), fill=(*GOOD, al), width=4)
+                    tx += 26
+                f = shrink(d, short, FONT_REG, 22, x1 - tx)
+                d.text((tx, y + 29), short, font=f, fill=(*MUTED, al), anchor="lm")
             return
         a = int(255 * window(g, 0.6, 1.0))
         d.text((x0 + 54, y + 58), self.WHAT.get(n["agent"], ""), font=self.r[24], fill=(*MUTED, a))
@@ -566,17 +568,27 @@ class Pipeline(Still):
                     d.line((tx, yy - 7, tx + 14, yy + 7), fill=(*ORANGE, a), width=4)
                     d.line((tx, yy + 7, tx + 14, yy - 7), fill=(*ORANGE, a), width=4)
                 tx += 32
-            d.text((tx, ty), fit(d, text, self.r[27], x0 + w - 24 - tx), font=self.r[27], fill=(*colour, a))
+            d.text((tx, ty), text, font=shrink(d, text, FONT_REG, 27, x0 + w - 24 - tx), fill=(*colour, a))
+
+    def short(self, n: dict) -> str | None:
+        """The compact card's phrase: the beat's own (`compact` in the moment, numbers from the view's facts), else
+        a claim count for the factcheck, else nothing."""
+        text = (self.m.get("compact") or {}).get(n["agent"])
+        if text:
+            return text
+        if n.get("claims"):
+            return f"{len(n['claims'])} claims checked"
+        return None
 
     @staticmethod
-    def _timing(n: dict) -> str:
+    def _timing(n: dict, model: bool = True) -> str:
         lat = n.get("latency_ms")
         if lat is None:
             return ""
         text = f"{lat / 1000:.1f} s" if isinstance(lat, int | float) and lat >= 1000 else f"{lat} ms"
         if n.get("timing_source"):                         # where the number comes from, beside it
             text += f" · {n['timing_source']}"
-        if n.get("model"):
+        if model and n.get("model"):
             text += f" · {n['model']}"
         return text
 
@@ -627,7 +639,8 @@ class Pipeline(Still):
             out.append((f"draft: \u201c{n['draft']}\u201d", MUTED, None))
         for c in n.get("claims", []):                      # every claim with its tick and its evidence
             ev = re.sub(r"\s*\([^()]*(\([^()]*\)[^()]*)*\)", "", c.get("evidence", ""))   # without the asides
-            out.append((f"{c['text']}   {ev}" if ev else c["text"], GOOD if c.get("ok") else ORANGE,
+            numeric = any(ch.isdigit() for ch in c["text"])     # a name is checked, its evidence is a number's
+            out.append((f"{c['text']}   {ev}" if ev and numeric else c["text"], GOOD if c.get("ok") else ORANGE,
                         bool(c.get("ok"))))
         if n.get("line"):
             for ln in Live._wrap(d, n["line"], self.r[27], 700):
@@ -635,10 +648,11 @@ class Pipeline(Still):
         return out
 
 
-def fit(d: ImageDraw.ImageDraw, text: str, font, width: float) -> str:
-    """The text cut to the width with an ellipsis."""
-    if d.textlength(text, font=font) <= width:
-        return text
-    while text and d.textlength(text + "\u2026", font=font) > width:
-        text = text[:-1]
-    return text.rstrip(" ,;:(") + "\u2026"
+def shrink(d: ImageDraw.ImageDraw, text: str, face: str, size: int, width: float):
+    """The largest font up to `size` that fits the text on one line (nothing on screen is ever cut)."""
+    while size > 14:
+        f = ImageFont.truetype(face, size)
+        if d.textlength(text, font=f) <= width:
+            return f
+        size -= 1
+    raise ValueError(f"does not fit on one line even at 14 px: {text!r}")
