@@ -91,6 +91,7 @@ class Live:
         self.kit = np.array((m.get("kits") or {}).get(m.get("team", "home"), ORANGE)) / 255
         self.font = {z: ImageFont.truetype(FONT, z) for z in (22, 26, 30, 34, 50, 64)}
         self.reg = {z: ImageFont.truetype(FONT_REG, z) for z in (20, 22, 26)}
+        self.camera_note = ""
         self.calib = self._calib()
         self.fps_clip = float(self.calib.get("fps", 50.0))
 
@@ -100,25 +101,71 @@ class Live:
 
     def _calib(self) -> dict:
         shot = self.m.get("shot_id") or self.data.get("shot_id")
+        if isinstance(shot, list):                       # a run across camera cuts: one fit per shot
+            shots = json.loads((FOOTAGE / self.m["clip"] / "shots.json").read_text())["shots"]
+            d = FOOTAGE / self.m["clip"] / "calib"
+            multi = {}
+            for sid in shot:
+                path = next(p for p in (d / f"{sid}_refined.json", d / f"{sid}.json") if p.exists())
+                rng = next((x["start"], x["end"]) for x in shots if x["id"] == sid)
+                multi[sid] = (rng, json.loads(path.read_text()))
+            return {"multi": multi, "fps": next(iter(multi.values()))[1].get("fps", 50.0)}
         if shot is None:
             shots = json.loads((FOOTAGE / self.m["clip"] / "shots.json").read_text())["shots"]
             t0 = self.span()[0]
             shot = next((s["id"] for s in shots if s["start"] <= t0 <= s["end"]), None)
-        if self.data.get("homography") and self.freeze_at() is not None:
-            return {"static": self.data["homography"]["image_to_pitch"]}    # a frozen beat's own camera, fitted on
-        d = FOOTAGE / self.m["clip"] / "calib"                             # its frame, before the shot's fits
+        d = FOOTAGE / self.m["clip"] / "calib"
         path = next((p for p in (d / f"{shot}_refined.json", d / f"{shot}.json") if p.exists()), None)
-        if path is None and self.needs_camera:
-            raise FileNotFoundError(f"{self.m['name']}: no calibration for shot {shot} (demo.refine_calib)")
-        return json.loads(path.read_text()) if path else {}
+        cands = []
+        if self.data.get("homography") and self.freeze_at() is not None:     # the beat's own fit
+            cands.append(("beat homography", {"static": self.data["homography"]["image_to_pitch"]}))
+        if path is not None:
+            cands.append((path.name, json.loads(path.read_text())))
+        if not cands:
+            if self.needs_camera:
+                raise FileNotFoundError(f"{self.m['name']}: no calibration for shot {shot} (demo.refine_calib)")
+            return {}
+        if len(cands) == 1 or self.freeze_at() is None:
+            return cands[-1][1]
+        return self._best(cands)
+
+    def _best(self, cands: list[tuple[str, dict]]) -> dict:
+        """A frozen beat with more than one camera (its own homography, fitted at some instant; the shot's per-frame
+        fit): each measured on the freeze frame against the paint (demo.footage.drift_px), the lowest p95 kept."""
+        from demo.footage import board_top, drift_px, model_lines
+        t = self.freeze_at()
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.3f}", "-i", str(FOOTAGE / self.m["clip"] /
+                              "clip.mp4"), "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
+                             capture_output=True, check=True).stdout
+        frame = np.frombuffer(raw, np.uint8).reshape(H, W, 3)
+        lines = [n for n in model_lines() if n != "touchline_far"]
+        scored = []
+        for name, c in cands:
+            self.calib, self.fps_clip = c, float(c.get("fps", 50.0))
+            cam = self.camera(t)
+            dr = drift_px(cam, frame, lines, top=board_top(cam, W))
+            scored.append((dr.p95 if dr.lines else float("inf"), name, c, dr))
+        scored.sort(key=lambda x: x[0])
+        best = scored[0]
+        self.camera_note = "; ".join(f"{n}: p95 {p:.2f} px" for p, n, _, _ in scored) + f" -> {best[1]}"
+        return best[2]
 
     needs_camera = True                    # charts and cards over the frame draw nothing on the grass
+    always_panels = False                  # panels that stay up through a cut with no camera
+
+    def _panels_only(self, img: np.ndarray, t: float) -> Image.Image:
+        im = Image.fromarray(img.copy())
+        self.panels(im, None, t)
+        return im
 
     def camera(self, t: float) -> Camera | None:
         if not self.calib:
             return None
         if "static" in self.calib:                       # moment-file frame already (y from the near touchline)
             return Camera(np.linalg.inv(np.asarray(self.calib["static"], float)))
+        if "multi" in self.calib:                        # the shot on screen at t; None in a cut between them
+            hit = next(((rng, c) for rng, c in self.calib["multi"].values() if rng[0] <= t <= rng[1]), None)
+            return from_pitchwatch(hit[1], int(round(t * self.fps_clip))) if hit else None
         return from_pitchwatch(self.calib, int(round(t * self.fps_clip)))
 
     def freeze_at(self) -> float | None:
@@ -232,6 +279,8 @@ class Live:
         ax.set_xlim(0, W)
         ax.set_ylim(H, 0)
         ax.axis("off")
+        if cam is None and self.needs_camera:            # a cut to a camera with no geometry: the clip alone
+            return Image.fromarray(img) if not self.always_panels else self._panels_only(img, t)
         self.ground(ax, cam, t)
         canvas.draw()
         g = np.asarray(canvas.buffer_rgba(), float) / 255
@@ -295,7 +344,11 @@ class Oracle(Live):
 
 class SpeedGun(Live):
     """A player's run: a trail of where he has been, a ring and a live km/h tag on him, and at the end a card with
-    his top speed and the distance (track A's tracking; every printed speed is a tracking sample)."""
+    his top speed and the distance (track A's tracking; every printed speed is a tracking sample). Across camera
+    cuts each shot draws through its own fit; through a cut with no geometry (a close-up) nothing is drawn, and the
+    distance, which crosses it in a straight line, is shown as a lower bound."""
+
+    always_panels = True
 
     TRAIL_S = 3.0
 
@@ -315,8 +368,9 @@ class SpeedGun(Live):
         s = self.data["samples"]
         start, end = self.data["start_clip_ms"], self.data["end_clip_ms"]
         now = min(t * 1000, end)
-        if now < start:
+        if now < start or self.in_gap(now):
             return
+        start = max([start] + [g["to_clip_ms"] for g in self.data.get("gaps", []) if g["to_clip_ms"] <= now])
         pts = np.array([[p["x"], p["y"]] for p in s if max(start, now - self.TRAIL_S * 1000) <= p["clip_ms"] <= now]
                        + [self.pos(now / 1000).tolist()])
         if len(pts) > 1:
@@ -330,25 +384,35 @@ class SpeedGun(Live):
         ax.plot(ring[:, 0], ring[:, 1], color=(0, 0, 0, 0.5), lw=7)
         ax.plot(ring[:, 0], ring[:, 1], color=(*self.kit, 1.0), lw=3.5)
 
+    def in_gap(self, ms: float) -> bool:
+        return any(g["from_clip_ms"] <= ms <= g["to_clip_ms"] for g in self.data.get("gaps", []))
+
+    def speed_now(self, ms: float) -> float | None:
+        """The latest trusted speed sample at or before ms (speeds are null where the fit is not trusted)."""
+        good = [p for p in self.data["samples"] if p["clip_ms"] <= ms and p.get("speed_kmh") is not None]
+        return good[-1]["speed_kmh"] if good and ms - good[-1]["clip_ms"] < 600 else None
+
     def panels(self, im, cam, t):
         start, end = self.data["start_clip_ms"], self.data["end_clip_ms"]
         if t * 1000 < start:
             return
-        s = self.data["samples"]
         now = min(t * 1000, end)
-        i, _, _ = bracket(s, now)
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         p = self.data["player"]
         kit = tuple(int(v) for v in self.kit * 255)
-        self.tag(d, cam, self.pos(now / 1000), f"{p.get('name', p['label']).split()[-1].upper()}  "
-                                               f"{s[i]['speed_kmh']:.1f} km/h", kit, font_size=30)
+        v = self.speed_now(now)
+        if cam is not None and not self.in_gap(now):
+            label = self.m.get("tag_name", p.get("name", p["label"]).split()[-1]).upper()
+            self.tag(d, cam, self.pos(now / 1000), f"{label}  {v:.1f} km/h" if v is not None else label, kit,
+                     font_size=30)
         a = window(t, end / 1000, end / 1000 + 0.5)
         if a > 0:
-            self.card(d, f"{p.get('name', p['label'])}: the run",
-                      [("Top speed", f"{self.data['top_speed_kmh']:.1f} km/h", WHITE),
-                       ("Distance", f"{round(self.data['distance_m'])} m", WHITE)],
-                      self.data.get("error_note", "from broadcast tracking"), a)
+            dist = f"at least {int(self.data['distance_m'])} m" if self.data.get("gaps") else \
+                f"{round(self.data['distance_m'])} m"
+            self.card(d, self.m.get("label", f"{p.get('name', p['label'])}: the run"),
+                      [("Top speed", f"{self.data['top_speed_kmh']:.1f} km/h", WHITE), ("Distance", dist, WHITE)],
+                      self.m.get("foot", "from broadcast tracking"), a)
         im.paste(layer, (0, 0), layer)
 
 
@@ -356,9 +420,47 @@ class PassXray(Live):
     """Every teammate tagged with his goal chance if the holder passed to him now, ranked; the best one glows and
     the line to him is drawn bright (track B's samples every 0.5 s; tags print the latest sample's values)."""
 
+    def __init__(self, m: dict):
+        super().__init__(m)
+        s = self.data["samples"]
+        if "t0" in m or "t1" in m or "team_index" in m:   # the attack the beat is about: one team, one window
+            s = [x for x in s if m.get("t0", 0) <= x["clip_ms"] / 1000 <= m.get("t1", 1e9)
+                 and ("team_index" not in m or x.get("team") == m["team_index"])]
+        self.data["samples"] = s
+        self._holders()
+
+    def _holders(self) -> None:
+        """Holder positions from the shot's tracks where the samples carry none (labels 't<track_id>')."""
+        shot = self.data.get("shot_id")
+        path = FOOTAGE / self.m["clip"] / "tracks" / f"{shot}.json"
+        if not path.exists() or all(x.get("holder_xy") for x in self.data["samples"]):
+            return
+        tr = json.loads(path.read_text())
+        frames = {f["frame"]: f for f in tr["frames"]}
+        keys = np.array(sorted(frames))
+        for x in self.data["samples"]:
+            want = int(str(x["holder"]).lstrip("t"))
+            k = int(keys[np.argmin(np.abs(keys - x["clip_ms"] / 1000 * float(tr["fps"])))])
+            hit = next((p for p in frames[k]["players"] if p["track_id"] == want and p.get("xy")), None)
+            x["holder_xy"] = [hit["xy"][0], PITCH_W - hit["xy"][1]] if hit else None
+
+    def role(self, o: dict) -> str:
+        """Where an unnamed player stands, for his label: six-yard box, penalty box or outside it."""
+        team = (self.data.get("team") or {}).get(str(self.m.get("team_index", "")), self.m.get("unnamed", "Teammate"))
+        team = self.m.get("team_short", team)
+        gx = 0.0 if o["x"] < 52.5 else 105.0
+        depth, wide = abs(o["x"] - gx), abs(o["y"] - 34)
+        where = "six-yard box" if depth <= 5.5 and wide <= 9.16 else "in the box" if depth <= 16.5 and wide <= 20.16 \
+            else "outside the box"
+        return f"{team} runner, {where}"
+
     def span(self):
         s = self.data["samples"]
-        return s[0]["clip_ms"] / 1000 - float(self.m.get("pre_s", 0.5)), s[-1]["clip_ms"] / 1000 + 0.5
+        return s[0]["clip_ms"] / 1000 - float(self.m.get("pre_s", 0.5)), s[-1]["clip_ms"] / 1000 + \
+            float(self.m.get("hold_s", 0.5))
+
+    def freeze_at(self):
+        return self.data["samples"][-1]["clip_ms"] / 1000 if self.m.get("hold_s") else None
 
     def ground(self, ax, cam, t):
         s = self.data["samples"]
@@ -408,11 +510,13 @@ class PassXray(Live):
             self.tag(d, cam, place[o["label"]], f"{rank + 1}{name}  {pct(o['p_goal'])}",
                      ORANGE if rank == 0 else WHITE, font_size=26 if rank else 30, glow=rank == 0)
         a = window(t, s[0]["clip_ms"] / 1000, s[0]["clip_ms"] / 1000 + 0.5)
-        foot = (f"n = {self.data['n']}, {self.data['horizon_s']:g} s, seed {self.data['seed']}" if "n" in self.data
-                else self.m.get("foot", ""))
-        self.card(d, self.m.get("label", "Pass X-ray: goal chance if passed to"),
-                  [(f"{k + 1}. {o.get('name') or self.m.get('unnamed', 'Teammate')}", pct(o["p_goal"]),
-                    ORANGE if k == 0 else WHITE) for k, o in enumerate(ranked[:3])], foot, a)
+        foot = (f"n = {self.data['n']}, {self.data['horizon_s']:g} s, seed {self.data['seed']}"
+                if self.data.get("n") else self.m.get("foot", ""))
+        rows = [(f"{k + 1}. {o.get('name') or self.role(o)}", pct(o["p_goal"]), ORANGE if k == 0 else WHITE)
+                for k, o in enumerate(ranked[: int(self.m.get("rows", 3))])]
+        if cur.get("shoot_now_p_goal") is not None:
+            rows.append(("Shooting now", pct(cur["shoot_now_p_goal"]), WHITE))
+        self.card(d, self.m.get("label", "Pass X-ray: goal chance if passed to"), rows, foot, a)
         im.paste(layer, (0, 0), layer)
 
 
@@ -518,8 +622,8 @@ class GhostDefender(Still):
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         kit = tuple(int(v) for v in self.kit * 255)
-        name = r["defender"].get("name", r["defender"]["label"])
-        self.tag(d, cam, [r["defender"]["x"], r["defender"]["y"]], name.split()[-1].upper(), WHITE)
+        name = r["defender"].get("name") or self.m.get("defender_label", "Defender")   # never a guessed name
+        self.tag(d, cam, [r["defender"]["x"], r["defender"]["y"]], name.upper(), WHITE)
         g = window(tau, 1.2, 1.8)
         if g > 0:
             ghost_figure(d, cam, [r["ghost"]["x"], r["ghost"]["y"]], kit, g)
@@ -529,11 +633,13 @@ class GhostDefender(Still):
                    fill=(*YELLOW, int(255 * g)), anchor="mm", stroke_width=3, stroke_fill=(0, 0, 0, int(200 * g)))
         c = window(tau, 2.0, 2.5)
         if c > 0:
-            self.card(d, self.m.get("label", f"If {name} had been there"),
-                      [("Goal chance, as it was", f"{round(r['p_goal_actual'] * 100)}%", WHITE),
-                       (f"With {name.split()[-1]} {r['metres_needed']:.1f} m across",
-                        f"{round(r['p_goal_ghost'] * 100)}%", YELLOW)],
-                      f"n = {r['n']}, {r['horizon_s']:g} s, seed {r['seed']}", c, accent=kit)
+            rows = [("Goal chance, as it was", f"{round(r['p_goal_actual'] * 100)}%", WHITE),
+                    (f"With him {r['metres_needed']:.1f} m across", f"{round(r['p_goal_ghost'] * 100)}%", YELLOW)]
+            if r.get("reach_m") is not None:
+                rows.append((f"Ground he could cover in {r.get('t_avail_s', 1):g} s", f"{r['reach_m']:.1f} m", WHITE))
+            self.card(d, self.m.get("label", f"If the {name.lower()} had been there"), rows,
+                      f"n = {r['n']}, {r['horizon_s']:g} s, seed {r['seed']}; {r.get('error_note', '')}", c,
+                      accent=kit)
         im.paste(layer, (0, 0), layer)
 
 

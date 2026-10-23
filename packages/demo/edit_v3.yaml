@@ -1,13 +1,14 @@
-# Video v3 edit decision list, DRAFT 2 (owner, 23 Oct: "more crazier insights"; only real Premier League names and
+# Video v3 edit decision list, DRAFT 4 (owner, 23 Oct: "more crazier insights"; only real Premier League names and
 # footage on screen: no synthetic league, no golden-match studio, no synthetic numbers). Assembled by
 #   python packages/demo/assemble.py packages/demo/edit_v3.yaml
 # Every shot is a demo.composite / demo.live clip on the four data/footage/*/clip.mp4 (Premier League channel
 # uploads, under the written permission in docs/permissions/). Captions only, English, no voice, no music; every
 # number in a caption has a source below. v2 draft 3 (edit_v2.yaml, cc3b0d2) is the fallback.
-# Draft 2 (lead review): opens on the Sliding Doors freeze; the river is a compact line at the close; the line beat
-# is a decisive margin; the Fourth Official sits between the freezes; the X-ray waits for player names.
-# Still to come (track A/B data): speed gun (Van de Ven), ghost defender (Man Utd v City goals), the studio on the
-# real-clip replay, grounded claims on the real cues. The red-card cost is dropped (no significant gap, lead 23 Oct).
+# Draft 4: opens on the Sliding Doors freeze; Man Utd v Spurs' broken attack (pass X-ray) turns into Van de Ven's
+# run (speed gun); the keeper cone and the ghost defender sit between the freezes; the river closes. Cut: the
+# offside line (track A's corrected Law 11 line puts every tracked pass well onside; no decisive moment) and the
+# Man Utd v City "right call" freeze (same match as the ghost defender, time for the studio).
+# Still to come: the studio on the real-clip replay (track B), grounded claims on the real cues.
 
 out: packages/demo/out/final_v3.mp4
 size: [1920, 1080]
@@ -23,12 +24,18 @@ clips:
       - {from: 2.2, to: 8.4, text: "Szoboszlai shoots. WHYLINE freezes the real frame and replays the moment 200 times."}
       - {from: 8.6, to: 11.9, text: "Blocked. The pass to Salah was worth 2 more points of win chance."}
 
-  - shot: footage/lfc_line             # 85:26-85:30 playing; City's pass into Liverpool's half, held at the pass
-    from: 0.5
-    to: 6.6
+  - shot: footage/tot_xray             # Man Utd v Spurs, 2:13-2:15: the attack, priced live
+    from: 0.0
+    to: 4.9
     captions:
-      - {from: 0.2, to: 3.0, text: "Liverpool's last line, tracked as the play moves."}
-      - {from: 3.2, to: 6.0, text: "At the pass City's runner is 2.3 m onside: far outside the 0.3 m tracking error."}
+      - {from: 0.2, to: 4.8, text: "Man Utd attack. The runner in the six-yard box is worth 28%; shooting now, 3.2%."}
+
+  - shot: footage/tot_speed_gun        # seconds later: Van de Ven wins it and runs (shots 23 and 25, a close-up between)
+    from: 0.3
+    to: 22.5
+    captions:
+      - {from: 0.2, to: 6.0, text: "The ball is lost. Van de Ven takes it, and the speed gun follows him through the camera cuts."}
+      - {from: 15.0, to: 22.0, text: "37.0 km/h at the top, at least 91 m end to end."}
 
   - shot: footage/ars_sliding_doors
     from: 2.0
@@ -51,19 +58,20 @@ clips:
       - {from: 0.2, to: 3.6, text: "Arsenal v Chelsea, stoppage time: a shot from 4.5 m."}
       - {from: 3.8, to: 7.8, text: "Where Raya stood he covers 39% of the goal. 1.8 m further out, all of it."}
 
-  - shot: footage/mun_mci_right_call
-    from: 3.0
-    to: 13.0
+  - shot: footage/mci_ghost_defender   # Dorgu's goal, 75:28: the freeze 1 s before the shot
+    from: 0.5
+    to: 8.0
     captions:
-      - {from: 0.2, to: 9.9, text: "And it says when the player got it right: the pass into the box was no better."}
+      - {from: 0.2, to: 3.4, text: "Man Utd v Man City: one second before Dorgu scores."}
+      - {from: 3.6, to: 7.4, text: "City's defender needed 6.5 m and could cover 7.0. There, the goal chance falls from 26% to 19%."}
 
   - layout: split3
     shots: [footage/lfc_sliding_doors_analyst, footage/lfc_sliding_doors_casual, footage/lfc_sliding_doors_player_cam]
     labels: [Analyst, Casual, Player-Cam]
     from: 0.6
-    to: 10.4
+    to: 9.0
     captions:
-      - {from: 0.3, to: 9.6, text: "The same intelligence becomes an analyst's breakdown, a casual fan's line, and a player's story."}
+      - {from: 0.3, to: 8.2, text: "The same intelligence becomes an analyst's breakdown, a casual fan's line, and a player's story."}
 
   - shot: footage/lfc_metrics
     from: 0.5
@@ -83,16 +91,20 @@ clips:
     lines: ["Every line on screen has a why.", "Premier League clips used with permission"]
 
 sources:
-  "20": "data/footage/liverpool-mancity-2526/cache/v3/win_prob_river_11000.json series 72:00 -> 104:45 (the clip's final 20 minutes plus stoppage)"
-  "91%": "win_prob_river_11000 series max home 0.9093 at 83:30 (WinProbHead from score and clock)"
   "86": "the Liverpool clip's broadcast clock 86:23 at the freeze (moments/875000.json clock)"
-  "2.3": "line_62.json pass at 822.12 s: beyond_m -2.26 (Liverpool's line, 10 players seen; demo.v3_data)"
   "4.5": "keeper_cone_1382650 shot_distance_m 4.5 (fact f_800004, verified)"
   "39%": "keeper_cone_1382650 coverage_actual 0.393 (fact f_800001, verified): share of the goal mouth covered, geometry"
   "1.8": "keeper_cone_1382650 move_m 1.77 (fact f_800003, verified)"
-  "0.3": "data/footage/insights/metrics.json liverpool-mancity-2526 calibration.check_points_m mean 0.315 (n = 20)"
   "200": "counterfactual cf_000001 of liverpool-mancity-2526 n = 200; the card prints 'n = 200, 8 s, seed 9001'"
   "2": "cf_000001 (liverpool-mancity-2526): win_prob_home 0.0837 shot -> 0.1035 pass (+2 pts); reviewed line mo_00001"
   "15": "Fourth Official cue c_907724 claim '15 km/h' (f_000901, verified); ruling_772400 closing_speed_kmh 15.3"
   "99.3%": "metrics.json liverpool-mancity-2526 detection.recall 0.9927 on 200 hand-labelled frames (T-105)"
   "1.5": "metrics.json liverpool-mancity-2526 calibration.paint_drift_p95_px_refined median 1.5 (demo.refine_calib, shot 62)"
+  "28%": "pass_xray_237767 sample 241967: best option t31 p_goal 0.2802 (P(pass) x xG), inside the six-yard box"
+  "3.2%": "pass_xray_237767 sample 241967: shoot_now_p_goal 0.0324"
+  "37.0": "speed_gun_242700 top_speed_kmh 37.0 at clip 260.833 s (track A, tracks 23/25)"
+  "91": "speed_gun_242700 distance_m 91.1, a lower bound: the close-up gap 252.6-259.9 s crossed in a straight line"
+  "6.5": "ghost_defender_1188840 metres_needed 6.5"
+  "7.0": "ghost_defender_1188840 reach_m 7.0 (top speed 7 m/s for t_avail_s 1.0)"
+  "26%": "ghost_defender_1188840 p_goal_actual 0.2581 (n = 200, seed 9002)"
+  "19%": "ghost_defender_1188840 p_goal_ghost 0.1929 (n = 200, seed 9002)"

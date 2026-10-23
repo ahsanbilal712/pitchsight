@@ -176,3 +176,43 @@ moments:
     team: home
     kits: {home: [219, 0, 7], away: [3, 70, 148]}
     label: "Raya: where to stand"
+
+  # v3: Man Utd v Spurs, the attack that breaks down and Van de Ven's run (track A, 0c5d026 / track B)
+  tot_xray:
+    clip: manutd-spurs-2425
+    kind: pass_xray
+    data: data/footage/manutd-spurs-2425/cache/v3/pass_xray_237767.json
+    t0: 240.9
+    t1: 242.0                        # Man Utd's possession; the ball is lost at 242.4 s
+    team_index: 0
+    team_short: "Man Utd"
+    pre_s: 2.0
+    hold_s: 2.0
+    rows: 2
+    tags: 3
+    kits: {home: [218, 41, 28], away: [235, 238, 245]}
+    label: "Pass X-ray: Man Utd goal chance"
+    foot: "P(pass completes) × xG from his spot; from tracked positions"
+
+  tot_speed_gun:
+    clip: manutd-spurs-2425
+    kind: speed_gun
+    data: data/footage/manutd-spurs-2425/cache/v3/speed_gun_242700.json
+    pre_s: 0.3
+    hold_s: 3.0
+    team: away
+    kits: {home: [218, 41, 28], away: [255, 122, 26]}    # orange trail: Spurs' white does not read on grass
+    tag_name: "Van de Ven"
+    label: "Van de Ven: the run"
+    foot: "broadcast tracking, about 0.5 m per position; the close-up is crossed in a straight line"
+
+  mci_ghost_defender:                # Dorgu's goal, 75:28: the freeze 1 s before the shot
+    clip: manutd-mancity-2526
+    kind: ghost_defender
+    data: data/footage/manutd-mancity-2526/cache/v3/ghost_defender_1188840.json
+    pre_s: 2.0
+    hold_s: 6.0
+    team: away
+    defender_label: "City defender"
+    kits: {home: [218, 41, 28], away: [120, 182, 232]}
+    label: "If City's defender had been in the cone"

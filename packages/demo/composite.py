@@ -817,7 +817,10 @@ def main(argv: list[str] | None = None) -> int:
     if m.get("adapter"):                                # track A's insight files -> the beat's data (demo.v3_data)
         m["data"] = build(m)
     if m.get("kind") in SCENES:                         # an overlay on the playing clip (demo.live)
-        print(f"wrote {SCENES[m['kind']](m).export(OUT / (m['name'] + '.mp4')).relative_to(ROOT)}")
+        scene = SCENES[m["kind"]](m)
+        if scene.camera_note:
+            print(f"camera: {scene.camera_note}")
+        print(f"wrote {scene.export(OUT / (m['name'] + '.mp4')).relative_to(ROOT)}")
         return 0
     frame = frame_at(m, m["t_s"])
     Image.fromarray(frame).save(OUT / f"{m['name']}_frame.png")
