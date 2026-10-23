@@ -51,6 +51,11 @@ PANEL = (12, 16, 22)
 SUBDIV = 10
 APPARENT_HEIGHT_M = 1.42   # a player's height in the picture over the grass scale across it (4 players, lfc 875 s)
 RING_R = 1.1              # metres
+GHOST_S = 4               # seconds of each future drawn: the decision and what follows it, not the whole 8 s
+GHOST_KEEP = 36           # paths drawn per branch: the ones nearest the branch's median path
+GHOST_REPS = 6            # of those, drawn bolder
+GHOST_FADE_T = (1.2, 3.5)   # s: full strength through the first leg, gone by 3.5 s ...
+GHOST_FADE_D = (5.0, 12.0)  # m: ... unless still within this of where the branch is going
 GHOST_MARGIN_M = 2.0       # futures are clamped to the pitch plus this, as the overlay's ghost layer
 
 
@@ -248,6 +253,7 @@ T_TRAIL = (1.8, 2.6)
 T_CARD = (2.6, 3.0)
 T_SWING = (3.0, 4.2)
 T_LOWER = (2.3, 2.7)
+CARD_H = 222
 PANEL_W = 540              # lower-third and swing card, bottom left; clear of the players in the featured frames
 
 
@@ -271,6 +277,9 @@ class Painter:
             lo, hi = (-GHOST_MARGIN_M, -GHOST_MARGIN_M), (105 + GHOST_MARGIN_M, 68 + GHOST_MARGIN_M)
             self.base_px = [cam.project(np.clip(catmull_rom(p), lo, hi)) for p in fut.baseline]
             self.alt_px = [cam.project(np.clip(catmull_rom(p), lo, hi)) for p in fut.alternative]
+            shot_to = np.median([p[1] for p in fut.baseline], axis=0) if fut.baseline else None
+            self.ghosts = [g for g in (self._branch(fut.baseline, shot_to, WHITE, T_BASE),
+                                       self._branch(fut.alternative, self.target_m, ORANGE, T_ALT)) if g]
         self.trail_px = None
         if self.target_m is not None:                            # stop at the receiver's ring
             curve = pass_curve(self.ball, self.target_m)
@@ -283,6 +292,30 @@ class Painter:
             doc = json.loads((ROOT / m["line"]).read_text())
             self.line = doc["json"] if doc.get("verified") else None
         self.font_reg = {s: ImageFont.truetype(FONT_REG, s) for s in (20, 22)}
+
+    def _branch(self, paths, anchor, colour, span) -> dict | None:
+        """One branch of the futures as drawn: the GHOST_KEEP paths nearest the branch's median over the first
+        GHOST_S seconds (the spray of outliers left out), every 6th of them bolder, each segment's opacity fading
+        after the first leg unless it stays near where the branch is going (`anchor`: the receiver, or where the
+        shots go)."""
+        if not paths:
+            return None
+        cut = np.array([np.asarray(p, float)[: GHOST_S + 1] for p in paths])
+        med = np.median(cut, axis=0)
+        order = np.argsort(np.linalg.norm(cut - med, axis=2).mean(axis=1))[:GHOST_KEEP]
+        lo, hi = (-GHOST_MARGIN_M, -GHOST_MARGIN_M), (105 + GHOST_MARGIN_M, 68 + GHOST_MARGIN_M)
+        segs, alpha, bold = [], [], []
+        for rank, i in enumerate(order):
+            m = np.clip(catmull_rom(cut[i]), lo, hi)
+            t = np.arange(len(m)) / SUBDIV
+            fade_t = np.clip(1 - (t - GHOST_FADE_T[0]) / (GHOST_FADE_T[1] - GHOST_FADE_T[0]), 0, 1)
+            d = np.linalg.norm(m - anchor, axis=1) if anchor is not None else np.full(len(m), np.inf)
+            fade_d = np.clip(1 - (d - GHOST_FADE_D[0]) / (GHOST_FADE_D[1] - GHOST_FADE_D[0]), 0, 1)
+            px = self.cam.project(m)
+            segs.append(np.stack([px[:-1], px[1:]], axis=1))
+            alpha.append(np.maximum(fade_t, fade_d)[1:])
+            bold.append(rank % (GHOST_KEEP // GHOST_REPS) == 0)
+        return {"segs": segs, "alpha": alpha, "bold": bold, "colour": np.array(colour) / 255, "span": span}
 
     def _spotlight(self) -> np.ndarray:
         """1 on the grass within ~3 m of the lit players, falling to 0, in pixels."""
@@ -302,6 +335,18 @@ class Painter:
         ax.axis("off")
         ax.patch.set_alpha(0)
         a_all = 1 - fade
+        for g in getattr(self, "ghosts", []):
+            grow = window(t, *g["span"])
+            if grow <= 0:
+                continue
+            for segs, alpha, bold in zip(g["segs"], g["alpha"], g["bold"], strict=True):
+                k = max(1, int(round(grow * len(segs))))
+                a = alpha[:k] * a_all * (0.62 if bold else 0.2)
+                if bold:                                         # a dark edge so the bold paths read on grass
+                    ax.add_collection(LineCollection(segs[:k], colors=[(0, 0, 0, 0.25 * x) for x in a],
+                                                     linewidths=4.0, capstyle="round"))
+                ax.add_collection(LineCollection(segs[:k], colors=[(*g["colour"], x) for x in a],
+                                                 linewidths=2.2 if bold else 1.4, capstyle="round"))
         rings = window(t, *T_RINGS)
         if rings > 0:
             for c, colour, lw in ((self.actor_m, WHITE, 3.2), (self.target_m, ORANGE, 3.6)):
@@ -310,33 +355,19 @@ class Painter:
                 r = RING_R * (0.6 + 0.4 * rings)
                 ring = self.cam.project(ground_circle(c, r))
                 col = np.array(colour) / 255
-                ax.add_patch(Polygon(ring, closed=True, fill=True, fc=(*col, 0.16 * rings * a_all), ec="none"))
-                ax.plot(ring[:, 0], ring[:, 1], color=(*col, 0.35 * rings * a_all), lw=lw * 3.2,
+                ax.add_patch(Polygon(ring, closed=True, fill=True, fc=(*col, 0.18 * rings * a_all), ec="none"))
+                ax.plot(ring[:, 0], ring[:, 1], color=(0, 0, 0, 0.45 * rings * a_all), lw=lw + 3.5,
+                        solid_capstyle="round")
+                ax.plot(ring[:, 0], ring[:, 1], color=(*col, 0.3 * rings * a_all), lw=lw * 3.2,
                         solid_capstyle="round")
                 ax.plot(ring[:, 0], ring[:, 1], color=(*col, rings * a_all), lw=lw, solid_capstyle="round")
-        alt_alpha = 0.15 if getattr(self, "base_px", []) else 0.10    # 200 orange paths need a lighter stroke
-        for paths, span, colour, alpha in ((getattr(self, "base_px", []), T_BASE, WHITE, 0.11),
-                                           (getattr(self, "alt_px", []), T_ALT, ORANGE, alt_alpha)):
-            grow = window(t, *span)
-            if grow <= 0 or not paths:
-                continue
-            segs = []
-            for i, p in enumerate(paths):
-                g = min(1.0, max(0.0, grow * 1.25 - 0.25 * (i % 17) / 16))     # a little stagger
-                k = max(2, int(round(g * (len(p) - 1))) + 1)
-                segs.append(p[:k])
-            col = np.array(colour) / 255
-            ax.add_collection(LineCollection(segs, colors=[(*col, alpha * a_all)], linewidths=1.7,
-                                             capstyle="round", joinstyle="round"))
-            heads = np.array([s[-1] for s in segs])
-            ax.scatter(heads[:, 0], heads[:, 1], s=7, color=(*col, min(1.0, alpha * 3) * a_all), lw=0)
         trail = window(t, *T_TRAIL)
         if trail > 0 and self.trail_px is not None:
             k = max(2, int(round(trail * (len(self.trail_px) - 1))) + 1)
             p = self.trail_px[:k]
             col = np.array(ORANGE) / 255
-            ax.plot(p[:, 0], p[:, 1], color=(0, 0, 0, 0.45 * a_all), lw=7.5, solid_capstyle="round")
-            ax.plot(p[:, 0], p[:, 1], color=(*col, a_all), lw=4.2, dashes=(3.2, 1.6), dash_capstyle="round")
+            ax.plot(p[:, 0], p[:, 1], color=(0, 0, 0, 0.6 * a_all), lw=9.5, solid_capstyle="round")
+            ax.plot(p[:, 0], p[:, 1], color=(*col, a_all), lw=5.2, dashes=(3.0, 1.5), dash_capstyle="round")
             if trail >= 1:
                 self._arrowhead(ax, p, col, a_all)
         for line in self.referee:
@@ -345,14 +376,14 @@ class Painter:
         return np.asarray(self.canvas.buffer_rgba(), float) / 255
 
     @staticmethod
-    def _arrowhead(ax, p, col, a_all, size: float = 24.0):
+    def _arrowhead(ax, p, col, a_all, size: float = 30.0):
         """An arrowhead in pixels at the end of the drawn trail."""
         d = p[-1] - p[-3]
         d /= np.linalg.norm(d)
         n = np.array([-d[1], d[0]])
         tip = p[-1] + d * size * 0.5
         tri = np.array([tip, tip - d * size + n * size * 0.55, tip - d * size - n * size * 0.55])
-        ax.add_patch(Polygon(tri, closed=True, fc=(*col, a_all), ec=(0, 0, 0, 0.45 * a_all), lw=1.4))
+        ax.add_patch(Polygon(tri, closed=True, fc=(*col, a_all), ec=(0, 0, 0, 0.6 * a_all), lw=2.0))
 
     # -- frame, tags, card (PIL) ------------------------------------------------------------------------------
     def render(self, t: float, standin_mark: bool = False) -> Image.Image:
@@ -419,7 +450,7 @@ class Painter:
         x0, w = 96 - int((1 - a) * 40), PANEL_W
         body = self._wrap(self.line.get("body", ""), self.font_reg[22], w - 64)
         h = 70 + 32 * len(body)
-        y0 = H - 96 - 168 - 16 - h
+        y0 = H - 96 - CARD_H - 16 - h
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         al = int(255 * a)
@@ -431,32 +462,38 @@ class Painter:
         im.paste(layer, (0, 0), layer)
 
     def _card(self, im: Image.Image, a: float, swing: float):
-        """The swing card (the overlay's SwingBar): label, number, track, from -> to and the provenance line."""
+        """The win-chance card: one labelled bar per option (what he did, the alternative), the difference, and the
+        counterfactual's n, horizon and seed (shown with every number, as the overlay's SwingBar). Bars start at 0;
+        the scale tops out a quarter above the larger value so both read."""
         cf = self.fut.cf
         lo, hi = cf["baseline"]["win_prob_home"], cf["alternative_outcome"]["win_prob_home"]
-        now = lo + (hi - lo) * swing
-        x0, y0, w, h = 96, H - 96 - 168, PANEL_W, 168
-        x0 -= int((1 - a) * 40)
+        names = {"actual": "What he did", "alternative": "The alternative", **(self.m.get("options") or {})}
+        x0, w, h = 96 - int((1 - a) * 40), PANEL_W, CARD_H
+        y0 = H - 96 - h
         layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*ORANGE, al))
-        d.text((x0 + 32, y0 + 24), self.m.get("swing_label", "Win chance").upper(), font=self.font[22],
-               fill=(169, 180, 194, al))
-        d.text((x0 + w - 28, y0 + 14), f"{round(now * 100)}%", font=self.font[64], fill=(255, 255, 255, al),
-               anchor="ra")
-        tx0, tx1, ty = x0 + 32, x0 + w - 28, y0 + 104
-        d.rounded_rectangle((tx0, ty - 4, tx1, ty + 4), radius=4, fill=(255, 255, 255, int(40 * a)))
-        px = lambda v: tx0 + (tx1 - tx0) * v  # noqa: E731
-        d.rectangle((px(min(lo, now)), ty - 4, px(max(lo, now)), ty + 4), fill=(*ORANGE, al))
-        for v, col in ((lo, (169, 180, 194)), (now, ORANGE)):
-            d.ellipse((px(v) - 9, ty - 9, px(v) + 9, ty + 9), fill=(*col, al), outline=(255, 255, 255, al), width=2)
+        d.text((x0 + 32, y0 + 20), "WIN CHANCE", font=self.font[22], fill=(169, 180, 194, al))
         delta = round((hi - lo) * 100)
-        d.text((x0 + 32, y0 + 128), f"{round(lo * 100)}% → {round(hi * 100)}% ({'+' if delta >= 0 else '−'}"
-               f"{abs(delta)} pts)", font=self.font[26], fill=(255, 255, 255, al))
-        d.text((x0 + w - 28, y0 + 132), f"n = {cf['n']}, {cf['horizon_s']:g} s, seed {cf['seed']}",
-               font=self.font_reg[20], fill=(169, 180, 194, al), anchor="ra")
+        d.text((x0 + w - 28, y0 + 16), f"{'+' if delta >= 0 else '−'}{abs(delta)} pts", font=self.font[30],
+               fill=(*ORANGE, int(255 * a * swing)), anchor="ra")
+        top = max(lo, hi) * 1.25
+        bx0, bx1 = x0 + 32, x0 + w - 110
+        for row, (key, value, col, grow) in enumerate((("actual", lo, (196, 204, 214), 1.0),
+                                                       ("alternative", hi, ORANGE, swing))):
+            y = y0 + 58 + 56 * row
+            d.text((bx0, y), names[key], font=self.font_reg[22], fill=(230, 236, 242, al))
+            by = y + 30
+            d.rounded_rectangle((bx0, by, bx1, by + 12), radius=6, fill=(255, 255, 255, int(28 * a)))
+            if grow > 0:
+                d.rounded_rectangle((bx0, by, bx0 + max(12, (bx1 - bx0) * value / top * grow), by + 12), radius=6,
+                                    fill=(*col, al))
+            d.text((x0 + w - 28, by + 6), f"{round(value * 100)}%", font=self.font[34],    # only the real value,
+                   fill=(*(col if key == "alternative" else (255, 255, 255)), int(al * grow)), anchor="rm")  # faded in
+        d.text((x0 + w - 28, y0 + h - 16), f"n = {cf['n']}, {cf['horizon_s']:g} s, seed {cf['seed']}",
+               font=self.font_reg[20], fill=(169, 180, 194, al), anchor="rb")
         im.paste(layer, (0, 0), layer)
 
 

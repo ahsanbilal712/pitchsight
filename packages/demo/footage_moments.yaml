@@ -10,9 +10,10 @@
 # actor/target: `player` is a label in the moment file (players and ball in pitch metres); `label` is the tag drawn.
 # Pitch metres: x 0..105 towards the goal the attacking side faces, y 0..68 with y = 0 the touchline nearest
 # the main camera. Pixels are 1920x1080 frames.
-# counterfactual: the precomputed rollout for the moment (T-109, track B: first 100 futures the actual action,
-# the last 100 the alternative; `futures: alternative` when every path is the alternative); `line`: the reviewed lower-third. Without a counterfactual, --standin draws the
-# golden match's cf_000070 futures re-anchored on the players, watermarked, for checking the look only; a
+# counterfactual: the precomputed rollout for the moment (T-109, track B: first 100 futures the actual action, the
+# last 100 the alternative; `futures: alternative` when every path is the alternative). line: the reviewed
+# lower-third. options: the two bars of the win-chance card. Without a counterfactual, --standin draws the golden
+# match's cf_000070 futures re-anchored on the players, watermarked, for checking the look only; a
 # stand-in never goes in the video.
 
 moments:
@@ -32,4 +33,4 @@ moments:
     target: {player: "#11", feet: [1700, 797], label: "Free"}
     counterfactual: data/footage/liverpool-mancity-2526/cache/counterfactuals/cf_000001.json   # T-109 (a751c1a)
     line: data/footage/liverpool-mancity-2526/cache/lines/mo_00001.json    # reviewed lower-third
-    swing_label: "Win chance if he passes"
+    options: {actual: "Shot", alternative: "Pass to Salah"}
