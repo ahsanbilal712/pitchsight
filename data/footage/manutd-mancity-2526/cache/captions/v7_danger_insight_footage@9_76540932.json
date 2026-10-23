@@ -1,0 +1,37 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.004188,
+ "json": {
+  "caption": "This shows Man Utd's 28% share of the zone in view where a shot is worth at least 0.05 xG, weighted by xG and who reaches each spot first.",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_700003"
+    ],
+    "kind": "number",
+    "text": "28%",
+    "unit": "percent",
+    "value_number": 0.28
+   },
+   {
+    "evidence_ids": [
+     "f_700001"
+    ],
+    "kind": "number",
+    "text": "0.05",
+    "unit": "xg",
+    "value_number": 0.05
+   }
+  ],
+  "confidence": 0.98
+ },
+ "latency_ms": 7933,
+ "model": "gemini-4-argon",
+ "payload": "{\"DEFINITION\": \"Dangerous space in view, one number for the attacking team (the team attacking the goal in view): the dangerous zone is every cell in front of that goal from which a shot is worth at least 0.05 xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as in v5/v6); share = sum over the zone's cells in view of the attacking team's pitch control x that cell's xG, divided by the sum of the xG. Printed only when at least 50% of the zone (by xG weight) is in view; 2 dp, shown as a whole percent: '<Team> control 31% of the danger zone in view'\", \"CONTROL\": \"time-to-intercept pitch control (insights.control, from physics.pitch_control; simplified Spearman 2018): each player in view reaches a point after a 0.7 s reaction then at 5 m/s; a team's control is its softmin share of the arrival times; positions only, no ball travel time\", \"attacking_team\": \"Manchester United\", \"defending_team\": \"Manchester City\", \"on_screen\": \"Manchester United control 28% of the danger zone in view\", \"FACTS\": [{\"fact_id\": \"f_700001\", \"match_id\": \"m_9002\", \"label\": \"zone: cells from which a shot is worth at least this xG\", \"value\": 0.05, \"unit\": \"xg\", \"display\": \"0.05\", \"source\": \"cache/v7/always_869000.json danger_def\"}, {\"fact_id\": \"f_700003\", \"match_id\": \"m_9002\", \"label\": \"Manchester United (attacking) share of the dangerous space in view at 56:41\", \"value\": 0.28, \"unit\": \"percent\", \"display\": \"28%\", \"source\": \"cache/v7/always_869000.json frame 877000 danger.share\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"caption\": \"This shows Man Utd's 28% share of the zone in view where a shot is worth at least 0.05 xG, weighted by xG and who reaches each spot first.\", \"confidence\": 0.98, \"claims\": [{\"text\": \"28%\", \"kind\": \"number\", \"value_number\": 0.28, \"unit\": \"percent\", \"evidence_ids\": [\"f_700003\"]}, {\"text\": \"0.05\", \"kind\": \"number\", \"value_number\": 0.05, \"unit\": \"xg\", \"evidence_ids\": [\"f_700001\"]}]}",
+ "tokens_in": 1259,
+ "tokens_out": 167,
+ "via": "live"
+}

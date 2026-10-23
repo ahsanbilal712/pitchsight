@@ -183,7 +183,7 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
     edit = yaml.safe_load((edit_path or ROOT / "packages" / "demo" / f"edit_{version}.yaml").read_text())
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
     sources = {"v3": caption_sources, "v4": v4_caption_sources, "v5": v5_caption_sources,
-               "v6": v6_caption_sources}[version]()
+               "v6": v6_caption_sources, "v7": v7_caption_sources}[version]()
     rows = []
     for n_caption, text in enumerate(shown, 1):
         if not DIGITS.search(text):
@@ -377,6 +377,10 @@ def v4_overlay() -> list[dict]:
 def run(version: str = "v3", edit: Path | None = None) -> dict:
     """Count for one video version; `edit` defaults to packages/demo/edit_<version>.yaml."""
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
+    if version == "v7":
+        beats = _v6_beats(edit)
+        return _write(v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v7_always(beats) + v6_shots(beats)
+                      + v6_pipeline(beats) + video_captions("v7", edit), version, edit)
     if version == "v6":
         beats = _v6_beats(edit)
         return _write(v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v6_shots(beats) + v6_pipeline(beats)
@@ -585,7 +589,7 @@ def v6_live(beats: dict) -> list[dict]:
     printed name or shirt must be a verified live read whose window covers the frame (names_live_0)."""
     rows = []
     for name, b in sorted(beats.items()):
-        if b.get("kind") != "live_hud":
+        if b.get("kind") not in ("live_hud", "always_on") or not b.get("data"):
             continue
         live = json.loads((ROOT / b["data"]).read_text())["result"]
         names = json.loads((ROOT / b["names_live"]).read_text())["result"]["players"] if b.get("names_live") else []
@@ -728,6 +732,64 @@ def v6_caption_sources() -> dict[str, list[tuple]]:
 
 def _v6(slug: str, name: str) -> dict:
     return json.loads((clip_dir(slug) / "cache" / "v6" / name).read_text())["result"]
+
+
+# ---------------------------------------------------------------------------------------------------- v7
+
+def v7_always(beats: dict) -> list[dict]:
+    """The always-on layer (demo.v7 on track A's cache/v7 always_*) over each beat's window: the danger panel's
+    sentence (its percent must be the share, its team the attacking one; nothing under the in-view gate), the
+    defending side's shape panel (width, depth, line gap as printed, whole metres: each must be what its definition
+    says of the lines in the file, and only with 9 or more outfielders seen). The definition note under the panel
+    prints no number. The v6 ball layer under it is checked as in v6 (v6_live)."""
+    rows = []
+    for name, b in sorted(beats.items()):
+        if b.get("kind") != "always_on":
+            continue
+        doc = json.loads((ROOT / b["always"]).read_text())["result"]
+        shown, diff = set(), []
+        for fr in doc["frames"]:
+            if not b["t0"] * 1000 <= fr["clip_ms"] <= b["t1"] * 1000:
+                continue
+            dg = fr.get("danger") or {}
+            if dg.get("text") and dg.get("share") is not None:
+                pct = f"{dg['share'] * 100:.0f}%"
+                shown.add(("danger", dg["text"]))
+                attacker = (fr.get("danger_zone") or {}).get("attacked_by")
+                if pct not in dg["text"]:
+                    diff.append(f"{fr['clip_ms']}: '{dg['text']}' does not print the share {pct}")
+                if attacker and dg.get("team") != attacker:
+                    diff.append(f"{fr['clip_ms']}: the share is {dg.get('team')}'s, the zone is attacked by {attacker}")
+            for side, sh in (fr.get("shape") or {}).items():
+                if sh.get("width_m") is None:
+                    continue
+                lines = sh.get("lines") or []
+                for label, v in (("width", sh["width_m"]), ("depth", sh.get("depth_m")),
+                                 ("gap", sh.get("line_gap_m"))):
+                    if v is not None:
+                        shown.add((side, label, f"{v:.0f}"))
+                if sh.get("n_players_seen", 0) < 9:
+                    diff.append(f"{fr['clip_ms']} {side}: shape printed with {sh.get('n_players_seen')} players seen")
+                want = {"width": sh.get("width_y_max", 0) - sh.get("width_y_min", 0)}
+                if len(lines) == 3:
+                    want |= {"depth": abs(lines[2]["x"] - lines[0]["x"]), "gap": abs(lines[1]["x"] - lines[0]["x"])}
+                for label, v in (("width", sh["width_m"]), ("depth", sh.get("depth_m")), ("gap", sh.get("line_gap_m"))):
+                    if v is not None and label in want and abs(want[label] - v) > 0.02:
+                        diff.append(f"{fr['clip_ms']} {side} {label}: {v} is not its lines' {want[label]:.2f}")
+        n = len(shown)
+        rows.append(_row("v7 overlay", f"{name}: always-on layer {b['t0']:.1f}-{b['t1']:.1f} s ({len(shown)} distinct "
+                         "values)", b["always"], n, n - len(diff), diff))
+    return rows
+
+
+def v7_caption_sources() -> dict[str, list[tuple]]:
+    """v6's caption sources plus the caption that explains the metric (footage.v7_caption, reviewed)."""
+    out = dict(v6_caption_sources())
+    cap = json.loads((clip_dir("manutd-mancity-2526") / "cache" / "v7" / "caption_danger.json").read_text())["result"]
+    f = {x["fact_id"]: x for x in cap["facts"]}
+    out[cap["caption"]] = [(c["text"], "number", c["unit"], f[c["evidence_ids"][0]],
+                            ("manutd-mancity-2526", c["evidence_ids"][0], "line")) for c in cap["claims"]]
+    return out
 
 
 WITHDRAWN_REASON = ("withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is "

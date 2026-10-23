@@ -1,0 +1,49 @@
+{
+ "$schema": "model_cache.schema.json",
+ "record": "tool_result",
+ "result": {
+  "beat": "v7_caption",
+  "caption": "Dangerous space in view: spots in front of goal worth 0.05 xG or more, weighted by xG; the share the attacking team would reach first.",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_700001"
+    ],
+    "kind": "number",
+    "reject_reason": null,
+    "text": "0.05",
+    "unit": "xg",
+    "value": 0.05,
+    "verified": true
+   }
+  ],
+  "facts": [
+   {
+    "display": "0.05",
+    "fact_id": "f_700001",
+    "label": "zone: cells from which a shot is worth at least this xG",
+    "match_id": "m_9002",
+    "source": "cache/v7/always_869000.json danger_def",
+    "unit": "xg",
+    "value": 0.05
+   },
+   {
+    "display": "28%",
+    "fact_id": "f_700003",
+    "label": "Manchester United (attacking) share of the dangerous space in view at 56:41",
+    "match_id": "m_9002",
+    "source": "cache/v7/always_869000.json frame 877000 danger.share",
+    "unit": "percent",
+    "value": 0.28
+   }
+  ],
+  "hand_reviewed": true,
+  "match_id": "m_9002",
+  "metric": "dangerous space in view",
+  "model": "gemini-4-argon",
+  "prompt_version": "insight_footage@9",
+  "slug": "manutd-mancity-2526",
+  "source": "cache/v7/always_869000.json"
+ },
+ "schema_version": "1.0.0"
+}

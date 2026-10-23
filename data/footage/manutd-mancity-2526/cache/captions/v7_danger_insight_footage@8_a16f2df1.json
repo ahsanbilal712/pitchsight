@@ -1,0 +1,55 @@
+{
+ "$schema": "model_cache.schema.json",
+ "cost_usd": 0.005392,
+ "json": {
+  "caption": "This shows who reaches shooting spots worth 0.05 xG first, weighted by xG. Man Utd have 28% and Man City 72%, totaling 100%.",
+  "claims": [
+   {
+    "evidence_ids": [
+     "f_700001"
+    ],
+    "kind": "number",
+    "text": "0.05",
+    "unit": "xg",
+    "value_number": 0.05
+   },
+   {
+    "evidence_ids": [
+     "f_700003"
+    ],
+    "kind": "number",
+    "text": "28%",
+    "unit": "percent",
+    "value_number": 0.28
+   },
+   {
+    "evidence_ids": [
+     "f_700004"
+    ],
+    "kind": "number",
+    "text": "72%",
+    "unit": "percent",
+    "value_number": 0.72
+   },
+   {
+    "evidence_ids": [
+     "f_700002"
+    ],
+    "kind": "number",
+    "text": "100%",
+    "unit": "percent",
+    "value_number": 1.0
+   }
+  ],
+  "confidence": 1.0
+ },
+ "latency_ms": 10047,
+ "model": "gemini-4-argon",
+ "payload": "{\"DEFINITION\": \"Dangerous space in view: the dangerous zone is every cell in front of the goal in view from which a shot is worth at least 0.05 xG (Soccermatics' logistic fit on 8,451 PL 2017/18 Wyscout shots, as in v5/v6). Each team's share = sum over the zone's cells in view of its pitch control x that cell's xG, divided by the sum of the xG; home + away = 1. Printed only when at least 70% of the zone's cells are in view; 2 dp\", \"CONTROL\": \"time-to-intercept pitch control (insights.control, from physics.pitch_control; simplified Spearman 2018): each player in view reaches a point after a 0.7 s reaction then at 5 m/s; a team's control is its softmin share of the arrival times; positions only, no ball travel time\", \"attacking_team\": \"Manchester United\", \"defending_team\": \"Manchester City\", \"on_screen\": \"<team> control NN% of the danger zone in view\", \"FACTS\": [{\"fact_id\": \"f_700001\", \"match_id\": \"m_9002\", \"label\": \"zone: cells from which a shot is worth at least this xG\", \"value\": 0.05, \"unit\": \"xg\", \"display\": \"0.05\", \"source\": \"cache/v7/always_869000.json danger_def\"}, {\"fact_id\": \"f_700002\", \"match_id\": \"m_9002\", \"label\": \"the two teams' shares add up to\", \"value\": 1.0, \"unit\": \"percent\", \"display\": \"100%\", \"source\": \"cache/v7/always_869000.json danger_def (home + away = 1)\"}, {\"fact_id\": \"f_700003\", \"match_id\": \"m_9002\", \"label\": \"Manchester United share of the dangerous space in view at 56:41\", \"value\": 0.28, \"unit\": \"percent\", \"display\": \"28%\", \"source\": \"cache/v7/always_869000.json frame 877000 danger.home\"}, {\"fact_id\": \"f_700004\", \"match_id\": \"m_9002\", \"label\": \"Manchester City share of the dangerous space in view at 56:41\", \"value\": 0.72, \"unit\": \"percent\", \"display\": \"72%\", \"source\": \"cache/v7/always_869000.json frame 877000 danger.away\"}]}",
+ "record": "model_result",
+ "schema_version": "1.0.0",
+ "text": "{\"caption\": \"This shows who reaches shooting spots worth 0.05 xG first, weighted by xG. Man Utd have 28% and Man City 72%, totaling 100%.\", \"confidence\": 1.0, \"claims\": [{\"text\": \"0.05\", \"kind\": \"number\", \"value_number\": 0.05, \"unit\": \"xg\", \"evidence_ids\": [\"f_700001\"]}, {\"text\": \"28%\", \"kind\": \"number\", \"value_number\": 0.28, \"unit\": \"percent\", \"evidence_ids\": [\"f_700003\"]}, {\"text\": \"72%\", \"kind\": \"number\", \"value_number\": 0.72, \"unit\": \"percent\", \"evidence_ids\": [\"f_700004\"]}, {\"text\": \"100%\", \"kind\": \"number\", \"value_number\": 1.0, \"unit\": \"percent\", \"evidence_ids\": [\"f_700002\"]}]}",
+ "tokens_in": 1411,
+ "tokens_out": 257,
+ "via": "live"
+}

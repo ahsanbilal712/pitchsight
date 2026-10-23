@@ -5,6 +5,26 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v7: the "dangerous space in view" caption; v7 grounding ready (track B)
+
+- **Caption** (`footage.v7_caption`, `cache/v7/caption_danger.json`, Man Utd v City manifest): "Dangerous space in
+  view: spots in front of goal worth 0.05 xG or more, weighted by xG; the share the attacking team would reach
+  first." From track A's final definition (ee20aa4: one number for the team attacking the goal in view; zone =
+  cells worth >= 0.05 xG, the v5/v6 reference model; share = control x xG / xG; printed from 50% of the zone in
+  view). gemini-4-argon (`insight_footage@9`), Fact Checker (the "0.05" bound to danger_def), hand review: the
+  draft pinned one frame's 28% (the overlay prints the live share) and the first draft (@8, on the superseded
+  two-team definition) said "worth 0.05 xG" instead of "at least"; both kept as records.
+- **v7 grounding** (`python -m footage.grounding --edit packages/demo/edit_v7.yaml`, once the edit exists): the v6
+  checks plus `v7_always` over each always_on beat's window: the danger sentence must print the share and name the
+  attacking team; the shape panel's width, depth and line gap (whole metres) must equal what their definitions say
+  of the file's lines (width = y_max - y_min, depth = front - back line x, gap = midfield - back line x), and only
+  with 9+ outfielders seen; v7 captions = v6's + this caption. On a preview edit of track C's seven v7 beats:
+  857 of 857.
+- **Spend:** 2 Argon calls, $0.0096; project $4.2247 of $50.
+- Verification: `pytest tests/footage` 61 passed (exit 0); a test shows a wrong share and a wrong depth caught.
+
+---
+
 ## 2026-10-23 · Video v6 grounding: the pipeline's compact phrases (track B)
 
 - `footage.grounding.v6_pipeline` now also reads the beat's `compact` phrases (track C, footage_moments

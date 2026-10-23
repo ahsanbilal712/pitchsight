@@ -85,3 +85,31 @@ def test_v6_pipeline_compact_phrases_are_checked():
     assert ok["numbers_bound"] == ok["numbers"]
     (bad,) = v6_pipeline({"p": {**beat, "compact": {**beat["compact"], "proposer": "Shot + 9 passes priced"}}})
     assert bad["numbers_bound"] == bad["numbers"] - 1 and any("9" in d for d in bad["diff"])
+
+
+def test_v7_always_on_checks_the_share_and_the_shape():
+    import json as _json
+
+    from footage.grounding import v7_always
+
+    lines = [{"x": 43.73}, {"x": 50.39}, {"x": 59.4}]
+    fr = {"clip_ms": 1000, "danger": {"team": "home", "share": 0.28, "text": "Man Utd control 28% of the danger zone"},
+          "danger_zone": {"attacked_by": "home"}, "shape": {"away": {
+              "width_m": 28.96, "width_y_min": 6.82, "width_y_max": 35.78, "depth_m": 15.67, "line_gap_m": 6.67,
+              "lines": lines, "n_players_seen": 9}}}
+    bad = {**fr, "clip_ms": 1100, "danger": {**fr["danger"], "text": "Man Utd control 30% of the danger zone"},
+           "shape": {"away": {**fr["shape"]["away"], "depth_m": 19.0}}}
+
+    def run_on(frames, tmp):
+        path = tmp / "always.json"
+        path.write_text(_json.dumps({"result": {"frames": frames}}))
+        (row,) = v7_always({"x": {"kind": "always_on", "always": str(path), "t0": 0.0, "t1": 2.0}})
+        return row
+
+    import tempfile
+    from pathlib import Path
+
+    tmp = Path(tempfile.mkdtemp())
+    assert run_on([fr], tmp)["numbers_bound"] == run_on([fr], tmp)["numbers"] == 4
+    row = run_on([bad], tmp)
+    assert row["numbers"] - row["numbers_bound"] == 2 and any("28%" in d for d in row["diff"])
