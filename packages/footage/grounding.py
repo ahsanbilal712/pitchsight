@@ -183,7 +183,7 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
     edit = yaml.safe_load((edit_path or ROOT / "packages" / "demo" / f"edit_{version}.yaml").read_text())
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
     sources = {"v3": caption_sources, "v4": v4_caption_sources, "v5": v5_caption_sources,
-               "v6": v6_caption_sources, "v7": v7_caption_sources}[version]()
+               "v6": v6_caption_sources, "v7": v7_caption_sources, "v8": v7_caption_sources}[version]()
     rows = []
     for n_caption, text in enumerate(shown, 1):
         if not DIGITS.search(text):
@@ -377,6 +377,14 @@ def v4_overlay() -> list[dict]:
 def run(version: str = "v3", edit: Path | None = None) -> dict:
     """Count for one video version; `edit` defaults to packages/demo/edit_<version>.yaml."""
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
+    if version == "v8":
+        beats = _v6_beats(edit)
+        rows = v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v7_always(beats) + v6_shots(beats) + \
+            v6_pipeline(beats) + video_captions("v8", edit)
+        counters = [r for r in rows if r["group"] == "video caption" and COUNTER.search(r["item"])]
+        rows = [r for r in rows if r not in counters]
+        rows += v8_screen_text(edit)
+        return _write(rows, version, edit, counters=counters)
     if version == "v7":
         beats = _v6_beats(edit)
         return _write(v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v7_always(beats) + v6_shots(beats)
@@ -795,6 +803,47 @@ def v7_caption_sources() -> dict[str, list[tuple]]:
     return out
 
 
+# ---------------------------------------------------------------------------------------------------- v8
+
+COUNTER = re.compile(r"(\d[\d,]*)\s+of\s+(\d[\d,]*)[^.]*\b(bound|verified|checked)\b", re.I)
+OLD_NAME = re.compile(r"\bwhyline\b", re.I)
+
+
+def _screen_texts(edit: Path) -> list[str]:
+    doc = yaml.safe_load(edit.read_text())
+    out = []
+    for c in doc["clips"]:
+        out += [x["text"] for x in c.get("captions", [])]
+        out += [c[k] for k in ("title",) if isinstance(c.get(k), str)] + list(c.get("lines") or [])
+    return out
+
+
+def v8_screen_text(edit: Path) -> list[dict]:
+    """Every caption and card of the edit under the product's name: none may still say WHYLINE (Pitchsight since
+    v8; code identifiers keep the old name, the screen does not)."""
+    texts = _screen_texts(edit)
+    bad = [t for t in texts if OLD_NAME.search(t)]
+    return [{"group": "v8 name", "item": f"{len(texts)} captions and card lines", "claims": len(texts),
+             "claims_verified": len(texts) - len(bad), "numbers": 0, "numbers_bound": 0,
+             "diff": [f"says WHYLINE: {t!r}" for t in bad], "rejected": []}]
+
+
+def _counter_rows(counters: list[dict], total: dict) -> list[dict]:
+    """The VERIFY counter must print the count of everything else: its own two numbers are the computed
+    numbers_bound and numbers (thousands separators allowed)."""
+    rows = []
+    for r in counters:
+        m = COUNTER.search(r["item"])
+        got = (int(m.group(1).replace(",", "")), int(m.group(2).replace(",", "")))
+        want = (total["numbers_bound"], total["numbers"])
+        ok = got == want
+        rows.append({"group": "verify counter", "item": r["item"], "claims": 2, "claims_verified": 2 if ok else 0,
+                     "numbers": 2, "numbers_bound": 2 if ok else 0,
+                     "diff": [] if ok else [f"prints {got[0]} of {got[1]}, grounding computes {want[0]} of {want[1]}"],
+                     "rejected": []})
+    return rows
+
+
 WITHDRAWN_REASON = ("withdrawn: the Spurs clip's attack directions were reversed (track A 115f6a0); 240-242 s is "
                     "Man Utd clearing their own box, valued as an attack")
 WITHDRAWN = {                     # Man Utd v Spurs pass X-ray captions: not counted, listed with the reason
@@ -805,7 +854,10 @@ WITHDRAWN = {                     # Man Utd v Spurs pass X-ray captions: not cou
 }
 
 
-def _write(rows: list[dict], version: str, edit: Path) -> dict:
+def _write(rows: list[dict], version: str, edit: Path, counters: list[dict] | None = None) -> dict:
+    if counters:                       # v8: the counter is checked against the count of everything else
+        rest = {k: sum(r[k] for r in rows if r["item"] not in WITHDRAWN) for k in ("numbers", "numbers_bound")}
+        rows = rows + _counter_rows(counters, rest)
     in_edit = {r["item"] for r in rows}
     withdrawn = [{"caption": c, "still_in_edit": c in in_edit, "reason": WITHDRAWN_REASON} for c in sorted(WITHDRAWN)]
     rows = [r for r in rows if r["item"] not in WITHDRAWN]

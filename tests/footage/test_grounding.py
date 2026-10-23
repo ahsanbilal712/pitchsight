@@ -113,3 +113,20 @@ def test_v7_always_on_checks_the_share_and_the_shape():
     assert run_on([fr], tmp)["numbers_bound"] == run_on([fr], tmp)["numbers"] == 4
     row = run_on([bad], tmp)
     assert row["numbers"] - row["numbers_bound"] == 2 and any("28%" in d for d in row["diff"])
+
+
+def test_v8_counter_and_old_name(tmp_path):
+    import yaml
+
+    from footage.grounding import COUNTER, _counter_rows, v8_screen_text
+
+    item = "VERIFY: 1,399 of 1,399 on-screen numbers bound to verified evidence."
+    assert COUNTER.search(item)
+    (ok,) = _counter_rows([{"item": item}], {"numbers_bound": 1399, "numbers": 1399})
+    (bad,) = _counter_rows([{"item": item}], {"numbers_bound": 1398, "numbers": 1400})
+    assert ok["numbers_bound"] == 2 and bad["numbers_bound"] == 0 and "1398 of 1400" in bad["diff"][0]
+    edit = tmp_path / "edit_v8.yaml"
+    edit.write_text(yaml.safe_dump({"clips": [{"captions": [{"text": "Pitchsight prices every option."}]},
+                                              {"card": "end", "title": "WHYLINE", "lines": ["Every line has a why."]}]}))
+    (row,) = v8_screen_text(edit)
+    assert row["claims_verified"] == row["claims"] - 1 and "WHYLINE" in row["diff"][0]

@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-23 · Video v8 grounding ready: VERIFY counter and the product name (track B)
+
+- `python -m footage.grounding --edit packages/demo/edit_v8.yaml` (once the edit exists): v7's checks plus
+  - the VERIFY counter: a caption or card of the form "N of N ... bound/verified/checked" is taken out of the
+    count and must print exactly what grounding computes for everything else in the edit (thousands separators
+    allowed), so it is never circular;
+  - no caption or card line may still say WHYLINE (Pitchsight on screen; code identifiers keep the old name).
+- Tested on edit_v7 copies: a right counter (1,399 of 1,399) binds, a wrong one (1,400) is reported with the
+  computed value; edit_v7's "WHYLINE" end card is caught.
+- No model call. Verification: `pytest tests/footage` (exit 0).
+
+---
+
 ## 2026-10-23 · Video v8: Pitchsight rename in the docs and on screen; EXPLAIN claim checked (track B)
 
 - **Rename** (owner: PITCHSIGHT on screen and in the docs; code identifiers stay): README (title, intro, the
