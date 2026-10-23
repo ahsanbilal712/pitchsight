@@ -11,22 +11,28 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.758,
      "px": [
       1530,
       422
      ],
+     "source": "full",
      "speed_ms": 0.4,
      "x": 20.07,
      "y": 55.88
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1201000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -35,20 +41,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.753,
      "px": [
       1531,
       422
      ],
-     "speed_ms": 0.3,
+     "source": "full",
+     "speed_ms": 0.7,
      "x": 20.05,
      "y": 55.85
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1201100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -248,6 +258,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -256,20 +268,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.727,
      "px": [
       1533,
       423
      ],
-     "speed_ms": 0.1,
+     "source": "full",
+     "speed_ms": 0.7,
      "x": 20.01,
      "y": 55.91
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1201200,
-    "holder": null,
+    "holder": {
+     "label": "t14",
+     "name": null,
+     "px": [
+      1569,
+      432
+     ],
+     "shirt": null,
+     "track_id": 14,
+     "x": 20.61,
+     "y": 56.08
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -497,6 +524,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -505,20 +534,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.728,
      "px": [
       1536,
       423
      ],
-     "speed_ms": 0.2,
+     "source": "full",
+     "speed_ms": 0.9,
      "x": 20.02,
      "y": 55.85
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1201300,
-    "holder": null,
+    "holder": {
+     "label": "t14",
+     "name": null,
+     "px": [
+      1570,
+      432
+     ],
+     "shirt": null,
+     "track_id": 14,
+     "x": 20.61,
+     "y": 56.01
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -746,6 +790,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -754,11 +800,13 @@
     "attacking": "home",
     "attacks": "-x",
     "ball": {
+     "conf": 0.709,
      "px": [
       1541,
       422
      ],
-     "speed_ms": 0.4,
+     "source": "full",
+     "speed_ms": 0.9,
      "x": 20.0,
      "y": 55.94
     },
@@ -769,6 +817,7 @@
      "track_id": 7,
      "xg_after_pass": 0.05
     },
+    "carrier_source": "ball",
     "clip_ms": 1201400,
     "holder": {
      "label": "t14",
@@ -854,6 +903,7 @@
       "y": 28.41
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1081,6 +1131,8 @@
      }
     ],
     "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": 0.05,
     "threat_from": "pass",
     "trusted": true
@@ -1089,11 +1141,13 @@
     "attacking": "home",
     "attacks": "-x",
     "ball": {
+     "conf": 0.583,
      "px": [
       1544,
       423
      ],
-     "speed_ms": 0.4,
+     "source": "full",
+     "speed_ms": 1.5,
      "x": 20.0,
      "y": 55.92
     },
@@ -1104,6 +1158,7 @@
      "track_id": 7,
      "xg_after_pass": 0.05
     },
+    "carrier_source": "ball",
     "clip_ms": 1201500,
     "holder": {
      "label": "t14",
@@ -1189,6 +1244,7 @@
       "y": 28.51
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1416,20 +1472,120 @@
      }
     ],
     "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": 0.05,
     "threat_from": "pass",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "home",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.27,
+     "px": [
+      1551,
+      424
+     ],
+     "source": "full",
+     "speed_ms": 1.5,
+     "x": 20.09,
+     "y": 55.8
+    },
+    "best": {
+     "label": "t7",
+     "name": null,
+     "shirt": null,
+     "track_id": 7,
+     "xg_after_pass": 0.05
+    },
+    "carrier_source": "ball",
     "clip_ms": 1201600,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t14",
+     "name": null,
+     "px": [
+      1584,
+      433
+     ],
+     "shirt": null,
+     "track_id": 14,
+     "x": 20.67,
+     "y": 55.91
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t6",
+      "name": null,
+      "offside_risk": true,
+      "onside_margin_m": -0.03,
+      "p_pass": 0.75,
+      "px": [
+       791,
+       577
+      ],
+      "shirt": null,
+      "track_id": 6,
+      "x": 15.0,
+      "xg_after_pass": 0.07,
+      "xg_receiver": 0.09,
+      "y": 39.07
+     },
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 1.58,
+      "p_pass": 0.67,
+      "px": [
+       843,
+       603
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 16.61,
+      "xg_after_pass": 0.05,
+      "xg_receiver": 0.08,
+      "y": 38.0
+     },
+     {
+      "label": "t1",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 0.63,
+      "p_pass": 0.42,
+      "px": [
+       178,
+       810
+      ],
+      "shirt": null,
+      "track_id": 1,
+      "x": 15.66,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.06,
+      "y": 24.22
+     },
+     {
+      "label": "t0",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 17.28,
+      "p_pass": 0.86,
+      "px": [
+       1576,
+       923
+      ],
+      "shirt": null,
+      "track_id": 0,
+      "x": 32.31,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.02,
+      "y": 28.55
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1656,21 +1812,25 @@
       "y": 44.81
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "On the ball",
+    "threat": 0.05,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1201700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1912,6 +2072,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -1920,19 +2082,23 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.377,
      "px": [
       1547,
       405
      ],
+     "source": "full",
      "x": 19.09,
      "y": 57.33
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1201800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball speed not measurable",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2174,6 +2340,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2183,11 +2351,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1201900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2429,6 +2599,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -2437,20 +2609,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.543,
      "px": [
       1324,
       374
      ],
-     "speed_ms": 18.6,
+     "source": "full",
+     "speed_ms": 14.3,
      "x": 13.82,
      "y": 57.7
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2692,6 +2868,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2700,20 +2878,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.505,
      "px": [
       1274,
       367
      ],
-     "speed_ms": 17.3,
+     "source": "full",
+     "speed_ms": 21.0,
      "x": 12.41,
      "y": 57.45
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2955,6 +3137,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2963,20 +3147,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.736,
      "px": [
       1202,
       362
      ],
-     "speed_ms": 18.3,
+     "source": "full",
+     "speed_ms": 21.0,
      "x": 10.67,
      "y": 56.27
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3232,6 +3420,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3240,20 +3430,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.724,
      "px": [
       1158,
       362
      ],
-     "speed_ms": 19.8,
+     "source": "full",
+     "speed_ms": 24.2,
      "x": 9.62,
      "y": 55.07
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3509,6 +3703,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3517,20 +3713,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.76,
      "px": [
       1100,
       369
      ],
-     "speed_ms": 21.9,
+     "source": "full",
+     "speed_ms": 24.2,
      "x": 8.76,
      "y": 52.81
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3786,6 +3986,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3794,20 +3996,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.766,
      "px": [
       1062,
       380
      ],
-     "speed_ms": 27.6,
+     "source": "full",
+     "speed_ms": 35.3,
      "x": 8.51,
      "y": 50.83
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4063,6 +4269,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4071,20 +4279,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.659,
      "px": [
       1004,
       408
      ],
-     "speed_ms": 37.6,
+     "source": "full",
+     "speed_ms": 35.3,
      "x": 8.57,
      "y": 47.3
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4340,6 +4552,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4349,11 +4563,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4595,6 +4811,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -4603,20 +4821,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.479,
      "px": [
       921,
       460
      ],
+     "source": "full",
      "speed_ms": 15.9,
      "x": 9.01,
      "y": 42.06
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4844,6 +5066,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4852,20 +5076,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.744,
      "px": [
       881,
       474
      ],
-     "speed_ms": 12.1,
+     "source": "full",
+     "speed_ms": 15.9,
      "x": 8.66,
      "y": 40.51
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1202900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5080,7 +5308,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        721,
        601
@@ -5107,6 +5335,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5116,11 +5346,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5349,7 +5581,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        723,
        600
@@ -5362,6 +5594,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -5371,11 +5605,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5590,7 +5826,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        742,
        598
@@ -5603,6 +5839,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -5610,20 +5848,15 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "px": [
-      920,
-      548
-     ],
-     "x": 11.01,
-     "y": 35.76
-    },
+    "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203200,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball speed not measurable",
+    "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5824,7 +6057,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        765,
        596
@@ -5865,20 +6098,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.491,
+     "px": [
+      1138,
+      267
+     ],
+     "source": "full",
+     "speed_ms": 2.4,
+     "x": -1.57,
+     "y": 57.71
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203300,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6079,7 +6326,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        791,
        597
@@ -6120,20 +6367,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.504,
+     "px": [
+      1161,
+      264
+     ],
+     "source": "full",
+     "speed_ms": 6.4,
+     "x": -1.59,
+     "y": 57.47
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6334,7 +6595,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        807,
        597
@@ -6375,20 +6636,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.283,
+     "px": [
+      1189,
+      268
+     ],
+     "source": "full",
+     "speed_ms": 6.4,
+     "x": -1.22,
+     "y": 56.95
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203500,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6589,7 +6864,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        833,
        594
@@ -6630,20 +6905,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.419,
+     "px": [
+      1203,
+      258
+     ],
+     "source": "full",
+     "speed_ms": 0.4,
+     "x": -1.23,
+     "y": 56.91
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203600,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6844,7 +7133,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        852,
        595
@@ -6885,20 +7174,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.583,
+     "px": [
+      1217,
+      254
+     ],
+     "source": "full",
+     "speed_ms": 0.2,
+     "x": -1.21,
+     "y": 56.91
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203700,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7113,7 +7416,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        895,
        598
@@ -7140,27 +7443,24 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "px": [
-      995,
-      519
-     ],
-     "x": 9.48,
-     "y": 36.51
-    },
+    "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203800,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball speed not measurable",
+    "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7375,7 +7675,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        908,
        589
@@ -7402,20 +7702,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.373,
+     "px": [
+      1229,
+      252
+     ],
+     "source": "full",
+     "speed_ms": 0.9,
+     "x": -1.24,
+     "y": 56.98
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1203900,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7630,7 +7944,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        923,
        579
@@ -7657,20 +7971,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.385,
+     "px": [
+      1229,
+      251
+     ],
+     "source": "full",
+     "speed_ms": 0.9,
+     "x": -1.19,
+     "y": 56.9
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7885,7 +8213,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        947,
        578
@@ -7912,20 +8240,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.305,
+     "px": [
+      1229,
+      251
+     ],
+     "source": "full",
+     "speed_ms": 0.9,
+     "x": -1.21,
+     "y": 56.9
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204100,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8126,7 +8468,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        949,
        578
@@ -8167,20 +8509,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.39,
+     "px": [
+      1229,
+      254
+     ],
+     "source": "full",
+     "speed_ms": 3.3,
+     "x": -1.15,
+     "y": 56.83
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204200,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8367,7 +8723,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        932,
        583
@@ -8408,20 +8764,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.58,
+     "px": [
+      1235,
+      260
+     ],
+     "source": "full",
+     "speed_ms": 3.3,
+     "x": -1.33,
+     "y": 57.11
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204300,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8608,7 +8978,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        951,
        593
@@ -8649,20 +9019,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.599,
+     "px": [
+      1238,
+      261
+     ],
+     "source": "full",
+     "speed_ms": 1.1,
+     "x": -1.27,
+     "y": 57.02
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8849,7 +9233,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        958,
        594
@@ -8890,20 +9274,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.518,
+     "px": [
+      1241,
+      261
+     ],
+     "source": "full",
+     "speed_ms": 1.0,
+     "x": -1.34,
+     "y": 57.09
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204500,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -9090,7 +9488,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        952,
        596
@@ -9131,20 +9529,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.524,
+     "px": [
+      1242,
+      261
+     ],
+     "source": "full",
+     "speed_ms": 2.3,
+     "x": -1.35,
+     "y": 57.12
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204600,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -9345,7 +9757,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        950,
        600
@@ -9372,20 +9784,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.452,
+     "px": [
+      1244,
+      259
+     ],
+     "source": "full",
+     "speed_ms": 2.6,
+     "x": -1.45,
+     "y": 57.33
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204700,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -9558,7 +9984,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        953,
        597
@@ -9613,20 +10039,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.448,
+     "px": [
+      1245,
+      260
+     ],
+     "source": "full",
+     "speed_ms": 3.0,
+     "x": -1.33,
+     "y": 57.1
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204800,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -9799,7 +10239,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        953,
        599
@@ -9854,20 +10294,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.548,
+     "px": [
+      1247,
+      259
+     ],
+     "source": "full",
+     "speed_ms": 3.0,
+     "x": -1.21,
+     "y": 56.83
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1204900,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -10082,7 +10536,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        962,
        588
@@ -10095,20 +10549,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.48,
+     "px": [
+      1249,
+      257
+     ],
+     "source": "full",
+     "speed_ms": 2.1,
+     "x": -1.28,
+     "y": 56.92
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1205000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -10295,7 +10763,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        928,
        597
@@ -10336,20 +10804,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.461,
+     "px": [
+      1250,
+      256
+     ],
+     "source": "full",
+     "speed_ms": 2.4,
+     "x": -1.17,
+     "y": 56.74
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1205100,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -10522,7 +11004,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        927,
        600
@@ -10577,20 +11059,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.45,
+     "px": [
+      1248,
+      253
+     ],
+     "source": "full",
+     "speed_ms": 2.4,
+     "x": -1.22,
+     "y": 56.97
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1205200,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -10763,7 +11259,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        918,
        598
@@ -10818,20 +11314,24 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1205300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -11004,7 +11504,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        893,
        595
@@ -11073,6 +11573,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -11082,11 +11584,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1205400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -11259,7 +11763,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        883,
        593
@@ -11328,6 +11832,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -11336,20 +11842,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.587,
      "px": [
       995,
       586
      ],
-     "speed_ms": 6.4,
+     "source": "full",
+     "speed_ms": 5.9,
      "x": 11.8,
      "y": 33.25
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1205500,
-    "holder": null,
+    "holder": {
+     "label": "t20",
+     "name": null,
+     "px": [
+      970,
+      588
+     ],
+     "shirt": null,
+     "track_id": 20,
+     "x": 11.28,
+     "y": 33.39
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -11522,7 +12043,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        870,
        594
@@ -11591,6 +12112,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -11599,20 +12122,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.706,
      "px": [
       952,
       590
      ],
-     "speed_ms": 6.1,
+     "source": "full",
+     "speed_ms": 6.5,
      "x": 11.55,
      "y": 32.72
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1205600,
-    "holder": null,
+    "holder": {
+     "label": "t20",
+     "name": null,
+     "px": [
+      964,
+      584
+     ],
+     "shirt": null,
+     "track_id": 20,
+     "x": 11.11,
+     "y": 33.53
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -11785,7 +12323,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        865,
        595
@@ -11854,6 +12392,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -11862,11 +12402,13 @@
     "attacking": "home",
     "attacks": "-x",
     "ball": {
+     "conf": 0.455,
      "px": [
       901,
       594
      ],
-     "speed_ms": 5.0,
+     "source": "full",
+     "speed_ms": 6.5,
      "x": 11.16,
      "y": 32.2
     },
@@ -11877,10 +12419,11 @@
      "track_id": 17,
      "xg_after_pass": 0.12
     },
+    "carrier_source": "ball",
     "clip_ms": 1205700,
     "holder": {
      "label": "t18",
-     "name": null,
+     "name": "Casemiro",
      "px": [
       854,
       594
@@ -11979,6 +12522,7 @@
       "y": 37.09
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -12151,7 +12695,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        854,
        594
@@ -12206,6 +12750,8 @@
      }
     ],
     "shot_now_xg": 0.19,
+    "state": "carry",
+    "state_text": "Casemiro on the ball",
     "threat": 0.19,
     "threat_from": "shot",
     "trusted": true
@@ -12214,11 +12760,13 @@
     "attacking": "home",
     "attacks": "-x",
     "ball": {
+     "conf": 0.73,
      "px": [
       873,
       595
      ],
-     "speed_ms": 4.7,
+     "source": "full",
+     "speed_ms": 6.1,
      "x": 10.88,
      "y": 31.97
     },
@@ -12229,10 +12777,11 @@
      "track_id": 6,
      "xg_after_pass": 0.16
     },
+    "carrier_source": "ball",
     "clip_ms": 1205800,
     "holder": {
      "label": "t18",
-     "name": null,
+     "name": "Casemiro",
      "px": [
       850,
       594
@@ -12331,6 +12880,7 @@
       "y": 37.02
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -12503,7 +13053,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        850,
        594
@@ -12558,6 +13108,8 @@
      }
     ],
     "shot_now_xg": 0.19,
+    "state": "carry",
+    "state_text": "Casemiro on the ball",
     "threat": 0.19,
     "threat_from": "shot",
     "trusted": true
@@ -12566,11 +13118,13 @@
     "attacking": "home",
     "attacks": "-x",
     "ball": {
+     "conf": 0.744,
      "px": [
       840,
       598
      ],
-     "speed_ms": 4.3,
+     "source": "full",
+     "speed_ms": 6.1,
      "x": 10.62,
      "y": 31.42
     },
@@ -12581,10 +13135,11 @@
      "track_id": 17,
      "xg_after_pass": 0.13
     },
+    "carrier_source": "ball",
     "clip_ms": 1205900,
     "holder": {
      "label": "t18",
-     "name": null,
+     "name": "Casemiro",
      "px": [
       848,
       594
@@ -12683,6 +13238,7 @@
       "y": 36.74
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -12869,7 +13425,7 @@
      {
       "keeper": false,
       "label": "t18",
-      "name": null,
+      "name": "Casemiro",
       "px": [
        848,
        594
@@ -12910,6 +13466,8 @@
      }
     ],
     "shot_now_xg": 0.19,
+    "state": "carry",
+    "state_text": "Casemiro on the ball",
     "threat": 0.19,
     "threat_from": "shot",
     "trusted": true
@@ -12921,11 +13479,12 @@
    1920,
    1080
   ],
-  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; label/track_id are internal ids, never shown",
+  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; each only within the linked track's identity span (same kit team, no jump over 12 m/s); label/track_id are internal ids, never shown",
   "match_id": "m_9004",
   "period": 2,
   "rules": {
-   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "ball": "tiled full-resolution detection plus the full-frame one, minus the penalty and centre spots; conf >= 0.5 stands alone, weaker only within 35 m/s of the nearest confident one (1 s) or at conf >= 0.4 with none near",
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike (a disallowed goal: its tagged second) to the end of the shot",
    "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
    "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
    "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
@@ -12933,18 +13492,28 @@
    "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
    "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
    "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
-   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+   "possession_carrier": "the same player at the ball before and after a gap of <= 1.5 s with the ball unseen and no other player within 1.5 m of him keeps it through the gap (carrier_source 'possession'); never across a ball seen elsewhere",
+   "trusted": "false where the camera fit is not trusted at the frame, or no ball and no possession carrier"
   },
   "shot_id": "xe_0057",
   "slug": "manutd-spurs-2425",
   "source": {
+   "ball": "manutd-spurs-2425/tracks/xe_0057.ball_tiled.json (tiled) + the full-frame detection",
    "calib": "manutd-spurs-2425/calib/xe_0057.json",
-   "names": "track B's moment files for this camera shot",
+   "names": "track B's names_live_0.json and names_verified.json",
    "pass_model": "packages/heads/artifacts/pass",
    "shot_model": "evals.pitchwatch.shotxg.reference_xg",
    "tracks": "manutd-spurs-2425/tracks/xe_0057.json"
   },
   "start_clip_ms": 1201000,
+  "states": {
+   "carry": "a player has the ball (carrier_source ball: detected at his feet; possession: same player either side of a short gap, see rules)",
+   "contested": "carrier known, possession not settled",
+   "loose": "ball loose or not seen",
+   "no_data": "camera fit not trusted",
+   "out_of_play": "ball past a line, or dead after a goal",
+   "pass": "ball in flight between two different carriers within 3 s (receiver known on arrival; complete false = the other team received it)"
+  },
   "step_ms": 100,
   "threat_def": "Threat = the higher of the ball carrier's shot-now xG and the best pass's xG after the pass (pass completion x the reference xG from the receiver's spot); null when the ball is not held in the opponents' half"
  },

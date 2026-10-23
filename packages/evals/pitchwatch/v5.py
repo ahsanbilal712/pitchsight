@@ -130,7 +130,8 @@ def linked_shot(slug: str, clip_ms: int, team: str) -> dict:
 
 def run_to(slug: str, m: dict, track_id: int | None) -> list[float] | None:
     """The player's tracked spot RUN_S after the freeze (same camera shot, moment-file frame), for the run arrow
-    only; None where the track breaks, the camera fit is not trusted there, or the shot ends first."""
+    only; None where the track breaks or switches to another man, the camera fit is not trusted there, or the shot
+    ends first."""
     from evals.pitchwatch.insights import FOOTAGE
     if track_id is None or not m.get("tracking"):
         return None
@@ -140,7 +141,11 @@ def run_to(slug: str, m: dict, track_id: int | None) -> list[float] | None:
     if abs(r["frame"] - target) > tracks["step"] or not r["calib_ok"]:
         return None
     p = next((p for p in r["players"] if p["track_id"] == track_id and p.get("xy")), None)
-    return [round(p["xy"][0], 2), round(W - p["xy"][1], 2)] if p else None
+    from evals.pitchwatch.v6 import identity_span
+    span = identity_span(tracks["frames"], track_id, m["tracking"]["frame"] / tracks["fps"])
+    if p is None or span is None or not span[0] <= r["t"] <= span[1]:   # the id switched to another man
+        return None
+    return [round(p["xy"][0], 2), round(W - p["xy"][1], 2)]
 
 
 def decision(slug: str, clip_ms: int) -> dict:

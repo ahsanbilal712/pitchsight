@@ -11,21 +11,28 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.337,
      "px": [
-      341,
-      369
+      685,
+      442
      ],
-     "x": 18.07,
-     "y": 67.7
+     "source": "tiled",
+     "speed_ms": 101.1,
+     "x": 28.03,
+     "y": 60.13
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 823600,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball speed not measurable",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -34,20 +41,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.439,
      "px": [
       1044,
       394
      ],
-     "speed_ms": 103.8,
+     "source": "full",
+     "speed_ms": 101.1,
      "x": 34.77,
      "y": 67.66
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 823700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -205,6 +216,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -214,11 +227,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 823800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -376,6 +391,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -384,20 +401,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.414,
      "px": [
       950,
       389
      ],
-     "speed_ms": 0.8,
+     "source": "full",
+     "speed_ms": 1.6,
      "x": 34.51,
      "y": 67.74
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 823900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -569,6 +590,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -577,20 +600,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.511,
      "px": [
       925,
       389
      ],
-     "speed_ms": 0.4,
+     "source": "full",
+     "speed_ms": 181.1,
      "x": 34.55,
      "y": 67.9
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball loose",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -762,6 +789,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -769,13 +798,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.535,
+     "px": [
+      1700,
+      402
+     ],
+     "source": "full",
+     "speed_ms": 837.4,
+     "x": 52.52,
+     "y": 70.18
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824100,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -947,20 +988,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.517,
+     "px": [
+      1113,
+      70
+     ],
+     "source": "full",
+     "speed_ms": 840.6,
+     "x": 30.0,
+     "y": 150.84
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824200,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1146,20 +1201,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.539,
+     "px": [
+      1638,
+      395
+     ],
+     "source": "full",
+     "speed_ms": 840.6,
+     "x": 52.39,
+     "y": 69.82
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824300,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1359,20 +1428,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.607,
+     "px": [
+      1616,
+      395
+     ],
+     "source": "full",
+     "speed_ms": 1.7,
+     "x": 52.37,
+     "y": 69.69
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1572,20 +1655,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.4,
+     "px": [
+      1585,
+      390
+     ],
+     "source": "full",
+     "speed_ms": 3.2,
+     "x": 52.53,
+     "y": 69.62
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824500,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1771,20 +1868,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.561,
+     "px": [
+      1566,
+      388
+     ],
+     "source": "full",
+     "speed_ms": 3.2,
+     "x": 52.41,
+     "y": 69.32
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824600,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1984,20 +2095,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.435,
+     "px": [
+      1533,
+      387
+     ],
+     "source": "full",
+     "speed_ms": 4.7,
+     "x": 52.5,
+     "y": 69.58
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824700,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2197,20 +2322,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.541,
+     "px": [
+      1514,
+      388
+     ],
+     "source": "full",
+     "speed_ms": 4.7,
+     "x": 52.4,
+     "y": 69.12
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824800,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2410,20 +2549,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.467,
+     "px": [
+      1482,
+      387
+     ],
+     "source": "full",
+     "speed_ms": 4.0,
+     "x": 52.47,
+     "y": 69.51
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 824900,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2609,20 +2762,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.358,
+     "px": [
+      1466,
+      386
+     ],
+     "source": "full",
+     "speed_ms": 2.6,
+     "x": 52.52,
+     "y": 69.77
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2808,20 +2975,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.389,
+     "px": [
+      1438,
+      384
+     ],
+     "source": "full",
+     "speed_ms": 2.5,
+     "x": 52.41,
+     "y": 69.89
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825100,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2993,20 +3174,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.505,
+     "px": [
+      1426,
+      386
+     ],
+     "source": "full",
+     "speed_ms": 79.3,
+     "x": 52.45,
+     "y": 69.64
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825200,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3178,28 +3373,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.619,
      "px": [
       1096,
       404
      ],
-     "speed_ms": 65.2,
+     "source": "full",
+     "speed_ms": 79.3,
      "x": 45.74,
      "y": 65.41
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3399,6 +3600,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3407,19 +3610,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.633,
      "px": [
-      1404,
-      388
+      1074,
+      390
      ],
-     "x": 52.35,
-     "y": 68.79
+     "source": "tiled",
+     "speed_ms": 72.4,
+     "x": 45.28,
+     "y": 67.45
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3605,6 +3813,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3613,19 +3823,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.501,
      "px": [
       1400,
       389
      ],
+     "source": "full",
+     "speed_ms": 72.4,
      "x": 52.37,
      "y": 68.94
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3825,6 +4040,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3833,19 +4050,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.417,
      "px": [
       1400,
       390
      ],
+     "source": "full",
+     "speed_ms": 1.5,
      "x": 52.35,
      "y": 68.89
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4031,6 +4253,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4038,13 +4262,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.56,
+     "px": [
+      1404,
+      392
+     ],
+     "source": "full",
+     "speed_ms": 1.5,
+     "x": 52.3,
+     "y": 69.03
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825700,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4244,20 +4480,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.563,
+     "px": [
+      1410,
+      394
+     ],
+     "source": "full",
+     "speed_ms": 2.0,
+     "x": 52.33,
+     "y": 69.03
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825800,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4457,20 +4707,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.581,
+     "px": [
+      1425,
+      395
+     ],
+     "source": "full",
+     "speed_ms": 2.0,
+     "x": 52.36,
+     "y": 69.23
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 825900,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4684,20 +4948,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.366,
+     "px": [
+      1438,
+      396
+     ],
+     "source": "full",
+     "speed_ms": 101.4,
+     "x": 52.33,
+     "y": 69.22
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4911,28 +5189,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.639,
      "px": [
       1001,
       401
      ],
-     "speed_ms": 26.4,
+     "source": "tiled",
+     "speed_ms": 101.4,
      "x": 42.49,
-     "y": 66.84
+     "y": 66.79
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5160,6 +5444,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5168,20 +5454,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.742,
      "px": [
-      1006,
-      419
+      1005,
+      418
      ],
-     "speed_ms": 31.7,
-     "x": 42.45,
-     "y": 64.47
+     "source": "tiled",
+     "speed_ms": 37.4,
+     "x": 42.42,
+     "y": 64.57
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5409,6 +5699,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5417,20 +5709,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.777,
      "px": [
-      1012,
-      452
+      1014,
+      450
      ],
-     "speed_ms": 51.1,
+     "source": "tiled",
+     "speed_ms": 37.4,
      "x": 42.41,
-     "y": 60.5
+     "y": 60.83
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5658,6 +5954,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5665,13 +5963,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.806,
+     "px": [
+      1022,
+      452
+     ],
+     "source": "tiled",
+     "speed_ms": 21.9,
+     "x": 42.29,
+     "y": 60.85
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5885,28 +6195,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.659,
      "px": [
       1032,
       435
      ],
-     "speed_ms": 17.4,
+     "source": "full",
+     "speed_ms": 21.9,
      "x": 41.54,
      "y": 62.91
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6134,6 +6450,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -6142,20 +6460,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.83,
      "px": [
       1041,
       425
      ],
-     "speed_ms": 12.2,
-     "x": 41.14,
-     "y": 64.28
+     "source": "tiled",
+     "speed_ms": 13.6,
+     "x": 41.16,
+     "y": 64.22
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6383,6 +6705,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -6391,20 +6715,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.658,
      "px": [
       1051,
       418
      ],
-     "speed_ms": 46.7,
-     "x": 40.51,
-     "y": 65.13
+     "source": "tiled",
+     "speed_ms": 11.8,
+     "x": 40.5,
+     "y": 65.2
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826700,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball in flight",
+    "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6632,6 +6960,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -6639,13 +6969,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.473,
+     "px": [
+      1056,
+      415
+     ],
+     "source": "tiled",
+     "speed_ms": 21.6,
+     "x": 40.2,
+     "y": 65.54
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826800,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6873,20 +7215,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.708,
+     "px": [
+      1040,
+      398
+     ],
+     "source": "tiled",
+     "speed_ms": 21.6,
+     "x": 39.07,
+     "y": 67.38
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 826900,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7100,20 +7456,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.827,
+     "px": [
+      1028,
+      391
+     ],
+     "source": "tiled",
+     "speed_ms": 12.9,
+     "x": 38.26,
+     "y": 68.38
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7327,27 +7697,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.707,
      "px": [
-      1007,
-      385
+      1011,
+      387
      ],
-     "x": 37.23,
-     "y": 68.73
+     "source": "tiled",
+     "speed_ms": 10.1,
+     "x": 37.32,
+     "y": 68.75
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7575,6 +7952,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -7583,19 +7962,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.784,
      "px": [
-      999,
-      389
+      1001,
+      390
      ],
-     "x": 36.78,
-     "y": 68.24
+     "source": "tiled",
+     "speed_ms": 12.4,
+     "x": 36.82,
+     "y": 68.25
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7809,6 +8193,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -7817,20 +8203,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.645,
      "px": [
       988,
       398
      ],
-     "speed_ms": 16.2,
-     "x": 36.18,
-     "y": 67.11
+     "source": "tiled",
+     "speed_ms": 19.7,
+     "x": 36.17,
+     "y": 67.19
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8044,6 +8434,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -8052,20 +8444,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.706,
      "px": [
-      978,
+      979,
       410
      ],
-     "speed_ms": 25.7,
+     "source": "tiled",
+     "speed_ms": 29.7,
      "x": 35.94,
-     "y": 65.11
+     "y": 65.23
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8293,6 +8689,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -8301,20 +8699,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.613,
      "px": [
       965,
-      434
+      433
      ],
-     "speed_ms": 26.7,
-     "x": 35.54,
-     "y": 62.02
+     "source": "tiled",
+     "speed_ms": 29.7,
+     "x": 35.49,
+     "y": 62.29
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8528,6 +8930,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -8536,20 +8940,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.776,
      "px": [
       957,
       453
      ],
-     "speed_ms": 29.7,
-     "x": 35.35,
-     "y": 59.8
+     "source": "tiled",
+     "speed_ms": 38.7,
+     "x": 35.33,
+     "y": 59.91
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8763,6 +9171,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -8771,20 +9181,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.747,
      "px": [
-      945,
+      946,
       486
      ],
-     "speed_ms": 24.7,
-     "x": 35.25,
-     "y": 56.09
+     "source": "tiled",
+     "speed_ms": 65.7,
+     "x": 35.28,
+     "y": 56.04
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8998,6 +9412,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -9006,20 +9422,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.677,
      "px": [
-      939,
-      497
+      635,
+      512
      ],
-     "speed_ms": 7.0,
-     "x": 35.04,
-     "y": 54.86
+     "source": "tiled",
+     "speed_ms": 65.7,
+     "x": 30.02,
+     "y": 52.11
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827800,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball loose",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -9219,6 +9639,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -9227,20 +9649,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.75,
      "px": [
-      937,
+      936,
       472
      ],
-     "speed_ms": 16.8,
-     "x": 34.06,
-     "y": 56.81
+     "source": "tiled",
+     "speed_ms": 62.1,
+     "x": 34.05,
+     "y": 56.83
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 827900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -9440,6 +9866,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -9448,20 +9876,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.785,
      "px": [
       933,
       459
      ],
-     "speed_ms": 11.7,
-     "x": 33.53,
-     "y": 57.86
+     "source": "tiled",
+     "speed_ms": 12.3,
+     "x": 33.55,
+     "y": 57.77
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 828000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "possession unsettled",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -9661,6 +10093,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -9669,20 +10103,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.81,
      "px": [
-      928,
+      929,
       446
      ],
-     "speed_ms": 51.9,
-     "x": 32.76,
-     "y": 58.76
+     "source": "tiled",
+     "speed_ms": 12.3,
+     "x": 32.78,
+     "y": 58.73
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 828100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -9882,6 +10320,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -9890,19 +10330,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.683,
      "px": [
-      1120,
-      376
+      926,
+      443
      ],
-     "x": 34.5,
-     "y": 68.2
+     "source": "tiled",
+     "speed_ms": 7.8,
+     "x": 32.38,
+     "y": 58.95
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 828200,
-    "holder": null,
+    "holder": {
+     "label": "t7",
+     "name": null,
+     "px": [
+      891,
+      464
+     ],
+     "shirt": null,
+     "track_id": 7,
+     "x": 32.11,
+     "y": 57.07
+    },
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -10102,6 +10558,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -10110,20 +10568,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.675,
      "px": [
-      922,
-      444
+      925,
+      445
      ],
-     "speed_ms": 55.2,
-     "x": 31.95,
-     "y": 58.23
+     "source": "tiled",
+     "speed_ms": 8.3,
+     "x": 31.99,
+     "y": 58.28
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 828300,
-    "holder": null,
+    "holder": {
+     "label": "t7",
+     "name": null,
+     "px": [
+      888,
+      463
+     ],
+     "shirt": null,
+     "track_id": 7,
+     "x": 31.61,
+     "y": 56.81
+    },
     "in_opponent_half": null,
-    "null_reason": "ball in flight",
+    "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -10323,6 +10796,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -10331,20 +10806,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.723,
      "px": [
-      925,
+      924,
       450
      ],
-     "speed_ms": 15.2,
+     "source": "tiled",
+     "speed_ms": 22.6,
      "x": 31.79,
-     "y": 57.49
+     "y": 57.47
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 828400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 828800,
+     "complete": false,
+     "from": {
+      "label": "t7",
+      "name": null,
+      "shirt": null,
+      "track_id": 7
+     },
+     "release_clip_ms": 828300,
+     "to": {
+      "label": "t17",
+      "name": null,
+      "shirt": null,
+      "track_id": 17
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -10558,6 +11054,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -10566,20 +11064,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.698,
      "px": [
       928,
       468
      ],
-     "speed_ms": 19.5,
+     "source": "full",
+     "speed_ms": 22.6,
      "x": 31.69,
      "y": 55.21
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 828500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 828800,
+     "complete": false,
+     "from": {
+      "label": "t7",
+      "name": null,
+      "shirt": null,
+      "track_id": 7
+     },
+     "release_clip_ms": 828300,
+     "to": {
+      "label": "t17",
+      "name": null,
+      "shirt": null,
+      "track_id": 17
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -10793,6 +11312,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -10801,20 +11322,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.696,
      "px": [
-      930,
-      483
+      931,
+      482
      ],
-     "speed_ms": 69.7,
-     "x": 31.76,
-     "y": 53.6
+     "source": "tiled",
+     "speed_ms": 15.5,
+     "x": 31.77,
+     "y": 53.67
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 828600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 828800,
+     "complete": false,
+     "from": {
+      "label": "t7",
+      "name": null,
+      "shirt": null,
+      "track_id": 7
+     },
+     "release_clip_ms": 828300,
+     "to": {
+      "label": "t17",
+      "name": null,
+      "shirt": null,
+      "track_id": 17
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -11028,6 +11570,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -11036,19 +11580,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.429,
      "px": [
-      1255,
-      368
+      938,
+      496
      ],
-     "x": 34.33,
-     "y": 68.9
+     "source": "tiled",
+     "speed_ms": 15.5,
+     "x": 31.59,
+     "y": 52.13
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 828700,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 828800,
+     "complete": false,
+     "from": {
+      "label": "t7",
+      "name": null,
+      "shirt": null,
+      "track_id": 7
+     },
+     "release_clip_ms": 828300,
+     "to": {
+      "label": "t17",
+      "name": null,
+      "shirt": null,
+      "track_id": 17
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -11262,6 +11828,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -11269,13 +11837,36 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.203,
+     "px": [
+      964,
+      497
+     ],
+     "source": "tiled",
+     "speed_ms": 5.1,
+     "x": 31.65,
+     "y": 52.64
+    },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 828800,
-    "holder": null,
+    "holder": {
+     "label": "t17",
+     "name": null,
+     "px": [
+      963,
+      511
+     ],
+     "shirt": null,
+     "track_id": 17,
+     "x": 31.79,
+     "y": 51.94
+    },
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -11489,27 +12080,45 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.615,
      "px": [
-      1316,
-      369
+      996,
+      494
      ],
-     "x": 34.44,
-     "y": 68.96
+     "source": "tiled",
+     "speed_ms": 4.6,
+     "x": 31.44,
+     "y": 53.05
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 828900,
-    "holder": null,
+    "holder": {
+     "label": "t17",
+     "name": null,
+     "px": [
+      995,
+      511
+     ],
+     "shirt": null,
+     "track_id": 17,
+     "x": 31.71,
+     "y": 51.89
+    },
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -11723,6 +12332,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -11730,13 +12341,36 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.709,
+     "px": [
+      1017,
+      494
+     ],
+     "source": "tiled",
+     "speed_ms": 2.2,
+     "x": 31.4,
+     "y": 52.99
+    },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 829000,
-    "holder": null,
+    "holder": {
+     "label": "t7",
+     "name": null,
+     "px": [
+      982,
+      491
+     ],
+     "shirt": null,
+     "track_id": 7,
+     "x": 30.57,
+     "y": 53.68
+    },
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -11950,20 +12584,45 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.613,
+     "px": [
+      1050,
+      495
+     ],
+     "source": "tiled",
+     "speed_ms": 2.2,
+     "x": 31.36,
+     "y": 52.77
+    },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 829100,
-    "holder": null,
+    "holder": {
+     "label": "t17",
+     "name": null,
+     "px": [
+      1053,
+      513
+     ],
+     "shirt": null,
+     "track_id": 17,
+     "x": 31.7,
+     "y": 51.6
+    },
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -12177,27 +12836,24 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "px": [
-      1402,
-      368
-     ],
-     "x": 34.39,
-     "y": 68.97
-    },
+    "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 829200,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -12411,27 +13067,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.575,
      "px": [
       1440,
       368
      ],
+     "source": "full",
+     "speed_ms": 167.5,
      "x": 34.5,
      "y": 68.99
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 829300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -12645,6 +13308,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -12652,13 +13317,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.631,
+     "px": [
+      1086,
+      492
+     ],
+     "source": "tiled",
+     "speed_ms": 167.5,
+     "x": 30.47,
+     "y": 52.73
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 829400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -12858,28 +13535,45 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.759,
      "px": [
       1079,
-      498
+      496
      ],
-     "speed_ms": 7.8,
-     "x": 29.96,
-     "y": 51.85
+     "source": "tiled",
+     "speed_ms": 8.5,
+     "x": 29.9,
+     "y": 52.1
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 829500,
-    "holder": null,
+    "holder": {
+     "label": "t7",
+     "name": null,
+     "px": [
+      1116,
+      506
+     ],
+     "shirt": null,
+     "track_id": 7,
+     "x": 30.63,
+     "y": 51.89
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -13065,6 +13759,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -13073,20 +13769,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.772,
      "px": [
-      1077,
+      1075,
       502
      ],
-     "speed_ms": 11.6,
-     "x": 29.57,
-     "y": 51.36
+     "source": "tiled",
+     "speed_ms": 16.8,
+     "x": 29.54,
+     "y": 51.33
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 829600,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "possession unsettled",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -13286,131 +13986,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
    },
    {
-    "attacking": "away",
-    "attacks": "-x",
+    "attacking": null,
+    "attacks": null,
     "ball": {
+     "conf": 0.723,
      "px": [
       1070,
-      518
+      517
      ],
-     "speed_ms": 10.7,
+     "source": "tiled",
+     "speed_ms": 16.8,
      "x": 29.28,
-     "y": 49.64
+     "y": 49.67
     },
-    "best": {
-     "label": "t3",
-     "name": null,
-     "shirt": null,
-     "track_id": 3,
-     "xg_after_pass": 0.03
-    },
+    "best": null,
+    "carrier_source": null,
     "clip_ms": 829700,
-    "holder": {
-     "label": "t17",
-     "name": null,
-     "px": [
-      1169,
-      534
-     ],
-     "shirt": null,
-     "track_id": 17,
-     "x": 31.16,
-     "y": 49.29
-    },
-    "in_opponent_half": true,
-    "null_reason": null,
-    "options": [
-     {
-      "label": "t3",
-      "name": null,
-      "offside_risk": false,
-      "onside_margin_m": 3.74,
-      "p_pass": 0.88,
-      "px": [
-       582,
-       724
-      ],
-      "shirt": null,
-      "track_id": 3,
-      "x": 26.93,
-      "xg_after_pass": 0.03,
-      "xg_receiver": 0.03,
-      "y": 32.33
-     },
-     {
-      "label": "t9",
-      "name": null,
-      "offside_risk": false,
-      "onside_margin_m": 1.09,
-      "p_pass": 0.95,
-      "px": [
-       1047,
-       378
-      ],
-      "shirt": null,
-      "track_id": 9,
-      "x": 24.28,
-      "xg_after_pass": 0.02,
-      "xg_receiver": 0.02,
-      "y": 65.56
-     },
-     {
-      "label": "t8",
-      "name": null,
-      "offside_risk": false,
-      "onside_margin_m": 8.62,
-      "p_pass": 1.0,
-      "px": [
-       1172,
-       560
-      ],
-      "shirt": null,
-      "track_id": 8,
-      "x": 31.81,
-      "xg_after_pass": 0.02,
-      "xg_receiver": 0.02,
-      "y": 47.05
-     },
-     {
-      "label": "t2",
-      "name": null,
-      "offside_risk": false,
-      "onside_margin_m": 12.9,
-      "p_pass": 0.99,
-      "px": [
-       1373,
-       618
-      ],
-      "shirt": null,
-      "track_id": 2,
-      "x": 36.09,
-      "xg_after_pass": 0.01,
-      "xg_receiver": 0.01,
-      "y": 43.3
-     },
-     {
-      "label": "t20",
-      "name": null,
-      "offside_risk": false,
-      "onside_margin_m": 10.25,
-      "p_pass": 0.45,
-      "px": [
-       1405,
-       460
-      ],
-      "shirt": null,
-      "track_id": 20,
-      "x": 33.44,
-      "xg_after_pass": 0.01,
-      "xg_receiver": 0.02,
-      "y": 58.11
-     }
-    ],
+    "holder": null,
+    "in_opponent_half": null,
+    "null_reason": "ball in flight",
+    "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -13443,12 +14046,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        582,
        724
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 26.93,
@@ -13471,12 +14074,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1172,
        560
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 31.81,
@@ -13485,12 +14088,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1047,
        378
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 24.28,
@@ -13595,30 +14198,35 @@
       "y": 58.11
      }
     ],
-    "shot_now_xg": 0.02,
-    "threat": 0.03,
-    "threat_from": "pass",
+    "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
+    "threat": null,
+    "threat_from": null,
     "trusted": true
    },
    {
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.729,
      "px": [
       1069,
-      520
+      519
      ],
-     "speed_ms": 5.8,
-     "x": 28.92,
-     "y": 49.32
+     "source": "tiled",
+     "speed_ms": 7.0,
+     "x": 28.9,
+     "y": 49.4
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 829800,
     "holder": {
      "label": "t7",
@@ -13637,7 +14245,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 3.8,
       "p_pass": 0.88,
@@ -13645,7 +14253,7 @@
        589,
        720
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 26.59,
       "xg_after_pass": 0.03,
@@ -13654,7 +14262,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 1.23,
       "p_pass": 0.95,
@@ -13662,7 +14270,7 @@
        1060,
        377
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 24.02,
       "xg_after_pass": 0.02,
@@ -13671,7 +14279,7 @@
      },
      {
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "offside_risk": false,
       "onside_margin_m": 9.0,
       "p_pass": 1.0,
@@ -13679,7 +14287,7 @@
        1186,
        567
       ],
-      "shirt": null,
+      "shirt": 8,
       "track_id": 8,
       "x": 31.79,
       "xg_after_pass": 0.02,
@@ -13721,6 +14329,7 @@
       "y": 57.51
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -13753,12 +14362,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        589,
        720
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 26.59,
@@ -13781,12 +14390,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1060,
        377
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 24.02,
@@ -13879,12 +14488,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1186,
        567
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 31.79,
@@ -13906,6 +14515,8 @@
      }
     ],
     "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
@@ -13914,21 +14525,24 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.603,
      "px": [
       1072,
       522
      ],
-     "speed_ms": 6.2,
-     "x": 28.34,
-     "y": 48.96
+     "source": "tiled",
+     "speed_ms": 7.0,
+     "x": 28.33,
+     "y": 48.99
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 829900,
     "holder": {
      "label": "t7",
@@ -13947,7 +14561,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 3.69,
       "p_pass": 0.86,
@@ -13955,7 +14569,7 @@
        601,
        715
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 26.12,
       "xg_after_pass": 0.03,
@@ -13964,7 +14578,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 1.22,
       "p_pass": 0.96,
@@ -13972,7 +14586,7 @@
        1084,
        377
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 23.65,
       "xg_after_pass": 0.02,
@@ -13981,7 +14595,7 @@
      },
      {
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "offside_risk": false,
       "onside_margin_m": 8.89,
       "p_pass": 1.0,
@@ -13989,7 +14603,7 @@
        1193,
        571
       ],
-      "shirt": null,
+      "shirt": 8,
       "track_id": 8,
       "x": 31.32,
       "xg_after_pass": 0.02,
@@ -14031,6 +14645,7 @@
       "y": 57.44
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -14063,12 +14678,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        601,
        715
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 26.12,
@@ -14105,12 +14720,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1193,
        571
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 31.32,
@@ -14119,12 +14734,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1084,
        377
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 23.65,
@@ -14216,6 +14831,8 @@
      }
     ],
     "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
@@ -14224,20 +14841,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.795,
      "px": [
-      1076,
+      1074,
       528
      ],
-     "speed_ms": 8.6,
-     "x": 28.08,
-     "y": 48.4
+     "source": "tiled",
+     "speed_ms": 10.4,
+     "x": 28.06,
+     "y": 48.35
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 830000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -14270,12 +14891,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        606,
        719
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 25.93,
@@ -14312,12 +14933,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1181,
        572
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 30.69,
@@ -14326,12 +14947,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1099,
        376
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 23.36,
@@ -14423,6 +15044,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -14431,20 +15054,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.794,
      "px": [
-      1080,
+      1078,
       535
      ],
-     "speed_ms": 7.4,
-     "x": 27.74,
-     "y": 47.35
+     "source": "tiled",
+     "speed_ms": 10.4,
+     "x": 27.72,
+     "y": 47.37
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 830100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -14477,12 +15104,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        602,
        718
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 25.37,
@@ -14505,12 +15132,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1179,
        569
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 29.99,
@@ -14617,12 +15244,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1114,
        376
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 22.93,
@@ -14644,6 +15271,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -14652,20 +15281,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.832,
      "px": [
       1083,
       536
      ],
-     "speed_ms": 6.6,
-     "x": 27.63,
-     "y": 46.98
+     "source": "tiled",
+     "speed_ms": 11.1,
+     "x": 27.61,
+     "y": 47.03
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 830200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -14698,12 +15331,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        609,
        716
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 25.23,
@@ -14726,12 +15359,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1180,
        572
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 29.93,
@@ -14740,12 +15373,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1128,
        372
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 22.68,
@@ -14865,6 +15498,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -14873,30 +15508,33 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.822,
      "px": [
       1091,
-      542
+      543
      ],
-     "speed_ms": 6.1,
-     "x": 27.32,
-     "y": 46.09
+     "source": "tiled",
+     "speed_ms": 11.1,
+     "x": 27.36,
+     "y": 45.95
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.02
     },
+    "carrier_source": "ball",
     "clip_ms": 830300,
     "holder": {
      "label": "t8",
-     "name": null,
+     "name": "Enzo Fern\u00e1ndez",
      "px": [
       1174,
       566
      ],
-     "shirt": null,
+     "shirt": 8,
      "track_id": 8,
      "x": 29.12,
      "y": 45.11
@@ -14906,7 +15544,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 3.23,
       "p_pass": 0.66,
@@ -14914,7 +15552,7 @@
        622,
        708
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 24.73,
       "xg_after_pass": 0.02,
@@ -14957,7 +15595,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 1.04,
       "p_pass": 0.71,
@@ -14965,7 +15603,7 @@
        1149,
        376
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 22.54,
       "xg_after_pass": 0.01,
@@ -14990,6 +15628,7 @@
       "y": 56.76
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -15022,12 +15661,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        622,
        708
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 24.73,
@@ -15064,12 +15703,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1174,
        566
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 29.12,
@@ -15078,12 +15717,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1149,
        376
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 22.54,
@@ -15189,6 +15828,8 @@
      }
     ],
     "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "Enzo Fern\u00e1ndez on the ball",
     "threat": 0.02,
     "threat_from": "pass",
     "trusted": true
@@ -15197,30 +15838,33 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.837,
      "px": [
-      1099,
-      543
+      1100,
+      544
      ],
-     "speed_ms": 4.4,
-     "x": 27.06,
-     "y": 45.9
+     "source": "tiled",
+     "speed_ms": 5.1,
+     "x": 27.14,
+     "y": 45.73
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 830400,
     "holder": {
      "label": "t8",
-     "name": null,
+     "name": "Enzo Fern\u00e1ndez",
      "px": [
       1170,
       566
      ],
-     "shirt": null,
+     "shirt": 8,
      "track_id": 8,
      "x": 28.64,
      "y": 44.97
@@ -15230,7 +15874,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 3.24,
       "p_pass": 0.9,
@@ -15238,7 +15882,7 @@
        628,
        708
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 24.47,
       "xg_after_pass": 0.03,
@@ -15281,7 +15925,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 0.86,
       "p_pass": 0.72,
@@ -15289,7 +15933,7 @@
        1158,
        374
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 22.09,
       "xg_after_pass": 0.01,
@@ -15314,6 +15958,7 @@
       "y": 56.62
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -15346,12 +15991,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        628,
        708
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 24.47,
@@ -15388,12 +16033,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1170,
        566
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 28.64,
@@ -15402,12 +16047,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1158,
        374
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 22.09,
@@ -15513,6 +16158,8 @@
      }
     ],
     "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "Enzo Fern\u00e1ndez on the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
@@ -15521,30 +16168,33 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.822,
      "px": [
-      1117,
+      1119,
       550
      ],
-     "speed_ms": 5.0,
-     "x": 26.89,
-     "y": 45.32
+     "source": "tiled",
+     "speed_ms": 6.7,
+     "x": 26.93,
+     "y": 45.26
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 830500,
     "holder": {
      "label": "t8",
-     "name": null,
+     "name": "Enzo Fern\u00e1ndez",
      "px": [
       1169,
       565
      ],
-     "shirt": null,
+     "shirt": 8,
      "track_id": 8,
      "x": 27.97,
      "y": 44.86
@@ -15554,7 +16204,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 2.97,
       "p_pass": 0.66,
@@ -15562,7 +16212,7 @@
        640,
        703
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 23.9,
       "xg_after_pass": 0.03,
@@ -15605,7 +16255,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 0.92,
       "p_pass": 0.77,
@@ -15613,7 +16263,7 @@
        1184,
        375
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 21.85,
       "xg_after_pass": 0.01,
@@ -15638,6 +16288,7 @@
       "y": 56.39
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -15670,12 +16321,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        640,
        703
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 23.9,
@@ -15712,12 +16363,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1169,
        565
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 27.97,
@@ -15726,12 +16377,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1184,
        375
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 21.85,
@@ -15837,20 +16488,137 @@
      }
     ],
     "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "Enzo Fern\u00e1ndez on the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.284,
+     "px": [
+      1137,
+      554
+     ],
+     "source": "tiled",
+     "speed_ms": 10.8,
+     "x": 26.57,
+     "y": 44.7
+    },
+    "best": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "shirt": 10,
+     "track_id": 3,
+     "xg_after_pass": 0.03
+    },
+    "carrier_source": "ball",
     "clip_ms": 830600,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t8",
+     "name": "Enzo Fern\u00e1ndez",
+     "px": [
+      1170,
+      562
+     ],
+     "shirt": 8,
+     "track_id": 8,
+     "x": 27.14,
+     "y": 44.79
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "offside_risk": false,
+      "onside_margin_m": 2.77,
+      "p_pass": 0.63,
+      "px": [
+       654,
+       696
+      ],
+      "shirt": 10,
+      "track_id": 3,
+      "x": 23.3,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.04,
+      "y": 31.75
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 0.9,
+      "p_pass": 0.81,
+      "px": [
+       1199,
+       382
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 21.43,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.02,
+      "y": 64.05
+     },
+     {
+      "label": "t2",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 13.95,
+      "p_pass": 0.99,
+      "px": [
+       1558,
+       617
+      ],
+      "shirt": null,
+      "track_id": 2,
+      "x": 34.48,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.02,
+      "y": 42.71
+     },
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 6.39,
+      "p_pass": 0.68,
+      "px": [
+       1223,
+       524
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 26.92,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.02,
+      "y": 48.49
+     },
+     {
+      "label": "t20",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 11.71,
+      "p_pass": 0.44,
+      "px": [
+       1614,
+       475
+      ],
+      "shirt": null,
+      "track_id": 20,
+      "x": 32.24,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.02,
+      "y": 56.28
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -15883,12 +16651,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        654,
        696
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 23.3,
@@ -15925,12 +16693,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1170,
        562
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 27.14,
@@ -15939,12 +16707,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1199,
        382
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 21.43,
@@ -16049,28 +16817,138 @@
       "y": 56.28
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "Enzo Fern\u00e1ndez on the ball",
+    "threat": 0.03,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "away",
+    "attacks": "-x",
     "ball": {
+     "conf": 0.781,
      "px": [
       1150,
       550
      ],
-     "x": 25.65,
-     "y": 45.32
+     "source": "tiled",
+     "speed_ms": 10.8,
+     "x": 25.66,
+     "y": 45.29
     },
-    "best": null,
+    "best": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "shirt": 10,
+     "track_id": 3,
+     "xg_after_pass": 0.04
+    },
+    "carrier_source": "ball",
     "clip_ms": 830700,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball speed not measurable",
-    "options": [],
+    "holder": {
+     "label": "t8",
+     "name": "Enzo Fern\u00e1ndez",
+     "px": [
+      1186,
+      565
+     ],
+     "shirt": 8,
+     "track_id": 8,
+     "x": 26.49,
+     "y": 44.76
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "offside_risk": false,
+      "onside_margin_m": 2.94,
+      "p_pass": 0.89,
+      "px": [
+       675,
+       711
+      ],
+      "shirt": 10,
+      "track_id": 3,
+      "x": 23.14,
+      "xg_after_pass": 0.04,
+      "xg_receiver": 0.04,
+      "y": 31.15
+     },
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 6.12,
+      "p_pass": 0.97,
+      "px": [
+       1243,
+       529
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 26.32,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.02,
+      "y": 48.39
+     },
+     {
+      "label": "t2",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 13.92,
+      "p_pass": 0.99,
+      "px": [
+       1596,
+       620
+      ],
+      "shirt": null,
+      "track_id": 2,
+      "x": 34.12,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.02,
+      "y": 42.9
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 0.89,
+      "p_pass": 0.8,
+      "px": [
+       1237,
+       386
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 21.09,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.02,
+      "y": 64.05
+     },
+     {
+      "label": "t20",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 11.92,
+      "p_pass": 0.54,
+      "px": [
+       1664,
+       480
+      ],
+      "shirt": null,
+      "track_id": 20,
+      "x": 32.12,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.02,
+      "y": 56.21
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -16103,12 +16981,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        675,
        711
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 23.14,
@@ -16145,12 +17023,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1186,
        565
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 26.49,
@@ -16159,12 +17037,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1237,
        386
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 21.09,
@@ -16269,39 +17147,44 @@
       "y": 37.41
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "Enzo Fern\u00e1ndez on the ball",
+    "threat": 0.04,
+    "threat_from": "pass",
     "trusted": true
    },
    {
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.759,
      "px": [
-      1163,
+      1164,
       551
      ],
-     "speed_ms": 5.6,
+     "source": "tiled",
+     "speed_ms": 6.2,
      "x": 25.16,
-     "y": 45.11
+     "y": 45.1
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 830800,
     "holder": {
      "label": "t8",
-     "name": null,
+     "name": "Enzo Fern\u00e1ndez",
      "px": [
       1197,
       566
      ],
-     "shirt": null,
+     "shirt": 8,
      "track_id": 8,
      "x": 25.93,
      "y": 44.66
@@ -16311,7 +17194,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 2.87,
       "p_pass": 0.66,
@@ -16319,7 +17202,7 @@
        690,
        710
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 22.69,
       "xg_after_pass": 0.03,
@@ -16345,7 +17228,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 0.97,
       "p_pass": 0.8,
@@ -16353,7 +17236,7 @@
        1264,
        389
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 20.79,
       "xg_after_pass": 0.02,
@@ -16395,6 +17278,7 @@
       "y": 56.08
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -16427,12 +17311,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        690,
        710
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 22.69,
@@ -16469,12 +17353,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1197,
        566
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 25.93,
@@ -16483,12 +17367,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1264,
        389
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 20.79,
@@ -16580,6 +17464,8 @@
      }
     ],
     "shot_now_xg": 0.03,
+    "state": "carry",
+    "state_text": "Enzo Fern\u00e1ndez on the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
@@ -16588,30 +17474,33 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.801,
      "px": [
       1188,
       552
      ],
-     "speed_ms": 5.9,
-     "x": 24.6,
-     "y": 44.93
+     "source": "tiled",
+     "speed_ms": 6.2,
+     "x": 24.54,
+     "y": 45.09
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 830900,
     "holder": {
      "label": "t8",
-     "name": null,
+     "name": "Enzo Fern\u00e1ndez",
      "px": [
       1217,
       570
      ],
-     "shirt": null,
+     "shirt": 8,
      "track_id": 8,
      "x": 25.35,
      "y": 44.36
@@ -16621,7 +17510,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 2.74,
       "p_pass": 0.64,
@@ -16629,7 +17518,7 @@
        712,
        702
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 21.91,
       "xg_after_pass": 0.03,
@@ -16655,7 +17544,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 1.26,
       "p_pass": 0.8,
@@ -16663,7 +17552,7 @@
        1299,
        395
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 20.43,
       "xg_after_pass": 0.02,
@@ -16705,6 +17594,7 @@
       "y": 56.05
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -16737,12 +17627,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        712,
        702
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 21.91,
@@ -16779,12 +17669,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1217,
        570
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 25.35,
@@ -16793,12 +17683,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1299,
        395
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 20.43,
@@ -16890,6 +17780,8 @@
      }
     ],
     "shot_now_xg": 0.03,
+    "state": "carry",
+    "state_text": "Enzo Fern\u00e1ndez on the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
@@ -16898,30 +17790,33 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.788,
      "px": [
-      1204,
-      551
+      1205,
+      552
      ],
-     "speed_ms": 6.2,
-     "x": 23.98,
-     "y": 45.23
+     "source": "tiled",
+     "speed_ms": 7.0,
+     "x": 24.06,
+     "y": 45.08
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 831000,
     "holder": {
      "label": "t8",
-     "name": null,
+     "name": "Enzo Fern\u00e1ndez",
      "px": [
       1225,
       569
      ],
-     "shirt": null,
+     "shirt": 8,
      "track_id": 8,
      "x": 24.71,
      "y": 44.32
@@ -16931,7 +17826,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 2.64,
       "p_pass": 0.66,
@@ -16939,7 +17834,7 @@
        729,
        708
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 21.66,
       "xg_after_pass": 0.03,
@@ -16965,7 +17860,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 1.08,
       "p_pass": 0.8,
@@ -16973,7 +17868,7 @@
        1326,
        398
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 20.1,
       "xg_after_pass": 0.02,
@@ -17015,6 +17910,7 @@
       "y": 55.54
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -17047,12 +17943,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        729,
        708
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 21.66,
@@ -17089,12 +17985,12 @@
      {
       "keeper": false,
       "label": "t8",
-      "name": null,
+      "name": "Enzo Fern\u00e1ndez",
       "px": [
        1225,
        569
       ],
-      "shirt": null,
+      "shirt": 8,
       "team": "away",
       "track_id": 8,
       "x": 24.71,
@@ -17103,12 +17999,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1326,
        398
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 20.1,
@@ -17200,6 +18096,8 @@
      }
     ],
     "shot_now_xg": 0.03,
+    "state": "carry",
+    "state_text": "Enzo Fern\u00e1ndez on the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
@@ -17208,21 +18106,24 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.596,
      "px": [
-      1229,
+      1228,
       554
      ],
-     "speed_ms": 4.9,
-     "x": 23.39,
+     "source": "tiled",
+     "speed_ms": 7.0,
+     "x": 23.37,
      "y": 45.18
     },
     "best": {
      "label": "t3",
-     "name": null,
-     "shirt": null,
+     "name": "Cole Palmer",
+     "shirt": 10,
      "track_id": 3,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 831100,
     "holder": {
      "label": "t8",
@@ -17241,7 +18142,7 @@
     "options": [
      {
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "offside_risk": false,
       "onside_margin_m": 2.74,
       "p_pass": 0.66,
@@ -17249,7 +18150,7 @@
        763,
        709
       ],
-      "shirt": null,
+      "shirt": 10,
       "track_id": 3,
       "x": 21.28,
       "xg_after_pass": 0.03,
@@ -17275,7 +18176,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 1.43,
       "p_pass": 0.79,
@@ -17283,7 +18184,7 @@
        1361,
        409
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 19.97,
       "xg_after_pass": 0.02,
@@ -17325,6 +18226,7 @@
       "y": 55.47
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -17357,12 +18259,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        763,
        709
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 21.28,
@@ -17413,12 +18315,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1361,
        409
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 19.97,
@@ -17510,20 +18412,137 @@
      }
     ],
     "shot_now_xg": 0.03,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.589,
+     "px": [
+      1243,
+      552
+     ],
+     "source": "tiled",
+     "speed_ms": 6.2,
+     "x": 22.76,
+     "y": 45.19
+    },
+    "best": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "shirt": 10,
+     "track_id": 3,
+     "xg_after_pass": 0.03
+    },
+    "carrier_source": "ball",
     "clip_ms": 831200,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t8",
+     "name": null,
+     "px": [
+      1263,
+      563
+     ],
+     "shirt": null,
+     "track_id": 8,
+     "x": 23.22,
+     "y": 44.94
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "offside_risk": false,
+      "onside_margin_m": 2.43,
+      "p_pass": 0.63,
+      "px": [
+       774,
+       697
+      ],
+      "shirt": 10,
+      "track_id": 3,
+      "x": 20.43,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.06,
+      "y": 31.57
+     },
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 5.45,
+      "p_pass": 0.99,
+      "px": [
+       1313,
+       546
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 23.45,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.03,
+      "y": 46.85
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 1.59,
+      "p_pass": 0.96,
+      "px": [
+       1386,
+       412
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 19.59,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.02,
+      "y": 61.66
+     },
+     {
+      "label": "t20",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 13.48,
+      "p_pass": 0.94,
+      "px": [
+       1876,
+       506
+      ],
+      "shirt": null,
+      "track_id": 20,
+      "x": 31.48,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.02,
+      "y": 55.21
+     },
+     {
+      "label": "t2",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 14.67,
+      "p_pass": 0.69,
+      "px": [
+       1749,
+       643
+      ],
+      "shirt": null,
+      "track_id": 2,
+      "x": 32.67,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.02,
+      "y": 41.97
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -17556,12 +18575,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        774,
        697
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 20.43,
@@ -17612,12 +18631,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1386,
        412
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 19.59,
@@ -17694,28 +18713,121 @@
       "y": 55.21
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.03,
+    "state": "carry",
+    "state_text": "On the ball",
+    "threat": 0.03,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "away",
+    "attacks": "-x",
     "ball": {
+     "conf": 0.665,
      "px": [
-      1266,
+      1264,
       553
      ],
-     "x": 22.24,
-     "y": 44.94
+     "source": "tiled",
+     "speed_ms": 6.2,
+     "x": 22.15,
+     "y": 45.07
     },
-    "best": null,
+    "best": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "shirt": 10,
+     "track_id": 3,
+     "xg_after_pass": 0.03
+    },
+    "carrier_source": "ball",
     "clip_ms": 831300,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball speed not measurable",
-    "options": [],
+    "holder": {
+     "label": "t8",
+     "name": null,
+     "px": [
+      1288,
+      567
+     ],
+     "shirt": null,
+     "track_id": 8,
+     "x": 22.8,
+     "y": 44.56
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "offside_risk": false,
+      "onside_margin_m": 2.48,
+      "p_pass": 0.62,
+      "px": [
+       790,
+       708
+      ],
+      "shirt": 10,
+      "track_id": 3,
+      "x": 20.18,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.06,
+      "y": 30.85
+     },
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 4.35,
+      "p_pass": 0.99,
+      "px": [
+       1322,
+       529
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 22.05,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.03,
+      "y": 48.19
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 1.55,
+      "p_pass": 0.96,
+      "px": [
+       1426,
+       413
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 19.25,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.02,
+      "y": 61.54
+     },
+     {
+      "label": "t2",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 14.88,
+      "p_pass": 0.68,
+      "px": [
+       1793,
+       654
+      ],
+      "shirt": null,
+      "track_id": 2,
+      "x": 32.58,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.02,
+      "y": 41.33
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -17748,12 +18860,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        790,
        708
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 20.18,
@@ -17804,12 +18916,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1426,
        413
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 19.25,
@@ -17872,21 +18984,52 @@
       "y": 40.63
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.03,
+    "state": "carry",
+    "state_text": "On the ball",
+    "threat": 0.03,
+    "threat_from": "pass",
     "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.662,
+     "px": [
+      1278,
+      553
+     ],
+     "source": "tiled",
+     "speed_ms": 29.9,
+     "x": 21.77,
+     "y": 44.89
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 831400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -17919,12 +19062,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        796,
        712
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 19.87,
@@ -17961,12 +19104,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1447,
        421
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 19.21,
@@ -18072,20 +19215,51 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.456,
+     "px": [
+      1413,
+      531
+     ],
+     "source": "tiled",
+     "speed_ms": 32.1,
+     "x": 22.19,
+     "y": 47.85
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 831500,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -18118,12 +19292,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        808,
        705
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 19.12,
@@ -18160,12 +19334,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1463,
        422
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 18.51,
@@ -18257,20 +19431,51 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.441,
+     "px": [
+      1304,
+      552
+     ],
+     "source": "tiled",
+     "speed_ms": 32.1,
+     "x": 20.67,
+     "y": 45.02
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 831600,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -18303,12 +19508,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        812,
        704
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 18.7,
@@ -18345,12 +19550,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1483,
        427
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 18.47,
@@ -18428,20 +19633,41 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 831700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -18474,12 +19700,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        810,
        706
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 18.08,
@@ -18516,12 +19742,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1501,
        433
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 18.15,
@@ -18613,6 +19839,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -18622,11 +19850,30 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 831800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -18659,12 +19906,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        824,
        703
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 17.78,
@@ -18701,12 +19948,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1510,
        434
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 17.82,
@@ -18798,6 +20045,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -18806,20 +20055,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.615,
      "px": [
       884,
       561
      ],
-     "speed_ms": 25.6,
+     "source": "full",
+     "speed_ms": 20.2,
      "x": 12.92,
      "y": 40.43
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 831900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -18852,12 +20122,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        834,
        683
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 16.64,
@@ -18894,12 +20164,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1529,
        436
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 17.45,
@@ -19005,6 +20275,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -19013,20 +20285,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.479,
      "px": [
-      798,
-      558
+      797,
+      560
      ],
-     "speed_ms": 24.7,
-     "x": 10.99,
-     "y": 39.75
+     "source": "tiled",
+     "speed_ms": 29.7,
+     "x": 11.06,
+     "y": 39.63
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -19059,12 +20352,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        834,
        686
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 16.27,
@@ -19101,12 +20394,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1537,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 17.32,
@@ -19212,6 +20505,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -19220,20 +20515,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.607,
      "px": [
       680,
       568
      ],
-     "speed_ms": 24.0,
+     "source": "full",
+     "speed_ms": 29.7,
      "x": 8.78,
      "y": 37.72
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -19252,12 +20568,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        864,
        680
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 15.58,
@@ -19294,12 +20610,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1565,
        449
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 16.79,
@@ -19419,6 +20735,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -19427,20 +20745,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.718,
      "px": [
-      614,
+      613,
       570
      ],
-     "speed_ms": 22.4,
-     "x": 7.15,
-     "y": 36.87
+     "source": "tiled",
+     "speed_ms": 26.1,
+     "x": 7.14,
+     "y": 36.83
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -19459,12 +20798,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        872,
        664
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 14.45,
@@ -19515,12 +20854,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1594,
        452
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 16.51,
@@ -19612,6 +20951,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -19620,20 +20961,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.776,
      "px": [
-      515,
+      516,
       575
      ],
-     "speed_ms": 21.9,
-     "x": 5.06,
-     "y": 35.24
+     "source": "tiled",
+     "speed_ms": 26.1,
+     "x": 5.03,
+     "y": 35.29
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -19652,12 +21014,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        892,
        678
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 14.39,
@@ -19694,12 +21056,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1626,
        458
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 16.21,
@@ -19791,6 +21153,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -19800,21 +21164,40 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        900,
        666
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 13.64,
@@ -19851,12 +21234,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1650,
        462
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 16.17,
@@ -19962,6 +21345,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -19970,30 +21355,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.779,
      "px": [
       450,
       591
      ],
-     "speed_ms": 9.5,
-     "x": 3.83,
-     "y": 32.47
+     "source": "tiled",
+     "speed_ms": 6.9,
+     "x": 3.86,
+     "y": 32.45
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        893,
        664
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 12.76,
@@ -20030,12 +21436,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1680,
        462
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 15.71,
@@ -20141,6 +21547,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -20149,30 +21557,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.785,
      "px": [
-      455,
+      454,
       594
      ],
-     "speed_ms": 9.0,
-     "x": 3.61,
-     "y": 31.84
+     "source": "tiled",
+     "speed_ms": 11.7,
+     "x": 3.63,
+     "y": 31.8
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        912,
        661
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 12.43,
@@ -20223,12 +21652,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1707,
        463
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 15.56,
@@ -20320,6 +21749,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -20328,30 +21759,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.77,
      "px": [
-      455,
+      454,
       602
      ],
-     "speed_ms": 9.7,
-     "x": 3.57,
-     "y": 30.69
+     "source": "tiled",
+     "speed_ms": 11.7,
+     "x": 3.58,
+     "y": 30.63
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        898,
        655
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 11.5,
@@ -20388,12 +21840,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1733,
        456
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 14.88,
@@ -20499,6 +21951,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -20507,30 +21961,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.822,
      "px": [
       451,
-      605
+      606
      ],
-     "speed_ms": 9.0,
-     "x": 3.54,
-     "y": 29.91
+     "source": "tiled",
+     "speed_ms": 10.5,
+     "x": 3.57,
+     "y": 29.87
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        895,
        653
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 11.16,
@@ -20567,12 +22042,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1742,
        461
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 14.89,
@@ -20664,6 +22139,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -20672,30 +22149,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.731,
      "px": [
       444,
-      608
+      609
      ],
-     "speed_ms": 7.4,
-     "x": 3.41,
-     "y": 28.9
+     "source": "tiled",
+     "speed_ms": 10.5,
+     "x": 3.47,
+     "y": 28.82
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 832900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        893,
        639
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 10.3,
@@ -20732,12 +22230,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1765,
        462
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 14.81,
@@ -20857,6 +22355,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -20865,30 +22365,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.723,
      "px": [
       440,
-      609
+      610
      ],
-     "speed_ms": 7.1,
-     "x": 3.25,
-     "y": 28.45
+     "source": "tiled",
+     "speed_ms": 8.2,
+     "x": 3.29,
+     "y": 28.4
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        886,
        640
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 10.07,
@@ -20925,12 +22446,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1775,
        460
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 14.64,
@@ -21050,6 +22571,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -21057,23 +22580,52 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.774,
+     "px": [
+      434,
+      614
+     ],
+     "source": "tiled",
+     "speed_ms": 8.2,
+     "x": 3.16,
+     "y": 27.59
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833100,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        862,
        635
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 9.26,
@@ -21110,12 +22662,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1789,
        458
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 14.35,
@@ -21221,38 +22773,61 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.804,
      "px": [
       431,
-      615
+      616
      ],
-     "speed_ms": 6.0,
+     "source": "tiled",
+     "speed_ms": 6.7,
      "x": 3.06,
      "y": 27.04
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        848,
        623
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 8.38,
@@ -21289,12 +22864,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1800,
        456
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 14.09,
@@ -21400,6 +22975,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -21408,30 +22985,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.756,
      "px": [
       426,
-      617
+      618
      ],
-     "speed_ms": 5.7,
-     "x": 2.87,
-     "y": 26.42
+     "source": "tiled",
+     "speed_ms": 6.7,
+     "x": 2.88,
+     "y": 26.39
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        817,
        629
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 7.98,
@@ -21468,12 +23066,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1814,
        458
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 13.99,
@@ -21593,6 +23191,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -21601,20 +23201,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.777,
      "px": [
-      423,
+      422,
       620
      ],
-     "speed_ms": 5.2,
+     "source": "tiled",
+     "speed_ms": 5.8,
      "x": 2.81,
      "y": 25.93
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -21633,12 +23254,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        802,
        620
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 7.21,
@@ -21675,12 +23296,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1820,
        458
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 13.78,
@@ -21786,6 +23407,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -21794,30 +23417,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.766,
      "px": [
-      419,
+      418,
       622
      ],
-     "speed_ms": 4.9,
-     "x": 2.58,
-     "y": 25.42
+     "source": "tiled",
+     "speed_ms": 5.8,
+     "x": 2.59,
+     "y": 25.39
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        764,
        625
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 6.64,
@@ -21854,12 +23498,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1826,
        457
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 13.39,
@@ -21951,6 +23595,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -21959,30 +23605,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.746,
      "px": [
-      416,
-      622
+      417,
+      623
      ],
-     "speed_ms": 5.4,
-     "x": 2.4,
-     "y": 25.03
+     "source": "tiled",
+     "speed_ms": 5.9,
+     "x": 2.47,
+     "y": 24.97
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        758,
        622
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 6.28,
@@ -22005,12 +23672,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1837,
        461
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 13.48,
@@ -22102,6 +23769,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -22110,20 +23779,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.696,
      "px": [
       415,
       623
      ],
-     "speed_ms": 5.0,
-     "x": 2.32,
-     "y": 24.38
+     "source": "tiled",
+     "speed_ms": 5.9,
+     "x": 2.31,
+     "y": 24.4
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -22156,12 +23846,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1850,
        461
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 13.33,
@@ -22226,12 +23916,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        726,
        624
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 5.81,
@@ -22267,6 +23957,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -22275,30 +23967,51 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.681,
      "px": [
-      413,
+      412,
       623
      ],
-     "speed_ms": 4.6,
+     "source": "tiled",
+     "speed_ms": 5.6,
      "x": 2.22,
-     "y": 24.04
+     "y": 24.02
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        698,
        622
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 5.3,
@@ -22321,12 +24034,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1848,
        459
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 13.07,
@@ -22432,6 +24145,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -22440,20 +24155,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.723,
      "px": [
-      407,
+      406,
       621
      ],
-     "speed_ms": 4.8,
+     "source": "tiled",
+     "speed_ms": 5.6,
      "x": 2.01,
-     "y": 23.51
+     "y": 23.5
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 833900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -22472,12 +24208,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        676,
        617
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 4.75,
@@ -22500,12 +24236,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1858,
        454
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 12.8,
@@ -22583,6 +24319,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -22590,13 +24328,42 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.737,
+     "px": [
+      402,
+      619
+     ],
+     "source": "tiled",
+     "speed_ms": 5.1,
+     "x": 1.86,
+     "y": 23.18
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 834000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -22615,12 +24382,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        640,
        622
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 4.49,
@@ -22643,12 +24410,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1862,
        453
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 12.72,
@@ -22726,28 +24493,51 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.782,
      "px": [
-      396,
+      397,
       618
      ],
-     "speed_ms": 4.0,
-     "x": 1.67,
+     "source": "tiled",
+     "speed_ms": 5.1,
+     "x": 1.69,
      "y": 22.7
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 834100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -22766,12 +24556,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        616,
        617
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 3.9,
@@ -22794,12 +24584,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1864,
        450
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 12.42,
@@ -22877,6 +24667,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -22885,20 +24677,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.792,
      "px": [
       395,
       617
      ],
-     "speed_ms": 4.0,
-     "x": 1.61,
-     "y": 22.37
+     "source": "tiled",
+     "speed_ms": 4.7,
+     "x": 1.62,
+     "y": 22.36
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 834200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -22917,12 +24730,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        603,
        610
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 3.42,
@@ -22959,12 +24772,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1858,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 12.1,
@@ -23042,6 +24855,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -23050,20 +24865,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.817,
      "px": [
-      392,
+      391,
       614
      ],
-     "speed_ms": 3.9,
-     "x": 1.41,
-     "y": 21.94
+     "source": "tiled",
+     "speed_ms": 4.7,
+     "x": 1.37,
+     "y": 21.96
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 834300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 834400,
+     "complete": true,
+     "from": {
+      "label": "t8",
+      "name": null,
+      "shirt": null,
+      "track_id": 8
+     },
+     "release_clip_ms": 831300,
+     "to": {
+      "label": "t3",
+      "name": "Cole Palmer",
+      "shirt": 10,
+      "track_id": 3
+     },
+     "xg_after_pass_at_release": 0.03
+    },
     "players": [
      {
       "keeper": false,
@@ -23082,12 +24918,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        570,
        620
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 3.44,
@@ -23124,12 +24960,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1857,
        448
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 12.12,
@@ -23193,6 +25029,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass in flight \u2192 Cole Palmer",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -23201,11 +25039,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.772,
      "px": [
       388,
       613
      ],
-     "speed_ms": 3.8,
+     "source": "tiled",
+     "speed_ms": 4.8,
      "x": 1.37,
      "y": 21.62
     },
@@ -23216,15 +25056,16 @@
      "track_id": 18,
      "xg_after_pass": 0.16
     },
+    "carrier_source": "ball",
     "clip_ms": 834400,
     "holder": {
      "label": "t3",
-     "name": null,
+     "name": "Cole Palmer",
      "px": [
       544,
       613
      ],
-     "shirt": null,
+     "shirt": 10,
      "track_id": 3,
      "x": 2.84,
      "y": 23.49
@@ -23251,7 +25092,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 9.29,
       "p_pass": 0.34,
@@ -23259,7 +25100,7 @@
        1855,
        450
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 12.13,
       "xg_after_pass": 0.02,
@@ -23267,6 +25108,7 @@
       "y": 48.51
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -23285,12 +25127,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        544,
        613
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 2.84,
@@ -23327,12 +25169,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1855,
        450
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 12.13,
@@ -23396,6 +25238,8 @@
      }
     ],
     "shot_now_xg": 0.12,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
     "threat": 0.16,
     "threat_from": "pass",
     "trusted": true
@@ -23404,13 +25248,15 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.783,
      "px": [
       383,
-      611
+      612
      ],
-     "speed_ms": 3.8,
-     "x": 1.17,
-     "y": 21.21
+     "source": "tiled",
+     "speed_ms": 4.8,
+     "x": 1.19,
+     "y": 21.17
     },
     "best": {
      "label": "t18",
@@ -23419,15 +25265,16 @@
      "track_id": 18,
      "xg_after_pass": 0.18
     },
+    "carrier_source": "ball",
     "clip_ms": 834500,
     "holder": {
      "label": "t3",
-     "name": null,
+     "name": "Cole Palmer",
      "px": [
       506,
       619
      ],
-     "shirt": null,
+     "shirt": 10,
      "track_id": 3,
      "x": 2.62,
      "y": 22.36
@@ -23454,7 +25301,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 9.34,
       "p_pass": 0.35,
@@ -23462,7 +25309,7 @@
        1845,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 11.76,
       "xg_after_pass": 0.02,
@@ -23470,6 +25317,7 @@
       "y": 48.39
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -23488,12 +25336,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        506,
        619
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 2.62,
@@ -23530,12 +25378,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1845,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 11.76,
@@ -23599,20 +25447,86 @@
      }
     ],
     "shot_now_xg": 0.1,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
     "threat": 0.18,
     "threat_from": "pass",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.815,
+     "px": [
+      380,
+      613
+     ],
+     "source": "tiled",
+     "speed_ms": 3.8,
+     "x": 1.17,
+     "y": 20.85
+    },
+    "best": {
+     "label": "t18",
+     "name": null,
+     "shirt": null,
+     "track_id": 18,
+     "xg_after_pass": 0.18
+    },
+    "carrier_source": "ball",
     "clip_ms": 834600,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "px": [
+      493,
+      617
+     ],
+     "shirt": 10,
+     "track_id": 3,
+     "x": 2.32,
+     "y": 22.12
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t18",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.31,
+      "p_pass": 0.81,
+      "px": [
+       1309,
+       551
+      ],
+      "shirt": null,
+      "track_id": 18,
+      "x": 9.38,
+      "xg_after_pass": 0.18,
+      "xg_receiver": 0.23,
+      "y": 34.01
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 9.61,
+      "p_pass": 0.25,
+      "px": [
+       1839,
+       446
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 11.68,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.06,
+      "y": 48.12
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -23631,12 +25545,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        493,
        617
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 2.32,
@@ -23673,12 +25587,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1839,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 11.68,
@@ -23755,21 +25669,87 @@
       "y": 40.04
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.09,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
+    "threat": 0.18,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.768,
+     "px": [
+      375,
+      611
+     ],
+     "source": "tiled",
+     "speed_ms": 3.8,
+     "x": 1.01,
+     "y": 20.5
+    },
+    "best": {
+     "label": "t18",
+     "name": null,
+     "shirt": null,
+     "track_id": 18,
+     "xg_after_pass": 0.19
+    },
+    "carrier_source": "ball",
     "clip_ms": 834700,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "px": [
+      465,
+      614
+     ],
+     "shirt": 10,
+     "track_id": 3,
+     "x": 1.81,
+     "y": 21.65
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t18",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.36,
+      "p_pass": 0.83,
+      "px": [
+       1300,
+       550
+      ],
+      "shirt": null,
+      "track_id": 18,
+      "x": 9.17,
+      "xg_after_pass": 0.19,
+      "xg_receiver": 0.23,
+      "y": 33.7
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 9.63,
+      "p_pass": 0.25,
+      "px": [
+       1833,
+       444
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 11.44,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.06,
+      "y": 48.02
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -23788,12 +25768,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        465,
        614
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.81,
@@ -23830,12 +25810,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1833,
        444
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 11.44,
@@ -23912,22 +25892,26 @@
       "y": 39.8
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.08,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
+    "threat": 0.19,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.582,
      "px": [
       372,
       611
      ],
-     "speed_ms": 3.9,
-     "x": 0.92,
-     "y": 20.25
+     "source": "tiled",
+     "speed_ms": 4.3,
+     "x": 0.93,
+     "y": 20.22
     },
     "best": {
      "label": "t18",
@@ -23936,15 +25920,16 @@
      "track_id": 18,
      "xg_after_pass": 0.19
     },
+    "carrier_source": "ball",
     "clip_ms": 834800,
     "holder": {
      "label": "t3",
-     "name": null,
+     "name": "Cole Palmer",
      "px": [
       459,
       614
      ],
-     "shirt": null,
+     "shirt": 10,
      "track_id": 3,
      "x": 1.74,
      "y": 21.32
@@ -23971,7 +25956,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 9.74,
       "p_pass": 0.35,
@@ -23979,7 +25964,7 @@
        1827,
        445
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 11.44,
       "xg_after_pass": 0.02,
@@ -23987,6 +25972,7 @@
       "y": 47.64
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -24005,12 +25991,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        459,
        614
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.74,
@@ -24047,12 +26033,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1827,
        445
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 11.44,
@@ -24144,6 +26130,8 @@
      }
     ],
     "shot_now_xg": 0.07,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
     "threat": 0.19,
     "threat_from": "pass",
     "trusted": true
@@ -24152,13 +26140,15 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.636,
      "px": [
       368,
-      610
+      609
      ],
-     "speed_ms": 3.8,
-     "x": 0.75,
-     "y": 19.82
+     "source": "tiled",
+     "speed_ms": 4.3,
+     "x": 0.72,
+     "y": 19.85
     },
     "best": {
      "label": "t18",
@@ -24167,15 +26157,16 @@
      "track_id": 18,
      "xg_after_pass": 0.15
     },
+    "carrier_source": "ball",
     "clip_ms": 834900,
     "holder": {
      "label": "t3",
-     "name": null,
+     "name": "Cole Palmer",
      "px": [
       443,
       615
      ],
-     "shirt": null,
+     "shirt": 10,
      "track_id": 3,
      "x": 1.54,
      "y": 20.66
@@ -24202,7 +26193,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 9.5,
       "p_pass": 0.35,
@@ -24210,7 +26201,7 @@
        1813,
        442
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 11.04,
       "xg_after_pass": 0.02,
@@ -24218,6 +26209,7 @@
       "y": 47.47
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -24236,12 +26228,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        443,
        615
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.54,
@@ -24278,12 +26270,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1813,
        442
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 11.04,
@@ -24375,20 +26367,86 @@
      }
     ],
     "shot_now_xg": 0.06,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
     "threat": 0.15,
     "threat_from": "pass",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.564,
+     "px": [
+      365,
+      609
+     ],
+     "source": "tiled",
+     "speed_ms": 3.9,
+     "x": 0.65,
+     "y": 19.6
+    },
+    "best": {
+     "label": "t18",
+     "name": null,
+     "shirt": null,
+     "track_id": 18,
+     "xg_after_pass": 0.16
+    },
+    "carrier_source": "ball",
     "clip_ms": 835000,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "px": [
+      434,
+      611
+     ],
+     "shirt": 10,
+     "track_id": 3,
+     "x": 1.19,
+     "y": 20.58
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t18",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.58,
+      "p_pass": 0.65,
+      "px": [
+       1289,
+       545
+      ],
+      "shirt": null,
+      "track_id": 18,
+      "x": 8.77,
+      "xg_after_pass": 0.16,
+      "xg_receiver": 0.24,
+      "y": 33.16
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 9.93,
+      "p_pass": 0.37,
+      "px": [
+       1809,
+       445
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 11.12,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.07,
+      "y": 47.02
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -24407,12 +26465,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        434,
        611
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.19,
@@ -24449,12 +26507,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1809,
        445
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 11.12,
@@ -24545,28 +26603,87 @@
       "y": 44.61
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.06,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
+    "threat": 0.16,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "away",
+    "attacks": "-x",
     "ball": {
+     "conf": 0.735,
      "px": [
       359,
       608
      ],
-     "x": 0.55,
-     "y": 19.25
+     "source": "tiled",
+     "speed_ms": 3.9,
+     "x": 0.59,
+     "y": 19.21
     },
-    "best": null,
+    "best": {
+     "label": "t18",
+     "name": null,
+     "shirt": null,
+     "track_id": 18,
+     "xg_after_pass": 0.18
+    },
+    "carrier_source": "ball",
     "clip_ms": 835100,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball speed not measurable",
-    "options": [],
+    "holder": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "px": [
+      423,
+      614
+     ],
+     "shirt": 10,
+     "track_id": 3,
+     "x": 1.24,
+     "y": 19.95
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t18",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.27,
+      "p_pass": 0.7,
+      "px": [
+       1281,
+       541
+      ],
+      "shirt": null,
+      "track_id": 18,
+      "x": 8.51,
+      "xg_after_pass": 0.18,
+      "xg_receiver": 0.25,
+      "y": 33.1
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 9.83,
+      "p_pass": 0.26,
+      "px": [
+       1797,
+       447
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 11.07,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.07,
+      "y": 46.54
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -24585,12 +26702,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        423,
        614
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.24,
@@ -24627,12 +26744,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1797,
        447
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 11.07,
@@ -24723,21 +26840,87 @@
       "y": 44.34
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.05,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
+    "threat": 0.18,
+    "threat_from": "pass",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.69,
+     "px": [
+      356,
+      608
+     ],
+     "source": "tiled",
+     "speed_ms": 3.5,
+     "x": 0.5,
+     "y": 18.91
+    },
+    "best": {
+     "label": "t18",
+     "name": null,
+     "shirt": null,
+     "track_id": 18,
+     "xg_after_pass": 0.16
+    },
+    "carrier_source": "ball",
     "clip_ms": 835200,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "px": [
+      420,
+      616
+     ],
+     "shirt": 10,
+     "track_id": 3,
+     "x": 1.33,
+     "y": 19.49
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t18",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.19,
+      "p_pass": 0.65,
+      "px": [
+       1282,
+       541
+      ],
+      "shirt": null,
+      "track_id": 18,
+      "x": 8.52,
+      "xg_after_pass": 0.16,
+      "xg_receiver": 0.25,
+      "y": 32.84
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 9.56,
+      "p_pass": 0.3,
+      "px": [
+       1793,
+       445
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 10.89,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.07,
+      "y": 46.47
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -24756,12 +26939,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        420,
        616
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.33,
@@ -24798,12 +26981,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1793,
        445
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 10.89,
@@ -24894,21 +27077,87 @@
       "y": 44.08
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.05,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
+    "threat": 0.16,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.515,
+     "px": [
+      350,
+      606
+     ],
+     "source": "tiled",
+     "speed_ms": 3.5,
+     "x": 0.26,
+     "y": 18.65
+    },
+    "best": {
+     "label": "t18",
+     "name": null,
+     "shirt": null,
+     "track_id": 18,
+     "xg_after_pass": 0.15
+    },
+    "carrier_source": "ball",
     "clip_ms": 835300,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t3",
+     "name": "Cole Palmer",
+     "px": [
+      414,
+      612
+     ],
+     "shirt": 10,
+     "track_id": 3,
+     "x": 1.01,
+     "y": 19.32
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t18",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.38,
+      "p_pass": 0.59,
+      "px": [
+       1284,
+       538
+      ],
+      "shirt": null,
+      "track_id": 18,
+      "x": 8.39,
+      "xg_after_pass": 0.15,
+      "xg_receiver": 0.25,
+      "y": 32.85
+     },
+     {
+      "label": "t9",
+      "name": "Pedro Neto",
+      "offside_risk": false,
+      "onside_margin_m": 9.66,
+      "p_pass": 0.33,
+      "px": [
+       1784,
+       443
+      ],
+      "shirt": 7,
+      "track_id": 9,
+      "x": 10.67,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.07,
+      "y": 46.3
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -24927,12 +27176,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        414,
        612
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.01,
@@ -24969,12 +27218,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1784,
        443
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 10.67,
@@ -25065,22 +27314,26 @@
       "y": 43.71
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.05,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
+    "threat": 0.15,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.702,
      "px": [
-      346,
+      347,
       605
      ],
-     "speed_ms": 3.1,
-     "x": 0.16,
-     "y": 18.46
+     "source": "tiled",
+     "speed_ms": 3.6,
+     "x": 0.2,
+     "y": 18.44
     },
     "best": {
      "label": "t18",
@@ -25089,15 +27342,16 @@
      "track_id": 18,
      "xg_after_pass": 0.13
     },
+    "carrier_source": "ball",
     "clip_ms": 835400,
     "holder": {
      "label": "t3",
-     "name": null,
+     "name": "Cole Palmer",
      "px": [
       411,
       614
      ],
-     "shirt": null,
+     "shirt": 10,
      "track_id": 3,
      "x": 1.06,
      "y": 18.99
@@ -25124,7 +27378,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 9.61,
       "p_pass": 0.3,
@@ -25132,7 +27386,7 @@
        1778,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 10.67,
       "xg_after_pass": 0.02,
@@ -25140,6 +27394,7 @@
       "y": 45.89
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -25158,12 +27413,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        411,
        614
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.06,
@@ -25200,12 +27455,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1778,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 10.67,
@@ -25297,6 +27552,8 @@
      }
     ],
     "shot_now_xg": 0.04,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
     "threat": 0.13,
     "threat_from": "pass",
     "trusted": true
@@ -25305,13 +27562,15 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.679,
      "px": [
-      342,
+      343,
       605
      ],
-     "speed_ms": 3.3,
-     "x": 0.1,
-     "y": 18.09
+     "source": "tiled",
+     "speed_ms": 3.6,
+     "x": 0.09,
+     "y": 18.1
     },
     "best": {
      "label": "t18",
@@ -25320,15 +27579,16 @@
      "track_id": 18,
      "xg_after_pass": 0.13
     },
+    "carrier_source": "ball",
     "clip_ms": 835500,
     "holder": {
      "label": "t3",
-     "name": null,
+     "name": "Cole Palmer",
      "px": [
       405,
       617
      ],
-     "shirt": null,
+     "shirt": 10,
      "track_id": 3,
      "x": 1.07,
      "y": 18.5
@@ -25355,7 +27615,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 9.54,
       "p_pass": 0.3,
@@ -25363,7 +27623,7 @@
        1775,
        445
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 10.61,
       "xg_after_pass": 0.02,
@@ -25371,6 +27631,7 @@
       "y": 45.84
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -25389,12 +27650,12 @@
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        405,
        617
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 1.07,
@@ -25431,12 +27692,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1775,
        445
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 10.61,
@@ -25528,6 +27789,8 @@
      }
     ],
     "shot_now_xg": 0.04,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
     "threat": 0.13,
     "threat_from": "pass",
     "trusted": true
@@ -25536,13 +27799,15 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.735,
      "px": [
-      339,
+      340,
       605
      ],
-     "speed_ms": 2.6,
-     "x": 0.05,
-     "y": 17.81
+     "source": "tiled",
+     "speed_ms": 3.2,
+     "x": 0.03,
+     "y": 17.86
     },
     "best": {
      "label": "t18",
@@ -25551,15 +27816,16 @@
      "track_id": 18,
      "xg_after_pass": 0.15
     },
+    "carrier_source": "ball",
     "clip_ms": 835600,
     "holder": {
      "label": "t3",
-     "name": null,
+     "name": "Cole Palmer",
      "px": [
       407,
       615
      ],
-     "shirt": null,
+     "shirt": 10,
      "track_id": 3,
      "x": 0.98,
      "y": 18.41
@@ -25603,7 +27869,7 @@
      },
      {
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "offside_risk": false,
       "onside_margin_m": 9.57,
       "p_pass": 0.3,
@@ -25611,7 +27877,7 @@
        1771,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "track_id": 9,
       "x": 10.55,
       "xg_after_pass": 0.02,
@@ -25619,16 +27885,17 @@
       "y": 45.59
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
       "label": "t3",
-      "name": null,
+      "name": "Cole Palmer",
       "px": [
        407,
        615
       ],
-      "shirt": null,
+      "shirt": 10,
       "team": "away",
       "track_id": 3,
       "x": 0.98,
@@ -25665,12 +27932,12 @@
      {
       "keeper": false,
       "label": "t9",
-      "name": null,
+      "name": "Pedro Neto",
       "px": [
        1771,
        446
       ],
-      "shirt": null,
+      "shirt": 7,
       "team": "away",
       "track_id": 9,
       "x": 10.55,
@@ -25804,6 +28071,8 @@
      }
     ],
     "shot_now_xg": 0.04,
+    "state": "carry",
+    "state_text": "Cole Palmer on the ball",
     "threat": 0.15,
     "threat_from": "pass",
     "trusted": true
@@ -25812,19 +28081,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.785,
      "px": [
       336,
-      605
+      606
      ],
-     "x": -0.1,
-     "y": 17.61
+     "source": "tiled",
+     "speed_ms": 3.2,
+     "x": -0.04,
+     "y": 17.55
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 835700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -26010,6 +28284,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -26018,19 +28294,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.761,
      "px": [
-      332,
-      606
+      333,
+      607
      ],
-     "x": -0.17,
-     "y": 17.4
+     "source": "tiled",
+     "speed_ms": 2.8,
+     "x": -0.09,
+     "y": 17.35
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 835800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -26216,6 +28497,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -26223,13 +28506,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.805,
+     "px": [
+      330,
+      606
+     ],
+     "source": "tiled",
+     "speed_ms": 2.8,
+     "x": -0.24,
+     "y": 17.11
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 835900,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -26429,20 +28724,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.824,
+     "px": [
+      328,
+      606
+     ],
+     "source": "tiled",
+     "speed_ms": 3.1,
+     "x": -0.32,
+     "y": 16.95
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -26642,27 +28951,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.577,
      "px": [
       324,
       607
      ],
-     "x": -0.47,
-     "y": 16.68
+     "source": "tiled",
+     "speed_ms": 3.1,
+     "x": -0.45,
+     "y": 16.67
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -26862,6 +29178,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -26870,19 +29188,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.733,
      "px": [
-      321,
+      322,
       608
      ],
-     "x": -0.55,
-     "y": 16.51
+     "source": "tiled",
+     "speed_ms": 3.1,
+     "x": -0.47,
+     "y": 16.47
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -27096,6 +29419,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -27104,19 +29429,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.712,
      "px": [
-      317,
-      609
+      318,
+      610
      ],
-     "x": -0.54,
-     "y": 16.17
+     "source": "tiled",
+     "speed_ms": 3.1,
+     "x": -0.51,
+     "y": 16.16
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -27330,6 +29660,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -27338,19 +29670,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.599,
      "px": [
-      316,
-      610
+      317,
+      611
      ],
-     "x": -0.66,
-     "y": 16.04
+     "source": "tiled",
+     "speed_ms": 2.8,
+     "x": -0.62,
+     "y": 16.02
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -27564,6 +29901,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -27571,13 +29910,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.661,
+     "px": [
+      314,
+      612
+     ],
+     "source": "tiled",
+     "speed_ms": 2.8,
+     "x": -0.66,
+     "y": 15.74
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836500,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -27805,20 +30156,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.67,
+     "px": [
+      312,
+      613
+     ],
+     "source": "tiled",
+     "speed_ms": 1.9,
+     "x": -0.75,
+     "y": 15.64
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836600,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -28046,20 +30411,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.745,
+     "px": [
+      311,
+      613
+     ],
+     "source": "tiled",
+     "speed_ms": 2.2,
+     "x": -0.82,
+     "y": 15.46
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836700,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -28287,20 +30666,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.808,
+     "px": [
+      310,
+      614
+     ],
+     "source": "tiled",
+     "speed_ms": 2.2,
+     "x": -0.83,
+     "y": 15.24
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836800,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "ball out of play",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -28528,22 +30921,28 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Out of play",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 836900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -28555,11 +30954,12 @@
    1920,
    1080
   ],
-  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; label/track_id are internal ids, never shown",
+  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; each only within the linked track's identity span (same kit team, no jump over 12 m/s); label/track_id are internal ids, never shown",
   "match_id": "m_9003",
   "period": 2,
   "rules": {
-   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "ball": "tiled full-resolution detection plus the full-frame one, minus the penalty and centre spots; conf >= 0.5 stands alone, weaker only within 35 m/s of the nearest confident one (1 s) or at conf >= 0.4 with none near",
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike (a disallowed goal: its tagged second) to the end of the shot",
    "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
    "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
    "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
@@ -28567,18 +30967,28 @@
    "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
    "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
    "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
-   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+   "possession_carrier": "the same player at the ball before and after a gap of <= 1.5 s with the ball unseen and no other player within 1.5 m of him keeps it through the gap (carrier_source 'possession'); never across a ball seen elsewhere",
+   "trusted": "false where the camera fit is not trusted at the frame, or no ball and no possession carrier"
   },
   "shot_id": 109,
   "slug": "arsenal-chelsea-2526",
   "source": {
+   "ball": "arsenal-chelsea-2526/tracks/109.ball_tiled.json (tiled) + the full-frame detection",
    "calib": "arsenal-chelsea-2526/calib/109.json",
-   "names": "track B's moment files for this camera shot",
+   "names": "track B's names_live_0.json and names_verified.json",
    "pass_model": "packages/heads/artifacts/pass",
    "shot_model": "evals.pitchwatch.shotxg.reference_xg",
    "tracks": "arsenal-chelsea-2526/tracks/109.json"
   },
   "start_clip_ms": 823600,
+  "states": {
+   "carry": "a player has the ball (carrier_source ball: detected at his feet; possession: same player either side of a short gap, see rules)",
+   "contested": "carrier known, possession not settled",
+   "loose": "ball loose or not seen",
+   "no_data": "camera fit not trusted",
+   "out_of_play": "ball past a line, or dead after a goal",
+   "pass": "ball in flight between two different carriers within 3 s (receiver known on arrival; complete false = the other team received it)"
+  },
   "step_ms": 100,
   "threat_def": "Threat = the higher of the ball carrier's shot-now xG and the best pass's xG after the pass (pass completion x the reference xG from the receiver's spot); null when the ball is not held in the opponents' half"
  },

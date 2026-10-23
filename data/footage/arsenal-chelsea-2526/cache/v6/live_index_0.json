@@ -6,7 +6,8 @@
   "hz": 10,
   "match_id": "m_9003",
   "rules": {
-   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "ball": "tiled full-resolution detection plus the full-frame one, minus the penalty and centre spots; conf >= 0.5 stands alone, weaker only within 35 m/s of the nearest confident one (1 s) or at conf >= 0.4 with none near",
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike (a disallowed goal: its tagged second) to the end of the shot",
    "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
    "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
    "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
@@ -14,7 +15,8 @@
    "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
    "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
    "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
-   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+   "possession_carrier": "the same player at the ball before and after a gap of <= 1.5 s with the ball unseen and no other player within 1.5 m of him keeps it through the gap (carrier_source 'possession'); never across a ball seen elsewhere",
+   "trusted": "false where the camera fit is not trusted at the frame, or no ball and no possession carrier"
   },
   "shots": [
    {
@@ -24,8 +26,18 @@
     "path": "v6/live_823600.json",
     "shot_id": 109,
     "start_clip_ms": 823600,
-    "trusted_frames": 87,
-    "valued_frames": 17
+    "state_frames": 134,
+    "states": {
+     "carry": 26,
+     "contested": 7,
+     "loose": 33,
+     "no_data": 0,
+     "out_of_play": 34,
+     "pass": 34
+    },
+    "trusted_frames": 128,
+    "valued_by_possession": 0,
+    "valued_frames": 26
    },
    {
     "end_clip_ms": 854100,
@@ -34,18 +46,38 @@
     "path": "v6/live_844200.json",
     "shot_id": 113,
     "start_clip_ms": 844200,
-    "trusted_frames": 68,
+    "state_frames": 83,
+    "states": {
+     "carry": 0,
+     "contested": 1,
+     "loose": 74,
+     "no_data": 17,
+     "out_of_play": 8,
+     "pass": 0
+    },
+    "trusted_frames": 79,
+    "valued_by_possession": 0,
     "valued_frames": 0
    },
    {
     "end_clip_ms": 1306900,
     "frames": 350,
-    "max_threat": 0.02,
+    "max_threat": 0.08,
     "path": "v6/live_1272000.json",
     "shot_id": 177,
     "start_clip_ms": 1272000,
-    "trusted_frames": 170,
-    "valued_frames": 16
+    "state_frames": 350,
+    "states": {
+     "carry": 111,
+     "contested": 9,
+     "loose": 78,
+     "no_data": 0,
+     "out_of_play": 93,
+     "pass": 59
+    },
+    "trusted_frames": 294,
+    "valued_by_possession": 5,
+    "valued_frames": 47
    },
    {
     "end_clip_ms": 1372100,
@@ -54,7 +86,17 @@
     "path": "v6/live_1358200.json",
     "shot_id": 186,
     "start_clip_ms": 1358200,
-    "trusted_frames": 33,
+    "state_frames": 37,
+    "states": {
+     "carry": 31,
+     "contested": 2,
+     "loose": 3,
+     "no_data": 103,
+     "out_of_play": 1,
+     "pass": 0
+    },
+    "trusted_frames": 37,
+    "valued_by_possession": 0,
     "valued_frames": 0
    },
    {
@@ -64,7 +106,17 @@
     "path": "v6/live_1378600.json",
     "shot_id": 190,
     "start_clip_ms": 1378600,
-    "trusted_frames": 37,
+    "state_frames": 58,
+    "states": {
+     "carry": 13,
+     "contested": 2,
+     "loose": 39,
+     "no_data": 0,
+     "out_of_play": 4,
+     "pass": 0
+    },
+    "trusted_frames": 52,
+    "valued_by_possession": 0,
     "valued_frames": 0
    },
    {
@@ -74,7 +126,17 @@
     "path": "v6/live_1408200.json",
     "shot_id": 195,
     "start_clip_ms": 1408200,
-    "trusted_frames": 0,
+    "state_frames": 105,
+    "states": {
+     "carry": 0,
+     "contested": 0,
+     "loose": 27,
+     "no_data": 67,
+     "out_of_play": 78,
+     "pass": 0
+    },
+    "trusted_frames": 78,
+    "valued_by_possession": 0,
     "valued_frames": 0
    },
    {
@@ -84,7 +146,17 @@
     "path": "v6/live_279000.json",
     "shot_id": "xe_0004",
     "start_clip_ms": 279000,
-    "trusted_frames": 28,
+    "state_frames": 50,
+    "states": {
+     "carry": 8,
+     "contested": 2,
+     "loose": 31,
+     "no_data": 0,
+     "out_of_play": 9,
+     "pass": 0
+    },
+    "trusted_frames": 34,
+    "valued_by_possession": 0,
     "valued_frames": 0
    },
    {
@@ -102,7 +174,17 @@
     "path": "v6/live_1335000.json",
     "shot_id": "xe_0049",
     "start_clip_ms": 1335000,
-    "trusted_frames": 0,
+    "state_frames": 37,
+    "states": {
+     "carry": 0,
+     "contested": 0,
+     "loose": 20,
+     "no_data": 13,
+     "out_of_play": 17,
+     "pass": 0
+    },
+    "trusted_frames": 17,
+    "valued_by_possession": 0,
     "valued_frames": 0
    },
    {

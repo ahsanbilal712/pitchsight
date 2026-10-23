@@ -11,22 +11,28 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.67,
      "px": [
       544,
       683
      ],
+     "source": "full",
      "speed_ms": 6.6,
      "x": 14.12,
      "y": 15.57
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1473000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -35,20 +41,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.505,
      "px": [
       553,
       680
      ],
-     "speed_ms": 5.4,
+     "source": "full",
+     "speed_ms": 6.6,
      "x": 13.59,
      "y": 15.96
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1473100,
-    "holder": null,
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      528,
+      706
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 13.91,
+     "y": 14.97
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -67,7 +88,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        528,
        706
@@ -164,6 +185,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -172,20 +195,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.498,
      "px": [
       552,
       680
      ],
-     "speed_ms": 6.6,
+     "source": "full",
+     "speed_ms": 8.9,
      "x": 13.16,
      "y": 16.08
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1473200,
-    "holder": null,
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      531,
+      699
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 13.26,
+     "y": 15.5
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -204,7 +242,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        531,
        699
@@ -301,28 +339,86 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "away",
+    "attacks": "-x",
     "ball": {
+     "conf": 0.339,
      "px": [
       556,
       674
      ],
-     "speed_ms": 75.9,
+     "source": "full",
+     "speed_ms": 8.9,
      "x": 12.56,
      "y": 16.74
     },
-    "best": null,
+    "best": {
+     "label": "t7",
+     "name": null,
+     "shirt": null,
+     "track_id": 7,
+     "xg_after_pass": 0.02
+    },
+    "carrier_source": "ball",
     "clip_ms": 1473300,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball in flight",
-    "options": [],
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      539,
+      704
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 13.07,
+     "y": 15.67
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 4.58,
+      "p_pass": 0.3,
+      "px": [
+       1667,
+       430
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 17.65,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.06,
+      "y": 40.77
+     },
+     {
+      "label": "t6",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 8.34,
+      "p_pass": 0.26,
+      "px": [
+       1695,
+       534
+      ],
+      "shirt": null,
+      "track_id": 6,
+      "x": 21.41,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.05,
+      "y": 33.45
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -341,7 +437,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        539,
        704
@@ -437,28 +533,77 @@
       "y": 40.77
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.04,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
+    "threat": 0.04,
+    "threat_from": "shot",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": {
-     "px": [
-      237,
-      464
-     ],
-     "x": -0.38,
-     "y": 25.67
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": null,
+    "best": {
+     "label": "t6",
+     "name": null,
+     "shirt": null,
+     "track_id": 6,
+     "xg_after_pass": 0.02
     },
-    "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1473400,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball out of play",
-    "options": [],
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      543,
+      692
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 12.27,
+     "y": 16.54
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t6",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 8.51,
+      "p_pass": 0.34,
+      "px": [
+       1685,
+       539
+      ],
+      "shirt": null,
+      "track_id": 6,
+      "x": 20.78,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.06,
+      "y": 33.17
+     },
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 5.88,
+      "p_pass": 0.12,
+      "px": [
+       1647,
+       471
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 18.15,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.07,
+      "y": 37.55
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -477,7 +622,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        543,
        692
@@ -573,28 +718,77 @@
       "y": 37.55
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.04,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
+    "threat": 0.04,
+    "threat_from": "shot",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": {
-     "px": [
-      1400,
-      171
-     ],
-     "x": -0.36,
-     "y": 63.55
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": null,
+    "best": {
+     "label": "t6",
+     "name": null,
+     "shirt": null,
+     "track_id": 6,
+     "xg_after_pass": 0.02
     },
-    "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1473500,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball out of play",
-    "options": [],
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      548,
+      696
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 12.07,
+     "y": 16.66
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t6",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.78,
+      "p_pass": 0.28,
+      "px": [
+       1684,
+       529
+      ],
+      "shirt": null,
+      "track_id": 6,
+      "x": 19.85,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.06,
+      "y": 33.96
+     },
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 5.43,
+      "p_pass": 0.2,
+      "px": [
+       1623,
+       479
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 17.5,
+      "xg_after_pass": 0.01,
+      "xg_receiver": 0.07,
+      "y": 36.86
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -613,7 +807,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        548,
        696
@@ -709,28 +903,77 @@
       "y": 36.86
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.04,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
+    "threat": 0.04,
+    "threat_from": "shot",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": {
-     "px": [
-      1418,
-      172
-     ],
-     "x": -0.44,
-     "y": 63.67
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": null,
+    "best": {
+     "label": "t7",
+     "name": null,
+     "shirt": null,
+     "track_id": 7,
+     "xg_after_pass": 0.03
     },
-    "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1473600,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball out of play",
-    "options": [],
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      546,
+      684
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 11.35,
+     "y": 17.42
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 4.99,
+      "p_pass": 0.4,
+      "px": [
+       1598,
+       468
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 16.34,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.08,
+      "y": 37.66
+     },
+     {
+      "label": "t6",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.89,
+      "p_pass": 0.35,
+      "px": [
+       1671,
+       529
+      ],
+      "shirt": null,
+      "track_id": 6,
+      "x": 19.24,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.07,
+      "y": 34.09
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -749,7 +992,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        546,
        684
@@ -845,21 +1088,77 @@
       "y": 37.66
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.04,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
+    "threat": 0.04,
+    "threat_from": "shot",
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "away",
+    "attacks": "-x",
     "ball": null,
-    "best": null,
+    "best": {
+     "label": "t7",
+     "name": null,
+     "shirt": null,
+     "track_id": 7,
+     "xg_after_pass": 0.05
+    },
+    "carrier_source": "possession",
     "clip_ms": 1473700,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      546,
+      685
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 11.13,
+     "y": 17.6
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 4.71,
+      "p_pass": 0.56,
+      "px": [
+       1561,
+       477
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 15.84,
+      "xg_after_pass": 0.05,
+      "xg_receiver": 0.09,
+      "y": 36.83
+     },
+     {
+      "label": "t6",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.65,
+      "p_pass": 0.35,
+      "px": [
+       1650,
+       534
+      ],
+      "shirt": null,
+      "track_id": 6,
+      "x": 18.78,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.07,
+      "y": 33.78
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -878,7 +1177,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        546,
        685
@@ -974,21 +1273,87 @@
       "y": 36.83
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.05,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
+    "threat": 0.05,
+    "threat_from": "pass",
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
-    "best": null,
+    "attacking": "away",
+    "attacks": "-x",
+    "ball": {
+     "conf": 0.292,
+     "px": [
+      533,
+      646
+     ],
+     "source": "full",
+     "speed_ms": 4.5,
+     "x": 9.63,
+     "y": 19.17
+    },
+    "best": {
+     "label": "t7",
+     "name": null,
+     "shirt": null,
+     "track_id": 7,
+     "xg_after_pass": 0.03
+    },
+    "carrier_source": "ball",
     "clip_ms": 1473800,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
-    "options": [],
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      544,
+      684
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 10.81,
+     "y": 17.83
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 4.33,
+      "p_pass": 0.32,
+      "px": [
+       1530,
+       478
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 15.14,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.1,
+      "y": 36.62
+     },
+     {
+      "label": "t6",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.31,
+      "p_pass": 0.36,
+      "px": [
+       1631,
+       531
+      ],
+      "shirt": null,
+      "track_id": 6,
+      "x": 18.12,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.08,
+      "y": 33.91
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1007,7 +1372,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        544,
        684
@@ -1103,29 +1468,87 @@
       "y": 36.62
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
-    "trusted": false
+    "shot_now_xg": 0.05,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
+    "threat": 0.05,
+    "threat_from": "shot",
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "away",
+    "attacks": "-x",
     "ball": {
+     "conf": 0.608,
      "px": [
       528,
       641
      ],
-     "speed_ms": 249.2,
+     "source": "full",
+     "speed_ms": 5.5,
      "x": 9.28,
      "y": 19.46
     },
-    "best": null,
+    "best": {
+     "label": "t7",
+     "name": null,
+     "shirt": null,
+     "track_id": 7,
+     "xg_after_pass": 0.08
+    },
+    "carrier_source": "ball",
     "clip_ms": 1473900,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball in flight",
-    "options": [],
+    "holder": {
+     "label": "t1",
+     "name": "Rayan A\u00eft-Nouri",
+     "px": [
+      540,
+      665
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 9.95,
+     "y": 18.82
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 4.46,
+      "p_pass": 0.71,
+      "px": [
+       1488,
+       480
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 14.41,
+      "xg_after_pass": 0.08,
+      "xg_receiver": 0.11,
+      "y": 36.31
+     },
+     {
+      "label": "t6",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.72,
+      "p_pass": 0.39,
+      "px": [
+       1613,
+       532
+      ],
+      "shirt": null,
+      "track_id": 6,
+      "x": 17.67,
+      "xg_after_pass": 0.03,
+      "xg_receiver": 0.08,
+      "y": 33.86
+     }
+    ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1144,7 +1567,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        540,
        665
@@ -1240,20 +1663,24 @@
       "y": 36.31
      }
     ],
-    "shot_now_xg": null,
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.06,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
+    "threat": 0.08,
+    "threat_from": "pass",
     "trusted": true
    },
    {
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.594,
      "px": [
       521,
       636
      ],
-     "speed_ms": 5.8,
+     "source": "full",
+     "speed_ms": 6.0,
      "x": 8.84,
      "y": 19.79
     },
@@ -1264,10 +1691,11 @@
      "track_id": 7,
      "xg_after_pass": 0.05
     },
+    "carrier_source": "ball",
     "clip_ms": 1474000,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       533,
       668
@@ -1315,6 +1743,7 @@
       "y": 33.68
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1333,7 +1762,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        533,
        668
@@ -1430,6 +1859,8 @@
      }
     ],
     "shot_now_xg": 0.06,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.06,
     "threat_from": "shot",
     "trusted": true
@@ -1438,11 +1869,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.65,
      "px": [
       511,
       631
      ],
-     "speed_ms": 5.8,
+     "source": "full",
+     "speed_ms": 6.0,
      "x": 8.36,
      "y": 20.15
     },
@@ -1453,10 +1886,11 @@
      "track_id": 7,
      "xg_after_pass": 0.07
     },
+    "carrier_source": "ball",
     "clip_ms": 1474100,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       538,
       656
@@ -1504,6 +1938,7 @@
       "y": 33.48
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1522,7 +1957,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        538,
        656
@@ -1619,6 +2054,8 @@
      }
     ],
     "shot_now_xg": 0.06,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.07,
     "threat_from": "pass",
     "trusted": true
@@ -1627,11 +2064,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.804,
      "px": [
       502,
       625
      ],
-     "speed_ms": 5.5,
+     "source": "full",
+     "speed_ms": 5.6,
      "x": 7.93,
      "y": 20.48
     },
@@ -1642,10 +2081,11 @@
      "track_id": 7,
      "xg_after_pass": 0.08
     },
+    "carrier_source": "ball",
     "clip_ms": 1474200,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       535,
       647
@@ -1693,6 +2133,7 @@
       "y": 33.67
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1711,7 +2152,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        535,
        647
@@ -1808,6 +2249,8 @@
      }
     ],
     "shot_now_xg": 0.07,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.08,
     "threat_from": "pass",
     "trusted": true
@@ -1816,11 +2259,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.76,
      "px": [
       494,
       621
      ],
-     "speed_ms": 5.7,
+     "source": "full",
+     "speed_ms": 6.1,
      "x": 7.48,
      "y": 20.82
     },
@@ -1831,10 +2276,11 @@
      "track_id": 7,
      "xg_after_pass": 0.1
     },
+    "carrier_source": "ball",
     "clip_ms": 1474300,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       527,
       648
@@ -1882,6 +2328,7 @@
       "y": 33.21
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1900,7 +2347,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        527,
        648
@@ -2011,6 +2458,8 @@
      }
     ],
     "shot_now_xg": 0.07,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.1,
     "threat_from": "pass",
     "trusted": true
@@ -2019,11 +2468,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.629,
      "px": [
       485,
       616
      ],
-     "speed_ms": 5.6,
+     "source": "full",
+     "speed_ms": 6.1,
      "x": 7.02,
      "y": 21.22
     },
@@ -2034,10 +2485,11 @@
      "track_id": 7,
      "xg_after_pass": 0.12
     },
+    "carrier_source": "ball",
     "clip_ms": 1474400,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       515,
       647
@@ -2085,6 +2537,7 @@
       "y": 33.21
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2103,7 +2556,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        515,
        647
@@ -2214,6 +2667,8 @@
      }
     ],
     "shot_now_xg": 0.07,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.12,
     "threat_from": "pass",
     "trusted": true
@@ -2222,11 +2677,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.709,
      "px": [
       475,
       610
      ],
-     "speed_ms": 4.5,
+     "source": "full",
+     "speed_ms": 5.2,
      "x": 6.6,
      "y": 21.52
     },
@@ -2237,10 +2694,11 @@
      "track_id": 7,
      "xg_after_pass": 0.12
     },
+    "carrier_source": "ball",
     "clip_ms": 1474500,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       505,
       637
@@ -2288,6 +2746,7 @@
       "y": 33.08
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2306,7 +2765,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        505,
        637
@@ -2417,6 +2876,8 @@
      }
     ],
     "shot_now_xg": 0.08,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.12,
     "threat_from": "pass",
     "trusted": true
@@ -2425,11 +2886,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.476,
      "px": [
       468,
       606
      ],
-     "speed_ms": 4.2,
+     "source": "full",
+     "speed_ms": 5.1,
      "x": 6.3,
      "y": 21.76
     },
@@ -2440,10 +2903,11 @@
      "track_id": 7,
      "xg_after_pass": 0.13
     },
+    "carrier_source": "ball",
     "clip_ms": 1474600,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       498,
       636
@@ -2491,6 +2955,7 @@
       "y": 32.86
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2509,7 +2974,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        498,
        636
@@ -2634,6 +3099,8 @@
      }
     ],
     "shot_now_xg": 0.08,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.13,
     "threat_from": "pass",
     "trusted": true
@@ -2642,11 +3109,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.701,
      "px": [
       460,
       601
      ],
-     "speed_ms": 5.3,
+     "source": "full",
+     "speed_ms": 5.9,
      "x": 5.89,
      "y": 22.06
     },
@@ -2657,10 +3126,11 @@
      "track_id": 7,
      "xg_after_pass": 0.13
     },
+    "carrier_source": "ball",
     "clip_ms": 1474700,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       494,
       623
@@ -2708,6 +3178,7 @@
       "y": 32.44
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2726,7 +3197,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        494,
        623
@@ -2851,6 +3322,8 @@
      }
     ],
     "shot_now_xg": 0.09,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.13,
     "threat_from": "pass",
     "trusted": true
@@ -2859,11 +3332,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.492,
      "px": [
       452,
       593
      ],
-     "speed_ms": 5.4,
+     "source": "full",
+     "speed_ms": 5.9,
      "x": 5.45,
      "y": 22.46
     },
@@ -2874,10 +3349,11 @@
      "track_id": 7,
      "xg_after_pass": 0.13
     },
+    "carrier_source": "ball",
     "clip_ms": 1474800,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       501,
       622
@@ -2925,6 +3401,7 @@
       "y": 32.44
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2943,7 +3420,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        501,
        622
@@ -3068,6 +3545,8 @@
      }
     ],
     "shot_now_xg": 0.09,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.13,
     "threat_from": "pass",
     "trusted": true
@@ -3076,11 +3555,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.627,
      "px": [
       443,
       589
      ],
-     "speed_ms": 3.9,
+     "source": "full",
+     "speed_ms": 4.6,
      "x": 5.06,
      "y": 22.7
     },
@@ -3091,10 +3572,11 @@
      "track_id": 7,
      "xg_after_pass": 0.13
     },
+    "carrier_source": "ball",
     "clip_ms": 1474900,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       499,
       611
@@ -3142,6 +3624,7 @@
       "y": 32.78
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3160,7 +3643,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        499,
        611
@@ -3285,6 +3768,8 @@
      }
     ],
     "shot_now_xg": 0.1,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.13,
     "threat_from": "pass",
     "trusted": true
@@ -3293,11 +3778,13 @@
     "attacking": "away",
     "attacks": "-x",
     "ball": {
+     "conf": 0.345,
      "px": [
       437,
       588
      ],
-     "speed_ms": 3.0,
+     "source": "full",
+     "speed_ms": 2.6,
      "x": 4.84,
      "y": 22.84
     },
@@ -3308,10 +3795,11 @@
      "track_id": 6,
      "xg_after_pass": 0.11
     },
+    "carrier_source": "ball",
     "clip_ms": 1475000,
     "holder": {
      "label": "t1",
-     "name": null,
+     "name": "Rayan A\u00eft-Nouri",
      "px": [
       482,
       597
@@ -3359,6 +3847,7 @@
       "y": 31.57
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3377,7 +3866,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        482,
        597
@@ -3502,6 +3991,8 @@
      }
     ],
     "shot_now_xg": 0.12,
+    "state": "carry",
+    "state_text": "Rayan A\u00eft-Nouri on the ball",
     "threat": 0.12,
     "threat_from": "shot",
     "trusted": true
@@ -3511,11 +4002,30 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1475100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 1475900,
+     "complete": false,
+     "from": {
+      "label": "t1",
+      "name": "Rayan A\u00eft-Nouri",
+      "shirt": null,
+      "track_id": 1
+     },
+     "release_clip_ms": 1475000,
+     "to": {
+      "label": "t5",
+      "name": null,
+      "shirt": null,
+      "track_id": 5
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -3534,7 +4044,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        479,
        593
@@ -3659,6 +4169,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -3668,11 +4180,30 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1475200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 1475900,
+     "complete": false,
+     "from": {
+      "label": "t1",
+      "name": "Rayan A\u00eft-Nouri",
+      "shirt": null,
+      "track_id": 1
+     },
+     "release_clip_ms": 1475000,
+     "to": {
+      "label": "t5",
+      "name": null,
+      "shirt": null,
+      "track_id": 5
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -3691,7 +4222,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        512,
        594
@@ -3802,6 +4333,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -3809,20 +4342,32 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "px": [
-      1568,
-      182
-     ],
-     "x": -0.44,
-     "y": 63.82
-    },
+    "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1475300,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball not detected",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 1475900,
+     "complete": false,
+     "from": {
+      "label": "t1",
+      "name": "Rayan A\u00eft-Nouri",
+      "shirt": null,
+      "track_id": 1
+     },
+     "release_clip_ms": 1475000,
+     "to": {
+      "label": "t5",
+      "name": null,
+      "shirt": null,
+      "track_id": 5
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -3841,7 +4386,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        492,
        586
@@ -3952,20 +4497,41 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1475400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 1475900,
+     "complete": false,
+     "from": {
+      "label": "t1",
+      "name": "Rayan A\u00eft-Nouri",
+      "shirt": null,
+      "track_id": 1
+     },
+     "release_clip_ms": 1475000,
+     "to": {
+      "label": "t5",
+      "name": null,
+      "shirt": null,
+      "track_id": 5
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -3984,7 +4550,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        511,
        579
@@ -4095,6 +4661,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -4103,20 +4671,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.775,
      "px": [
       675,
       461
      ],
-     "speed_ms": 12.4,
+     "source": "full",
+     "speed_ms": 12.6,
      "x": 1.77,
      "y": 31.98
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1475500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 1475900,
+     "complete": false,
+     "from": {
+      "label": "t1",
+      "name": "Rayan A\u00eft-Nouri",
+      "shirt": null,
+      "track_id": 1
+     },
+     "release_clip_ms": 1475000,
+     "to": {
+      "label": "t5",
+      "name": null,
+      "shirt": null,
+      "track_id": 5
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -4135,7 +4724,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        537,
        590
@@ -4260,6 +4849,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4268,20 +4859,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.766,
      "px": [
       722,
       478
      ],
-     "speed_ms": 14.9,
+     "source": "full",
+     "speed_ms": 17.1,
      "x": 2.88,
      "y": 31.38
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1475600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 1475900,
+     "complete": false,
+     "from": {
+      "label": "t1",
+      "name": "Rayan A\u00eft-Nouri",
+      "shirt": null,
+      "track_id": 1
+     },
+     "release_clip_ms": 1475000,
+     "to": {
+      "label": "t5",
+      "name": null,
+      "shirt": null,
+      "track_id": 5
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -4300,7 +4912,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        563,
        589
@@ -4411,6 +5023,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4419,20 +5033,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.742,
      "px": [
       767,
       502
      ],
-     "speed_ms": 15.2,
+     "source": "full",
+     "speed_ms": 17.1,
      "x": 4.27,
      "y": 30.39
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1475700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 1475900,
+     "complete": false,
+     "from": {
+      "label": "t1",
+      "name": "Rayan A\u00eft-Nouri",
+      "shirt": null,
+      "track_id": 1
+     },
+     "release_clip_ms": 1475000,
+     "to": {
+      "label": "t5",
+      "name": null,
+      "shirt": null,
+      "track_id": 5
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -4451,7 +5086,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        569,
        582
@@ -4562,6 +5197,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4570,20 +5207,41 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.445,
      "px": [
       812,
       519
      ],
-     "speed_ms": 6.2,
+     "source": "full",
+     "speed_ms": 12.5,
      "x": 5.36,
      "y": 29.78
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 1475800,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "possession unsettled",
+    "null_reason": "ball in flight",
     "options": [],
+    "pass": {
+     "arrival_clip_ms": 1475900,
+     "complete": false,
+     "from": {
+      "label": "t1",
+      "name": "Rayan A\u00eft-Nouri",
+      "shirt": null,
+      "track_id": 1
+     },
+     "release_clip_ms": 1475000,
+     "to": {
+      "label": "t5",
+      "name": null,
+      "shirt": null,
+      "track_id": 5
+     },
+     "xg_after_pass_at_release": null
+    },
     "players": [
      {
       "keeper": false,
@@ -4602,7 +5260,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        575,
        584
@@ -4713,6 +5371,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "pass",
+    "state_text": "Pass intercepted",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4721,20 +5381,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.428,
      "px": [
       846,
       512
      ],
-     "speed_ms": 7.3,
+     "source": "full",
+     "speed_ms": 7.0,
      "x": 5.38,
      "y": 30.48
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1475900,
-    "holder": null,
+    "holder": {
+     "label": "t5",
+     "name": null,
+     "px": [
+      916,
+      521
+     ],
+     "shirt": null,
+     "track_id": 5,
+     "x": 6.18,
+     "y": 30.97
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4753,7 +5428,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        579,
        580
@@ -4864,6 +5539,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -4873,11 +5550,24 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1476000,
-    "holder": null,
+    "holder": {
+     "label": "t5",
+     "name": null,
+     "px": [
+      908,
+      520
+     ],
+     "shirt": null,
+     "track_id": 5,
+     "x": 6.05,
+     "y": 30.98
+    },
     "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4896,7 +5586,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        590,
        574
@@ -5007,23 +5697,28 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.67,
      "px": [
       917,
       520
      ],
-     "speed_ms": 8.4,
+     "source": "full",
+     "speed_ms": 10.0,
      "x": 6.5,
      "y": 30.51
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476100,
     "holder": {
      "label": "t5",
@@ -5040,6 +5735,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5058,7 +5754,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        592,
        571
@@ -5169,6 +5865,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5177,15 +5875,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.751,
      "px": [
       948,
       533
      ],
-     "speed_ms": 8.2,
+     "source": "full",
+     "speed_ms": 10.0,
      "x": 7.35,
      "y": 29.99
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476200,
     "holder": {
      "label": "t0",
@@ -5202,6 +5903,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5220,7 +5922,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        596,
        562
@@ -5331,6 +6033,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5339,15 +6043,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.723,
      "px": [
       979,
       543
      ],
-     "speed_ms": 5.4,
+     "source": "full",
+     "speed_ms": 7.8,
      "x": 8.06,
      "y": 29.66
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476300,
     "holder": {
      "label": "t0",
@@ -5364,6 +6071,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5382,7 +6090,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        600,
        552
@@ -5507,6 +6215,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5515,15 +6225,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.702,
      "px": [
       1007,
       540
      ],
-     "speed_ms": 3.6,
+     "source": "full",
+     "speed_ms": 4.7,
      "x": 8.31,
      "y": 29.97
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476400,
     "holder": {
      "label": "t0",
@@ -5540,6 +6253,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5558,7 +6272,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        607,
        550
@@ -5669,6 +6383,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5677,15 +6393,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.759,
      "px": [
       1034,
       546
      ],
-     "speed_ms": 4.5,
+     "source": "full",
+     "speed_ms": 4.8,
      "x": 8.77,
      "y": 29.9
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476500,
     "holder": {
      "label": "t0",
@@ -5702,6 +6421,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5720,7 +6440,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        604,
        551
@@ -5845,6 +6565,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -5853,15 +6575,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.643,
      "px": [
       1058,
       549
      ],
-     "speed_ms": 3.7,
+     "source": "full",
+     "speed_ms": 4.8,
      "x": 9.24,
      "y": 29.81
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476600,
     "holder": {
      "label": "t0",
@@ -5878,6 +6603,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5896,7 +6622,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        604,
        549
@@ -6021,6 +6747,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -6029,15 +6757,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.425,
      "px": [
       1075,
       548
      ],
-     "speed_ms": 3.2,
+     "source": "full",
+     "speed_ms": 3.6,
      "x": 9.52,
      "y": 29.93
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476700,
     "holder": {
      "label": "t0",
@@ -6054,6 +6785,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6072,7 +6804,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        606,
        546
@@ -6197,6 +6929,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -6205,15 +6939,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.511,
      "px": [
       1091,
       552
      ],
-     "speed_ms": 2.8,
+     "source": "full",
+     "speed_ms": 3.6,
      "x": 9.88,
      "y": 29.88
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476800,
     "holder": {
      "label": "t0",
@@ -6230,6 +6967,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6248,7 +6986,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        607,
        545
@@ -6373,6 +7111,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -6381,15 +7121,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.461,
      "px": [
       1102,
       550
      ],
-     "speed_ms": 2.4,
+     "source": "full",
+     "speed_ms": 2.8,
      "x": 10.1,
      "y": 30.06
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1476900,
     "holder": {
      "label": "t0",
@@ -6406,6 +7149,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6424,7 +7168,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        607,
        545
@@ -6549,6 +7293,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -6557,15 +7303,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.315,
      "px": [
       1106,
       548
      ],
-     "speed_ms": 2.4,
+     "source": "full",
+     "speed_ms": 2.6,
      "x": 10.27,
      "y": 30.16
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1477000,
     "holder": {
      "label": "t0",
@@ -6582,6 +7331,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6600,7 +7350,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        599,
        545
@@ -6725,6 +7475,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -6733,15 +7485,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.361,
      "px": [
       1108,
       547
      ],
-     "speed_ms": 2.2,
+     "source": "full",
+     "speed_ms": 2.6,
      "x": 10.47,
      "y": 30.33
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1477100,
     "holder": {
      "label": "t0",
@@ -6758,6 +7513,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6776,7 +7532,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        581,
        540
@@ -6901,20 +7657,35 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "home",
+    "attacks": "+x",
     "ball": null,
     "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1477200,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "holder": {
+     "label": "t0",
+     "name": null,
+     "px": [
+      1092,
+      554
+     ],
+     "shirt": null,
+     "track_id": 0,
+     "x": 10.54,
+     "y": 30.29
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6933,7 +7704,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        561,
        537
@@ -7058,27 +7829,35 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": {
-     "px": [
-      1525,
-      172
-     ],
-     "x": -0.43,
-     "y": 63.86
-    },
+    "attacking": "home",
+    "attacks": "+x",
+    "ball": null,
     "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1477300,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "holder": {
+     "label": "t0",
+     "name": null,
+     "px": [
+      1089,
+      553
+     ],
+     "shirt": null,
+     "track_id": 0,
+     "x": 10.76,
+     "y": 30.36
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7097,7 +7876,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        545,
        537
@@ -7222,20 +8001,44 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": null,
+    "attacking": "home",
+    "attacks": "+x",
+    "ball": {
+     "conf": 0.279,
+     "px": [
+      1085,
+      551
+     ],
+     "source": "full",
+     "x": 11.28,
+     "y": 30.03
+    },
     "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1477400,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "holder": {
+     "label": "t0",
+     "name": null,
+     "px": [
+      1072,
+      558
+     ],
+     "shirt": null,
+     "track_id": 0,
+     "x": 11.08,
+     "y": 30.04
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7254,7 +8057,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        530,
        537
@@ -7379,27 +8182,35 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
-    "ball": {
-     "px": [
-      150,
-      513
-     ],
-     "x": -0.24,
-     "y": 25.45
-    },
+    "attacking": "home",
+    "attacks": "+x",
+    "ball": null,
     "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1477500,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "holder": {
+     "label": "t0",
+     "name": null,
+     "px": [
+      1056,
+      564
+     ],
+     "shirt": null,
+     "track_id": 0,
+     "x": 11.52,
+     "y": 29.64
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7418,7 +8229,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        513,
        536
@@ -7543,28 +8354,44 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "home",
+    "attacks": "+x",
     "ball": {
+     "conf": 0.586,
      "px": [
       1048,
       554
      ],
-     "speed_ms": 213.2,
+     "source": "full",
      "x": 11.78,
      "y": 29.76
     },
     "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1477600,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball in flight",
+    "holder": {
+     "label": "t0",
+     "name": null,
+     "px": [
+      1048,
+      560
+     ],
+     "shirt": null,
+     "track_id": 0,
+     "x": 11.75,
+     "y": 29.83
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7583,7 +8410,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        497,
        534
@@ -7708,20 +8535,35 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "home",
+    "attacks": "+x",
     "ball": null,
     "best": null,
+    "carrier_source": "possession",
     "clip_ms": 1477700,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball not detected",
+    "holder": {
+     "label": "t0",
+     "name": null,
+     "px": [
+      1040,
+      564
+     ],
+     "shirt": null,
+     "track_id": 0,
+     "x": 12.24,
+     "y": 29.6
+    },
+    "in_opponent_half": false,
+    "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7740,7 +8582,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        482,
        532
@@ -7865,23 +8707,28 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.652,
      "px": [
       1051,
       552
      ],
-     "speed_ms": 7.4,
+     "source": "full",
+     "speed_ms": 8.5,
      "x": 12.74,
      "y": 29.84
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1477800,
     "holder": {
      "label": "t0",
@@ -7898,6 +8745,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7916,7 +8764,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        460,
        531
@@ -8041,6 +8889,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -8049,15 +8899,18 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.573,
      "px": [
       1066,
       556
      ],
-     "speed_ms": 9.1,
+     "source": "full",
+     "speed_ms": 8.5,
      "x": 13.58,
      "y": 29.73
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 1477900,
     "holder": {
      "label": "t0",
@@ -8074,6 +8927,7 @@
     "in_opponent_half": false,
     "null_reason": "own half",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8092,7 +8946,7 @@
      {
       "keeper": false,
       "label": "t1",
-      "name": null,
+      "name": "Rayan A\u00eft-Nouri",
       "px": [
        435,
        531
@@ -8217,6 +9071,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "carry",
+    "state_text": "On the ball",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -8228,11 +9084,12 @@
    1920,
    1080
   ],
-  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; label/track_id are internal ids, never shown",
+  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; each only within the linked track's identity span (same kit team, no jump over 12 m/s); label/track_id are internal ids, never shown",
   "match_id": "m_9001",
   "period": 2,
   "rules": {
-   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "ball": "tiled full-resolution detection plus the full-frame one, minus the penalty and centre spots; conf >= 0.5 stands alone, weaker only within 35 m/s of the nearest confident one (1 s) or at conf >= 0.4 with none near",
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike (a disallowed goal: its tagged second) to the end of the shot",
    "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
    "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
    "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
@@ -8240,18 +9097,28 @@
    "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
    "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
    "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
-   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+   "possession_carrier": "the same player at the ball before and after a gap of <= 1.5 s with the ball unseen and no other player within 1.5 m of him keeps it through the gap (carrier_source 'possession'); never across a ball seen elsewhere",
+   "trusted": "false where the camera fit is not trusted at the frame, or no ball and no possession carrier"
   },
   "shot_id": "xe_0058",
   "slug": "liverpool-mancity-2526",
   "source": {
+   "ball": "liverpool-mancity-2526/tracks/xe_0058.ball_tiled.json (tiled) + the full-frame detection",
    "calib": "liverpool-mancity-2526/calib/xe_0058.json",
-   "names": "track B's moment files for this camera shot",
+   "names": "track B's names_live_0.json and names_verified.json",
    "pass_model": "packages/heads/artifacts/pass",
    "shot_model": "evals.pitchwatch.shotxg.reference_xg",
    "tracks": "liverpool-mancity-2526/tracks/xe_0058.json"
   },
   "start_clip_ms": 1473000,
+  "states": {
+   "carry": "a player has the ball (carrier_source ball: detected at his feet; possession: same player either side of a short gap, see rules)",
+   "contested": "carrier known, possession not settled",
+   "loose": "ball loose or not seen",
+   "no_data": "camera fit not trusted",
+   "out_of_play": "ball past a line, or dead after a goal",
+   "pass": "ball in flight between two different carriers within 3 s (receiver known on arrival; complete false = the other team received it)"
+  },
   "step_ms": 100,
   "threat_def": "Threat = the higher of the ball carrier's shot-now xG and the best pass's xG after the pass (pass completion x the reference xG from the receiver's spot); null when the ball is not held in the opponents' half"
  },

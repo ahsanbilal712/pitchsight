@@ -10,36 +10,35 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "px": [
-      381,
-      570
-     ],
-     "x": 75.56,
-     "y": 33.47
-    },
+    "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94000,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball speed not measurable",
+    "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -141,6 +140,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -150,11 +151,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -256,6 +259,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -265,11 +270,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -371,6 +378,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -378,21 +387,15 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "px": [
-      381,
-      571
-     ],
-     "speed_ms": 0.0,
-     "x": 75.58,
-     "y": 33.52
-    },
+    "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball loose",
+    "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -494,28 +497,24 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "px": [
-      381,
-      571
-     ],
-     "speed_ms": 0.1,
-     "x": 75.6,
-     "y": 33.53
-    },
+    "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94500,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball loose",
+    "null_reason": "ball not detected",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -617,28 +616,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.427,
      "px": [
       380,
       571
      ],
+     "source": "full",
      "speed_ms": 0.1,
      "x": 75.58,
      "y": 33.5
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -740,6 +745,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -748,20 +755,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.458,
      "px": [
       380,
       571
      ],
-     "speed_ms": 0.1,
+     "source": "full",
+     "speed_ms": 0.3,
      "x": 75.59,
      "y": 33.51
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -863,6 +874,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -871,20 +884,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.339,
      "px": [
       381,
       570
      ],
-     "speed_ms": 0.2,
+     "source": "full",
+     "speed_ms": 0.7,
      "x": 75.58,
      "y": 33.54
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1000,6 +1017,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -1008,20 +1027,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.375,
      "px": [
       381,
       571
      ],
-     "speed_ms": 0.6,
+     "source": "full",
+     "speed_ms": 0.7,
      "x": 75.53,
      "y": 33.49
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 94900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1151,6 +1174,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -1159,20 +1184,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.413,
      "px": [
       381,
       571
      ],
-     "speed_ms": 0.1,
+     "source": "full",
+     "speed_ms": 0.6,
      "x": 75.5,
      "y": 33.44
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1302,6 +1331,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -1310,20 +1341,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.43,
      "px": [
       381,
       571
      ],
-     "speed_ms": 0.2,
+     "source": "full",
+     "speed_ms": 0.4,
      "x": 75.53,
      "y": 33.47
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1453,6 +1488,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -1461,20 +1498,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.419,
      "px": [
       381,
       571
      ],
-     "speed_ms": 0.1,
+     "source": "full",
+     "speed_ms": 0.2,
      "x": 75.53,
      "y": 33.48
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1604,6 +1645,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -1612,20 +1655,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.405,
      "px": [
       381,
       571
      ],
-     "speed_ms": 0.1,
+     "source": "full",
+     "speed_ms": 0.5,
      "x": 75.55,
      "y": 33.47
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1755,6 +1802,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -1763,20 +1812,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.485,
      "px": [
       381,
       570
      ],
-     "speed_ms": 0.1,
+     "source": "full",
+     "speed_ms": 0.5,
      "x": 75.55,
      "y": 33.52
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -1906,6 +1959,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -1914,20 +1969,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.435,
      "px": [
       381,
       570
      ],
-     "speed_ms": 0.3,
+     "source": "full",
+     "speed_ms": 0.7,
      "x": 75.55,
      "y": 33.5
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2071,6 +2130,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2079,20 +2140,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.392,
      "px": [
       381,
       571
      ],
-     "speed_ms": 0.4,
+     "source": "full",
+     "speed_ms": 0.7,
      "x": 75.61,
      "y": 33.47
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2236,6 +2301,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2244,20 +2311,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.418,
      "px": [
       381,
       571
      ],
-     "speed_ms": 0.1,
+     "source": "full",
+     "speed_ms": 0.6,
      "x": 75.61,
      "y": 33.53
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2401,6 +2472,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2409,20 +2482,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.51,
      "px": [
       380,
       571
      ],
-     "speed_ms": 0.1,
+     "source": "full",
+     "speed_ms": 0.6,
      "x": 75.61,
      "y": 33.51
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2566,6 +2643,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2574,20 +2653,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.452,
      "px": [
       380,
       570
      ],
-     "speed_ms": 0.3,
+     "source": "full",
+     "speed_ms": 0.6,
      "x": 75.59,
      "y": 33.57
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 95900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2731,6 +2814,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2739,20 +2824,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.501,
      "px": [
       379,
       570
      ],
-     "speed_ms": 0.9,
+     "source": "full",
+     "speed_ms": 1.3,
      "x": 75.53,
      "y": 33.57
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 96000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -2896,6 +2985,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -2904,20 +2995,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.591,
      "px": [
       378,
       571
      ],
-     "speed_ms": 0.8,
+     "source": "full",
+     "speed_ms": 1.3,
      "x": 75.41,
      "y": 33.52
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 96100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3061,6 +3156,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3069,20 +3166,24 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.524,
      "px": [
       376,
       571
      ],
-     "speed_ms": 0.5,
+     "source": "full",
+     "speed_ms": 0.8,
      "x": 75.43,
      "y": 33.5
     },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 96200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "ball loose",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3226,6 +3327,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3234,20 +3337,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.608,
      "px": [
       376,
       571
      ],
-     "speed_ms": 0.5,
+     "source": "full",
+     "speed_ms": 0.8,
      "x": 75.49,
      "y": 33.44
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 96300,
-    "holder": null,
+    "holder": {
+     "label": "t1",
+     "name": "Dominik Szoboszlai",
+     "px": [
+      262,
+      575
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 73.66,
+     "y": 34.66
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3391,6 +3509,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3399,20 +3519,35 @@
     "attacking": null,
     "attacks": null,
     "ball": {
+     "conf": 0.588,
      "px": [
       373,
       571
      ],
-     "speed_ms": 0.3,
+     "source": "full",
+     "speed_ms": 0.4,
      "x": 75.45,
      "y": 33.44
     },
     "best": null,
+    "carrier_source": "ball",
     "clip_ms": 96400,
-    "holder": null,
+    "holder": {
+     "label": "t1",
+     "name": "Dominik Szoboszlai",
+     "px": [
+      287,
+      576
+     ],
+     "shirt": null,
+     "track_id": 1,
+     "x": 74.06,
+     "y": 34.37
+    },
     "in_opponent_half": null,
     "null_reason": "possession unsettled",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3556,6 +3691,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "contested",
+    "state_text": "Contested",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -3564,11 +3701,13 @@
     "attacking": "home",
     "attacks": "+x",
     "ball": {
+     "conf": 0.458,
      "px": [
       372,
       571
      ],
-     "speed_ms": 0.4,
+     "source": "full",
+     "speed_ms": 0.1,
      "x": 75.44,
      "y": 33.43
     },
@@ -3579,6 +3718,7 @@
      "track_id": 4,
      "xg_after_pass": 0.03
     },
+    "carrier_source": "ball",
     "clip_ms": 96500,
     "holder": {
      "label": "t1",
@@ -3664,6 +3804,7 @@
       "y": 21.46
      }
     ],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3807,6 +3948,8 @@
      }
     ],
     "shot_now_xg": 0.02,
+    "state": "carry",
+    "state_text": "Dominik Szoboszlai on the ball",
     "threat": 0.03,
     "threat_from": "pass",
     "trusted": true
@@ -3816,11 +3959,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 96600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -3964,6 +4109,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -3973,11 +4120,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 96700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4121,6 +4270,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -4130,11 +4281,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 96800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4306,6 +4459,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -4315,11 +4470,13 @@
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 96900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4491,6 +4648,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -4498,13 +4657,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.459,
+     "px": [
+      872,
+      425
+     ],
+     "source": "full",
+     "speed_ms": 43.5,
+     "x": 91.7,
+     "y": 42.41
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4676,20 +4847,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.441,
+     "px": [
+      988,
+      401
+     ],
+     "source": "full",
+     "speed_ms": 43.5,
+     "x": 95.85,
+     "y": 43.71
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -4861,20 +5046,24 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5032,6 +5221,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -5039,13 +5230,24 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.406,
+     "px": [
+      254,
+      270
+     ],
+     "source": "full",
+     "x": 88.89,
+     "y": 68.81
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5203,20 +5405,24 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5374,6 +5580,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -5381,13 +5589,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.332,
+     "px": [
+      1065,
+      300
+     ],
+     "source": "full",
+     "speed_ms": 0.7,
+     "x": 106.12,
+     "y": 53.42
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5559,20 +5779,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.235,
+     "px": [
+      1037,
+      301
+     ],
+     "source": "full",
+     "speed_ms": 0.7,
+     "x": 106.19,
+     "y": 53.44
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5758,20 +5992,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.278,
+     "px": [
+      1000,
+      301
+     ],
+     "source": "full",
+     "speed_ms": 0.2,
+     "x": 106.18,
+     "y": 53.46
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -5971,20 +6219,24 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": null,
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6198,6 +6450,8 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
     "trusted": false
@@ -6205,13 +6459,25 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.261,
+     "px": [
+      946,
+      301
+     ],
+     "source": "full",
+     "speed_ms": 1.7,
+     "x": 106.2,
+     "y": 53.45
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 97900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6411,20 +6677,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.454,
+     "px": [
+      934,
+      300
+     ],
+     "source": "full",
+     "speed_ms": 1.8,
+     "x": 106.11,
+     "y": 53.3
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98000,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6624,20 +6904,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.568,
+     "px": [
+      927,
+      295
+     ],
+     "source": "full",
+     "speed_ms": 1.9,
+     "x": 106.16,
+     "y": 53.47
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98100,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -6837,20 +7131,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.437,
+     "px": [
+      925,
+      293
+     ],
+     "source": "full",
+     "speed_ms": 1.9,
+     "x": 106.28,
+     "y": 53.62
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98200,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7050,20 +7358,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.554,
+     "px": [
+      925,
+      292
+     ],
+     "source": "full",
+     "speed_ms": 1.3,
+     "x": 106.37,
+     "y": 53.71
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98300,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7263,20 +7585,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.564,
+     "px": [
+      924,
+      294
+     ],
+     "source": "full",
+     "speed_ms": 1.3,
+     "x": 106.28,
+     "y": 53.61
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98400,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7476,20 +7812,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.545,
+     "px": [
+      924,
+      295
+     ],
+     "source": "full",
+     "speed_ms": 1.0,
+     "x": 106.23,
+     "y": 53.54
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98500,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7689,20 +8039,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.418,
+     "px": [
+      926,
+      293
+     ],
+     "source": "full",
+     "speed_ms": 5.3,
+     "x": 106.31,
+     "y": 53.6
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98600,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -7916,20 +8280,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.434,
+     "px": [
+      926,
+      298
+     ],
+     "source": "full",
+     "speed_ms": 5.3,
+     "x": 106.03,
+     "y": 53.15
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98700,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8143,20 +8521,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.434,
+     "px": [
+      927,
+      300
+     ],
+     "source": "full",
+     "speed_ms": 1.3,
+     "x": 106.12,
+     "y": 53.24
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98800,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8370,20 +8762,34 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": null,
+    "ball": {
+     "conf": 0.433,
+     "px": [
+      926,
+      298
+     ],
+     "source": "full",
+     "speed_ms": 0.5,
+     "x": 106.11,
+     "y": 53.29
+    },
     "best": null,
+    "carrier_source": null,
     "clip_ms": 98900,
     "holder": null,
     "in_opponent_half": null,
     "null_reason": "dead ball after the goal",
     "options": [],
+    "pass": null,
     "players": [
      {
       "keeper": false,
@@ -8611,9 +9017,11 @@
      }
     ],
     "shot_now_xg": null,
+    "state": "out_of_play",
+    "state_text": "Goal",
     "threat": null,
     "threat_from": null,
-    "trusted": false
+    "trusted": true
    }
   ],
   "home_attacks": "+x",
@@ -8622,11 +9030,12 @@
    1920,
    1080
   ],
-  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; label/track_id are internal ids, never shown",
+  "labels": "on screen: name (track B's names_verified.json), else shirt (hand-read #NN), else nothing; each only within the linked track's identity span (same kit team, no jump over 12 m/s); label/track_id are internal ids, never shown",
   "match_id": "m_9001",
   "period": 2,
   "rules": {
-   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike to the end of the shot",
+   "ball": "tiled full-resolution detection plus the full-frame one, minus the penalty and centre spots; conf >= 0.5 stands alone, weaker only within 35 m/s of the nearest confident one (1 s) or at conf >= 0.4 with none near",
+   "dead_ball": "null once the ball is past a line, and from a goal's reviewed strike (a disallowed goal: its tagged second) to the end of the shot",
    "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)",
    "holder": "tracked player nearest the ball within 2.5 m, else 'ball loose'",
    "in_flight": "no holder while the ball's ground speed exceeds 12 m/s over ~0.2 s (a pass or a ball in the air, whose ground position a single camera cannot place), or where it cannot be measured (fewer than two ball detections within 0.12 s)",
@@ -8634,18 +9043,28 @@
    "onside": "offside_risk = within 0.5 m of the line (second-last defender, ball or halfway); never best",
    "own_half": "no xG while the holder or the receiver is in his own half (the model has no shots there)",
    "possession": "the holder's team must hold for 3 samples (0.3 s) before possession switches; a holder of the other team before then is 'possession unsettled'",
-   "trusted": "false where the camera fit is not trusted at the frame or the ball is not detected"
+   "possession_carrier": "the same player at the ball before and after a gap of <= 1.5 s with the ball unseen and no other player within 1.5 m of him keeps it through the gap (carrier_source 'possession'); never across a ball seen elsewhere",
+   "trusted": "false where the camera fit is not trusted at the frame, or no ball and no possession carrier"
   },
   "shot_id": "xe_0006",
   "slug": "liverpool-mancity-2526",
   "source": {
+   "ball": "liverpool-mancity-2526/tracks/xe_0006.ball_tiled.json (tiled) + the full-frame detection",
    "calib": "liverpool-mancity-2526/calib/xe_0006.json",
-   "names": "track B's moment files for this camera shot",
+   "names": "track B's names_live_0.json and names_verified.json",
    "pass_model": "packages/heads/artifacts/pass",
    "shot_model": "evals.pitchwatch.shotxg.reference_xg",
    "tracks": "liverpool-mancity-2526/tracks/xe_0006.json"
   },
   "start_clip_ms": 94000,
+  "states": {
+   "carry": "a player has the ball (carrier_source ball: detected at his feet; possession: same player either side of a short gap, see rules)",
+   "contested": "carrier known, possession not settled",
+   "loose": "ball loose or not seen",
+   "no_data": "camera fit not trusted",
+   "out_of_play": "ball past a line, or dead after a goal",
+   "pass": "ball in flight between two different carriers within 3 s (receiver known on arrival; complete false = the other team received it)"
+  },
   "step_ms": 100,
   "threat_def": "Threat = the higher of the ball carrier's shot-now xG and the best pass's xG after the pass (pass completion x the reference xG from the receiver's spot); null when the ball is not held in the opponents' half"
  },
