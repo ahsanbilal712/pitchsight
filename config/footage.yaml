@@ -19,9 +19,6 @@ clips:
                             home_short: Arsenal, away_short: Chelsea }
   manutd-spurs-2425:      { match_id: m_9004, home: Manchester United, away: Tottenham Hotspur, home_id: man_utd,
                             away_id: tottenham, home_short: Man Utd, away_short: Spurs }
-  # local-only pipeline test (26 Oct 2026; data/footage/SOURCES.md): not in the public video or the hosted demo
-  barca-madrid-2627:      { match_id: m_9005, home: FC Barcelona, away: Real Madrid, home_id: barcelona,
-                            away_id: real_madrid, home_short: Barcelona, away_short: Real Madrid }
 # One Sliding Doors moment per clip (frozen frame in moments/<clip_ms>.json; the real action is its
 # `actual`; the alternative's pass target is a label in that file, a carry direction is in the file's coordinates)
 featured:

@@ -137,7 +137,7 @@ def _near(xy) -> tuple[float, float]:
 def _ball_series(slug: str, shot_id, samples: list[tuple[float, dict]]) -> list[dict | None]:
     """The ball at each sample: candidates from the tiled pass (ball_tiles) and the full-frame detection, minus the
     penalty and centre spots (the full-frame detector's commonest false ball) and anything more than OFF_PITCH_M
-    outside the lines (a spare ball by the boards or behind the goal: barca-madrid-2627); a candidate with conf >= ANCHOR_CONF
+    outside the lines (a spare ball by the boards or behind the goal); a candidate with conf >= ANCHOR_CONF
     stands on its own, a weaker one only within VMAX of the nearest anchor (within 1 s) or, with no anchor near,
     at conf >= LONE_CONF."""
     path = FOOTAGE / slug / "tracks" / f"{shot_id}.ball_tiled.json"

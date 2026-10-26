@@ -37,6 +37,11 @@ import yaml
 from footage.clips import CLIPS, ROOT, clip_dir
 
 FOOTAGE = ROOT / "data" / "footage"
+
+
+def _clip_files(pattern: str) -> list[Path]:
+    """Files under data/footage matching `pattern`, from the clips in config/footage.yaml only."""
+    return sorted(p for p in FOOTAGE.glob(pattern) if p.relative_to(FOOTAGE).parts[0] in CLIPS)
 OUT = FOOTAGE / "v3_grounding.json"
 V3_FINAL = "14d7679"              # Video v3 final cut: the studio as it was recorded
 V4_FINAL = "6920af1"              # v4 grounding at 170 of 170: the studio before the v5 re-record
@@ -111,7 +116,7 @@ def beat_captions() -> list[dict]:
     from footage.insights import evidence_board, facts_for
 
     rows = []
-    for path in sorted(FOOTAGE.glob("*/cache/v3/*.json")):
+    for path in _clip_files("*/cache/v3/*.json"):
         beat = json.loads(path.read_text())["result"]
         cap = beat.get("caption")
         if not cap:
@@ -345,7 +350,7 @@ def _lines_rows(tag: str) -> list[dict]:
     from footage.insights import evidence_board
 
     rows = []
-    for path in sorted(FOOTAGE.glob(f"*/cache/{tag}/lines_*.json")):
+    for path in _clip_files(f"*/cache/{tag}/lines_*.json"):
         line = json.loads(path.read_text())["result"]
         bb = evidence_board(line["slug"], line["facts"])
         claims = [{k: c[k] for k in ("text", "kind", "value", "unit", "evidence_ids")} for c in line["claims"]]
@@ -363,7 +368,7 @@ def v4_overlay() -> list[dict]:
     from footage.insights import evidence_board
 
     rows = []
-    for path in sorted(FOOTAGE.glob("*/cache/v4/lines_*.json")):
+    for path in _clip_files("*/cache/v4/lines_*.json"):
         line = json.loads(path.read_text())["result"]
         facts = line["facts"]
         shown = [(fmt_pct(f["value"]) if f["unit"] == "p_goal" else
@@ -443,7 +448,7 @@ def v5_decisions() -> list[dict]:
     from footage.v5_lines import strike
 
     rows = []
-    for path in sorted(FOOTAGE.glob("*/cache/v5/xg_decision_*.json")):
+    for path in _clip_files("*/cache/v5/xg_decision_*.json"):
         if path.relative_to(ROOT).as_posix() not in _edit_decisions():
             continue                                    # not a beat of the edit (e.g. Werner: montage only)
         x = json.loads(path.read_text())["result"]
@@ -500,7 +505,7 @@ def v5_shots_and_race() -> list[dict]:
     """The xG montage (each measured shot's xG, its shooter's name only if names_verified has that shot) and the
     xG race (its running totals must be the sums of the measured shots)."""
     rows = []
-    for path in sorted(FOOTAGE.glob("*/cache/v5/shots_0.json")):
+    for path in _clip_files("*/cache/v5/shots_0.json"):
         r = json.loads(path.read_text())["result"]
         slug = r["slug"]
         shots_v = json.loads((clip_dir(slug) / "names_verified.json").read_text())["shots"]

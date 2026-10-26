@@ -20,12 +20,3 @@ Selection notes
 - Downloaded with yt-dlp 2026.08.19 under the user's permission and the Premier League written permission; every
   `clip.info.json` confirms channel ID `UCG5qGWdu8nIRZqJ_GgDwQ-w` (Premier League). No clip has chapters.
 - Shot analysis: each folder's `shots.json`.
-
-## Test clip outside the Premier League permission (26 Oct 2026)
-
-| slug | source | title | duration | use | status |
-|---|---|---|---|---|---|
-| barca-madrid-2627 | https://www.youtube.com/watch?v=T5B3ZVTvrhM (Real Madrid official channel, uploaded 25 Oct 2026) | HIGHLIGHTS · FC Barcelona 1-2 Real Madrid · LaLiga | 3:10, 1080p30 | Internal pipeline test on a new match, at the owner's request and on the owner's stated permission | downloaded 26 Oct 2026 |
-
-Not covered by the Premier League permission in `docs/permissions/`. Keep it local: never in the public repo, the submission
-video or the hosted demo unless written permission from the rights holder (Real Madrid / LaLiga) is added to `docs/permissions/`.

@@ -22,7 +22,7 @@ brightness): a replay without a wipe card that shows the same pictures again; --
 pixels of the score graphic's clock) lists, for review, the samples where that box jumps by more than BUG_CUT (mean
 grey, 0-255) and is steady again at the next sample: a highlight edit that joins two moments of the same camera view
 minutes apart, which neither the colour nor the grey test can see, jumps the clock. It does not cut on its own: a
-seconds rollover can change the box as much as a join (measured on barca-madrid-2627), so the reviewer splits with a
+seconds rollover can change the box as much as a join, so the reviewer splits with a
 "trim" or "drop" override.
 
 Writes <out>/shots.json (every shot) and <out>/shots_review.md (the usable and replay shots with a checkbox each for

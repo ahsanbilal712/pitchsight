@@ -11,7 +11,7 @@ thirds of the crops that show a number, and no other number is read more than on
 team's squad list for that season (data/footage/squads/<club>_<season>.json, with its source); a number that is not
 in the list gives no name. A number that would give a name is read a second time, on the same crops, by CONFIRM
 (gemini-4-argon), and needs the same consistent number there: a small, blurred digit can be misread consistently
-(Barcelona v Real Madrid, a white #17 read "12" in 7 of 8 crops). footage.names reads shirts.json as the "shirt"
+(a white #17 read "12" in 7 of 8 crops). footage.names reads shirts.json as the "shirt"
 source.
 
     python -m footage.shirts <slug> --recheck           # the rules again on the reads already made (no new Flash call)
