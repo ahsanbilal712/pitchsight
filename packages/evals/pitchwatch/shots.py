@@ -15,6 +15,17 @@ is a wipe when at least WIPE_WHITE of it is bright and unsaturated; consecutive 
 events are paired in order (in, out) when the second follows within REPLAY_MAX_S; a lone event is left unpaired (and
 listed for review). A shot is a replay when most of it lies inside a pair. Usable = wide, not a replay, >= MIN_WIDE_S.
 
+Other broadcasts (opt-in, defaults unchanged for the Premier League clips): --diff-cut D also cuts where the mean
+absolute grey-level change between two samples (64x36 thumbnails, 0-255) exceeds D, which catches a cut between two
+green camera angles that the colour histogram misses; --repeats flags a shot as a replay when at least half of its
+samples match a sample of an earlier shot (mean absolute grey difference below REPEAT_DIFF after normalising
+brightness): a replay without a wipe card that shows the same pictures again; --bug-box x0,y0,x1,y1 (full-frame
+pixels of the score graphic's clock) lists, for review, the samples where that box jumps by more than BUG_CUT (mean
+grey, 0-255) and is steady again at the next sample: a highlight edit that joins two moments of the same camera view
+minutes apart, which neither the colour nor the grey test can see, jumps the clock. It does not cut on its own: a
+seconds rollover can change the box as much as a join (measured on barca-madrid-2627), so the reviewer splits with a
+"trim" or "drop" override.
+
 Writes <out>/shots.json (every shot) and <out>/shots_review.md (the usable and replay shots with a checkbox each for
 the manual review); thumbnails go to <out>/frames/ (git-ignored).
 """
@@ -39,6 +50,8 @@ MIN_WIDE_S = 4.0
 WIDE_GAP = 3                   # samples (0.6 s) of non-wide bridged inside a wide run
 WIPE_WHITE = 0.55             # share of bright (V > 190), unsaturated (S < 50) pixels on a wipe card
 REPLAY_MAX_S = 100.0
+BUG_CUT = 20.0                 # --bug-box: a jump of the score clock between two samples
+REPEAT_DIFF = 12.0             # --repeats: two 64x36 grey thumbnails this close (mean |diff|) show the same picture
 
 
 def frame_features(bgr: np.ndarray) -> tuple[float, float, int, np.ndarray, np.ndarray, float]:
@@ -63,7 +76,7 @@ def frame_features(bgr: np.ndarray) -> tuple[float, float, int, np.ndarray, np.n
     return green_frac, blob, players, hist, small, white
 
 
-def sample(clip: Path) -> tuple[list[dict], float, int]:
+def sample(clip: Path, bug_box: tuple[int, int, int, int] | None = None) -> tuple[list[dict], float, int]:
     cap = cv2.VideoCapture(str(clip))
     fps = cap.get(cv2.CAP_PROP_FPS) or 25.0
     n_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -76,7 +89,16 @@ def sample(clip: Path) -> tuple[list[dict], float, int]:
                 break
             g, b, players, hist, small, white = frame_features(bgr)
             corr = 1.0 if prev_hist is None else float(cv2.compareHist(prev_hist, hist, cv2.HISTCMP_CORREL))
+            bug = None
+            if bug_box:
+                x0, y0, x1, y1 = bug_box
+                bug = cv2.cvtColor(bgr[y0:y1, x0:x1], cv2.COLOR_BGR2GRAY).astype(np.float32)
+            bug_diff = 0.0 if bug is None or not samples else float(np.abs(bug - samples[-1]["bug"]).mean())
+            grey = cv2.resize(cv2.cvtColor(small, cv2.COLOR_BGR2GRAY), (64, 36), interpolation=cv2.INTER_AREA)
+            grey = grey.astype(np.float32)
+            diff = 0.0 if not samples else float(np.abs(grey - samples[-1]["grey"]).mean())
             samples.append({"t": idx / fps, "frame": idx, "green": g, "blob": b, "players": players, "corr": corr,
+                            "grey": grey, "diff": diff, "bug": bug, "bug_diff": bug_diff,
                             "wide": g >= WIDE_GREEN and b < WIDE_BLOB and players >= MIN_PLAYERS,
                             "img": small, "wipe": white >= WIPE_WHITE})
             prev_hist = hist
@@ -85,10 +107,10 @@ def sample(clip: Path) -> tuple[list[dict], float, int]:
     return samples, fps, n_frames
 
 
-def split_shots(samples: list[dict]) -> list[list[int]]:
+def split_shots(samples: list[dict], diff_cut: float | None = None) -> list[list[int]]:
     shots, cur = [], [0]
     for i in range(1, len(samples)):
-        if samples[i]["corr"] < CUT_CORR:
+        if samples[i]["corr"] < CUT_CORR or (diff_cut is not None and samples[i]["diff"] > diff_cut):
             shots.append(cur)
             cur = []
         cur.append(i)
@@ -123,6 +145,21 @@ def replay_segments(events: list[tuple[float, float]]) -> tuple[list[tuple[float
     return segs, lone
 
 
+def repeats(samples: list[dict], shots: list[list[int]]) -> dict[int, int]:
+    """shot index -> the earlier shot it repeats (at least half its samples match one of that shot's samples)."""
+    def norm(g):
+        return (g - g.mean()) / (g.std() + 1e-6) * 40.0
+    out = {}
+    for k, sh in enumerate(shots):
+        for j in range(k):
+            ref = [norm(samples[i]["grey"]) for i in shots[j]]
+            hit = sum(1 for i in sh if min(float(np.abs(norm(samples[i]["grey"]) - r).mean()) for r in ref) < REPEAT_DIFF)
+            if hit >= 0.5 * len(sh):
+                out[k] = j
+                break
+    return out
+
+
 def wide_run(samples: list[dict], idx: list[int], gap: int = WIDE_GAP) -> tuple[int, int]:
     """First and last sample index of the longest run of wide samples in a shot, bridging gaps of up to `gap`."""
     best, cur, last_wide = (idx[0], idx[0]), None, None
@@ -136,9 +173,11 @@ def wide_run(samples: list[dict], idx: list[int], gap: int = WIDE_GAP) -> tuple[
     return best
 
 
-def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
-    samples, fps, n_frames = sample(clip)
-    shots = split_shots(samples)
+def segment(clip: Path, out_dir: Path, thumbs: bool = True, diff_cut: float | None = None,
+            find_repeats: bool = False, bug_box: tuple[int, int, int, int] | None = None) -> dict:
+    samples, fps, n_frames = sample(clip, bug_box)
+    shots = split_shots(samples, diff_cut)
+    repeat_of = repeats(samples, shots) if find_repeats else {}
     events = wipe_events(samples)
     segs, lone = replay_segments(events)
     frames_dir = out_dir / "frames"
@@ -147,13 +186,13 @@ def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
         start, end = samples[sh[0]]["t"], samples[sh[-1]]["t"] + 1 / SAMPLE_FPS
         wide_share = sum(samples[i]["wide"] for i in sh) / len(sh)
         inside = sum(1 for i in sh if samples[i]["wipe"] or any(a <= samples[i]["t"] < b for a, b in segs))
-        replay = inside / len(sh) > 0.5
+        replay = inside / len(sh) > 0.5 or k in repeat_of
         seg = next(((a, b) for a, b in segs if a < end and start < b), None)
         kind = "wide" if wide_share >= 0.7 else "other"
         rec = {"id": k, "start": round(start, 2), "end": round(end, 2), "duration": round(end - start, 2),
                "frame_start": samples[sh[0]]["frame"], "frame_end": samples[sh[-1]]["frame"] + round(fps / SAMPLE_FPS),
                "kind": kind, "wide_share": round(wide_share, 2), "replay": replay,
-               "replay_share": round(inside / len(sh), 2),
+               "replay_share": round(inside / len(sh), 2), "repeat_of": repeat_of.get(k),
                "replay_segment": [round(seg[0], 2), round(seg[1], 2)] if replay and seg else None,
                "green_mean": round(float(np.mean([samples[i]["green"] for i in sh])), 3)}
         if kind == "wide":            # a pan off the pitch inside one shot (no cut) ends the usable part
@@ -182,11 +221,16 @@ def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
                "usable_wide_share": round(sum(s["duration"] for s in usable) / duration, 3),
                "longest_wide_s": max((s["duration"] for s in usable), default=0),
                "wipes": [round(a, 2) for a, _ in events],
+               "bug_jumps": [round(samples[i]["t"], 2) for i in range(1, len(samples) - 1)
+                             if samples[i]["bug_diff"] > BUG_CUT and samples[i + 1]["bug_diff"] < BUG_CUT / 4
+                             and samples[i]["diff"] < (diff_cut or 1e9)] if bug_box else None,
                "replay_segments": [[round(a, 2), round(b, 2)] for a, b in segs],
                "unpaired_wipes": [round(t, 2) for t in lone],
                "params": {"sample_fps": SAMPLE_FPS, "cut_corr": CUT_CORR, "wide_green": WIDE_GREEN,
                           "wide_blob": WIDE_BLOB, "min_players": MIN_PLAYERS, "min_wide_s": MIN_WIDE_S,
-                          "wipe_white": WIPE_WHITE, "replay_max_s": REPLAY_MAX_S}}
+                          "wipe_white": WIPE_WHITE, "replay_max_s": REPLAY_MAX_S, "diff_cut": diff_cut,
+                          "repeats": find_repeats, "repeat_diff": REPEAT_DIFF if find_repeats else None,
+                          "bug_box": list(bug_box) if bug_box else None, "bug_cut": BUG_CUT if bug_box else None}}
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "shots.json").write_text(json.dumps({"summary": summary, "shots": out}, indent=1) + "\n")
     (out_dir / "shots_review.md").write_text(review_md(out_dir.name, summary, out))
@@ -195,7 +239,8 @@ def segment(clip: Path, out_dir: Path, thumbs: bool = True) -> dict:
 
 def apply_overrides(shots: list[dict], path: Path) -> None:
     """Reviewed corrections: {"live": [[start_s, end_s], ...], "replay": [...], "trim": {shot_id: [start_s, end_s]},
-    "fps": clip fps}. trim narrows a shot to a reviewed wide window (a cut the detector missed); a shot whose middle
+    "fps": clip fps, "drop": {shot_id: reason}}. drop marks a shot unusable after review (e.g. a hidden join leaves
+    two pieces shorter than MIN_WIDE_S); trim narrows a shot to a reviewed wide window (a cut the detector missed); a shot whose middle
     falls in a live/replay range takes that label (and is usable again if it is wide and long enough). Highlight packages use the same
     wipe between segments as around replays, so their wipe pairing needs this review."""
     if not path.exists():
@@ -213,6 +258,9 @@ def apply_overrides(shots: list[dict], path: Path) -> None:
                 s["replay"] = label == "replay"
                 s["override"] = label
         s["usable"] = s["kind"] == "wide" and not s["replay"] and s["duration"] >= MIN_WIDE_S
+    for sid, why in (ov.get("drop") or {}).items():
+        s = next(x for x in shots if x["id"] == int(sid))
+        s.update({"usable": False, "override": f"drop: {why}"})
 
 
 def _mmss(t: float) -> str:
@@ -244,8 +292,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("clip", type=Path)
     ap.add_argument("--out", type=Path, default=None, help="default: the clip's folder")
     ap.add_argument("--no-thumbs", action="store_true")
+    ap.add_argument("--diff-cut", type=float, default=None, help="also cut on mean grey change (0-255), e.g. 30")
+    ap.add_argument("--repeats", action="store_true", help="flag shots that repeat an earlier shot's pictures")
+    ap.add_argument("--bug-box", default=None, help="x0,y0,x1,y1 of the score clock (full-frame px): cut on its jumps")
     args = ap.parse_args(argv)
-    print(json.dumps(segment(args.clip, args.out or args.clip.parent, thumbs=not args.no_thumbs), indent=1))
+    box = tuple(int(v) for v in args.bug_box.split(",")) if args.bug_box else None
+    print(json.dumps(segment(args.clip, args.out or args.clip.parent, thumbs=not args.no_thumbs,
+                             diff_cut=args.diff_cut, find_repeats=args.repeats, bug_box=box), indent=1))
     return 0
 
 

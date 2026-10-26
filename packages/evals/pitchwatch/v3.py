@@ -31,6 +31,14 @@ def ms(t: float) -> int:
 def write(slug: str, beat: str, clip_ms: int, result: dict, version: str = "v3") -> Path:
     """The model_cache envelope ($schema, schema_version, record) plus an entry in the clip's cache manifest, so
     validate_schemas and the replay index see it: track B's footage.v3.write_beat for v3, the same for v4/."""
+    from evals.pitchwatch.clipmeta import clip_meta, has_manifest
+    if not has_manifest(slug):               # no tagged events (a local test clip): the same envelope, no manifest
+        path = FOOTAGE / slug / "cache" / version / f"{beat}_{clip_ms}.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"$schema": "model_cache.schema.json", "schema_version": "1.0.0",
+                                    "record": "tool_result", "result": {"beat": beat, "slug": slug,
+                                    "match_id": clip_meta(slug)["match_id"], **result}}, indent=1) + "\n")
+        return path
     if version == "v3":
         from footage.v3 import write_beat
         return Path(write_beat(slug, beat, clip_ms, result))

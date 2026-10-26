@@ -6492,23 +6492,13 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "conf": 0.449,
-     "px": [
-      1560,
-      284
-     ],
-     "source": "full",
-     "speed_ms": 1.4,
-     "x": 106.32,
-     "y": 10.8
-    },
+    "ball": null,
     "best": null,
     "carrier_source": null,
     "clip_ms": 261200,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball not detected",
     "options": [],
     "pass": null,
     "players": [
@@ -6710,32 +6700,22 @@
      }
     ],
     "shot_now_xg": null,
-    "state": "out_of_play",
-    "state_text": "Out of play",
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "conf": 0.365,
-     "px": [
-      1569,
-      286
-     ],
-     "source": "full",
-     "speed_ms": 1.4,
-     "x": 106.2,
-     "y": 10.87
-    },
+    "ball": null,
     "best": null,
     "carrier_source": null,
     "clip_ms": 261300,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball not detected",
     "options": [],
     "pass": null,
     "players": [
@@ -6937,32 +6917,31 @@
      }
     ],
     "shot_now_xg": null,
-    "state": "out_of_play",
-    "state_text": "Out of play",
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
     "attacks": null,
     "ball": {
-     "conf": 0.513,
+     "conf": 0.207,
      "px": [
-      1581,
-      286
+      846,
+      501
      ],
-     "source": "full",
-     "speed_ms": 1.7,
-     "x": 106.23,
-     "y": 10.83
+     "source": "tiled",
+     "x": 102.19,
+     "y": 39.28
     },
     "best": null,
     "carrier_source": null,
     "clip_ms": 261400,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball speed not measurable",
     "options": [],
     "pass": null,
     "players": [
@@ -7164,8 +7143,8 @@
      }
     ],
     "shot_now_xg": null,
-    "state": "out_of_play",
-    "state_text": "Out of play",
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
     "trusted": true
@@ -7173,23 +7152,13 @@
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "conf": 0.44,
-     "px": [
-      1589,
-      288
-     ],
-     "source": "full",
-     "speed_ms": 253.0,
-     "x": 106.31,
-     "y": 10.68
-    },
+    "ball": null,
     "best": null,
     "carrier_source": null,
     "clip_ms": 261500,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball not detected",
     "options": [],
     "pass": null,
     "players": [
@@ -7377,11 +7346,11 @@
      }
     ],
     "shot_now_xg": null,
-    "state": "out_of_play",
-    "state_text": "Out of play",
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,
@@ -7393,7 +7362,7 @@
       482
      ],
      "source": "tiled",
-     "speed_ms": 253.0,
+     "speed_ms": 12.9,
      "x": 101.99,
      "y": 35.61
     },

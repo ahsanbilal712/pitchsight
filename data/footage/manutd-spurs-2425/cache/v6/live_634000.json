@@ -4025,8 +4025,8 @@
     "trusted": true
    },
    {
-    "attacking": null,
-    "attacks": null,
+    "attacking": "away",
+    "attacks": "-x",
     "ball": {
      "conf": 0.211,
      "px": [
@@ -4034,17 +4034,120 @@
       529
      ],
      "source": "full",
-     "speed_ms": 217.8,
+     "speed_ms": 0.7,
      "x": 4.12,
      "y": 25.45
     },
-    "best": null,
-    "carrier_source": null,
+    "best": {
+     "label": "t15",
+     "name": null,
+     "shirt": null,
+     "track_id": 15,
+     "xg_after_pass": 0.08
+    },
+    "carrier_source": "ball",
     "clip_ms": 638100,
-    "holder": null,
-    "in_opponent_half": null,
-    "null_reason": "ball in flight",
-    "options": [],
+    "holder": {
+     "label": "t11",
+     "name": null,
+     "px": [
+      1162,
+      567
+     ],
+     "shirt": null,
+     "track_id": 11,
+     "x": 4.65,
+     "y": 24.11
+    },
+    "in_opponent_half": true,
+    "null_reason": null,
+    "options": [
+     {
+      "label": "t15",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 7.32,
+      "p_pass": 0.97,
+      "px": [
+       1189,
+       668
+      ],
+      "shirt": null,
+      "track_id": 15,
+      "x": 7.76,
+      "xg_after_pass": 0.08,
+      "xg_receiver": 0.09,
+      "y": 21.65
+     },
+     {
+      "label": "t7",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 5.21,
+      "p_pass": 0.96,
+      "px": [
+       969,
+       650
+      ],
+      "shirt": null,
+      "track_id": 7,
+      "x": 5.65,
+      "xg_after_pass": 0.08,
+      "xg_receiver": 0.08,
+      "y": 20.83
+     },
+     {
+      "label": "t1",
+      "name": null,
+      "offside_risk": false,
+      "onside_margin_m": 1.53,
+      "p_pass": 0.52,
+      "px": [
+       841,
+       562
+      ],
+      "shirt": null,
+      "track_id": 1,
+      "x": 1.97,
+      "xg_after_pass": 0.05,
+      "xg_receiver": 0.09,
+      "y": 22.33
+     },
+     {
+      "label": "t18",
+      "name": null,
+      "offside_risk": true,
+      "onside_margin_m": -1.82,
+      "p_pass": 0.24,
+      "px": [
+       739,
+       490
+      ],
+      "shirt": null,
+      "track_id": 18,
+      "x": -1.38,
+      "xg_after_pass": 0.02,
+      "xg_receiver": 0.1,
+      "y": 23.72
+     },
+     {
+      "label": "t19",
+      "name": null,
+      "offside_risk": true,
+      "onside_margin_m": -1.27,
+      "p_pass": 0.14,
+      "px": [
+       263,
+       617
+      ],
+      "shirt": null,
+      "track_id": 19,
+      "x": -0.83,
+      "xg_after_pass": 0.0,
+      "xg_receiver": 0.03,
+      "y": 17.44
+     }
+    ],
     "pass": null,
     "players": [
      {
@@ -4174,33 +4277,23 @@
       "y": 21.16
      }
     ],
-    "shot_now_xg": null,
-    "state": "loose",
-    "state_text": "Ball loose",
-    "threat": null,
-    "threat_from": null,
+    "shot_now_xg": 0.14,
+    "state": "carry",
+    "state_text": "On the ball",
+    "threat": 0.14,
+    "threat_from": "shot",
     "trusted": true
    },
    {
     "attacking": null,
     "attacks": null,
-    "ball": {
-     "conf": 0.211,
-     "px": [
-      18,
-      273
-     ],
-     "source": "full",
-     "speed_ms": 217.8,
-     "x": -17.66,
-     "y": 25.64
-    },
+    "ball": null,
     "best": null,
     "carrier_source": null,
     "clip_ms": 638200,
     "holder": null,
     "in_opponent_half": null,
-    "null_reason": "ball out of play",
+    "null_reason": "ball not detected",
     "options": [],
     "pass": null,
     "players": [
@@ -4332,11 +4425,11 @@
      }
     ],
     "shot_now_xg": null,
-    "state": "out_of_play",
-    "state_text": "Out of play",
+    "state": "loose",
+    "state_text": "Ball loose",
     "threat": null,
     "threat_from": null,
-    "trusted": true
+    "trusted": false
    },
    {
     "attacking": null,

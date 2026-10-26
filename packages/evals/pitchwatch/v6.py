@@ -28,6 +28,7 @@ HOLD_M = 2.5                       # holder: the tracked player nearest the ball
 FLIGHT_MS = 12.0                   # ball ground speed above this (m/s, over ~0.2 s): a pass or in the air, no holder
 SPOTS = ((11.0, GOAL_Y), (L - 11.0, GOAL_Y), (L / 2, GOAL_Y))   # penalty and centre spots: not a ball
 SPOT_M = 1.0
+OFF_PITCH_M = 1.0                  # a ball further than this outside the lines is not the ball in play (both detectors)
 ANCHOR_CONF, LONE_CONF, VMAX = 0.5, 0.4, 35.0   # ball choice: a confident detection, or one a ball could reach
 GAP_S, TOUCH_M = 1.5, 1.5          # possession carrier: same player either side of a gap this short, nobody this near
 STATES = {"carry": "a player has the ball (carrier_source ball: detected at his feet; possession: same player either "
@@ -63,14 +64,13 @@ RULES = {"holder": f"tracked player nearest the ball within {HOLD_M} m, else 'ba
          "goal_line": "positions on or behind the goal line are valued 0.5 m out (the model has no shots there)"}
 
 
-def _period(slug: str, clip_ms: int) -> int:
-    ev = [json.loads(x) for x in (FOOTAGE / slug / "events.jsonl").read_text().splitlines()]
-    return min(ev, key=lambda e: abs(e["attrs"]["clip_ms"] - clip_ms))["period"]
-
-
 def _goal_strikes(slug: str) -> list[int]:
     """When the clip's goals, counted or disallowed, kill the ball: the reviewed strike, else (a disallowed goal
-    without one) the tagged second. After one, the ball is dead until the restart."""
+    without one) the tagged second. After one, the ball is dead until the restart. A clip without tagged events
+    (a local test clip) lists its reviewed strikes in data/footage/<slug>/strikes.json instead."""
+    local = FOOTAGE / slug / "strikes.json"
+    if local.exists():
+        return [r["clip_ms"] for r in json.loads(local.read_text())["strikes"] if r.get("goal") or r.get("disallowed")]
     rows = json.loads((FOOTAGE / "insights" / "shots_xg.json").read_text())["shots"]
     return [r.get("release_clip_ms") or r["clip_ms"] for r in rows
             if r["slug"] == slug and (r.get("goal") or r.get("disallowed")) and (r.get("release_clip_ms") or r.get("disallowed"))]
@@ -136,7 +136,8 @@ def _near(xy) -> tuple[float, float]:
 
 def _ball_series(slug: str, shot_id, samples: list[tuple[float, dict]]) -> list[dict | None]:
     """The ball at each sample: candidates from the tiled pass (ball_tiles) and the full-frame detection, minus the
-    penalty and centre spots (the full-frame detector's commonest false ball); a candidate with conf >= ANCHOR_CONF
+    penalty and centre spots (the full-frame detector's commonest false ball) and anything more than OFF_PITCH_M
+    outside the lines (a spare ball by the boards or behind the goal: barca-madrid-2627); a candidate with conf >= ANCHOR_CONF
     stands on its own, a weaker one only within VMAX of the nearest anchor (within 1 s) or, with no anchor near,
     at conf >= LONE_CONF."""
     path = FOOTAGE / slug / "tracks" / f"{shot_id}.ball_tiled.json"
@@ -149,7 +150,8 @@ def _ball_series(slug: str, shot_id, samples: list[tuple[float, dict]]) -> list[
         keep = []
         for b in c:
             x, y = _near(b["xy"])
-            if not any(math.hypot(x - sx, y - sy) < SPOT_M for sx, sy in SPOTS):
+            on_pitch = -OFF_PITCH_M <= x <= L + OFF_PITCH_M and -OFF_PITCH_M <= y <= W + OFF_PITCH_M
+            if on_pitch and not any(math.hypot(x - sx, y - sy) < SPOT_M for sx, sy in SPOTS):
                 keep.append({"x": x, "y": y, "px": [round(v) for v in b["px"]], "conf": b["conf"],
                              "source": b["source"]})
         cands.append(sorted(keep, key=lambda b: -b["conf"]))
@@ -177,18 +179,17 @@ def _say(p: dict) -> str:
 
 
 def live_shot(slug: str, shot_id) -> dict:
-    from evals.pitchwatch.shotxg import HOME_ATTACKS_P2
-    from footage.clips import CLIPS as META
+    from evals.pitchwatch.clipmeta import clip_meta, home_attacks_plus, period_of
     from footage.tag import side
 
     tracks = json.loads((FOOTAGE / slug / "tracks" / f"{shot_id}.json").read_text())
     fps, F = tracks["fps"], tracks["frames"]
-    team_side = {int(k): side(v.get("name", ""), META[slug]) for k, v in tracks["teams"].items()}
+    team_side = {int(k): side(v.get("name", ""), clip_meta(slug)) for k, v in tracks["teams"].items()}
     keepers = keeper_tracks(tracks)
     labels, fixes = _hand(slug, shot_id)
     start, end = F[0]["t"], F[-1]["t"]
-    period = _period(slug, int(start * 1000))
-    home_plus = HOME_ATTACKS_P2[slug] * (1 if period == 2 else -1) > 0
+    period = period_of(slug, shot_id, int(start * 1000))
+    home_plus = home_attacks_plus(slug, period)
     by_frame = {r["frame"]: r for r in F}
     dead_from = min((g for g in _goal_strikes(slug) if start * 1000 <= g <= end * 1000), default=None)
     samples = []

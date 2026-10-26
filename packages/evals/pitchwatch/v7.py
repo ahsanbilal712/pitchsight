@@ -121,7 +121,8 @@ def shape(players: list[dict], attacks_plus: bool, vis: np.ndarray) -> dict:
 
 
 def always_shot(slug: str, live_path: str) -> dict:
-    from footage.clips import CLIPS as META
+    from evals.pitchwatch.clipmeta import clip_meta
+    META = {slug: clip_meta(slug)}
     live = json.loads((FOOTAGE / slug / "cache" / live_path).read_text())["result"]
     shot_id = live["shot_id"]
     tracks = json.loads((FOOTAGE / slug / "tracks" / f"{shot_id}.json").read_text())
