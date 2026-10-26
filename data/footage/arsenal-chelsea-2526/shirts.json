@@ -1,6 +1,6 @@
 {
  "slug": "arsenal-chelsea-2526",
- "rule": "a number needs 3+ agreeing crops of 8, two thirds of the crops with a number, and no rival read twice",
+ "rule": "a number needs 3+ agreeing crops of 8, two thirds of the crops with a number, no rival read twice, the kit colour of the track's team, and the same number read again by gemini-4-argon",
  "players": {
   "1300500:#16": {
    "team": "home",
@@ -78,7 +78,82 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00818925,
    "latency_ms": 9175,
-   "crops_dir": "frames/shirts/1300500_n16"
+   "crops_dir": "frames/shirts/1300500_n16",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "away"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 16,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 16,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 16,
+      "confidence": 1.0,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 16,
+      "confidence": 1.0,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 16,
+      "confidence": 1.0,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 6,
+      "confidence": 0.7,
+      "side": "back"
+     }
+    ],
+    "number": 16,
+    "consistent": true,
+    "agree": 7,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "16": 7,
+     "6": 1
+    },
+    "why": null,
+    "cost_usd": 0.0206
+   }
   },
   "1300500:#10": {
    "team": "home",
@@ -156,7 +231,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00791175,
    "latency_ms": 55799,
-   "crops_dir": "frames/shirts/1300500_n10"
+   "crops_dir": "frames/shirts/1300500_n10",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 10,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "none"
+     },
+     {
+      "crop": 2,
+      "number": 10,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 10,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 10,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 10,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 10,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 10,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 10,
+      "confidence": 0.9,
+      "side": "back"
+     }
+    ],
+    "number": 10,
+    "consistent": true,
+    "agree": 7,
+    "with_number": 7,
+    "crops": 8,
+    "counts": {
+     "10": 7
+    },
+    "why": null,
+    "cost_usd": 0.02068
+   }
   },
   "1300500:A6": {
    "team": "home",
@@ -215,16 +364,16 @@
      "side": "back"
     }
    ],
-   "number": 29,
-   "consistent": true,
+   "number": null,
+   "consistent": false,
    "agree": 6,
    "with_number": 6,
    "crops": 8,
    "counts": {
     "29": 6
    },
-   "why": null,
-   "name": "Kai Havertz",
+   "why": "gemini-4-argon read {6: 4} on the same crops, not 29",
+   "name": null,
    "squad": {
     "club": "arsenal",
     "season": "2025-26",
@@ -234,7 +383,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0076395,
    "latency_ms": 25250,
-   "crops_dir": "frames/shirts/1300500_A6"
+   "crops_dir": "frames/shirts/1300500_A6",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 29,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 6,
+      "confidence": 0.4,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 6,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 4,
+      "number": 6,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 6,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 7,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 8,
+      "number": 6,
+      "confidence": 0.4,
+      "side": "back"
+     }
+    ],
+    "number": 6,
+    "consistent": true,
+    "agree": 4,
+    "with_number": 4,
+    "crops": 8,
+    "counts": {
+     "6": 4
+    },
+    "why": null,
+    "cost_usd": 0.024154
+   }
   },
   "1300500:#7": {
    "team": "home",
@@ -312,7 +535,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.008754,
    "latency_ms": 6861,
-   "crops_dir": "frames/shirts/1300500_n7"
+   "crops_dir": "frames/shirts/1300500_n7",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 7,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 7,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 7,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 7,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 7,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 7,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 7,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 7,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 7,
+      "confidence": 0.95,
+      "side": "back"
+     }
+    ],
+    "number": 7,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "7": 8
+    },
+    "why": null,
+    "cost_usd": 0.020656
+   }
   },
   "1300500:A7": {
    "team": "home",
@@ -384,7 +681,18 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.01074975,
    "latency_ms": 11877,
-   "crops_dir": "frames/shirts/1300500_A7"
+   "crops_dir": "frames/shirts/1300500_A7",
+   "kit": [
+    "home",
+    "away",
+    "home",
+    "away",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": null
   },
   "1300500:#12": {
    "team": "home",
@@ -462,7 +770,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0075375,
    "latency_ms": 14041,
-   "crops_dir": "frames/shirts/1300500_n12"
+   "crops_dir": "frames/shirts/1300500_n12",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 12,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 12,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 12,
+      "confidence": 0.4,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 12,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 12,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 12,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 12,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 12,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 12,
+      "confidence": 0.98,
+      "side": "back"
+     }
+    ],
+    "number": 12,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "12": 8
+    },
+    "why": null,
+    "cost_usd": 0.020562
+   }
   },
   "1300500:#29": {
    "team": "home",
@@ -540,7 +922,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00788775,
    "latency_ms": 11331,
-   "crops_dir": "frames/shirts/1300500_n29"
+   "crops_dir": "frames/shirts/1300500_n29",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 29,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 29,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 29,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 29,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 29,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 29,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 29,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 29,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 29,
+      "confidence": 0.99,
+      "side": "back"
+     }
+    ],
+    "number": 29,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "29": 8
+    },
+    "why": null,
+    "cost_usd": 0.020596
+   }
   },
   "e_0004:t3": {
    "team": "home",
@@ -612,7 +1068,18 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00924375,
    "latency_ms": 9701,
-   "crops_dir": "frames/shirts/e_0004_t3"
+   "crops_dir": "frames/shirts/e_0004_t3",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "confirm": null
   },
   "live823600:t17@829700-829700": {
    "team": "away",
@@ -678,7 +1145,7 @@
     "away",
     "away",
     "away",
-    "away",
+    "home",
     "home"
    ],
    "number": null,
@@ -704,7 +1171,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0080115,
    "latency_ms": 10473,
-   "crops_dir": "frames/shirts/live823600_t17@829700-829700"
+   "crops_dir": "frames/shirts/live823600_t17@829700-829700",
+   "confirm": null
   },
   "live823600:t3@829700-835600": {
    "team": "away",
@@ -796,7 +1264,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0079005,
    "latency_ms": 5211,
-   "crops_dir": "frames/shirts/live823600_t3@829700-835600"
+   "crops_dir": "frames/shirts/live823600_t3@829700-835600",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 10,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 10,
+      "confidence": 0.98,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 10,
+      "confidence": 0.75,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 10,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 10,
+      "confidence": 0.96,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 10,
+      "confidence": 0.96,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 10,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 10,
+      "confidence": 0.96,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     }
+    ],
+    "number": 10,
+    "consistent": true,
+    "agree": 7,
+    "with_number": 7,
+    "crops": 8,
+    "counts": {
+     "10": 7
+    },
+    "why": null,
+    "cost_usd": 0.02063
+   }
   },
   "live823600:t9@829700-835600": {
    "team": "away",
@@ -888,7 +1420,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00851925,
    "latency_ms": 6995,
-   "crops_dir": "frames/shirts/live823600_t9@829700-835600"
+   "crops_dir": "frames/shirts/live823600_t9@829700-835600",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 7,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "none"
+     },
+     {
+      "crop": 2,
+      "number": 7,
+      "confidence": 0.5,
+      "side": "front"
+     },
+     {
+      "crop": 3,
+      "number": 7,
+      "confidence": 0.6,
+      "side": "front"
+     },
+     {
+      "crop": 4,
+      "number": 7,
+      "confidence": 0.7,
+      "side": "front"
+     },
+     {
+      "crop": 5,
+      "number": 7,
+      "confidence": 0.75,
+      "side": "front"
+     },
+     {
+      "crop": 6,
+      "number": 7,
+      "confidence": 0.6,
+      "side": "front"
+     },
+     {
+      "crop": 7,
+      "number": 7,
+      "confidence": 0.5,
+      "side": "front"
+     },
+     {
+      "crop": 8,
+      "number": 7,
+      "confidence": 0.5,
+      "side": "front"
+     }
+    ],
+    "number": 7,
+    "consistent": true,
+    "agree": 7,
+    "with_number": 7,
+    "crops": 8,
+    "counts": {
+     "7": 7
+    },
+    "why": null,
+    "cost_usd": 0.02063
+   }
   },
   "live823600:t8@829700-831100": {
    "team": "away",
@@ -980,7 +1576,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00731325,
    "latency_ms": 3943,
-   "crops_dir": "frames/shirts/live823600_t8@829700-831100"
+   "crops_dir": "frames/shirts/live823600_t8@829700-831100",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 8,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 2,
+      "number": 8,
+      "confidence": 0.4,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 4,
+      "number": 8,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 8,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 7,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 8,
+      "confidence": 0.75,
+      "side": "back"
+     }
+    ],
+    "number": 8,
+    "consistent": true,
+    "agree": 4,
+    "with_number": 4,
+    "crops": 8,
+    "counts": {
+     "8": 4
+    },
+    "why": null,
+    "cost_usd": 0.020554
+   }
   },
   "live823600:t2@829700-831100": {
    "team": "away",
@@ -1066,7 +1726,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00837675,
    "latency_ms": 9338,
-   "crops_dir": "frames/shirts/live823600_t2@829700-831100"
+   "crops_dir": "frames/shirts/live823600_t2@829700-831100",
+   "confirm": null
   },
   "live823600:t20@829700-831100": {
    "team": "home",
@@ -1152,7 +1813,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0081045,
    "latency_ms": 6318,
-   "crops_dir": "frames/shirts/live823600_t20@829700-831100"
+   "crops_dir": "frames/shirts/live823600_t20@829700-831100",
+   "confirm": null
   },
   "live823600:t7@829800-831100": {
    "team": "home",
@@ -1238,7 +1900,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00751875,
    "latency_ms": 13407,
-   "crops_dir": "frames/shirts/live823600_t7@829800-831100"
+   "crops_dir": "frames/shirts/live823600_t7@829800-831100",
+   "confirm": null
   },
   "live823600:t18@834400-835600": {
    "team": "home",
@@ -1324,7 +1987,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0079905,
    "latency_ms": 6503,
-   "crops_dir": "frames/shirts/live823600_t18@834400-835600"
+   "crops_dir": "frames/shirts/live823600_t18@834400-835600",
+   "confirm": null
   },
   "live823600:t25@835600-835600": {
    "team": "away",
@@ -1410,7 +2074,712 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.008229,
    "latency_ms": 6423,
-   "crops_dir": "frames/shirts/live823600_t25@835600-835600"
+   "crops_dir": "frames/shirts/live823600_t25@835600-835600",
+   "confirm": null
+  },
+  "live823600:t7@829000-831300": {
+   "team": "home",
+   "label": "t7",
+   "name_now": null,
+   "tracks": "tracks/109.json",
+   "track_id": 7,
+   "at_s": 830.15,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "arsenal",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    829.0,
+    831.3
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.01091625,
+   "latency_ms": 12107,
+   "crops_dir": "frames/shirts/live823600_t7@829000-831300"
+  },
+  "live823600:t17@829100-829100": {
+   "team": "away",
+   "label": "t17",
+   "name_now": null,
+   "tracks": "tracks/109.json",
+   "track_id": 17,
+   "at_s": 829.1,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.3,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.4,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 28,
+     "confidence": 0.75,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 28,
+     "confidence": 0.8,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 28,
+     "confidence": 0.8,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 28,
+     "confidence": 0.75,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 28,
+     "confidence": 0.75,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.3,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": null,
+   "consistent": false,
+   "agree": 5,
+   "with_number": 5,
+   "crops": 8,
+   "counts": {
+    "28": 5
+   },
+   "why": "28 is a goalkeeper's number; an outfield track",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "chelsea",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    829.1,
+    829.1
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.008259,
+   "latency_ms": 9972,
+   "crops_dir": "frames/shirts/live823600_t17@829100-829100"
+  },
+  "live823600:t3@829800-835600": {
+   "team": "away",
+   "label": "t3",
+   "name_now": null,
+   "tracks": "tracks/109.json",
+   "track_id": 3,
+   "at_s": 832.7,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 10,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 10,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 10,
+     "confidence": 0.88,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 10,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 10,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 10,
+     "confidence": 0.7,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 10,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": 10,
+   "consistent": true,
+   "agree": 7,
+   "with_number": 7,
+   "crops": 8,
+   "counts": {
+    "10": 7
+   },
+   "why": null,
+   "name": "Cole Palmer",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 10,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 10,
+      "confidence": 0.75,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 10,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 10,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 10,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 10,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 7,
+      "number": 10,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     }
+    ],
+    "number": 10,
+    "consistent": true,
+    "agree": 6,
+    "with_number": 6,
+    "crops": 8,
+    "counts": {
+     "10": 6
+    },
+    "why": null,
+    "cost_usd": 0.020826
+   },
+   "squad": {
+    "club": "chelsea",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    829.8,
+    835.6
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.007629,
+   "latency_ms": 4557,
+   "crops_dir": "frames/shirts/live823600_t3@829800-835600"
+  },
+  "live823600:t9@829800-835600": {
+   "team": "away",
+   "label": "t9",
+   "name_now": null,
+   "tracks": "tracks/109.json",
+   "track_id": 9,
+   "at_s": 832.7,
+   "reads": [],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "chelsea",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    829.8,
+    835.6
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.01234425,
+   "latency_ms": 15334,
+   "crops_dir": "frames/shirts/live823600_t9@829800-835600"
+  },
+  "live823600:t8@829800-831300": {
+   "team": "away",
+   "label": "t8",
+   "name_now": null,
+   "tracks": "tracks/109.json",
+   "track_id": 8,
+   "at_s": 830.55,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 8,
+     "confidence": 0.55,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 8,
+     "confidence": 0.6,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 8,
+     "confidence": 0.88,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 8,
+     "confidence": 0.65,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 6,
+     "number": 8,
+     "confidence": 0.82,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 8,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 8,
+     "confidence": 0.78,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": 8,
+   "consistent": true,
+   "agree": 7,
+   "with_number": 7,
+   "crops": 8,
+   "counts": {
+    "8": 7
+   },
+   "why": null,
+   "name": "Enzo Fernández",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 8,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 8,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 8,
+      "confidence": 0.8,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 6,
+      "number": 8,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 8,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 8,
+      "confidence": 0.6,
+      "side": "back"
+     }
+    ],
+    "number": 8,
+    "consistent": true,
+    "agree": 5,
+    "with_number": 5,
+    "crops": 8,
+    "counts": {
+     "8": 5
+    },
+    "why": null,
+    "cost_usd": 0.020478
+   },
+   "squad": {
+    "club": "chelsea",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    829.8,
+    831.3
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00839475,
+   "latency_ms": 7072,
+   "crops_dir": "frames/shirts/live823600_t8@829800-831300"
+  },
+  "live823600:t2@829800-831300": {
+   "team": "away",
+   "label": "t2",
+   "name_now": null,
+   "tracks": "tracks/109.json",
+   "track_id": 2,
+   "at_s": 830.55,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "chelsea",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    829.8,
+    831.3
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.008187,
+   "latency_ms": 5084,
+   "crops_dir": "frames/shirts/live823600_t2@829800-831300"
+  },
+  "live823600:t20@829800-831200": {
+   "team": "home",
+   "label": "t20",
+   "name_now": null,
+   "tracks": "tracks/109.json",
+   "track_id": 20,
+   "at_s": 830.5,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "arsenal",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    829.8,
+    831.2
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00804075,
+   "latency_ms": 5629,
+   "crops_dir": "frames/shirts/live823600_t20@829800-831200"
   }
  }
 }

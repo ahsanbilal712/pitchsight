@@ -186,8 +186,9 @@ def verify(slug: str) -> dict:
             link = {"event": at, "label": label, "clip_ms": round(r["at_s"] * 1000)}
         else:
             link = {"clip_ms": int(at), "label": label, "track_id": r.get("track_id")}
+        again = f", confirmed by {r['confirm']['model']}" if r.get("confirm") else ""
         add(r["name"], r["team"], {"kind": "shirt", "ref": f"shirts.json {key}: #{r['number']} in {r['agree']} of "
-                                   f"{r['crops']} crops; squad {r['squad']['source']}"}, link)
+                                   f"{r['crops']} crops{again}; squad {r['squad']['source']}"}, link)
 
     shots = shot_names(slug, names)
     ok = {n for n in names}

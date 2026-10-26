@@ -1,6 +1,6 @@
 {
  "slug": "manutd-spurs-2425",
- "rule": "a number needs 3+ agreeing crops of 8, two thirds of the crops with a number, and no rival read twice",
+ "rule": "a number needs 3+ agreeing crops of 8, two thirds of the crops with a number, no rival read twice, the kit colour of the track's team, and the same number read again by gemini-4-argon",
  "players": {
   "682800:#16": {
    "team": "away",
@@ -78,7 +78,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0092985,
    "latency_ms": 11479,
-   "crops_dir": "frames/shirts/682800_n16"
+   "crops_dir": "frames/shirts/682800_n16",
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 16,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 3,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 16,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 16,
+      "confidence": 0.98,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 16,
+      "confidence": 0.98,
+      "side": "back"
+     }
+    ],
+    "number": 16,
+    "consistent": true,
+    "agree": 7,
+    "with_number": 7,
+    "crops": 8,
+    "counts": {
+     "16": 7
+    },
+    "why": null,
+    "cost_usd": 0.02076
+   }
   },
   "e_0016:t10": {
    "team": "away",
@@ -150,7 +224,18 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00993075,
    "latency_ms": 8613,
-   "crops_dir": "frames/shirts/e_0016_t10"
+   "crops_dir": "frames/shirts/e_0016_t10",
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "confirm": null
   },
   "e_0057:t18": {
    "team": "home",
@@ -228,7 +313,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0075825,
    "latency_ms": 5471,
-   "crops_dir": "frames/shirts/e_0057_t18"
+   "crops_dir": "frames/shirts/e_0057_t18",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 18,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 18,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 18,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 18,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 18,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 8,
+      "number": null,
+      "confidence": 0.0,
+      "side": "front"
+     }
+    ],
+    "number": 18,
+    "consistent": true,
+    "agree": 4,
+    "with_number": 4,
+    "crops": 8,
+    "counts": {
+     "18": 4
+    },
+    "why": null,
+    "cost_usd": 0.020622
+   }
   },
   "e_0075:t18": {
    "team": "home",
@@ -300,7 +459,18 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00845925,
    "latency_ms": 7994,
-   "crops_dir": "frames/shirts/e_0075_t18"
+   "crops_dir": "frames/shirts/e_0075_t18",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": null
   },
   "live662600:t25@680100-682300": {
    "team": "away",
@@ -363,9 +533,9 @@
     "away",
     "away",
     "away",
-    "home",
     "away",
-    "home",
+    "away",
+    "away",
     "away",
     "away"
    ],
@@ -392,7 +562,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.007752,
    "latency_ms": 8473,
-   "crops_dir": "frames/shirts/live662600_t25@680100-682300"
+   "crops_dir": "frames/shirts/live662600_t25@680100-682300",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 16,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 16,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 16,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": null,
+      "confidence": 0.0,
+      "side": "none"
+     },
+     {
+      "crop": 5,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": null,
+      "confidence": 0.0,
+      "side": "none"
+     },
+     {
+      "crop": 7,
+      "number": 16,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 16,
+      "confidence": 0.9,
+      "side": "back"
+     }
+    ],
+    "number": 16,
+    "consistent": true,
+    "agree": 6,
+    "with_number": 6,
+    "crops": 8,
+    "counts": {
+     "16": 6
+    },
+    "why": null,
+    "cost_usd": 0.020536
+   }
   },
   "live662600:t33@680100-681400": {
    "team": "away",
@@ -454,10 +688,10 @@
    "kit": [
     "away",
     "away",
-    "home",
     "away",
-    "home",
-    "home",
+    "away",
+    "away",
+    "away",
     "away",
     "home"
    ],
@@ -478,7 +712,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00797925,
    "latency_ms": 30739,
-   "crops_dir": "frames/shirts/live662600_t33@680100-681400"
+   "crops_dir": "frames/shirts/live662600_t33@680100-681400",
+   "confirm": null
   },
   "live662600:t26@680100-680100": {
    "team": "away",
@@ -539,11 +774,11 @@
    ],
    "kit": [
     "away",
-    "home",
     "away",
     "away",
-    "home",
-    "home",
+    "away",
+    "away",
+    "away",
     "home",
     "home"
    ],
@@ -564,7 +799,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.007533,
    "latency_ms": 27314,
-   "crops_dir": "frames/shirts/live662600_t26@680100-680100"
+   "crops_dir": "frames/shirts/live662600_t26@680100-680100",
+   "confirm": null
   },
   "live662600:t32@680100-680100": {
    "team": "away",
@@ -626,7 +862,7 @@
    "kit": [
     "home",
     "home",
-    "home",
+    "away",
     "home",
     "home",
     "home",
@@ -650,7 +886,425 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0074775,
    "latency_ms": 10769,
-   "crops_dir": "frames/shirts/live662600_t32@680100-680100"
+   "crops_dir": "frames/shirts/live662600_t32@680100-680100",
+   "confirm": null
+  },
+  "live662600:t25@679900-682800": {
+   "team": "away",
+   "label": "t25",
+   "name_now": null,
+   "tracks": "tracks/84.json",
+   "track_id": 25,
+   "at_s": 681.35,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 16,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 16,
+     "confidence": 0.95,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": 16,
+   "consistent": true,
+   "agree": 8,
+   "with_number": 8,
+   "crops": 8,
+   "counts": {
+    "16": 8
+   },
+   "why": null,
+   "name": "Timo Werner",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 16,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 16,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 16,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 16,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 16,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 16,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 16,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 16,
+      "confidence": 0.9,
+      "side": "back"
+     }
+    ],
+    "number": 16,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "16": 8
+    },
+    "why": null,
+    "cost_usd": 0.020672
+   },
+   "squad": {
+    "club": "tottenham",
+    "season": "2024-25",
+    "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    679.9,
+    682.8
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.008508,
+   "latency_ms": 6344,
+   "crops_dir": "frames/shirts/live662600_t25@679900-682800"
+  },
+  "live662600:t33@679900-681400": {
+   "team": "away",
+   "label": "t33",
+   "name_now": null,
+   "tracks": "tracks/84.json",
+   "track_id": 33,
+   "at_s": 680.65,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "tottenham",
+    "season": "2024-25",
+    "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    679.9,
+    681.4
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.008808,
+   "latency_ms": 7068,
+   "crops_dir": "frames/shirts/live662600_t33@679900-681400"
+  },
+  "live662600:t26@679900-680100": {
+   "team": "away",
+   "label": "t26",
+   "name_now": null,
+   "tracks": "tracks/84.json",
+   "track_id": 26,
+   "at_s": 680.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "home",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "tottenham",
+    "season": "2024-25",
+    "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    679.9,
+    680.1
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00810675,
+   "latency_ms": 8764,
+   "crops_dir": "frames/shirts/live662600_t26@679900-680100"
+  },
+  "live662600:t32@679900-680100": {
+   "team": "away",
+   "label": "t32",
+   "name_now": null,
+   "tracks": "tracks/84.json",
+   "track_id": 32,
+   "at_s": 680.0,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "away",
+    "home",
+    "away",
+    "away",
+    "home",
+    "home",
+    "away",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "tottenham",
+    "season": "2024-25",
+    "source": "https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    679.9,
+    680.1
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.0081435,
+   "latency_ms": 6109,
+   "crops_dir": "frames/shirts/live662600_t32@679900-680100"
   }
  }
 }

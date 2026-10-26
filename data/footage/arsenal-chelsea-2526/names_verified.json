@@ -10,7 +10,7 @@
     },
     {
      "kind": "shirt",
-     "ref": "shirts.json 1300500:#7: #7 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
+     "ref": "shirts.json 1300500:#7: #7 in 8 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
     }
    ],
    "links": [
@@ -26,7 +26,7 @@
    "sources": [
     {
      "kind": "shirt",
-     "ref": "shirts.json 1300500:#16: #16 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
+     "ref": "shirts.json 1300500:#16: #16 in 8 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
     }
    ],
    "links": [
@@ -42,7 +42,7 @@
    "sources": [
     {
      "kind": "shirt",
-     "ref": "shirts.json live823600:t3@829700-835600: #10 in 7 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season"
+     "ref": "shirts.json live823600:t3@829700-835600: #10 in 7 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season"
     }
    ],
    "links": [
@@ -74,7 +74,7 @@
     },
     {
      "kind": "shirt",
-     "ref": "shirts.json 1300500:#10: #10 in 7 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
+     "ref": "shirts.json 1300500:#10: #10 in 7 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
     }
    ],
    "links": [
@@ -90,7 +90,7 @@
    "sources": [
     {
      "kind": "shirt",
-     "ref": "shirts.json live823600:t8@829700-831100: #8 in 3 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season"
+     "ref": "shirts.json live823600:t8@829800-831300: #8 in 7 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season"
     }
    ],
    "links": [
@@ -98,8 +98,8 @@
      "live": "live_823600.json",
      "label": "t8",
      "track_id": 8,
-     "from_clip_ms": 829700,
-     "to_clip_ms": 831100
+     "from_clip_ms": 829800,
+     "to_clip_ms": 831300
     }
    ]
   },
@@ -128,7 +128,7 @@
     },
     {
      "kind": "shirt",
-     "ref": "shirts.json 1300500:#12: #12 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
+     "ref": "shirts.json 1300500:#12: #12 in 8 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
     }
    ],
    "links": [
@@ -156,7 +156,7 @@
    "sources": [
     {
      "kind": "shirt",
-     "ref": "shirts.json 1300500:#29: #29 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
+     "ref": "shirts.json 1300500:#29: #29 in 8 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season"
     }
    ],
    "links": [
@@ -172,7 +172,7 @@
    "sources": [
     {
      "kind": "shirt",
-     "ref": "shirts.json live823600:t9@829700-835600: #7 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season"
+     "ref": "shirts.json live823600:t9@829700-835600: #7 in 8 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season"
     }
    ],
    "links": [
@@ -309,10 +309,32 @@
  },
  "rejected": [
   {
-   "name": "Kai Havertz",
-   "label": "A6",
-   "at": "1300500",
-   "why": "shirt 29 also read for 1300500:#29 (stronger read); two players cannot share it"
+   "name": "Enzo Fernández",
+   "label": "t8@829700-831100",
+   "at": "live823600",
+   "why": "shirt 8 also read for live823600:t8@829800-831300 (stronger read); two players cannot share it"
+  },
+  {
+   "name": "Cole Palmer",
+   "label": "t3@829800-835600",
+   "at": "live823600",
+   "why": "shirt 10 also read for live823600:t3@829700-835600 (stronger read); two players cannot share it"
+  },
+  {
+   "name": "Alejandro Garnacho",
+   "why": "tagger only"
+  },
+  {
+   "name": "Andrey Santos",
+   "why": "tagger only"
+  },
+  {
+   "name": "Ben White",
+   "why": "tagger only"
+  },
+  {
+   "name": "Benoît Badiashile",
+   "why": "tagger only"
   },
   {
    "name": "Caicedo",
@@ -323,11 +345,43 @@
    "why": "tagger only"
   },
   {
+   "name": "Cristhian Mosquera",
+   "why": "tagger only"
+  },
+  {
    "name": "Declan Rice",
    "why": "tagger only"
   },
   {
+   "name": "Dário Essugo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Estêvão",
+   "why": "tagger only"
+  },
+  {
+   "name": "Filip Jörgensen",
+   "why": "tagger only"
+  },
+  {
    "name": "Gabriel",
+   "why": "tagger only"
+  },
+  {
+   "name": "Gabriel Jesus",
+   "why": "tagger only"
+  },
+  {
+   "name": "Gabriel Magalhães",
+   "why": "tagger only"
+  },
+  {
+   "name": "Gabriel Martinelli",
+   "why": "tagger only"
+  },
+  {
+   "name": "Gabriel Slonina",
    "why": "tagger only"
   },
   {
@@ -343,7 +397,79 @@
    "why": "tagger only"
   },
   {
+   "name": "Jamie Gittens",
+   "why": "tagger only"
+  },
+  {
+   "name": "Jesse Derry",
+   "why": "tagger only"
+  },
+  {
+   "name": "Jorrel Hato",
+   "why": "tagger only"
+  },
+  {
+   "name": "Josh Acheampong",
+   "why": "tagger only"
+  },
+  {
    "name": "João Pedro",
+   "why": "tagger only"
+  },
+  {
+   "name": "Kepa Arrizabalaga",
+   "why": "tagger only"
+  },
+  {
+   "name": "Leandro Trossard",
+   "why": "tagger only"
+  },
+  {
+   "name": "Levi Colwill",
+   "why": "tagger only"
+  },
+  {
+   "name": "Liam Delap",
+   "why": "tagger only"
+  },
+  {
+   "name": "Malo Gusto",
+   "why": "tagger only"
+  },
+  {
+   "name": "Mamadou Sarr",
+   "why": "tagger only"
+  },
+  {
+   "name": "Marc Cucurella",
+   "why": "tagger only"
+  },
+  {
+   "name": "Marc Guiu",
+   "why": "tagger only"
+  },
+  {
+   "name": "Martin Ødegaard",
+   "why": "tagger only"
+  },
+  {
+   "name": "Martín Zubimendi",
+   "why": "tagger only"
+  },
+  {
+   "name": "Mikel Merino",
+   "why": "tagger only"
+  },
+  {
+   "name": "Moisés Caicedo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Myles Lewis-Skelly",
+   "why": "tagger only"
+  },
+  {
+   "name": "Noni Madueke",
    "why": "tagger only"
   },
   {
@@ -351,7 +477,51 @@
    "why": "tagger only"
   },
   {
+   "name": "Reggie Walsh",
+   "why": "tagger only"
+  },
+  {
+   "name": "Riccardo Calafiori",
+   "why": "tagger only"
+  },
+  {
+   "name": "Roméo Lavia",
+   "why": "tagger only"
+  },
+  {
+   "name": "Ryan Kavuma-McQueen",
+   "why": "tagger only"
+  },
+  {
+   "name": "Shim Mheuka",
+   "why": "tagger only"
+  },
+  {
+   "name": "Teddy Sharman-Lowe",
+   "why": "tagger only"
+  },
+  {
+   "name": "Tommy Setford",
+   "why": "tagger only"
+  },
+  {
    "name": "Tosin",
+   "why": "tagger only"
+  },
+  {
+   "name": "Tosin Adarabioyo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Trevoh Chalobah",
+   "why": "tagger only"
+  },
+  {
+   "name": "Viktor Gyökeres",
+   "why": "tagger only"
+  },
+  {
+   "name": "Wesley Fofana",
    "why": "tagger only"
   }
  ],

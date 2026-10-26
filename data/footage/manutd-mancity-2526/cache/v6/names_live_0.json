@@ -122,7 +122,7 @@
     "to_clip_ms": 880000,
     "track_id": 5,
     "tracks": "tracks/104.json",
-    "why_not": "kit: ['home', 'home', 'home', 'home', 'home', 'home', 'home', 'away'] for a away label"
+    "why_not": "kit: ['home', 'home', 'home', 'home', 'home', 'home', 'home', 'home'] for a away label"
    },
    {
     "agree": 5,
@@ -190,8 +190,8 @@
     "from_clip_ms": 1075100,
     "label": "t26",
     "live": "live_1062200.json",
-    "name": "Casemiro",
-    "shirt": 18,
+    "name": null,
+    "shirt": null,
     "squad": {
      "club": "man_utd",
      "retrieved": "2026-10-23",
@@ -202,7 +202,7 @@
     "to_clip_ms": 1078300,
     "track_id": 26,
     "tracks": "tracks/127.json",
-    "why_not": null
+    "why_not": "gemini-4-argon read {19: 4} on the same crops, not 18"
    },
    {
     "agree": null,
@@ -383,6 +383,266 @@
     "track_id": 23,
     "tracks": "tracks/160.json",
     "why_not": "6 read 2 of 2 times, another number 0 times"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 874100,
+    "label": "t19",
+    "live": "live_869000.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 880000,
+    "track_id": 19,
+    "tracks": "tracks/104.json",
+    "why_not": "no crop shows a number"
+   },
+   {
+    "agree": 8,
+    "crops": 8,
+    "from_clip_ms": 874300,
+    "label": "t15",
+    "live": "live_869000.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 880000,
+    "track_id": 15,
+    "tracks": "tracks/104.json",
+    "why_not": "number owned by a stronger read"
+   },
+   {
+    "agree": 4,
+    "crops": 8,
+    "from_clip_ms": 874300,
+    "label": "t16",
+    "live": "live_869000.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 880000,
+    "track_id": 16,
+    "tracks": "tracks/104.json",
+    "why_not": "gemini-4-argon read {18: 3} on the same crops, not 19"
+   },
+   {
+    "agree": 8,
+    "crops": 8,
+    "from_clip_ms": 874300,
+    "label": "t4",
+    "live": "live_869000.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 876800,
+    "track_id": 4,
+    "tracks": "tracks/104.json",
+    "why_not": "number owned by a stronger read"
+   },
+   {
+    "agree": 8,
+    "crops": 8,
+    "from_clip_ms": 874300,
+    "label": "t22",
+    "live": "live_869000.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 880000,
+    "track_id": 22,
+    "tracks": "tracks/104.json",
+    "why_not": "number owned by a stronger read"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 877500,
+    "label": "t17",
+    "live": "live_869000.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_city",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season"
+    },
+    "team": "away",
+    "to_clip_ms": 877800,
+    "track_id": 17,
+    "tracks": "tracks/104.json",
+    "why_not": "no crop shows a number"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 878700,
+    "label": "t25",
+    "live": "live_869000.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_city",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season"
+    },
+    "team": "away",
+    "to_clip_ms": 878900,
+    "track_id": 25,
+    "tracks": "tracks/104.json",
+    "why_not": "no crop shows a number"
+   },
+   {
+    "agree": 8,
+    "crops": 8,
+    "from_clip_ms": 879700,
+    "label": "t5",
+    "live": "live_869000.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_city",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season"
+    },
+    "team": "away",
+    "to_clip_ms": 880000,
+    "track_id": 5,
+    "tracks": "tracks/104.json",
+    "why_not": "kit: ['home', 'home', 'home', 'home', 'home', 'home', 'home', 'home'] for a away label"
+   },
+   {
+    "agree": 2,
+    "crops": 8,
+    "from_clip_ms": 1075300,
+    "label": "t30",
+    "live": "live_1062200.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 1079200,
+    "track_id": 30,
+    "tracks": "tracks/127.json",
+    "why_not": "8 read 2 of 2 times, another number 0 times"
+   },
+   {
+    "agree": 7,
+    "crops": 8,
+    "from_clip_ms": 1075300,
+    "label": "t26",
+    "live": "live_1062200.json",
+    "name": "Patrick Dorgu",
+    "shirt": 13,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 1079200,
+    "track_id": 26,
+    "tracks": "tracks/127.json",
+    "why_not": null
+   },
+   {
+    "agree": 5,
+    "crops": 8,
+    "from_clip_ms": 1075300,
+    "label": "t25",
+    "live": "live_1062200.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 1079200,
+    "track_id": 25,
+    "tracks": "tracks/127.json",
+    "why_not": "number owned by a stronger read"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 1075300,
+    "label": "t37",
+    "live": "live_1062200.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 1079200,
+    "track_id": 37,
+    "tracks": "tracks/127.json",
+    "why_not": "no crop shows a number"
+   },
+   {
+    "agree": null,
+    "crops": null,
+    "from_clip_ms": 1075300,
+    "label": "t35",
+    "live": "live_1062200.json",
+    "name": null,
+    "shirt": null,
+    "squad": {
+     "club": "man_utd",
+     "retrieved": "2026-10-23",
+     "season": "2025-26",
+     "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season"
+    },
+    "team": "home",
+    "to_clip_ms": 1077000,
+    "track_id": 35,
+    "tracks": "tracks/127.json",
+    "why_not": "no crop shows a number"
    },
    {
     "agree": null,

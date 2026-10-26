@@ -5,6 +5,27 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: a second model confirms every shirt number that names a player; kit colour without the grass
+
+- Track A spotted four Real Madrid players my kit check had rejected as Barcelona. The torso sample in the padded
+  crop was mostly grass, and grass is nearer a dark kit than a white one. `kit_side` now uses only the player's own
+  box and leaves grass pixels out. On the four Premier League clips' crops it changes no named read.
+- The same check exposed a consistent misread: a white #17 read "12" in 7 of 8 crops by gemini-3.8-flash. A number
+  that would give a name now needs the same consistent number from gemini-4-argon on the same crops
+  (`shirts.decide`; `--recheck` applies the rules to existing reads with no new Flash call). `names_verified` shirt
+  sources say "confirmed by gemini-4-argon".
+- Rechecked all five clips. Withdrawn by the second read: Casemiro (#18) at Man Utd v Man City 877000 U5 (16/18/19,
+  ambiguous) and on live_1062200 t26 1075.1-1078.3 s (both models read the same track as 13, Dorgu, over
+  1075.3-1079.2 s); Havertz's #29 at Arsenal 1300500 A6 (read 6; Havertz stays verified by his other sources);
+  Barcelona v Real Madrid live10200 t1 (5 vs 6) and live33000 t9 (20 vs 21). Track A's b9ecd71 moved the PL live
+  windows, so the run also read the new windows.
+- Spend today, footage_shirts plus footage_shirts_confirm through SpendGuard on ffc-19484: $2.2649 (project
+  $6.4896 of $50). Footage suite 67 passed.
+- Video v8 impact: `mci_mbeumo_live_v8` labelled t26 "Casemiro". The new names_live_0 labels it Dorgu, so it needs
+  a re-render and a grounding re-run.
+
+---
+
 ## 2026-10-26 — Track B: shirt reads and shooter names for a clip without tagged events
 
 - `footage.shirts`: a shot's tracks path now drops track A's " frame N" suffix (the shooter crops opened no file).

@@ -55,7 +55,7 @@
    "sources": [
     {
      "kind": "shirt",
-     "ref": "shirts.json e_0057:t18: #18 in 6 of 8 crops; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Manchester_United_F.C._season"
+     "ref": "shirts.json e_0057:t18: #18 in 6 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Manchester_United_F.C._season"
     }
    ],
    "links": [
@@ -93,17 +93,7 @@
     }
    ]
   },
-  "Micky van de Ven": {
-   "team": null,
-   "sources": [
-    {
-     "kind": "description",
-     "ref": "description.json mention"
-    }
-   ],
-   "links": []
-  },
-  "Solanke": {
+  "Dominic Solanke": {
    "team": "away",
    "sources": [
     {
@@ -130,6 +120,16 @@
     }
    ]
   },
+  "Micky van de Ven": {
+   "team": null,
+   "sources": [
+    {
+     "kind": "description",
+     "ref": "description.json mention"
+    }
+   ],
+   "links": []
+  },
   "Timo Werner": {
    "team": "away",
    "sources": [
@@ -139,11 +139,11 @@
     },
     {
      "kind": "shirt",
-     "ref": "shirts.json 682800:#16: #16 in 7 of 8 crops; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
+     "ref": "shirts.json 682800:#16: #16 in 7 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
     },
     {
      "kind": "shirt",
-     "ref": "shirts.json live662600:t25@680100-682300: #16 in 8 of 8 crops; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
+     "ref": "shirts.json live662600:t25@680100-682300: #16 in 8 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Tottenham_Hotspur_F.C._season"
     }
    ],
    "links": [
@@ -239,7 +239,7 @@
    "clip_ms": 1204000,
    "tagger_name": "Casemiro",
    "name": "Casemiro",
-   "source": "shirts.json e_0057:t18: #18 in 6 of 8 crops; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Manchester_United_F.C._season"
+   "source": "shirts.json e_0057:t18: #18 in 6 of 8 crops, confirmed by gemini-4-argon; squad https://en.wikipedia.org/wiki/2024%E2%80%9325_Manchester_United_F.C._season"
   },
   "e_0059": {
    "clip_ms": 1255000,
@@ -256,7 +256,7 @@
   "e_0067": {
    "clip_ms": 1330000,
    "tagger_name": "Solanke",
-   "name": "Solanke",
+   "name": "Dominic Solanke",
    "source": "score_bug goal"
   },
   "e_0070": {
@@ -286,11 +286,77 @@
    "why": "score bug unchanged at 1088000 ms (0-2)"
   },
   {
+   "name": "Timo Werner",
+   "label": "t25@679900-682800",
+   "at": "live662600",
+   "why": "shirt 16 also read for live662600:t25@680100-682300 (stronger read); two players cannot share it"
+  },
+  {
+   "name": "Alejandro Garnacho",
+   "why": "tagger only"
+  },
+  {
+   "name": "Alfie Whiteman",
+   "why": "tagger only"
+  },
+  {
+   "name": "Altay Bayındır",
+   "why": "tagger only"
+  },
+  {
+   "name": "Amad Diallo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Antony",
+   "why": "tagger only"
+  },
+  {
+   "name": "Antonín Kinský",
+   "why": "tagger only"
+  },
+  {
+   "name": "Archie Gray",
+   "why": "tagger only"
+  },
+  {
+   "name": "Ayden Heaven",
+   "why": "tagger only"
+  },
+  {
+   "name": "Ben Davies",
+   "why": "tagger only"
+  },
+  {
    "name": "Bergvall",
    "why": "tagger only"
   },
   {
+   "name": "Brandon Austin",
+   "why": "tagger only"
+  },
+  {
+   "name": "Chido Obi",
+   "why": "tagger only"
+  },
+  {
+   "name": "Christian Eriksen",
+   "why": "tagger only"
+  },
+  {
+   "name": "Cristian Romero",
+   "why": "tagger only"
+  },
+  {
    "name": "Dalot",
+   "why": "tagger only"
+  },
+  {
+   "name": "Dane Scarlett",
+   "why": "tagger only"
+  },
+  {
+   "name": "Destiny Udogie",
    "why": "tagger only"
   },
   {
@@ -302,6 +368,10 @@
    "why": "tagger only"
   },
   {
+   "name": "Fraser Forster",
+   "why": "tagger only"
+  },
+  {
    "name": "Garnacho",
    "why": "tagger only"
   },
@@ -310,11 +380,47 @@
    "why": "tagger only"
   },
   {
+   "name": "Harry Amass",
+   "why": "tagger only"
+  },
+  {
+   "name": "Harry Maguire",
+   "why": "tagger only"
+  },
+  {
    "name": "James Maddison",
    "why": "tagger only"
   },
   {
+   "name": "Jonny Evans",
+   "why": "tagger only"
+  },
+  {
+   "name": "Joshua Zirkzee",
+   "why": "tagger only"
+  },
+  {
+   "name": "Kevin Danso",
+   "why": "tagger only"
+  },
+  {
+   "name": "Kobbie Mainoo",
+   "why": "tagger only"
+  },
+  {
+   "name": "Leny Yoro",
+   "why": "tagger only"
+  },
+  {
    "name": "Lisandro Martínez",
+   "why": "tagger only"
+  },
+  {
+   "name": "Lucas Bergvall",
+   "why": "tagger only"
+  },
+  {
+   "name": "Luke Shaw",
    "why": "tagger only"
   },
   {
@@ -326,7 +432,19 @@
    "why": "tagger only"
   },
   {
+   "name": "Manuel Ugarte",
+   "why": "tagger only"
+  },
+  {
    "name": "Marcus Rashford",
+   "why": "tagger only"
+  },
+  {
+   "name": "Mason Mount",
+   "why": "tagger only"
+  },
+  {
+   "name": "Mathys Tel",
    "why": "tagger only"
   },
   {
@@ -342,6 +460,18 @@
    "why": "tagger only"
   },
   {
+   "name": "Noussair Mazraoui",
+   "why": "tagger only"
+  },
+  {
+   "name": "Pape Matar Sarr",
+   "why": "tagger only"
+  },
+  {
+   "name": "Patrick Dorgu",
+   "why": "tagger only"
+  },
+  {
    "name": "Pedro Porro",
    "why": "tagger only"
   },
@@ -350,7 +480,23 @@
    "why": "tagger only"
   },
   {
+   "name": "Radu Drăgușin",
+   "why": "tagger only"
+  },
+  {
    "name": "Rashford",
+   "why": "tagger only"
+  },
+  {
+   "name": "Rasmus Højlund",
+   "why": "tagger only"
+  },
+  {
+   "name": "Richarlison",
+   "why": "tagger only"
+  },
+  {
+   "name": "Rodrigo Bentancur",
    "why": "tagger only"
   },
   {
@@ -362,7 +508,43 @@
    "why": "tagger only"
   },
   {
+   "name": "Scott McTominay",
+   "why": "tagger only"
+  },
+  {
+   "name": "Sergio Reguilón",
+   "why": "tagger only"
+  },
+  {
+   "name": "Son Heung-min",
+   "why": "tagger only"
+  },
+  {
+   "name": "Toby Collyer",
+   "why": "tagger only"
+  },
+  {
+   "name": "Tyler Fredricson",
+   "why": "tagger only"
+  },
+  {
+   "name": "Tyrell Malacia",
+   "why": "tagger only"
+  },
+  {
    "name": "Vicario",
+   "why": "tagger only"
+  },
+  {
+   "name": "Victor Lindelöf",
+   "why": "tagger only"
+  },
+  {
+   "name": "Wilson Odobert",
+   "why": "tagger only"
+  },
+  {
+   "name": "Yves Bissouma",
    "why": "tagger only"
   },
   {

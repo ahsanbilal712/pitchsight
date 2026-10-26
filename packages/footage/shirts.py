@@ -9,7 +9,12 @@ crops stay in the git-ignored frames/ folder) and read in one inline call to gem
 match id). A number is accepted only when it is consistent: at least MIN_AGREE crops read it, it is at least two
 thirds of the crops that show a number, and no other number is read more than once. The number is mapped to the
 team's squad list for that season (data/footage/squads/<club>_<season>.json, with its source); a number that is not
-in the list gives no name. footage.names reads shirts.json as the "shirt" source.
+in the list gives no name. A number that would give a name is read a second time, on the same crops, by CONFIRM
+(gemini-4-argon), and needs the same consistent number there: a small, blurred digit can be misread consistently
+(Barcelona v Real Madrid, a white #17 read "12" in 7 of 8 crops). footage.names reads shirts.json as the "shirt"
+source.
+
+    python -m footage.shirts <slug> --recheck           # the rules again on the reads already made (no new Flash call)
 """
 
 from __future__ import annotations
@@ -25,6 +30,7 @@ from pathlib import Path
 from footage.clips import CLIPS, ROOT, clip_dir
 
 MODEL = "gemini-3.8-flash"
+CONFIRM = "gemini-4-argon"         # the second read of a number that would name a player
 CROPS, MIN_AGREE = 8, 3
 WINDOW_S = (1.5, 3.0)              # crops within this of the moment the label applies to (a track can switch later)
 PAD_X, PAD_Y, CROP_H = 0.35, 0.12, 360
@@ -232,7 +238,7 @@ def crops(slug: str, t: dict) -> list[Path]:
     return out
 
 
-def read(client, guard, slug: str, t: dict, paths: list[Path]) -> dict:
+def read(client, guard, slug: str, t: dict, paths: list[Path], model: str = MODEL) -> dict:
     from google.genai import types
 
     clip = CLIPS[slug]
@@ -241,33 +247,40 @@ def read(client, guard, slug: str, t: dict, paths: list[Path]) -> dict:
     parts = []
     for i, pth in enumerate(paths, 1):
         parts += [f"crop {i}:", types.Part(inline_data=types.Blob(data=pth.read_bytes(), mime_type="image/png"))]
+    fast = {"thinking_config": types.ThinkingConfig(thinking_budget=0), "max_output_tokens": 1500} \
+        if model == MODEL else {"max_output_tokens": 8000}
     config = types.GenerateContentConfig(response_mime_type="application/json", response_json_schema=SCHEMA,
-                                         temperature=0, thinking_config=types.ThinkingConfig(thinking_budget=0),
-                                         max_output_tokens=1500)
+                                         temperature=0, **fast)
     t0 = time.perf_counter()
-    resp = client.models.generate_content(model=MODEL, config=config,
+    resp = client.models.generate_content(model=model, config=config,
                                           contents=[*parts, PROMPT.format(n=len(paths), kit=kit)])
     latency = int((time.perf_counter() - t0) * 1000)
     u = resp.usage_metadata
     tin, tout = int(u.prompt_token_count or 0), int(u.candidates_token_count or 0) + int(u.thoughts_token_count or 0)
-    row = guard.record("footage_shirts", MODEL, tin, tout, clip["match_id"], "precompute")
+    row = guard.record("footage_shirts" if model == MODEL else "footage_shirts_confirm", model, tin, tout,
+                       clip["match_id"], "precompute")
     try:
         reads = json.loads(resp.text or "{}").get("reads", [])
     except json.JSONDecodeError:
         reads = []
     return {"reads": reads, "tokens_in": tin, "tokens_out": tout, "cost_usd": row["cost_usd"], "latency_ms": latency,
-            "kit": [kit_side(slug, pth) for pth in paths]}
+            "model": model}
 
 
 def kit_side(slug: str, path: Path) -> str:
-    """The team whose kit colour (teams.json kit_rgb) is nearest the crop's torso (median of its upper middle)."""
+    """The team whose kit colour (teams.json kit_rgb) is nearest the shirt: the median of the torso band of the
+    player's own box inside the padded crop, grass pixels left out (a running player's box is mostly grass, and grass
+    is nearer a dark kit than a white one)."""
     import numpy as np
     from PIL import Image
 
     im = np.asarray(Image.open(path).convert("RGB"), float)
     h, w = im.shape[:2]
-    torso = im[int(0.2 * h):int(0.45 * h), int(0.38 * w):int(0.62 * w)].reshape(-1, 3)
-    med = np.median(torso, axis=0)
+    bx, by = PAD_X / (1 + 2 * PAD_X), PAD_Y / (1 + 2 * PAD_Y)          # the box inside the padded crop
+    y0, y1 = by + (1 - 2 * by) * 0.15, by + (1 - 2 * by) * 0.5
+    torso = im[int(y0 * h):int(y1 * h), int((bx + 0.1) * w):int((1 - bx - 0.1) * w)].reshape(-1, 3)
+    shirt = torso[~((torso[:, 1] > torso[:, 0] + 8) & (torso[:, 1] > torso[:, 2] + 8))]
+    med = np.median(shirt if len(shirt) >= 0.05 * len(torso) else torso, axis=0)
     kits = [t["kit_rgb"] for t in json.loads((clip_dir(slug) / "teams.json").read_text())["teams"]]
     d = [float(np.linalg.norm(med - np.asarray(k, float))) for k in kits]
     return ("home", "away")[int(np.argmin(d))]
@@ -285,7 +298,40 @@ def vote(reads: list[dict]) -> dict:
             "why": None if ok else f"{top} read {k} of {len(nums)} times, another number {others} times"}
 
 
-def run(slug: str, dry_run: bool = False) -> dict:
+def decide(client, guard, slug: str, t: dict, reads: list[dict], kit: list[str], paths: list[Path],
+           confirm: dict | None = None) -> dict:
+    """The rules on one player's reads: the vote, the kit colour, a goalkeeper's number on an outfield track, then the
+    second read (CONFIRM) of a number that would give a name (kept from an earlier run when it read that number)."""
+    v = vote(reads)
+    kit_ok = sum(k == t["team"] for k in kit) > len(kit) / 2
+    if v["number"] is not None and not kit_ok:              # the track's team label and the shirt disagree
+        v = {**v, "number": None, "consistent": False, "why": f"kit: {kit} for a {t['team']} label"}
+    sq = squad(slug, t["team"])
+    if v["number"] is not None and str(v["number"]) in sq.get("goalkeepers", []) and not t.get("keeper"):
+        v = {**v, "number": None, "consistent": False, "why": f"{v['number']} is a goalkeeper's number; an "
+             "outfield track"}                              # a misread or another player: no name
+    if v["number"] is not None and str(v["number"]) in sq["numbers"]:
+        if not confirm or confirm.get("asked") != v["number"]:
+            c = read(client, guard, slug, t, paths, CONFIRM)
+            confirm = {"model": CONFIRM, "asked": v["number"], "reads": c["reads"], **vote(c["reads"]),
+                       "cost_usd": c["cost_usd"]}
+            print(f"  {CONFIRM}: {confirm.get('counts') or '-'} -> {confirm['number']} (${c['cost_usd']:.4f})")
+        if confirm["number"] != v["number"]:
+            v = {**v, "number": None, "consistent": False, "why": f"{CONFIRM} read {confirm.get('counts') or 'no '
+                 'number'} on the same crops, not {v['number']}"}
+    name = sq["numbers"].get(str(v["number"])) if v["number"] is not None else None
+    return {**v, "name": name, "confirm": confirm, "squad": {"club": sq["club"], "season": sq["season"],
+            "source": sq["source"], "retrieved": sq["retrieved"]}}
+
+
+def _save(slug: str, done: dict) -> None:
+    (clip_dir(slug) / "shirts.json").write_text(json.dumps(
+        {"slug": slug, "rule": f"a number needs {MIN_AGREE}+ agreeing crops of {CROPS}, two thirds of the crops with "
+         f"a number, no rival read twice, the kit colour of the track's team, and the same number read again by "
+         f"{CONFIRM}", "players": done}, indent=1, ensure_ascii=False) + "\n")
+
+
+def run(slug: str, dry_run: bool = False, recheck: bool = False) -> dict:
     out_path = clip_dir(slug) / "shirts.json"
     done = json.loads(out_path.read_text())["players"] if out_path.exists() else {}
     todo = [t for t in targets(slug) + live_targets(slug) if t["key"] not in done]
@@ -295,30 +341,29 @@ def run(slug: str, dry_run: bool = False) -> dict:
     from footage.tag import sdk_client
 
     guard, client = SpendGuard(), sdk_client()
+    if recheck:                                             # the rules again on the crops and reads already made
+        for key, r in done.items():
+            paths = sorted((clip_dir(slug) / r["crops_dir"]).glob("*.png"), key=lambda p: int(p.stem))
+            t = {"key": key, **r}
+            kit = [kit_side(slug, pth) for pth in paths]
+            d = decide(client, guard, slug, t, r["reads"], kit, paths, r.get("confirm"))
+            if (d["number"], d["name"]) != (r.get("number"), r.get("name")):
+                print(f"{slug} {key}: {r.get('number')} {r.get('name')} -> {d['number']} {d['name']} ({d['why']})")
+            done[key] = {**r, "kit": kit, **d}
+            _save(slug, done)
     for t in todo:
         paths = crops(slug, t)
         r = read(client, guard, slug, t, paths)
-        v = vote(r["reads"])
-        kit_ok = sum(k == t["team"] for k in r["kit"]) > len(r["kit"]) / 2
-        if v["number"] is not None and not kit_ok:          # the track's team label and the shirt disagree
-            v = {**v, "number": None, "consistent": False, "why": f"kit: {r['kit']} for a {t['team']} label"}
-        sq = squad(slug, t["team"])
-        if v["number"] is not None and str(v["number"]) in sq.get("goalkeepers", []) and not t.get("keeper"):
-            v = {**v, "number": None, "consistent": False, "why": f"{v['number']} is a goalkeeper's number; an "
-                 "outfield track"}                          # a misread or another player: no name
-        name = sq["numbers"].get(str(v["number"])) if v["number"] is not None else None
+        kit = [kit_side(slug, pth) for pth in paths]
+        d = decide(client, guard, slug, t, r["reads"], kit, paths)
         done[t["key"]] = {**{k: t.get(k) for k in ("team", "label", "name_now", "tracks", "track_id", "at_s")},
-                          "reads": r["reads"], "kit": r["kit"], **v, "name": name,
+                          "reads": r["reads"], "kit": kit, **d,
                           **({"window_s": t["window_s"]} if t.get("window_s") else {}),
-                          "squad": {"club": sq["club"], "season": sq["season"], "source": sq["source"],
-                                    "retrieved": sq["retrieved"]},
                           "model": MODEL, "cost_usd": r["cost_usd"], "latency_ms": r["latency_ms"],
                           "crops_dir": str(paths[0].parent.relative_to(clip_dir(slug))) if paths else None}
-        print(f"{slug} {t['key']}: {v['counts'] if v.get('counts') else '-'} -> {v['number']} {name} "
+        print(f"{slug} {t['key']}: {d['counts'] if d.get('counts') else '-'} -> {d['number']} {d['name']} "
               f"(${r['cost_usd']:.4f})")
-        out_path.write_text(json.dumps({"slug": slug, "rule": f"a number needs {MIN_AGREE}+ agreeing crops of "
-                                        f"{CROPS}, two thirds of the crops with a number, and no rival read twice",
-                                        "players": done}, indent=1, ensure_ascii=False) + "\n")
+        _save(slug, done)
     live = names_live(slug) if any(k.startswith("live") for k in done) else {"players": []}
     return {"slug": slug, "players": len(done), "named": sum(1 for p in done.values() if p.get("name")),
             "live_named": sum(1 for p in live["players"] if p["name"])}
@@ -328,6 +373,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("slugs", nargs="*")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--recheck", action="store_true", help="the rules again on the reads already made")
     ap.add_argument("--edit", type=Path, help="read the live passages from this edit's beats (a local-only cut)")
     args = ap.parse_args(argv)
     if args.edit:
@@ -335,7 +381,7 @@ def main(argv: list[str] | None = None) -> int:
             PASSAGES[slug] = sorted(set(PASSAGES.get(slug, [])) | set(spans))
         args.slugs = args.slugs or list(passages_from_edit(args.edit))
     for slug in args.slugs or list(CLIPS):
-        print(json.dumps(run(slug, args.dry_run), ensure_ascii=False))
+        print(json.dumps(run(slug, args.dry_run, args.recheck), ensure_ascii=False))
     return 0
 
 

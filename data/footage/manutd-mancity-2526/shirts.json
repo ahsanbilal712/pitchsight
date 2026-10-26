@@ -1,6 +1,6 @@
 {
  "slug": "manutd-mancity-2526",
- "rule": "a number needs 3+ agreeing crops of 8, two thirds of the crops with a number, and no rival read twice",
+ "rule": "a number needs 3+ agreeing crops of 8, two thirds of the crops with a number, no rival read twice, the kit colour of the track's team, and the same number read again by gemini-4-argon",
  "players": {
   "877000:#19": {
    "team": "home",
@@ -78,7 +78,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00785775,
    "latency_ms": 74973,
-   "crops_dir": "frames/shirts/877000_n19"
+   "crops_dir": "frames/shirts/877000_n19",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "away",
+    "away"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 19,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 19,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 19,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 19,
+      "confidence": 0.8,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": null,
+      "confidence": 0.0,
+      "side": "none"
+     },
+     {
+      "crop": 8,
+      "number": 19,
+      "confidence": 0.6,
+      "side": "back"
+     }
+    ],
+    "number": 19,
+    "consistent": true,
+    "agree": 7,
+    "with_number": 7,
+    "crops": 8,
+    "counts": {
+     "19": 7
+    },
+    "why": null,
+    "cost_usd": 0.020666
+   }
   },
   "877000:#8": {
    "team": "home",
@@ -156,7 +230,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0081255,
    "latency_ms": 4793,
-   "crops_dir": "frames/shirts/877000_n8"
+   "crops_dir": "frames/shirts/877000_n8",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 8,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 8,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 8,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 8,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     }
+    ],
+    "number": 8,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "8": 8
+    },
+    "why": null,
+    "cost_usd": 0.02066
+   }
   },
   "877000:U5": {
    "team": "home",
@@ -215,16 +363,16 @@
      "side": "front"
     }
    ],
-   "number": 18,
-   "consistent": true,
+   "number": null,
+   "consistent": false,
    "agree": 6,
    "with_number": 6,
    "crops": 8,
    "counts": {
     "18": 6
    },
-   "why": null,
-   "name": "Casemiro",
+   "why": "gemini-4-argon read {19: 6} on the same crops, not 18",
+   "name": null,
    "squad": {
     "club": "man_utd",
     "season": "2025-26",
@@ -234,7 +382,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00860925,
    "latency_ms": 8742,
-   "crops_dir": "frames/shirts/877000_U5"
+   "crops_dir": "frames/shirts/877000_U5",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 18,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 19,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 19,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 19,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 19,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 19,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 19,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     }
+    ],
+    "number": 19,
+    "consistent": true,
+    "agree": 6,
+    "with_number": 6,
+    "crops": 8,
+    "counts": {
+     "19": 6
+    },
+    "why": null,
+    "cost_usd": 0.02065
+   }
   },
   "877000:#16": {
    "team": "home",
@@ -306,7 +528,18 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.009138,
    "latency_ms": 8445,
-   "crops_dir": "frames/shirts/877000_n16"
+   "crops_dir": "frames/shirts/877000_n16",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": null
   },
   "877000:#13": {
    "team": "home",
@@ -384,7 +617,81 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00815325,
    "latency_ms": 7751,
-   "crops_dir": "frames/shirts/877000_n13"
+   "crops_dir": "frames/shirts/877000_n13",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 13,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 13,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 13,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 13,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 13,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 13,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 13,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 13,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 13,
+      "confidence": 0.9,
+      "side": "back"
+     }
+    ],
+    "number": 13,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "13": 8
+    },
+    "why": null,
+    "cost_usd": 0.020854
+   }
   },
   "e_0026:t12": {
    "team": "away",
@@ -456,7 +763,18 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00850725,
    "latency_ms": 8297,
-   "crops_dir": "frames/shirts/e_0026_t12"
+   "crops_dir": "frames/shirts/e_0026_t12",
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "confirm": null
   },
   "e_0038:t9": {
    "team": "home",
@@ -534,7 +852,18 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00822525,
    "latency_ms": 6152,
-   "crops_dir": "frames/shirts/e_0038_t9"
+   "crops_dir": "frames/shirts/e_0038_t9",
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "away"
+   ],
+   "confirm": null
   },
   "live869000:t19@874500-880000": {
    "team": "home",
@@ -620,7 +949,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00732975,
    "latency_ms": 8842,
-   "crops_dir": "frames/shirts/live869000_t19@874500-880000"
+   "crops_dir": "frames/shirts/live869000_t19@874500-880000",
+   "confirm": null
   },
   "live869000:t15@874500-880000": {
    "team": "home",
@@ -712,7 +1042,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.008001,
    "latency_ms": 5757,
-   "crops_dir": "frames/shirts/live869000_t15@874500-880000"
+   "crops_dir": "frames/shirts/live869000_t15@874500-880000",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 8,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     }
+    ],
+    "number": 8,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "8": 8
+    },
+    "why": null,
+    "cost_usd": 0.020658
+   }
   },
   "live869000:t16@874500-880000": {
    "team": "home",
@@ -804,7 +1198,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.009018,
    "latency_ms": 11170,
-   "crops_dir": "frames/shirts/live869000_t16@874500-880000"
+   "crops_dir": "frames/shirts/live869000_t16@874500-880000",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 19,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 19,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 19,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 19,
+      "confidence": 0.65,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 19,
+      "confidence": 0.55,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     }
+    ],
+    "number": 19,
+    "consistent": true,
+    "agree": 4,
+    "with_number": 4,
+    "crops": 8,
+    "counts": {
+     "19": 4
+    },
+    "why": null,
+    "cost_usd": 0.02073
+   }
   },
   "live869000:t4@874500-877100": {
    "team": "home",
@@ -896,7 +1354,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.008313,
    "latency_ms": 7070,
-   "crops_dir": "frames/shirts/live869000_t4@874500-877100"
+   "crops_dir": "frames/shirts/live869000_t4@874500-877100",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 19,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 19,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 19,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 19,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 19,
+      "confidence": 0.8,
+      "side": "back"
+     }
+    ],
+    "number": 19,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "19": 8
+    },
+    "why": null,
+    "cost_usd": 0.0207
+   }
   },
   "live869000:t22@874500-880000": {
    "team": "home",
@@ -988,7 +1510,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0082755,
    "latency_ms": 6832,
-   "crops_dir": "frames/shirts/live869000_t22@874500-880000"
+   "crops_dir": "frames/shirts/live869000_t22@874500-880000",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 13,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 13,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 13,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 13,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 13,
+      "confidence": 0.98,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 13,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 13,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 13,
+      "confidence": 0.99,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 13,
+      "confidence": 0.99,
+      "side": "back"
+     }
+    ],
+    "number": 13,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "13": 8
+    },
+    "why": null,
+    "cost_usd": 0.02073
+   }
   },
   "live869000:t5@879600-880000": {
    "team": "away",
@@ -1055,7 +1641,7 @@
     "home",
     "home",
     "home",
-    "away"
+    "home"
    ],
    "number": null,
    "consistent": false,
@@ -1065,7 +1651,7 @@
    "counts": {
     "19": 8
    },
-   "why": "kit: ['home', 'home', 'home', 'home', 'home', 'home', 'home', 'away'] for a away label",
+   "why": "kit: ['home', 'home', 'home', 'home', 'home', 'home', 'home', 'home'] for a away label",
    "name": null,
    "window_s": [
     879.6,
@@ -1080,7 +1666,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00814725,
    "latency_ms": 7912,
-   "crops_dir": "frames/shirts/live869000_t5@879600-880000"
+   "crops_dir": "frames/shirts/live869000_t5@879600-880000",
+   "confirm": null
   },
   "live1062200:t30@1075100-1078300": {
    "team": "home",
@@ -1172,7 +1759,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.008571,
    "latency_ms": 6383,
-   "crops_dir": "frames/shirts/live1062200_t30@1075100-1078300"
+   "crops_dir": "frames/shirts/live1062200_t30@1075100-1078300",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 8,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 2,
+      "number": 8,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 4,
+      "number": 8,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 8,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 8,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     }
+    ],
+    "number": 8,
+    "consistent": true,
+    "agree": 5,
+    "with_number": 5,
+    "crops": 8,
+    "counts": {
+     "8": 5
+    },
+    "why": null,
+    "cost_usd": 0.020608
+   }
   },
   "live1062200:t25@1075100-1078300": {
    "team": "home",
@@ -1232,7 +1883,7 @@
     }
    ],
    "kit": [
-    "away",
+    "home",
     "home",
     "home",
     "home",
@@ -1264,7 +1915,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00864525,
    "latency_ms": 7073,
-   "crops_dir": "frames/shirts/live1062200_t25@1075100-1078300"
+   "crops_dir": "frames/shirts/live1062200_t25@1075100-1078300",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 19,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 2,
+      "number": 19,
+      "confidence": 0.75,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 19,
+      "confidence": 0.75,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 5,
+      "number": 19,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 19,
+      "confidence": 0.75,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 19,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     }
+    ],
+    "number": 19,
+    "consistent": true,
+    "agree": 6,
+    "with_number": 6,
+    "crops": 8,
+    "counts": {
+     "19": 6
+    },
+    "why": null,
+    "cost_usd": 0.020786
+   }
   },
   "live1062200:t37@1075100-1078300": {
    "team": "home",
@@ -1350,7 +2065,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00934425,
    "latency_ms": 8216,
-   "crops_dir": "frames/shirts/live1062200_t37@1075100-1078300"
+   "crops_dir": "frames/shirts/live1062200_t37@1075100-1078300",
+   "confirm": null
   },
   "live1062200:t26@1075100-1078300": {
    "team": "home",
@@ -1419,16 +2135,16 @@
     "home",
     "home"
    ],
-   "number": 18,
-   "consistent": true,
+   "number": null,
+   "consistent": false,
    "agree": 4,
    "with_number": 4,
    "crops": 8,
    "counts": {
     "18": 4
    },
-   "why": null,
-   "name": "Casemiro",
+   "why": "gemini-4-argon read {19: 4} on the same crops, not 18",
+   "name": null,
    "window_s": [
     1075.1,
     1078.3
@@ -1442,7 +2158,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00840075,
    "latency_ms": 41015,
-   "crops_dir": "frames/shirts/live1062200_t26@1075100-1078300"
+   "crops_dir": "frames/shirts/live1062200_t26@1075100-1078300",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 18,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 2,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 3,
+      "number": 19,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 19,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 6,
+      "number": 19,
+      "confidence": 0.8,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 8,
+      "number": 19,
+      "confidence": 0.75,
+      "side": "back"
+     }
+    ],
+    "number": 19,
+    "consistent": true,
+    "agree": 4,
+    "with_number": 4,
+    "crops": 8,
+    "counts": {
+     "19": 4
+    },
+    "why": null,
+    "cost_usd": 0.021224
+   }
   },
   "live1062200:t35@1075100-1076700": {
    "team": "home",
@@ -1507,7 +2287,7 @@
     "home",
     "home",
     "home",
-    "away",
+    "home",
     "home",
     "home"
    ],
@@ -1528,7 +2308,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00807975,
    "latency_ms": 14961,
-   "crops_dir": "frames/shirts/live1062200_t35@1075100-1076700"
+   "crops_dir": "frames/shirts/live1062200_t35@1075100-1076700",
+   "confirm": null
   },
   "live1390000:t16@1409500-1414800": {
    "team": "home",
@@ -1620,7 +2401,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.010656,
    "latency_ms": 15605,
-   "crops_dir": "frames/shirts/live1390000_t16@1409500-1414800"
+   "crops_dir": "frames/shirts/live1390000_t16@1409500-1414800",
+   "confirm": null
   },
   "live1390000:t2@1409500-1414800": {
    "team": "home",
@@ -1712,7 +2494,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.008094,
    "latency_ms": 21035,
-   "crops_dir": "frames/shirts/live1390000_t2@1409500-1414800"
+   "crops_dir": "frames/shirts/live1390000_t2@1409500-1414800",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 7,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 7,
+      "confidence": 0.4,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 7,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "none"
+     },
+     {
+      "crop": 4,
+      "number": 7,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 7,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 7,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 7,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 7,
+      "confidence": 0.85,
+      "side": "back"
+     }
+    ],
+    "number": 7,
+    "consistent": true,
+    "agree": 7,
+    "with_number": 7,
+    "crops": 8,
+    "counts": {
+     "7": 7
+    },
+    "why": null,
+    "cost_usd": 0.020616
+   }
   },
   "live1390000:t21@1409500-1414800": {
    "team": "home",
@@ -1804,7 +2650,71 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0075645,
    "latency_ms": 7658,
-   "crops_dir": "frames/shirts/live1390000_t21@1409500-1414800"
+   "crops_dir": "frames/shirts/live1390000_t21@1409500-1414800",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 10,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 2,
+      "number": 10,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 4,
+      "number": 10,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 10,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 7,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 8,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     }
+    ],
+    "number": 10,
+    "consistent": true,
+    "agree": 3,
+    "with_number": 3,
+    "crops": 8,
+    "counts": {
+     "10": 3
+    },
+    "why": null,
+    "cost_usd": 0.020644
+   }
   },
   "live1390000:t6@1409500-1411300": {
    "team": "home",
@@ -1896,7 +2806,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0088515,
    "latency_ms": 6646,
-   "crops_dir": "frames/shirts/live1390000_t6@1409500-1411300"
+   "crops_dir": "frames/shirts/live1390000_t6@1409500-1411300",
+   "confirm": null
   },
   "live1390000:t10@1409500-1411300": {
    "team": "home",
@@ -1982,7 +2893,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.00989925,
    "latency_ms": 36774,
-   "crops_dir": "frames/shirts/live1390000_t10@1409500-1411300"
+   "crops_dir": "frames/shirts/live1390000_t10@1409500-1411300",
+   "confirm": null
   },
   "live1390000:t13@1409500-1412200": {
    "team": "home",
@@ -2068,7 +2980,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0102345,
    "latency_ms": 11390,
-   "crops_dir": "frames/shirts/live1390000_t13@1409500-1412200"
+   "crops_dir": "frames/shirts/live1390000_t13@1409500-1412200",
+   "confirm": null
   },
   "live1390000:t25@1409500-1414800": {
    "team": "home",
@@ -2105,7 +3018,8 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0123495,
    "latency_ms": 18037,
-   "crops_dir": "frames/shirts/live1390000_t25@1409500-1414800"
+   "crops_dir": "frames/shirts/live1390000_t25@1409500-1414800",
+   "confirm": null
   },
   "live1390000:t23@1410900-1410900": {
    "team": "away",
@@ -2197,7 +3111,1565 @@
    "model": "gemini-3.8-flash",
    "cost_usd": 0.0084675,
    "latency_ms": 5528,
-   "crops_dir": "frames/shirts/live1390000_t23@1410900-1410900"
+   "crops_dir": "frames/shirts/live1390000_t23@1410900-1410900",
+   "confirm": null
+  },
+  "live869000:t19@874100-880000": {
+   "team": "home",
+   "label": "t19",
+   "name_now": null,
+   "tracks": "tracks/104.json",
+   "track_id": 19,
+   "at_s": 877.05,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    874.1,
+    880.0
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00913725,
+   "latency_ms": 8149,
+   "crops_dir": "frames/shirts/live869000_t19@874100-880000"
+  },
+  "live869000:t15@874300-880000": {
+   "team": "home",
+   "label": "t15",
+   "name_now": null,
+   "tracks": "tracks/104.json",
+   "track_id": 15,
+   "at_s": 877.15,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 8,
+     "confidence": 0.93,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 8,
+     "confidence": 0.94,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 8,
+     "confidence": 0.94,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 8,
+     "confidence": 0.93,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 8,
+     "confidence": 0.93,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 8,
+     "confidence": 0.93,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 8,
+     "confidence": 0.93,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 8,
+     "confidence": 0.92,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": 8,
+   "consistent": true,
+   "agree": 8,
+   "with_number": 8,
+   "crops": 8,
+   "counts": {
+    "8": 8
+   },
+   "why": null,
+   "name": "Bruno Fernandes",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 8,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 8,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 8,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 8,
+      "confidence": 0.85,
+      "side": "back"
+     }
+    ],
+    "number": 8,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "8": 8
+    },
+    "why": null,
+    "cost_usd": 0.020668
+   },
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    874.3,
+    880.0
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00749475,
+   "latency_ms": 5511,
+   "crops_dir": "frames/shirts/live869000_t15@874300-880000"
+  },
+  "live869000:t16@874300-880000": {
+   "team": "home",
+   "label": "t16",
+   "name_now": null,
+   "tracks": "tracks/104.json",
+   "track_id": 16,
+   "at_s": 877.15,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.4,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 19,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.4,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 19,
+     "confidence": 0.75,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 19,
+     "confidence": 0.7,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.3,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 19,
+     "confidence": 0.65,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.2,
+     "side": "front"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "agree": 4,
+   "with_number": 4,
+   "crops": 8,
+   "counts": {
+    "19": 4
+   },
+   "why": "gemini-4-argon read {18: 3} on the same crops, not 19",
+   "name": null,
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 19,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 2,
+      "number": 18,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 4,
+      "number": 18,
+      "confidence": 0.5,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 18,
+      "confidence": 0.75,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     }
+    ],
+    "number": 18,
+    "consistent": true,
+    "agree": 3,
+    "with_number": 3,
+    "crops": 8,
+    "counts": {
+     "18": 3
+    },
+    "why": null,
+    "cost_usd": 0.0206
+   },
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    874.3,
+    880.0
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.007983,
+   "latency_ms": 10361,
+   "crops_dir": "frames/shirts/live869000_t16@874300-880000"
+  },
+  "live869000:t4@874300-876800": {
+   "team": "home",
+   "label": "t4",
+   "name_now": null,
+   "tracks": "tracks/104.json",
+   "track_id": 4,
+   "at_s": 875.55,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 19,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": 19,
+   "consistent": true,
+   "agree": 8,
+   "with_number": 8,
+   "crops": 8,
+   "counts": {
+    "19": 8
+   },
+   "why": null,
+   "name": "Bryan Mbeumo",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 19,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 19,
+      "confidence": 0.85,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 19,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 19,
+      "confidence": 0.95,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 19,
+      "confidence": 0.95,
+      "side": "back"
+     }
+    ],
+    "number": 19,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "19": 8
+    },
+    "why": null,
+    "cost_usd": 0.020752
+   },
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    874.3,
+    876.8
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00816375,
+   "latency_ms": 6814,
+   "crops_dir": "frames/shirts/live869000_t4@874300-876800"
+  },
+  "live869000:t22@874300-880000": {
+   "team": "home",
+   "label": "t22",
+   "name_now": null,
+   "tracks": "tracks/104.json",
+   "track_id": 22,
+   "at_s": 877.15,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 13,
+     "confidence": 0.93,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 13,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 13,
+     "confidence": 0.94,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 13,
+     "confidence": 0.93,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 13,
+     "confidence": 0.94,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 13,
+     "confidence": 0.92,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 13,
+     "confidence": 0.93,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 13,
+     "confidence": 0.95,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": 13,
+   "consistent": true,
+   "agree": 8,
+   "with_number": 8,
+   "crops": 8,
+   "counts": {
+    "13": 8
+   },
+   "why": null,
+   "name": "Patrick Dorgu",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 13,
+    "reads": [
+     {
+      "crop": 1,
+      "number": 13,
+      "confidence": 0.98,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 13,
+      "confidence": 0.98,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": 13,
+      "confidence": 0.98,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 13,
+      "confidence": 0.97,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 13,
+      "confidence": 0.98,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 13,
+      "confidence": 0.97,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 13,
+      "confidence": 0.98,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 13,
+      "confidence": 0.98,
+      "side": "back"
+     }
+    ],
+    "number": 13,
+    "consistent": true,
+    "agree": 8,
+    "with_number": 8,
+    "crops": 8,
+    "counts": {
+     "13": 8
+    },
+    "why": null,
+    "cost_usd": 0.020696
+   },
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    874.3,
+    880.0
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.0073515,
+   "latency_ms": 4306,
+   "crops_dir": "frames/shirts/live869000_t22@874300-880000"
+  },
+  "live869000:t17@877500-877800": {
+   "team": "away",
+   "label": "t17",
+   "name_now": null,
+   "tracks": "tracks/104.json",
+   "track_id": 17,
+   "at_s": 877.65,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "man_city",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    877.5,
+    877.8
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.0078795,
+   "latency_ms": 5126,
+   "crops_dir": "frames/shirts/live869000_t17@877500-877800"
+  },
+  "live869000:t25@878700-878900": {
+   "team": "away",
+   "label": "t25",
+   "name_now": null,
+   "tracks": "tracks/104.json",
+   "track_id": 25,
+   "at_s": 878.8,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "man_city",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    878.7,
+    878.9
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.007524,
+   "latency_ms": 5014,
+   "crops_dir": "frames/shirts/live869000_t25@878700-878900"
+  },
+  "live869000:t5@879700-880000": {
+   "team": "away",
+   "label": "t5",
+   "name_now": null,
+   "tracks": "tracks/104.json",
+   "track_id": 5,
+   "at_s": 879.85,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 19,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 19,
+     "confidence": 0.85,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": 19,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 4,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 19,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 19,
+     "confidence": 0.9,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "agree": 8,
+   "with_number": 8,
+   "crops": 8,
+   "counts": {
+    "19": 8
+   },
+   "why": "kit: ['home', 'home', 'home', 'home', 'home', 'home', 'home', 'home'] for a away label",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "man_city",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_City_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    879.7,
+    880.0
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00762525,
+   "latency_ms": 5165,
+   "crops_dir": "frames/shirts/live869000_t5@879700-880000"
+  },
+  "live1062200:t30@1075300-1079200": {
+   "team": "home",
+   "label": "t30",
+   "name_now": null,
+   "tracks": "tracks/127.json",
+   "track_id": 30,
+   "at_s": 1077.25,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.4,
+     "side": "side"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.3,
+     "side": "side"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.4,
+     "side": "side"
+    },
+    {
+     "crop": 4,
+     "number": 8,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.2,
+     "side": "side"
+    },
+    {
+     "crop": 6,
+     "number": 8,
+     "confidence": 0.58,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.2,
+     "side": "side"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.3,
+     "side": "side"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "agree": 2,
+   "with_number": 2,
+   "crops": 8,
+   "counts": {
+    "8": 2
+   },
+   "why": "8 read 2 of 2 times, another number 0 times",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    1075.3,
+    1079.2
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.007494,
+   "latency_ms": 6785,
+   "crops_dir": "frames/shirts/live1062200_t30@1075300-1079200"
+  },
+  "live1062200:t26@1075300-1079200": {
+   "team": "home",
+   "label": "t26",
+   "name_now": null,
+   "tracks": "tracks/127.json",
+   "track_id": 26,
+   "at_s": 1077.25,
+   "reads": [
+    {
+     "crop": 1,
+     "number": 13,
+     "confidence": 0.6,
+     "side": "back"
+    },
+    {
+     "crop": 2,
+     "number": 13,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": 13,
+     "confidence": 0.65,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 13,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 13,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 13,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 13,
+     "confidence": 0.85,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": 13,
+   "consistent": true,
+   "agree": 7,
+   "with_number": 7,
+   "crops": 8,
+   "counts": {
+    "13": 7
+   },
+   "why": null,
+   "name": "Patrick Dorgu",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 13,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 2,
+      "number": 13,
+      "confidence": 0.6,
+      "side": "back"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 4,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 13,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 13,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 13,
+      "confidence": 0.8,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 13,
+      "confidence": 0.5,
+      "side": "back"
+     }
+    ],
+    "number": 13,
+    "consistent": true,
+    "agree": 5,
+    "with_number": 5,
+    "crops": 8,
+    "counts": {
+     "13": 5
+    },
+    "why": null,
+    "cost_usd": 0.021528
+   },
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    1075.3,
+    1079.2
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00810975,
+   "latency_ms": 5346,
+   "crops_dir": "frames/shirts/live1062200_t26@1075300-1079200"
+  },
+  "live1062200:t25@1075300-1079200": {
+   "team": "home",
+   "label": "t25",
+   "name_now": null,
+   "tracks": "tracks/127.json",
+   "track_id": 25,
+   "at_s": 1077.25,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "side"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "front"
+    },
+    {
+     "crop": 4,
+     "number": 19,
+     "confidence": 0.6,
+     "side": "back"
+    },
+    {
+     "crop": 5,
+     "number": 19,
+     "confidence": 0.9,
+     "side": "back"
+    },
+    {
+     "crop": 6,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 7,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 19,
+     "confidence": 0.95,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": 19,
+   "consistent": true,
+   "agree": 5,
+   "with_number": 5,
+   "crops": 8,
+   "counts": {
+    "19": 5
+   },
+   "why": null,
+   "name": "Bryan Mbeumo",
+   "confirm": {
+    "model": "gemini-4-argon",
+    "asked": 19,
+    "reads": [
+     {
+      "crop": 1,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 2,
+      "number": null,
+      "confidence": 0.0,
+      "side": "side"
+     },
+     {
+      "crop": 3,
+      "number": null,
+      "confidence": 0.0,
+      "side": "back"
+     },
+     {
+      "crop": 4,
+      "number": 19,
+      "confidence": 0.7,
+      "side": "back"
+     },
+     {
+      "crop": 5,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 6,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 7,
+      "number": 19,
+      "confidence": 0.9,
+      "side": "back"
+     },
+     {
+      "crop": 8,
+      "number": 19,
+      "confidence": 0.95,
+      "side": "back"
+     }
+    ],
+    "number": 19,
+    "consistent": true,
+    "agree": 5,
+    "with_number": 5,
+    "crops": 8,
+    "counts": {
+     "19": 5
+    },
+    "why": null,
+    "cost_usd": 0.020674
+   },
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    1075.3,
+    1079.2
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00759075,
+   "latency_ms": 4331,
+   "crops_dir": "frames/shirts/live1062200_t25@1075300-1079200"
+  },
+  "live1062200:t37@1075300-1079200": {
+   "team": "home",
+   "label": "t37",
+   "name_now": null,
+   "tracks": "tracks/127.json",
+   "track_id": 37,
+   "at_s": 1077.25,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    1075.3,
+    1079.2
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00801375,
+   "latency_ms": 5548,
+   "crops_dir": "frames/shirts/live1062200_t37@1075300-1079200"
+  },
+  "live1062200:t35@1075300-1077000": {
+   "team": "home",
+   "label": "t35",
+   "name_now": null,
+   "tracks": "tracks/127.json",
+   "track_id": 35,
+   "at_s": 1076.15,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "man_utd",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Manchester_United_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    1075.3,
+    1077.0
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00812025,
+   "latency_ms": 9707,
+   "crops_dir": "frames/shirts/live1062200_t35@1075300-1077000"
   }
  }
 }
