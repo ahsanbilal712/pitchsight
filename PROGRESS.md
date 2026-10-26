@@ -5,6 +5,24 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: video v9 narration (script, Gemini TTS stems, ADR-010 amendment)
+
+- `docs/video/narration_v9.md`: 150 words, intro (45) and architecture (105) only; no voice over the match clips. Opens
+  with "Built for Inside the Game: the Premier League and Microsoft developer hackathon". Every claim checked in code
+  (RF-DETR and ByteTrack, the per-frame camera fit to the painted lines, the pass model and the published xG model,
+  Microsoft Agent Framework with Gemini, the Fact Checker). No training claim or figure, no YOLO, no Azure Foundry, no
+  number spoken.
+- `footage.narration`: one live call per section to gemini-2.5-pro-tts (voice Charon) on Vertex AI, ffc-19484, through
+  SpendGuard (`config/budgets.yaml` gains its price: $1.00 in / $20.00 out per 1M, Gemini API pricing page). WAV and
+  M4A stems go to the git-ignored `packages/demo/out/narration_v9/` with `timings.json`. gemini-3.8-flash transcribes
+  each stem without the script, and it must match word for word: both do. Sentence starts are counted from the
+  pauses. Lengths: intro 19.29 s, architecture 51.05 s. Spend $0.0553 (voice $0.0354, checks $0.0199).
+- ADR-010 amended: narration in the demo video only; the product still has no TTS or audio in cues.
+- Tests: `tests/footage/test_narration.py` (opening line, length, ruled-out claims, no digits). Footage suite 70
+  passed.
+
+---
+
 ## 2026-10-26 — Track B: v8 grounding regenerated on draft 2 and the re-checked names
 
 - `data/footage/v8_grounding.json` regenerated on track C's current `edit_v8.yaml`: 1,310 of 1,310 on-screen numbers

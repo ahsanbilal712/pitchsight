@@ -2,7 +2,8 @@
 
 ## Status
 
-Accepted, 2026-10-21
+Accepted, 2026-10-21. Amended 2026-10-26: the demo video (v9) has narration (see "Amendment" below). The product
+decision is unchanged.
 
 ## Context
 
@@ -33,6 +34,21 @@ The Fact Checker's number-binding and banned-content rules (TECH_PLAN 1.7) are w
 - Negative: the challenge's multi-language bullet is not addressed, and the README says so. There is no audio description for viewers who cannot read the overlay; the viewer profile offers high contrast only.
 - Negative: adding languages later is additive for the schema (optional fields are a minor bump, TECH_PLAN 1.3). It is not additive for the Fact Checker: rule 6 (regex for digits, percent and decimals) and the banned-name list need work per language.
 - Negative: the audit's multilingual and voice evidence items (C.6) are not produced.
+
+## Amendment, 2026-10-26: narration in the demo video
+
+- The owner approved narration for video v9 on 26 Oct 2026. It covers the intro and the architecture section only;
+  the match clips carry no voice ("no need for the commentary on the broadcasts").
+- The voice is Gemini text-to-speech on Vertex AI (`gemini-2.5-pro-tts`, prebuilt voice Charon), called live on
+  project ffc-19484 through SpendGuard (role `video_narration`, priced in `config/budgets.yaml`). No new cloud
+  resource. A premium macOS voice is the fallback.
+- The script is `docs/video/narration_v9.md`. `python -m footage.narration` turns it into one stem per section and
+  checks each stem: gemini-3.8-flash transcribes it without the script, and the transcript must match the script word
+  for word. No number is spoken.
+- This does not change the decision above. It is a property of the video, not of the product: there is still no
+  Localizer, no TTS and no audio in cues, `cue.text` stays English text, and `config/pins.txt` adds nothing (the
+  google-genai SDK already pinned makes the call). The section 7 line "a team member records it, or captions only"
+  is superseded for v9 only.
 
 ## Related
 

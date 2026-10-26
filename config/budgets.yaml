@@ -53,6 +53,7 @@ spend:
     claude-haiku-5-5: { in: 0.10, out: 0.50, cache_read: 0.01 }   # prompts up to 100k tokens; cache read 0.1x input, Anthropic pricing page 21 Oct 2026
     gemini-3.8-flash: { in: 0.75, out: 3.75 }
     gemini-4-argon: { in: 2.00, out: 10.00 }   # until 30 Nov 2026, then 4.00 / 20.00 (ADR-004); runtime model since 21 Oct 2026
+    gemini-2.5-pro-tts: { in: 1.00, out: 20.00 }   # text in, audio out (25 audio tokens per second); Gemini API pricing page, 26 Oct 2026; video narration only (ADR-010 amendment)
     batch_discount: 0.5
 
 latency_slo:
