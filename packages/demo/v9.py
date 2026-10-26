@@ -56,9 +56,9 @@ class Opener:
         im = Image.new("RGB", (W, H), INK)
         layer = hi_layer((W, H))
         d = HiDraw(layer)
-        fade = 1 - 0.75 * window(t, 2.4, 3.0) - 0.25 * window(t, 4.6, 5.2)
+        fade = 1 - 0.75 * window(t, 1.6, 2.2) - 0.25 * window(t, 4.6, 5.2)
         for k, q in enumerate(self.lines):                 # the markings draw on, staggered, then sink back
-            p = ease_in_out(window(t, 0.15 + 0.07 * k, 1.3 + 0.07 * k))
+            p = ease_in_out(window(t, 0.1 + 0.05 * k, 1.0 + 0.05 * k))
             if p <= 0:
                 continue
             n = max(2, int(len(q) * p))
@@ -66,22 +66,22 @@ class Opener:
             d.line(pts, fill=(*LINE_GREEN, int(70 * fade)), width=7)
             d.line(pts, fill=(*LINE_GREEN, int(255 * fade)), width=2)
             for v in (q[0], q[n - 1]):                     # square nodes at each end
-                a = int(255 * fade * window(t, 0.2 + 0.07 * k, 0.4 + 0.07 * k))
+                a = int(255 * fade * window(t, 0.15 + 0.05 * k, 0.35 + 0.05 * k))
                 d.rectangle((v[0] - 5, v[1] - 5, v[0] + 5, v[1] + 5), fill=(*INK, a), outline=(*LINE_GREEN, a), width=2)
-        e = window(t, 2.6, 3.1) * (1 - window(t, 4.5, 4.9))
+        e = window(t, 0.6, 1.1) * (1 - window(t, 4.8, 5.2))     # under "Built for Inside the Game ..."
         if e > 0:
             d.text((W / 2, H / 2 - 30), self.m["event"], font=font(64), fill=(255, 255, 255, int(255 * e)), anchor="mm")
             d.text((W / 2, H / 2 + 50), self.m["event_sub"], font=font(36, bold=False), fill=(*MUTED, int(255 * e)),
                    anchor="mm")
-        w = window(t, 5.0, 5.35)
+        w = window(t, 5.35, 5.65)                       # "This is Pitchsight" at 5.56 s
         if w > 0:
-            s = 1 + 0.05 * (1 - ease_in_out(window(t, 5.0, 5.6)))
+            s = 1 + 0.05 * (1 - ease_in_out(window(t, 5.35, 5.9)))
             f = ImageFont.truetype(FONT, int(170 * s))
             d.text((W / 2, H / 2 - 40), "PITCHSIGHT", font=f, fill=(255, 255, 255, int(255 * w)), anchor="mm")
-            wl = d.textlength("PITCHSIGHT", font=f) * ease_in_out(window(t, 5.3, 6.0))
+            wl = d.textlength("PITCHSIGHT", font=f) * ease_in_out(window(t, 5.6, 6.3))
             d.rounded_rectangle((W / 2 - wl / 2, H / 2 + 62, W / 2 + wl / 2, H / 2 + 70), radius=4,
                                 fill=(*ACCENT, int(255 * w)))
-            b = window(t, 5.8, 6.3)
+            b = window(t, 6.0, 6.5)
             d.text((W / 2, H / 2 + 128), self.m["tagline"], font=font(48, bold=False),
                    fill=(230, 236, 242, int(255 * b)), anchor="mm")
         flatten(im, layer)
@@ -199,15 +199,18 @@ class Architecture:
             boxes.append(((x0, 540, x0 + unit * wf, 540 + 300), n))
             x0 += unit * wf + gap
         step = float(self.m.get("step_s", 1.3))
+        reveal = self.m.get("reveal") or [0.5 + step * k for k in range(len(boxes))]   # under the narration
         for k, (box, n) in enumerate(boxes):
-            on = window(t, 0.5 + step * k, 0.9 + step * k)
+            t_on = float(reveal[k])
+            on = window(t, t_on, t_on + 0.4)
             if on <= 0:
                 continue
-            lit = 0.5 + step * k <= t < 0.5 + step * (k + 1)
+            nxt = float(reveal[k + 1]) if k + 1 < len(reveal) else 1e9
+            lit = t_on <= t < nxt
             if k:                                           # the arrow from the node before draws on
                 (ax0, ay0, ax1, ay1), _ = boxes[k - 1]
                 bx0, by0, bx1, by1 = box
-                p = ease_in_out(window(t, 0.2 + step * k, 0.6 + step * k))
+                p = ease_in_out(window(t, t_on - 0.3, t_on + 0.1))
                 if by0 == ay0:                              # same row: left to right
                     path = [((ax1, (ay0 + ay1) / 2)), (bx0, (by0 + by1) / 2)]
                 else:                                       # down to the second row: an elbow, never a diagonal
@@ -240,3 +243,109 @@ class Architecture:
 
     def export(self, path: Path) -> Path:
         return _encode(self.render, path, int(round(float(self.m["duration"]) * FPS)))
+
+
+class DecisionFreeze(Live):
+    """The decision gap, held on the real frame (track A decision_gap_0's pick): the shot cone from the carrier to
+    the posts against the cutback to the runner, both priced; track A's boxes; a card in the right stack. Neutral
+    wording: the published xG model sees distance and angle only, so the card never says the player chose wrongly."""
+
+    def __init__(self, m: dict):
+        super().__init__(m)
+        doc = json.loads((ROOT / m["decision"]).read_text())
+        doc = doc.get("result", doc)
+        self.pick = next(p for p in doc["passages_top"] if p["clip_ms"] == int(m["clip_ms"]))
+        w = json.loads((ROOT / m["window"]).read_text())
+        self.win = w.get("result", w)
+
+    def span(self):
+        t = int(self.m["clip_ms"]) / 1000
+        return t, t + float(self.m.get("hold_s", 6.0))
+
+    def freeze_at(self):
+        return int(self.m["clip_ms"]) / 1000
+
+    def dim(self, t):
+        return 0.25 * window(t - self.freeze_at(), 0.0, 0.4)
+
+    def _carrier(self) -> dict | None:
+        x = self.data["frames"]
+        i, _, _ = bracket(x, int(self.m["clip_ms"]))
+        return x[i].get("holder")
+
+    def ground(self, ax, cam, t):
+        tau = t - self.freeze_at()
+        car = self._carrier()
+        if car is None:
+            return
+        c = np.array([car["x"], car["y"]])
+        goal_x = 0.0 if self.pick["receiver_xy"][0] < 52.5 else 105.0
+        a = window(tau, 0.2, 0.6)
+        tri = np.array([c, [goal_x, 34 - 3.66], [goal_x, 34 + 3.66], c])
+        poly = cam.project(np.vstack([np.linspace(tri[i], tri[i + 1], 16) for i in range(3)]))
+        ax.fill(poly[:, 0], poly[:, 1], color=(1, 1, 1, 0.16 * a), lw=0)
+        ax.plot(poly[:, 0], poly[:, 1], color=(1, 1, 1, 0.9 * a), lw=1.8)
+        b = ease_in_out(window(tau, 0.8, 1.5))             # then the cutback draws on
+        if b > 0:
+            r = np.array(self.pick["receiver_xy"])
+            seg = cam.project(np.linspace(c, c + (r - c) * b, 40))
+            col = np.array(ACCENT) / 255
+            ax.plot(seg[:, 0], seg[:, 1], color=(*col, 0.3), lw=16, solid_capstyle="round")
+            ax.plot(seg[:, 0], seg[:, 1], color=(*col, 1), lw=4, solid_capstyle="round")
+            if b >= 1:
+                ring = cam.project(np.c_[r[0] + 1.0 * np.cos(np.linspace(0, 2 * np.pi, 48)),
+                                         r[1] + 1.0 * np.sin(np.linspace(0, 2 * np.pi, 48))])
+                ax.plot(ring[:, 0], ring[:, 1], color=(*col, 1), lw=3)
+
+    def panels(self, im, cam, t):
+        tau = t - self.freeze_at()
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
+        kits = {k: tuple(v) for k, v in (self.m.get("kits") or {}).items()}
+        fr = min(self.win["frames"], key=lambda f: abs(f["clip_ms"] - int(self.m["clip_ms"])))
+        for bx in fr.get("boxes") or []:                   # track A's boxes on the held frame
+            if bx.get("team") == "referee":
+                continue
+            x0, y0, x1, y1 = bx["bbox"]
+            d.rounded_rectangle((x0, y0, x1, y1), radius=5, outline=(*kits.get(bx.get("team"), (158, 168, 184)), 220),
+                                width=1.3)
+        car = self._carrier()
+        p = self.pick
+        f30 = font(30)
+        if car is not None and cam is not None:
+            pt = cam.project([[car["x"], car["y"]]])[0]
+            a = window(tau, 0.4, 0.8)
+            text = f"{p['holder'].split()[-1]} shoots · {p['shot_xg']:.2f} xG"
+            w = d.textlength(text, font=f30) + 32
+            d.rounded_rectangle((pt[0] - w / 2, pt[1] + 26, pt[0] + w / 2, pt[1] + 76), radius=RADIUS,
+                                fill=(14, 18, 24, int(225 * a)), outline=(255, 255, 255, int(255 * a)), width=2)
+            d.text((pt[0], pt[1] + 51), text, font=f30, fill=(255, 255, 255, int(255 * a)), anchor="mm")
+            rp = cam.project([p["receiver_xy"]])[0]
+            b = window(tau, 1.5, 1.9)
+            text = f"{self.m['receiver_label']} · {p['xg_receiver']:.2f} xG if it arrives"
+            w = d.textlength(text, font=f30) + 32
+            x0 = float(np.clip(rp[0] - w / 2, 24, W - 24 - w))
+            y0 = rp[1] - 190                                # above the runner, clear of the cutback line
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + 50), radius=RADIUS, fill=(14, 18, 24, int(225 * b)),
+                                outline=(*ACCENT, int(255 * b)), width=2)
+            d.text((x0 + w / 2, y0 + 25), text, font=f30, fill=(*ACCENT, int(255 * b)), anchor="mm")
+        c = window(tau, 2.2, 2.7)                          # the card, in the right stack
+        if c > 0:
+            w, h = 760, 300
+            x0, y0 = W - 64 - w, H - 150 - h
+            d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=RADIUS, fill=(14, 18, 24, int(232 * c)),
+                                outline=(255, 255, 255, int(40 * c)), width=1)
+            kit = kits.get(self.m.get("team", "away"), ACCENT)
+            d.rounded_rectangle((x0 + RADIUS, y0, x0 + w - RADIUS, y0 + 4), radius=2, fill=(*kit, int(255 * c)))
+            d.text((x0 + 28, y0 + 26), self.m["card_title"], font=font(26), fill=(*MUTED, int(255 * c)))
+            rows = [(f"{p['holder'].split()[-1]} shoots", f"{p['shot_xg']:.2f}", (230, 236, 242)),
+                    (f"Cutback, if it reaches {self.m['receiver_label']}", f"{p['xg_receiver']:.2f}", ACCENT)]
+            for k, (label, v, col) in enumerate(rows):
+                y = y0 + 80 + 78 * k
+                vw = d.textlength(f"{v} xG", font=font(40))
+                d.text((x0 + 28, y + 4), label, font=shrink(d, label, FONT_REG, 30, w - 56 - vw - 24, floor=24),
+                       fill=(230, 236, 242, int(255 * c)))
+                d.text((x0 + w - 28, y + 18), f"{v} xG", font=font(40), fill=(*col, int(255 * c)), anchor="rm")
+            d.text((x0 + 28, y0 + h - 52), f"It arrives {p['p_complete'] * 100:.0f}% of the time (pass model)",
+                   font=font(26, bold=False), fill=(*MUTED, int(255 * c)))
+        flatten(im, layer)

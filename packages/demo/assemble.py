@@ -225,8 +225,23 @@ def assemble(edit_path: Path, keep: bool = False) -> Path:
         wm = str(edit["watermark"]).replace(":", r"\:").replace("'", r"\'")
         vf += (f",drawtext=fontfile='{FONT}':text='{wm}':x=40:y=h-text_h-36:fontsize=26:"
                f"fontcolor=white@0.55")
-    run(["ffmpeg", "-v", "error", "-y", "-i", str(joined), "-vf", vf, *encode_args(fps),
-         "-movflags", "+faststart", str(out)])
+    audio = edit.get("audio") or []                       # v9: narration only; the clips' own sound never enters
+    if not audio:
+        run(["ffmpeg", "-v", "error", "-y", "-i", str(joined), "-vf", vf, *encode_args(fps),
+             "-movflags", "+faststart", str(out)])
+    else:
+        ins, chains = [], []
+        for k, a in enumerate(audio):
+            ins += ["-i", str(ROOT / a["file"])]
+            ms = int(round(float(a["at"]) * 1000))
+            chains.append(f"[{k + 1}:a]aresample=48000,volume={float(a.get('gain_db', 0))}dB,"
+                          f"adelay={ms}|{ms}[a{k}]")
+        mix = "".join(f"[a{k}]" for k in range(len(audio)))
+        graph = ";".join([f"[0:v]{vf}[v]", *chains,
+                          f"{mix}amix=inputs={len(audio)}:normalize=0,apad[aout]"])
+        run(["ffmpeg", "-v", "error", "-y", "-i", str(joined), *ins, "-filter_complex", graph, "-map", "[v]",
+             "-map", "[aout]", *[x for x in encode_args(fps) if x != "-an"], "-c:a", "aac", "-b:a", "192k", "-shortest",
+             "-movflags", "+faststart", str(out)])
     if keep:
         print(f"kept {tmp}")
     else:

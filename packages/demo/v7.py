@@ -17,8 +17,8 @@ from collections import Counter
 import numpy as np
 from PIL import ImageDraw, ImageFont
 
-from demo.live import FONT, FONT_REG, MUTED, ROOT, H, W, bracket
-from demo.v6 import ACCENT, LiveHUD, shrink
+from demo.live import FONT, FONT_REG, MUTED, PANEL, ROOT, H, HiDraw, W, bracket, flatten, hi_layer, window
+from demo.v6 import ACCENT, RADIUS, LiveHUD, shrink
 
 TINT_ALPHA = 0.10              # the control tint stays under everything
 LINE_ALPHA = 0.55              # team lines, the back line a step stronger
@@ -171,12 +171,48 @@ class AlwaysOn(LiveHUD):
     def ground(self, ax, cam, t):
         if self.v9:
             self._boxes(ax, t)
+            self._cone(ax, cam, t)
         lay = self.layer(t)
         if lay is not None and cam is not None:
             if lay.get("control") is not None:
                 self._tint(ax, cam, lay)
             self._shape(ax, cam, lay)
         super().ground(ax, cam, t)
+
+    def window(self) -> dict | None:
+        """Track A's v9 window (cache/v9/window_<start>.json): boxes every frame, the states, the strikes."""
+        if not hasattr(self, "_win"):
+            w = self.m.get("window")
+            self._win = None
+            if w:
+                doc = json.loads((ROOT / w).read_text())
+                self._win = doc.get("result", doc)
+                self._win_t = np.array([f["clip_ms"] for f in self._win["frames"]], float)
+                self._win_shots = [r["shot"] | {"disallowed": r.get("disallowed")} for r in self._win["live"]
+                                   if r.get("shot")]
+                self._win_disallowed = [r for r in self._win["live"] if r.get("disallowed")]
+        return self._win
+
+    def state(self, t: float) -> str | None:
+        win = self.window() if self.v9 else None
+        if win:                                            # v9: track A's states, the strikes and goals included
+            ms = t * 1000
+            st = next((x for x in win["states"] if x["from_clip_ms"] - 50 <= ms <= x["to_clip_ms"] + 50), None)
+            if st and st.get("state") != "carry" and st.get("state_text"):
+                return st["state_text"].upper()
+            if st:
+                return None
+        return super().state(t)
+
+    def strike(self, t: float) -> tuple[dict | None, float]:
+        """The reviewed strike this beat has reached (from the window's live rows) and the seconds since it."""
+        if not (self.v9 and self.window()):
+            return None, 0.0
+        past = [x for x in self._win_shots if x["clip_ms"] <= t * 1000 + 30]
+        if not past:
+            return None, 0.0
+        x = past[-1]
+        return x, t - x["clip_ms"] / 1000
 
     def _tracks(self) -> list[dict]:
         """Track A's per-frame boxes for this beat's camera shot, with each track's side (home/away) from the live
@@ -206,6 +242,23 @@ class AlwaysOn(LiveHUD):
         """v9: a thin rounded box in the team colour on every player track A detects in this frame; the ball
         carrier's box gets orange corner accents."""
         from matplotlib.patches import FancyBboxPatch
+        win = self.window()
+        if win is not None:                               # track A's v9 boxes: every frame, team per identity
+            j = int(np.clip(np.searchsorted(self._win_t, t * 1000), 1, len(self._win_t) - 1))
+            f = win["frames"][j] if abs(self._win_t[j] - t * 1000) < abs(self._win_t[j - 1] - t * 1000) \
+                else win["frames"][j - 1]
+            if abs(f["clip_ms"] - t * 1000) > 45 or f.get("tracking") == "lost":
+                return
+            for b in f.get("boxes") or []:
+                if b.get("team") == "referee":
+                    continue
+                x0, y0, x1, y1 = b["bbox"]
+                col = self.kits.get(b.get("team"), np.array((0.62, 0.66, 0.72)))
+                ax.add_patch(FancyBboxPatch((x0, y0), x1 - x0, y1 - y0, boxstyle="round,pad=0,rounding_size=5",
+                                            fc="none", ec=(*col, 0.85), lw=1.3))
+                if b.get("carrier"):
+                    self._corners(ax, x0, y0, x1, y1)
+            return
         fr = self._tracks()
         if not fr:
             return
@@ -225,11 +278,84 @@ class AlwaysOn(LiveHUD):
             ax.add_patch(FancyBboxPatch((x0, y0), x1 - x0, y1 - y0, boxstyle="round,pad=0,rounding_size=5",
                                         fc="none", ec=(*col, 0.85), lw=1.3))
             if p.get("track_id") == carrier:
-                acc = np.array(ACCENT) / 255
-                L = min(x1 - x0, y1 - y0) * 0.35
-                for cx, cy, sx, sy in ((x0, y0, 1, 1), (x1, y0, -1, 1), (x0, y1, 1, -1), (x1, y1, -1, -1)):
-                    ax.plot([cx, cx + sx * L], [cy, cy], color=(*acc, 1), lw=2.6, solid_capstyle="round")
-                    ax.plot([cx, cx], [cy, cy + sy * L], color=(*acc, 1), lw=2.6, solid_capstyle="round")
+                self._corners(ax, x0, y0, x1, y1)
+
+    @staticmethod
+    def _corners(ax, x0, y0, x1, y1) -> None:
+        acc = np.array(ACCENT) / 255
+        L = min(x1 - x0, y1 - y0) * 0.35
+        for cx, cy, sx, sy in ((x0, y0, 1, 1), (x1, y0, -1, 1), (x0, y1, 1, -1), (x1, y1, -1, -1)):
+            ax.plot([cx, cx + sx * L], [cy, cy], color=(*acc, 1), lw=2.6, solid_capstyle="round")
+            ax.plot([cx, cx], [cy, cy + sy * L], color=(*acc, 1), lw=2.6, solid_capstyle="round")
+
+    def _shot_xy(self, sh: dict) -> tuple[float, float] | None:
+        """The strike point from track A's shots_0 (the window row carries the value, not the place)."""
+        path = ROOT / "data" / "footage" / self.m["clip"] / "cache" / "v5" / "shots_0.json"
+        if not path.exists():
+            return None
+        doc = json.loads(path.read_text())
+        x = min(doc.get("result", doc)["shots"], key=lambda s: abs(s["clip_ms"] - sh["clip_ms"]))
+        return (x["x"], x["y"]) if abs(x["clip_ms"] - sh["clip_ms"]) < 200 and x.get("x") is not None else None
+
+    def _cone(self, ax, cam, t) -> None:
+        sh, since = self.strike(t)
+        if sh is None or cam is None or since > 1.6 or sh.get("xg") is None:
+            return
+        xy = self._shot_xy(sh)
+        if xy is None:
+            return
+        a = window(since, -0.05, 0.15) * (1 - window(since, 1.2, 1.6))
+        gx = 0.0 if xy[0] < 52.5 else 105.0
+        tri = np.array([xy, [gx, 34 - 3.66], [gx, 34 + 3.66], xy])
+        poly = cam.project(np.vstack([np.linspace(tri[i], tri[i + 1], 16) for i in range(3)]))
+        col = np.array(ACCENT) / 255
+        ax.fill(poly[:, 0], poly[:, 1], color=(*col, 0.22 * a), lw=0)
+        ax.plot(poly[:, 0], poly[:, 1], color=(1, 1, 1, 0.85 * a), lw=1.8)
+
+    def _shot_tags(self, d, cam, t) -> None:
+        """At a reviewed strike: its xG on the shooter, then the outcome tag bottom left (a goal in the kit colour);
+        a disallowed goal says so ('Ruled out by VAR')."""
+        sh, since = self.strike(t)
+        f = ImageFont.truetype(FONT, 34)
+        x0, y0 = 96, H - self.bottom - 64
+        if sh is not None and since <= 2.5 and sh.get("xg") is not None:
+            xy = self._shot_xy(sh)
+            pop = window(since, -0.05, 0.2)
+            if xy is not None and cam is not None and since <= 1.6:
+                pt = cam.project([list(xy)])[0]
+                text = f"{sh['xg']:.2f} xG"
+                fw = ImageFont.truetype(FONT, 44)
+                w = d.textlength(text, font=fw) + 40
+                box = (pt[0] - w / 2, pt[1] - 170, pt[0] + w / 2, pt[1] - 110)
+                d.rounded_rectangle(box, radius=RADIUS, fill=(*PANEL, int(235 * pop)), outline=(*ACCENT, int(255 * pop)),
+                                    width=3)
+                d.text(((box[0] + box[2]) / 2, (box[1] + box[3]) / 2), text, font=fw,
+                       fill=(255, 255, 255, int(255 * pop)), anchor="mm")
+                name = self.m.get("shooter_name")
+                if name:
+                    d.text(((box[0] + box[2]) / 2, box[3] + 10), name.upper(), font=ImageFont.truetype(FONT, 26),
+                           fill=(255, 255, 255, int(255 * pop)), anchor="mt", stroke_width=3,
+                           stroke_fill=(0, 0, 0, int(200 * pop)))
+            o = window(since, 0.3, 0.5)
+            if o > 0 and sh.get("outcome"):
+                goal = sh["outcome"] == "goal"
+                word = "SHOT" if sh["outcome"] == "no goal" else sh["outcome"].upper()
+                tag = f"{word} · {sh['xg']:.2f} xG"
+                col = tuple(int(v * 255) for v in self.kits.get(self.m.get("team", "home"), np.array((1, 1, 1)))) \
+                    if goal else (196, 204, 214)
+                w = d.textlength(tag, font=f) + 44
+                d.rounded_rectangle((x0, y0, x0 + w, y0 + 64), radius=RADIUS, fill=(*PANEL, int(235 * o)))
+                d.rectangle((x0, y0 + 12, x0 + 6, y0 + 52), fill=(*col, int(255 * o)))
+                d.text((x0 + 28, y0 + 32), tag, font=f, fill=(255, 255, 255, int(255 * o)), anchor="lm")
+        if self.v9 and self.window() and self._win_disallowed:
+            first = self._win_disallowed[0]["clip_ms"] / 1000
+            o = window(t, first, first + 0.25)
+            if o > 0:                                      # Mount's goal: no xG (unmeasured), the ruling only
+                tag = "RULED OUT BY VAR"
+                w = d.textlength(tag, font=f) + 44
+                d.rounded_rectangle((x0, y0, x0 + w, y0 + 64), radius=RADIUS, fill=(*PANEL, int(235 * o)))
+                d.rectangle((x0, y0 + 12, x0 + 6, y0 + 52), fill=(235, 60, 60, int(255 * o)))
+                d.text((x0 + 28, y0 + 32), tag, font=f, fill=(255, 255, 255, int(255 * o)), anchor="lm")
 
     def _tint(self, ax, cam, lay) -> None:
         g = lay["grid"]
@@ -352,6 +478,10 @@ class AlwaysOn(LiveHUD):
     def panels(self, im, cam, t):
         self._t = t
         super().panels(im, cam, t)
+        if self.v9:                                        # the strike's xG and its outcome, over the HUD
+            layer = hi_layer(im.size)
+            self._shot_tags(HiDraw(layer), cam, t)
+            flatten(im, layer)
         if self.standin:
             d = ImageDraw.Draw(im)
             d.text((W // 2, 24), "STAND-IN ALWAYS-ON LAYER (v6 positions): LOOK ONLY", font=ImageFont.truetype(FONT, 24),

@@ -1153,7 +1153,7 @@ moments:
   opener_v9:                         # motion graphics only: no match frame, no logos (the event in text)
     clip: manutd-mancity-2526        # unused: the opener draws everything
     kind: opener
-    duration: 8.0
+    duration: 7.2                    # the intro stem's first two sentences (track B, timings.json)
     event: "Inside the Game: Developer Hackathon"
     event_sub: "Premier League × Microsoft"
     tagline: "See the decision behind every moment."
@@ -1164,15 +1164,15 @@ moments:
     data: data/footage/liverpool-mancity-2526/cache/v6/live_802600.json
     tracks: data/footage/liverpool-mancity-2526/tracks/62.json
     shot_id: 62
-    t0: 868.0
-    t1: 878.0
+    t0: 866.0                        # 12.1 s: under "A broadcast shows you what happened ..." to the stem's end
+    t1: 878.1
     kits: {home: [214, 32, 52], away: [120, 182, 232]}
 
   architecture_v9:                   # one diagram, built over ~12 s (wording confirmed by track B)
     clip: manutd-mancity-2526        # unused
     kind: architecture
-    duration: 14.0
-    step_s: 1.3
+    duration: 52.0                   # the full architecture stem (51.05 s)
+    reveal: [0.3, 2.2, 4.6, 7.4, 11.7, 23.2, 30.6, 45.8]   # each node under its sentence (timings.json)
     top:
       - {title: "Broadcast video", sub: ["one camera,", "as aired"]}
       - {title: "RF-DETR", sub: ["real-time detection", "transformer"]}
@@ -1194,3 +1194,128 @@ moments:
     tagline: "See the decision behind every moment."
     repo: ""
     permission: "Premier League clips used with permission"
+
+  # v9 in action: one continuous beat per attack (track A's v9 windows: boxes every frame, the states through
+  # the strike and the goal), the strike's xG and outcome on the beat itself; Inter; 2x overlays
+  mci_live_v9:                       # Amad's passage
+    clip: manutd-mancity-2526
+    kind: always_on
+    data: data/footage/manutd-mancity-2526/cache/v6/live_869000.json
+    always: data/footage/manutd-mancity-2526/cache/v7/always_869000.json
+    shot_id: 104
+    t0: 872.0
+    t1: 877.0
+    team: home
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
+    theme: v9
+    window: data/footage/manutd-mancity-2526/cache/v9/window_869000.json
+
+  ars_palmer_live_v9:                # Arsenal v Chelsea 50:31-50:33: Palmer to the byline (track A's decision-gap pick)
+    clip: arsenal-chelsea-2526
+    kind: always_on
+    data: data/footage/arsenal-chelsea-2526/cache/v6/live_823600.json
+    always: data/footage/arsenal-chelsea-2526/cache/v7/always_823600.json
+    t0: 831.2
+    t1: 835.6
+    team: away
+    kits: {away: [3, 70, 148], home: [219, 0, 7]}
+    names_live: data/footage/arsenal-chelsea-2526/cache/v6/names_live_0.json
+    race: data/footage/arsenal-chelsea-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: CHE, home_short: ARS}
+    window: data/footage/arsenal-chelsea-2526/cache/v9/window_830000.json
+    theme: v9
+
+  lfc_live_v9:                       # Liverpool 86': the options re-price, Szoboszlai's strike and the block
+    clip: liverpool-mancity-2526
+    kind: always_on
+    data: data/footage/liverpool-mancity-2526/cache/v6/live_802600.json
+    always: data/footage/liverpool-mancity-2526/cache/v7/always_802600.json
+    shot_id: 62
+    t0: 868.9
+    t1: 876.6
+    team: home
+    kits: {away: [120, 182, 232], home: [214, 32, 52]}
+    names_live: data/footage/liverpool-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/liverpool-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: LIV}
+    theme: v9
+    window: data/footage/liverpool-mancity-2526/cache/v9/window_866000.json
+    shooter_name: Szoboszlai
+
+  mci_mbeumo_live_v9:                # the move, Mbeumo's strike and goal at normal speed
+    clip: manutd-mancity-2526
+    kind: always_on
+    data: data/footage/manutd-mancity-2526/cache/v6/live_1062200.json
+    always: data/footage/manutd-mancity-2526/cache/v7/always_1062200.json
+    t0: 1075.0
+    t1: 1082.7
+    team: home
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
+    theme: v9
+    window: data/footage/manutd-mancity-2526/cache/v9/window_1074400.json
+    shooter_name: Mbeumo
+
+  mci_late_live_v9:                  # stoppage time: Cunha to Mount, the goal ruled out by VAR
+    clip: manutd-mancity-2526
+    kind: always_on
+    data: data/footage/manutd-mancity-2526/cache/v6/live_1390000.json
+    always: data/footage/manutd-mancity-2526/cache/v7/always_1390000.json
+    shot_id: 160
+    t0: 1412.0
+    t1: 1418.5
+    team: home
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    names_live: data/footage/manutd-mancity-2526/cache/v6/names_live_0.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
+    theme: v9
+    window: data/footage/manutd-mancity-2526/cache/v9/window_1395000.json
+
+  mci_amad_v9:                       # the decision freeze (Inter, 2x)
+    clip: manutd-mancity-2526
+    style: v8
+    t_s: 877.0
+    pre_s: 2.0
+    post_s: 3.0
+    moment_file: manutd-mancity-2526/moments/877000.json
+    attacks: -x
+    team_name: Man Utd
+    kits: {away: [120, 182, 232], home: [218, 41, 28]}
+    actor: {label: Amad, player: '#16'}
+    target: null
+    xg: data/footage/manutd-mancity-2526/cache/v5/xg_decision_877000.json
+    line_v5: data/footage/manutd-mancity-2526/cache/v5/lines_877000.json
+    race: data/footage/manutd-mancity-2526/cache/v6/xg_running_0.json
+    race_labels: {away_short: MCI, home_short: MUN}
+
+  mci_pipeline_v9:                   # the Newsroom split (Inter, 2x)
+    clip: manutd-mancity-2526
+    kind: pipeline
+    data: data/footage/manutd-mancity-2526/cache/v6/pipeline_manutd-mancity-2526_877000.json
+    clip_ms: 877000
+    pre_s: 0.0
+    hold_s: 10.5
+    left: packages/demo/out/footage/mci_amad_arcs_v8_v8.png
+    compact: {cuebus: Line sent to air, director: 'On air 56:43 · 8 s', proposer: Shot + 4 passes priced, rollout: xG model + pass model, scout: 'Big chance: Amad, 18 m', tactician: The pass beats the shot}
+    theme: v8
+
+  ars_palmer_decision_v9:            # 50:33, held: Palmer's shot 0.04 against the cutback 0.27 if it arrives (54%)
+    clip: arsenal-chelsea-2526
+    kind: decision
+    data: data/footage/arsenal-chelsea-2526/cache/v6/live_823600.json
+    decision: data/footage/arsenal-chelsea-2526/cache/v9/decision_gap_0.json
+    window: data/footage/arsenal-chelsea-2526/cache/v9/window_830000.json
+    shot_id: 109
+    clip_ms: 835600
+    hold_s: 6.0
+    team: away
+    kits: {home: [219, 0, 7], away: [3, 70, 148]}
+    receiver_label: "a Chelsea runner"
+    card_title: "THE DECISION · 50:33"
+
