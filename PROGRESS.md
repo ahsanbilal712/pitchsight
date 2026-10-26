@@ -5,6 +5,17 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: the pipeline check reads a card's reworded line (v9 `says`)
+
+- `v6_pipeline` now reads a beat's `says` overrides as it reads `compact`: their numbers must be facts of the view,
+  the agent must exist in the record, and the grounding output lists each shown line beside the record's own
+  ("reworded"). Both v9 cuts still bind 1,076 of 1,076.
+- Review of track C's rollout line "Pass model × Expected Goals, for each option" (record: "Reference xG + pass model,
+  deterministic (no rollouts)"): the shot option is priced by xG alone, so "for each option" overstates it. Proposed
+  "xG for the shot; pass model × xG for each pass".
+
+---
+
 ## 2026-10-26 — Track B: video v9 grounding, both cuts: 1,076 of 1,076
 
 - `footage.grounding` has a v9 rule set. It runs v8's beat checks (live, always-on, pipeline, captions, the name),

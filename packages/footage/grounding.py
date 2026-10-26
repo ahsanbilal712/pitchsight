@@ -703,6 +703,11 @@ def v6_pipeline(beats: dict) -> list[dict]:
         compact = b.get("compact") or {}             # each card's phrase once it compacts (track C)
         for agent, text in compact.items():
             printed += [(f"compact {agent}", t) for t in _tokens(text)]
+        says = b.get("says") or {}                   # a card's line reworded on screen (v9): its numbers too, and
+        for agent, text in says.items():             # the record's own line kept beside it for the review
+            printed += [(f"says {agent}", t) for t in _tokens(text)]
+            if not any(n["agent"] == agent for n in v["nodes"]):
+                diff.append(f"says {agent}: no such agent in the record")
         checks = next((n for n in v["nodes"] if n["agent"] == "factcheck"), None)
         if checks is not None and "factcheck" not in compact:   # the card prints "<n> claims checked"
             printed.append(("compact factcheck", "claims"))
@@ -711,8 +716,13 @@ def v6_pipeline(beats: dict) -> list[dict]:
         bad = [f"{a}: {t}" for a, t in printed if t not in ("latency", "claims") and t not in allowed
                and t.replace("%", "") not in allowed]
         diff += bad
-        rows.append(_row("v6 overlay", f"{name}: pipeline view ({len(v['nodes'])} agents)", b["data"], len(printed),
-                         len(printed) - len(diff), diff))
+        row = _row("v6 overlay", f"{name}: pipeline view ({len(v['nodes'])} agents)", b["data"], len(printed),
+                   len(printed) - len(diff), diff)
+        if says:
+            row["reworded"] = [{"agent": a, "shown": t, "record": next(n.get("says") for n in v["nodes"]
+                                                                        if n["agent"] == a)} for a, t in says.items()
+                               if any(n["agent"] == a for n in v["nodes"])]
+        rows.append(row)
     return rows
 
 
