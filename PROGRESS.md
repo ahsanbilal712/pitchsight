@@ -5,6 +5,23 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 · Barcelona v Real Madrid (local-only test): squads, scorers, the clip registered (track B)
+
+- `config/footage.yaml`: barca-madrid-2627 as m_9005 (FC Barcelona home, Real Madrid away), marked local-only; the
+  clip folder stays git-ignored (06ed559), so its derived files (description.json, score_bug.json,
+  names_verified.json) are local only.
+- Squad lists 2026/27: `data/footage/squads/barcelona_2026-27.json` (fcbarcelona.com first-team page, the current
+  squad) and `real_madrid_2026-27.json` (the 2026/27 season page's squad table: realmadrid.com and laliga.com gave
+  an error / no list to an automated fetch); goalkeepers listed; source and retrieval date in each.
+- `footage.names`: description chapter lines ("00:58 — 0-1 Mbappé") parsed as goals; squad names are part of the
+  name vocabulary where a season list exists. Verified locally: Kylian Mbappé (0-1 at 0:58, 1-2 at 2:10), Raphinha
+  (1-1 at 1:39), both matching the score bug read by hand (0-0 to 40:48, 0-1 by 46:20+2, 1-1 by 62:33, 1-2 at
+  88:20), and Andriy Lunin, Jude Bellingham (named in the description). On-screen labels still need a shirt read
+  tying a name to a track (after track A's tracking).
+- No model call yet. Verification: `pytest tests/footage/test_names.py tests/footage/test_shirts.py` (exit 0).
+
+---
+
 ## 2026-10-23 · Video v8 draft 2: the explainer's numbers; the counter must read 1,306 (track B)
 
 - `footage.grounding.v8_explainer`: the how-it-works beat's option pills at options_at (top 3: p_pass x xG at the

@@ -27,6 +27,7 @@ import unicodedata
 from footage.clips import CLIPS, ROOT, clip_dir
 
 GOAL_LINE = re.compile(r"\|\s*(\d+)(?:\+\d+)?'\s*(.+?)\s*$")
+CHAPTER_GOAL = re.compile(r"^(\d{1,2}):(\d{2})\s*[—–-]\s*(\d+)-(\d+)\s+(.+?)\s*$")   # "00:58 — 0-1 Mbappé"
 SCORE = re.compile(r"(\d+)\s*-\s*(\d+)\s*[^|]*\|")
 
 
@@ -49,6 +50,11 @@ def candidates(slug: str) -> set[str]:
     for path in (clip_dir(slug) / "moments").glob("**/*.json"):
         if path.stem.isdigit():
             out |= {p["name"] for p in json.loads(path.read_text())["players"] if p.get("name")}
+    for side in ("home", "away"):          # the clubs' squad lists (footage.shirts), where the season has one
+        y = slug.rsplit("-", 1)[1]
+        sq = ROOT / "data" / "footage" / "squads" / f"{CLIPS[slug][f'{side}_id']}_20{y[:2]}-{y[2:]}.json"
+        if sq.exists():
+            out |= set(json.loads(sq.read_text())["numbers"].values())
     return out
 
 
@@ -63,6 +69,11 @@ def description(slug: str) -> dict:
     text = d.get("description") or ""
     goals = []
     for line in text.splitlines():
+        c = CHAPTER_GOAL.match(line.strip())
+        if c:                              # a chapter line: clip time, score after the goal, scorer
+            goals.append({"clip_s": int(c.group(1)) * 60 + int(c.group(2)), "score": [int(c.group(3)), int(c.group(4))],
+                          "scorer": c.group(5), "own_goal": False, "minute": None})
+            continue
         m, s = GOAL_LINE.search(line), SCORE.search(line)
         if m and s:
             scorer = m.group(2)
@@ -113,7 +124,8 @@ def verify(slug: str) -> dict:
     clip = CLIPS[slug]
     team_of = {fold(clip["home"]): "home", fold(clip["away"]): "away"}
     for g in desc.get("goals", []):
-        add(g["scorer"], None, {"kind": "description", "ref": f"description.json goal {g['minute']}'"})
+        add(g["scorer"], None, {"kind": "description", "ref": f"description.json goal {g['minute']}'" if g.get("minute")
+            else f"description.json chapter {g['clip_s'] // 60:02d}:{g['clip_s'] % 60:02d} ({g['score'][0]}-{g['score'][1]})"})
     for n in desc.get("mentions", []):
         add(n, None, {"kind": "description", "ref": "description.json mention"})
 
