@@ -50,9 +50,11 @@ def create_app(seed: int | str | None = None, speed: float | None = None, playin
     @contextlib.asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         if bb is None:
-            from blackboard import SqliteBlackboard
+            from cloud import make_blackboard
+            from cloud.telemetry import configure_telemetry
 
-            board = SqliteBlackboard()
+            configure_telemetry("pitchsight-api")   # no-op without APPLICATIONINSIGHTS_CONNECTION_STRING
+            board = make_blackboard()                  # SQLite locally, Cosmos DB with WHYLINE_CLOUD=1
         else:
             board = bb
         data = MatchData.from_blackboard(board, match) if match else MatchData.load(seed)

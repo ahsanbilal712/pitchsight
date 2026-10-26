@@ -91,6 +91,15 @@ class LiveClient:
                 from agent_framework.anthropic import AnthropicClient
 
                 self._clients[provider] = AnthropicClient()
+            elif provider == "foundry":
+                # Azure AI Foundry project (ADR-009): FOUNDRY_PROJECT_ENDPOINT, the role's model is the deployment
+                # name; managed identity in Container Apps, `az login` locally
+                from agent_framework.foundry import FoundryChatClient
+
+                from cloud.settings import async_credential, settings
+
+                self._clients[provider] = FoundryChatClient(project_endpoint=settings().foundry_project_endpoint,
+                                                            credential=async_credential())
             else:
                 raise TemplateRole(f"provider {provider!r} has no client")
         return self._clients[provider]
@@ -102,6 +111,15 @@ class LiveClient:
         key = f"{provider}:tools{rounds}"
         if key not in self._clients:
             base = self._client(provider)
+            if provider == "foundry" and type(base).__name__ == "FoundryChatClient":
+                from agent_framework.foundry import FoundryChatClient
+
+                from cloud.settings import async_credential, settings
+
+                self._clients[key] = FoundryChatClient(
+                    project_endpoint=settings().foundry_project_endpoint, credential=async_credential(),
+                    function_invocation_configuration={"max_iterations": rounds + 1})
+                return self._clients[key]
             if provider != "gemini" or not hasattr(self, "_sdk"):
                 return base  # injected test clients run their own loop
             from agent_framework.gemini import GeminiChatClient
@@ -129,6 +147,13 @@ class LiveClient:
         opts: dict[str, Any] = {"model": r.model}
         if r.max_tokens:
             opts["max_tokens"] = r.max_tokens
+        if r.provider == "foundry":   # OpenAI-style options on a Foundry deployment; no Gemini thinking config
+            if schema is not None:
+                opts["response_format"] = {"type": "json_schema",
+                                           "json_schema": {"name": r.name, "schema": schema, "strict": False}}
+            if tools:
+                opts["tools"] = tools
+            return opts
         if (level := r.thinking_level()) == "none":
             opts["thinking_config"] = {"thinking_budget": 0}
         elif level is not None:

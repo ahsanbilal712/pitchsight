@@ -48,17 +48,20 @@ async def run_moment(workflow, msg: MomentIn) -> dict:
 
 
 def make_storage() -> FileCheckpointStorage:
-    return FileCheckpointStorage(config.checkpoint_dir())
+    """FileCheckpointStorage locally; CosmosCheckpointStorage when WHYLINE_CLOUD=1 (packages/cloud)."""
+    from cloud import make_checkpoint_storage
+
+    return make_checkpoint_storage(config.checkpoint_dir())
 
 
 def make_deps(mode: str) -> Deps:
     """Replay mode injects cache.CacheClient as both LLM client and tool client (cache hits, misses raise or
     return cache_miss); live mode injects LiveClient and the MCP tools (TECH_PLAN 1.8)."""
-    from blackboard import SqliteBlackboard
+    from cloud import make_blackboard
     from mcp_server.tools_core import MatchStore
     from newsroom.tools import LocalTools, McpTools
 
-    bb = SqliteBlackboard()
+    bb = make_blackboard()   # SQLite locally, Cosmos DB with WHYLINE_CLOUD=1
     store = MatchStore(bb)
     url = os.environ.get("WHYLINE_MCP_URL")
     tools = McpTools(url) if url else LocalTools(store)   # agents' data path is MCP; in-process is the dev default
@@ -140,7 +143,13 @@ def main() -> None:
     args = parser.parse_args()
     logging.basicConfig(level=os.environ.get("WHYLINE_LOG", "INFO"),
                         format="%(asctime)s %(name)s %(levelname)s %(message)s")
-    asyncio.run(serve(make_deps(args.mode), storage=make_storage(), match_id=args.match))
+    from cloud import make_cue_publisher
+    from cloud.telemetry import configure_telemetry
+
+    configure_telemetry("pitchsight-newsroom")   # no-op without APPLICATIONINSIGHTS_CONNECTION_STRING
+    deps = make_deps(args.mode)
+    deps.publisher = make_cue_publisher()          # Web PubSub with WHYLINE_CLOUD=1, else a no-op
+    asyncio.run(serve(deps, storage=make_storage(), match_id=args.match))
 
 
 if __name__ == "__main__":

@@ -70,6 +70,9 @@ class SpendGuard:
 
     # ------------------------------------------------------------------ pricing
     def price(self, model: str, tokens_in: int, tokens_out: int, cache_read: int = 0, batch: bool = False) -> float:
+        if model not in self.prices and os.environ.get("WHYLINE_LLM_PROVIDER") == "foundry" \
+                and "foundry-deployment" in self.prices:
+            model = "foundry-deployment"   # Azure AI Foundry deployment names are chosen per environment
         if model not in self.prices:
             raise KeyError(f"no price for model {model!r} in config/budgets.yaml")
         p = self.prices[model]

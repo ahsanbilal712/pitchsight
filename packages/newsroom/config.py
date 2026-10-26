@@ -62,8 +62,15 @@ def role(name: str, models: dict | None = None) -> Role:
     defaults = cfg.get("provider_defaults", {}).get(raw.get("provider"), {})
     known = {"provider", "model", "effort", "max_tokens", "timeout_s", "max_retries", "output_format", "tools",
              "max_tool_rounds", "fallback_role", "batch"}
+    provider, model = raw["provider"], raw["model"]
+    if provider == "gemini" and os.environ.get("WHYLINE_LLM_PROVIDER") == "foundry":
+        # Azure deployment: every model role runs on the Foundry project's deployment (FOUNDRY_MODEL_DEPLOYMENT,
+        # or a per-tier one: FOUNDRY_MODEL_DEPLOYMENT_FAST for Flash roles, _REASONING for Argon roles)
+        tier = "FAST" if "flash" in model else "REASONING"
+        provider = "foundry"
+        model = os.environ.get(f"FOUNDRY_MODEL_DEPLOYMENT_{tier}") or os.environ.get("FOUNDRY_MODEL_DEPLOYMENT") or model
     return Role(
-        name=name, provider=raw["provider"], model=raw["model"], effort=raw.get("effort"),
+        name=name, provider=provider, model=model, effort=raw.get("effort"),
         max_tokens=raw.get("max_tokens"), timeout_s=float(raw.get("timeout_s", defaults.get("timeout_s", 60))),
         max_retries=int(raw.get("max_retries", defaults.get("max_retries", 2))),
         output_format=raw.get("output_format"), tools=tuple(raw.get("tools") or ()),

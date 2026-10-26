@@ -10,14 +10,51 @@ footage, used with the Premier League's permission, is the ingest and the presen
 
 ## The video
 
-- **Video v3** (under two minutes, captions only, English, no voice, no music): real footage and real names only.
-  Edit list `packages/demo/edit_v3.yaml`, captions `packages/demo/captions_v3.srt`. Every number in a caption is
-  bound to a source listed at the bottom of the edit list, and the cut is checked by `python -m footage.grounding`
-  (`data/footage/v3_grounding.json`: 75 of 75 on-screen numbers bound to verified evidence).
-- The rendered file (`packages/demo/out/final_v3.mp4`) is git-ignored with all footage-derived media. The public link
-  is added here after the owner uploads it (a human step).
-- Earlier cuts, kept as fallbacks: v2 (`packages/demo/edit_v2.yaml`) and v1 on the synthetic league
-  (`docs/video/v1.md`).
+- **Video v10**, the submission cut: `packages/demo/out/final_v10_submit.mp4`, 1:48. It opens with what Pitchsight
+  is and how it works (the architecture below, narrated), then plays real Premier League attacks with the analytics
+  on every frame: the player on the ball, the xG of a shot now, the best pass and its xG, the threat, pitch control
+  and the team shape. A voice explains each decision (pass, through ball, shot) by kit colour; the broadcast sound
+  is off. A longer cut (`final_v10.mp4`, 2:15) is for reference only: the permission covers a public demo
+  video under two minutes.
+- Edit lists `packages/demo/edit_v10_submit.yaml` and `edit_v10.yaml`, captions `captions_v10*.srt`, narration
+  script `docs/video/narration_v10.md` (voice: Gemini TTS) and `narration_v9.md` (intro and architecture).
+- **Every number is checked.** `python -m footage.grounding --edit packages/demo/edit_v10_submit.yaml` binds every
+  on-screen and spoken number to its evidence (tracking, the xG model, the pass model):
+  `data/footage/v10_submit_grounding.json` and `v10_grounding.json` show 1,106 of 1,106 bound in both cuts, and every
+  spoken number is on screen while it is said.
+- Rendered files are git-ignored with all footage-derived media. The public link is added here after the owner
+  uploads it (a human step). Earlier cuts (v1 to v9) remain as edit lists in `packages/demo/`.
+
+## Architecture
+
+```
+broadcast clip ─▶ Ingest ─▶ Scout ─▶ Proposer ─▶ Rollout ─▶ Tactician ─▶ Narrator ⇄ Fact Checker ─▶ Director ─▶ CueBus ─▶ screens
+                  vision     rules    Gemini      engine     Gemini       Gemini     evidence        rules        blackboard
+                                                                                     binding                      + Web PubSub
+```
+
+- **Vision** (`packages/evals/pitchwatch/`): wide-shot segmentation with replay-wipe detection; RF-DETR Medium
+  (Apache-2.0) players and ball, with tiled inference for the ball; ByteTrack (`trackers`); team by kit colour
+  (k-means); a per-frame camera fitted to the pitch markings and refined on the painted lines.
+- **Measure** (`packages/heads/`, `packages/footage/`): xG from the published Soccermatics logistic model (8,451
+  Premier League 2017/18 non-penalty shots; penalties 0.76); xG after a pass = P(complete) from a LightGBM pass
+  model × xG at the receiver's spot; pitch control; the onside-margin check.
+- **Agents** (`packages/newsroom/`): a Microsoft Agent Framework workflow graph (WorkflowBuilder) with
+  checkpoints and resume; tools over MCP (`packages/mcp_server/`). Only the Proposer, Tactician and Narrator call a
+  model (Gemini on Vertex AI, `config/models.yaml`); Scout, Rollout, Fact Checker and Director are code. Every call
+  goes through SpendGuard (`packages/api/spend.py`, caps in `config/budgets.yaml`, ledger `data/spend/ledger.jsonl`).
+- **Screens** (`apps/`): the broadcast overlay, the producer studio (trace, Why? drawer, veto) and the fan app.
+
+## Azure
+
+The same services deploy to Azure with `azd up` (`azure.yaml`, `infra/main.bicep`, `infra/resources.bicep`):
+Container Apps for the api, the MCP server and the newsroom; Static Web Apps for the three screens; Cosmos DB for
+the blackboard and the workflow checkpoints; Web PubSub for cue fan-out; Application Insights for the agent traces;
+Azure AI Foundry for the model roles. The code path is `packages/cloud/`. It is switched on by `WHYLINE_CLOUD=1`
+and reads every endpoint from the environment (`config/.env.example`). Authentication is managed identity, with no
+keys in configuration. `WHYLINE_LLM_PROVIDER=foundry` routes the Gemini roles to the Foundry deployments. See
+[infra/README.md](infra/README.md). The submission ran on the local stack; the Azure subscription is an owner
+step that has not been done yet.
 
 ## Real footage: permission, sources and what never enters this repository
 
@@ -64,7 +101,8 @@ Measured on the footage (`data/footage/insights/metrics.json`, track A): players
   covered under stated reach assumptions), not a save probability. The speed gun's distance crosses a close-up in a
   straight line, so it is a lower bound. The win-probability river uses score and clock only.
 - Players are named only where the moment files identify them; others are labelled by role, never by a guess.
-- English only, captions only. Live judges' matches are synthetic; the real clips are prepared moments.
+- English only. The voice and the captions describe decisions; they never name a team or a player. Live judges'
+  matches are synthetic; the real clips are prepared moments.
 
 ## Run it
 
@@ -78,4 +116,4 @@ keep it.
   python -m api.replay --match m_9001` serves it.
 - Rendering the real-clip beats needs the clips locally (they are not distributed): `python -m demo.composite
   <moment>` for each moment in `packages/demo/footage_moments.yaml`, then
-  `python packages/demo/assemble.py packages/demo/edit_v3.yaml`.
+  `python packages/demo/assemble.py packages/demo/edit_v10_submit.yaml`.

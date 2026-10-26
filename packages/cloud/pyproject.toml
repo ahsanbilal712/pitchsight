@@ -1,0 +1,10 @@
+[project]
+name = "whyline-cloud"
+version = "0.0.1"
+description = "Azure deployment path: Cosmos DB blackboard and checkpoints, Web PubSub cue fan-out, Application Insights, Azure AI Foundry models."
+requires-python = ">=3.12"
+
+# Import package = this folder (packages/ is on the pytest pythonpath).
+# Dependencies are pinned once for the whole repo in config/pins.txt and requirements.lock
+# (azure-cosmos, agent-framework-azure-cosmos, azure-messaging-webpubsubservice, azure-identity,
+# azure-monitor-opentelemetry-exporter, agent-framework-foundry).

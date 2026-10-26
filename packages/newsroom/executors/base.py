@@ -13,6 +13,12 @@ from agent_framework import Executor
 from newsroom.messages import Envelope
 
 
+def _null_publisher():
+    from cloud.pubsub import NullCuePublisher
+
+    return NullCuePublisher()
+
+
 @dataclass
 class Deps:
     """What executors need; the worker builds one per process. `llm` is CacheClient (replay) or LiveClient."""
@@ -26,6 +32,7 @@ class Deps:
     panel_enabled: bool = False
     clock: Callable[[], float] = time.time
     state: dict = field(default_factory=dict)  # process-wide flags, e.g. {"degraded": True}
+    publisher: Any = field(default_factory=lambda: _null_publisher())  # cloud cue fan-out (packages/cloud)
 
 
 def trace_id_for(run_id: str) -> str:

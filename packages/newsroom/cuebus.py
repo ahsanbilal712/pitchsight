@@ -22,6 +22,7 @@ class CueBus(NewsroomExecutor):
         started = time.perf_counter()
         cue = msg.cue
         self.deps.bb.put("cues", cue)
+        self.deps.publisher.publish(cue)   # Web PubSub fan-out in Azure; a no-op locally
         self.trace(msg.hop(self.id), started, status="delivered", cue_id=cue["cue_id"])
         resumed = cue["provenance"].get("resumed_from_checkpoint")
         if resumed:

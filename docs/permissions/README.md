@@ -2,7 +2,7 @@
 
 Place the original permission email here as an `.eml` export (with headers), not a pasted body.
 
-- `premier-league-permission.eml` — from James Mitchell, Partnerships & Licensing Representative, Premier League.
+- `premier-league-permission.eml` — from a Partnerships & Licensing Representative, Premier League (name held by the project owner).
   Scope as stated: highlight clips downloaded from the Premier League's official YouTube channel; club names,
   player names, logos and crests; use in the hackathon prototype, the hosted demonstration for judges and the
   public demo video under two minutes; until 10 November 2026; analysis by computer vision and AI overlays

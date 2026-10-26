@@ -88,3 +88,18 @@ def list_cues(request: Request, match_id: str, viewer: str = Query("studio", des
     profile = viewer_profile("rest", viewer, club, player)
     cues = request.app.state.bb.query("cues", match_id=mid)
     return [c for c in cues if c.get("producer_status") != "vetoed" and cue_matches(profile, c)]
+
+
+@router.get("/cues/negotiate")
+def negotiate(match_id: str = Query(..., description="match whose cue group the screen joins"),
+              viewer: str | None = None) -> dict:
+    """Azure deployment: a short-lived Web PubSub URL for a screen on Static Web Apps (ADR-009). Locally the
+    screens use the api's own WebSocket (`/ws`), and this answers `{"mode": "local"}`."""
+    from cloud import cloud_enabled, settings
+
+    if not (cloud_enabled() and settings().has_webpubsub):
+        return {"mode": "local", "ws": "/ws"}
+    from cloud.pubsub import WebPubSubCuePublisher
+
+    mid = match_id if match_id.startswith("m_") else f"m_{match_id}"
+    return {"mode": "webpubsub", "url": WebPubSubCuePublisher().client_url(user_id=viewer, match_id=mid)}
