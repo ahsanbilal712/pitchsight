@@ -5,6 +5,19 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 · Grounding and names for a local-only cut (track B)
+
+- `footage.grounding`: an edit may carry `moments: <path>` (its own beats, merged over footage_moments.yaml),
+  `version:` (the rule set, e.g. v8, when the file name has no _vN) and `grounding_out: <path>` (where the result
+  goes): the barca-madrid-2627 cut keeps edit, beats and result in git-ignored packages/demo/out/, nothing about
+  the clip in a tracked file (track C's ask).
+- `footage.shirts --edit <edit>`: the live passages come from the edit's always_on / live_hud beats (t0-t1), so
+  names_live_0 is made for a cut whose beats are not in footage_moments.yaml.
+- Tested on a scratch edit (182 of 182; v8_grounding.json untouched). No model call.
+- Verification: `pytest tests/footage` (exit 0); ruff clean.
+
+---
+
 ## 2026-10-26 · Barcelona v Real Madrid (local-only test): squads, scorers, the clip registered (track B)
 
 - `config/footage.yaml`: barca-madrid-2627 as m_9005 (FC Barcelona home, Real Madrid away), marked local-only; the

@@ -84,6 +84,18 @@ PASSAGES = {                       # track C's v6 live passages (clip ms)
     "arsenal-chelsea-2526": [(829000, 836000)], "manutd-spurs-2425": [(679800, 683400)]}
 
 
+def passages_from_edit(edit: Path) -> dict[str, list[tuple[int, int]]]:
+    """The live passages an edit shows (its always_on / live_hud beats' t0-t1), by clip: a local-only cut keeps
+    them in its own beats file, so they are read from the edit (footage.grounding._v6_beats)."""
+    from footage.grounding import _v6_beats
+
+    out: dict[str, list[tuple[int, int]]] = {}
+    for b in _v6_beats(Path(edit)).values():
+        if b.get("kind") in ("always_on", "live_hud") and b.get("clip") and b.get("t0") is not None:
+            out.setdefault(b["clip"], []).append((round(b["t0"] * 1000), round(b["t1"] * 1000)))
+    return out
+
+
 def live_targets(slug: str) -> list[dict]:
     """Every track that carries the ball or is a pass option inside a v6 live passage (track A's live files)."""
     out = []
@@ -315,7 +327,12 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("slugs", nargs="*")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--edit", type=Path, help="read the live passages from this edit's beats (a local-only cut)")
     args = ap.parse_args(argv)
+    if args.edit:
+        for slug, spans in passages_from_edit(args.edit).items():
+            PASSAGES[slug] = sorted(set(PASSAGES.get(slug, [])) | set(spans))
+        args.slugs = args.slugs or list(passages_from_edit(args.edit))
     for slug in args.slugs or list(CLIPS):
         print(json.dumps(run(slug, args.dry_run), ensure_ascii=False))
     return 0

@@ -144,3 +144,19 @@ def test_v8_explainer_binds_the_models_card_and_counts_its_graphic():
     bad, _ = v8_explainer({"explainer_v8": {**beat, "models": [{"name": "Pass model", "lines": ["3.2 million passes"]}]}})
     assert next(r for r in bad if "models card" in r["item"])["numbers_bound"] == 0
     assert counters and "of" in counters[0]["item"]
+
+
+def test_an_edit_can_bring_its_own_beats_version_and_output(tmp_path):
+    import yaml
+
+    from footage.grounding import ROOT, _v6_beats, version_of
+    from footage.shirts import passages_from_edit
+
+    beats = yaml.safe_load((ROOT / "packages/demo/footage_moments.yaml").read_text())["moments"]
+    (tmp_path / "moments.yaml").write_text(yaml.safe_dump({"moments": {"local_live": beats["mci_live_v7"]}}))
+    edit = tmp_path / "edit_local.yaml"
+    edit.write_text(yaml.safe_dump({"version": "v8", "moments": str(tmp_path / "moments.yaml"),
+                                    "grounding_out": str(tmp_path / "out.json"),
+                                    "clips": [{"shot": "footage/local_live"}]}))
+    assert version_of(edit) == "v8" and list(_v6_beats(edit)) == ["local_live"]
+    assert passages_from_edit(edit) == {"manutd-mancity-2526": [(872000, 877000)]}

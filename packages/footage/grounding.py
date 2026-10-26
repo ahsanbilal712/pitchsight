@@ -173,7 +173,9 @@ def latest_edit() -> Path:
 
 
 def version_of(edit: Path) -> str:
-    return "v" + Path(edit).stem.split("_v")[1]
+    """The rule set: the edit's own `version:` key, else the N of edit_vN.yaml."""
+    own = (yaml.safe_load(Path(edit).read_text()) or {}).get("version")
+    return str(own) if own else "v" + Path(edit).stem.split("_v")[1]
 
 
 def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[dict]:
@@ -540,10 +542,14 @@ def v4_small_print() -> list[dict]:
 
 def _v6_beats(edit: Path) -> dict[str, dict]:
     """The beats of an edit: edit shot footage/<name> is footage_moments beat <name> (or <name> less its last
-    "_v6", the freezes' render suffix)."""
+    "_v6", the freezes' render suffix); an edit-level `moments: <path>` is merged over footage_moments.yaml."""
     beats = yaml.safe_load((ROOT / "packages" / "demo" / "footage_moments.yaml").read_text())["moments"]
+    doc = yaml.safe_load(edit.read_text())
+    if doc.get("moments"):                 # an edit's own beats file (a local-only cut), merged over the shared one
+        extra = yaml.safe_load((ROOT / doc["moments"]).read_text())
+        beats = {**beats, **(extra.get("moments") or extra)}
     out = {}
-    for c in yaml.safe_load(edit.read_text())["clips"]:
+    for c in doc["clips"]:
         name = (c.get("shot") or "").split("/")[-1]
         for key in (name, name.removesuffix("_v6")):
             if isinstance(beats.get(key), dict):
@@ -969,7 +975,8 @@ def _write(rows: list[dict], version: str, edit: Path, counters: list[dict] | No
                            "lines, the v4 decision card, burnt-in captions (edit_v4.yaml)")
         result["pending"] = [] if edit.exists() else [f"burnt-in captions: {edit.name} does not exist yet"]
     result["edit"] = str(edit.relative_to(ROOT)) if edit.is_relative_to(ROOT) else str(edit)
-    out = OUT if version == "v3" else FOOTAGE / f"{version}_grounding.json"
+    own = (yaml.safe_load(edit.read_text()) or {}).get("grounding_out") if edit.exists() else None
+    out = ROOT / own if own else OUT if version == "v3" else FOOTAGE / f"{version}_grounding.json"
     out.write_text(json.dumps({"$schema": "model_cache.schema.json", "schema_version": "1.0.0",
                                "record": "tool_result", "result": result}, indent=1, ensure_ascii=False) + "\n")
     return result
