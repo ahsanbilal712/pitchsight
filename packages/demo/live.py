@@ -31,8 +31,12 @@ from demo.footage import PITCH_W, Camera, from_pitchwatch  # noqa: E402
 ROOT = Path(__file__).resolve().parents[2]
 FOOTAGE = ROOT / "data" / "footage"
 W, H, FPS = 1920, 1080, 30
-FONT = str(Path(matplotlib.get_data_path()) / "fonts/ttf/DejaVuSans-Bold.ttf")   # open licence: docs/video/FONTS.md
-FONT_REG = str(Path(matplotlib.get_data_path()) / "fonts/ttf/DejaVuSans.ttf")
+_INTER = Path(__file__).resolve().parent / "out" / "fonts"   # Inter (OFL), fetched locally: docs/video/FONTS.md
+_DEJAVU = Path(matplotlib.get_data_path()) / "fonts" / "ttf"
+FONT_DIR = _INTER if (_INTER / "Inter-Bold.ttf").exists() else _DEJAVU
+FONT = str(FONT_DIR / ("Inter-Bold.ttf" if FONT_DIR == _INTER else "DejaVuSans-Bold.ttf"))
+FONT_REG = str(FONT_DIR / ("Inter-Regular.ttf" if FONT_DIR == _INTER else "DejaVuSans.ttf"))
+FONT_NAME = "Inter" if FONT_DIR == _INTER else "DejaVu Sans"
 ORANGE, WHITE, YELLOW, PANEL, MUTED = (255, 122, 26), (236, 242, 248), (255, 214, 10), (12, 16, 22), (169, 180, 194)
 PANEL_W = 540
 GHOST_DIM = 0.40         # ghost future: the players the story is not about

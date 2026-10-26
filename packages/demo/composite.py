@@ -59,8 +59,12 @@ MOMENTS = Path(__file__).with_name("footage_moments.yaml")
 OUT = ROOT / "packages" / "demo" / "out" / "footage"
 STANDIN_CF = ROOT / "data" / "matches" / "4242" / "cache" / "counterfactuals" / "cf_000070.json"
 W, H, FPS = 1920, 1080, 30
-FONT = str(Path(matplotlib.get_data_path()) / "fonts/ttf/DejaVuSans-Bold.ttf")   # open licence: docs/video/FONTS.md
-FONT_REG = str(Path(matplotlib.get_data_path()) / "fonts/ttf/DejaVuSans.ttf")
+_INTER = Path(__file__).resolve().parent / "out" / "fonts"   # Inter (OFL), fetched locally: docs/video/FONTS.md
+_DEJAVU = Path(matplotlib.get_data_path()) / "fonts" / "ttf"
+FONT_DIR = _INTER if (_INTER / "Inter-Bold.ttf").exists() else _DEJAVU
+FONT = str(FONT_DIR / ("Inter-Bold.ttf" if FONT_DIR == _INTER else "DejaVuSans-Bold.ttf"))
+FONT_REG = str(FONT_DIR / ("Inter-Regular.ttf" if FONT_DIR == _INTER else "DejaVuSans.ttf"))
+FONT_NAME = "Inter" if FONT_DIR == _INTER else "DejaVu Sans"
 ORANGE, WHITE, YELLOW = (255, 122, 26), (236, 242, 248), (255, 214, 10)
 PANEL = (12, 16, 22)
 SUBDIV = 10

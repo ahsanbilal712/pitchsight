@@ -28,8 +28,11 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "packages" / "demo" / "out"
-FONT_DIR = Path(matplotlib.get_data_path()) / "fonts/ttf"      # DejaVu Sans, open licence (docs/video/FONTS.md)
-FONT = str(FONT_DIR / "DejaVuSans-Bold.ttf")
+_INTER = Path(__file__).resolve().parent / "out" / "fonts"   # Inter (OFL), fetched locally: docs/video/FONTS.md
+_DEJAVU = Path(matplotlib.get_data_path()) / "fonts" / "ttf"
+FONT_DIR = _INTER if (_INTER / "Inter-Bold.ttf").exists() else _DEJAVU
+FONT = str(FONT_DIR / ("Inter-Bold.ttf" if FONT_DIR == _INTER else "DejaVuSans-Bold.ttf"))
+FONT_NAME = "Inter" if FONT_DIR == _INTER else "DejaVu Sans"
 BG = "0x0c1016"
 ACCENT = "0xff7a1a"
 NUMBER = re.compile(r"[$+\-−]?\d[\d.,]*%?")
@@ -152,7 +155,7 @@ WrapStyle: {2 if one_line else 0}
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Caption,DejaVu Sans,{size},&H00FFFFFF,&H00FFFFFF,{"&H3A140F0C" if one_line else "&H00101610"},{"&H3A140F0C" if one_line else "&H00101610"},1,0,0,0,100,100,0,0,{3 if one_line else 1},{14 if one_line else 0},0,2,120,120,{margin_v},1
+Style: Caption,{FONT_NAME},{size},&H00FFFFFF,&H00FFFFFF,{"&H3A140F0C" if one_line else "&H00101610"},{"&H3A140F0C" if one_line else "&H00101610"},1,0,0,0,100,100,0,0,{3 if one_line else 1},{14 if one_line else 0},0,2,120,120,{margin_v},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
