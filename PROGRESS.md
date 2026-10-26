@@ -5,6 +5,15 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: the Man Utd v Man City pipeline view drops the withdrawn Casemiro name
+
+- `pipeline_manutd-mancity-2526_877000.json` (the v8 `mci_pipeline_v8` beat) still had "Pass to Casemiro" from the
+  23 Oct names. Rebuilt with `pipeline.view` from the stored `pipeline_877000` record, so no timing is re-measured:
+  the option now reads "Pass", because that receiver has no verified name after 54e5047. One line changed; no
+  number moved. Track A reported it after rebuilding on 54e5047 (ee4eda1).
+
+---
+
 ## 2026-10-26 — Track B: a second model confirms every shirt number that names a player; kit colour without the grass
 
 - Track A spotted four Real Madrid players my kit check had rejected as Barcelona. The torso sample in the padded
