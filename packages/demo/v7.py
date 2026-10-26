@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import base64
 import json
+from collections import Counter
 
 import numpy as np
 from PIL import ImageDraw, ImageFont
@@ -23,7 +24,10 @@ TINT_ALPHA = 0.10              # the control tint stays under everything
 LINE_ALPHA = 0.55              # team lines, the back line a step stronger
 DANGER_H = 172                 # the always-on card stacked over the v6 panel
 DANGER_DEF = "weighted by xG: the share of the scoring danger in front of goal they would reach first"
-SEEN_M = 12.0                  # control is tinted only this close to a tracked player
+SEEN_M = 12.0
+EMA_S = 0.5                    # v9: the tint and the danger bar's time constant
+HIDE_S = 1.0                   # v9: the layer hides only after this long without data
+HOLD_TEXT_S = 0.5              # v9: a printed danger sentence stays at least this long                  # control is tinted only this close to a tracked player
 SHAPE_MIN = 3                  # stand-in: a line needs this many players of one side in view
 
 
@@ -56,6 +60,8 @@ class AlwaysOn(LiveHUD):
     # -- the always-on data at t ----------------------------------------------------------------------------------
     def layer(self, t: float) -> dict | None:
         """{control (ny, nx) P(home), grid, danger {home, away} | None, shape {home, away}, defending}."""
+        if self.always is not None and self.v9:
+            return self._steady(t)
         if self.always is not None:                       # track A's v7/always_<start>.json (5acf68e)
             fr = self.always["frames"]
             i, _, _ = bracket(fr, t * 1000)
@@ -71,6 +77,47 @@ class AlwaysOn(LiveHUD):
                     "danger": f.get("danger"), "attacker": zone.get("attacked_by"), "shape": f.get("shape") or {},
                     "defending": {"home": "away", "away": "home"}.get(att)}
         return self._standin(t)
+
+    def _steady(self, t: float) -> dict | None:
+        """v9: the layer without flicker. The tint and the danger bar follow an EMA (time constant EMA_S) of the
+        frames so far; the layer hides only after more than HIDE_S of nulls. The printed sentence is always a real
+        frame's own (held at least HOLD_TEXT_S before it changes), never a smoothed number."""
+        fr = self.always["frames"]
+        t_ms = t * 1000
+        i, _, _ = bracket(fr, t_ms)
+        g = self.always["grid"]
+        ctrl = share = shown = None
+        shown_at = last_ok = last_share = None
+        last = None
+        k = 1 - np.exp(-0.1 / EMA_S)
+        for f in fr[max(0, i - 40): i + 1]:
+            if f["clip_ms"] > t_ms + 50:
+                break
+            if f.get("trusted") and f.get("control"):
+                c = _decode(f["control"], g).filled(np.nan)
+                if ctrl is None:
+                    ctrl = c
+                else:
+                    ctrl = np.where(np.isnan(c), ctrl, np.where(np.isnan(ctrl), c, ctrl + k * (c - ctrl)))
+                last_ok, last = f["clip_ms"], f
+            dz = f.get("danger") or {}
+            if dz.get("share") is not None:
+                share = dz["share"] if share is None else share + k * (dz["share"] - share)
+                last_share = f["clip_ms"]
+                if shown is None or (f["clip_ms"] - shown_at >= HOLD_TEXT_S * 1000 and dz.get("text") != shown.get("text")):
+                    shown, shown_at = dz, f["clip_ms"]
+        if last is None or t_ms - last_ok > HIDE_S * 1000:
+            return None
+        grid = {"x0": g["x0"] + g["dx"] / 2, "y0": g["y0"] + g["dy"] / 2, "dx": g["dx"], "dy": g["dy"],
+                "nx": g["nx"], "ny": g["ny"]}
+        zone = last.get("danger_zone") or {}
+        att = zone.get("attacked_by") or self._attacking(t)
+        danger = None
+        if shown is not None and t_ms - last_share <= HIDE_S * 1000:
+            danger = {**shown, "share": shown["share"], "bar": float(np.clip(share, 0, 1))}
+        return {"control": np.ma.masked_invalid(ctrl), "grid": grid, "danger": danger,
+                "attacker": zone.get("attacked_by"), "shape": last.get("shape") or {},
+                "defending": {"home": "away", "away": "home"}.get(att)}
 
     def _attacking(self, t: float) -> str | None:
         s = self.data["samples"]
@@ -122,12 +169,67 @@ class AlwaysOn(LiveHUD):
 
     # -- drawing --------------------------------------------------------------------------------------------------
     def ground(self, ax, cam, t):
+        if self.v9:
+            self._boxes(ax, t)
         lay = self.layer(t)
         if lay is not None and cam is not None:
             if lay.get("control") is not None:
                 self._tint(ax, cam, lay)
             self._shape(ax, cam, lay)
         super().ground(ax, cam, t)
+
+    def _tracks(self) -> list[dict]:
+        """Track A's per-frame boxes for this beat's camera shot, with each track's side (home/away) from the live
+        frames' labels; a track the live frames never label takes its kit cluster's majority side."""
+        if hasattr(self, "_trk"):
+            return self._trk
+        path = ROOT / "data" / "footage" / self.m["clip"] / "tracks" / f"{self.m.get('shot_id')}.json"
+        doc = json.loads(path.read_text()) if path.exists() else {"frames": []}
+        doc = doc.get("result", doc)
+        side, votes = {}, {}
+        for x in self.data["samples"]:
+            for p in x.get("players") or []:
+                if p.get("team") in ("home", "away") and p.get("track_id") is not None:
+                    side[p["track_id"]] = p["team"]
+        for f in doc["frames"]:
+            for p in f.get("players") or []:
+                if p.get("track_id") in side and p.get("team") is not None:
+                    votes.setdefault(str(p["team"]), Counter())[side[p["track_id"]]] += 1
+        cluster = {k: v.most_common(1)[0][0] for k, v in votes.items()}
+        for f in doc["frames"]:
+            for p in f.get("players") or []:
+                p["_side"] = side.get(p.get("track_id")) or cluster.get(str(p.get("team")))
+        self._trk = doc["frames"]
+        return self._trk
+
+    def _boxes(self, ax, t: float) -> None:
+        """v9: a thin rounded box in the team colour on every player track A detects in this frame; the ball
+        carrier's box gets orange corner accents."""
+        from matplotlib.patches import FancyBboxPatch
+        fr = self._tracks()
+        if not fr:
+            return
+        if not hasattr(self, "_trk_t"):
+            self._trk_t = np.array([x["t"] for x in fr])
+        j = int(np.clip(np.searchsorted(self._trk_t, t), 1, len(fr) - 1))
+        f = fr[j] if abs(self._trk_t[j] - t) < abs(self._trk_t[j - 1] - t) else fr[j - 1]
+        if abs(f["t"] - t) > 0.06:
+            return
+        s = self.sample(t)
+        carrier = ((s or {}).get("carrier") or {}).get("track_id")
+        for p in f.get("players") or []:
+            if p.get("role") == "referee":                  # players and keepers; never the officials
+                continue
+            x0, y0, x1, y1 = p["bbox"]
+            col = self.kits.get(p.get("_side"), np.array((0.85, 0.87, 0.9)))
+            ax.add_patch(FancyBboxPatch((x0, y0), x1 - x0, y1 - y0, boxstyle="round,pad=0,rounding_size=5",
+                                        fc="none", ec=(*col, 0.85), lw=1.3))
+            if p.get("track_id") == carrier:
+                acc = np.array(ACCENT) / 255
+                L = min(x1 - x0, y1 - y0) * 0.35
+                for cx, cy, sx, sy in ((x0, y0, 1, 1), (x1, y0, -1, 1), (x0, y1, 1, -1), (x1, y1, -1, -1)):
+                    ax.plot([cx, cx + sx * L], [cy, cy], color=(*acc, 1), lw=2.6, solid_capstyle="round")
+                    ax.plot([cx, cx], [cy, cy + sy * L], color=(*acc, 1), lw=2.6, solid_capstyle="round")
 
     def _tint(self, ax, cam, lay) -> None:
         g = lay["grid"]
@@ -230,7 +332,8 @@ class AlwaysOn(LiveHUD):
             else:
                 d.text((bx0, y), text, font=shrink(d, text, FONT, 32, bx1 - bx0), fill=(255, 255, 255, al))
             d.rounded_rectangle((bx0, y + 44, bx1, y + 60), radius=8, fill=(58, 64, 74, al))
-            d.rounded_rectangle((bx0, y + 44, bx0 + max(16, (bx1 - bx0) * v), y + 60), radius=8, fill=(*kit, al))
+            bar = danger.get("bar", v)                      # v9: the bar eases; the sentence is the frame's own
+            d.rounded_rectangle((bx0, y + 44, bx0 + max(16, (bx1 - bx0) * bar), y + 60), radius=8, fill=(*kit, al))
         if not self.v8:                                    # v8: the caption explains it once; nothing under 24 px
             for k, ln in enumerate(self._wrap(d, DANGER_DEF, f_note, bx1 - bx0)):   # never cut: two lines
                 d.text((bx0, y0 + h - 54 + 24 * k), ln, font=f_note, fill=(*MUTED, al))

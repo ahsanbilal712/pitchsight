@@ -1148,3 +1148,49 @@ moments:
     left: packages/demo/out/footage/mci_amad_arcs_v8_v8.png
     compact: {cuebus: Line sent to air, director: 'On air 56:43 · 8 s', proposer: Shot + 4 passes priced, rollout: xG model + pass model, scout: 'Big chance: Amad, 18 m', tactician: The pass beats the shot}
     theme: v8
+
+  # v9 (PITCHSIGHT, production): the opener, SEE as a split, the architecture diagram, the end card
+  opener_v9:                         # motion graphics only: no match frame, no logos (the event in text)
+    clip: manutd-mancity-2526        # unused: the opener draws everything
+    kind: opener
+    duration: 8.0
+    event: "Inside the Game: Developer Hackathon"
+    event_sub: "Premier League × Microsoft"
+    tagline: "See the decision behind every moment."
+
+  see_v9:                            # the broadcast with track A's boxes beside the synced top-down pitch
+    clip: liverpool-mancity-2526
+    kind: see_split
+    data: data/footage/liverpool-mancity-2526/cache/v6/live_802600.json
+    tracks: data/footage/liverpool-mancity-2526/tracks/62.json
+    shot_id: 62
+    t0: 868.0
+    t1: 878.0
+    kits: {home: [214, 32, 52], away: [120, 182, 232]}
+
+  architecture_v9:                   # one diagram, built over ~12 s (wording confirmed by track B)
+    clip: manutd-mancity-2526        # unused
+    kind: architecture
+    duration: 14.0
+    step_s: 1.3
+    top:
+      - {title: "Broadcast video", sub: ["one camera,", "as aired"]}
+      - {title: "RF-DETR", sub: ["real-time detection", "transformer"]}
+      - {title: "ByteTrack", sub: ["multi-object", "tracking"]}
+      - {title: "Teams", sub: ["assigned by", "kit colour"]}
+      - {title: "Calibration", sub: ["homography to", "pitch metres"]}
+    bottom:
+      - {title: "Models", sub: ["LightGBM pass model", "published Expected", "Goals (xG) model"], w: 1}
+      - {title: "Agent newsroom", sub: ["Microsoft Agent Framework: Scout, Proposer,", "Tactician, Narrator, Fact Checker, Director", "MCP tools · Google Gemini"], w: 2.2}
+      - {title: "On air", sub: ["the checked line", "and the overlay"], w: 0.8}
+
+  end_v9:                            # the close: no repository link
+    clip: manutd-mancity-2526
+    kind: end_card
+    data: data/footage/manutd-mancity-2526/cache/v6/live_869000.json
+    shot_id: 104
+    clip_ms: 876700
+    duration: 6.0
+    tagline: "See the decision behind every moment."
+    repo: ""
+    permission: "Premier League clips used with permission"

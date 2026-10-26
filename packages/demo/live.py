@@ -1368,8 +1368,10 @@ def _v6_scenes() -> dict:
     from demo.v6 import LiveHUD, Pipeline, ShotMap  # v6 and v7 build on this module's base classes
     from demo.v7 import AlwaysOn
     from demo.v8 import EndCard, Explainer, TitleSting
+    from demo.v9 import Architecture, Opener, SeeSplit
     return {"live_hud": LiveHUD, "shot_map": ShotMap, "pipeline": Pipeline, "always_on": AlwaysOn,
-            "title_sting": TitleSting, "explainer": Explainer, "end_card": EndCard}
+            "title_sting": TitleSting, "explainer": Explainer, "end_card": EndCard,
+            "opener": Opener, "see_split": SeeSplit, "architecture": Architecture}
 
 
 SCENES = {"oracle": Oracle, "metrics": Metrics, "river_strip": RiverStrip, "shot_xg": ShotXG,

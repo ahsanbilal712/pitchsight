@@ -111,7 +111,8 @@ class LiveHUD(Live):
 
     def __init__(self, m: dict):
         super().__init__(m)
-        self.v8 = m.get("theme") == "v8"                  # PITCHSIGHT: glass panels, one radius, team accents
+        self.v8 = m.get("theme") in ("v8", "v9")          # PITCHSIGHT: glass panels, one radius, team accents
+        self.v9 = m.get("theme") == "v9"                  # v9: tracking boxes, a steadier danger card
         self.bottom = V8_BOTTOM if self.v8 else 64         # v8: the stack sits clear of the one caption line
         self._glass: list[tuple] = []
         d = self.data
@@ -549,7 +550,7 @@ class Pipeline(Still):
         self.still = Image.open(ROOT / m["left"]).convert("RGB") if m.get("left") else None
         self.f = {z: ImageFont.truetype(FONT, z) for z in (24, 26, 30, 34, 40, 72)}
         self.r = {z: ImageFont.truetype(FONT_REG, z) for z in (22, 24, 27, 30)}
-        self.v8 = m.get("theme") == "v8"                  # PITCHSIGHT: nothing under 24 px, one radius, "Gemini"
+        self.v8 = m.get("theme") in ("v8", "v9")          # PITCHSIGHT: nothing under 24 px, one radius, "Gemini"
         self.small, self.floor = (24, 24) if self.v8 else (22, 14)
         tmp = ImageDraw.Draw(Image.new("RGB", (8, 8)))
         self.rows = [self._lines(n, tmp) for n in self.data["nodes"]]
