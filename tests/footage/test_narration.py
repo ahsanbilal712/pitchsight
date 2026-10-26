@@ -24,3 +24,4 @@ def test_the_script_makes_no_claim_the_owner_ruled_out_and_speaks_no_number():
 def test_the_transcriber_spelling_is_not_a_different_word():
     assert words("a position in meters") == words("a position in metres")
     assert words("fact-checker") == words("fact checker")
+    assert words("This is PitchSite") == words("This is Pitchsight")     # the product's name heard as a homophone

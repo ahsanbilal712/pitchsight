@@ -68,7 +68,8 @@ def pauses(wav: Path, min_s: float = 0.25) -> list[tuple[float, float]]:
     return list(zip(starts, ends))
 
 
-SPELLING = {"meters": "metres", "meter": "metre"}       # the transcriber's spelling, not a different word
+SPELLING = {"meters": "metres", "meter": "metre",       # the transcriber's spelling, not a different word
+            "pitchsite": "pitchsight", "pitchside": "pitchsight"}   # the product's name heard as a homophone
 
 
 def words(text: str) -> list[str]:
@@ -109,46 +110,60 @@ def _hear(client, guard, audio: bytes, prompt: str) -> tuple[str, float]:
     from google.genai import types
 
     schema = {"type": "object", "required": ["transcript"], "properties": {"transcript": {"type": "string"}}}
-    guard.check(NARRATION_ID)
-    resp = client.models.generate_content(
-        model=CHECK, contents=[types.Part(inline_data=types.Blob(data=audio, mime_type="audio/wav")), prompt],
-        config=types.GenerateContentConfig(response_mime_type="application/json", response_json_schema=schema,
-                                           temperature=0, thinking_config=types.ThinkingConfig(thinking_budget=0)))
-    u = resp.usage_metadata
-    row = guard.record("video_narration_check", CHECK, int(u.prompt_token_count or 0),
-                       int(u.candidates_token_count or 0), NARRATION_ID, "precompute")
-    return json.loads(resp.text)["transcript"], row["cost_usd"]
+    cost = 0.0
+    for _ in range(3):                                      # an empty reply is asked again
+        guard.check(NARRATION_ID)
+        resp = client.models.generate_content(
+            model=CHECK, contents=[types.Part(inline_data=types.Blob(data=audio, mime_type="audio/wav")), prompt],
+            config=types.GenerateContentConfig(response_mime_type="application/json", response_json_schema=schema,
+                                               temperature=0, thinking_config=types.ThinkingConfig(thinking_budget=0)))
+        u = resp.usage_metadata
+        cost += guard.record("video_narration_check", CHECK, int(u.prompt_token_count or 0),
+                             int(u.candidates_token_count or 0), NARRATION_ID, "precompute")["cost_usd"]
+        if resp.text:
+            return json.loads(resp.text)["transcript"], cost
+    raise RuntimeError(f"{CHECK} returned no transcript three times")
 
 
 def check(client, guard, wav: Path, text: str) -> dict:
-    """The whole stem transcribed by CHECK without the script: it must be the script word for word. Then each speech
-    chunk is transcribed with the script as context, only to count its words; a sentence starts in the chunk its first
-    word is in, at its share of that chunk by word position (exact at a pause, interpolated inside a chunk)."""
-    heard, cost = _hear(client, guard, wav.read_bytes(), "Transcribe this narration verbatim, every word, nothing else.")
+    """The whole stem transcribed by CHECK without the script: it must be the script word for word (when it is not, a
+    second transcription decides, and the first is kept as "first_transcript"). Then each speech
+    chunk is transcribed with the script as context and its words aligned to the script (difflib); a sentence starts
+    in the chunk its first word was heard in, at its share of that chunk by word position (exact at a pause,
+    interpolated inside a chunk)."""
+    ask = "Transcribe this narration verbatim, every word, nothing else."
+    heard, cost = _hear(client, guard, wav.read_bytes(), ask)
     script = words(text)
-    verbatim = words(heard) == script
-    spans, counts = chunks(wav), []
-    for a, b in spans:
+    verbatim, misheard = words(heard) == script, None
+    if not verbatim:                                         # a second, independent transcription: a slip in the take
+        misheard = heard                                     # comes back again, a mishearing does not
+        heard, c = _hear(client, guard, wav.read_bytes(), ask)
+        verbatim, cost = words(heard) == script, cost + c
+    spans, heard_at = chunks(wav), []                      # (word, chunk index, position in the chunk, its length)
+    for j, (a, b) in enumerate(spans):
         part, c = _hear(client, guard, _slice(wav, a, b), "This clip is one piece of a narration whose script is:\n"
                         f"{text}\nTranscribe exactly the words spoken in this clip, nothing else.")
-        counts.append(len(words(part)))
+        ws = words(part)
+        heard_at += [(w, j, i, len(ws)) for i, w in enumerate(ws)]
         cost += c
-    aligned = sum(counts) == len(script)
+    from difflib import SequenceMatcher
+
+    where: dict[int, tuple[int, int, int]] = {}          # script word -> its heard place (a misheard word is skipped)
+    for blk in SequenceMatcher(None, script, [h[0] for h in heard_at], autojunk=False).get_matching_blocks():
+        for i in range(blk.size):
+            where[blk.a + i] = heard_at[blk.b + i][1:]
     starts, k = [], 0
     for sent in sentences(text):
-        if not aligned:
-            starts.append(None)
-            continue
-        j, first = 0, 0
-        while first + counts[j] <= k:
-            first += counts[j]
-            j += 1
-        a, b = spans[j]
-        starts.append(round(a + (k - first) / counts[j] * (b - a), 2))
+        if k in where:
+            j, i, n = where[k]
+            a, b = spans[j]
+            starts.append(round(a + i / n * (b - a), 2))
+        else:
+            starts.append(None)                              # its first word was not matched: no start
         k += len(words(sent))
     with wave.open(str(wav)) as w:
         dur = w.getnframes() / w.getframerate()
-    return {"duration_s": round(dur, 2), "verbatim": verbatim, "transcript": heard,
+    return {"duration_s": round(dur, 2), "verbatim": verbatim, "transcript": heard, "first_transcript": misheard,
             "sentences": [{"start_s": t, "text": x} for t, x in zip(starts, sentences(text))],
             "check_cost_usd": round(cost + 0.0, 6)}
 
@@ -188,7 +203,8 @@ def run(voice: str = VOICE, dry_run: bool = False, redo: bool = False) -> dict:
                                  **check(client, guard, wav, text), **usage}
         r = out["sections"][name]
         print(f"{name}: {r['duration_s']} s, verbatim {r['verbatim']}, ${usage['cost_usd'] + r['check_cost_usd']:.4f}")
-    (OUT / "timings.json").write_text(json.dumps(out, indent=1) + "\n")
+        (OUT / "timings.json").write_text(json.dumps({**out, "sections": {**before, **out["sections"]}}, indent=1)
+                                          + "\n")                  # after each stem: a paid take is never lost
     return out
 
 

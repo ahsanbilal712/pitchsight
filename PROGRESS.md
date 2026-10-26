@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: v9 narration re-voiced with track A's corrections; the stem check made robust
+
+- Track A confirmed the claims with two corrections, both applied. "Every player in view": the broadcast shows part
+  of the pitch. The metres come from the pan-tilt-zoom camera fit (`calibrate.py`); the lens term is track C's
+  drawing refinement only. Architecture is 104 words (51.09 s) and the short version 57 (26.49 s); the intro is
+  unchanged.
+- `footage.narration` check:
+  - a second independent transcription decides when the first does not match ("line" heard as "lime");
+  - the product's name heard as "PitchSite" counts as the same word;
+  - sentence starts come from the chunk transcripts aligned to the script (difflib), not from exact word counts;
+  - an empty reply is asked again;
+  - `timings.json` is written after every stem, so a crash never loses a paid take.
+- All three stems match the script word for word. Narration spend to date: $0.1736.
+
+---
+
 ## 2026-10-26 — Track B: short architecture narration for the v9 submit cut
 
 - `architecture_short` in `docs/video/narration_v9.md`: 55 words, the same claims as the full architecture section
