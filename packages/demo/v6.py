@@ -688,6 +688,8 @@ class Pipeline(Still):
     SCREEN = {"rollout": "Model", "factcheck": "Fact Checker", "cuebus": "On air"}   # track B, v8: what each does
 
     def label(self, n: dict) -> str:
+        if self.m.get("theme") == "v9" and n["agent"] == "rollout":   # v9: as the architecture diagram names it
+            return "ROLLOUT"
         return (self.SCREEN.get(n["agent"], n["agent"]) if self.v8 else n["agent"]).upper()
 
     def short(self, n: dict) -> str | None:
