@@ -5,6 +5,25 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: v10 voice ends before each cut
+
+- Track C asked whether the voice's spill past three cuts is safe. The voice grounding had checked only the start of
+  a number's last word. It now also checks that each line's last word ends before its segment's cut, measured on the
+  stem's own silence.
+- On 54ef580 three lines failed the new check, on both cuts:
+  - Amad's "0.11" ended at 82.87 s, after the cut at 82.70.
+  - The Eze decision ended at 103.44 s, after 103.28.
+  - Mbeumo's "Goal." ended at 122.96 s, after 122.88.
+- New placements in `packages/demo/voice_v10.yaml`:
+  - Amad: 0.65 s.
+  - Eze decision: −0.20 s, starting on the frame before the freeze, after the Eze live line ends.
+  - Mbeumo shot: 2.95 s.
+- With these, on scratch copies of C's edits: full 1,196 of 1,196 claims, submit 1,194 of 1,194, numbers 1,106 of
+  1,106. The committed v10 grounding files wait for C's two `at` changes.
+- Tests: `tests/footage` 75 passed.
+
+---
+
 ## 2026-10-26 — Track B: video v10 grounding, both cuts: 1,106 of 1,106
 
 - Grounded track C's v10 edits, which have the decision voice placed and the Liverpool segment extended to 10.6 s

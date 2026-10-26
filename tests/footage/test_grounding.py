@@ -234,4 +234,5 @@ def test_v10_voice_binds_each_number_where_it_is_spoken_and_bites_when_late(tmp_
             a["at"] += 1.5
     path.write_text(yaml.safe_dump(edit, sort_keys=False))
     late = next(r for r in v10_voice(path, _v6_beats(path)) if r["item"].startswith("mount_shot"))
-    assert late["numbers_bound"] < late["numbers"] and "0.20 spoken at" in late["diff"][0]
+    assert late["numbers_bound"] < late["numbers"] and any(d.startswith("0.20 spoken at") for d in late["diff"])
+    assert any("after its segment's cut" in d for d in late["diff"])          # and it runs into the end card

@@ -1257,9 +1257,11 @@ def _actions(scr: _Screen, cue: str, name: str, b: dict, c: dict) -> list[tuple[
 def v10_voice(edit: Path, beats: dict) -> list[dict]:
     """The v10 voice-over (docs/video/narration_v10.md), each stem where the edit places it: every number spoken
     must be printed on screen from its first spoken word to its last (_Screen) and is checked by the Fact Checker
-    against the value it reads; every play it describes must be in the beat's data over the clip times shown; no
+    against the value it reads; the line's last word ends before its segment's cut; every play it describes must be
+    in the beat's data over the clip times shown; no
     team or player name, no he or she, no VAR, "ruled out" or offside, and no "goal" over a disallowed strike."""
     from footage.insights import evidence_board
+    from footage.narration import pauses
     from newsroom.factcheck import NUMBER
 
     doc = yaml.safe_load(edit.read_text())
@@ -1285,9 +1287,13 @@ def v10_voice(edit: Path, beats: dict) -> list[dict]:
     for a in placed:
         cue, r = by_m4a[str(ROOT / a["file"])]
         text, at = r["text"], float(a["at"])
-        hit = scr.at(at + (r["sentences"][0]["start_s"] or 0))
-        name, b, c, _ = hit
+        name, b, c, _ = scr.at(at + r["duration_s"] / 2)        # the segment the line is about
         diff, facts, claims = [], [], []
+        seg_end = next(z for a_, z, c_ in scr.clips if c_ is c)
+        tail = [x for x, y in pauses(base / r["wav"], 0.05) if y >= r["duration_s"] - 0.02]
+        spoken_to = at + (tail[0] if tail else r["duration_s"])
+        if spoken_to > seg_end + 0.02:                       # the last word ends before the cut
+            diff.append(f"speech ends at {spoken_to:.2f} s, after its segment's cut at {seg_end:.2f} s")
         if not r.get("verbatim"):
             diff.append(f"the take is not the script word for word: '{r['transcript']}'")
         bad = [w for w in names if re.search(rf"(?<![\w-]){re.escape(w)}(?![\w-])", text)]
@@ -1331,8 +1337,9 @@ def v10_voice(edit: Path, beats: dict) -> list[dict]:
         n_ok = min(n_ok, n - sum(1 for d in diff if re.match(r"\d", d)))
         acts_ok = sum(1 for _, ok, _ in acts if ok)
         rows.append({"group": "voice", "item": f"{cue} at {at:.2f} s over {name}: \"{text}\"",
-                     "file": f"narration_v10/{r['m4a']}", "claims": n + len(acts) + 1,
-                     "claims_verified": n_ok + acts_ok + (0 if bad or not r.get("verbatim") else 1),
+                     "file": f"narration_v10/{r['m4a']}", "claims": n + len(acts) + 2,
+                     "claims_verified": n_ok + acts_ok + (0 if bad or not r.get("verbatim") else 1) +
+                     (0 if spoken_to > seg_end + 0.02 else 1), "spoken_to_s": round(spoken_to, 2),
                      "numbers": n, "numbers_bound": n_ok, "diff": diff, "rejected": [],
                      "evidence": [f"{claim}: {why}" for claim, ok, why in acts if ok]})
     return rows

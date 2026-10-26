@@ -38,19 +38,20 @@ The owner's rules for the voice:
 
 Takes of 26 Oct 2026, voice Charon: each stem matched its script word for word, numbers included (gemini-3.8-flash,
 without the script). A number's time is its first spoken word in the stem. The placement in each segment is
-`packages/demo/voice_v10.yaml`. `--segments` mixes each segment's cues into one stem for track C.
+`packages/demo/voice_v10.yaml`: each line's last word ends before its segment's cut. `--segments` mixes each
+segment's cues into one stem for track C.
 
 | Stem | Length | Numbers (s into the stem) | Segment, starts at |
 |---|---|---|---|
 | `mci_live` | 2.89 s | – | mci_live, 1.80 s |
-| `mci_amad` | 5.75 s | 0.06 at 1.26 · 0.11 at 4.73 | amad_freeze, 0.90 s |
+| `mci_amad` | 5.75 s | 0.06 at 1.26 · 0.11 at 4.73 | amad_freeze, 0.65 s |
 | `ars_eze_live` | 3.06 s | – | eze_live, 0.60 s |
-| `ars_eze_decision` | 6.21 s | 0.08 at 1.05 · 0.15 at 4.44 | eze_decision, 0.00 s |
+| `ars_eze_decision` | 6.21 s | 0.08 at 1.05 · 0.15 at 4.44 | eze_decision, −0.20 s (the frame before the freeze) |
 | `ars_eze_save` | 0.82 s | – | eze_strike, 0.35 s |
 | `lfc_pass` | 3.18 s | – | lfc, 2.40 s |
 | `lfc_shot` | 3.70 s | 0.02 at 1.49 | lfc, 6.40 s (the segment 2.6 s longer: 10.6 s) |
 | `mbeumo_pass` | 2.28 s | – | mbeumo, 0.60 s |
-| `mbeumo_shot` | 4.73 s | 0.10 at 2.64 | mbeumo, 3.05 s |
+| `mbeumo_shot` | 4.73 s | 0.10 at 2.64 | mbeumo, 2.95 s |
 | `mount_pass` | 2.14 s | – | mount, 0.50 s |
 | `mount_shot` | 3.63 s | 0.20 at 0.99 | mount, 2.85 s |
 
