@@ -17,7 +17,7 @@ import numpy as np
 from PIL import ImageDraw, ImageFont
 
 from demo.live import FONT, FONT_REG, MUTED, ROOT, H, W, bracket
-from demo.v6 import ACCENT, ROLL_S, LiveHUD, shrink
+from demo.v6 import ACCENT, LiveHUD, shrink
 
 TINT_ALPHA = 0.10              # the control tint stays under everything
 LINE_ALPHA = 0.55              # team lines, the back line a step stronger
@@ -40,7 +40,7 @@ class AlwaysOn(LiveHUD):
 
     @property
     def danger_h(self) -> int:
-        return 150 if self.v8 else DANGER_H
+        return 158 if self.v8 else DANGER_H
 
     def __init__(self, m: dict):
         super().__init__(m)
@@ -50,7 +50,7 @@ class AlwaysOn(LiveHUD):
             self.always = doc.get("result", doc)
         self.standin = self.always is None
         if self.v8:
-            self.hud_above = 150 + 16
+            self.hud_above = 158 + 16
         self.kits = {k: np.array(v) / 255 for k, v in (m.get("kits") or {}).items()}
 
     # -- the always-on data at t ----------------------------------------------------------------------------------
@@ -223,14 +223,10 @@ class AlwaysOn(LiveHUD):
         else:
             kit = tuple(int(c * 255) for c in self.kits.get(team, np.array((1, 1, 1))))
             if self.v8:                                    # two lines at 28 px, never under 24, never cut
-                f28 = ImageFont.truetype(FONT, 28)
-                old, since = self._prev_text(text)
-                new_l = self._wrap(d, text, f28, bx1 - bx0)
-                old_l = self._wrap(d, old, f28, bx1 - bx0) if old else []
-                for k, ln in enumerate(new_l[:2]):
-                    self.roll(d, (bx0, y - 4 + 34 * k), ln, old_l[k] if k < len(old_l) else None, since / ROLL_S,
-                              f28, (255, 255, 255), al)
-                y += 34
+                f28 = ImageFont.truetype(FONT, 28)          # a sentence swaps whole (its share changes every few
+                for k, ln in enumerate(self._wrap(d, text, f28, bx1 - bx0)[:2]):   # frames; a roll would garble it)
+                    d.text((bx0, y - 6 + 38 * k), ln, font=f28, fill=(255, 255, 255, al))
+                y += 40
             else:
                 d.text((bx0, y), text, font=shrink(d, text, FONT, 32, bx1 - bx0), fill=(255, 255, 255, al))
             d.rounded_rectangle((bx0, y + 44, bx1, y + 60), radius=8, fill=(58, 64, 74, al))
