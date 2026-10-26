@@ -5,6 +5,14 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: v9 grounding on the final Rollout line
+
+- Re-grounded both v9 cuts on track C's 63a7628 (the Rollout card: "xG for the shot; pass model × xG for each
+  pass", true of the record "Reference xG + pass model, deterministic"). Full: 1,076 of 1,076 numbers, 1,130 of 1,130
+  claims; submit: 1,076 of 1,076, 1,128 of 1,128.
+
+---
+
 ## 2026-10-26 — Track B: the pipeline check reads a card's reworded line (v9 `says`)
 
 - `v6_pipeline` now reads a beat's `says` overrides as it reads `compact`: their numbers must be facts of the view,
