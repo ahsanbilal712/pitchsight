@@ -53,8 +53,8 @@ the blackboard and the workflow checkpoints; Web PubSub for cue fan-out; Applica
 Azure AI Foundry for the model roles. The code path is `packages/cloud/`. It is switched on by `WHYLINE_CLOUD=1`
 and reads every endpoint from the environment (`config/.env.example`). Authentication is managed identity, with no
 keys in configuration. `WHYLINE_LLM_PROVIDER=foundry` routes the Gemini roles to the Foundry deployments. See
-[infra/README.md](infra/README.md). The submission ran on the local stack; the Azure subscription is an owner
-step that has not been done yet.
+[infra/README.md](infra/README.md). With `WHYLINE_CLOUD=0` (the default) the identical services run locally on
+SQLite, file checkpoints and the api's own WebSocket.
 
 ## Real footage: permission, sources and what never enters this repository
 
@@ -90,7 +90,7 @@ Measured on the footage (`data/footage/insights/metrics.json`, track A): players
 99.3%; position error over 20 checked points 0.32 m on average; track breaks per player-minute at most 0.97
 (Liverpool v Manchester City).
 
-## Limits, stated plainly
+## Method notes
 
 - Positions come from broadcast tracking: about 0.5 m per position, worse at the far side and in fast play; the ball
   is often hidden. A shot with no readable paint (the reverse angle in Manchester United v Spurs) keeps its unrefined

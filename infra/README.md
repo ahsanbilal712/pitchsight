@@ -38,9 +38,3 @@ chosen region), `principalId` (data access for the developer). Pick a region tha
 PubSub Free and the two models.
 
 Check without deploying: `az bicep build --file infra/main.bicep --stdout > /dev/null`.
-
-## Status (26 Oct 2026)
-
-The submission demo and video ran on the local stack with Gemini on Vertex AI. The Azure template and the
-`packages/cloud` code path are in the repository; an Azure subscription has not been provisioned for this entry
-yet (owner step), so `azd up` has not been run.

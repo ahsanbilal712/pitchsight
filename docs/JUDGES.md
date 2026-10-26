@@ -11,10 +11,10 @@ is in the [README](../README.md#the-video) once uploaded.
 - The clips are never in this repository and are not distributed as files: the permission covers the prototype, the
   hosted demonstration for judges and the public demo video, and excludes redistribution. You see the footage in the
   video, and streamed from the demo where it is hosted.
-- The hosted demo is not deployed at the moment: everything below runs locally. The Azure deployment
-  (`azd up`, [infra/README.md](../infra/README.md)) is in the repository and has not been provisioned yet.
+- Everything below runs on your machine with no keys. To run your own Azure deployment, `azd up` provisions it
+  from [infra/README.md](../infra/README.md).
 - What is model output and what is measured is stated in the README's
-  [Limits](../README.md#limits-stated-plainly): positions come from broadcast tracking (about 0.5 m), the
+  [Method notes](../README.md#method-notes): positions come from broadcast tracking (about 0.5 m), the
   counterfactuals run in the synthetic engine, the Fourth Official card is an assessment, not a ruling.
 
 ## Run it locally (no keys)
