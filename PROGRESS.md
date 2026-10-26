@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: a tagged shot named from the tracking (Mount's disallowed goal); "Ruled out by VAR" checked
+
+- `footage.names.live_holder`: a tagged shot with no other verified source is named after the player the v6 tracking
+  last has on the ball. The touch must be up to 1.0 s before the tagged time (or 0.2 s after: the tag is to the
+  second), inside a live window where both models read his shirt, and the tracking must read no pass between the
+  touch and the shot.
+- Man Utd v Man City e_0070 (91:31, the disallowed 3-0) is now Mason Mount: t2 is #7 by both models over
+  1409.5–1414.8 s, has Cunha's pass at 1414.8, and the ball is loose at 1414.9 and out of play at 1415.1.
+- The rule refuses Arsenal v Chelsea e_0024: the tagger's "Enzo shot" at 832 s is his pass to Palmer in the
+  tracking.
+- "Ruled out by VAR" (track C's v9 caption) checked in the broadcast frames: the stadium screen shows "VAR · Checking
+  Goal" at clip about 1466–1469 s, the referee signals at 93:49, and the bug reads 2-0 by 1482 s. The description
+  does not mention it.
+
+---
+
 ## 2026-10-26 — Track B: v9 narration re-voiced with track A's corrections; the stem check made robust
 
 - Track A confirmed the claims with two corrections, both applied. "Every player in view": the broadcast shows part

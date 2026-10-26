@@ -25,8 +25,12 @@ def test_unverified_names_in_a_line_are_caught():
     assert unverified_in("liverpool-mancity-2526", "Szoboszlai shoots; Salah was free") == []
     assert unverified_in("liverpool-mancity-2526", "Van Dijk heads clear from Szoboszlai") == ["Virgil van Dijk"]
     assert "Marcus Rashford" in unverified_in("manutd-spurs-2425", "Rashford shoots")
-    # Mount is verified on the pitch (shirt 7 in stoppage time) but his disallowed "3-0" is never his shot
-    assert verify("manutd-mancity-2526")["shots"]["e_0070"]["name"] is None
+    # Mount's disallowed "3-0": the tagger alone is not enough (his goal is rejected), but the tracking has t2, read #7
+    # by both models, on the ball 0.2 s before the tagged strike with no pass in between
+    mount = verify("manutd-mancity-2526")["shots"]["e_0070"]
+    assert mount["name"] == "Mason Mount" and mount["source"].startswith("live_1390000.json: t2 on the ball at 1414800")
+    # the tagger's "Enzo shot" at 832 s is his pass to Palmer in the tracking: unnamed
+    assert verify("arsenal-chelsea-2526")["shots"]["e_0024"]["name"] is None
 
 
 def test_a_shot_is_named_only_when_that_shot_is_verified():

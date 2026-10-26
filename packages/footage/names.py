@@ -233,9 +233,44 @@ def shot_names(slug: str, names: dict[str, dict]) -> dict[str, dict]:
                         any(src["kind"] == "shirt" for src in entry["sources"]):
                     name, source = n, next(src["ref"] for src in entry["sources"] if src["kind"] == "shirt"
                                            and e["id"] in src["ref"])
+        if name is None:
+            name, source = live_holder(slug, names, a["clip_ms"])
         out[e["id"]] = {"clip_ms": a["clip_ms"], "tagger_name": a.get("player_name"), "name": name,
                         "source": source}
     return out or strike_names(slug, names)
+
+
+HOLDER_BEFORE_MS, HOLDER_AFTER_MS = 1000, 200      # the tagged time is to the second (score-bug clock)
+
+
+def live_holder(slug: str, names: dict[str, dict], clip_ms: int) -> tuple[str | None, str | None]:
+    """The player who last had the ball before a tagged shot, from a v6 live file: the carrier at the last carry
+    sample up to HOLDER_AFTER_MS after the tagged time and no more than HOLDER_BEFORE_MS before it, named only when
+    that sample is inside a live window where his shirt was read by both models (gemini-3.8-flash, confirmed by
+    gemini-4-argon), and only when the tracking reads no pass between that touch and the tagged shot (Arsenal v
+    Chelsea e_0024: the tagger's "Enzo shot" is his pass to Palmer)."""
+    for path in sorted((clip_dir(slug) / "cache" / "v6").glob("live_[0-9]*.json")):
+        r = json.loads(path.read_text())["result"]
+        if not r["start_clip_ms"] <= clip_ms <= r["end_clip_ms"] + HOLDER_AFTER_MS:
+            continue
+        carry = [f for f in r["frames"] if f.get("state") == "carry" and f.get("holder")
+                 and clip_ms - HOLDER_BEFORE_MS <= f["clip_ms"] <= clip_ms + HOLDER_AFTER_MS]
+        if not carry:
+            continue
+        last = max(carry, key=lambda f: f["clip_ms"])
+        if any(f.get("state") == "pass" for f in r["frames"]
+               if last["clip_ms"] < f["clip_ms"] <= clip_ms + HOLDER_AFTER_MS):
+            continue                                # the tracking reads a pass after his touch: not his shot
+        label = last["holder"]["label"]
+        for n, entry in names.items():
+            for lk in entry["links"]:
+                if lk.get("live") == path.name and lk.get("label") == label and \
+                        lk["from_clip_ms"] <= last["clip_ms"] <= lk["to_clip_ms"]:
+                    ref = next((src["ref"] for src in entry["sources"] if src["kind"] == "shirt" and
+                                "confirmed by" in src["ref"] and f":{label}@" in src["ref"]), None)
+                    if ref:
+                        return n, f"{path.name}: {label} on the ball at {last['clip_ms']} ms; {ref}"
+    return None, None
 
 
 def strike_names(slug: str, names: dict[str, dict]) -> dict[str, dict]:
