@@ -295,8 +295,11 @@ def open_cache(slug: str):
     h = hashlib.sha256()
     for p in sorted((clip_dir(slug) / "moments").glob("*.json")):
         h.update(p.read_bytes())
+    events = clip_dir(slug) / "events.jsonl"
+    if not events.exists():                     # a clip without tagged events: track A's reviewed strikes
+        events = clip_dir(slug) / "strikes.json"
     data = {"schema_version": "1.0.0", "match_id": clip["match_id"], "match_seed": int(clip["match_id"][2:]),
-            "events_sha256": sha256_file(clip_dir(slug) / "events.jsonl"), "tracking_sha256": h.hexdigest(),
+            "events_sha256": sha256_file(events), "tracking_sha256": h.hexdigest(),
             "engine_hash": engine_hash(), "created_at": now_iso(), "frozen": False, "entries": [],
             "totals": {"entries": 0, "cost_usd": 0.0}}
     return CacheManifest(data, cache_dir)

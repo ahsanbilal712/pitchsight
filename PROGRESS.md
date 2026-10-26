@@ -5,6 +5,22 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: shirt reads and shooter names for a clip without tagged events
+
+- `footage.shirts`: a shot's tracks path now drops track A's " frame N" suffix (the shooter crops opened no file).
+- `footage.featured.open_cache`: a clip without `events.jsonl` hashes track A's reviewed `strikes.json` instead, so
+  `names_live_0` registers for it.
+- `footage.names.strike_names`: with no tagged events, track A's strikes are named: a goal is the description's scorer
+  for the score the score bug next shows changed for that team; any other strike only by a consistent shirt read at
+  the strike. Shirt links accept strike ids (`s_`). New test with a temporary clip folder; footage suite 65 passed.
+- Run on the local-only Barcelona v Real Madrid cut (outputs git-ignored): 59 Gemini Flash shirt reads over the edit's
+  nine live passages and five strikes, $0.5035 through SpendGuard on ffc-19484 (ADC quota project had reverted to
+  another project after a re-login; set back to ffc-19484 first). 15 live windows named; the kit check rejected five
+  reads of a Barcelona shirt on Real Madrid-labelled tracks. Shooters: three goals by score bug + description, three
+  strikes by shirt read, each matching the same track's live-passage read; two scrambles unnamed.
+
+---
+
 ## 2026-10-26 · Grounding and names for a local-only cut (track B)
 
 - `footage.grounding`: an edit may carry `moments: <path>` (its own beats, merged over footage_moments.yaml),

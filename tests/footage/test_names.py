@@ -35,3 +35,27 @@ def test_a_shot_is_named_only_when_that_shot_is_verified():
     assert shots["e_0033"]["source"] == "moments/hand/875000.json (holder shoots)"
     haaland_blocked = next(s for s in shots.values() if s["clip_ms"] == 707000)
     assert haaland_blocked["tagger_name"] and haaland_blocked["name"] is None   # verified player, unverified shot
+
+
+def test_a_clip_without_tagged_events_names_strikes_by_score_bug_and_shirt(tmp_path, monkeypatch):
+    import json
+
+    import footage.names as names_mod
+
+    monkeypatch.setattr(names_mod, "clip_dir", lambda slug: tmp_path)
+    (tmp_path / "strikes.json").write_text(json.dumps({"strikes": [
+        {"id": "s_0614", "clip_ms": 61400, "team": "away", "goal": True},
+        {"id": "s_0961", "clip_ms": 96100, "team": "away", "goal": False},
+        {"id": "s_1282", "clip_ms": 128200, "team": "away", "goal": False}]}))
+    (tmp_path / "score_bug.json").write_text(json.dumps({"readings": [
+        {"clip_ms": 66000, "before": [0, 0], "after": None},
+        {"clip_ms": 97000, "before": None, "after": [0, 1], "changed": "away"}]}))
+    (tmp_path / "description.json").write_text(json.dumps({"goals": [
+        {"clip_s": 58, "score": [0, 1], "scorer": "Mbappé", "own_goal": False, "minute": None}]}))
+    named = {"Kylian Mbappé": {"team": "away", "sources": [], "links": []},
+             "Yan Diomande": {"team": "away", "sources": [{"kind": "shirt", "ref": "shirts.json s_0961:t7: #25"}],
+                              "links": [{"event": "s_0961", "label": "t7", "clip_ms": 96100}]}}
+    shots = names_mod.strike_names("any", named)
+    assert shots["s_0614"]["name"] == "Kylian Mbappé" and "score_bug.json 97000" in shots["s_0614"]["source"]
+    assert shots["s_0961"]["name"] == "Yan Diomande"
+    assert shots["s_1282"]["name"] is None                      # no consistent read at the strike: unnamed

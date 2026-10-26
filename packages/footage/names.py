@@ -182,7 +182,7 @@ def verify(slug: str) -> dict:
         if at.startswith("live"):          # a v6 live passage: the track, only inside its window
             link = {"live": f"live_{at[4:]}.json", "label": label.split("@")[0], "track_id": r.get("track_id"),
                     "from_clip_ms": round(r["window_s"][0] * 1000), "to_clip_ms": round(r["window_s"][1] * 1000)}
-        elif at.startswith("e_"):
+        elif at[:2] in ("e_", "s_"):       # a tagged shot, or a reviewed strike (strikes.json)
             link = {"event": at, "label": label, "clip_ms": round(r["at_s"] * 1000)}
         else:
             link = {"clip_ms": int(at), "label": label, "track_id": r.get("track_id")}
@@ -234,6 +234,39 @@ def shot_names(slug: str, names: dict[str, dict]) -> dict[str, dict]:
                                            and e["id"] in src["ref"])
         out[e["id"]] = {"clip_ms": a["clip_ms"], "tagger_name": a.get("player_name"), "name": name,
                         "source": source}
+    return out or strike_names(slug, names)
+
+
+def strike_names(slug: str, names: dict[str, dict]) -> dict[str, dict]:
+    """A clip without tagged events: who took each of track A's reviewed strikes (strikes.json). A goal is the
+    description's scorer for the score the score bug next shows changed for that team; any other strike is named
+    only by a consistent shirt read at the strike (footage.shirts). Else None."""
+    path = clip_dir(slug) / "strikes.json"
+    if not path.exists():
+        return {}
+    bug_path = clip_dir(slug) / "score_bug.json"
+    bug = json.loads(bug_path.read_text())["readings"] if bug_path.exists() else []
+    goals = description(slug).get("goals", [])
+    out = {}
+    doc = json.loads(path.read_text())
+    for st in doc.get("result", doc)["strikes"]:
+        name, source = None, None
+        if st.get("goal"):
+            r = next((r for r in sorted(bug, key=lambda r: r["clip_ms"])
+                      if r["clip_ms"] >= st["clip_ms"] and r.get("changed")), None)
+            g = next((g for g in goals if r and g["score"] == r["after"]), None)
+            if r and g and r["changed"] == st["team"]:
+                n = next((k for k in names if _same(k, g["scorer"])), g["scorer"])
+                name, source = n, (f"score_bug.json {r['clip_ms']} ({r['after'][0]}-{r['after'][1]}, "
+                                   f"{r['changed']}) + description.json chapter {g['clip_s'] // 60:02d}:"
+                                   f"{g['clip_s'] % 60:02d}")
+        else:
+            for n, entry in names.items():
+                if any(lk.get("event") == st["id"] for lk in entry["links"]):
+                    name, source = n, next(src["ref"] for src in entry["sources"]
+                                           if src["kind"] == "shirt" and st["id"] in src["ref"])
+        out[st["id"]] = {"clip_ms": st["clip_ms"], "team": st["team"], "tagger_name": None, "name": name,
+                         "source": source}
     return out
 
 

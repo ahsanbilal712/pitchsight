@@ -74,7 +74,8 @@ def targets(slug: str) -> list[dict]:
             if s.get("xg") is not None and not s["shooter"].get("name") and s["shooter"].get("label") and \
                     pos.startswith(f"{slug}/tracks/"):
                 out.append({"key": f"{s['event_id']}:{s['shooter']['label']}", "team": s["team"],
-                            "label": s["shooter"]["label"], "name_now": None, "tracks": pos.split("/", 1)[1],
+                            "label": s["shooter"]["label"], "name_now": None,
+                            "tracks": pos.split("/", 1)[1].split(" ")[0],       # "tracks/7.json frame 1164"
                             "track_id": int(s["shooter"]["label"][1:]), "at_s": s["clip_ms"] / 1000})
     return out
 
