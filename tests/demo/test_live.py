@@ -105,3 +105,29 @@ def test_v6_labels_never_placeholders():
     assert who({"name": None, "shirt": 19}) is None            # live shirts wait for track B's verified list
     assert who({"name": None, "shirt": None, "track_id": 7}) is None
     assert who(None) is None
+
+
+def test_v10_beats_show_no_ruling_and_no_xg_banner():
+    """Owner (v10): no VAR, 'ruled out' or offside text on screen, and no xG banner; Mount's goal reads as his shot."""
+    import yaml
+
+    from demo.live import HiDraw, hi_layer
+    from demo.v7 import AlwaysOn
+    beats = yaml.safe_load((L.ROOT / "packages" / "demo" / "footage_moments.yaml").read_text())["moments"]
+    late = AlwaysOn(beats["mci_late_live_v10"])
+    states = {late.state(t / 10) for t in range(14120, 14185)}
+    assert "SHOT" in states and not any(s and ("VAR" in s or "RULED" in s or "GOAL" in s) for s in states)
+    assert AlwaysOn(beats["mci_late_live_v9"]).state(1416.0) == "GOAL, RULED OUT BY VAR"   # v9 is unchanged
+
+    def drawn_by(name: str) -> list[str]:
+        scene, out = AlwaysOn(beats[name]), []
+        scene._t = 1416.0
+        d = HiDraw(hi_layer((L.W, L.H)))
+        d.text = lambda xy, text, **kw: out.append(text)
+        scene._score(d, scene.span()[1], 1.0)
+        scene._shot_tags(d, None, 1416.0)
+        return out
+    v9 = drawn_by("mci_late_live_v9")                              # the control: v9 drew both
+    assert "RULED OUT BY VAR" in v9 and any(t.startswith("xG ") for t in v9)
+    for name in ("mci_live_v10", "lfc_live_v10", "ars_eze_live_v10", "mci_mbeumo_live_v10", "mci_late_live_v10"):
+        assert drawn_by(name) == [], name

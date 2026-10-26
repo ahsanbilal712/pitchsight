@@ -400,7 +400,7 @@ class LiveHUD(Live):
     def _score(self, d: ImageDraw.ImageDraw, t: float, a: float) -> None:
         """Top strip under the broadcast score bug: each team's cumulative xG so far (xg_race_0)."""
         race = self.m.get("race_doc")
-        if not race:
+        if not race or self.m.get("no_score"):            # v10: no xG banner (the owner)
             return
         now = t * 1000
         pts = [p for p in race["series"] if p["clip_ms"] <= now] or [{"home_xg": 0.0, "away_xg": 0.0}]

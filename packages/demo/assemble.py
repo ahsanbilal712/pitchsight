@@ -236,9 +236,16 @@ def assemble(edit_path: Path, keep: bool = False) -> Path:
             ms = int(round(float(a["at"]) * 1000))
             chains.append(f"[{k + 1}:a]aresample=48000,volume={float(a.get('gain_db', 0))}dB,"
                           f"adelay={ms}|{ms}[a{k}]")
-        mix = "".join(f"[a{k}]" for k in range(len(audio)))
-        graph = ";".join([f"[0:v]{vf}[v]", *chains,
-                          f"{mix}amix=inputs={len(audio)}:normalize=0,apad[aout]"])
+        voice = [k for k, a in enumerate(audio) if not a.get("duck")]
+        bed = [k for k, a in enumerate(audio) if a.get("duck")]     # v10: a bed ducks under every voice line
+        mix = "".join(f"[a{k}]" for k in voice)
+        tail = [f"{mix}amix=inputs={len(voice)}:normalize=0,apad[aout]"]
+        if bed:
+            tail = [f"{mix}amix=inputs={len(voice)}:normalize=0,apad,asplit=2[vo][key]",
+                    "".join(f"[a{k}]" for k in bed) + f"amix=inputs={len(bed)}:normalize=0,apad[bed]",
+                    "[bed][key]sidechaincompress=threshold=0.02:ratio=8:attack=20:release=400[ducked]",
+                    "[vo][ducked]amix=inputs=2:normalize=0[aout]"]
+        graph = ";".join([f"[0:v]{vf}[v]", *chains, *tail])
         run(["ffmpeg", "-v", "error", "-y", "-i", str(joined), *ins, "-filter_complex", graph, "-map", "[v]",
              "-map", "[aout]", *[x for x in encode_args(fps) if x != "-an"], "-c:a", "aac", "-b:a", "192k", "-shortest",
              "-movflags", "+faststart", str(out)])

@@ -1213,7 +1213,7 @@ moments:
 
   # v9 in action: one continuous beat per attack (track A's v9 windows: boxes every frame, the states through
   # the strike and the goal), the strike's xG and outcome on the beat itself; Inter; 2x overlays
-  mci_live_v9:                       # Amad's passage
+  mci_live_v9: &mci_live_v9                       # Amad's passage
     clip: manutd-mancity-2526
     kind: always_on
     data: data/footage/manutd-mancity-2526/cache/v6/live_869000.json
@@ -1244,7 +1244,7 @@ moments:
     window: data/footage/arsenal-chelsea-2526/cache/v9/window_830000.json
     theme: v9
 
-  lfc_live_v9:                       # Liverpool 86': the options re-price, Szoboszlai's strike and the block
+  lfc_live_v9: &lfc_live_v9                       # Liverpool 86': the options re-price, Szoboszlai's strike and the block
     clip: liverpool-mancity-2526
     kind: always_on
     data: data/footage/liverpool-mancity-2526/cache/v6/live_802600.json
@@ -1261,7 +1261,7 @@ moments:
     window: data/footage/liverpool-mancity-2526/cache/v9/window_866000.json
     shooter_name: Szoboszlai
 
-  mci_mbeumo_live_v9:                # the move, Mbeumo's strike and goal at normal speed
+  mci_mbeumo_live_v9: &mci_mbeumo_live_v9                # the move, Mbeumo's strike and goal at normal speed
     outcome_after_s: 0.84            # the ball crosses the line at 1080.2 (read off the frames)
     clip: manutd-mancity-2526
     kind: always_on
@@ -1278,7 +1278,7 @@ moments:
     window: data/footage/manutd-mancity-2526/cache/v9/window_1074400.json
     shooter_name: Mbeumo
 
-  mci_late_live_v9:                  # stoppage time: Cunha to Mount, the goal ruled out by VAR
+  mci_late_live_v9: &mci_late_live_v9                  # stoppage time: Cunha to Mount, the goal ruled out by VAR
     clip: manutd-mancity-2526
     kind: always_on
     data: data/footage/manutd-mancity-2526/cache/v6/live_1390000.json
@@ -1294,7 +1294,7 @@ moments:
     theme: v9
     window: data/footage/manutd-mancity-2526/cache/v9/window_1395000.json
 
-  mci_amad_v9:                       # the decision freeze (Inter, 2x)
+  mci_amad_v9: &mci_amad_v9                       # the decision freeze (Inter, 2x)
     clip: manutd-mancity-2526
     style: v8
     t_s: 877.0
@@ -1337,7 +1337,7 @@ moments:
     receiver_label: "a Chelsea runner"
     card_title: "THE DECISION · 50:33"
 
-  ars_eze_live_v9:                   # Arsenal v Chelsea 79:07-79:12: the regain, Eze's run, his strike (track A window)
+  ars_eze_live_v9: &ars_eze_live_v9                   # Arsenal v Chelsea 79:07-79:12: the regain, Eze's run, his strike (track A window)
     clip: arsenal-chelsea-2526
     kind: always_on
     data: data/footage/arsenal-chelsea-2526/cache/v6/live_1272000.json
@@ -1369,3 +1369,16 @@ moments:
     pass_label: "Square pass, if it reaches him"
     receiver_label: "Arsenal teammate · in the box"
     card_title: "THE DECISION · 79:11"
+
+  # v10 (owner, 26 Oct): v9's beats without the xG banner (no_score) and without any ruling on screen (no_rulings,
+  # state_says); the HUD values as in v9
+  mci_live_v10: {<<: *mci_live_v9, no_score: true}
+  mci_amad_v10: {<<: *mci_amad_v9, no_score: true}
+  ars_eze_live_v10: {<<: *ars_eze_live_v9, no_score: true}
+  lfc_live_v10: {<<: *lfc_live_v9, no_score: true}
+  mci_mbeumo_live_v10: {<<: *mci_mbeumo_live_v9, no_score: true}
+  mci_late_live_v10:                 # stoppage time: Cunha to Mount, his shot (no ruling, no "goal")
+    <<: *mci_late_live_v9
+    no_score: true
+    no_rulings: true
+    state_says: {"GOAL, RULED OUT BY VAR": "SHOT"}

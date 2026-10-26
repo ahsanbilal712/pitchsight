@@ -668,7 +668,7 @@ class Painter:
 
     def _score_v8(self, im: Image.Image, a: float) -> None:
         """Team xG under the broadcast score bug at the frozen moment (xg_running_0), as on the live beats."""
-        if not self.m.get("race") or a <= 0:
+        if not self.m.get("race") or self.m.get("no_score") or a <= 0:   # v10: no xG banner
             return
         doc = json.loads((ROOT / self.m["race"]).read_text())
         race = {**doc.get("result", doc), **(self.m.get("race_labels") or {})}
@@ -1402,6 +1402,21 @@ def export_clip(m: dict, p: Painter, path: Path, standin: bool, pre_s: float = 4
     return path
 
 
+def log_text(path: Path) -> None:
+    """Append every distinct string the overlays draw (PIL text, at any alpha) to `path`: the rendered text, for
+    checking what a beat can ever show."""
+    seen: set[str] = set()
+    draw = ImageDraw.ImageDraw.text
+
+    def text(self, xy, text, *a, **kw):
+        if text not in seen:
+            seen.add(text)
+            with path.open("a") as f:
+                f.write(str(text).replace("\n", " ") + "\n")
+        return draw(self, xy, text, *a, **kw)
+    ImageDraw.ImageDraw.text = text
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("moment")
@@ -1415,6 +1430,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="viewer mode: analyst adds the pitch-control heatmap, casual keeps one sentence, "
                          "player_cam is the actor's phone card; their clips are the freeze alone")
     args = ap.parse_args(argv)
+    if os.environ.get("PITCHSIGHT_TEXT_LOG"):           # every string drawn, one per line (the v10 text audit)
+        log_text(Path(os.environ["PITCHSIGHT_TEXT_LOG"]))
     m = load_moment(args.moment)
     if args.style:
         m["style"] = args.style

@@ -215,6 +215,10 @@ class AlwaysOn(LiveHUD):
         return self._win
 
     def state(self, t: float) -> str | None:
+        s = self._state(t)
+        return (self.m.get("state_says") or {}).get(s, s)  # v10: a moment may reword a state (no ruling on screen)
+
+    def _state(self, t: float) -> str | None:
         win = self.window() if self.v9 else None
         if win:                                            # v9: track A's states, the strikes and goals included
             ms = t * 1000
@@ -338,7 +342,7 @@ class AlwaysOn(LiveHUD):
 
     def _shot_tags(self, d, cam, t) -> None:
         """At a reviewed strike: its xG on the shooter, then the outcome tag bottom left (a goal in the kit colour);
-        a disallowed goal says so ('Ruled out by VAR')."""
+        a disallowed goal says so ('Ruled out by VAR'), unless the moment has `no_rulings` (v10)."""
         sh, since = self.strike(t)
         f = ImageFont.truetype(FONT, 34)
         x0, y0 = 96, H - self.bottom - 64
@@ -372,7 +376,7 @@ class AlwaysOn(LiveHUD):
                 d.rounded_rectangle((x0, y0, x0 + w, y0 + 64), radius=RADIUS, fill=(*PANEL, int(235 * o)))
                 d.rectangle((x0, y0 + 12, x0 + 6, y0 + 52), fill=(*col, int(255 * o)))
                 d.text((x0 + 28, y0 + 32), tag, font=f, fill=(255, 255, 255, int(255 * o)), anchor="lm")
-        if self.v9 and self.window() and self._win_disallowed:
+        if self.v9 and self.window() and self._win_disallowed and not self.m.get("no_rulings"):
             first = self._win_disallowed[0]["clip_ms"] / 1000
             o = window(t, first, first + 0.25)
             if o > 0:                                      # Mount's goal: no xG (unmeasured), the ruling only
