@@ -218,6 +218,10 @@ def assemble(edit_path: Path, keep: bool = False) -> Path:
     write_captions(timeline, srt, ass, w, h, margin_v=int(cs.get("margin_v", max(20, band // 2 - 40) if band else 74)),
                    size=int(cs.get("size", 40)), one_line=bool(cs.get("one_line")))
     vf = vf.replace(f"ass={ass}", f"ass={ass}:fontsdir={FONT_DIR}")
+    if edit.get("watermark"):                            # a small corner mark, nothing else (pure-analytics cuts)
+        wm = str(edit["watermark"]).replace(":", r"\:").replace("'", r"\'")
+        vf += (f",drawtext=fontfile='{FONT}':text='{wm}':x=40:y=h-text_h-36:fontsize=26:"
+               f"fontcolor=white@0.55")
     run(["ffmpeg", "-v", "error", "-y", "-i", str(joined), "-vf", vf, *encode_args(fps),
          "-movflags", "+faststart", str(out)])
     if keep:

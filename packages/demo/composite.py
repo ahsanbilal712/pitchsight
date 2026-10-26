@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -80,6 +81,9 @@ def load_moment(name: str) -> dict:
     """The moment's spec; with a `moment_file` (T-107: players and ball in pitch metres, hand-marked or tracked)
     the actor, the target and the ball take their positions from it (`at`), else from their feet pixels."""
     moments = yaml.safe_load(MOMENTS.read_text())["moments"]
+    extra = os.environ.get("PITCHSIGHT_MOMENTS")          # a generated cut's moments (git-ignored, demo.match_cut)
+    if extra:
+        moments = {**moments, **yaml.safe_load(Path(extra).read_text())["moments"]}
     if name not in moments:
         raise SystemExit(f"composite: no moment {name!r} in {MOMENTS.name} ({', '.join(moments)})")
     m = {"name": name, **moments[name]}

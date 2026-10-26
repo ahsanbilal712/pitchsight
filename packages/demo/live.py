@@ -1014,7 +1014,7 @@ class ShotXG(Live):
         last = name.split()[-1] if name else None
         what = ", penalty" if (s.get("penalty") or self.m.get("penalty")) and last else ""
         tag = f"{s['xg']:.2f} xG" + (f" · {last}{what}" if last else "")
-        if o > 0:
+        if o > 0 and s["outcome"] not in ("no goal", None):
             tag = f"{s['outcome'].upper()} · " + tag
         goal = s["outcome"] == "goal" and o > 0
         colour = tuple(int(v * 255) for v in self.kit) if goal else (196, 204, 214)
@@ -1062,7 +1062,8 @@ class ShotXG(Live):
         o = window(tau, out_t, out_t + 0.12)
         if o > 0 and v6:                                  # a small broadcast tag, bottom left
             colour = tuple(int(v * 255) for v in self.kit) if s["outcome"] == "goal" else (196, 204, 214)
-            tag = f"{s['outcome'].upper()} · {s['xg']:.2f} xG"
+            word = "SHOT" if s["outcome"] in ("no goal", None) else s["outcome"].upper()   # track A's "no goal"
+            tag = f"{word} · {s['xg']:.2f} xG"
             f = self.font[34]
             w = d.textlength(tag, font=f) + 44
             x0, y0 = 96 - int((1 - o) * 40), H - 96 - 64
