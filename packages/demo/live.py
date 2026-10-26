@@ -1010,7 +1010,7 @@ class ShotXG(Live):
         """A shot with no trusted camera: a fixed lower-left card, '0.76 xG · Haaland, penalty', with the outcome put
         in front once it is known ('GOAL · ...')."""
         o = window(tau, self.outcome_after(), self.outcome_after() + 0.12)
-        name = (s.get("shooter") or {}).get("name")
+        name = (s.get("shooter") or {}).get("name") or self.m.get("shooter_name")   # track B verified
         last = name.split()[-1] if name else None
         what = ", penalty" if (s.get("penalty") or self.m.get("penalty")) and last else ""
         tag = f"{s['xg']:.2f} xG" + (f" · {last}{what}" if last else "")
@@ -1054,7 +1054,7 @@ class ShotXG(Live):
         d.rounded_rectangle((box[0] - 6, box[1] - 6, box[2] + 6, box[3] + 6), radius=20, fill=(*ORANGE, int(90 * pop)))
         d.rounded_rectangle(box, radius=16, fill=(*PANEL, int(235 * pop)), outline=(*ORANGE, int(255 * pop)), width=4)
         d.text((at[0], at[1]), text, font=font, fill=(255, 255, 255, int(255 * pop)), anchor="mm")
-        name = (s.get("shooter") or {}).get("name")
+        name = (s.get("shooter") or {}).get("name") or self.m.get("shooter_name")   # track B verified
         if name:
             d.text((at[0], box[3] + 18), name.upper(), font=self.font[26], fill=(255, 255, 255, int(255 * pop)),
                    anchor="mt", stroke_width=3, stroke_fill=(0, 0, 0, int(200 * pop)))

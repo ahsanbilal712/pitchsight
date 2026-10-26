@@ -88,6 +88,8 @@ def build(slug: str, name: str, min_run: float = 2.0) -> tuple[Path, Path]:
                 if x1 - x0 >= min_run:
                     segs.append((x0, x1, {**base, "t0": round(x0, 2), "t1": round(x1, 2)}))
     cams = json.loads((FOOTAGE / slug / "shots.json").read_text())["shots"]
+    nv = FOOTAGE / slug / "names_verified.json"                 # track B's verified shooters, by strike time
+    shooters = list((_load(nv).get("shots") or {}).values()) if nv.exists() else []
     for s in shots:                                             # every strike, in or out of a run
         t = s["clip_ms"] / 1000
         cam_end = next((c["end"] for c in cams if c["start"] <= t <= c["end"]), t + 9)   # never past the cut
@@ -95,7 +97,9 @@ def build(slug: str, name: str, min_run: float = 2.0) -> tuple[Path, Path]:
         kits = next((m["kits"] for *_, m in segs if m.get("kits")), {})
         segs.append((t - 0.15, min(t + _outcome(s) + SHOT_TAIL_S, cam_end - 0.05),
                      {"clip": slug, "kind": "shot_xg", "data": rel(shots_path), "clip_ms": s["clip_ms"], "team": team,
-                      "kits": kits, "style": "v6", "pre_s": 0.4, "post_s": SHOT_TAIL_S}))
+                      "kits": kits, "style": "v6", "pre_s": 0.4, "post_s": SHOT_TAIL_S,
+                      **({"shooter_name": v["name"]} if (v := next((v for v in shooters if v.get("name") and abs(
+                          v["clip_ms"] - s["clip_ms"]) <= 100), None)) else {})}))
     segs.sort(key=lambda x: x[0])
     clips, last_end = [], -1.0
     for k, (x0, x1, m) in enumerate(segs):
