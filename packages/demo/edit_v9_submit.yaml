@@ -24,13 +24,13 @@ clips:
     captions:
       - {from: 0.2, to: 11.9, text: "Computer vision tracks every player in view, on the broadcast and on the pitch."}
 
-  - shot: footage/architecture_short_v9   # 0:19 how it works, under the short stem (track B e931bc0, 27.9 s)
+  - shot: footage/architecture_short_v9   # 0:19 how it works, under the short stem (track B 44be9d5, 26.5 s)
     from: 0.0
-    to: 28.0
+    to: 27.0
     captions:
-      - {from: 0.3, to: 10.4, text: "RF-DETR detects every player, ByteTrack follows them, the camera is calibrated."}
-      - {from: 10.5, to: 16.5, text: "A pass model and a published Expected Goals (xG) model price every option."}
-      - {from: 16.6, to: 27.8, text: "An agent newsroom on Microsoft Agent Framework writes the line; a fact checker checks it."}
+      - {from: 0.3, to: 11.0, text: "RF-DETR detects the players in view, ByteTrack follows them, the camera is calibrated."}
+      - {from: 11.1, to: 16.2, text: "A pass model and a published Expected Goals (xG) model price every option."}
+      - {from: 16.3, to: 26.8, text: "An agent newsroom on Microsoft Agent Framework writes the line; a fact checker checks it."}
 
   - shot: footage/mci_live_v9             # 1:11 in action: Amad's passage (56:38-56:41)
     from: 0.3

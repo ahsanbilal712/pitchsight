@@ -24,15 +24,15 @@ clips:
     captions:
       - {from: 0.2, to: 11.9, text: "Computer vision tracks every player in view, on the broadcast and on the pitch."}
 
-  - shot: footage/architecture_v9         # 0:19 how it works, each block lit as the narration names it
+  - shot: footage/architecture_v9         # 0:19 how it works, each block lit as the narration names it (44be9d5)
     from: 0.0
     to: 52.0
     captions:
-      - {from: 0.3, to: 11.6, text: "RF-DETR detects every player; ByteTrack follows them from frame to frame."}
-      - {from: 11.7, to: 23.1, text: "Each frame's camera is calibrated to the painted lines: positions in metres."}
-      - {from: 23.2, to: 30.5, text: "A pass model prices the options; a published Expected Goals (xG) model prices the shots."}
-      - {from: 30.6, to: 45.7, text: "An agent newsroom on Microsoft Agent Framework, with Google Gemini, writes the line."}
-      - {from: 45.8, to: 51.8, text: "A fact checker ties every number to the data before it airs."}
+      - {from: 0.2, to: 11.2, text: "RF-DETR detects the players in view; ByteTrack follows them from frame to frame."}
+      - {from: 11.3, to: 23.0, text: "Each frame's camera is fitted to the painted lines: positions in pitch metres."}
+      - {from: 23.1, to: 31.0, text: "A pass model prices the options; a published Expected Goals (xG) model prices the shots."}
+      - {from: 31.1, to: 45.3, text: "An agent newsroom on Microsoft Agent Framework, with Google Gemini, writes the line."}
+      - {from: 45.4, to: 51.8, text: "A fact checker ties every number to the data before it airs."}
 
   - shot: footage/mci_live_v9             # 1:11 in action: Amad's passage (56:38-56:41)
     from: 0.3

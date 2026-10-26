@@ -1172,13 +1172,13 @@ moments:
     clip: manutd-mancity-2526        # unused
     kind: architecture
     duration: 52.0                   # the full architecture stem (51.05 s)
-    reveal: [0.3, 2.2, 4.6, 7.4, 11.7, 23.2, 30.6, 45.8]   # each node under its sentence (timings.json)
+    reveal: [0.2, 2.3, 5.5, 8.5, 11.3, 23.1, 31.1, 45.4]   # each node under its sentence (track B 44be9d5)
     top:
       - {title: "Broadcast video", sub: ["one camera,", "as aired"]}
       - {title: "RF-DETR", sub: ["real-time detection", "transformer"]}
       - {title: "ByteTrack", sub: ["multi-object", "tracking"]}
-      - {title: "Teams", sub: ["k-means on shirt", "colours, by kit"]}
-      - {title: "Calibration", sub: ["homography + lens", "term, to metres"]}
+      - {title: "Teams", sub: ["k-means on torso", "colour, by kit"]}
+      - {title: "Calibration", sub: ["per frame, to the", "painted lines"]}
     bottom:
       - {title: "Models", sub: ["LightGBM pass model", "published Expected", "Goals (xG) model"], w: 1}
       - {title: "Agent newsroom", sub: ["Microsoft Agent Framework · MCP tools", "Scout → Proposer → Rollout → Tactician →", "Narrator ↔ Fact Checker → Director", "Google Gemini: Proposer, Tactician, Narrator"], w: 2.2}
@@ -1187,14 +1187,14 @@ moments:
   architecture_short_v9:             # the submit cut: the same diagram under the short stem (27.9 s)
     clip: manutd-mancity-2526        # unused
     kind: architecture
-    duration: 28.0                   # track B e931bc0: short/architecture (27.89 s)
-    reveal: [0.3, 2.0, 3.8, 5.8, 7.8, 10.5, 16.6, 24.5]   # under its three sentences (0.29 / 10.54 / 16.61)
+    duration: 27.0                   # track B 44be9d5: short/architecture (26.49 s)
+    reveal: [0.3, 2.0, 4.0, 6.0, 8.0, 11.1, 16.3, 23.0]   # under its three sentences (0.27 / 11.08 / 16.34)
     top:
       - {title: "Broadcast video", sub: ["one camera,", "as aired"]}
       - {title: "RF-DETR", sub: ["real-time detection", "transformer"]}
       - {title: "ByteTrack", sub: ["multi-object", "tracking"]}
-      - {title: "Teams", sub: ["k-means on shirt", "colours, by kit"]}
-      - {title: "Calibration", sub: ["homography + lens", "term, to metres"]}
+      - {title: "Teams", sub: ["k-means on torso", "colour, by kit"]}
+      - {title: "Calibration", sub: ["per frame, to the", "painted lines"]}
     bottom:
       - {title: "Models", sub: ["LightGBM pass model", "published Expected", "Goals (xG) model"], w: 1}
       - {title: "Agent newsroom", sub: ["Microsoft Agent Framework · MCP tools", "Scout → Proposer → Rollout → Tactician →", "Narrator ↔ Fact Checker → Director", "Google Gemini: Proposer, Tactician, Narrator"], w: 2.2}

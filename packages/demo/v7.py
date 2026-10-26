@@ -191,6 +191,15 @@ class AlwaysOn(LiveHUD):
                 self._win_shots = [r["shot"] | {"disallowed": r.get("disallowed")} for r in self._win["live"]
                                    if r.get("shot")]
                 self._win_disallowed = [r for r in self._win["live"] if r.get("disallowed")]
+                self._handover = {}                        # track A: a team change on one id is a handover
+                last = {}
+                for f in self._win["frames"]:
+                    for bx in f.get("boxes") or []:
+                        k, tm = bx["track_id"], bx.get("team")
+                        if k in last and tm != last[k] and None not in (tm, last[k]):
+                            self._handover.setdefault(k, []).append(f["clip_ms"])
+                        if tm is not None:
+                            last[k] = tm
         return self._win
 
     def state(self, t: float) -> str | None:
@@ -254,8 +263,11 @@ class AlwaysOn(LiveHUD):
                     continue
                 x0, y0, x1, y1 = b["bbox"]
                 col = self.kits.get(b.get("team"), np.array((0.62, 0.66, 0.72)))
+                fade = min([1.0] + [abs(t * 1000 - h) / 150 for h in self._handover.get(b["track_id"], [])])
+                if fade <= 0.05:                           # out and back in across the handover, never recoloured
+                    continue
                 ax.add_patch(FancyBboxPatch((x0, y0), x1 - x0, y1 - y0, boxstyle="round,pad=0,rounding_size=5",
-                                            fc="none", ec=(*col, 0.85), lw=1.3))
+                                            fc="none", ec=(*col, 0.85 * min(1.0, fade)), lw=1.3))
                 if b.get("carrier"):
                     self._corners(ax, x0, y0, x1, y1)
             return

@@ -153,7 +153,7 @@ class SeeSplit(Live):
         if b and b.get("x") is not None:
             cx, cy = px + b["x"] * s, py + (68 - b["y"]) * s
             d.ellipse((cx - 5, cy - 5, cx + 5, cy + 5), fill=(255, 255, 255, 255), outline=(0, 0, 0, 200), width=1)
-        d.text((lx, ly - 30), "BROADCAST · EVERY PLAYER DETECTED", font=font(28), fill=(*MUTED, 255), anchor="ls")
+        d.text((lx, ly - 30), "BROADCAST · PLAYERS IN VIEW, DETECTED", font=font(28), fill=(*MUTED, 255), anchor="ls")
         d.text((px, ly - 30), "TOP-DOWN · TRACKED IN METRES", font=font(28), fill=(*MUTED, 255), anchor="ls")
         flatten(im, layer)
         return im
