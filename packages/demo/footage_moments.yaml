@@ -1375,7 +1375,7 @@ moments:
   mci_live_v10: {<<: *mci_live_v9, no_score: true}
   mci_amad_v10: {<<: *mci_amad_v9, no_score: true}
   ars_eze_live_v10: {<<: *ars_eze_live_v9, no_score: true}
-  lfc_live_v10: {<<: *lfc_live_v9, no_score: true}
+  lfc_live_v10: {<<: *lfc_live_v9, no_score: true, t1: 879.2}   # 2.6 s on: the voice's 'Blocked' after the block
   mci_mbeumo_live_v10: {<<: *mci_mbeumo_live_v9, no_score: true}
   mci_late_live_v10:                 # stoppage time: Cunha to Mount, his shot (no ruling, no "goal")
     <<: *mci_late_live_v9

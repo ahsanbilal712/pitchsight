@@ -8,10 +8,20 @@ out: packages/demo/out/final_v10_submit.mp4
 size: [1920, 1080]
 fps: 30
 caption_band: 0
+version: v10
 caption_style: {one_line: true, size: 32, margin_v: 40}
 audio:
   - {file: packages/demo/out/narration_v9/intro.m4a, at: 0.0}
   - {file: packages/demo/out/narration_v9/short/architecture.m4a, at: 19.3}
+  # track B's decision lines over the match clips (packages/demo/voice_v10.yaml, docs/video/narration_v10.md)
+  - {file: packages/demo/out/narration_v10/segments/mci_live.m4a, at: 48.1}
+  - {file: packages/demo/out/narration_v10/segments/amad_freeze.m4a, at: 52.2}
+  - {file: packages/demo/out/narration_v10/segments/eze_live.m4a, at: 68.8}
+  - {file: packages/demo/out/narration_v10/segments/eze_decision.m4a, at: 72.28}
+  - {file: packages/demo/out/narration_v10/segments/eze_strike.m4a, at: 78.63}
+  - {file: packages/demo/out/narration_v10/segments/lfc.m4a, at: 82.28}
+  - {file: packages/demo/out/narration_v10/segments/mbeumo.m4a, at: 90.78}
+  - {file: packages/demo/out/narration_v10/segments/mount.m4a, at: 98.38}
 
 clips:
   - shot: footage/opener_v9               # 0:00 the sting, under "Built for Inside the Game ... This is Pitchsight."
@@ -70,12 +80,12 @@ clips:
     captions:
       - {from: 0.1, to: 1.5, text: "Saved."}
 
-  - shot: footage/lfc_live_v10            # Liverpool 86': through Szoboszlai's strike and the block
+  - shot: footage/lfc_live_v10            # Liverpool 86': through Szoboszlai's strike and the block (+2.6 s for the voice)
     from: 0.3
-    to: 8.0
+    to: 10.6
     captions:
       - {from: 0.1, to: 4.9, text: "Liverpool v Man City, 86th minute: the pass options re-price as the play moves."}
-      - {from: 5.0, to: 7.6, text: "Szoboszlai shoots from 29 m: 0.02 xG. Blocked."}
+      - {from: 5.0, to: 10.2, text: "Szoboszlai shoots from 29 m: 0.02 xG. Blocked."}
 
   - shot: footage/mci_mbeumo_live_v10     # Man Utd v Man City 64:2x: the move, the strike, the goal, normal speed
     from: 0.3
