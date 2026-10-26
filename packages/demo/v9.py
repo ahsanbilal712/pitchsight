@@ -101,9 +101,9 @@ class SeeSplit(Live):
 
     def __init__(self, m: dict):
         super().__init__(m)
-        tr = json.loads((ROOT / m["tracks"]).read_text())
-        self.trk = tr.get("result", tr)["frames"]
-        self.trk_t = np.array([f["t"] for f in self.trk])
+        w = json.loads((ROOT / m["window"]).read_text())           # track A v9: boxes every frame, team held
+        self.trk = w.get("result", w)["frames"]
+        self.trk_t = np.array([f["clip_ms"] / 1000 for f in self.trk])
         side = {}
         for f in self.data["frames"]:
             for p in f.get("players") or []:
@@ -125,11 +125,11 @@ class SeeSplit(Live):
         sc = lw / W
         j = int(np.clip(np.searchsorted(self.trk_t, t), 1, len(self.trk) - 1))
         f = self.trk[j] if abs(self.trk_t[j] - t) < abs(self.trk_t[j - 1] - t) else self.trk[j - 1]
-        for p in f.get("players") or []:                   # track A's boxes, scaled onto the broadcast
-            if p.get("role") == "referee":
+        for p in f.get("boxes") or []:                     # track A's boxes, scaled onto the broadcast
+            if p.get("team") == "referee":
                 continue
             x0, y0, x1, y1 = p["bbox"]
-            col = kits.get(self.side.get(p.get("track_id")), (214, 220, 228))
+            col = kits.get(p.get("team"), (158, 168, 184))
             d.rounded_rectangle((lx + x0 * sc, ly + y0 * sc, lx + x1 * sc, ly + y1 * sc), radius=4, outline=(*col, 230),
                                 width=1.5)
         px, py, pw = self.PITCH
@@ -254,7 +254,15 @@ class DecisionFreeze(Live):
         super().__init__(m)
         doc = json.loads((ROOT / m["decision"]).read_text())
         doc = doc.get("result", doc)
-        self.pick = next(p for p in doc["passages_top"] if p["clip_ms"] == int(m["clip_ms"]))
+        if m.get("pick_key"):                              # e.g. "eze": {best_option, shot_xg, ...}
+            r = doc[m["pick_key"]]
+            self.pick = {**r["best_option"], "shot_xg": r["shot_xg"]}
+        else:
+            self.pick = next(p for p in doc["passages_top"] if p["clip_ms"] == int(m["clip_ms"]))
+        if not self.pick.get("receiver_xy"):               # the receiver's spot at that sample (live frame)
+            fr = min(self.data["frames"], key=lambda f: abs(f["clip_ms"] - int(self.pick["clip_ms"])))
+            o = next(o for o in fr["options"] if o.get("track_id") == self.pick["receiver_track"])
+            self.pick["receiver_xy"] = [o["x"], o["y"]]
         w = json.loads((ROOT / m["window"]).read_text())
         self.win = w.get("result", w)
 
@@ -317,12 +325,14 @@ class DecisionFreeze(Live):
             a = window(tau, 0.4, 0.8)
             text = f"{p['holder'].split()[-1]} shoots · {p['shot_xg']:.2f} xG"
             w = d.textlength(text, font=f30) + 32
-            d.rounded_rectangle((pt[0] - w / 2, pt[1] + 26, pt[0] + w / 2, pt[1] + 76), radius=RADIUS,
-                                fill=(14, 18, 24, int(225 * a)), outline=(255, 255, 255, int(255 * a)), width=2)
-            d.text((pt[0], pt[1] + 51), text, font=f30, fill=(255, 255, 255, int(255 * a)), anchor="mm")
+            sx = float(np.clip(pt[0] - w / 2, 24, W - 64 - 760 - 16 - w))   # below the shooter, left of the card
+            sy = pt[1] + 30
+            d.rounded_rectangle((sx, sy, sx + w, sy + 50), radius=RADIUS, fill=(14, 18, 24, int(225 * a)),
+                                outline=(255, 255, 255, int(255 * a)), width=2)
+            d.text((sx + w / 2, sy + 25), text, font=f30, fill=(255, 255, 255, int(255 * a)), anchor="mm")
             rp = cam.project([p["receiver_xy"]])[0]
             b = window(tau, 1.5, 1.9)
-            text = f"{self.m['receiver_label']} · {p['xg_receiver']:.2f} xG if it arrives"
+            text = f"{p['xg_receiver']:.2f} xG if it arrives"   # no name on the pitch unless verified
             w = d.textlength(text, font=f30) + 32
             x0 = float(np.clip(rp[0] - w / 2, 24, W - 24 - w))
             y0 = rp[1] - 190                                # above the runner, clear of the cutback line
@@ -339,13 +349,14 @@ class DecisionFreeze(Live):
             d.rounded_rectangle((x0 + RADIUS, y0, x0 + w - RADIUS, y0 + 4), radius=2, fill=(*kit, int(255 * c)))
             d.text((x0 + 28, y0 + 26), self.m["card_title"], font=font(26), fill=(*MUTED, int(255 * c)))
             rows = [(f"{p['holder'].split()[-1]} shoots", f"{p['shot_xg']:.2f}", (230, 236, 242)),
-                    (f"Cutback, if it reaches {self.m['receiver_label']}", f"{p['xg_receiver']:.2f}", ACCENT)]
+                    (self.m.get("pass_label", "The pass, if it reaches him"), f"{p['xg_receiver']:.2f}", ACCENT)]
             for k, (label, v, col) in enumerate(rows):
                 y = y0 + 80 + 78 * k
                 vw = d.textlength(f"{v} xG", font=font(40))
                 d.text((x0 + 28, y + 4), label, font=shrink(d, label, FONT_REG, 30, w - 56 - vw - 24, floor=24),
                        fill=(230, 236, 242, int(255 * c)))
                 d.text((x0 + w - 28, y + 18), f"{v} xG", font=font(40), fill=(*col, int(255 * c)), anchor="rm")
-            d.text((x0 + 28, y0 + h - 52), f"It arrives {p['p_complete'] * 100:.0f}% of the time (pass model)",
+            who_ = self.m.get("receiver_label")
+            d.text((x0 + 28, y0 + h - 52), (f"{who_} · " if who_ else "") + f"arrives {p['p_complete'] * 100:.0f}% of the time",
                    font=font(26, bold=False), fill=(*MUTED, int(255 * c)))
         flatten(im, layer)

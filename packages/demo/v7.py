@@ -318,7 +318,7 @@ class AlwaysOn(LiveHUD):
         sh, since = self.strike(t)
         f = ImageFont.truetype(FONT, 34)
         x0, y0 = 96, H - self.bottom - 64
-        if sh is not None and since <= 2.5 and sh.get("xg") is not None:
+        if sh is not None and since <= 2.5 + float(self.m.get("outcome_after_s", 0)) and sh.get("xg") is not None:
             xy = self._shot_xy(sh)
             pop = window(since, -0.05, 0.2)
             if xy is not None and cam is not None and since <= 1.6:
@@ -336,7 +336,8 @@ class AlwaysOn(LiveHUD):
                     d.text(((box[0] + box[2]) / 2, box[3] + 10), name.upper(), font=ImageFont.truetype(FONT, 26),
                            fill=(255, 255, 255, int(255 * pop)), anchor="mt", stroke_width=3,
                            stroke_fill=(0, 0, 0, int(200 * pop)))
-            o = window(since, 0.3, 0.5)
+            oa = float(self.m.get("outcome_after_s", 0.3))  # the outcome lands when it happens (a goal: the line)
+            o = window(since, oa, oa + 0.2)
             if o > 0 and sh.get("outcome"):
                 goal = sh["outcome"] == "goal"
                 word = "SHOT" if sh["outcome"] == "no goal" else sh["outcome"].upper()

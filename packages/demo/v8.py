@@ -16,7 +16,20 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from demo.footage import model_lines
-from demo.live import FONT, FONT_REG, ROOT, H, HiDraw, Still, W, bracket, flatten, hi_layer, window
+from demo.live import (
+    FONT,
+    FONT_REG,
+    ROOT,
+    H,
+    HiDraw,
+    Still,
+    W,
+    bracket,
+    downsample_rgba,
+    flatten,
+    hi_layer,
+    window,
+)
 from demo.v6 import ACCENT, GOOD, RADIUS, LiveHUD, ease_in_out, who
 
 INK = (14, 18, 24)
@@ -79,7 +92,7 @@ class Motion(Still):
         bg = self.background(img, tau, cam)
         self.draw(ax, cam, tau)
         canvas.draw()
-        g = np.asarray(canvas.buffer_rgba(), float) / 255
+        g = downsample_rgba(np.asarray(canvas.buffer_rgba(), float) / 255, W, H)
         f = bg.astype(float) / 255
         f = f * (1 - g[..., 3:4]) + g[..., :3] * g[..., 3:4]
         im = Image.fromarray(np.clip(f * 255, 0, 255).astype(np.uint8))

@@ -1162,7 +1162,7 @@ moments:
     clip: liverpool-mancity-2526
     kind: see_split
     data: data/footage/liverpool-mancity-2526/cache/v6/live_802600.json
-    tracks: data/footage/liverpool-mancity-2526/tracks/62.json
+    window: data/footage/liverpool-mancity-2526/cache/v9/window_866000.json
     shot_id: 62
     t0: 866.0                        # 12.1 s: under "A broadcast shows you what happened ..." to the stem's end
     t1: 878.1
@@ -1177,11 +1177,27 @@ moments:
       - {title: "Broadcast video", sub: ["one camera,", "as aired"]}
       - {title: "RF-DETR", sub: ["real-time detection", "transformer"]}
       - {title: "ByteTrack", sub: ["multi-object", "tracking"]}
-      - {title: "Teams", sub: ["assigned by", "kit colour"]}
-      - {title: "Calibration", sub: ["homography to", "pitch metres"]}
+      - {title: "Teams", sub: ["k-means on shirt", "colours, by kit"]}
+      - {title: "Calibration", sub: ["homography + lens", "term, to metres"]}
     bottom:
       - {title: "Models", sub: ["LightGBM pass model", "published Expected", "Goals (xG) model"], w: 1}
-      - {title: "Agent newsroom", sub: ["Microsoft Agent Framework: Scout, Proposer,", "Tactician, Narrator, Fact Checker, Director", "MCP tools · Google Gemini"], w: 2.2}
+      - {title: "Agent newsroom", sub: ["Microsoft Agent Framework · MCP tools", "Scout → Proposer → Rollout → Tactician →", "Narrator ↔ Fact Checker → Director", "Google Gemini: Proposer, Tactician, Narrator"], w: 2.2}
+      - {title: "On air", sub: ["the checked line", "and the overlay"], w: 0.8}
+
+  architecture_short_v9:             # the submit cut: the same diagram under the short stem (27.9 s)
+    clip: manutd-mancity-2526        # unused
+    kind: architecture
+    duration: 28.0                   # track B e931bc0: short/architecture (27.89 s)
+    reveal: [0.3, 2.0, 3.8, 5.8, 7.8, 10.5, 16.6, 24.5]   # under its three sentences (0.29 / 10.54 / 16.61)
+    top:
+      - {title: "Broadcast video", sub: ["one camera,", "as aired"]}
+      - {title: "RF-DETR", sub: ["real-time detection", "transformer"]}
+      - {title: "ByteTrack", sub: ["multi-object", "tracking"]}
+      - {title: "Teams", sub: ["k-means on shirt", "colours, by kit"]}
+      - {title: "Calibration", sub: ["homography + lens", "term, to metres"]}
+    bottom:
+      - {title: "Models", sub: ["LightGBM pass model", "published Expected", "Goals (xG) model"], w: 1}
+      - {title: "Agent newsroom", sub: ["Microsoft Agent Framework · MCP tools", "Scout → Proposer → Rollout → Tactician →", "Narrator ↔ Fact Checker → Director", "Google Gemini: Proposer, Tactician, Narrator"], w: 2.2}
       - {title: "On air", sub: ["the checked line", "and the overlay"], w: 0.8}
 
   end_v9:                            # the close: no repository link
@@ -1246,6 +1262,7 @@ moments:
     shooter_name: Szoboszlai
 
   mci_mbeumo_live_v9:                # the move, Mbeumo's strike and goal at normal speed
+    outcome_after_s: 0.84            # the ball crosses the line at 1080.2 (read off the frames)
     clip: manutd-mancity-2526
     kind: always_on
     data: data/footage/manutd-mancity-2526/cache/v6/live_1062200.json
@@ -1319,3 +1336,35 @@ moments:
     receiver_label: "a Chelsea runner"
     card_title: "THE DECISION · 50:33"
 
+  ars_eze_live_v9:                   # Arsenal v Chelsea 79:07-79:12: the regain, Eze's run, his strike (track A window)
+    clip: arsenal-chelsea-2526
+    kind: always_on
+    data: data/footage/arsenal-chelsea-2526/cache/v6/live_1272000.json
+    always: data/footage/arsenal-chelsea-2526/cache/v7/always_1272000.json
+    window: data/footage/arsenal-chelsea-2526/cache/v9/window_1295000.json
+    shot_id: 177
+    t0: 1297.0
+    t1: 1302.6
+    team: home
+    kits: {home: [219, 0, 7], away: [3, 70, 148]}
+    names_live: data/footage/arsenal-chelsea-2526/cache/v6/names_live_0.json
+    race: data/footage/arsenal-chelsea-2526/cache/v6/xg_running_0.json
+    race_labels: {home_short: ARS, away_short: CHE}
+    shooter_name: Eze
+    theme: v9
+
+  ars_eze_decision_v9:               # 79:11 held at the strike: Eze's shot 0.08 against the square pass (lead's pick)
+    clip: arsenal-chelsea-2526
+    kind: decision
+    data: data/footage/arsenal-chelsea-2526/cache/v6/live_1272000.json
+    decision: data/footage/arsenal-chelsea-2526/cache/v9/decision_gap_0.json
+    pick_key: eze
+    window: data/footage/arsenal-chelsea-2526/cache/v9/window_1295000.json
+    shot_id: 177
+    clip_ms: 1301100
+    hold_s: 6.0
+    team: home
+    kits: {home: [219, 0, 7], away: [3, 70, 148]}
+    pass_label: "Square pass, if it reaches him"
+    receiver_label: "Arsenal teammate · in the box"
+    card_title: "THE DECISION · 79:11"
