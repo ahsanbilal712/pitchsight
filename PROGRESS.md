@@ -5,6 +5,34 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track A: video v9 boxes, extended windows, the decision gap
+
+**Done**
+- `packages/evals/pitchwatch/v9.py` writes `cache/v9/window_<start>.json` for six windows: Liverpool 866.0–880.0,
+  Amad 869.0–883.2, Eze 1295.0–1307.0, Mbeumo 1074.4–1086.2, stoppage time 1395.0–1424.2, and Palmer 830.0–836.9.
+  Each window holds:
+  - **Boxes on every source frame**, each with a track id, a held team, carrier and name. A frame is "measured"
+    (the tracker's own boxes), "interpolated" (between two samples one step apart in the same camera shot) or "lost"
+    (with the reason, such as a camera cut).
+  - **The v6 10 Hz rows** with v7's danger number.
+  - **State runs**, including a new `shot` state after each reviewed strike. Without it, v6 reads a strike as a pass
+    or a loose ball, and showed Eze's saved shot as "Pass intercepted".
+  - Mount's disallowed goal reads "Goal, ruled out by VAR".
+- **Decision gap** (`arsenal-chelsea-2526/cache/v9/decision_gap_0.json`):
+  - **Eze's square option (t39)** at the strike: receiver-spot xG 0.15 and P(complete) 0.66, against his 0.08 shot.
+  - **Largest gap in the four clips:** Palmer on the byline at 50:33 (835.6 s). A shot from there is worth 0.04 xG;
+    the cutback to t18 is worth 0.27, with P(complete) 0.54. t18 is onside by 6.9 m (behind the ball). The ball goes
+    out 0.1 s later.
+
+**Verification**
+- `scripts/validate_schemas.py`: OK.
+- Check frames drawn from the boxes at LIV 870.22 and MUN 1414.0 by eye: teams correct, the City keeper by goal, the
+  referee unassigned.
+- Team changes per window: 0–6 over 21–29 tracks.
+
+**Open**
+- The receivers t39 (Eze) and t18 (Palmer) are unnamed; a name needs track B's shirt read.
+
 ## 2026-10-26 — Track B: video v9 narration (script, Gemini TTS stems, ADR-010 amendment)
 
 - `docs/video/narration_v9.md`: 150 words, intro (45) and architecture (105) only; no voice over the match clips. Opens
