@@ -91,6 +91,26 @@ PASSAGES = {                       # track C's v6 live passages (clip ms)
     "arsenal-chelsea-2526": [(829000, 836000)], "manutd-spurs-2425": [(679800, 683400)]}
 
 
+REQUESTED = {                      # (camera shot, track, team the tracking gives, from ms, to ms): windows asked for by name
+    "arsenal-chelsea-2526": [(109, 18, "away", 834400, 835600),       # track A v9: Palmer's cutback receiver
+                             (177, 39, "home", 1299500, 1301100),     # track A v9: Eze's square option
+                             (177, 20, "away", 1298200, 1298600)]}    # track A v9: who cut out Saka's pass (kit check)
+
+
+def requested_targets(slug: str) -> list[dict]:
+    """REQUESTED windows as live targets, keyed to the live file of the same camera shot that covers them."""
+    out = []
+    for shot, track, team, a, b in REQUESTED.get(slug, []):
+        for path in sorted((clip_dir(slug) / "cache" / "v6").glob("live_[0-9]*.json")):
+            r = json.loads(path.read_text())["result"]
+            if str(r["shot_id"]) == str(shot) and r["start_clip_ms"] <= a and r["end_clip_ms"] >= b:
+                out.append({"key": f"live{r['start_clip_ms']}:t{track}@{a}-{b}", "team": team, "label": f"t{track}",
+                            "name_now": None, "tracks": r["source"]["tracks"].split("/", 1)[1], "track_id": track,
+                            "window_s": [a / 1000, b / 1000], "at_s": (a + b) / 2000, "live": path.name,
+                            "shot_id": r["shot_id"], "keeper": False})
+    return out
+
+
 def passages_from_edit(edit: Path) -> dict[str, list[tuple[int, int]]]:
     """The live passages an edit shows (its always_on / live_hud beats' t0-t1), by clip: a local-only cut keeps
     them in its own beats file, so they are read from the edit (footage.grounding._v6_beats)."""
@@ -334,7 +354,7 @@ def _save(slug: str, done: dict) -> None:
 def run(slug: str, dry_run: bool = False, recheck: bool = False) -> dict:
     out_path = clip_dir(slug) / "shirts.json"
     done = json.loads(out_path.read_text())["players"] if out_path.exists() else {}
-    todo = [t for t in targets(slug) + live_targets(slug) if t["key"] not in done]
+    todo = [t for t in targets(slug) + live_targets(slug) + requested_targets(slug) if t["key"] not in done]
     if dry_run:
         return {"slug": slug, "todo": [t["key"] for t in todo], "done": list(done)}
     from api.spend import SpendGuard

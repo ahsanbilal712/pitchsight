@@ -12,6 +12,17 @@ files touched, verification run, open issues. Keep entries short; details live i
   the fact checker). The same voice and settings, written to `packages/demo/out/narration_v9/short/architecture.*`
   (git-ignored): 27.89 s, sentence starts 0.29 · 10.54 · 16.61 s, word for word against the script. The submit cut
   plays intro (19.29 s) then this. Spend $0.0168.
+- `footage.grounding`: an edit named `edit_v9_submit.yaml` parses as version 9 (`latest_edit` prefers the full cut).
+
+---
+
+## 2026-10-26 — Track B: short architecture narration for the v9 submit cut
+
+- `architecture_short` in `docs/video/narration_v9.md`: 55 words, the same claims as the full architecture section
+  (RF-DETR, ByteTrack, calibration to the painted lines, pass model and published xG, Agent Framework with Gemini,
+  the fact checker). The same voice and settings, written to `packages/demo/out/narration_v9/short/architecture.*`
+  (git-ignored): 27.89 s, sentence starts 0.29 · 10.54 · 16.61 s, word for word against the script. The submit cut
+  plays intro (19.29 s) then this. Spend $0.0168.
 
 ---
 

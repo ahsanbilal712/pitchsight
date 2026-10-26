@@ -168,14 +168,18 @@ def caption_sources() -> dict[str, list[tuple]]:
     }
 
 
+def _n(edit: Path) -> int:
+    return int(re.match(r"edit_v(\d+)", Path(edit).stem).group(1))        # edit_v9_submit -> 9
+
+
 def latest_edit() -> Path:
-    return max((ROOT / "packages" / "demo").glob("edit_v*.yaml"), key=lambda p: int(p.stem.split("_v")[1]))
+    return max((ROOT / "packages" / "demo").glob("edit_v*.yaml"), key=lambda p: (_n(p), "_" not in p.stem[6:]))
 
 
 def version_of(edit: Path) -> str:
     """The rule set: the edit's own `version:` key, else the N of edit_vN.yaml."""
     own = (yaml.safe_load(Path(edit).read_text()) or {}).get("version")
-    return str(own) if own else "v" + Path(edit).stem.split("_v")[1]
+    return str(own) if own else f"v{_n(edit)}"
 
 
 def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[dict]:

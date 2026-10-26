@@ -2780,6 +2780,186 @@
    "cost_usd": 0.00804075,
    "latency_ms": 5629,
    "crops_dir": "frames/shirts/live823600_t20@829800-831200"
+  },
+  "live1272000:t39@1299500-1301100": {
+   "team": "home",
+   "label": "t39",
+   "name_now": null,
+   "tracks": "tracks/177.json",
+   "track_id": 39,
+   "at_s": 1300.3,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 8,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    }
+   ],
+   "kit": [
+    "home",
+    "home",
+    "home",
+    "away",
+    "home",
+    "away",
+    "home",
+    "home"
+   ],
+   "number": null,
+   "consistent": false,
+   "why": "no crop shows a number",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "arsenal",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Arsenal_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    1299.5,
+    1301.1
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00753825,
+   "latency_ms": 13663,
+   "crops_dir": "frames/shirts/live1272000_t39@1299500-1301100"
+  },
+  "live1272000:t20@1298200-1298600": {
+   "team": "away",
+   "label": "t20",
+   "name_now": null,
+   "tracks": "tracks/177.json",
+   "track_id": 20,
+   "at_s": 1298.4,
+   "reads": [
+    {
+     "crop": 1,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 2,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 3,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 4,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 5,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 6,
+     "number": null,
+     "confidence": 0.0,
+     "side": "none"
+    },
+    {
+     "crop": 7,
+     "number": 15,
+     "confidence": 0.6,
+     "side": "back"
+    },
+    {
+     "crop": 8,
+     "number": 15,
+     "confidence": 0.75,
+     "side": "back"
+    }
+   ],
+   "kit": [
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away",
+    "away"
+   ],
+   "number": null,
+   "consistent": false,
+   "agree": 2,
+   "with_number": 2,
+   "crops": 8,
+   "counts": {
+    "15": 2
+   },
+   "why": "15 read 2 of 2 times, another number 0 times",
+   "name": null,
+   "confirm": null,
+   "squad": {
+    "club": "chelsea",
+    "season": "2025-26",
+    "source": "https://en.wikipedia.org/wiki/2025%E2%80%9326_Chelsea_F.C._season",
+    "retrieved": "2026-10-23"
+   },
+   "window_s": [
+    1298.2,
+    1298.6
+   ],
+   "model": "gemini-3.8-flash",
+   "cost_usd": 0.00842325,
+   "latency_ms": 6120,
+   "crops_dir": "frames/shirts/live1272000_t20@1298200-1298600"
   }
  }
 }
