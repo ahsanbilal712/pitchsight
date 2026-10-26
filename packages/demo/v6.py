@@ -745,8 +745,9 @@ class Pipeline(Still):
 
     def _lines(self, n: dict, d: ImageDraw.ImageDraw) -> list[tuple[str, tuple, bool | None]]:
         out = []
-        if n.get("says"):
-            out.append((n["says"], (230, 236, 242), None))
+        says = (self.m.get("says") or {}).get(n["agent"], n.get("says"))   # a moment may reword a line (no numbers)
+        if says:
+            out.append((says, (230, 236, 242), None))
         opts = n.get("options", [])
         if opts:                                           # the options the proposer put on the table, the best lit
             def val(o):
