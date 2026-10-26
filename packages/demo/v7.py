@@ -119,6 +119,18 @@ class AlwaysOn(LiveHUD):
                 "attacker": zone.get("attacked_by"), "shape": last.get("shape") or {},
                 "defending": {"home": "away", "away": "home"}.get(att)}
 
+    def _last_danger(self, t: float) -> tuple[dict | None, float]:
+        """The latest real danger sentence at or before t, and its age in seconds (track A's frames)."""
+        if self.always is None:
+            return None, 99.0
+        fr = self.always["frames"]
+        i, _, _ = bracket(fr, t * 1000)
+        for f in fr[i::-1][:60]:
+            dz = f.get("danger") or {}
+            if f["clip_ms"] <= t * 1000 + 50 and dz.get("share") is not None and dz.get("text"):
+                return dz, max(0.0, t - f["clip_ms"] / 1000)
+        return None, 99.0
+
     def _attacking(self, t: float) -> str | None:
         s = self.data["samples"]
         i, _, _ = bracket(s, t * 1000)
@@ -437,6 +449,12 @@ class AlwaysOn(LiveHUD):
         visible region; null under half the zone in view). Track A's own definition sits under it, verbatim."""
         w, h = self.hud_w, self.danger_h
         x0, y0 = W - 64 - w, H - self.bottom - self.hud_h - 16 - h
+        if self.v9:                                        # no placeholder: hold the last real value 1 s, then go
+            held, age = self._last_danger(self._t)
+            if held is None or age > HIDE_S + 0.3:
+                return
+            lay = {**(lay or {}), "danger": (lay or {}).get("danger") or held}
+            a *= 1 - window(age, HIDE_S, HIDE_S + 0.3)
         al = int(255 * a)
         self._panel(d, (x0, y0, x0 + w, y0 + h), a)
         f_small, f_big, f_note = (ImageFont.truetype(FONT, 24), ImageFont.truetype(FONT, 32),
@@ -459,8 +477,9 @@ class AlwaysOn(LiveHUD):
             team = (lay or {}).get("attacker")
             v, text = danger.get(team) if team else None, None
         if v is None or self.standin or not text:
-            d.text((bx0, y), "the danger zone is not in view" if lay else "waiting for the camera",
-                   font=f_big, fill=(*MUTED, al))
+            if not self.v9:                                # v9 never reaches here without a value
+                d.text((bx0, y), "the danger zone is not in view" if lay else "waiting for the camera",
+                       font=f_big, fill=(*MUTED, al))
         else:
             kit = tuple(int(c * 255) for c in self.kits.get(team, np.array((1, 1, 1))))
             if self.v8:                                    # two lines at 28 px, never under 24, never cut

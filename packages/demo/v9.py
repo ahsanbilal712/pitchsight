@@ -172,31 +172,31 @@ class Architecture:
         x0, y0, x1, y1 = box
         col = ACCENT if lit else (90, 100, 112)
         d.rounded_rectangle(box, radius=RADIUS, fill=(24, 29, 37, int(255 * a)), outline=(*col, int(255 * a)), width=2)
-        d.text((x0 + 24, y0 + 22), title, font=shrink(d, title, FONT, 36, x1 - x0 - 48, floor=28),
+        d.text((x0 + 26, y0 + 26), title, font=shrink(d, title, FONT, 42, x1 - x0 - 52, floor=30),
                fill=(255, 255, 255, int(255 * a)))
-        f = font(28, bold=False)
-        yy = y0 + 76
+        yy = y0 + 90
         for ln in sub:
-            d.text((x0 + 24, yy), ln, font=f, fill=(*MUTED, int(255 * a)))
-            yy += 38
+            d.text((x0 + 26, yy), ln, font=shrink(d, ln, FONT_REG, 32, x1 - x0 - 52, floor=26),
+                   fill=(*MUTED, int(255 * a)))
+            yy += 44
 
     def render(self, t: float) -> Image.Image:
         im = Image.new("RGB", (W, H), INK)
         layer = hi_layer((W, H))
         d = HiDraw(layer)
-        d.text((64, 96), "HOW IT WORKS", font=font(44), fill=(255, 255, 255, 255), anchor="ls")
+        d.text((64, 120), "HOW IT WORKS", font=font(48), fill=(255, 255, 255, 255), anchor="ls")
         top, bottom = self.m["top"], self.m["bottom"]
         gap = 28
         w_top = (W - 128 - gap * (len(top) - 1)) / len(top)
         boxes = []
         for k, n in enumerate(top):
             x0 = 64 + k * (w_top + gap)
-            boxes.append(((x0, 170, x0 + w_top, 170 + 220), n))
+            boxes.append(((x0, 200, x0 + w_top, 200 + 270), n))
         widths = [float(n.get("w", 1)) for n in bottom]
         unit = (W - 128 - gap * (len(bottom) - 1)) / sum(widths)
         x0 = 64
         for n, wf in zip(bottom, widths, strict=True):
-            boxes.append(((x0, 540, x0 + unit * wf, 540 + 300), n))
+            boxes.append(((x0, 590, x0 + unit * wf, 590 + 360), n))
             x0 += unit * wf + gap
         step = float(self.m.get("step_s", 1.3))
         reveal = self.m.get("reveal") or [0.5 + step * k for k in range(len(boxes))]   # under the narration

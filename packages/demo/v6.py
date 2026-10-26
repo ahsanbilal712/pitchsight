@@ -51,7 +51,7 @@ LABEL_PX = 30                  # pass labels (phone-legible)
 HUD_W, HUD_H = 760, 290        # the live panel, bottom right
 V8_BOTTOM = 150                # v8: the analytics stack ends here, the caption line below it
 RADIUS = 14                    # v8: one corner radius for every panel and pill
-ROLL_S = 0.18                  # v8: a changed number rolls (old out, new in); no in-between values exist
+ROLL_S = 0.06                  # a changed number crossfades over 2 frames (data changes at 10 Hz); no in-between values
 HOLD_FADE_S = 1.0              # a held value starts fading after this
 STATES = {"ball loose": "BALL LOOSE", "ball out of play": "OUT OF PLAY", "dead ball after the goal": "OUT OF PLAY",
           "ball not detected": "TRACKING THE BALL…", "camera fit not trusted": "CAMERA MOVING…",
@@ -305,20 +305,14 @@ class LiveHUD(Live):
         return cur, prev, (t - since) if since is not None else 99.0
 
     def roll(self, d, xy, text: str, old: str | None, f: float, font, fill, vis: int) -> None:
-        """A changed number: the old one slides up and out of its slot while the new one slides in (both real values,
-        clipped to the slot so they never overlap anything)."""
+        """A changed number: a quick crossfade in place (ROLL_S), the old value out as the new one comes in; both are
+        real values and share one box, so nothing is ever clipped or stacked."""
         if not self.v8 or old is None or old == text or f >= 1:
             d.text(xy, text, font=font, fill=(*fill, vis))
             return
         e = ease_in_out(f)
-        asc, desc = font.getmetrics()
-        hgt = asc + desc
-        wid = int(max(d.textlength(text, font=font), d.textlength(old, font=font))) + 4
-        slot = hi_layer((wid, hgt))
-        sd = HiDraw(slot)
-        sd.text((0, -hgt * e), old, font=font, fill=(*fill, int(vis * (1 - e))))
-        sd.text((0, hgt * (1 - e)), text, font=font, fill=(*fill, int(vis * e)))
-        d.composite(slot, xy)
+        d.text(xy, old, font=font, fill=(*fill, int(vis * (1 - e))))
+        d.text(xy, text, font=font, fill=(*fill, int(vis * e)))
 
     def state(self, t: float) -> str | None:
         """What the tracking says now when there is no live value: the frame's null reason as a broadcast state,
