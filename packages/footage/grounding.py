@@ -189,7 +189,8 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
     edit = yaml.safe_load((edit_path or ROOT / "packages" / "demo" / f"edit_{version}.yaml").read_text())
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
     sources = {"v3": caption_sources, "v4": v4_caption_sources, "v5": v5_caption_sources,
-               "v6": v6_caption_sources, "v7": v7_caption_sources, "v8": v8_caption_sources}[version]()
+               "v6": v6_caption_sources, "v7": v7_caption_sources, "v8": v8_caption_sources,
+               "v9": v9_caption_sources}[version]()
     rows = []
     for n_caption, text in enumerate(shown, 1):
         if not DIGITS.search(text):
@@ -383,6 +384,12 @@ def v4_overlay() -> list[dict]:
 def run(version: str = "v3", edit: Path | None = None) -> dict:
     """Count for one video version; `edit` defaults to packages/demo/edit_<version>.yaml."""
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
+    if version == "v9":                    # v8's beats and checks, the v9 graphics, no VERIFY counter
+        beats = _v6_beats(edit)
+        rows = v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v7_always(beats) + v6_shots(beats) + \
+            v6_pipeline(beats) + video_captions("v9", edit) + v9_overlays(beats) + v8_screen_text(edit)
+        counters = [r for r in rows if r["group"] == "video caption" and COUNTER.search(r["item"])]
+        return _write([r for r in rows if r not in counters], version, edit, counters=counters or None)
     if version == "v8":
         beats = _v6_beats(edit)
         rows = v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v7_always(beats) + v6_shots(beats) + \
@@ -913,6 +920,104 @@ def v8_caption_sources() -> dict[str, list[tuple]]:
     return out
 
 
+# ---------------------------------------------------------------------------------------------------- v9
+
+VAR_FRAMES = ("manutd-mancity-2526 clip.mp4, checked by track B: the stadium screen reads 'VAR · Checking Goal' at "
+              "1466-1469 s (bug 93:40-93:43), the referee signals at 93:49, the bug reads 2-0 by 1482 s")
+DIAGRAM_BANNED = re.compile(r"\b(trained|training|YOLO|Foundry|Azure)\b|every player(?! in view)", re.I)
+
+
+def _decision(b: dict) -> dict:
+    return json.loads((ROOT / b["decision"]).read_text())["result"][b["pick_key"]]
+
+
+def v9_caption_sources() -> dict[str, list[tuple]]:
+    """v8's sources plus the v9 wordings: the decision (track A's cache/v9/decision_gap_0, its shot the reviewed
+    strike in shots_0) and Mbeumo's goal."""
+    out = dict(v8_caption_sources())
+    ars = "arsenal-chelsea-2526"
+    eze = json.loads((clip_dir(ars) / "cache" / "v9" / "decision_gap_0.json").read_text())["result"]["eze"]
+    strike = next(x for x in _v5(ars, "shots_0.json")["shots"] if x["clip_ms"] == eze["strike_clip_ms"])
+    out["Eze shoots: 0.08 xG."] = [("0.08", "number", "xg", strike["xg"],
+                                    (ars, f"v5 shots_0 {strike['event_id']} xg (decision_gap_0 eze shot_xg)", "fact"))]
+    best = eze["best_option"]
+    out["The square pass, if it reaches him: 0.15 xG, arriving 66% of the time."] = [
+        ("0.15", "number", "xg", best["xg_receiver"], (ars, "v9 decision_gap_0 eze best_option xg_receiver", "fact")),
+        ("66%", "number", "percent", best["p_complete"], (ars, "v9 decision_gap_0 eze best_option p_complete", "fact"))]
+    out["Mbeumo from 15 m: 0.10 xG. Goal."] = out["Mbeumo from 15 m: 0.10 xG."]
+    return out
+
+
+def v9_overlays(beats: dict) -> list[dict]:
+    """The v9 graphics. Decision card: the shot's xG is the reviewed strike's, the pass's the decision file's,
+    whose pick must pass its own rule (P(complete) >= 0.3, receiver more than 0.5 m onside, a 0.04 xG gap); the
+    title's clock is the tagged shot's; the receiver is unnamed unless verified. Strike tags on the live beats: each
+    strike in the beat's window prints its shots_0 xG and outcome (the window's own shot row must agree) and the
+    verified shooter only; a disallowed strike prints no number and needs its evidence. Diagram, opener, SEE and end
+    card: no number, and no claim the owner ruled out (training, YOLO, Azure, "every player")."""
+    from footage.names import short, verify
+
+    rows = []
+    for name, b in sorted(beats.items()):
+        kind, slug = b.get("kind"), b.get("clip")
+        if kind == "decision":
+            d, diff = _decision(b), []
+            strike = next(x for x in _v5(slug, "shots_0.json")["shots"] if x["clip_ms"] == d["strike_clip_ms"])
+            best = d["best_option"]
+            if round(d["shot_xg"], 2) != round(strike["xg"], 2):
+                diff.append(f"shot {d['shot_xg']} is not the reviewed strike's {strike['xg']}")
+            if not (best["p_complete"] >= 0.3 and best["onside_margin_m"] > 0.5 and d["gap"] >= 0.04):
+                diff.append(f"the pick fails its rule: {best['p_complete']}, {best['onside_margin_m']} m, {d['gap']}")
+            if best.get("receiver") is None and "·" in (b.get("receiver_label") or "") and \
+                    any(n in b["receiver_label"] for n in verify(slug)["names"]):
+                diff.append(f"receiver label names a player: {b['receiver_label']}")
+            ev = next(json.loads(x) for x in (clip_dir(slug) / "events.jsonl").read_text().splitlines()
+                      if json.loads(x)["id"] == strike["event_id"])
+            clock = re.search(r"(\d+):(\d{2})", b.get("card_title") or "")
+            if clock and clock.group(0) != ev["clock"]:
+                diff.append(f"title clock {clock.group(0)} is not {strike['event_id']}'s {ev['clock']}")
+            printed = 2 * 2 + 1 + (2 if clock else 0)       # shot and pass xG on pitch and card, the %, the clock
+            rows.append(_row("v9 overlay", f"{name}: the decision (pitch tags, card, {b.get('card_title')})",
+                             b["decision"], printed, printed - (2 * len(diff) if diff else 0), diff))
+        elif kind == "always_on" and b.get("window"):
+            win = json.loads((ROOT / b["window"]).read_text())["result"]
+            rowshots = {x["shot"]["clip_ms"]: x["shot"] for x in win["live"] if x.get("shot")}
+            disallowed = {x.get("disallowed") for x in win["live"] if x.get("disallowed")}
+            shots = [x for x in _v5(slug, "shots_0.json")["shots"] if b["t0"] * 1000 <= x["clip_ms"] <= b["t1"] * 1000]
+            named = verify(slug)["shots"]
+            for x in shots:
+                diff, numbers = [], 0
+                if x["outcome"] == "disallowed":
+                    if not disallowed or not x.get("disallowed"):
+                        diff.append("ruled out with no evidence in the window or shots_0")
+                    rows.append({**_row("v9 overlay", f"{name}: strike {x['clip_ms']} tag 'RULED OUT BY VAR'",
+                                        b["window"], 0, 0, diff), "claims": 1, "claims_verified": 0 if diff else 1,
+                                 "evidence": [x["disallowed"], VAR_FRAMES]})
+                    continue
+                numbers = 1
+                w = rowshots.get(x["clip_ms"])
+                if w and (round(w["xg"], 2) != round(x["xg"], 2) or w["outcome"] != x["outcome"]):
+                    diff.append(f"window row {w} disagrees with shots_0")
+                who = b.get("shooter_name")
+                ver = (named.get(x["event_id"]) or {}).get("name") or x["shooter"].get("name")
+                if who and (not ver or short(ver) != who):
+                    diff.append(f"shooter '{who}' is not the verified shooter ({ver})")
+                rows.append(_row("v9 overlay", f"{name}: strike {x['clip_ms']} tag '{x['outcome'].upper()} · "
+                                 f"{x['xg']:.2f} xG'" + (f" ({who})" if who else ""),
+                                 f"{slug} v5 shots_0 {x['event_id']}", numbers, numbers - (1 if diff else 0), diff))
+        elif kind in ("architecture", "opener", "see_split", "end_card"):
+            texts = [v for k, v in b.items() if isinstance(v, str) and k not in ("clip", "kind", "data", "window")]
+            for box in (b.get("top") or []) + (b.get("bottom") or []):
+                texts += [box["title"], *box.get("sub", [])]
+            nums = [t for x in texts for t in _tokens(x)]
+            bad = [x for x in texts if DIAGRAM_BANNED.search(x)]
+            rows.append({**_row("v9 overlay", f"{name}: {kind} text ({len(texts)} lines)", "footage_moments " + name,
+                                len(nums), 0, [f"a number with no source: {nums}"] * bool(nums) +
+                                [f"ruled-out claim: {x}" for x in bad]),
+                         "claims": len(texts), "claims_verified": len(texts) - len(bad)})
+    return rows
+
+
 def _counter_rows(counters: list[dict], total: dict) -> list[dict]:
     """The VERIFY counter must print the count of everything else: its own two numbers are the computed
     numbers_bound and numbers (thousands separators allowed)."""
@@ -980,7 +1085,8 @@ def _write(rows: list[dict], version: str, edit: Path, counters: list[dict] | No
         result["pending"] = [] if edit.exists() else [f"burnt-in captions: {edit.name} does not exist yet"]
     result["edit"] = str(edit.relative_to(ROOT)) if edit.is_relative_to(ROOT) else str(edit)
     own = (yaml.safe_load(edit.read_text()) or {}).get("grounding_out") if edit.exists() else None
-    out = ROOT / own if own else OUT if version == "v3" else FOOTAGE / f"{version}_grounding.json"
+    cut = edit.stem.removeprefix("edit_") if edit.stem.startswith(f"edit_{version}_") else version   # v9_submit
+    out = ROOT / own if own else OUT if version == "v3" else FOOTAGE / f"{cut}_grounding.json"
     out.write_text(json.dumps({"$schema": "model_cache.schema.json", "schema_version": "1.0.0",
                                "record": "tool_result", "result": result}, indent=1, ensure_ascii=False) + "\n")
     return result

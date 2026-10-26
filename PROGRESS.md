@@ -5,6 +5,28 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: video v9 grounding, both cuts: 1,076 of 1,076
+
+- `footage.grounding` has a v9 rule set. It runs v8's beat checks (live, always-on, pipeline, captions, the name),
+  plus `v9_overlays` and `v9_caption_sources`. v9 has no VERIFY counter.
+  - Decision card (Eze 79:11), 7 numbers:
+    - the shot's xG is the reviewed strike's;
+    - the pass's xG and P(complete) come from track A's decision_gap_0, whose pick must pass its own rule;
+    - the title clock is e_0046's;
+    - the receiver is unnamed.
+  - Strike tags: each strike in a live beat's window prints its shots_0 xG and outcome, the window row agrees, and
+    the shooter is the verified one (Eze, Szoboszlai, Mbeumo).
+  - Mount's "RULED OUT BY VAR" prints no number and cites shots_0 and the frames (the stadium screen's "VAR ·
+    Checking Goal" at 1466–1469 s, then 2-0 by 1482 s).
+  - Diagram, opener, SEE and end card print no number and no ruled-out claim.
+- `edit_v9.yaml`: 1,076 of 1,076 numbers, 1,130 of 1,130 claims (`data/footage/v9_grounding.json`).
+  `edit_v9_submit.yaml`: 1,076 of 1,076, 1,128 of 1,128 (`v9_submit_grounding.json`: a cut's suffix now names its
+  file, so the two never overwrite each other).
+- Checked by hand: the unnumbered captions' names are verified (Eze, Cunha, Mount), and "Mount the best option"
+  matches the tracking (top option at 1412.5 and 1413.5 s).
+
+---
+
 ## 2026-10-26 — Track B: a tagged shot named from the tracking (Mount's disallowed goal); "Ruled out by VAR" checked
 
 - `footage.names.live_holder`: a tagged shot with no other verified source is named after the player the v6 tracking

@@ -160,3 +160,16 @@ def test_an_edit_can_bring_its_own_beats_version_and_output(tmp_path):
                                     "clips": [{"shot": "footage/local_live"}]}))
     assert version_of(edit) == "v8" and list(_v6_beats(edit)) == ["local_live"]
     assert passages_from_edit(edit) == {"manutd-mancity-2526": [(872000, 877000)]}
+
+
+def test_v9_both_cuts_bind_the_decision_the_strike_tags_and_the_var_call():
+    from footage.grounding import ROOT, run
+
+    for name in ("edit_v9.yaml", "edit_v9_submit.yaml"):
+        r = run("v9", ROOT / "packages" / "demo" / name)
+        assert r["numbers_bound"] == r["numbers"] and r["claims_verified"] == r["claims"], name
+        items = {x["item"] for x in r["rows"] if x["group"] == "v9 overlay"}
+        assert any("THE DECISION · 79:11" in i for i in items)                     # the clock is e_0046's
+        assert any("'GOAL · 0.10 xG' (Mbeumo)" in i for i in items)
+        assert any("'RULED OUT BY VAR'" in i for i in items)
+    assert (ROOT / "data" / "footage" / "v9_submit_grounding.json").exists()      # each cut its own file
