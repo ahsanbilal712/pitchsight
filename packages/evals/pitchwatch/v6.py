@@ -418,15 +418,16 @@ def live(slug: str) -> list[str]:
     return paths
 
 
-def match_beats() -> list[str]:
+def match_beats(slugs=CLIPS) -> list[str]:
     """Score-bug series and shot map per clip: v5's shots_0 / xg_race_0 (same rules), in v6."""
     from evals.pitchwatch.v3 import write
     out = []
-    for slug in CLIPS:
+    for slug in slugs:
         v5 = FOOTAGE / slug / "cache" / "v5"
         shots = json.loads((v5 / "shots_0.json").read_text())["result"]
         race = json.loads((v5 / "xg_race_0.json").read_text())["result"]
-        verified = json.loads((FOOTAGE / slug / "names_verified.json").read_text()).get("shots") or {}
+        nv = FOOTAGE / slug / "names_verified.json"
+        verified = (json.loads(nv.read_text()).get("shots") or {}) if nv.exists() else {}
         rows = [{k: s.get(k) for k in ("event_id", "clock", "clip_ms", "team", "team_name", "shooter", "x", "y",
                                        "distance_m", "xg", "outcome", "goal", "penalty", "header", "set_piece",
                                        "disallowed", "reviewed", "reason", "camera_ok")}
@@ -452,6 +453,73 @@ def match_beats() -> list[str]:
     return out
 
 
+def strikes_beats(slug: str) -> list[str]:
+    """For a clip without tagged events: v5 shots_0 / xg_race_0 (same shape as v5.shots_beats) from the reviewed
+    data/footage/<slug>/strikes.json, xG from the shooter's tracked spot at the strike frame; then v6 shot_map_0 /
+    xg_running_0 as for the other clips. Unmeasured attempts keep xg null and their reason."""
+    from evals.pitchwatch.clipmeta import home_attacks_plus, period_of
+    from evals.pitchwatch.shotxg import reference_xg
+    from evals.pitchwatch.v3 import write
+    from evals.pitchwatch.v5 import PENALTY_XG, gate_value
+    doc = json.loads((FOOTAGE / slug / "strikes.json").read_text())
+    teams = json.loads((FOOTAGE / slug / "teams.json").read_text())["teams"]
+    names = (json.loads(p.read_text()).get("shots", {}) if (p := FOOTAGE / slug / "names_verified.json").exists()
+             else {})
+    model = {"xg": "Soccermatics combined logistic model, 8,451 non-penalty PL 2017/18 shots (Wyscout), at the strike "
+                   "point from tracking", "penalty": f"{PENALTY_XG} (Wyscout's fixed penalty value)",
+             "url": "https://soccermatics.readthedocs.io/en/latest/gallery/lesson2/plot_xGModelFit.html"}
+    shots = []
+    for r in doc["strikes"]:
+        nm = names.get(r["id"], {})
+        row = {"event_id": r["id"], "clock": r.get("clock"), "team": r["team"],
+               "team_name": teams[0 if r["team"] == "home" else 1]["name"],
+               "shooter": {"label": f"t{r['shooter_track']}" if r.get("shooter_track") is not None else None,
+                           "name": nm.get("name"), "name_source": nm.get("source")},
+               "outcome": r["outcome"], "goal": r["goal"], "disallowed": r.get("disallowed"), "penalty": False,
+               "clip_ms": r["clip_ms"]}
+        if r.get("measured") is False:
+            row.update({"xg": None, "camera_ok": False, "reason": r["reason"], "source": {"event": r["id"]}})
+            shots.append(row)
+            continue
+        tracks = json.loads((FOOTAGE / slug / "tracks" / f"{r['camera_shot']}.json").read_text())
+        fr = min(tracks["frames"], key=lambda f: abs(f["frame"] - r["frame"]))
+        me = next(p for p in fr["players"] if p["track_id"] == r["shooter_track"] and p["xy"])
+        x, y = _near(me["xy"])
+        attacks_plus = home_attacks_plus(slug, period_of(slug, r["camera_shot"], r["clip_ms"])) == (r["team"] == "home")
+        x_m, c_m = max(L - x if attacks_plus else x, 0.5), abs(y - GOAL_Y)
+        xg = reference_xg(x_m, c_m)
+        row.update({"frame": r["frame"], "camera_ok": bool(fr["calib_ok"]), "shot_id": r["camera_shot"], "x": x, "y": y,
+                    "distance_m": round(math.hypot(x_m, c_m), 1), "xg": round(xg, 2), "header": r.get("header", False),
+                    "set_piece": r.get("set_piece"), "reviewed": True, "gate": gate_value(xg, x_m, c_m),
+                    "note": r.get("note"),
+                    "source": {"event": r["id"], "position": f"{slug}/tracks/{r['camera_shot']}.json frame {fr['frame']}",
+                               "calib": f"{slug}/calib/{r['camera_shot']}.json", "review": f"{slug}/strikes.json"}})
+        shots.append(row)
+    shots.sort(key=lambda x: x["clip_ms"])
+    outs = [str(write(slug, "shots", 0, {"shots": shots, "model": model, "decimals": 2,
+                                         "frame_role": "strike: the reviewed frame the ball is struck",
+                                         "note": "strikes reviewed by hand (no tagged events for this clip); xg null "
+                                                 "where the strike has no trusted wide view or no identifiable shooter"},
+                      version="v5"))]
+    cum = {"home": 0.0, "away": 0.0}
+    series, events = [], []
+    for r in shots:
+        if r["xg"] is not None:
+            cum[r["team"]] += r["xg"]
+        series.append({"clip_ms": r["clip_ms"], "clock": r["clock"], "home_xg": round(cum["home"], 2),
+                       "away_xg": round(cum["away"], 2)})
+        events.append({"clip_ms": r["clip_ms"], "clock": r["clock"], "team": r["team"],
+                       "kind": "goal" if r["goal"] else "shot", "label": r["shooter"]["name"], "xg": r["xg"],
+                       "measured": r["xg"] is not None})
+    un = [e for e in events if not e["measured"]]
+    outs.append(str(write(slug, "xg_race", 0, {"home": teams[0]["name"], "away": teams[1]["name"], "series": series,
+                                               "events": events, "model": model,
+                                               "unmeasured": {"shots": len(un), "goals": sum(e["kind"] == "goal" for e in un)},
+                                               "note": "cumulative xG of measured shots; shots without a trusted wide view "
+                                                       "are listed with xg null and add nothing"}, version="v5")))
+    return outs + match_beats([slug])
+
+
 def main(argv: list[str] | None = None) -> int:
     args = argv or sys.argv[1:]
     if args[0] == "live":
@@ -459,6 +527,8 @@ def main(argv: list[str] | None = None) -> int:
             print(*live(slug), sep="\n")
     elif args[0] == "match":
         print(*match_beats(), sep="\n")
+    elif args[0] == "strikes":                       # a clip without tagged events: reviewed strikes.json
+        print(*strikes_beats(args[1]), sep="\n")
     return 0
 
 
