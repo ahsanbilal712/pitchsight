@@ -5,6 +5,16 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: short architecture narration for the v9 submit cut
+
+- `architecture_short` in `docs/video/narration_v9.md`: 55 words, the same claims as the full architecture section
+  (RF-DETR, ByteTrack, calibration to the painted lines, pass model and published xG, Agent Framework with Gemini,
+  the fact checker). The same voice and settings, written to `packages/demo/out/narration_v9/short/architecture.*`
+  (git-ignored): 27.89 s, sentence starts 0.29 · 10.54 · 16.61 s, word for word against the script. The submit cut
+  plays intro (19.29 s) then this. Spend $0.0168.
+
+---
+
 ## 2026-10-26 — Track A: video v9 boxes, extended windows, the decision gap
 
 **Done**

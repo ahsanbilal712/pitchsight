@@ -7,9 +7,10 @@ from footage.narration import sections, sentences, words
 
 def test_the_script_opens_with_the_hackathon_and_stays_in_length():
     s = sections()
-    assert list(s) == ["intro", "architecture"]
+    assert list(s) == ["intro", "architecture", "architecture_short"]
     assert s["intro"].startswith("Built for Inside the Game: the Premier League and Microsoft developer hackathon.")
-    assert 120 <= sum(len(t.split()) for t in s.values()) <= 150
+    assert 120 <= len(s["intro"].split()) + len(s["architecture"].split()) <= 150
+    assert len(s["architecture_short"].split()) < len(s["architecture"].split()) / 1.5     # the submit cut's version
     assert all(t.endswith(".") for t in sentences(s["architecture"]))
 
 

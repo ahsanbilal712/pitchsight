@@ -14,15 +14,18 @@ architecture section only. There is no voice over the match clips ("no need for 
   names no YOLO and no Azure Foundry.
 - No number is spoken, so the narration adds nothing to the on-screen grounding count.
 
-Take of 26 Oct 2026: voice Charon. gemini-3.8-flash transcribed each stem without the script, and both matched it word
+Take of 26 Oct 2026: voice Charon. gemini-3.8-flash transcribed each stem without the script, and each matched it word
 for word. The sentence starts come from the stems' pauses (`timings.json`).
 
 | Stem | Length | Sentence starts (s) |
 |---|---|---|
 | `intro.wav` / `.m4a` | 19.29 s | 0.00 · 5.56 · 7.18 · 9.86 |
 | `architecture.wav` / `.m4a` | 51.05 s | 0.29 · 2.17 · 11.74 · 23.17 · 30.64 · 38.49 · 45.75 |
+| `short/architecture.wav` / `.m4a` | 27.89 s | 0.29 · 10.54 · 16.61 |
 
-The script follows (each `##` section is one stem).
+The script follows (each `##` section is one stem). `architecture_short` is the submit cut's version (2:00 or under):
+the same claims in fewer words, the same voice and settings, written to `short/architecture.wav` / `.m4a`. The submit
+cut plays `intro` and then `architecture_short`.
 
 ## intro
 
@@ -38,3 +41,9 @@ and every graphic sits on the grass. A pass model prices each option, and a publ
 each shot. Then an agent newsroom, built on Microsoft Agent Framework with Google Gemini, takes over. The scout spots
 the moment, the tactician weighs the options, and the narrator drafts the line. Before anything goes to air, a fact
 checker ties every number to the data.
+
+## architecture_short
+
+RF-DETR detects every player, ByteTrack follows them, and each frame's camera is calibrated to the painted pitch
+lines. A pass model and a published Expected Goals model price every option. Then an agent newsroom, built on
+Microsoft Agent Framework with Google Gemini, writes the line, and a fact checker ties every number to the data.

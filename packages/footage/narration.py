@@ -166,7 +166,10 @@ def run(voice: str = VOICE, dry_run: bool = False, redo: bool = False) -> dict:
            "sections": {}}
     before = json.loads((OUT / "timings.json").read_text())["sections"] if (OUT / "timings.json").exists() else {}
     for name, text in secs.items():
-        wav = OUT / f"{name}.wav"
+        folder = OUT / "short" if name.endswith("_short") else OUT     # the submit cut's version of a section
+        folder.mkdir(parents=True, exist_ok=True)
+        stem = name.removesuffix("_short")
+        wav = folder / f"{stem}.wav"
         kept = before.get(name)
         if not redo and wav.exists() and kept and kept.get("text") == text and kept.get("voice") == voice:
             usage = {k: kept[k] for k in ("tokens_in", "tokens_out", "cost_usd", "latency_ms")}   # the same take
@@ -178,8 +181,10 @@ def run(voice: str = VOICE, dry_run: bool = False, redo: bool = False) -> dict:
                 w.setframerate(RATE)
                 w.writeframes(pcm)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-c:a", "aac", "-b:a", "192k",
-                        str(OUT / f"{name}.m4a")], check=True)
-        out["sections"][name] = {"wav": wav.name, "m4a": f"{name}.m4a", "text": text, "voice": voice,
+                        str(folder / f"{stem}.m4a")], check=True)
+        rel = wav.parent.relative_to(OUT)
+        out["sections"][name] = {"wav": str(rel / f"{stem}.wav"), "m4a": str(rel / f"{stem}.m4a"), "text": text,
+                                 "voice": voice,
                                  **check(client, guard, wav, text), **usage}
         r = out["sections"][name]
         print(f"{name}: {r['duration_s']} s, verbatim {r['verbatim']}, ${usage['cost_usd'] + r['check_cost_usd']:.4f}")
