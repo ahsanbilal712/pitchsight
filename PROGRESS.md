@@ -5,6 +5,18 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: video v10 grounding, both cuts: 1,106 of 1,106
+
+- Grounded track C's v10 edits, which have the decision voice placed and the Liverpool segment extended to 10.6 s
+  (t1 879.2).
+  - Full: 1,106 of 1,106 numbers, 1,185 of 1,185 claims.
+  - Submit: 1,106 of 1,106 numbers, 1,183 of 1,183 claims.
+  - Voice: 7 of 7 numbers and 33 of 33 claims on each cut.
+  - No VAR or ruling row is counted.
+- Files: `data/footage/v10_grounding.json`, `data/footage/v10_submit_grounding.json`.
+
+---
+
 ## 2026-10-26 — Track B: video v10 decision voice-over, voiced and grounded
 
 - Wrote and voiced the voice-over that explains each decision on the match clips: `docs/video/narration_v10.md`.
