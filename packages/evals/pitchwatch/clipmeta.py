@@ -1,8 +1,8 @@
 """Per-clip metadata for Pitchwatch: registered clips (config/footage.yaml) or a local-only clip's own clip.json.
 
 A local-only clip (data/footage/SOURCES.md: not covered by the footage permission) is never registered in the shared
-config; its folder holds clip.json {match_id, home, away, ...}. A clip without tagged events (registered or not) has
-its cache files written without a manifest.
+config; its folder holds clip.json {match_id, home, away, ...}. A clip with neither tagged events nor reviewed strikes
+has its cache files written without a manifest.
 The attack direction and the period come from the clip's reviewed directions.json when it states them
 ({"home_attacks": {"1": "+x", "2": "-x"}, "period_by_shot": {shot_id: period}}), else from shotxg.HOME_ATTACKS_P2 and
 the tagged events, as for the Premier League clips.
@@ -21,9 +21,10 @@ def is_local(slug: str) -> bool:
 
 
 def has_manifest(slug: str) -> bool:
-    """A cache manifest needs a registered clip with tagged events (footage.featured.open_cache hashes them); a clip
-    without them (a local test clip) gets plain cache files in the same envelope."""
-    return not is_local(slug) and (FOOTAGE / slug / "events.jsonl").exists()
+    """A cache manifest needs a registered clip with tagged events or reviewed strikes (footage.featured.open_cache
+    hashes one of them); a clip with neither gets plain cache files in the same envelope."""
+    d = FOOTAGE / slug
+    return not is_local(slug) and ((d / "events.jsonl").exists() or (d / "strikes.json").exists())
 
 
 def clip_meta(slug: str) -> dict:
