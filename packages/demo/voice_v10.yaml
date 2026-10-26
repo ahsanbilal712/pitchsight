@@ -1,0 +1,17 @@
+# Video v10 decision voice (track B, docs/video/narration_v10.md): where each cue starts in its in-action segment, in
+# seconds from the segment's first frame. `python -m footage.narration --script docs/video/narration_v10.md --segments
+# packages/demo/voice_v10.yaml` mixes each segment's cues into one stem (packages/demo/out/narration_v10/segments/,
+# git-ignored) that starts at its first cue: track C places it at the segment's start plus `starts_at`.
+# The offsets come from the stems' timings: every number is spoken while the screen prints it (the HUD panel, a tag,
+# a freeze card or the caption), and each line lands on its play. footage.grounding checks both on the cut.
+
+segments:
+  mci_live:      {clip: mci_live_v10, cues: {mci_live: 1.80}}
+  amad_freeze:   {clip: mci_amad_v10_v8, cues: {mci_amad: 0.90}}
+  eze_live:      {clip: ars_eze_live_v10, cues: {ars_eze_live: 0.60}}
+  eze_decision:  {clip: ars_eze_decision_v9, cues: {ars_eze_decision: 0.00}}
+  eze_strike:    {clip: ars_eze_live_v10, occurrence: 2, cues: {ars_eze_save: 0.35}}
+  lfc:           {clip: lfc_live_v10, cues: {lfc_pass: 2.40, lfc_shot: 6.40},
+                  needs: "the segment 2.6 s longer (from 0.3 to 10.6; the beat's t1 879.2): the block lands at 7.4 s"}
+  mbeumo:        {clip: mci_mbeumo_live_v10, cues: {mbeumo_pass: 0.60, mbeumo_shot: 3.05}}
+  mount:         {clip: mci_late_live_v10, cues: {mount_pass: 0.50, mount_shot: 2.85}}

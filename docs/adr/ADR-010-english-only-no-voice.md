@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted, 2026-10-21. Amended 2026-10-26: the demo video (v9) has narration (see "Amendment" below). The product
+Accepted, 2026-10-21. Amended 2026-10-26: the demo video (v9, v10) has narration (see "Amendment" below). The product
 decision is unchanged.
 
 ## Context
@@ -49,6 +49,15 @@ The Fact Checker's number-binding and banned-content rules (TECH_PLAN 1.7) are w
   Localizer, no TTS and no audio in cues, `cue.text` stays English text, and `config/pins.txt` adds nothing (the
   google-genai SDK already pinned makes the call). The section 7 line "a team member records it, or captions only"
   is superseded for v9 only.
+- Video v10 (owner, 26 Oct 2026): the match clips get a voice-over too, explaining each decision of the player on
+  the ball. It uses the same voice and the same check, with the script in `docs/video/narration_v10.md`. Its own
+  rules:
+  - The broadcast sound stays off.
+  - It names no team or player; a side is its kit colour.
+  - It never says VAR, "ruled out" or offside.
+  - Every number it speaks is printed on screen while it is spoken. `footage.grounding` checks this, plus each play
+    the line describes, on the cut.
+  The product is still unchanged.
 
 ## Related
 

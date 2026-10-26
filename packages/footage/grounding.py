@@ -190,7 +190,7 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
     sources = {"v3": caption_sources, "v4": v4_caption_sources, "v5": v5_caption_sources,
                "v6": v6_caption_sources, "v7": v7_caption_sources, "v8": v8_caption_sources,
-               "v9": v9_caption_sources}[version]()
+               "v9": v9_caption_sources, "v10": v9_caption_sources}[version]()
     rows = []
     for n_caption, text in enumerate(shown, 1):
         if not DIGITS.search(text):
@@ -384,10 +384,12 @@ def v4_overlay() -> list[dict]:
 def run(version: str = "v3", edit: Path | None = None) -> dict:
     """Count for one video version; `edit` defaults to packages/demo/edit_<version>.yaml."""
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
-    if version == "v9":                    # v8's beats and checks, the v9 graphics, no VERIFY counter
+    if version in ("v9", "v10"):          # v8's beats and checks, the v9 graphics, no VERIFY counter; v10: the voice
         beats = _v6_beats(edit)
         rows = v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v7_always(beats) + v6_shots(beats) + \
-            v6_pipeline(beats) + video_captions("v9", edit) + v9_overlays(beats) + v8_screen_text(edit)
+            v6_pipeline(beats) + video_captions(version, edit) + v9_overlays(beats) + v8_screen_text(edit)
+        if version == "v10":
+            rows += v10_voice(edit, beats)
         counters = [r for r in rows if r["group"] == "video caption" and COUNTER.search(r["item"])]
         return _write([r for r in rows if r not in counters], version, edit, counters=counters or None)
     if version == "v8":
@@ -998,6 +1000,8 @@ def v9_overlays(beats: dict) -> list[dict]:
             for x in shots:
                 diff, numbers = [], 0
                 if x["outcome"] == "disallowed":
+                    if b.get("no_rulings"):            # v10: no ruling on screen, the strike is shown as a shot
+                        continue
                     if not disallowed or not x.get("disallowed"):
                         diff.append("ruled out with no evidence in the window or shots_0")
                     rows.append({**_row("v9 overlay", f"{name}: strike {x['clip_ms']} tag 'RULED OUT BY VAR'",
@@ -1025,6 +1029,312 @@ def v9_overlays(beats: dict) -> list[dict]:
                                 len(nums), 0, [f"a number with no source: {nums}"] * bool(nums) +
                                 [f"ruled-out claim: {x}" for x in bad]),
                          "claims": len(texts), "claims_verified": len(texts) - len(bad)})
+    return rows
+
+
+# ---------------------------------------------------------------------------------------------------- v10
+
+VOICE_BANNED = re.compile(r"\b(VAR|ruled out|offside|he|she|him|his|her|hers|himself|herself)\b", re.I)
+BOX_X, BOX_Y = 16.5, 20.16                 # the penalty area: depth from the goal line, half-width from the centre
+
+
+def _in_box(p: dict, attacks: str) -> bool:
+    gx = 0.0 if attacks == "-x" else 105.0
+    return abs(p["x"] - gx) <= BOX_X and abs(p["y"] - 34) <= BOX_Y
+
+
+def _timeline(edit: Path) -> list[tuple[float, float, dict]]:
+    """(edit start, edit end, clip) for every clip of the edit, in order."""
+    out, t = [], 0.0
+    for c in yaml.safe_load(edit.read_text())["clips"]:
+        d = c["to"] - c["from"]
+        out.append((t, t + d, c))
+        t += d
+    return out
+
+
+class _Screen:
+    """What the v10 cut prints at an edit time, as its renderers draw it: the live HUD (demo.v7.AlwaysOn: the
+    panel's held shot-now and best-pass values, the top three option tags, the strike's xG tag and its outcome tag),
+    the decision freeze (demo.v9.DecisionFreeze: the shot tag from 0.8 s, the pass tag from 1.9 s, the card from
+    2.7 s) and the v8 freeze (demo.composite: the SHOT tag, the card, the pass pill, on its own clock); and the
+    edit's burnt-in captions while they are up."""
+
+    def __init__(self, edit: Path, beats: dict):
+        from demo.live import SCENES
+
+        self.clips, self.beats, self.scenes = _timeline(edit), beats, {}
+        moments = yaml.safe_load((ROOT / "packages" / "demo" / "footage_moments.yaml").read_text())["moments"]
+        self.moments = moments
+        self.SCENES = SCENES
+
+    def at(self, T: float) -> tuple[str, dict, dict, float] | None:
+        """(beat name, beat, edit clip, local time) at edit time T."""
+        for a, z, c in self.clips:
+            if a <= T < z:
+                name = c["shot"].split("/")[-1]
+                b = self.beats.get(name) or self.moments.get(name.removesuffix("_v8"))
+                return (name, b, c, T - a) if isinstance(b, dict) else (name, {}, c, T - a)
+        return None
+
+    def scene(self, name: str, b: dict):
+        if name not in self.scenes:
+            self.scenes[name] = self.SCENES[b["kind"]]({**b, "name": name})
+        return self.scenes[name]
+
+    def clip_t(self, name: str, b: dict, c: dict, local: float) -> float:
+        return self.scene(name, b).span()[0] + c["from"] + local
+
+    def numbers(self, T: float) -> dict[str, str]:
+        """{printed number: what prints it} at edit time T."""
+        from demo.composite import RAMP_RATE, RAMP_SLOW_S, T_ALT, T_BASE, T_CARD
+        from demo.v6 import HOLD_S, fmt_xg
+
+        hit = self.at(T)
+        if hit is None:
+            return {}
+        name, b, c, local = hit
+        out = {}
+        for cap in c.get("captions") or []:
+            if cap["from"] <= local <= cap["to"]:
+                out.update({t.replace(" ", ""): f"caption '{cap['text']}'" for t in _tokens(cap["text"])})
+        if b.get("kind") == "always_on":
+            s = self.scene(name, b)
+            t = self.clip_t(name, b, c, local)
+            held = s.sample(t, HOLD_S)
+            if held is not None:
+                out[fmt_xg(held.get("shot_now_xg"))] = f"HUD panel shot now (sample {held['clip_ms']})"
+                best = (s.ranked(held) or [None])[0]
+                if best is not None:
+                    out[fmt_xg(best["xg_after_pass"])] = f"HUD panel best pass (sample {held['clip_ms']})"
+            fresh = s.sample(t)
+            for o in (s.ranked(fresh) if fresh else [])[:3]:
+                out.setdefault(f"{o['xg_after_pass']:.2f}", f"option tag (sample {fresh['clip_ms']})")
+                out.setdefault(f"{o['p_pass'] * 100:.0f}%", f"option tag (sample {fresh['clip_ms']})")
+            sh, since = s.strike(t)
+            oa = float(b.get("outcome_after_s", 0.3))
+            if sh is not None and sh.get("xg") is not None:
+                if 0 <= since <= 1.6:
+                    out[f"{sh['xg']:.2f}"] = f"strike tag ({sh['clip_ms']})"
+                elif oa < since <= 2.5 + oa:
+                    out[f"{sh['xg']:.2f}"] = f"outcome tag {sh.get('outcome')} ({sh['clip_ms']})"
+        elif b.get("kind") == "decision":
+            d = _decision(b)
+            tau = c["from"] + local                          # the freeze starts at the clip's own start
+            if tau >= 0.8:
+                out[f"{d['shot_xg']:.2f}"] = "decision shot tag"
+            if tau >= 1.9:
+                out[f"{d['best_option']['xg_receiver']:.2f}"] = "decision pass tag (if it arrives)"
+            if tau >= 2.7:
+                out[f"{d['best_option']['p_complete'] * 100:.0f}%"] = "decision card"
+        elif b.get("xg") and b.get("line_v5"):                # the v8 freeze: real pre-roll, the ramp, then the build
+            x = json.loads((ROOT / b["xg"]).read_text())["result"]
+            pre = float(b.get("pre_s", 2.0))
+            t = c["from"] + local - ((pre - RAMP_SLOW_S) + RAMP_SLOW_S / RAMP_RATE)
+            hero = x.get("best_alternative") or {}
+            if t >= T_BASE[1] + 0.3:
+                out[f"{x['actual']['xg']:.2f}"] = "freeze SHOT tag"
+            if t >= T_CARD[1]:
+                out.setdefault(f"{x['actual']['xg']:.2f}", "freeze card")
+                if hero.get("xg_after_pass") is not None:
+                    out[f"{hero['xg_after_pass']:.2f}"] = "freeze card pass row"
+            if t >= T_ALT[1] + 0.4 and hero.get("p_pass") is not None:
+                out[f"{hero['p_pass'] * 100:.0f}%"] = "freeze pass pill"
+        return out
+
+    def segment(self, name: str, b: dict, c: dict) -> tuple[float, float]:
+        """The clip times the edit shows of this beat."""
+        return self.clip_t(name, b, c, 0.0), self.clip_t(name, b, c, c["to"] - c["from"])
+
+
+def _voice_names(slugs: set[str]) -> set[str]:
+    """Every player and club name the voice may not say: the squads and verified names of the edit's clips."""
+    from footage.names import verify
+    from footage.shirts import squad
+
+    out = set()
+    for slug in slugs:
+        for side in ("home", "away"):
+            out |= {CLIPS[slug][side], CLIPS[slug][f"{side}_short"]}
+            try:
+                out |= set(squad(slug, side)["numbers"].values())
+            except FileNotFoundError:
+                pass
+        out |= set(verify(slug)["names"])
+    return {w for n in out for w in re.findall(r"[A-ZÀ-Þ][\w'-]{2,}", n)} - {"The", "City", "United", "Man"} | \
+        {n for n in out if " " in n}
+
+
+def _actions(scr: _Screen, cue: str, name: str, b: dict, c: dict) -> list[tuple[str, bool, str]]:
+    """Each play the cue describes, checked on the beat's own data over the clip times the edit shows."""
+    slug, team = b.get("clip"), b.get("team", "home")
+    out = []
+    if b.get("kind") == "always_on":
+        lo, hi = scr.segment(name, b, c)
+        frames = [f for f in json.loads((ROOT / b["data"]).read_text())["result"]["frames"]
+                  if lo * 1000 <= f["clip_ms"] <= hi * 1000]
+        win = json.loads((ROOT / b["window"]).read_text())["result"]
+        states = [x for x in win["states"] if x["to_clip_ms"] >= lo * 1000 and x["from_clip_ms"] <= hi * 1000]
+        shots = [x for x in _v5(slug, "shots_0.json")["shots"]           # a strike just before the cut shows its
+                 if lo * 1000 - 300 <= x["clip_ms"] <= hi * 1000 + 50]       # outcome in it (Eze's save)
+        carry = [f for f in frames if f.get("state") == "carry" and f.get("attacking") == team and f.get("holder")]
+        s = scr.scene(name, b)
+
+        def into_box() -> tuple[bool, str]:
+            for f, g in zip(carry, carry[1:], strict=False):
+                if f["holder"]["track_id"] == g["holder"]["track_id"] and not _in_box(f["holder"], f["attacks"]) \
+                        and _in_box(g["holder"], g["attacks"]):
+                    return True, f"track {g['holder']['track_id']} carries into the box at {g['clip_ms']}"
+            return False, "no carry into the box in the segment"
+
+        def best_pass() -> tuple[bool, str]:
+            for i, f in enumerate(frames):
+                if f.get("state") != "pass" or i == 0 or frames[i - 1].get("state") != "carry":
+                    continue
+                before = s.sample(frames[i - 1]["clip_ms"] / 1000, 0.3)
+                nxt = next((g for g in frames[i:] if g.get("state") == "carry" and g.get("holder")), None)
+                top = (s.ranked(before) or [None])[0] if before else None
+                if top and nxt and nxt["holder"]["track_id"] == top.get("track_id"):
+                    return True, f"pass at {f['clip_ms']} to track {top['track_id']}, the HUD's best pass"
+            return False, "no pass to the HUD's best option"
+
+        def pass_outside() -> tuple[bool, str]:
+            for i, f in enumerate(frames):
+                if f.get("state") == "pass" and i and frames[i - 1].get("state") == "carry":
+                    nxt = next((g for g in frames[i:] if g.get("state") == "carry" and g.get("holder")), None)
+                    if nxt and nxt["attacking"] == team and not _in_box(nxt["holder"], nxt["attacks"]):
+                        return True, f"pass at {f['clip_ms']} to track {nxt['holder']['track_id']}, outside the box"
+            return False, "no completed pass to a teammate outside the box"
+
+        def won_back() -> tuple[bool, str]:
+            st = next((x for x in states if (x.get("state_text") or "").lower().startswith("pass intercepted by")), None)
+            nxt = next((f for f in carry if st and f["clip_ms"] >= st["from_clip_ms"]), None)
+            return (bool(st and nxt), f"'{st['state_text']}' at {st['from_clip_ms']}, then {team} carries"
+                    if st and nxt else "no interception won by the attacking side")
+
+        def above_passes() -> tuple[bool, str]:
+            x = next((x for x in shots if x["team"] == team), None)
+            v = [f for f in s.valued() if x and f["clip_ms"] <= x["clip_ms"]]
+            if not v:
+                return False, "no priced sample before the strike"
+            f = v[-1]
+            top = max((o["xg_after_pass"] for o in f.get("options") or [] if o.get("xg_after_pass") is not None),
+                      default=None)
+            ok = f.get("shot_now_xg") is not None and (top is None or f["shot_now_xg"] > top)
+            return ok, f"sample {f['clip_ms']}: shot now {f.get('shot_now_xg')}, best pass {top}"
+
+        def strike(outcome: str | None, far: bool = False) -> tuple[bool, str]:
+            x = next((x for x in shots if x["team"] == team and (outcome is None or x["outcome"] == outcome)), None)
+            if x is None:
+                return False, f"no {outcome or ''} strike in the segment"
+            if far and not (x.get("distance_m") or 0) > BOX_X + 2:
+                return False, f"strike {x['clip_ms']} from {x.get('distance_m')} m is not from distance"
+            return True, f"shots_0 {x['event_id']} at {x['clip_ms']}: {x['outcome']}, {x.get('distance_m')} m"
+
+        checks = {"mci_live": [("carries it into the box", into_box)],
+                  "ars_eze_live": [("win it back", won_back), ("carry it into the box", into_box)],
+                  "ars_eze_save": [("saved", lambda: strike("saved"))],
+                  "lfc_pass": [("passes to a teammate outside the box", pass_outside)],
+                  "lfc_shot": [("a shot from distance, blocked", lambda: strike("blocked", far=True))],
+                  "mbeumo_pass": [("picks out the best pass", best_pass)],
+                  "mbeumo_shot": [("carries it into the box", into_box), ("shoots, goal", lambda: strike("goal"))],
+                  "mount_pass": [("finds the best pass", best_pass)],
+                  "mount_shot": [("a shot", lambda: strike(None)), ("more than any pass", above_passes)]}.get(cue, [])
+        out += [(claim, *fn()) for claim, fn in checks]
+    elif b.get("kind") == "decision":
+        d = _decision(b)
+        ok = "square" in (b.get("pass_label") or "").lower()
+        out += [("they shoot", d.get("strike_clip_ms") is not None, f"decision strike {d.get('strike_clip_ms')}"),
+                ("the square pass", ok, f"card label '{b.get('pass_label')}'")]
+    elif b.get("xg"):
+        x = json.loads((ROOT / b["xg"]).read_text())["result"]
+        out += [("a shot; the pass", bool(x.get("actual") and x.get("best_alternative")),
+                 f"{b['xg']}: actual {x['actual'].get('event_id')}, best alternative "
+                 f"{(x.get('best_alternative') or {}).get('label')}")]
+    return out
+
+
+def v10_voice(edit: Path, beats: dict) -> list[dict]:
+    """The v10 voice-over (docs/video/narration_v10.md), each stem where the edit places it: every number spoken
+    must be printed on screen from its first spoken word to its last (_Screen) and is checked by the Fact Checker
+    against the value it reads; every play it describes must be in the beat's data over the clip times shown; no
+    team or player name, no he or she, no VAR, "ruled out" or offside, and no "goal" over a disallowed strike."""
+    from footage.insights import evidence_board
+    from newsroom.factcheck import NUMBER
+
+    doc = yaml.safe_load(edit.read_text())
+    base = ROOT / "packages" / "demo" / "out" / "narration_v10"
+    timings = json.loads((base / "timings.json").read_text()) if (base / "timings.json").exists() else None
+    if timings is None:
+        return []
+    by_m4a = {str(base / r["m4a"]): (k, r) for k, r in timings["sections"].items()}
+    segs = base / "segments" / "segments.json"
+    in_seg = {str(base / v["m4a"]): v["cues"] for v in json.loads(segs.read_text())["segments"].values()} \
+        if segs.exists() else {}
+    placed = []                                              # (cue stem path, edit time): a segment stem is its cues
+    for a in doc.get("audio") or []:
+        f = str(ROOT / a["file"])
+        if f in in_seg:
+            placed += [{"file": str((base / timings["sections"][x["cue"]]["m4a"]).relative_to(ROOT)),
+                        "at": float(a["at"]) + x["at_s"]} for x in in_seg[f]]
+        elif f in by_m4a:
+            placed.append(a)
+    scr = _Screen(edit, beats)
+    names = _voice_names({b["clip"] for b in beats.values() if b.get("clip")})
+    rows = []
+    for a in placed:
+        cue, r = by_m4a[str(ROOT / a["file"])]
+        text, at = r["text"], float(a["at"])
+        hit = scr.at(at + (r["sentences"][0]["start_s"] or 0))
+        name, b, c, _ = hit
+        diff, facts, claims = [], [], []
+        if not r.get("verbatim"):
+            diff.append(f"the take is not the script word for word: '{r['transcript']}'")
+        bad = [w for w in names if re.search(rf"(?<![\w-]){re.escape(w)}(?![\w-])", text)]
+        bad += VOICE_BANNED.findall(text)
+        ruled = any(x["outcome"] == "disallowed" for x in _v5(b["clip"], "shots_0.json")["shots"]
+                    if b.get("kind") == "always_on" and
+                    scr.segment(name, b, c)[0] * 1000 <= x["clip_ms"] <= scr.segment(name, b, c)[1] * 1000)
+        if ruled:
+            bad += re.findall(r"\bgoals?\b", text, re.I)
+        diff += [f"says '{w}'" for w in bad]
+        for i, n in enumerate(r["numbers"], 1):
+            t0, t1 = n["start_s"], n["last_word_s"]
+            if t0 is None or t1 is None:
+                diff.append(f"{n['text']}: its spoken words were not placed in the take")
+                continue
+            seen = [scr.numbers(at + t) for t in (t0, t1)]
+            tok = n["text"]
+            if not all(tok in s for s in seen):
+                diff.append(f"{tok} spoken at {at + t0:.2f}-{at + t1:.2f} s; on screen: {sorted(seen[0])} / "
+                            f"{sorted(seen[1])}")
+                continue
+            value = float(tok.rstrip("%")) / (100 if tok.endswith("%") else 1)
+            fid = f"f_10{len(rows) + 1:02d}{i:02d}"
+            unit = "percent" if tok.endswith("%") else "xg"
+            facts.append({"fact_id": fid, "match_id": CLIPS[b["clip"]]["match_id"], "label": seen[0][tok],
+                          "value": value, "unit": unit, "source": f"{name} at {at + t0:.2f} s: {seen[0][tok]}"})
+            claims.append({"text": tok, "kind": "number", "value": value, "unit": unit, "evidence_ids": [fid]})
+        if NUMBER.findall(text) and len(NUMBER.findall(text)) != len(r["numbers"]):
+            diff.append("a spoken number has no timing")
+        acts = _actions(scr, cue, name, b, c)
+        diff += [f"'{claim}' not found: {why}" for claim, ok, why in acts if not ok]
+        if claims:
+            bb = evidence_board(b["clip"], facts)
+            res = _check(CLIPS[b["clip"]]["match_id"], claims, bb, {"voice": text})
+            bb.close()
+            diff += res["diff"]
+            n_ok = res["numbers_bound"]
+        else:
+            n_ok = 0
+        n = len(r["numbers"])
+        n_ok = min(n_ok, n - sum(1 for d in diff if re.match(r"\d", d)))
+        acts_ok = sum(1 for _, ok, _ in acts if ok)
+        rows.append({"group": "voice", "item": f"{cue} at {at:.2f} s over {name}: \"{text}\"",
+                     "file": f"narration_v10/{r['m4a']}", "claims": n + len(acts) + 1,
+                     "claims_verified": n_ok + acts_ok + (0 if bad or not r.get("verbatim") else 1),
+                     "numbers": n, "numbers_bound": n_ok, "diff": diff, "rejected": [],
+                     "evidence": [f"{claim}: {why}" for claim, ok, why in acts if ok]})
     return rows
 
 

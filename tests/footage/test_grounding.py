@@ -27,7 +27,7 @@ def test_a_wrong_number_is_caught():
 
 def test_v4_lines_studio_and_captions_are_bound_and_the_overlay_is_checked():
     edit = latest_edit().with_name("edit_v4.yaml")
-    assert version_of(edit) == "v4" and version_of(latest_edit()) >= "v4"
+    assert version_of(edit) == "v4" and int(version_of(latest_edit())[1:]) >= 4
     r = run("v4", edit)
     for g in ("studio cue", "v4 line", "video caption"):
         x = r["groups"][g]
@@ -173,3 +173,65 @@ def test_v9_both_cuts_bind_the_decision_the_strike_tags_and_the_var_call():
         assert any("'GOAL · 0.10 xG' (Mbeumo)" in i for i in items)
         assert any("'RULED OUT BY VAR'" in i for i in items)
     assert (ROOT / "data" / "footage" / "v9_submit_grounding.json").exists()      # each cut its own file
+
+
+def test_v10_screen_prints_what_the_hud_shows_when_it_shows_it():
+    """The voice's screen model on v9's cut (same beats and timings as v10): the Mount panel's 0.20 and 0.09, the
+    decision freeze's pass tag only from 1.9 s, the Amad freeze's 0.11 only once its card is in."""
+    from footage.grounding import ROOT, _Screen, _v6_beats
+
+    edit = ROOT / "packages" / "demo" / "edit_v9.yaml"
+    scr = _Screen(edit, _v6_beats(edit))
+    start = {c["shot"].split("/")[-1]: a for a, _, c in scr.clips}
+    late = scr.numbers(start["mci_late_live_v9"] + 3.4)
+    assert {"0.20", "0.09"} <= set(late)
+    dec = start["ars_eze_decision_v9"]
+    assert "0.15" not in scr.numbers(dec + 1.0) and "0.15" in scr.numbers(dec + 2.0)
+    assert "0.08" in scr.numbers(dec + 1.0)
+    amad = start["mci_amad_v9_v8"]
+    assert "0.11" not in scr.numbers(amad + 2.0) and {"0.06", "0.11"} <= set(scr.numbers(amad + 3.5))
+
+
+def test_v10_voice_binds_each_number_where_it_is_spoken_and_bites_when_late(tmp_path):
+    """Track B's v10 placement on v9's beats (the same data and timings; the LFC tail 2.6 s longer): every spoken
+    number is on screen while spoken and every play is in the data; a cue moved later speaks a number too late.
+    Needs the git-ignored stems (python -m footage.narration --script docs/video/narration_v10.md --segments ...)."""
+    import json
+
+    import pytest
+    import yaml
+
+    from footage.grounding import ROOT, _v6_beats, _voice_names, v10_voice
+
+    seg = ROOT / "packages" / "demo" / "out" / "narration_v10" / "segments" / "segments.json"
+    if not seg.exists():
+        pytest.skip("the v10 voice stems are not built here (git-ignored media)")
+    assert {"Mount", "Arsenal", "Mbeumo"} <= _voice_names({"manutd-mancity-2526", "arsenal-chelsea-2526"})
+    moments = yaml.safe_load((ROOT / "packages" / "demo" / "footage_moments.yaml").read_text())["moments"]
+    (tmp_path / "m.yaml").write_text(yaml.safe_dump({"moments": {"lfc_live_v9": {**moments["lfc_live_v9"],
+                                                                                 "t1": 879.2}}}))
+    edit = yaml.safe_load((ROOT / "packages" / "demo" / "edit_v9.yaml").read_text())
+    edit["moments"] = str(tmp_path / "m.yaml")
+    starts, t, seen = {}, 0.0, {}
+    for c in edit["clips"]:
+        if c["shot"].endswith("lfc_live_v9"):
+            c["to"] = 10.6
+        n = c["shot"].split("/")[-1]
+        seen[n] = seen.get(n, 0) + 1
+        starts[(n.replace("_v9", "_v10").replace("decision_v10", "decision_v9"), seen[n])] = t
+        t += c["to"] - c["from"]
+    segs = json.loads(seg.read_text())["segments"]
+    edit["audio"] = [{"file": f"packages/demo/out/narration_v10/{v['m4a']}",
+                      "at": starts[(v["clip"], v["occurrence"])] + v["starts_at"]} for v in segs.values()]
+    path = tmp_path / "edit_v10_test.yaml"
+    path.write_text(yaml.safe_dump(edit, sort_keys=False))
+    rows = v10_voice(path, _v6_beats(path))
+    assert len(rows) == 11 and sum(r["numbers"] for r in rows) == 7
+    assert all(r["numbers_bound"] == r["numbers"] and r["claims_verified"] == r["claims"] for r in rows), \
+        [r["diff"] for r in rows if r["diff"]]
+    for a in edit["audio"]:                                   # Mount 1.5 s late: 0.20 after the panel's hold
+        if a["file"].endswith("mount.m4a"):
+            a["at"] += 1.5
+    path.write_text(yaml.safe_dump(edit, sort_keys=False))
+    late = next(r for r in v10_voice(path, _v6_beats(path)) if r["item"].startswith("mount_shot"))
+    assert late["numbers_bound"] < late["numbers"] and "0.20 spoken at" in late["diff"][0]

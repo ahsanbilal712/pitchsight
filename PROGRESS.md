@@ -5,6 +5,39 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: video v10 decision voice-over, voiced and grounded
+
+- Wrote and voiced the voice-over that explains each decision on the match clips: `docs/video/narration_v10.md`.
+  - 11 cues; same voice as v9 (Charon, `gemini-2.5-pro-tts`).
+  - Sides are named by kit colour. No team or player names, no he/she, no VAR, "ruled out" or offside.
+  - The Mount line describes the shot only, with no "goal".
+  - Each stem matches its script word for word on a gemini-3.8-flash transcript, numbers included.
+- `footage.narration` changes:
+  - It takes `--script`.
+  - It compares numbers as spoken.
+  - It records when each number is spoken.
+  - It caps pauses (`Max pause`, keeping the model's take).
+  - It retakes chosen sections (`--only`).
+  - It mixes one stem per segment from `packages/demo/voice_v10.yaml` (`--segments`).
+- `footage.grounding` v10 = the v9 rules plus `v10_voice`:
+  - Each spoken number must be printed on screen at its first and last word: HUD panel (held), option tag,
+    strike or outcome tag, freeze card or tag, or caption. The Fact Checker then binds it.
+  - Each play the line describes is checked in the beat data: carry into the box, interception won, pass to the
+    HUD's best option, pass outside the box, strike outcome and distance, shot above every pass.
+  - Words the owner banned are refused.
+  - The "RULED OUT BY VAR" tag row is dropped where the beat has `no_rulings`.
+- Placement needs the Liverpool segment 2.6 s longer (t1 879.2, `to` 10.6); asked track C.
+- Scratch copies of track C's v10 edits with these stems:
+  - full: 1,106 of 1,106 numbers, 1,185 of 1,185 claims;
+  - submit: 1,106 of 1,106 numbers, 1,183 of 1,183 claims;
+  - the voice alone: 7 of 7 numbers and 33 of 33 claims.
+  The final v10 grounding files wait for C's mix.
+- ADR-010 amended for v10.
+- Spend: $0.1334 (195 calls, match id video_v10; TTS $0.1051, transcription checks $0.0283).
+- Tests: `tests/footage` 75 passed. The v4 test compared "v10" >= "v4" as strings; it now compares numbers.
+
+---
+
 ## 2026-10-26 — Track B: v9 grounding on the final Rollout line
 
 - Re-grounded both v9 cuts on track C's 63a7628 (the Rollout card: "xG for the shot; pass model × xG for each
