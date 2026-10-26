@@ -5,6 +5,15 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: video v10 grounding on track C's final edits (4c52970)
+
+- Both cuts re-grounded with the voice placements from 5e35ecf. Every number is on screen at its first and last
+  spoken word, and every line ends before its cut.
+  - Full: 1,106 of 1,106 numbers, 1,196 of 1,196 claims.
+  - Submit: 1,106 of 1,106 numbers, 1,194 of 1,194 claims.
+
+---
+
 ## 2026-10-26 — Track B: v10 voice ends before each cut
 
 - Track C asked whether the voice's spill past three cuts is safe. The voice grounding had checked only the start of
