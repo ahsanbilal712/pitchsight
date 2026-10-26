@@ -50,7 +50,7 @@ from demo.footage import (  # noqa: E402
     model_lines,
     occluders,
 )
-from demo.live import SCENES  # noqa: E402
+from demo.live import SCENES, SS, HiDraw, downsample_rgba, flatten, hi_layer  # noqa: E402
 from demo.v3_data import build  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -321,7 +321,7 @@ class Painter:
     def __init__(self, m: dict, frame: np.ndarray, cam: Camera, fut: Futures | None,
                  referee_lines: list | None = None, mode: str = "broadcast"):
         self.m, self.frame, self.cam, self.fut, self.mode = m, frame, cam, fut, mode
-        self.fig = Figure(figsize=(W / 100, H / 100), dpi=100)
+        self.fig = Figure(figsize=(W / 100, H / 100), dpi=100 * SS)
         self.fig.patch.set_alpha(0)
         self.canvas = FigureCanvasAgg(self.fig)
         self.ax = self.fig.add_axes((0, 0, 1, 1))
@@ -525,8 +525,8 @@ class Painter:
     def _v5_labels(self, im: Image.Image, t: float, fade: float) -> None:
         """Ground labels: the shot's xG at the goal mouth, each option's xG after the pass at its ring."""
         x = self.xg or {}
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         items = []
         a0 = window(t, T_BASE[1] - 0.3, T_BASE[1] + 0.3) * (1 - fade)
         if a0 > 0 and x.get("actual"):
@@ -555,7 +555,7 @@ class Painter:
             d.rounded_rectangle((x0, y0, x0 + w, y0 + ph), radius=14 if self.v8 else 10, fill=(*PANEL, int(228 * a)),
                                 outline=(*colour, int(255 * a)), width=3)
             d.text((x0 + w / 2, y0 + ph / 2), text, font=f, fill=(*colour, int(255 * a)), anchor="mm")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _card_v5(self, im: Image.Image, a: float, swing: float, t: float):
         """The xG card: the shot, the hero pass (when one beats it), a counting xG number, the formula."""
@@ -578,8 +578,8 @@ class Painter:
         has_note = bool(self.m.get("card_note") or self.m.get("finishing"))
         h = 58 + 70 * len(rows) + (52 if has_note else 0) + 24 * len(formula) + 24
         y0 = H - 96 - h
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*ORANGE, al))
@@ -604,7 +604,7 @@ class Painter:
             yy += 52
         for k, line in enumerate(formula):
             d.text((x0 + 32, yy + 24 * k), line, font=self.font_reg[20], fill=(169, 180, 194, al))
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _glass(self, im: Image.Image, box, a: float) -> ImageDraw.ImageDraw:
         """v8: a dark glass panel (the picture blurred under it, a hairline, a thin team accent); returns a drawer on
@@ -870,7 +870,7 @@ class Painter:
         for line in self.referee:
             ax.plot(line[:, 0], line[:, 1], color=(*(np.array(YELLOW) / 255), a_all), lw=3.0)
         self.canvas.draw()
-        return np.asarray(self.canvas.buffer_rgba(), float) / 255
+        return downsample_rgba(np.asarray(self.canvas.buffer_rgba(), float) / 255, W, H)
 
     @staticmethod
     def _arrowhead(ax, p, col, a_all, size: float = 30.0):
@@ -976,13 +976,13 @@ class Painter:
             if overlap > 0 and abs(left[1] - right[1]) < 44:
                 left[0] -= overlap / 2
                 right[0] += overlap / 2
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         for x, y, w, label, colour in boxes:
             d.rounded_rectangle((x, y, x + w, y + 40), radius=8, fill=(*PANEL, int(215 * a)),
                                 outline=(*colour, int(255 * a)), width=3)
             d.text((x + w / 2, y + 20), label.upper(), font=font, fill=(*colour, int(255 * a)), anchor="mm")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _panel_x(self, a: float) -> int:
         """Left edge of the lower-third and card: bottom left, or bottom right (`panels: right`) when the action is
@@ -1008,8 +1008,8 @@ class Painter:
         body = self._wrap(self.line.get("body", ""), self.font_reg[22], w - 64) if body else []
         h = 70 + 32 * len(body)
         y0 = H - 96 - CARD_H - 16 - h if self.mode != "casual" else H - 96 - h
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*WHITE, al))
@@ -1019,7 +1019,7 @@ class Painter:
                fill=(255, 255, 255, al))
         for i, row in enumerate(body):
             d.text((x0 + 32, y0 + 64 + 32 * i), row, font=self.font_reg[22], fill=(214, 222, 232, al))
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _goal10_rows(self) -> list[tuple[str, dict]]:
         """(label, {p, ci95}) for actual and alternative from track A's goal10 file; [] without it (v4 prints no
@@ -1057,8 +1057,8 @@ class Painter:
             return
         rows = dict((k, r) for k, r in zip(("actual", "alternative"), self._goal10_rows(), strict=False))
         names = {"actual": "What he did", "alternative": "The alternative", **(self.m.get("options") or {})}
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         for ln in self.lanes:
             end = ln["px"][-1]
             colour = tuple(int(v * 255) for v in ln["colour"])
@@ -1070,7 +1070,7 @@ class Painter:
             d.rounded_rectangle((x0, y0, x0 + w, y0 + 42), radius=10, fill=(*PANEL, int(225 * a)),
                                 outline=(*colour, int(255 * a)), width=3)
             d.text((x0 + w / 2, y0 + 21), text, font=self.font[26], fill=(*colour, int(255 * a)), anchor="mm")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _card_v4(self, im: Image.Image, a: float, swing: float):
         """v4 decision card: the attacking team's goal chance in the next 10 s, what he did against the
@@ -1082,8 +1082,8 @@ class Painter:
         x0, w = self._panel_x(a), PANEL_W
         h = 58 + 78 * len(rows) + (44 if self.m.get("card_note") else 0) + 34
         y0 = H - 96 - h
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*ORANGE, al))
@@ -1112,7 +1112,7 @@ class Painter:
                        font=self.font_reg[20], fill=(169, 180, 194, al))
         d.text((x0 + w - 28, y0 + h - 14), f"n = {g['n']:,}, {g.get('horizon_s', 10):g} s, seed {g['seed']}",
                font=self.font_reg[20], fill=(169, 180, 194, al), anchor="rb")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _ruling_card(self, im: Image.Image, a: float):
         """Fourth Official: the assessment's numbers (closing speed, where the contact was, the card shown), and
@@ -1120,8 +1120,8 @@ class Painter:
         r = self.ruling
         x0, w, h = self._panel_x(a), PANEL_W, CARD_H
         y0 = H - 96 - h
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*YELLOW, al))
@@ -1135,7 +1135,7 @@ class Painter:
             d.text((x0 + w - 28, y + 13), value, font=self.font[30], fill=(*YELLOW, al), anchor="rm")
         d.text((x0 + w - 28, y0 + h - 16), "an assessment from tracking, not a ruling", font=self.font_reg[20],
                fill=(169, 180, 194, al), anchor="rb")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _card(self, im: Image.Image, a: float, swing: float):
         """The win-chance card: one labelled bar per option (what he did, the alternative), the difference, and the
@@ -1146,8 +1146,8 @@ class Painter:
         names = {"actual": "What he did", "alternative": "The alternative", **(self.m.get("options") or {})}
         x0, w, h = self._panel_x(a), PANEL_W, CARD_H
         y0 = H - 96 - h
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         al = int(255 * a)
         d.rounded_rectangle((x0, y0, x0 + w, y0 + h), radius=10, fill=(*PANEL, int(232 * a)))
         d.rectangle((x0, y0, x0 + 8, y0 + h), fill=(*ORANGE, al))
@@ -1171,7 +1171,7 @@ class Painter:
                    fill=(*(col if key == "alternative" else (255, 255, 255)), int(al * grow)), anchor="rm")  # faded in
         d.text((x0 + w - 28, y0 + h - 16), f"n = {cf['n']}, {cf['horizon_s']:g} s, seed {cf['seed']}",
                font=self.font_reg[20], fill=(169, 180, 194, al), anchor="rb")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
     def _phone(self, im: Image.Image, t: float, fade: float) -> Image.Image:

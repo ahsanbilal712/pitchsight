@@ -19,6 +19,7 @@ from pathlib import Path
 import matplotlib
 
 matplotlib.use("Agg")
+import cv2  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.backends.backend_agg import FigureCanvasAgg  # noqa: E402
 from matplotlib.figure import Figure  # noqa: E402
@@ -83,6 +84,90 @@ def lateral_px_per_m(cam: Camera, xy) -> float:
     m, e = np.asarray(xy, float), 1e-3
     jac = np.c_[cam.project([m + [e, 0], m + [0, e]]).T - cam.project([m]).T] / e
     return 1 / np.linalg.norm(np.linalg.solve(jac, [1.0, 0.0]))
+
+
+SS = 2                         # overlays are drawn at SS x and downsampled: anti-aliased shapes and text (v9)
+
+
+def _hi_font(font):
+    key = (getattr(font, "path", None), getattr(font, "size", None))
+    if key not in _HI_FONTS:
+        _HI_FONTS[key] = ImageFont.truetype(font.path, font.size * SS)
+    return _HI_FONTS[key]
+
+
+_HI_FONTS: dict = {}
+
+
+def _sc(v):
+    if v is None:
+        return None
+    if isinstance(v, int | float | np.integer | np.floating):
+        return v * SS
+    return [_sc(x) for x in v] if not isinstance(v, tuple) else tuple(_sc(x) for x in v)
+
+
+class HiDraw:
+    """ImageDraw on an SS x layer that takes 1x coordinates, sizes and fonts (so call sites stay unchanged); the
+    layer is flattened onto the frame with `flatten`, which downsamples it with premultiplied alpha."""
+
+    def __init__(self, layer: Image.Image):
+        self.d = ImageDraw.Draw(layer)
+        self._image = layer
+
+    def text(self, xy, text, fill=None, font=None, anchor=None, stroke_width=0, stroke_fill=None, **kw):
+        self.d.text(_sc(xy), text, fill=fill, font=_hi_font(font) if font else None, anchor=anchor,
+                    stroke_width=int(stroke_width * SS), stroke_fill=stroke_fill, **kw)
+
+    def textlength(self, text, font=None, **kw) -> float:
+        return self.d.textlength(text, font=_hi_font(font), **kw) / SS
+
+    def textbbox(self, xy, text, font=None, anchor=None, **kw):
+        return tuple(v / SS for v in self.d.textbbox(_sc(xy), text, font=_hi_font(font), anchor=anchor, **kw))
+
+    def rounded_rectangle(self, box, radius=0, fill=None, outline=None, width=1, **kw):
+        self.d.rounded_rectangle(_sc(tuple(box)), radius=radius * SS, fill=fill, outline=outline, width=int(width * SS),
+                                 **kw)
+
+    def rectangle(self, box, fill=None, outline=None, width=1):
+        self.d.rectangle(_sc(tuple(box)), fill=fill, outline=outline, width=int(width * SS))
+
+    def ellipse(self, box, fill=None, outline=None, width=1):
+        self.d.ellipse(_sc(tuple(box)), fill=fill, outline=outline, width=int(width * SS))
+
+    def line(self, xy, fill=None, width=0, joint=None):
+        self.d.line(_sc(xy if isinstance(xy, tuple) else [tuple(p) if not isinstance(p, int | float) else p
+                                                           for p in xy]),
+                    fill=fill, width=int(width * SS), joint=joint)
+
+    def polygon(self, xy, fill=None, outline=None, width=1):
+        self.d.polygon(_sc([tuple(p) for p in xy]), fill=fill, outline=outline, width=int(width * SS))
+
+    def composite(self, slot: Image.Image, xy) -> None:
+        """Paste an SS x RGBA slot at 1x position xy."""
+        self._image.alpha_composite(slot, (int(xy[0] * SS), int(xy[1] * SS)))
+
+
+def hi_layer(size) -> Image.Image:
+    return Image.new("RGBA", (size[0] * SS, size[1] * SS), (0, 0, 0, 0))
+
+
+def flatten(im: Image.Image, layer: Image.Image) -> None:
+    """Downsample an SS x layer (premultiplied, so edges stay clean) and composite it onto the frame."""
+    small = layer.convert("RGBa").resize(im.size, Image.LANCZOS).convert("RGBA")
+    im.paste(small, (0, 0), small)
+
+
+def downsample_rgba(buf: np.ndarray, w: int, h: int) -> np.ndarray:
+    """An SS x matplotlib RGBA buffer (0..1) to w x h, premultiplied so the anti-aliased edges keep their colour."""
+    if buf.shape[1] == w:
+        return buf
+    a = buf[..., 3:4]
+    pm = np.concatenate([buf[..., :3] * a, a], axis=2).astype(np.float32)
+    small = cv2.resize(pm, (w, h), interpolation=cv2.INTER_AREA)
+    out = small.copy()
+    out[..., :3] = np.where(small[..., 3:4] > 1e-6, small[..., :3] / np.maximum(small[..., 3:4], 1e-6), 0)
+    return out
 
 
 class Live:
@@ -247,7 +332,7 @@ class Live:
                               "-vf", f"fps={FPS}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
                              capture_output=True, check=True).stdout
         frames = np.frombuffer(raw, np.uint8).reshape(-1, H, W, 3)
-        fig = Figure(figsize=(W / 100, H / 100), dpi=100)
+        fig = Figure(figsize=(W / 100, H / 100), dpi=100 * SS)
         fig.patch.set_alpha(0)
         canvas = FigureCanvasAgg(fig)
         ax = fig.add_axes((0, 0, 1, 1))
@@ -273,7 +358,7 @@ class Live:
         raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{tc:.3f}", "-i",
                               str(FOOTAGE / self.m["clip"] / "clip.mp4"), "-frames:v", "1", "-f", "rawvideo",
                               "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
-        fig = Figure(figsize=(W / 100, H / 100), dpi=100)
+        fig = Figure(figsize=(W / 100, H / 100), dpi=100 * SS)
         fig.patch.set_alpha(0)
         canvas = FigureCanvasAgg(fig)
         return self.frame(np.frombuffer(raw, np.uint8).reshape(H, W, 3), t, fig.add_axes((0, 0, 1, 1)), canvas,
@@ -289,7 +374,7 @@ class Live:
             return Image.fromarray(img) if not self.always_panels else self._panels_only(img, t)
         self.ground(ax, cam, t)
         canvas.draw()
-        g = np.asarray(canvas.buffer_rgba(), float) / 255
+        g = downsample_rgba(np.asarray(canvas.buffer_rgba(), float) / 255, W, H)
         f = img.astype(float) / 255 * (1 - self.dim(t))
         f = f * (1 - g[..., 3:4]) + g[..., :3] * g[..., 3:4]
         im = Image.fromarray(np.clip(f * 255, 0, 255).astype(np.uint8))
@@ -345,18 +430,18 @@ class Oracle(Live):
         if a <= 0:
             return
         if self.m.get("card") is False:                 # v5: the zone alone, a label and no number
-            layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-            d = ImageDraw.Draw(layer)
+            layer = hi_layer(im.size)
+            d = HiDraw(layer)
             d.text((W / 2, 120), self.m.get("label", "WHYLINE IS WATCHING").upper(), font=self.font[34],
                    fill=(255, 255, 255, int(235 * a)), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, int(200 * a)))
-            im.paste(layer, (0, 0), layer)
+            flatten(im, layer)
             return
         bar, value, _ = self.at(t)
         goal = self.goal_at(t)
         if goal is not None:                             # v4: the owner's metric, goal in the next 10 s
             bar, value = goal
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         x0, h = 96 - int((1 - a) * 40), 196
         y0, al = H - 96 - h, int(255 * a)
         kit = tuple(int(v) for v in self.kit * 255)
@@ -374,7 +459,7 @@ class Oracle(Live):
         d.text((x0 + PANEL_W - 28, y0 + h - 16),
                f"n = {src['n']:,} per 0.5 s, {src['horizon_s']:g} s, seed {src['seed']}",
                font=self.reg[20], fill=(*MUTED, al), anchor="rb")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class SpeedGun(Live):
@@ -432,8 +517,8 @@ class SpeedGun(Live):
         if t * 1000 < start:
             return
         now = min(t * 1000, end)
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         p = self.data["player"]
         kit = tuple(int(v) for v in self.kit * 255)
         v = self.speed_now(now)
@@ -448,7 +533,7 @@ class SpeedGun(Live):
             self.card(d, self.m.get("label", f"{p.get('name', p['label'])}: the run"),
                       [("Top speed", f"{self.data['top_speed_kmh']:.1f} km/h", WHITE), ("Distance", dist, WHITE)],
                       self.m.get("foot", "from broadcast tracking"), a)
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class PassXray(Live):
@@ -544,8 +629,8 @@ class PassXray(Live):
             if o["label"] in place:
                 place[o["label"]] = place[o["label"]] + (np.array([o["x"], o["y"]]) - place[o["label"]]) * f
         ranked = sorted((o for o in cur["options"] if o["label"] != cur["holder"]), key=lambda o: -o["p_goal"])
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         shoot = cur.get("shoot_now_p_goal")
         pass_best = bool(ranked) and (shoot is None or ranked[0]["p_goal"] >= shoot)   # else the shot is best
         for rank, o in enumerate(ranked[: int(self.m.get("tags", 5))]):
@@ -563,7 +648,7 @@ class PassXray(Live):
         rows = [(f"{k + 1}. {label}", self.value(v), ORANGE if k == 0 else WHITE)
                 for k, (label, v) in enumerate(entries)]
         self.card(d, self.m.get("label", "Pass X-ray: goal chance if passed to"), rows, foot, a)
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class Offside(Live):
@@ -601,8 +686,8 @@ class Offside(Live):
         a = window(t, self.data["pass_clip_ms"] / 1000, self.data["pass_clip_ms"] / 1000 + 0.4)
         if a <= 0:
             return
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         gap, err = self.data["gap_m"], self.data["uncertainty_m"]
         who = self.m.get("attacker", "Attacker")
         verdict = "level: inside the error" if abs(gap) <= err else ("beyond the line" if gap > 0 else "onside")
@@ -610,7 +695,7 @@ class Offside(Live):
                   [(f"{who}", f"{'+' if gap > 0 else '−'}{abs(gap):.1f} m", YELLOW),
                    ("Tracking error", f"± {err:.1f} m", WHITE), ("Verdict", verdict, YELLOW)],
                   self.m.get("foot", "from broadcast tracking"), a, accent=YELLOW)
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class Still(Live):
@@ -665,8 +750,8 @@ class GhostDefender(Still):
         r, tau = self.data, self.tau(t)
         if tau < 0.2:
             return
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         kit = tuple(int(v) for v in self.kit * 255)
         name = r["defender"].get("name") or self.m.get("defender_label", "Defender")   # never a guessed name
         self.tag(d, cam, [r["defender"]["x"], r["defender"]["y"]], name.upper(), WHITE)
@@ -686,7 +771,7 @@ class GhostDefender(Still):
             self.card(d, self.m.get("label", f"If the {name.lower()} had been there"), rows,
                       f"n = {r['n']}, {r['horizon_s']:g} s, seed {r['seed']}; {r.get('error_note', '')}", c,
                       accent=kit)
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class KeeperCone(Still):
@@ -721,8 +806,8 @@ class KeeperCone(Still):
         r, tau = self.data, self.tau(t)
         if tau < 0.2:
             return
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         kit = tuple(int(v) for v in self.kit * 255)
         name = r["keeper"].get("name", "Keeper")
         self.tag(d, cam, [r["keeper"]["x"], r["keeper"]["y"]], name.split()[-1].upper(), WHITE)
@@ -746,7 +831,7 @@ class KeeperCone(Still):
                           [("Save chance where he stood", f"{round(r['save_actual'] * 100)}%", WHITE),
                            (f"From the best spot, {gap:.1f} m away", f"{round(r['save_best'] * 100)}%", YELLOW)],
                           f"n = {r['n']}, seed {r['seed']}", c, accent=kit)
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class CardOnly(Still):
@@ -765,11 +850,11 @@ class CardOnly(Still):
         c = window(self.tau(t), 0.3, 0.9)
         if c <= 0:
             return
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         title, big, rows, foot = self.content()
         self.card(d, title, rows, foot, c, big=big)
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class RedCardCost(CardOnly):
@@ -822,8 +907,8 @@ class River(Still):
         a = window(tau, 0.2, 0.8)
         if a <= 0:
             return
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         al = int(255 * a)
         d.text((160, 200), self.m.get("label", "Win probability").upper(), font=self.font[34], fill=(255, 255, 255, al))
         hk = tuple((self.m.get("kits") or {}).get("home", ORANGE))
@@ -846,7 +931,7 @@ class River(Still):
         d.text((W - 160, 890), s[-1]["clock"], font=self.reg[22], fill=(*MUTED, al), anchor="ra")
         d.text((W - 160, 1010), self.m.get("foot") or r.get("engine", ""), font=self.reg[20], fill=(*MUTED, al),
                anchor="ra")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class Metrics(CardOnly):
@@ -931,8 +1016,8 @@ class RiverStrip(Live):
 
     def panels(self, im, cam, t):
         a = window(t - self.span()[0], 0.0, 0.5)
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         x0, y0, x1, y1 = self.BOX
         al = int(255 * a)
         d.text((x0 + 28, y0 + 18), self.m.get("label", "Who wins it").upper(), font=self.font[26],
@@ -951,7 +1036,7 @@ class RiverStrip(Live):
                 ex = min(max(X(e["clip_ms"]), x0 + 24 + half), x1 - 24 - half)      # inside the strip
                 d.text((ex, y0 + 66 + 26 * (k % 2)), text, font=self.font[22], fill=(255, 255, 255, al), anchor="mm")
         d.text((x1 - 24, y0 + 18), self.m.get("foot", ""), font=self.reg[20], fill=(*MUTED, al), anchor="ra")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class ShotXG(Live):
@@ -1030,18 +1115,18 @@ class ShotXG(Live):
         tau = t - s["clip_ms"] / 1000
         if tau < -0.15:
             return
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         pop = window(tau, -0.15, 0.15)
         size = int(34 + 30 * pop)
         if s.get("xg") is None:                           # unmeasured: no number (track A)
-            im.paste(layer, (0, 0), layer)
+            flatten(im, layer)
             return
         v6 = self.m.get("style") == "v6"
         text = f"{s['xg']:.2f} xG" if v6 else f"{s['xg'] * window(tau, 0.0, 0.6):.2f} xG"   # v6: no count-up
         if v6 and not (cam is not None and s.get("camera_ok", True)):   # no trusted camera: never projected, a card
             self._fixed_card(d, s, tau, pop)
-            im.paste(layer, (0, 0), layer)
+            flatten(im, layer)
             return
         if cam is not None and s.get("camera_ok", True):
             at = cam.project([[s["x"], s["y"]]])[0]
@@ -1082,7 +1167,7 @@ class ShotXG(Live):
             f = ImageFont.truetype(FONT, int((150 if goal else 96) * scale_in))
             d.text((W / 2, H / 2 - 40), word, font=f, fill=(*col, int(255 * o)), anchor="mm", stroke_width=8,
                    stroke_fill=(0, 0, 0, int(220 * o)))
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class GhostFuture(Still):
@@ -1166,13 +1251,13 @@ class GhostFuture(Still):
 
     def panels(self, im, cam, t):
         tau = self.tau(t)
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         if tau < 0.6:
             a = window(tau, 0.0, 0.3)
             d.text((W / 2, 120), "REWIND · THE OTHER TIMELINE", font=self.font[34], fill=(255, 255, 255, int(255 * a)),
                    anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0, int(200 * a)))
-            im.paste(layer, (0, 0), layer)
+            flatten(im, layer)
             return
         horizon_ms = (len(self.data["frames"]) - 1) * self.data.get("step_ms", 100)
         ms = min(self.sim_ms(t), horizon_ms)
@@ -1203,7 +1288,7 @@ class GhostFuture(Still):
         src = {**(self.data.get("source") or {}), **{k: self.data[k] for k in ("n", "seed") if k in self.data}}
         d.text((W - 96, H - 60), f"the most typical of {src.get('n', 0):,} simulated futures, seed {src.get('seed', '?')}",
                font=self.reg[22], fill=(*MUTED, 230), anchor="rb")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class XGRace(RiverStrip):
@@ -1253,8 +1338,8 @@ class XGRace(RiverStrip):
 
     def panels(self, im, cam, t):
         a = window(t - self.span()[0], 0.0, 0.5)
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         x0, y0, x1, y1 = self.BOX
         al = int(255 * a)
         d.text((x0 + 28, y0 + 18), self.m.get("label", "Expected goals").upper(), font=self.font[26],
@@ -1276,7 +1361,7 @@ class XGRace(RiverStrip):
             ex = min(max(X(e["clip_ms"]), x0 + 24 + half), x1 - 24 - half)
             d.text((ex, y0 + 66 + 26 * (k % 2)), text, font=self.font[22], fill=(255, 255, 255, al), anchor="mm")
         d.text((x1 - 24, y1 - 16), self.m.get("foot", ""), font=self.reg[20], fill=(*MUTED, al), anchor="rb")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 def _v6_scenes() -> dict:

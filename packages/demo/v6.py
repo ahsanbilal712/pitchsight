@@ -29,11 +29,14 @@ from demo.live import (
     ROOT,
     WHITE,
     H,
+    HiDraw,
     Live,
     Still,
     W,
     bracket,
+    flatten,
     ground_circle,
+    hi_layer,
     window,
 )
 
@@ -215,8 +218,8 @@ class LiveHUD(Live):
 
     def panels(self, im, cam, t):
         self._t, self._glass = t, []
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         x = self.sample(t)
         held = self.sample(t, HOLD_S)
         a = window(t, self.span()[0], self.span()[0] + 0.3)
@@ -255,7 +258,7 @@ class LiveHUD(Live):
         self._hud(d, held, a, age if age is not None and age > FRESH_S else None, state, self.threat_at(t))
         self._score(d, t, a)
         self._frost(im)
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     # -- v8 panel style ---------------------------------------------------------------------------------------
     def accent(self) -> tuple[int, int, int]:
@@ -310,11 +313,11 @@ class LiveHUD(Live):
         asc, desc = font.getmetrics()
         hgt = asc + desc
         wid = int(max(d.textlength(text, font=font), d.textlength(old, font=font))) + 4
-        slot = Image.new("RGBA", (wid, hgt), (0, 0, 0, 0))
-        sd = ImageDraw.Draw(slot)
+        slot = hi_layer((wid, hgt))
+        sd = HiDraw(slot)
         sd.text((0, -hgt * e), old, font=font, fill=(*fill, int(vis * (1 - e))))
         sd.text((0, hgt * (1 - e)), text, font=font, fill=(*fill, int(vis * e)))
-        d._image.alpha_composite(slot, (int(xy[0]), int(xy[1])))
+        d.composite(slot, xy)
 
     def state(self, t: float) -> str | None:
         """What the tracking says now when there is no live value: the frame's null reason as a broadcast state,
@@ -453,8 +456,8 @@ class ShotMap(Still):
 
     def panels(self, im, cam, t):
         tau = self.tau(t)
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         f = ImageFont.truetype(FONT, 22)
         for k, x in enumerate(self.shots()):
             a = window(tau, 0.5 + 0.25 * k, 0.8 + 0.25 * k)
@@ -468,7 +471,7 @@ class ShotMap(Still):
         a = window(tau, 0.2, 0.6)
         d.text((96, 120), self.m.get("label", "SHOT MAP").upper(), font=ImageFont.truetype(FONT, 34),
                fill=(255, 255, 255, int(255 * a)), stroke_width=4, stroke_fill=(0, 0, 0, int(200 * a)))
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 def _opt_label(o: dict) -> str | None:
@@ -581,12 +584,12 @@ class Pipeline(Still):
         im = Image.new("RGB", (W, H), PANEL)
         e = ease_in_out(window(tau, 0.0, self.INTRO_S))
         self._left(im, e, tau)
-        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer((W, H))
+        d = HiDraw(layer)
         dx = int((1 - e) * (W - self.LEFT_W))              # the panel slides in from the right
         self._flow(d, tau, dx)
         self._on_air(d, tau)
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
         return im
 
     def _left(self, im: Image.Image, e: float, tau: float) -> None:

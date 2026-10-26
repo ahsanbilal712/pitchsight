@@ -16,7 +16,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from demo.footage import model_lines
-from demo.live import FONT, FONT_REG, ROOT, H, Still, W, bracket, window
+from demo.live import FONT, FONT_REG, ROOT, H, HiDraw, Still, W, bracket, flatten, hi_layer, window
 from demo.v6 import ACCENT, GOOD, RADIUS, LiveHUD, ease_in_out, who
 
 INK = (14, 18, 24)
@@ -35,13 +35,13 @@ def glass(im: Image.Image, box, a: float = 1.0, accent=ACCENT) -> None:
     ImageDraw.Draw(mask).rounded_rectangle((0, 0, region.size[0] - 1, region.size[1] - 1), radius=RADIUS,
                                            fill=int(255 * a))
     im.paste(region, box[:2], mask)
-    layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-    d = ImageDraw.Draw(layer)
+    layer = hi_layer(im.size)
+    d = HiDraw(layer)
     d.rounded_rectangle(box, radius=RADIUS, fill=(*INK, int(178 * a)), outline=(255, 255, 255, int(40 * a)), width=1)
     if accent:
         d.rounded_rectangle((box[0] + RADIUS, box[1], box[2] - RADIUS, box[1] + 4), radius=2,
                             fill=(*accent, int(255 * a)))
-    im.paste(layer, (0, 0), layer)
+    flatten(im, layer)
 
 
 class Motion(Still):
@@ -134,8 +134,8 @@ class TitleSting(Motion):
         a = window(tau, 2.8, 3.1)                      # crisp: full white within 0.3 s
         if a <= 0:
             return
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         s = 1 + 0.06 * (1 - ease_in_out(window(tau, 2.8, 3.4)))
         f = ImageFont.truetype(FONT, int(170 * s))
         word = "PITCHSIGHT"
@@ -147,7 +147,7 @@ class TitleSting(Motion):
         b = window(tau, 3.7, 4.3)
         d.text((W / 2, H / 2 + 128), self.m.get("tagline", ""), font=font(48, bold=False),
                fill=(230, 236, 242, int(255 * b)), anchor="mm")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
 
 class Explainer(Motion):
@@ -360,8 +360,8 @@ class Explainer(Motion):
             self._next(im, tau - 20.5)
 
     def _boxes(self, im, tau):
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         dets = [(p["bbox"], p.get("team"), 0.035 * k) for k, p in enumerate(self.det["players"])]
         if self.det.get("ball"):
             dets.append((self.det["ball"]["bbox"], "ball", 0.035 * len(dets)))
@@ -389,14 +389,14 @@ class Explainer(Motion):
             w = d.textlength(text, font=f) + 56
             d.rounded_rectangle((W / 2 - w / 2, 190, W / 2 + w / 2, 256), radius=RADIUS, fill=(*INK, int(210 * b)))
             d.text((W / 2, 223), text, font=f, fill=(255, 255, 255, int(255 * b)), anchor="mm")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _pills(self, im, tau):
         car, opts = self.options()
         if not car:
             return
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         f = font(30)
         placed = []
         for k, o in enumerate(opts[:3]):                 # top 3 labelled only
@@ -421,7 +421,7 @@ class Explainer(Motion):
             q = self.mini([[car["x"], car["y"]]])[0]
             d.text((q[0], q[1] - 26), cname, font=font(30), fill=(255, 255, 255, 255), anchor="mb",
                    stroke_width=3, stroke_fill=(0, 0, 0, 200))
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
 
     def _side(self) -> tuple[int, int, int, int]:
         """The column right of the mini-pitch: left, top, right, bottom."""
@@ -531,8 +531,8 @@ class EndCard(Motion):
 
     def overlay(self, im, cam, tau):
         a = window(tau, 0.0, 0.5)
-        layer = Image.new("RGBA", im.size, (0, 0, 0, 0))
-        d = ImageDraw.Draw(layer)
+        layer = hi_layer(im.size)
+        d = HiDraw(layer)
         f = ImageFont.truetype(FONT, 150)
         d.text((W / 2, H / 2 - 110), "PITCHSIGHT", font=f, fill=(255, 255, 255, int(255 * a)), anchor="mm")
         wl = d.textlength("PITCHSIGHT", font=f) * ease_in_out(window(tau, 0.3, 1.0))
@@ -545,4 +545,4 @@ class EndCard(Motion):
         d.text((W / 2, H / 2 + 150), self.m.get("repo", ""), font=font(36), fill=(*ACCENT, int(255 * c)), anchor="mm")
         d.text((W / 2, H - 120), self.m.get("permission", ""), font=font(28, bold=False),
                fill=(176, 186, 198, int(255 * c)), anchor="mm")
-        im.paste(layer, (0, 0), layer)
+        flatten(im, layer)
