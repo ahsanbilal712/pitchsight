@@ -5,6 +5,15 @@ files touched, verification run, open issues. Keep entries short; details live i
 
 ---
 
+## 2026-10-26 — Track B: v8 grounding regenerated on draft 2 and the re-checked names
+
+- `data/footage/v8_grounding.json` regenerated on track C's current `edit_v8.yaml`: 1,310 of 1,310 on-screen numbers
+  bound, 1,326 of 1,326 claims verified. The two VERIFY counter items (4 numbers) are excluded from their own count,
+  so the counter's "1,306 of 1,306" equals everything else. No "Casemiro" anywhere (54e5047, e7f7649, track A
+  ee4eda1). The committed copy had been draft 1's (1,297).
+
+---
+
 ## 2026-10-26 — Track B: the Man Utd v Man City pipeline view drops the withdrawn Casemiro name
 
 - `pipeline_manutd-mancity-2526_877000.json` (the v8 `mci_pipeline_v8` beat) still had "Pass to Casemiro" from the

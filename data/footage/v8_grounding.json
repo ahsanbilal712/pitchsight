@@ -3,11 +3,11 @@
  "schema_version": "1.0.0",
  "record": "tool_result",
  "result": {
-  "card_line": "1297 of 1297 on-screen numbers bound to verified evidence (1318 of 1318 claims verified)",
-  "claims": 1318,
-  "claims_verified": 1318,
-  "numbers": 1297,
-  "numbers_bound": 1297,
+  "card_line": "1310 of 1310 on-screen numbers bound to verified evidence (1326 of 1326 claims verified)",
+  "claims": 1326,
+  "claims_verified": 1326,
+  "numbers": 1310,
+  "numbers_bound": 1310,
   "groups": {
    "v6 overlay": {
     "items": 7,
@@ -24,25 +24,32 @@
     "claims_verified": 169
    },
    "video caption": {
-    "items": 8,
-    "numbers": 13,
-    "numbers_bound": 13,
-    "claims": 13,
-    "claims_verified": 13
+    "items": 6,
+    "numbers": 10,
+    "numbers_bound": 10,
+    "claims": 10,
+    "claims_verified": 10
+   },
+   "v8 overlay": {
+    "items": 3,
+    "numbers": 14,
+    "numbers_bound": 14,
+    "claims": 14,
+    "claims_verified": 14
    },
    "v8 name": {
     "items": 1,
     "numbers": 0,
     "numbers_bound": 0,
-    "claims": 21,
-    "claims_verified": 21
+    "claims": 16,
+    "claims_verified": 16
    },
    "verify counter": {
-    "items": 1,
-    "numbers": 2,
-    "numbers_bound": 2,
-    "claims": 2,
-    "claims_verified": 2
+    "items": 2,
+    "numbers": 4,
+    "numbers_bound": 4,
+    "claims": 4,
+    "claims_verified": 4
    }
   },
   "checker": "newsroom.factcheck.verify_claims (rules 1-8)",
@@ -180,39 +187,6 @@
    },
    {
     "group": "video caption",
-    "item": "A pass model we trained on 2.1 million passes from 1,600 simulated matches,",
-    "sources": [
-     "packages/heads/artifacts/metrics.json pass.rows.train 2,146,079 (2.1 million)",
-     "packages/heads/artifacts/metrics.json _data.matches_per_split.train"
-    ],
-    "claims": 2,
-    "claims_verified": 2,
-    "numbers": 2,
-    "numbers_bound": 2,
-    "rejected": []
-   },
-   {
-    "group": "video caption",
-    "item": "plus a published xG model built on 8,451 Premier League shots,",
-    "sources": [
-     "v8 intro_facts_0: Soccermatics, 8,451 PL shots"
-    ],
-    "claims": 1,
-    "claims_verified": 1,
-    "numbers": 1,
-    "numbers_bound": 1,
-    "diff": [
-     {
-      "where": "caption",
-      "phrase": "Premier League",
-      "category": "real_name",
-      "reject_reason": "banned_content"
-     }
-    ],
-    "rejected": []
-   },
-   {
-    "group": "video caption",
     "item": "Amad shoots from here: 0.06 xG.",
     "sources": [
      "v5 xg_decision_877000 actual.xg (freeze)"
@@ -288,17 +262,56 @@
     "rejected": []
    },
    {
+    "group": "v8 overlay",
+    "item": "explainer_v8: option pills at 870800",
+    "file": "data/footage/liverpool-mancity-2526/cache/v6/live_802600.json",
+    "claims": 6,
+    "claims_verified": 6,
+    "numbers": 6,
+    "numbers_bound": 6,
+    "rejected": []
+   },
+   {
+    "group": "v8 overlay",
+    "item": "explainer_v8: the models card",
+    "file": "packages/heads/artifacts/metrics.json + citation",
+    "claims": 5,
+    "claims_verified": 5,
+    "numbers": 5,
+    "numbers_bound": 5,
+    "rejected": []
+   },
+   {
+    "group": "v8 overlay",
+    "item": "explainer_v8: the claims it ticks",
+    "file": "data/footage/manutd-mancity-2526/cache/v6/pipeline_manutd-mancity-2526_877000.json",
+    "claims": 3,
+    "claims_verified": 3,
+    "numbers": 3,
+    "numbers_bound": 3,
+    "rejected": []
+   },
+   {
     "group": "v8 name",
-    "item": "21 captions and card lines",
-    "claims": 21,
-    "claims_verified": 21,
+    "item": "16 captions and card lines",
+    "claims": 16,
+    "claims_verified": 16,
     "numbers": 0,
     "numbers_bound": 0,
     "rejected": []
    },
    {
     "group": "verify counter",
-    "item": "1,295 of 1,295 on-screen numbers checked against the data.",
+    "item": "1,306 of 1,306 on-screen numbers checked against the data.",
+    "claims": 2,
+    "claims_verified": 2,
+    "numbers": 2,
+    "numbers_bound": 2,
+    "rejected": []
+   },
+   {
+    "group": "verify counter",
+    "item": "explainer_v8 graphic: 1,306 of 1,306 on-screen numbers checked against the data",
     "claims": 2,
     "claims_verified": 2,
     "numbers": 2,
