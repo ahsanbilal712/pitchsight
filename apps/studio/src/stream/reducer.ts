@@ -1,4 +1,4 @@
-// Studio state (TECH_PLAN 1.9 studio tree). Unlike the overlay, the studio keeps history across a seek: the
+// Studio state. Unlike the overlay, the studio keeps history across a seek: the
 // cue list, moments and trace rows are a log of what the newsroom did; a `hello` only moves the clock.
 import type { Cue, Fact, Hello, Message, Mode, Moment, RequestInfo, Spend, Trace } from "./types";
 

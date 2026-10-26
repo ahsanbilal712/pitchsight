@@ -1,4 +1,4 @@
-"""SqliteBlackboard: schema round-trips, ID rules, query, watch across processes, put latency (T-017)."""
+"""SqliteBlackboard: schema round-trips, ID rules, query, watch across processes, put latency."""
 
 import asyncio
 import json
@@ -156,7 +156,7 @@ def test_put_under_2ms(bb):
 
 
 def test_shared_connection_is_thread_safe(bb):
-    """Threads sharing one SqliteBlackboard (the api's kill thread, T-051) must not hit InterfaceError."""
+    """Threads sharing one SqliteBlackboard (the api's kill thread) must not hit InterfaceError."""
     import threading
 
     errors = []

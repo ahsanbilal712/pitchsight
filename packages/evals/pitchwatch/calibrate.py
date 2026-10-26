@@ -1,4 +1,4 @@
-"""Pitch calibration: a homography per frame from the pitch markings (FOOTAGE_ADDENDUM §3 step 2, T-104).
+"""Pitch calibration: a homography per frame from the pitch markings.
 
     python -m evals.pitchwatch.calibrate data/footage/<slug> --shots 61,38 [--key keyframes.json]
     python -m evals.pitchwatch.calibrate data/footage/<slug> --evaluate

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Install the WHYLINE git hooks into the repository of the current directory (T-004).
+# Install the WHYLINE git hooks into the repository of the current directory.
 set -e
 src="$(cd "$(dirname "$0")" && pwd)/hooks/pre-commit"
 dest="$(git rev-parse --git-path hooks)/pre-commit"

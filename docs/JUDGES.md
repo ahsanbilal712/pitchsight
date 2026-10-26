@@ -2,20 +2,9 @@
 
 ## Watch first
 
-The demo video (v10, 1:48) shows Pitchsight on real Premier League broadcast footage, used with the Premier
-League's written permission ([permissions](permissions/README.md), [sources](../data/footage/SOURCES.md)). Its link
-is in the [README](../README.md#the-video) once uploaded.
-
-## About the real footage
-
-- The clips are never in this repository and are not distributed as files: the permission covers the prototype, the
-  hosted demonstration for judges and the public demo video, and excludes redistribution. You see the footage in the
-  video, and streamed from the demo where it is hosted.
-- Everything below runs on your machine with no keys. To run your own Azure deployment, `azd up` provisions it
-  from [infra/README.md](../infra/README.md).
-- What is model output and what is measured is stated in the README's
-  [Method notes](../README.md#method-notes): positions come from broadcast tracking (about 0.5 m), the
-  counterfactuals run in the synthetic engine, the Fourth Official card is an assessment, not a ruling.
+The demo video (1:48) shows Pitchsight on real Premier League broadcast footage, used with the Premier League's
+written permission ([permissions](permissions/README.md), [sources](../data/footage/SOURCES.md)). The clips are not in
+this repository: the permission excludes redistribution, so the footage appears in the video only.
 
 ## Run it locally (no keys)
 
@@ -29,7 +18,7 @@ airs, and kill the newsroom mid-moment to watch it resume from its checkpoint.
 
 ## The studio on a real clip
 
-The producer studio can also replay a real clip's recorded newsroom run (Liverpool v Manchester City, 86:23 and the
+The producer studio also replays a real clip's recorded newsroom run (Liverpool v Manchester City, 86:23 and the
 held full-time recap), with real names, no keys and no model calls:
 
 ```bash
@@ -38,3 +27,16 @@ PYTHONPATH=packages WHYLINE_BLACKBOARD=/tmp/pitchsight-lfc.sqlite .venv/bin/pyth
 ```
 
 Then serve `apps/studio/dist` and open it with `?api=127.0.0.1:8000`, seek to 86:16 and press play.
+
+## Deploy to Azure
+
+`azd up` provisions the full stack (Container Apps, Static Web Apps, Cosmos DB, Web PubSub, Application Insights,
+Azure AI Foundry) from [infra/README.md](../infra/README.md); every service reads its endpoints from the environment.
+
+## Where to look
+
+- Agents: `packages/newsroom/` (Microsoft Agent Framework workflow, checkpoints and resume), tools over MCP in
+  `packages/mcp_server/`.
+- Evidence binding: `packages/newsroom/factcheck.py`; evaluation table: `packages/evals/results.md`.
+- Vision on broadcast footage: `packages/evals/pitchwatch/`; drawing on the real frame: `packages/demo/composite.py`.
+- Azure path: `packages/cloud/`, `infra/`.

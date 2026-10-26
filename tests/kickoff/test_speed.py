@@ -1,4 +1,4 @@
-"""Performance, NaN guard and batch independence (T-006)."""
+"""Performance, NaN guard and batch independence."""
 
 import numpy as np
 import pytest

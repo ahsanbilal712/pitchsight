@@ -1,11 +1,11 @@
-"""Licence scan (T-066): Python packages, production npm packages of the three apps, and the asset list.
+"""Licence scan: Python packages, production npm packages of the three apps, and the asset list.
 
 Usage: python scripts/licence_scan.py [--json]
 
 - Python: `pip-licenses --format=json` over the current environment.
 - npm: `apps/{overlay,studio,fan}/package-lock.json`, packages not marked dev (no node_modules needed; a missing
   licence field falls back to the package's LICENSE file when node_modules exists, else to config exceptions).
-- Assets: `data/league/assets.json` if present (`[{path, licence, source}]`, T-077 adds images and music).
+- Assets: `data/league/assets.json` if present (`[{path, licence, source}]`).
 Every licence is checked against `config/licence_allowlist.txt`. GPL, AGPL, LGPL and non-commercial always fail.
 Exit 1 on any offender.
 """

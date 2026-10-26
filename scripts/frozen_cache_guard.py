@@ -1,10 +1,10 @@
-"""Frozen-cache guard (TECH_PLAN 1.8 "Freeze rule", 1.10 CI job frozen-cache-guard; T-060).
+"""Frozen-cache guard.
 
 Usage: python scripts/frozen_cache_guard.py [--base REF] [--head REF] [--manifest PATH] [--repo DIR]
 
 If the manifest at --base has `frozen: true`, any difference at --head (an entry added, removed or with another
 sha256, the match hashes, or the frozen flag itself) fails unless docs/video/VERSION changed between the two refs
-and its number went up. A manifest that is not frozen (before T-071), or absent at the base, passes.
+and its number went up. A manifest that is not frozen, or absent at the base, passes.
 Base default: the PR base (GITHUB_BASE_REF) in CI pull requests, else HEAD^. Exit 0 pass, 1 fail.
 """
 
@@ -48,7 +48,7 @@ def check(repo: str, base: str, head: str, manifest_path: str = MANIFEST) -> tup
         return True, f"no manifest at {base}: nothing frozen yet"
     old_m = json.loads(old)
     if not old_m.get("frozen"):
-        return True, f"manifest at {base} is not frozen: changes allowed (freeze happens at T-071)"
+        return True, f"manifest at {base} is not frozen: changes allowed"
     new = at(repo, head, manifest_path)
     new_fp = fingerprint(json.loads(new)) if new is not None else None
     old_fp = fingerprint(old_m)
@@ -63,7 +63,7 @@ def check(repo: str, base: str, head: str, manifest_path: str = MANIFEST) -> tup
     if bumped:
         return True, f"frozen manifest changed ({', '.join(sorted(diff))}) with {VERSION} {(v_old or '0').strip()} " \
                      f"-> {v_new.strip()}: allowed (new video required)"
-    return False, f"frozen manifest changed ({', '.join(sorted(diff))}) without a {VERSION} bump (TECH_PLAN 1.8)"
+    return False, f"frozen manifest changed ({', '.join(sorted(diff))}) without a {VERSION} bump"
 
 
 def main(argv: list[str] | None = None) -> int:

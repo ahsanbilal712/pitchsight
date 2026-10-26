@@ -1,4 +1,4 @@
-"""Ball, shot and sprint speeds over a tracking window (TECH_PLAN 1.4 physics)."""
+"""Ball, shot and sprint speeds over a tracking window."""
 
 from __future__ import annotations
 

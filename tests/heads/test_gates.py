@@ -1,4 +1,4 @@
-"""Outcome heads meet the TECH_PLAN 1.6 gates (T-025); metrics record data size and split seeds."""
+"""Outcome heads meet their gates; metrics record data size and split seeds."""
 
 import json
 import shutil

@@ -1,8 +1,8 @@
-"""Newsroom worker: watch blackboard `moments`, one workflow run per moment (TECH_PLAN 1.1, 1.7).
+"""Newsroom worker: watch blackboard `moments`, one workflow run per moment.
 
     python -m newsroom.worker [--match m_4242] [--mode replay|live]
 
-Checkpoints go to FileCheckpointStorage(WHYLINE_CHECKPOINT_DIR). Resume after a kill is T-051 (supervisor).
+Checkpoints go to FileCheckpointStorage(WHYLINE_CHECKPOINT_DIR). The supervisor resumes a killed run.
 """
 
 from __future__ import annotations
@@ -56,7 +56,7 @@ def make_storage() -> FileCheckpointStorage:
 
 def make_deps(mode: str) -> Deps:
     """Replay mode injects cache.CacheClient as both LLM client and tool client (cache hits, misses raise or
-    return cache_miss); live mode injects LiveClient and the MCP tools (TECH_PLAN 1.8)."""
+    return cache_miss); live mode injects LiveClient and the MCP tools."""
     from cloud import make_blackboard
     from mcp_server.tools_core import MatchStore
     from newsroom.tools import LocalTools, McpTools
@@ -65,7 +65,7 @@ def make_deps(mode: str) -> Deps:
     store = MatchStore(bb)
     url = os.environ.get("WHYLINE_MCP_URL")
     tools = McpTools(url) if url else LocalTools(store)   # agents' data path is MCP; in-process is the dev default
-    # the Panel fits its 25 s budget live on Flash pundits (20.6 s measured, T-041); WHYLINE_PANEL=0 turns it off
+    # the Panel fits its 25 s budget live on Flash pundits (20.6 s measured); WHYLINE_PANEL=0 turns it off
     panel = os.environ.get("WHYLINE_PANEL", "1") != "0"
     if mode == "live":
         from newsroom.llm import LiveClient
@@ -81,7 +81,7 @@ def make_deps(mode: str) -> Deps:
 
 async def serve(deps: Deps, storage=None, match_id: str | None = None, stop: asyncio.Event | None = None,
                 on_result=None) -> None:
-    """Resume runs a kill interrupted (T-051), then watch `moments` and run each new one. A moment is marked
+    """Resume runs a kill interrupted, then watch `moments` and run each new one. A moment is marked
     `running` before its run and `done` after; the run itself is tracked in blackboard `runs`."""
     from newsroom.resume import mark_run, publish_requests, resume_decisions, resume_pending
 

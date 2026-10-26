@@ -1,4 +1,4 @@
-"""Featured real-clip moments (T-109): roster ids, the counterfactual from a committed moment file, the cached
+"""Featured real-clip moments: roster ids, the counterfactual from a committed moment file, the cached
 explanations stay verified. Uses the committed JSON only (no media, no model call)."""
 
 import json

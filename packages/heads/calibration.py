@@ -1,4 +1,4 @@
-"""Calibration metrics and reliability diagrams for the outcome heads (TECH_PLAN 1.6)."""
+"""Calibration metrics and reliability diagrams for the outcome heads."""
 
 from __future__ import annotations
 

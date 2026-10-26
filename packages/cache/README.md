@@ -2,7 +2,6 @@
 
 Cache manifest, CacheClient and the golden-match precompute.
 
-Interface restated from `TECH_PLAN.md` section 1.4 "cache (replay layer and precompute)" (TECH_PLAN wins on conflict).
 Tests live in `tests/cache/`.
 
 ```python
@@ -11,7 +10,7 @@ class CacheClient(LLMClient, RolloutClient):  # serves cache hits with simulated
 def precompute(seed: int, mode: Literal["batch", "live"], roles: list[str], hand_review_top_k: int = 20) -> Report
 ```
 
-## As built (T-038)
+## As built
 
 - `manifest.py`: `CacheManifest.load/new/save/add/read/find/key/verify_hashes/problems`. Keys
   `<match>/<moment or match>/<producer>@<version>/<model or engine or none>/s<seed>` (a version that already names

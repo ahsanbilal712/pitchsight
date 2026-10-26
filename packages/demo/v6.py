@@ -1,4 +1,4 @@
-"""Video v6 graphics (owner, 23 Oct: broadcast-grade live analytics, no cartoon, no placeholders).
+"""Video v6 graphics (23 Oct: broadcast-grade live analytics, no cartoon, no placeholders).
 
     python -m demo.composite <moment>        # kind live_hud | shot_map | pipeline (demo.live SCENES)
 
@@ -89,7 +89,7 @@ def surname(name: str) -> str:
 
 
 def who(p: dict | None, shirts: bool | None = None) -> str | None:
-    """A verified name (surname), else a verified shirt number, else nothing (owner: no placeholders)."""
+    """A verified name (surname), else a verified shirt number, else nothing (no placeholders)."""
     if not p:
         return None
     if p.get("name"):
@@ -400,7 +400,7 @@ class LiveHUD(Live):
     def _score(self, d: ImageDraw.ImageDraw, t: float, a: float) -> None:
         """Top strip under the broadcast score bug: each team's cumulative xG so far (xg_race_0)."""
         race = self.m.get("race_doc")
-        if not race or self.m.get("no_score"):            # v10: no xG banner (the owner)
+        if not race or self.m.get("no_score"):            # v10: no xG banner
             return
         now = t * 1000
         pts = [p for p in race["series"] if p["clip_ms"] <= now] or [{"home_xg": 0.0, "away_xg": 0.0}]

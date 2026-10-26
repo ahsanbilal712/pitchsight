@@ -1,4 +1,4 @@
-"""Fact Checker: the eight deterministic rules of TECH_PLAN 1.7 (T-019). No model, no network.
+"""Fact Checker: eight deterministic rules. No model, no network.
 
     verify_claims(match_id, claims, bb, text=None) -> {verified, claims[], diff[]}
 
@@ -14,7 +14,7 @@
 
 Numbers a rollout derives for a counterfactual but that the counterfactual schema has no field for (the xG of the
 shot the alternative leads to) are written as facts carrying `counterfactual_id`; citing the cf_ id covers them.
-The MCP tool `verify_claims` (T-030) calls this same function.
+The MCP tool `verify_claims` calls this same function.
 """
 
 from __future__ import annotations
@@ -295,7 +295,7 @@ def _players_in(doc: dict, coll: str) -> set[str]:
 
 
 def _allowed_names(meta: dict) -> set[str]:
-    """A real-clip match (FOOTAGE_ADDENDUM.md) lists its real players (`roster`) and clubs (`clubs`) in its
+    """A real-clip match lists its real players (`roster`) and clubs (`clubs`) in its
     match_metadata; those names, and only those, pass rules 3 and 7 for that match."""
     names = {str(n).lower() for n in (meta.get("roster") or {}).values()}
     for club in (meta.get("clubs") or {}).values():

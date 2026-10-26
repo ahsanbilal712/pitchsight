@@ -1,4 +1,4 @@
-"""The on-ball decision a moment turns on, and the rule-based alternatives (TECH_PLAN 1.5, 1.7; T-031).
+"""The on-ball decision a moment turns on, and the rule-based alternatives.
 
 decision_point(store, moment) finds the last pass, carry, shot or clearance among the moment's evidence (else the
 last one by the moment's team in the 10 s before it) and describes the branch point the rollout forces:

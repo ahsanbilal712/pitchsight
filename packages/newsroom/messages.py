@@ -1,4 +1,4 @@
-"""Messages that flow along the newsroom graph (TECH_PLAN 1.7). One workflow run per moment.
+"""Messages that flow along the newsroom graph. One workflow run per moment.
 
 Every message carries the run envelope (run id, mode, branch, moment, agent path); executors evolve it with
 `hop()` and `model_copy(update=...)`. All types are registered for checkpoint restore.
@@ -16,7 +16,7 @@ Mode = Literal["replay", "live", "degraded"]
 
 
 class Moment(BaseModel):
-    """A blackboard `moments` document (TECH_PLAN 1.3); unknown fields are kept."""
+    """A blackboard `moments` document; unknown fields are kept."""
 
     model_config = ConfigDict(extra="allow")
     moment_id: str
@@ -99,7 +99,7 @@ class CueOut(Envelope):
 
 
 class ProducerApproval(Envelope):
-    """Director -> producer (request_info): a recap cue waiting for approval (TECH_PLAN 1.7 "Producer veto")."""
+    """Director -> producer (request_info): a recap cue waiting for approval."""
 
     cue: dict
 

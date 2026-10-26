@@ -4,7 +4,7 @@ from newsroom.llm import CacheMiss
 
 
 class CacheFrozen(RuntimeError):
-    """A frozen manifest cannot take new entries without a docs/video/VERSION bump (TECH_PLAN 1.8)."""
+    """A frozen manifest cannot take new entries without a docs/video/VERSION bump."""
 
 
 class CacheCorrupt(RuntimeError):

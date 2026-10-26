@@ -1,4 +1,4 @@
-"""Studio console: header, moment queue, agent trace, cue list, Why? drawer, blackboard (T-034).
+"""Studio console: header, moment queue, agent trace, cue list, Why? drawer, blackboard.
 
 The api's blackboard is seeded the way the newsroom fills it (the fixture cue c_000912 with its explanation,
 counterfactual, pitch-control snapshot and evidence events), then the studio is opened against that api.

@@ -1,5 +1,5 @@
 """MCP core tools against the golden match: results, stored evidence, {error, code} on every failure, and one
-round trip over Streamable HTTP (T-030)."""
+round trip over Streamable HTTP."""
 
 import asyncio
 import json

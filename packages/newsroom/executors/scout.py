@@ -1,4 +1,4 @@
-"""ScoutExecutor: classifies a moment and emits one message per branch it takes (TECH_PLAN 1.7, T-029).
+"""ScoutExecutor: classifies a moment and emits one message per branch it takes.
 
 Detection itself (engine events, auto-events, GoalIn8sHead leverage, chaos states) is in `newsroom.scout_rules`;
 moments arrive here from blackboard `moments`. Multiple Case matches do not fan out in Agent Framework, so the Scout

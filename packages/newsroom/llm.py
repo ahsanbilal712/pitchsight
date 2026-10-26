@@ -1,7 +1,7 @@
-"""LLMClient protocol and the live implementation (TECH_PLAN 1.7, 1.8; ADR-004 Revision 1).
+"""LLMClient protocol and the live implementation.
 
 `complete(role, messages, tools)` is the only way an executor reaches a model. Replay mode injects
-`cache.CacheClient` (T-038) with the same signature; live mode injects `LiveClient`, which builds the
+`cache.CacheClient` with the same signature; live mode injects `LiveClient`, which builds the
 Agent Framework chat client for the role's provider (`agent_framework.gemini.GeminiChatClient` on Vertex AI,
 or `agent_framework.anthropic.AnthropicClient` if a role is switched back) and records every call through
 SpendGuard. Thinking tokens are billed as output.
@@ -92,7 +92,7 @@ class LiveClient:
 
                 self._clients[provider] = AnthropicClient()
             elif provider == "foundry":
-                # Azure AI Foundry project (ADR-009): FOUNDRY_PROJECT_ENDPOINT, the role's model is the deployment
+                # Azure AI Foundry project: FOUNDRY_PROJECT_ENDPOINT, the role's model is the deployment
                 # name; managed identity in Container Apps, `az login` locally
                 from agent_framework.foundry import FoundryChatClient
 

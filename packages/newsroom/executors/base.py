@@ -1,4 +1,4 @@
-"""Shared executor plumbing: injected dependencies and trace rows (TECH_PLAN 1.3 `traces`)."""
+"""Shared executor plumbing: injected dependencies and trace rows."""
 
 from __future__ import annotations
 
@@ -42,7 +42,7 @@ def trace_id_for(run_id: str) -> str:
 
 class NewsroomExecutor(Executor):
     """Executors keep no in-flight data between supersteps: every message carries its run envelope, so a
-    checkpoint's pending messages are the whole run state and the checkpoint hooks save nothing (T-051)."""
+    checkpoint's pending messages are the whole run state and the checkpoint hooks save nothing."""
 
     def __init__(self, id: str, deps: Deps) -> None:
         self.deps = deps

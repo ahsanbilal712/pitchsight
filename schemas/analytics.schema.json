@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://whyline.dev/schemas/analytics.schema.json",
   "title": "AnalyticsDocument",
-  "description": "A precomputed analytics document in the replay cache (manifest kind \"analytics\"): Oracle forecasts, Dugout options, Decision Index values. The producer names the layout; every number keeps its n, horizon and seed so the screen can show them (TECH_PLAN 1.5, 1.8).",
+  "description": "A precomputed analytics document in the replay cache (manifest kind \"analytics\"): Oracle forecasts, Dugout options, Decision Index values. The producer names the layout; every number keeps its n, horizon and seed so the screen can show them.",
   "type": "object",
   "required": ["schema_version", "producer", "match_id", "seed", "engine"],
   "properties": {

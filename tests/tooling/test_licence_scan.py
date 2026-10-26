@@ -1,4 +1,4 @@
-"""Licence scan rules (T-066): allow-list expressions, hard fails for copyleft and non-commercial."""
+"""Licence scan rules: allow-list expressions, hard fails for copyleft and non-commercial."""
 
 import importlib.util
 from pathlib import Path

@@ -1,4 +1,4 @@
-"""Same (state, overrides, B, horizon_s, seed, engine, engine_hash) gives byte-identical Futures (T-016, TECH_PLAN 1.5)."""
+"""Same (state, overrides, B, horizon_s, seed, engine, engine_hash) gives byte-identical Futures."""
 
 from kickoff import Action, Override
 from rollout import MatchRef, rollout

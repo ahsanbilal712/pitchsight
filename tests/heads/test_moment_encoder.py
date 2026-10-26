@@ -1,4 +1,4 @@
-"""MomentEncoder (T-054): cluster purity vs the hidden match regime >= 0.6, six named clusters, a 64-d code, and
+"""MomentEncoder: cluster purity vs the hidden match regime >= 0.6, six named clusters, a 64-d code, and
 similar_moments returning golden-season neighbours from other matches."""
 
 import json

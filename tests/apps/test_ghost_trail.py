@@ -1,4 +1,4 @@
-"""Ghost trail (200 smoothed futures + the chosen alternative) and swing bar (T-024)."""
+"""Ghost trail (200 smoothed futures + the chosen alternative) and swing bar."""
 
 import re
 
@@ -29,7 +29,7 @@ def test_200_paths_draw_under_8ms_p95(page, overlay_url, out_dir):
     p95 = durations[int(0.95 * (len(durations) - 1))]
     print(f"\nghost trail, {stats['paths']} paths: p50 {durations[len(durations) // 2]:.2f} ms, p95 {p95:.2f} ms")
     assert page.evaluate(STATS)["paths"] == 200               # still drawing 200 paths while measured
-    # the measure is CPU-side canvas time (as in T-011); frame intervals show no frame is dropped either
+    # the measure is CPU-side canvas time; frame intervals show no frame is dropped either
     gaps = sorted(page.evaluate("""() => new Promise((done) => {
         const t = []; const step = (now) => { t.push(now); t.length > 301 ? done(t.slice(1).map((v, i) => v - t[i]))
         : requestAnimationFrame(step); }; requestAnimationFrame(step); })"""))

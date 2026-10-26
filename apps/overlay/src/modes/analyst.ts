@@ -1,4 +1,4 @@
-// Analyst mode (TECH_PLAN 1.9): heatmap, threat front and every layer. Kinds mirror config/budgets.yaml
+// Analyst mode: heatmap, threat front and every layer. Kinds mirror config/budgets.yaml
 // director.modes.analyst (tests/apps/test_viewer_modes.py checks they match).
 import type { ModeConfig } from "./config";
 

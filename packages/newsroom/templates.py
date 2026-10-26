@@ -1,4 +1,4 @@
-"""Deterministic narrator_template lines (TECH_PLAN 1.7): built only from verified claims, so they always pass the
+"""Deterministic narrator_template lines: built only from verified claims, so they always pass the
 Fact Checker. Used when the narrator model times out or fails twice, in degraded mode, on a cache miss, and by the
 Director after the third rejected attempt.
 """

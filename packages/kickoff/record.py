@@ -1,4 +1,4 @@
-"""Byte-identical writers for a match folder: events.jsonl, tracking.npz, truth.json (TECH_PLAN 1.3, 1.8).
+"""Byte-identical writers for a match folder: events.jsonl, tracking.npz, truth.json.
 
 numpy.savez_compressed stamps the current time into each zip entry, so tracking.npz is written with
 zipfile directly: fixed ZipInfo.date_time (1980-01-01), deflate, entries in a fixed order. JSON is dumped

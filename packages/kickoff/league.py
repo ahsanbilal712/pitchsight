@@ -1,4 +1,4 @@
-"""Fictional league loaded from data/league/*.json (T-002)."""
+"""Fictional league loaded from data/league/*.json."""
 
 from __future__ import annotations
 

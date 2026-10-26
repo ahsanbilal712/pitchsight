@@ -1,4 +1,4 @@
-"""Fan app: viewer profile, server-side filtered feed per mode, storage, veto (T-043)."""
+"""Fan app: viewer profile, server-side filtered feed per mode, storage, veto."""
 
 import copy
 import json

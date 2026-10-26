@@ -1,4 +1,4 @@
-"""Live ingest (TECH_PLAN 1.1 live data flow, T-033): the engine posts events and 10 Hz tracking here
+"""Live ingest: the engine posts events and 10 Hz tracking here
 (`python -m kickoff play --seed N --target api`). The first post switches the stream to live mode; events also
 land in blackboard `events` for the agents.
 """

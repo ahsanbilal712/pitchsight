@@ -1,7 +1,7 @@
-"""Demo-script runner (TECH_PLAN 1.8 "Demo script", T-061): applies packages/demo/demo_script.yaml on the replay
+"""Demo-script runner: applies packages/demo/demo_script.yaml on the replay
 clock so every take is the same.
 
-    kill   -> the T-051 path: wait for a run between Tactician and Narrator, SIGKILL the worker
+    kill   -> the kill path: wait for a run between Tactician and Narrator, SIGKILL the worker
     veto   -> producer decision `vetoed` on the pending request whose cue has `cue_kind` (the half-time recap);
               if the request is not there yet, the veto waits for it (up to VETO_WAIT_MS of match time); a request
               stays on the producer panel for VETO_READ_MS of match time before the veto, as a producer reads it

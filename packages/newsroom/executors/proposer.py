@@ -1,6 +1,6 @@
-"""ProposerExecutor: up to three alternatives for the moment's on-ball decision (TECH_PLAN 1.7, T-031).
+"""ProposerExecutor: up to three alternatives for the moment's on-ball decision.
 
-Role `proposer` (gemini-3.8-flash since ADR-004 Revision 1), prompt `proposer@1`, inline JSON, timeout 6 s with one
+Role `proposer`, prompt `proposer@1`, inline JSON, timeout 6 s with one
 retry, then `proposer_rule` (passes to the three team-mates with the highest xT gain). The decision point comes
 from local match data (newsroom.decision) plus the engine's option probabilities from MCP get_state; a moment
 with no on-ball decision gets no alternatives.

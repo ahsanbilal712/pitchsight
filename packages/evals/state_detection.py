@@ -1,4 +1,4 @@
-"""State detection vs hidden truth (TECH_PLAN 1.11 row "State-detection", T-055).
+"""State detection vs hidden truth.
 
     python -m evals.state_detection --seeds 1..50
 

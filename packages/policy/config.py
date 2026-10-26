@@ -1,4 +1,4 @@
-"""Training configuration for the on-ball decision policy (TECH_PLAN 1.6 "Model" and "Training")."""
+"""Training configuration for the on-ball decision policy."""
 
 from __future__ import annotations
 

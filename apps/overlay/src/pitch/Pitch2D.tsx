@@ -1,4 +1,4 @@
-// Pitch2D (TECH_PLAN 1.9): requestAnimationFrame loop drawing the pitch, players with numbers, the ball
+// Pitch2D: requestAnimationFrame loop drawing the pitch, players with numbers, the ball
 // and the registered layers, interpolating linearly between the two latest 10 Hz tracking frames.
 import { useEffect, useRef } from "react";
 import { leagueNow, loadLeague, matchKits } from "../league";

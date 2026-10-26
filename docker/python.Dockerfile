@@ -1,4 +1,4 @@
-# Backend image for docker-compose.yml (api, mcp, newsroom): Python 3.12, CPU torch, requirements.lock (T-064).
+# Backend image for docker-compose.yml (api, mcp, newsroom): Python 3.12, CPU torch, requirements.lock.
 # Code only; ./data and ./.checkpoints are mounted at run time.
 FROM python:3.12-slim
 WORKDIR /app

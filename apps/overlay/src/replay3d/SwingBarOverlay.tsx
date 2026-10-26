@@ -1,4 +1,4 @@
-// DOM swing bar over the 3D scene (TECH_PLAN 1.9 /replay3d): home win chance moving from the baseline to the
+// DOM swing bar over the 3D scene: home win chance moving from the baseline to the
 // alternative as the futures fan out, always with n, horizon and seed (counterfactual schema description).
 import { matchClubs, useLeague } from "../league";
 import type { Counterfactual, Hello } from "../stream/types";

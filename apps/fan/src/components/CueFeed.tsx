@@ -1,4 +1,4 @@
-// Cue feed (TECH_PLAN 1.9 fan app): the cues the server sent this profile, newest first. Casual shows the one
+// Cue feed: the cues the server sent this profile, newest first. Casual shows the one
 // sentence (headline); analyst and Player-Cam also show the body. Cards on air are marked live.
 import type { ViewerProfile } from "../profile";
 import { useStream } from "../stream/StreamProvider";

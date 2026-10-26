@@ -1,4 +1,4 @@
-"""Supervisor: keeps one newsroom worker alive (TECH_PLAN 1.7 kill-switch step 3, T-051).
+"""Supervisor: keeps one newsroom worker alive.
 
     python -m newsroom.supervisor [worker args...]      # e.g. --mode replay --match m_4242
 
@@ -36,7 +36,7 @@ class Supervisor:
 
     def start(self) -> int:
         path = os.pathsep.join(p for p in (str(ROOT / "packages"), os.environ.get("PYTHONPATH")) if p)
-        self.proc = subprocess.Popen(self.args, cwd=ROOT, env={**os.environ, "PYTHONPATH": path})   # keeps T-064's guard
+        self.proc = subprocess.Popen(self.args, cwd=ROOT, env={**os.environ, "PYTHONPATH": path})
         path = pidfile()
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(str(self.proc.pid))

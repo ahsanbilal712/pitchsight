@@ -1,4 +1,4 @@
-// Stream messages the fan app reads (TECH_PLAN 1.3, 1.9; copied from the overlay, trimmed).
+// Stream messages the fan app reads (copied from the overlay, trimmed).
 export interface TrackingFrame {
   t_ms: number;
   period: number;

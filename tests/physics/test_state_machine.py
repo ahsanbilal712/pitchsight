@@ -1,4 +1,4 @@
-"""State machine hysteresis: enter Chaotic only above 65 for 20 s, leave only below 50 for 30 s (T-013)."""
+"""State machine hysteresis: enter Chaotic only above 65 for 20 s, leave only below 50 for 30 s."""
 
 from physics import CHAOTIC, SETTLED, TRANSITIONAL, StateMachine
 

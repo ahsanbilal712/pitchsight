@@ -1,4 +1,4 @@
-// Blackboard panel (TECH_PLAN 1.9 studio): the latest fact per name (indices every 1 s, state changes).
+// Blackboard panel: the latest fact per name (indices every 1 s, state changes).
 import { clockText } from "../api";
 import { useStream } from "../stream/StreamProvider";
 

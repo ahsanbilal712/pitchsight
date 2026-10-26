@@ -1,4 +1,4 @@
-// Pitchsight infrastructure entry point (T-009, T-052; ADR-009, TECH_PLAN 1.10). `azd up` deploys it.
+// Pitchsight infrastructure entry point. `azd up` deploys it.
 // Subscription scope: one resource group, then every resource in resources.bicep. The outputs become azd
 // environment values, which the services read as the environment variables listed in config/.env.example.
 targetScope = 'subscription'

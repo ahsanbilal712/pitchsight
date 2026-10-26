@@ -1,4 +1,4 @@
-"""Fail if the spend ledger breaks the project or per-match caps (T-005, ADR-011).
+"""Fail if the spend ledger breaks the project or per-match caps.
 
 Usage: python scripts/check_spend.py [LEDGER]
 

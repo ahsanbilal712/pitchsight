@@ -1,4 +1,4 @@
-"""Import hand-reviewed explanations and lines into the golden cache (T-057, TECH_PLAN 1.7).
+"""Import hand-reviewed explanations and lines into the golden cache.
 
 Usage: python scripts/import_review.py review/ [--seed 4242]
 

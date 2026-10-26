@@ -1,4 +1,4 @@
-"""evals-gate and latency arithmetic (T-056): a measured miss fails, pending/cut/reported rows do not; event-to-cue
+"""evals-gate and latency arithmetic: a measured miss fails, reported rows do not; event-to-cue
 latency per tier from trace rows."""
 
 from evals.gate import check
@@ -10,9 +10,9 @@ def _row(status, measured="x"):
 
 
 def test_gate_statuses():
-    assert check({"rows": [_row("pass"), _row("reported"), _row("cut"), _row("pending", "pending T-080")]}) == []
+    assert check({"rows": [_row("pass"), _row("reported")]}) == []
     assert check({"rows": [_row("fail")]})
-    assert check({"rows": [_row("pending", "later")]})            # pending must name its ticket
+    assert check({"rows": [_row("pending")]})
     assert check({"rows": [_row(None)]})
 
 

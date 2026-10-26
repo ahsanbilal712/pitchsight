@@ -1,4 +1,4 @@
-"""TrackingWindow and Frame: slices of a match's 10 Hz tracking (TECH_PLAN 1.3 tracking table).
+"""TrackingWindow and Frame: slices of a match's 10 Hz tracking.
 
 Coordinates: 105 x 68 m, origin bottom-left, home attacks +x in period 1. S rows 0-10 home, 11-21 away, 22 ball;
 columns x, y, vx, vy, stamina, facing.

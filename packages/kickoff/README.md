@@ -2,7 +2,6 @@
 
 Batched numpy match engine with hidden tactical truth.
 
-Interface restated from `TECH_PLAN.md` section 1.4 "kickoff (engine)" (TECH_PLAN wins on conflict).
 Tests live in `tests/kickoff/`.
 
 Purpose: generate a football-realistic synthetic match with events, 10 Hz tracking and hidden truth; expose a batched state for rollouts.

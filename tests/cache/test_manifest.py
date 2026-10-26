@@ -1,4 +1,4 @@
-"""CacheManifest: key format, schema validation, one flipped byte detected, freeze (T-038)."""
+"""CacheManifest: key format, schema validation, one flipped byte detected, freeze."""
 
 import json
 import shutil

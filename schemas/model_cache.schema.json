@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://whyline.dev/schemas/model_cache.schema.json",
   "title": "ModelCacheRecord",
-  "description": "A replay-cache file written by the golden precompute of model calls (T-042): a model result (the parsed output of one call under its cache key, with the Fact Checker's verdict; a failed call keeps its error so replay takes the same fallback), a tool result (the MCP tool's output for one call), or the batch log (batches.json: jobs per round and the custom_id to cache-key map).",
+  "description": "A replay-cache file written by the golden precompute of model calls: a model result (the parsed output of one call under its cache key, with the Fact Checker's verdict; a failed call keeps its error so replay takes the same fallback), a tool result (the MCP tool's output for one call), or the batch log (batches.json: jobs per round and the custom_id to cache-key map).",
   "type": "object",
   "required": ["schema_version", "record"],
   "properties": {

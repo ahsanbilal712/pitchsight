@@ -1,4 +1,4 @@
-// Why? drawer (TECH_PLAN 1.9 studio): the claims behind a cue with their evidence, the pitch-control snapshot
+// Why? drawer: the claims behind a cue with their evidence, the pitch-control snapshot
 // as a thumbnail and the counterfactual as a mini-chart (baseline vs alternative, with n, horizon and seed).
 // Every evidence id is resolved through GET /match/{id}/doc/{doc_id}; unresolved ids are flagged.
 import { useEffect, useMemo, useRef, useState } from "react";

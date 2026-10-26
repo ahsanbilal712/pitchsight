@@ -1,5 +1,5 @@
-"""Scout: exact TECH_PLAN 1.7 predicates, one message per branch, moments with every 1.3 field, 25-60 explained
-moments on the golden match, < 50 ms per event (T-029)."""
+"""Scout: exact predicates, one message per branch, moments with every schema field, 25-60 explained
+moments on the golden match, < 50 ms per event."""
 
 import asyncio
 import json
@@ -32,7 +32,7 @@ def arun(coro):
         return pool.submit(asyncio.run, coro).result()
 
 
-# ---------------------------------------------------------------- predicates, exactly as TECH_PLAN 1.7
+# ---------------------------------------------------------------- predicates, exactly as specified
 
 @pytest.mark.parametrize("moment,expected", [
     ({"kind": "goal"}, True), ({"kind": "milestone"}, True),

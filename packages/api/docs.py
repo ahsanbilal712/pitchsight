@@ -1,4 +1,4 @@
-"""Read-only blackboard documents for the studio's Why? drawer and /replay3d (T-033).
+"""Read-only blackboard documents for the studio's Why? drawer and /replay3d.
 
     GET /match/{match_id}/doc/{collection}/{doc_id}
     GET /match/{match_id}/doc/{doc_id}            # collection from the id prefix (evidence ids in claims)

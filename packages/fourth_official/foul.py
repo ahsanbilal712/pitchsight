@@ -1,4 +1,4 @@
-"""Foul geometry (Law 12): contact point, closing speed, in or out of the penalty area (T-049)."""
+"""Foul geometry (Law 12): contact point, closing speed, in or out of the penalty area."""
 
 from __future__ import annotations
 

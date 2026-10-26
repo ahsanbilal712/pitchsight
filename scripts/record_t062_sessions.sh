@@ -1,5 +1,5 @@
 #!/bin/sh
-# T-062 recording in two sessions. $1 = rehearsal dir (its bb.sqlite feeds session 2), $2 = out dir.
+# Demo recording in two sessions. $1 = rehearsal dir (its bb.sqlite feeds session 2), $2 = out dir.
 # Session 1: per live beat (kill, veto) a fresh blackboard, demo script armed, newsroom running, so the beat
 # happens in the take. ONLY_SESSION1=1 skips session 2.
 # Session 2: the rehearsed blackboard, no newsroom, demo script off (every cue already on screen at its time).

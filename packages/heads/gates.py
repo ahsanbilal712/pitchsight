@@ -1,4 +1,4 @@
-"""Outcome-head gates (TECH_PLAN 1.6, T-025): read each <head>.metrics.json and fail with the head and the number
+"""Outcome-head gates: read each <head>.metrics.json and fail with the head and the number
 when a threshold is missed. Thresholds live here and in train.THRESHOLDS; they are never relaxed to pass.
 
     python -m heads.gates [packages/heads/artifacts]

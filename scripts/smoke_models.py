@@ -1,6 +1,6 @@
-"""One tiny call each to Gemini 3.8 Flash and Gemini 4 Argon, both through SpendGuard (T-008).
+"""One tiny call each to Gemini 3.8 Flash and Gemini 4 Argon, both through SpendGuard.
 
-Runtime models are Gemini since 21 Oct 2026 (ADR-004 revised). Claude Haiku 5.5 is called only if
+Runtime models are Gemini since 21 Oct 2026. Claude Haiku 5.5 is called only if
 ANTHROPIC_API_KEY is set; without it the Claude check is skipped, not blocked.
 
 Usage: python scripts/smoke_models.py
@@ -31,7 +31,7 @@ MAX_SMOKE_USD = 0.01
 
 def claude(guard: SpendGuard) -> tuple[str, dict | None]:
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        return "skipped: ANTHROPIC_API_KEY not set (optional since ADR-004 revision)", None
+        return "skipped: ANTHROPIC_API_KEY not set", None
     import anthropic
 
     client = anthropic.Anthropic()
@@ -84,7 +84,7 @@ def main() -> int:
             status, row = f"failed: {type(exc).__name__}: {str(exc)[:300]}", None
             failed = True
             if "429" in str(exc):
-                status += "  (429: TECH_PLAN 1.13 early warning, note it in the PR)"
+                status += "  (rate limited)"
         blocked |= status.startswith("blocked")
         if row:
             spent += row["cost_usd"]

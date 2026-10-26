@@ -1,4 +1,4 @@
-"""whyline-api (TECH_PLAN 1.1, 1.4 api): REST, the WebSocket stream and the replay controller.
+"""whyline-api: REST, the WebSocket stream and the replay controller.
 
 Run: `PYTHONPATH=packages uvicorn api.main:app --port 8000`, or `python -m api.replay --seed 4242`.
 WHYLINE_MATCH_SEED picks the match under data/matches/ (WHYLINE_MATCH=m_9001 serves a real-clip match from the
@@ -73,7 +73,7 @@ def create_app(seed: int | str | None = None, speed: float | None = None, playin
                  asyncio.create_task(spend_loop(app.state.hub))]
         app.state.demo_runner = app.state.demo_task = None
         control.publish_clock(app.state)  # the worker reads the replay speed from blackboard `replay`
-        if os.environ.get("WHYLINE_DEMO_SCRIPT"):  # the demo script (TECH_PLAN 1.8) armed from the start
+        if os.environ.get("WHYLINE_DEMO_SCRIPT"):  # the demo script armed from the start
             demo_runner.start(app)
         try:
             yield

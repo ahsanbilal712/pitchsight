@@ -1,4 +1,4 @@
-"""Assemble the video from recorded shots and an edit decision list (T-063).
+"""Assemble the video from recorded shots and an edit decision list.
 
     python packages/demo/assemble.py packages/demo/edit_v1.yaml [--keep]
 
@@ -62,11 +62,11 @@ def marks(shot: str) -> dict:
     if shot.startswith("footage/"):
         src = OUT / f"{shot}.mp4"
         if not src.exists():
-            raise EditError(f"{shot}: no {src.relative_to(ROOT)} (python -m demo.composite <moment> --clip, T-108)")
+            raise EditError(f"{shot}: no {src.relative_to(ROOT)} (python -m demo.composite <moment> --clip)")
         return {"start": 0.0, "end_s": duration(src), "src": src}
     path = OUT / f"{shot}.json"
     if not path.exists():
-        raise EditError(f"{shot}: no {path.relative_to(ROOT)} (record it first, T-062)")
+        raise EditError(f"{shot}: no {path.relative_to(ROOT)} (record it first)")
     m = json.loads(path.read_text())
     m["start"] = m.get("play_s", m["ready_s"])
     m["src"] = OUT / f"{shot}.webm"

@@ -1,4 +1,4 @@
-// Message shapes of the WHYLINE stream (TECH_PLAN 1.3 and 1.9). Envelope: {type, payload}.
+// Message shapes of the WHYLINE stream. Envelope: {type, payload}.
 
 export interface TrackingFrame {
   t_ms: number;

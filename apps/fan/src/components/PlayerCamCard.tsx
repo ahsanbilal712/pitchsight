@@ -1,4 +1,4 @@
-// Player-Cam card (TECH_PLAN 1.9 fan app): distance, top speed, sprints, touches and Decision Index for the
+// Player-Cam card: distance, top speed, sprints, touches and Decision Index for the
 // chosen player, from GET /match/{id}/players/{player_id}/stats (MCP player_stats on the same code), plus the
 // latest tag cue about the player (a sprint's km/h, a Decision Index line).
 import { useEffect, useState } from "react";

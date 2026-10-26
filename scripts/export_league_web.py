@@ -1,4 +1,4 @@
-"""Export the league for the screens: apps/overlay/public/league.json (T-011). Standard library only.
+"""Export the league for the screens: apps/overlay/public/league.json. Standard library only.
 
 Club kit colours and player id -> {shirt, name, club}. The engine and the stream carry ids only;
 names are resolved here, at render time. Deterministic (sorted keys).

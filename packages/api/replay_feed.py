@@ -1,4 +1,4 @@
-"""Replay feed (TECH_PLAN 1.1 "Data flow, replay mode", 1.8): what the golden cache contributes on the replay clock.
+"""Replay feed (replay mode", 1.8): what the golden cache contributes on the replay clock.
 
     analytics/frames.npz  -> `fact` messages: indices once a second (chaos_index, control_home, pressure_home,
                              pressure_away, tempo, turnovers_60s) and `chaos_state` on every state change
@@ -10,9 +10,9 @@
 Facts and oracle go straight to the stream (screens only need them as messages; thousands of index facts would
 only bloat the blackboard). A reset (connect, seek) gets the latest values at the new clock. A moment is written
 when the clock plays past it, never because a seek jumped over it: a seek is a cut, and handing the worker every
-skipped moment at once would queue them ahead of the moments on screen (the full rehearsal, T-062, plays every
-moment once; recorded shots then seek freely). Moments already in the blackboard (an earlier pass, or the Scout,
-T-029) are left alone.
+skipped moment at once would queue them ahead of the moments on screen (a full rehearsal plays every
+moment once; recorded shots then seek freely). Moments already in the blackboard (an earlier pass, or the
+Scout) are left alone.
 Enabled with WHYLINE_REPLAY_FEED=1 or `python -m api.replay --feed`.
 """
 
@@ -65,7 +65,7 @@ class ReplayFeed:
         oracle = cache_dir / "analytics" / "oracle.json"
         if oracle.exists():
             raw = json.loads(oracle.read_text())
-            if api_oracle.is_forecast_file(raw):          # the golden precompute's per-team forecasts (T-046)
+            if api_oracle.is_forecast_file(raw):          # the golden precompute's per-team forecasts
                 period_at = lambda t: int(self.data.period[self.data.index_at(t)])  # noqa: E731
                 self.oracle = [api_oracle.message(f, self.match_id, ZONES, period_at) for f in raw["forecasts"]]
             else:
@@ -82,7 +82,7 @@ class ReplayFeed:
 
     # ------------------------------------------------------------------ conversions
     def oracle_message(self, doc: dict) -> dict:
-        """Rollout oracle doc -> TECH_PLAN 1.9 oracle message (the overlay threat front draws zone {x, y, r})."""
+        """Rollout oracle doc -> oracle stream message (the overlay threat front draws zone {x, y, r})."""
         t = int(doc["t_ms"])
         i = self.data.index_at(t)
         shooter = doc.get("likely_shooter")

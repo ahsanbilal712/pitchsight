@@ -1,4 +1,4 @@
-"""Cost per match from the spend ledger (TECH_PLAN 1.11 row "Cost per match", 1.10 spend guard; T-056).
+"""Cost per match from the spend ledger.
 
     python -m evals.cost [--ledger data/spend/ledger.jsonl] [--matches 9001,9002,9003]
 

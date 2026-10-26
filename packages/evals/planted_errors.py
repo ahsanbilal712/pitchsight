@@ -1,4 +1,4 @@
-"""Fact Checker planted-error suite (TECH_PLAN 1.11 rows "Fact Checker planted errors caught" / "false rejects", T-055).
+"""Fact Checker planted-error suite.
 
     python -m evals.planted_errors --n 500
 
@@ -319,7 +319,7 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     exps, bb = load_sources(args.match_dir)
     if not exps:
-        raise SystemExit("no verified Tactician explanations in the cache (run the golden model precompute, T-042)")
+        raise SystemExit("no verified Tactician explanations in the cache (run the golden model precompute)")
     res = run(exps, bb, args.n, args.seed)
     res["passed"] = res["catch_rate"] >= CATCH_MIN and res["false_rejects"]["rate"] <= FALSE_REJECT_MAX \
         and all(v["n"] > 0 for v in res["by_error"].values())

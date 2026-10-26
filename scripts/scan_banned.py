@@ -1,4 +1,4 @@
-"""Scan files for Fact Checker rule-7 content (T-019): real club, league, player or broadcaster names from
+"""Scan files for Fact Checker rule-7 content: real club, league, player or broadcaster names from
 data/league/banned_names.txt, injury speculation, referee-bias accusations, betting language.
 
 Usage: python scripts/scan_banned.py PATH...    (files or directories; exit 1 on any hit)

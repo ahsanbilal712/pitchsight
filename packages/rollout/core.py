@@ -1,4 +1,4 @@
-"""The rollout primitive (TECH_PLAN 1.5) and MatchRef, the handle callers use to reach a match state.
+"""The rollout primitive and MatchRef, the handle callers use to reach a match state.
 
     rollout(state, overrides, B, horizon_s, seed, engine="scripted_v1") -> Futures
 
@@ -28,7 +28,7 @@ from .futures import Futures, value_terminal, xt_gain
 
 ROOT = Path(__file__).resolve().parents[2]
 LEAGUE_DIR = ROOT / "data" / "league"
-POLICY_MAX_HORIZON_S = 8.0          # ADR-002: learned rollouts are decision-only and capped at 8 s
+POLICY_MAX_HORIZON_S = 8.0          # learned rollouts are decision-only and capped at 8 s
 
 
 def engine_hash() -> str:
@@ -115,8 +115,8 @@ def simulate(state: State, overrides: Override | None, B: int, horizon_s: float,
     """Branch `state` into B worlds and run them for horizon_s seconds (raises BranchError for an illegal override)."""
     if engine == "policy_v1":
         if horizon_s > POLICY_MAX_HORIZON_S:
-            raise ValueError(f"policy_v1 rollouts are capped at {POLICY_MAX_HORIZON_S} s (ADR-002)")
-        from .policy_engine import policy_branch  # T-036
+            raise ValueError(f"policy_v1 rollouts are capped at {POLICY_MAX_HORIZON_S} s")
+        from .policy_engine import policy_branch
         make = policy_branch
     elif engine == "scripted_v1":
         make = None

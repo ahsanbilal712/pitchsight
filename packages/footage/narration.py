@@ -1,4 +1,4 @@
-"""Video narration: Gemini text-to-speech stems, one per script section (ADR-010, amendment). v9: the intro and the
+"""Video narration: Gemini text-to-speech stems, one per script section (amendment). v9: the intro and the
 architecture section; v10: the decision voice-over on the match clips, one stem per cue.
 
     python -m footage.narration [--script docs/video/narration_v10.md] [--voice NAME] [--dry-run]
@@ -104,7 +104,7 @@ def pauses(wav: Path, min_s: float = 0.25) -> list[tuple[float, float]]:
                           "-f", "null", "-"], capture_output=True, text=True).stderr
     starts = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", err)]
     ends = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", err)]
-    return list(zip(starts, ends))
+    return list(zip(starts, ends, strict=False))
 
 
 SPELLING = {"meters": "metres", "meter": "metre",       # the transcriber's spelling, not a different word
@@ -228,7 +228,7 @@ def check(client, guard, wav: Path, text: str, narration_id: str = "video_v9") -
     with wave.open(str(wav)) as w:
         dur = w.getnframes() / w.getframerate()
     return {"duration_s": round(dur, 2), "verbatim": verbatim, "transcript": heard, "first_transcript": misheard,
-            "sentences": [{"start_s": t, "text": x} for t, x in zip(starts, sentences(text))], "numbers": numbers,
+            "sentences": [{"start_s": t, "text": x} for t, x in zip(starts, sentences(text), strict=False)], "numbers": numbers,
             "check_cost_usd": round(cost + 0.0, 6)}
 
 

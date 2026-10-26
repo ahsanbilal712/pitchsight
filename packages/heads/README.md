@@ -2,7 +2,6 @@
 
 LightGBM outcome heads and the moment encoder.
 
-Interface restated from `TECH_PLAN.md` section 1.4 "heads (outcome models)" (TECH_PLAN wins on conflict).
 Tests live in `tests/heads/`.
 
 ```python
@@ -19,7 +18,7 @@ Train: `PYTHONPATH=packages python -m heads.train --matches data/matches/corpus 
 
 - `features.py`: feature tables from training matches 1001–3000 (`samples.npz` decision frames and 1 Hz frames).
   Column lists `SHOT_FEATURES`, `PASS_FEATURES`, `GOAL8_FEATURES`, `WINPROB_FEATURES`, `CHAOS_FEATURES`;
-  `state_features(...)` builds goal-in-8-s features from raw arrays (used by the rollout hand-off, T-016).
+  `state_features(...)` builds goal-in-8-s features from raw arrays (used by the rollout hand-off).
 - `models.py`: heads load `artifacts/<head>.txt` and `<head>.metrics.json` at construction and raise
   `HeadArtifactMissing` if absent. `GoalIn8sHead` is one model over (state, side); `ChaosHead` is logistic (JSON).
 - `train.py`: split 80/10/10 by match seed with `default_rng(4242)`; numbers in `metrics.json` are on the test split.

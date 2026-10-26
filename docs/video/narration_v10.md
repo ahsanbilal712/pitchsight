@@ -1,17 +1,16 @@
 # Video v10 narration: the decisions on the match clips
 
-The owner asked on 26 Oct 2026 for a voice-over on the match clips that explains each decision (ADR-010, amendment).
-The broadcast's own sound stays off. The intro and the architecture narration are v9's (`narration_v9.md`); this
+A voice-over on the match clips explains each decision. The broadcast's own sound stays off. The intro and the architecture narration are v9's (`narration_v9.md`); this
 file adds one stem per cue on the match clips, in the same voice (Charon, `gemini-2.5-pro-tts`), so it sounds like one
 narrator.
 
 `python -m footage.narration --script docs/video/narration_v10.md` writes the stems to
 `packages/demo/out/narration_v10/` (git-ignored), with `timings.json`. gemini-3.8-flash transcribes each stem without
 the script, and it must match the script word for word, numbers included. The tool also records when each number is
-spoken: track C places each stem, and the grounding (`python -m footage.grounding --edit packages/demo/edit_v10.yaml`)
+spoken: the edit places each stem, and the grounding (`python -m footage.grounding --edit packages/demo/edit_v10.yaml`)
 checks every number against the HUD at the moment it is spoken.
 
-The owner's rules for the voice:
+Rules for the voice:
 - It explains what the player on the ball decides: passes, plays it through, shoots, carries.
 - It never names a team or a player. A side is the kit colour on screen: Man Utd, Arsenal and Liverpool all attack in
   red. The player is "the player on the ball", "the receiver", or "they".

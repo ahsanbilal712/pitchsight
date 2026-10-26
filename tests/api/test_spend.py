@@ -1,4 +1,4 @@
-"""SpendGuard pricing, ledger format and caps (T-008)."""
+"""SpendGuard pricing, ledger format and caps."""
 
 import json
 import logging

@@ -6,8 +6,8 @@
 Goal in 10 s. From a freeze (track B's moment file -> footage.freeze.to_state), each option (the action the player
 really took, a pass to every labelled team-mate, a carry toward goal) is forced as the first action and the
 scripted_v1 engine plays N worlds for HORIZON_S. p = share of worlds in which the attacking team scores within
-the horizon, counted from the simulated goals (no model hand-off; scripted_v1 has no horizon cap, ADR-002 caps
-only the learned policy). 95% interval: Wilson. Every option uses the same per-world random streams (world b draws
+the horizon, counted from the simulated goals (no model hand-off; scripted_v1 has no horizon cap; the cap
+applies only to the learned policy). 95% interval: Wilson. Every option uses the same per-world random streams (world b draws
 from default_rng(seed + b)), so the difference to the actual action is paired: mean of per-world differences
 +- 1.96 standard errors. `verdict` says "better" or "worse" only when that interval excludes 0, else "within noise".
 

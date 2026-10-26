@@ -95,9 +95,9 @@ def intro_facts() -> dict:
                    "15.6 in Liverpool 802600, 10.7 in Amad's 869000); 18 or more of 22 on about 11% of all tracked "
                    "frames (v7 coverage report)",
                    "detector: RF-DETR Medium 1.11.2, COCO-pretrained (Apache-2.0), not trained by us; person recall "
-                   "0.9927 on 200 hand-labelled frames (T-105, packages/evals/pitchwatch/recall.py)",
+                   "0.9927 on 200 hand-labelled frames (packages/evals/pitchwatch/recall.py)",
                    "tracker: ByteTrack (trackers 2.6.1); teams by kit colour; our camera calibration puts feet on the "
-                   "pitch in metres (check points mean 0.32 m, max 2.21 m against a 1.5 m gate, T-104 still open)",
+                   "pitch in metres (check points mean 0.32 m, max 2.21 m against a 1.5 m gate)",
                    "ball: the same detector on 640 px tiles; 32 of 32 sampled detections were the ball"]},
         {"claim": "models we trained",
          "verdict": "true only if it names what was trained and that the training data is simulated",

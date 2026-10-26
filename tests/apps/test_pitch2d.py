@@ -1,4 +1,4 @@
-"""Pitch2D draws in event-schema coordinates, flipped to canvas, under 8 ms p95 per frame (T-011)."""
+"""Pitch2D draws in event-schema coordinates, flipped to canvas, under 8 ms p95 per frame."""
 
 import json
 from pathlib import Path

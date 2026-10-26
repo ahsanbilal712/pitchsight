@@ -1,4 +1,4 @@
-"""DecisionPolicy: a set transformer over the 22 players and the ball (TECH_PLAN 1.4 policy, 1.6 "Model").
+"""DecisionPolicy: a set transformer over the 22 players and the ball.
 
 Tokens [B, 23, F] (possession team's 11, opponents' 11, ball; see policy.data) go through a linear F -> 256 and
 six encoder layers (d 256, 8 heads, FFN 1024, no positional encoding: identity is in the features) together with a
@@ -57,7 +57,7 @@ class DecisionPolicy(nn.Module):
     @torch.no_grad()
     def act(self, state, generator: torch.Generator) -> list:
         """One sampled Action per world of a kickoff State (worlds with nobody in control get hold). Logits are moved
-        to CPU before torch.multinomial so the sample does not depend on the device (TECH_PLAN 1.5)."""
+        to CPU before torch.multinomial so the sample does not depend on the device."""
         from kickoff import Action
 
         tokens, ctx, valid = state_tokens(state)

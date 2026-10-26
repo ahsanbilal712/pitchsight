@@ -1,4 +1,4 @@
-// Header (TECH_PLAN 1.9 studio): match, clock, score, mode badge and spend against the caps.
+// Header: match, clock, score, mode badge and spend against the caps.
 import { clockText } from "../api";
 import { useLeague } from "../league";
 import { useStream } from "../stream/StreamProvider";

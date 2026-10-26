@@ -1,4 +1,4 @@
-"""Offside geometry (Law 11) from the frame in which the ball is played (TECH_PLAN 1.4 fourth_official, T-049).
+"""Offside geometry (Law 11) from the frame in which the ball is played.
 
 The line is the second-last opponent (the keeper counts) or the ball, whichever is nearer the goal, and never in the
 attacker's own half. Level is onside. Margin = how far the receiver is beyond that line (positive = offside).

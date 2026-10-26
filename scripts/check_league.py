@@ -1,4 +1,4 @@
-"""Validate the fictional league in data/league (T-002). Standard library only.
+"""Validate the fictional league in data/league. Standard library only.
 
 Usage: python3 scripts/check_league.py [LEAGUE_DIR]
 

@@ -1,6 +1,6 @@
-"""Scout rules: moment detection and the branch predicates of TECH_PLAN 1.7 (T-029).
+"""Scout rules: moment detection and the branch predicates.
 
-Classification (TECH_PLAN 1.7, exact):
+Classification (exact):
     is_fast      goal, big_chance (xG >= 0.30), milestone, player_tag (peak sprint >= PLAYER_TAG_KMH)
     is_explained leverage >= 0.04, or a state change
     is_panel     leverage >= 0.06 and panel.enabled
@@ -12,7 +12,7 @@ Leverage = the absolute swing of GoalIn8sHead between the frame before an event 
 it (t + 100 ms): max(|dP(home scores in 8 s)|, |dP(away scores in 8 s)|). The heads load at start-up and a
 missing artefact raises (never a silent fallback).
 
-Sources: engine events (goals, referee events, period ends), auto-events (physics.auto_events, T-026), on-ball
+Sources: engine events (goals, referee events, period ends), auto-events (physics.auto_events), on-ball
 events whose leverage reaches the explained floor, chaos-state changes (physics.state_machine at 1 Hz) and sprints.
 Detections of the same team within MERGE_MS collapse into one moment (one possession, one story).
 """
@@ -30,7 +30,7 @@ BIG_CHANCE_XG = 0.30
 EXPLAINED_LEVERAGE = 0.04
 PANEL_LEVERAGE = 0.06
 PLAYER_TAG_KMH = 34.0
-LEVERAGE_AFTER_MS = 100     # adjacent frames: "the frame before and after the event" (TECH_PLAN 1.7)
+LEVERAGE_AFTER_MS = 100     # adjacent frames: "the frame before and after the event"
 MERGE_MS = 5000
 SAME_INSTANT_MS = 1000      # a goal or whistle this soon after a detection is that play's outcome; touches of both
                             # sides within it are one contested passage
@@ -195,7 +195,7 @@ def detect(events: list[dict], window, head=None, xg_head=None, auto=None) -> li
         evidence = [e["id"], *[r for r in e.get("related_event_ids", []) if r in by_id]]
         found.append(Detection(kind, e["t_ms"], e["period"], e["team"] if e["team"] in ("home", "away") else None,
                                evidence, players, None if kind == "period_end" else float(v)))
-    # auto-events (T-026)
+    # auto-events
     for a in (auto if auto is not None else auto_events(window, events, xg_head)):
         anchor = max((by_id[r] for r in a.related_event_ids if r in by_id), key=lambda x: x["t_ms"], default=None)
         v = lev_by_id.get(anchor["id"]) if anchor else None
@@ -303,7 +303,7 @@ def merge(found: list[Detection]) -> list[Detection]:
 
 
 def to_moment(d: Detection, match_id: str) -> dict:
-    """Blackboard `moments` document (TECH_PLAN 1.3) without its id; put() allocates mo_ ids."""
+    """Blackboard `moments` document without its id; put() allocates mo_ ids."""
     doc = {"match_id": match_id, "t_ms": int(d.t_ms), "clock": clock(int(d.t_ms)), "period": int(d.period),
            "kind": d.kind, "leverage": None if d.leverage is None else round(float(d.leverage), 4),
            "players": d.players, "team": d.team, "evidence_event_ids": d.evidence, "hypotheses": d.hypotheses,
@@ -329,7 +329,7 @@ def detect_match(match_dir: str | Path, bb=None, panel_enabled: bool = False) ->
 
 
 class ScoutStream:
-    """Live detection, one event at a time (TECH_PLAN 1.7: Scout is code, 50 ms per event).
+    """Live detection, one event at a time (50 ms per event).
 
     `observe(event)` needs the tracking window to reach t + 100 ms (the caller waits one frame). It runs the
     leverage of the event, the engine-event rules, auto-events over the last AUTO_WINDOW_MS, the chaos state machine

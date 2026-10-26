@@ -1,4 +1,4 @@
-"""policy: Learned on-ball decision policy (decision-only, ADR-002)."""
+"""policy: Learned on-ball decision policy (decision-only)."""
 
 # torch and LightGBM (outcome heads) each ship their own libomp on macOS. Two OpenMP runtimes in one process are only
 # stable when torch loads first and OpenMP defaults to one thread (measured 22 Oct: LightGBM first crashes torch,

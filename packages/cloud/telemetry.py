@@ -1,4 +1,4 @@
-"""OpenTelemetry traces to Azure Monitor / Application Insights (TECH_PLAN 1.9).
+"""OpenTelemetry traces to Azure Monitor / Application Insights.
 
 The newsroom already emits one span per agent hop through Agent Framework's observability; this wires the
 exporter when APPLICATIONINSIGHTS_CONNECTION_STRING is set, so the agent graph shows up in the Application Map

@@ -1,4 +1,4 @@
-"""Refine track A's per-frame calibration against the paint (T-108; track A asked for it on 23 Oct).
+"""Refine track A's per-frame calibration against the paint (track A asked for it on 23 Oct).
 
     python -m demo.refine_calib <slug> <shot_id> [--workers N] [--frames A:B]
 
@@ -118,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
                "k1_median": round(float(np.median([v["k1"] for v in done])), 4) if done else None,
                "seconds": round(time.time() - t0)}
     doc = {**{k: v for k, v in calib.items() if k != "frames"}, "refined_from": src.name,
-           "refined_by": "demo.refine_calib (track C, T-108): seeded with H, ICP against painted line centres",
+           "refined_by": "demo.refine_calib (track C): seeded with H, ICP against painted line centres",
            "refine_summary": summary, "frames": frames}
     suffix = "_refined" if not args.frames else f"_refined_{keys[0]}_{keys[-1]}"
     dst = src.with_name(f"{args.shot}{suffix}.json")

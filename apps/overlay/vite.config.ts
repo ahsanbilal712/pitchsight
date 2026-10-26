@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 
-// The T-003 sample stream, served at fixtures/sample_stream.jsonl in dev and copied into dist at build.
+// The sample stream, served at fixtures/sample_stream.jsonl in dev and copied into dist at build.
 const FIXTURE = new URL("../../tests/fixtures/stream/sample_stream.jsonl", import.meta.url);
 const FIXTURE_PATH = "fixtures/sample_stream.jsonl";
 

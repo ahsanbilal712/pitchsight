@@ -1,4 +1,4 @@
-"""No key or string value of truth.json appears in events.jsonl (T-006)."""
+"""No key or string value of truth.json appears in events.jsonl."""
 
 import json
 

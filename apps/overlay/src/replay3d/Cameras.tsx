@@ -1,4 +1,4 @@
-// Two camera rigs (TECH_PLAN 1.9 /replay3d): "wide" is the broadcast camera high on the near side, panning with
+// Two camera rigs: "wide" is the broadcast camera high on the near side, panning with
 // the ball; "player" sits behind the counterfactual's actor, looking at the goal they attack. Switching eases
 // the camera over about a second.
 import { useFrame, useThree } from "@react-three/fiber";

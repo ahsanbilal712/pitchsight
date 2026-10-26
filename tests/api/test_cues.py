@@ -1,4 +1,4 @@
-"""Cue fan-out, target filtering, snapshots, producer decisions, docs, spend and live ingest (T-033)."""
+"""Cue fan-out, target filtering, snapshots, producer decisions, docs, spend and live ingest."""
 
 import copy
 import json

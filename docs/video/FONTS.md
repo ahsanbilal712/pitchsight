@@ -6,7 +6,7 @@ Every on-screen word of the PITCHSIGHT video from v9 (overlays, cards, captions)
 Bold), version 4.1, by Rasmus Andersson and the Inter Project Authors.
 
 - Source: the official release, https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip, downloaded
-  26 Oct 2026 with the owner's approval. The TTFs and `LICENSE.txt` are extracted to `packages/demo/out/fonts/`
+  26 Oct 2026. The TTFs and `LICENSE.txt` are extracted to `packages/demo/out/fonts/`
   (git-ignored); no font file is committed.
 - Licence: SIL Open Font License 1.1 (https://openfontlicense.org). Free to use, embed in a video, bundle and
   redistribute; the font itself may not be sold on its own, and modified versions must not use the reserved name.

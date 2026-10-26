@@ -1,4 +1,4 @@
-"""Rules library (rules.yaml) and shared pitch geometry for the Fourth Official (TECH_PLAN 1.4, T-049)."""
+"""Rules library (rules.yaml) and shared pitch geometry for the Fourth Official."""
 
 from __future__ import annotations
 

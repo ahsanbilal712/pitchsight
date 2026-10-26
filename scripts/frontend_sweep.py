@@ -1,4 +1,4 @@
-"""Front-end console sweep (T-070): every screen and route against a local replay of the golden match.
+"""Front-end console sweep: every screen and route against a local replay of the golden match.
 
     PYTHONPATH=packages python scripts/frontend_sweep.py [--out packages/demo/out/sweep] [--no-newsroom]
 

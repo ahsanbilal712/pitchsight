@@ -1,5 +1,5 @@
 """Panel: GroupChatBuilder sub-workflow, three pundits in a fixed order, chair summary, claims citing cf_/pc_ and
-passing the Fact Checker, 25 s budget with drop-on-timeout (T-041)."""
+passing the Fact Checker, 25 s budget with drop-on-timeout."""
 
 import asyncio
 import json

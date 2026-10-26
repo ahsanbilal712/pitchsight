@@ -1,4 +1,4 @@
-"""Core MCP tools over one match store (TECH_PLAN 1.7 "MCP tool list", T-030). Plain functions, so the newsroom,
+"""Core MCP tools over one match store. Plain functions, so the newsroom,
 precompute and tests can call them without a server; `server.py` registers them as MCP tools.
 
 Data: a match `m_<seed>` lives in `data/matches/<seed>/` (WHYLINE_MATCHES_DIR). Its events are loaded into the

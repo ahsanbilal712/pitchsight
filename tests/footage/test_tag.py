@@ -1,4 +1,4 @@
-"""Gemini tagging (T-106): converting the model's per-segment answers into event.schema.json events. No model call."""
+"""Gemini tagging: converting the model's per-segment answers into event.schema.json events. No model call."""
 
 import json
 from pathlib import Path

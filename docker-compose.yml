@@ -1,4 +1,4 @@
-# Local stack (TECH_PLAN 1.10 "Local", T-064): `make demo` = docker compose up (the api serves the golden replay).
+# Local stack: `make demo` = docker compose up (the api serves the golden replay).
 # Six services: api :8000, mcp :8080, newsroom (supervisor + worker), overlay :5173, studio :5174, fan :5175.
 # Replay mode needs no keys; .env (optional, git-ignored) is passed through for live mode.
 x-python: &python

@@ -1,4 +1,4 @@
-"""cloud: the Azure deployment path (ADR-009, TECH_PLAN 1.10), switched on by WHYLINE_CLOUD=1.
+"""cloud: the Azure deployment path, switched on by WHYLINE_CLOUD=1.
 
 Locally every service runs on SQLite, FileCheckpointStorage and the in-process cue forwarder. With WHYLINE_CLOUD=1
 the same processes read their Azure endpoints from the environment (azd writes them from infra/main.bicep outputs):

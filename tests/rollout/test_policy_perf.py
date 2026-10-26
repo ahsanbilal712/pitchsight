@@ -1,4 +1,4 @@
-"""policy_v1 budget (T-036): B=200, 8 s, decision-only <= 0.3 s on MPS and <= 1.2 s on CPU (config/budgets.yaml).
+"""policy_v1 budget: B=200, 8 s, decision-only <= 0.3 s on MPS and <= 1.2 s on CPU (config/budgets.yaml).
 Branch + 80 steps, best of three warm runs, wall time (the GPU path cannot be measured as process CPU time). Run on an idle machine."""
 
 import time
@@ -16,7 +16,7 @@ from rollout.policy_engine import policy_branch
 BUDGET = yaml.safe_load((Path(__file__).resolve().parents[2] / "config" / "budgets.yaml").read_text())
 MS = BUDGET["latency_slo"]["counterfactual_ms"]
 
-pytestmark = pytest.mark.skipif(not list(ARTIFACTS.glob("policy_v1*.pt")), reason="needs a policy_v1 checkpoint (T-028)")
+pytestmark = pytest.mark.skipif(not list(ARTIFACTS.glob("policy_v1*.pt")), reason="needs a policy_v1 checkpoint")
 
 
 def _best(golden, decision_t, device, monkeypatch) -> float:

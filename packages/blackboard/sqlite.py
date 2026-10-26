@@ -1,4 +1,4 @@
-"""SqliteBlackboard: one table per collection, JSON column, indexes on match_id and t_ms (TECH_PLAN 1.4, T-017).
+"""SqliteBlackboard: one table per collection, JSON column, indexes on match_id and t_ms.
 
 The api and the newsroom worker are separate processes, so `watch` polls an AUTOINCREMENT sequence in WAL mode;
 that is the local hand-off for moments and cues. A replaced document gets a new sequence number, so watchers see

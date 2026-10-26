@@ -1,13 +1,13 @@
-"""Pitch geometry on a real broadcast frame (FOOTAGE_ADDENDUM §3 step 7, T-108).
+"""Pitch geometry on a real broadcast frame.
 
 A `Camera` maps pitch metres (event-schema convention: x 0..105 along the pitch, y 0..68 with y = 0 the touchline
 nearest the main camera, so y = 68 is the far touchline at the top of the picture) to frame pixels: a homography H
 followed by one radial lens term k1 about the picture centre. Broadcast wide shots bend straight lines by several
 pixels at the edges of the picture, so H alone cannot hold the far touchline and the penalty box together to 2 px.
-Track A's calibration (T-104) publishes H per frame; until then, and for checking, `fit_from_lines` fits a camera
+Track A's calibration publishes H per frame; until then, and for checking, `fit_from_lines` fits a camera
 from a handful of hand-picked landmarks and refines it against the frame's own pitch-line pixels.
 
-`drift_px` is the acceptance measure of T-108: the offset, in pixels along the line's normal, from the projected
+`drift_px` is the acceptance measure: the offset, in pixels along the line's normal, from the projected
 pitch-model lines to the centre of the painted marking, over the model lines visible in the frame (median and 95th
 percentile). Samples with no marking within DETECT_PX (a player standing on the line, a faint stretch) say nothing
 about drift; they are left out and reported as coverage.
@@ -89,8 +89,8 @@ class Camera:
         return cls(np.asarray(doc["h"], float), float(doc.get("k1", 0.0)), tuple(doc.get("size", (1920, 1080))))
 
 
-# Pitchwatch (track A, T-104) maps pixels to pitch metres with y from the FAR touchline; this module's y runs from the
-# near one (event schema, T-107 moment files). The flip is its own inverse.
+# Pitchwatch (track A) maps pixels to pitch metres with y from the FAR touchline; this module's y runs from the
+# near one (event schema). The flip is its own inverse.
 FLIP_Y = np.array([[1.0, 0.0, 0.0], [0.0, -1.0, PITCH_W], [0.0, 0.0, 1.0]])
 
 

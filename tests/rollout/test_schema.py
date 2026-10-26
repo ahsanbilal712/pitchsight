@@ -1,4 +1,4 @@
-"""sliding_doors output validates against schemas/counterfactual.schema.json; illegal branches raise (T-016)."""
+"""sliding_doors output validates against schemas/counterfactual.schema.json; illegal branches raise."""
 
 import json
 from pathlib import Path

@@ -1,6 +1,6 @@
-// Ghost trail layer (TECH_PLAN 1.9, T-024): up to 200 sampled futures of a counterfactual as translucent ball
+// Ghost trail layer: up to 200 sampled futures of a counterfactual as translucent ball
 // paths coloured by branch, plus the cue's chosen alternative (graphics.ghost_trail) as an orange dashed trail.
-// Futures are 1 Hz points (TECH_PLAN 1.5 "Returns"), smoothed with Catmull-Rom splines and cached as Path2D
+// Futures are 1 Hz points, smoothed with Catmull-Rom splines and cached as Path2D
 // per counterfactual, so a frame is 200 stroke calls. Everything fades in over 0.8 s of match time.
 import type { Counterfactual, Cue } from "../../stream/types";
 import { layerStats, registerLayer, type LayerFn } from "../layers";

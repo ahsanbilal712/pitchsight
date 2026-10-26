@@ -1,4 +1,4 @@
-"""Auto-events: a hand-built positive and negative case per detector; golden-match counts in [1, 40] (T-026)."""
+"""Auto-events: a hand-built positive and negative case per detector; golden-match counts in [1, 40]."""
 
 import json
 import time
@@ -133,4 +133,4 @@ def test_inside_physics_budget():
         times.append((time.process_time() - started) * 1000)
     p95 = float(np.percentile(times, 95))
     print(f"\nauto_events on a 15 s window: p95 {p95:.2f} ms CPU")
-    assert p95 < 10.0          # leaves room for the 3.5 ms of T-013's functions inside the 15 ms frame budget
+    assert p95 < 10.0          # leaves room for the 3.5 ms of the physics functions inside the 15 ms frame budget

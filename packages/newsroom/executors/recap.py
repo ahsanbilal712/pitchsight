@@ -1,4 +1,4 @@
-"""RecapExecutor: the half-time and full-time recap card (TECH_PLAN 1.7 Recap row, T-050).
+"""RecapExecutor: the half-time and full-time recap card.
 
 Role `recap_live` (gemini-4-argon; the golden precompute uses `recap`, the batch role), prompt `recap@2`, MCP tools
 `top_moments` and `timeline` plus `player_stats` for the half's most involved players, resolved by the executor

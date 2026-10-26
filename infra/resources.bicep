@@ -1,5 +1,5 @@
-// Pitchsight resources (ADR-009): free or consumption tiers throughout, scale to zero when idle.
-//   monitoring   Log Analytics + Application Insights (agent spans, TECH_PLAN 1.9)
+// Pitchsight resources: free or consumption tiers throughout, scale to zero when idle.
+//   monitoring   Log Analytics + Application Insights (agent spans)
 //   identity     one user-assigned managed identity for the three Container Apps (no keys in app settings)
 //   registry     Azure Container Registry (Basic) for the python image
 //   cosmos       Cosmos DB for NoSQL, serverless: database `whyline`, containers `blackboard` and `checkpoints`

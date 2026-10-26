@@ -1,6 +1,5 @@
 """RolloutExecutor: simulate each proposed alternative through the MCP tool `simulate_counterfactual` and keep the
-largest |delta win probability| among alternatives the policy gives at least 5% (TECH_PLAN 1.7; audit B.2 guard 1;
-T-031). An alternative the engine cannot play comes back as an error and is skipped, never shown. Each call has
+largest |delta win probability| among alternatives the policy gives at least 5%. An alternative the engine cannot play comes back as an error and is skipped, never shown. Each call has
 `timeout_s` (2 s locally, 5 s in Azure) at n = 200, then one try at n = 50.
 """
 

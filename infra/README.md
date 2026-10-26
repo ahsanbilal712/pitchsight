@@ -2,7 +2,7 @@
 
 `azure.yaml` (repo root) declares six services for azd 1.36.0: `api`, `mcp`, `newsroom` on Azure Container Apps
 (consumption plan, scale to zero) and `overlay`, `studio`, `fan` on Azure Static Web Apps (free plan).
-`main.bicep` creates the resource group; `resources.bicep` creates everything in it (ADR-009):
+`main.bicep` creates the resource group; `resources.bicep` creates everything in it:
 
 | Resource | Tier | Used by | Code |
 |---|---|---|---|

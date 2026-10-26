@@ -1,4 +1,4 @@
-"""Overlay DOM components: lower-third, score bug, chaos meter, player tags, ticker (T-023)."""
+"""Overlay DOM components: lower-third, score bug, chaos meter, player tags, ticker."""
 
 import json
 import urllib.request

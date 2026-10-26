@@ -1,4 +1,4 @@
-// Profile picker (TECH_PLAN 1.9 fan app): mode, club, player, metric, high contrast. Every change is a new
+// Profile picker: mode, club, player, metric, high contrast. Every change is a new
 // validated ViewerProfile; the stream reconnects with it.
 import { surname, useLeague } from "../league";
 import { MODES, METRICS, type ViewerMode, type ViewerProfile } from "../profile";

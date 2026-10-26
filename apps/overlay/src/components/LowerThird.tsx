@@ -1,4 +1,4 @@
-// Lower-third (TECH_PLAN 1.9, docs/cue_contract.md): the highest-priority visible cue on a caption layer.
+// Lower-third: the highest-priority visible cue on a caption layer.
 // Headline up to 60 characters, body up to 280, verified tick, 300 ms slide in and out. Text is fitted to the
 // box (font steps down) so the schema maximum lengths never overflow.
 import { useRef } from "react";

@@ -1,4 +1,4 @@
-"""FactCheckExecutor: runs the eight deterministic rules on a draft (TECH_PLAN 1.7, T-019)."""
+"""FactCheckExecutor: runs the eight deterministic rules on a draft."""
 
 from __future__ import annotations
 

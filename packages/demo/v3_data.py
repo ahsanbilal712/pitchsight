@@ -21,7 +21,7 @@ METRICS = FOOTAGE / "insights" / "metrics.json"
 
 
 def names(slug: str, moment_ms: int | None) -> dict[int, dict]:
-    """track_id -> {label, name} from a moment file of the clip (T-107), where it knows them."""
+    """track_id -> {label, name} from a moment file of the clip, where it knows them."""
     if moment_ms is None:
         return {}
     doc = json.loads((FOOTAGE / slug / "moments" / f"{moment_ms}.json").read_text())

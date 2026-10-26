@@ -1,4 +1,4 @@
-"""Headless replay harness: the cue stream of a full golden replay, as a SHA-256 (T-064, DEMO_MASTERPLAN §9 item 1).
+"""Headless replay harness: the cue stream of a full golden replay, as a SHA-256.
 
     python scripts/replay_headless.py --seed 4242 --speed 10 --out cues.jsonl
 

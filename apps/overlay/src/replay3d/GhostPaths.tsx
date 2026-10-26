@@ -1,4 +1,4 @@
-// Ghost futures (TECH_PLAN 1.9 /replay3d): up to 200 sampled ball paths of the counterfactual as translucent
+// Ghost futures: up to 200 sampled ball paths of the counterfactual as translucent
 // lines coloured by branch (first half baseline, second half alternative; cue contract gap 7), Catmull-Rom
 // smoothed from 1 Hz points. They fan out over the horizon as the replay clock passes the branch point. The
 // chosen alternative is a thick orange dashed trail.

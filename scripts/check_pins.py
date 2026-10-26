@@ -1,4 +1,4 @@
-"""Check that dependency pins are exact and match what is installed (T-001).
+"""Check that dependency pins are exact and match what is installed.
 
 Usage: python scripts/check_pins.py   (run with the repo .venv active)
 

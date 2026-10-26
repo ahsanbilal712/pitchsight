@@ -71,7 +71,7 @@ def _teams(slug: str, tracks: dict) -> dict[tuple[int, int], str | None]:
     out = {}
     for tid, o in obs.items():
         segs, cur = [[]], None
-        for i, (fr, t, team, xy) in enumerate(o):
+        for i, (_fr, t, team, xy) in enumerate(o):
             prev = o[i - 1] if i else None
             jump = (prev and xy and prev[3] and
                     math.dist(xy, prev[3]) > PLAYER_VMAX * abs(t - prev[1]) + JITTER_M)

@@ -1,1 +1,1 @@
-"""mcp_server: whyline-mcp: the only data path for LLM agents (ADR-006)."""
+"""mcp_server: whyline-mcp: the only data path for LLM agents."""

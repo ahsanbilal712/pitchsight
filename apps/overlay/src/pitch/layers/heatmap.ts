@@ -1,4 +1,4 @@
-// Heatmap layer (TECH_PLAN 1.9, T-045): the pitch-control snapshot named by a visible cue
+// Heatmap layer: the pitch-control snapshot named by a visible cue
 // (graphics.pitch_control_snapshot) as a [34, 53] home-share grid (2 m cells, rows bottom to top) in a diverging
 // palette at 35% opacity. The grid becomes a 53 x 34 image once per snapshot; each frame is one drawImage.
 import { fetchDoc } from "../../api";

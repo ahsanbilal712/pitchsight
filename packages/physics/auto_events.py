@@ -1,4 +1,4 @@
-"""Auto-events: tactical patterns detected from tracking and events (TECH_PLAN 1.4 physics, T-026).
+"""Auto-events: tactical patterns detected from tracking and events.
 
     auto_events(window, events) -> list[AutoEvent]
     python -m physics.auto_events --match data/matches/4242     # writes auto_events_report.json
@@ -26,7 +26,7 @@ import numpy as np
 from .window import PITCH_L, PITCH_W, TrackingWindow, home_dir
 
 KINDS = ("pressing_trap", "line_break", "switch_of_play", "overload", "counter_attack", "big_chance")
-BIG_CHANCE_XG = 0.30            # TECH_PLAN 1.7 Scout classification
+BIG_CHANCE_XG = 0.30            # Scout classification
 SWITCH_M, SWITCH_S = 35.0, 3.0  # lateral ball travel and time limit
 TRAP_U, TRAP_PRESS_S, TRAP_PRESSERS = 63.0, 5.0, 2   # won in the attacking 40% after >= 2 players pressed
 COUNTER_FROM_U, COUNTER_TO_U, COUNTER_S = 45.0, 80.0, 10.0
@@ -47,7 +47,7 @@ class AutoEvent:
         return f"{self.auto_kind}:{self.team}:{self.t_ms}"
 
     def to_fact(self, match_id: str, fact_id: str, window_s: float | None = None) -> dict:
-        """Blackboard `facts` document (TECH_PLAN 1.3)."""
+        """Blackboard `facts` document."""
         return {"fact_id": fact_id, "match_id": match_id, "t_ms": int(self.t_ms), "kind": "state", "name": self.auto_kind,
                 "value": self.value, "unit": "xg" if self.auto_kind == "big_chance" else
                 ("m" if self.auto_kind == "switch_of_play" else None), "window_s": window_s, "team": self.team,

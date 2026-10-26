@@ -1,4 +1,4 @@
-"""Real-frame compositing (FOOTAGE_ADDENDUM §2 and §3 step 7, T-108).
+"""Real-frame compositing.
 
     python -m demo.composite lfc_sliding_doors [--png] [--clip] [--standin] [--refit]
 
@@ -12,7 +12,7 @@ on the painted lines to the camera's measured drift.
 Moments are described in packages/demo/footage_moments.yaml. Outputs (git-ignored) in packages/demo/out/footage/:
 <moment>.png (the composite at full build), <moment>.mp4 (pre-roll, freeze, resume; 30 fps, no audio) and
 <moment>_camera.json (the fitted camera and its drift). With --standin the futures are the golden match's
-cf_000070 re-anchored on the players, for checking the look before track B's precomputed counterfactual (T-109)
+cf_000070 re-anchored on the players, for checking the look before track B's precomputed counterfactual
 exists; those files carry a _standin suffix and a watermark, and never go in the video.
 """
 
@@ -82,7 +82,7 @@ GHOST_MARGIN_M = 2.0       # futures are clamped to the pitch plus this, as the 
 
 # ---------------------------------------------------------------------------------------------- inputs
 def load_moment(name: str) -> dict:
-    """The moment's spec; with a `moment_file` (T-107: players and ball in pitch metres, hand-marked or tracked)
+    """The moment's spec; with a `moment_file` (hand-marked or tracked)
     the actor, the target and the ball take their positions from it (`at`), else from their feet pixels."""
     moments = yaml.safe_load(MOMENTS.read_text())["moments"]
     extra = os.environ.get("PITCHSIGHT_MOMENTS")          # a generated cut's moments (git-ignored, demo.match_cut)
@@ -122,7 +122,7 @@ def top_rows(poly) -> np.ndarray:
 
 
 def pitchwatch_camera(m: dict, frame: np.ndarray) -> tuple[Camera, Drift, str] | None:
-    """Track A's per-frame calibration (T-104) for the freeze instant, measured the same way, if published; the
+    """Track A's per-frame calibration for the freeze instant, measured the same way, if published; the
     paint-refined file (demo.refine_calib) first."""
     shots = json.loads((FOOTAGE / m["clip"] / "shots.json").read_text())["shots"]
     shot = next((s["id"] for s in shots if s.get("usable") and s["start"] <= m["t_s"] <= s["end"]), None)
@@ -153,7 +153,7 @@ def fit_spec(m: dict) -> tuple[list[str], np.ndarray]:
 
 def camera_for(m: dict, frame: np.ndarray, refit: bool = False) -> tuple[Camera, Drift]:
     """The moment's camera, refined against the frame's own markings (cached per moment): from hand landmarks when
-    the spec has them, else seeded with the moment file's homography (T-107/T-109)."""
+    the spec has them, else seeded with the moment file's homography."""
     path = OUT / f"{m['name']}_camera.json"
     spec = m.get("camera") or {}
     key = {"t_s": m["t_s"], "camera": spec, "seed": m.get("moment_h")}
@@ -230,7 +230,7 @@ def load_futures(m: dict, cam: Camera, standin: bool) -> Futures:
         b, a = split(cf)
         return Futures(b, a, cf, standin=False)
     if not standin:
-        raise SystemExit(f"composite: {m['name']} has no counterfactual yet (T-109); pass --standin to check the look")
+        raise SystemExit(f"composite: {m['name']} has no counterfactual yet; pass --standin to check the look")
     return standin_futures(ball_m(m, cam), at_m(m["target"], cam))
 
 
@@ -341,7 +341,7 @@ class Painter:
             self.ghosts = [g for g in (self._branch(fut.baseline, shot_to, WHITE, T_BASE),
                                        self._branch(fut.alternative, self.target_m, ORANGE, T_ALT)) if g]
         self.v8 = m.get("style") == "v8"                   # PITCHSIGHT: v6's rules, the fixed right stack, glass
-        self.v6 = m.get("style") in ("v6", "v8")           # v5's drawing with v6's rules (owner, 23 Oct)
+        self.v6 = m.get("style") in ("v6", "v8")           # v5's drawing with v6's rules (23 Oct)
         self.v5 = m.get("style") in ("v5", "v6", "v8")
         self.v4 = m.get("style") in ("v4", "v5", "v6", "v8")           # v5 keeps v4's ramp, punch-in, rewind and lower-thirds
         self.xg = load_json(m.get("xg"), "result") if m.get("xg") else None
@@ -387,7 +387,7 @@ class Painter:
         self.heat = self._heatmap() if mode == "analyst" else None
         self.font = {s: ImageFont.truetype(FONT, s) for s in (22, 26, 30, 34, 50, 64)}  # bold sizes
         self.line = None
-        if m.get("line") and (ROOT / m["line"]).exists():          # the reviewed lower-third (T-109)
+        if m.get("line") and (ROOT / m["line"]).exists():          # the reviewed lower-third
             doc = json.loads((ROOT / m["line"]).read_text())
             self.line = doc["json"] if doc.get("verified") else None
         if self.v4:                                       # v4 lower-thirds come only from track B's v4 lines
@@ -761,7 +761,7 @@ class Painter:
         return {"segs": segs, "alpha": alpha, "bold": bold, "colour": np.array(colour) / 255, "span": span}
 
     def _heatmap(self) -> np.ndarray | None:
-        """Analyst mode: the frozen moment's pitch-control snapshot (T-109, same grid as the overlay's heatmap: home
+        """Analyst mode: the frozen moment's pitch-control snapshot (same grid as the overlay's heatmap: home
         share in 2 m cells) laid on the grass in the two kits' colours, RGBA in [0, 1]; contested cells stay clear,
         and nothing is painted over the players or above the boards."""
         pc = pitch_control_for(self.m, self.fut.cf if self.fut else None)
@@ -1257,7 +1257,7 @@ def evidence(m: dict, collection: str) -> list[dict]:
 
 
 def facts_for(m: dict, wanted: list[dict]) -> list[dict]:
-    """The named facts from the moment's evidence (T-109), each with the caption the spec gives it."""
+    """The named facts from the moment's evidence, each with the caption the spec gives it."""
     have = {f["fact_id"]: f for f in evidence(m, "facts")}
     return [{**have[w["id"]], "caption": w["caption"]} for w in wanted if w["id"] in have]
 
@@ -1293,7 +1293,7 @@ def decode_range(m: dict, start: float, dur: float) -> np.ndarray:
 
 def goal_tag(m: dict, enc, frames: np.ndarray, start_s: float, p: Painter) -> None:
     """v6: no flash; a small broadcast tag 'GOAL · 0.48 xG' slides in at the bottom left when the ball crosses the
-    line (owner: the big flash was cartoonish)."""
+    line (the big flash read as cartoonish)."""
     goal_t = float(m["goal_clip_s"])
     colour = tuple((m.get("kits") or {}).get(m.get("team", "home"), ORANGE))
     act = (p.xg or {}).get("actual", {})
@@ -1422,7 +1422,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("moment")
     ap.add_argument("--png", action="store_true")
     ap.add_argument("--clip", action="store_true")
-    ap.add_argument("--standin", action="store_true", help="re-anchored cf_000070 futures until T-109 lands")
+    ap.add_argument("--standin", action="store_true", help="re-anchored cf_000070 futures to check the look")
     ap.add_argument("--refit", action="store_true", help="refit the camera even if cached")
     ap.add_argument("--style", choices=["v3", "v4", "v5", "v6", "v8"], help="v4: median lanes, goal in the next 10 s, slow-motion "
                     "ramp and punch-in (video v4); default the moment's own")

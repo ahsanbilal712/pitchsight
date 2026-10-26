@@ -1,5 +1,5 @@
 # Video v3 edit decision list (re-cut 23 Oct: the Spurs pass X-ray removed; track A 115f6a0 found that attack's
-# direction reversed, so its numbers were wrong), DRAFT 4 (owner, 23 Oct: "more crazier insights"; only real Premier League names and
+# direction reversed, so its numbers were wrong) (23 Oct: "more crazier insights"; only real Premier League names and
 # footage on screen: no synthetic league, no golden-match studio, no synthetic numbers). Assembled by
 #   python packages/demo/assemble.py packages/demo/edit_v3.yaml
 # Every shot is a demo.composite / demo.live clip on the four data/footage/*/clip.mp4 (Premier League channel
@@ -108,7 +108,7 @@ sources:
   "200": "counterfactual cf_000001 of liverpool-mancity-2526 n = 200; the card prints 'n = 200, 8 s, seed 9001'"
   "2": "cf_000001 (liverpool-mancity-2526): win_prob_home 0.0837 shot -> 0.1035 pass (+2 pts); reviewed line mo_00001"
   "15": "Fourth Official cue c_907724 claim '15 km/h' (f_000901, verified); ruling_772400 closing_speed_kmh 15.3"
-  "99.3%": "metrics.json liverpool-mancity-2526 detection.recall 0.9927 on 200 hand-labelled frames (T-105)"
+  "99.3%": "metrics.json liverpool-mancity-2526 detection.recall 0.9927 on 200 hand-labelled frames"
   "1.5": "metrics.json liverpool-mancity-2526 calibration.paint_drift_p95_px_refined median 1.5 (demo.refine_calib, shot 62)"
   "37.0": "speed_gun_242700 top_speed_kmh 37.0 at clip 260.833 s (track A, tracks 23/25)"
   "91": "speed_gun_242700 distance_m 91.1, a lower bound: the close-up gap 252.6-259.9 s crossed in a straight line"

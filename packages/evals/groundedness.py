@@ -1,4 +1,4 @@
-"""Groundedness, our own evaluator (TECH_PLAN 1.11 row "Groundedness", 1.14 disagreement 1; T-056).
+"""Groundedness, our own evaluator.
 
     python -m evals.groundedness [--match-dir data/matches/4242] [--out packages/evals/out]
 
@@ -6,8 +6,7 @@ The golden match is replayed from its committed cache (`replay_cues`: the real n
 and rollout served by CacheClient, no model call, a temporary blackboard; nothing in the cache is written). For every
 delivered cue, each number on screen (headline, body, and the `why` the drawer shows) counts as grounded when a
 verified claim of the same cue shows it (the Fact Checker's own number tokens, `newsroom.factcheck._token_keys`).
-Groundedness = grounded numbers / numbers. Gate: >= 0.95. 500 cues once the demo season lands (T-085); until then
-every golden cue. Foundry's GroundednessEvaluator is optional (T-086).
+Groundedness = grounded numbers / numbers. Gate: >= 0.95, over every golden cue.
 """
 
 from __future__ import annotations

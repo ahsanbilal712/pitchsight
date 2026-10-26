@@ -1,4 +1,4 @@
-// Moment queue (TECH_PLAN 1.9 studio): moments the Scout raised, newest first, with leverage and status.
+// Moment queue: moments the Scout raised, newest first, with leverage and status.
 import { clockText } from "../api";
 import { playerName, useLeague } from "../league";
 import { useStream } from "../stream/StreamProvider";

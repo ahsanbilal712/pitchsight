@@ -1,6 +1,6 @@
-"""Load a trained DecisionPolicy for rollouts, refusing ungated checkpoints (TECH_PLAN 1.4 policy, T-036).
+"""Load a trained DecisionPolicy for rollouts, refusing ungated checkpoints.
 
-A checkpoint loads only when artifacts/metrics.json (written by policy.evaluate, T-037) says every 1.6 gate passed,
+A checkpoint loads only when artifacts/metrics.json (written by policy.evaluate) says every 1.6 gate passed,
 unless WHYLINE_ALLOW_UNGATED_POLICY=1 (used for timing tests before the gate exists).
 """
 

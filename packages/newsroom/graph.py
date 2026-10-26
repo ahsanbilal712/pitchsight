@@ -1,4 +1,4 @@
-"""The newsroom workflow graph (TECH_PLAN 1.7), one run per moment.
+"""The newsroom workflow graph, one run per moment.
 
     ingest -> scout -switch-> fast_line -> factcheck -> director -> cuebus
                            -> proposer -> rollout -> tactician -> narrator -> factcheck -+-> director
@@ -6,7 +6,7 @@
                            -> panel -> factcheck;  -> fourth_official -> director
                            -> recap -> factcheck;  default -> drop
 
-`build_workflow(deps)` wires the default executors; `overrides` swaps any of them by id (tests, later tickets).
+`build_workflow(deps)` wires the default executors; `overrides` swaps any of them by id (tests).
 Executor ids never change, so checkpoints stay restorable across those swaps.
 """
 
@@ -51,30 +51,14 @@ def ready_for_director(m: Draft) -> bool:
 
 
 def default_executors(deps: Deps) -> dict[str, Executor]:
-    """The executor for each id. Real implementations replace the stubs ticket by ticket."""
-    from newsroom.executors import stubs
-    from newsroom.executors.drop import DropExecutor
-    from newsroom.executors.ingest import IngestExecutor
-
-    factories = {
-        "ingest": IngestExecutor, "scout": stubs.StubScout, "fast_line": stubs.StubFastLine,
-        "proposer": stubs.StubProposer, "rollout": stubs.StubRollout, "tactician": stubs.StubTactician,
-        "narrator": stubs.StubNarrator, "factcheck": stubs.StubFactCheck, "panel": stubs.StubPanel,
-        "fourth_official": stubs.StubFourthOfficial, "recap": stubs.StubRecap, "director": stubs.StubDirector,
-        "cuebus": stubs.StubCueBus, "drop": DropExecutor,
-    }
-    for name, factory in _real_executors().items():
-        factories[name] = factory
-    return {name: factory(name, deps) for name, factory in factories.items()}
-
-
-def _real_executors() -> dict:
-    """Real executors that exist so far; each later ticket adds its line here."""
+    """The executor for each id."""
     from newsroom.cuebus import CueBus
     from newsroom.executors.director import DirectorExecutor
+    from newsroom.executors.drop import DropExecutor
     from newsroom.executors.factcheck import FactCheckExecutor
     from newsroom.executors.fast_line import FastLineExecutor
     from newsroom.executors.fourth_official import FourthOfficialExecutor
+    from newsroom.executors.ingest import IngestExecutor
     from newsroom.executors.narrator import NarratorExecutor
     from newsroom.executors.panel import PanelExecutor
     from newsroom.executors.proposer import ProposerExecutor
@@ -83,10 +67,14 @@ def _real_executors() -> dict:
     from newsroom.executors.scout import ScoutExecutor
     from newsroom.executors.tactician import TacticianExecutor
 
-    return {"factcheck": FactCheckExecutor, "narrator": NarratorExecutor, "fast_line": FastLineExecutor,
-            "director": DirectorExecutor, "cuebus": CueBus, "scout": ScoutExecutor,
-            "proposer": ProposerExecutor, "rollout": RolloutExecutor, "tactician": TacticianExecutor,
-            "panel": PanelExecutor, "fourth_official": FourthOfficialExecutor, "recap": RecapExecutor}
+    factories = {
+        "ingest": IngestExecutor, "scout": ScoutExecutor, "fast_line": FastLineExecutor,
+        "proposer": ProposerExecutor, "rollout": RolloutExecutor, "tactician": TacticianExecutor,
+        "narrator": NarratorExecutor, "factcheck": FactCheckExecutor, "panel": PanelExecutor,
+        "fourth_official": FourthOfficialExecutor, "recap": RecapExecutor, "director": DirectorExecutor,
+        "cuebus": CueBus, "drop": DropExecutor,
+    }
+    return {name: factory(name, deps) for name, factory in factories.items()}
 
 
 def build_workflow(deps: Deps, storage=None, overrides: dict[str, Executor] | None = None,

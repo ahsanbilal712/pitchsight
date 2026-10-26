@@ -1,5 +1,5 @@
-// Capsule players in kit colours with shirt-number sprites (TECH_PLAN 1.9 /replay3d; no humanoid models, audit
-// A row 62). Positions interpolate between the two latest 10 Hz frames every render frame. A pale disc under each
+// Capsule players in kit colours with shirt-number sprites (no humanoid
+// models). Positions interpolate between the two latest 10 Hz frames every render frame. A pale disc under each
 // player keeps dark kits (Verdant's green) readable on the grass.
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";

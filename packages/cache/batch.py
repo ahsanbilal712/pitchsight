@@ -1,4 +1,4 @@
-"""Golden precompute of model calls (TECH_PLAN 1.8 "Precompute" steps 4, 5, 7; T-042).
+"""Golden precompute of model calls (5, 7).
 
 The newsroom workflow itself is the source of every request: each golden moment runs through the real graph with
 a `BatchingClient` as its LLM client and a `RecordingTools` as its tool client. A model call does not go out at
@@ -39,7 +39,7 @@ from cache.manifest import CacheManifest
 log = logging.getLogger("whyline.batch")
 
 GOLDEN_ROLES = {"tactician_live": "tactician_golden", "panel_pundit": "panel_pundit_golden", "recap_live": "recap"}
-# replay waits this long before serving (TECH_PLAN 1.8): the measured live latency of the live role (T-032, T-041)
+# replay waits this long before serving: the measured live latency of the live role
 LIVE_LATENCY_MS = {"recap": 20000, "proposer": 2300, "tactician": 3700, "narrator": 2100, "fast_line": 2100, "panel_pundit": 3800,
                    "panel_chair": 2000}
 CUSTOM_ID = re.compile(r"^[A-Za-z0-9_-]{1,64}$")

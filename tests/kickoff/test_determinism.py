@@ -1,4 +1,4 @@
-"""Seed 4242 twice into different folders gives byte-identical files (T-007, TECH_PLAN 1.8)."""
+"""Seed 4242 twice into different folders gives byte-identical files."""
 
 import hashlib
 from pathlib import Path

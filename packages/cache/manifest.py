@@ -1,5 +1,4 @@
-"""CacheManifest: the index of every precomputed artefact of one match (schemas/cache_manifest.schema.json; TECH_PLAN
-1.8, ADR-003; T-038).
+"""CacheManifest: the index of every precomputed artefact of one match (schemas/cache_manifest.schema.json).
 
 Key: `<match_id>/<moment_id or "match">/<producer>@<version>/<model or engine or "none">/s<seed>`. When the version
 already names the producer (prompt versions like `tactician@3`) it is not repeated:
@@ -123,9 +122,9 @@ class CacheManifest:
     def add(self, key: str, kind: str, payload: dict | bytes, path: str, *, moment_id: str | None = None,
             producer: str | None = None, version: str | None = None, model: str | None = None,
             seed: int | None = None, **meta) -> dict:
-        """Write the payload under the cache dir and index it (precompute only; T-039, T-042)."""
+        """Write the payload under the cache dir and index it (precompute only)."""
         if self.frozen:
-            raise CacheFrozen("manifest is frozen; bump docs/video/VERSION to regenerate (TECH_PLAN 1.8)")
+            raise CacheFrozen("manifest is frozen; bump docs/video/VERSION to regenerate")
         if kind not in KINDS:
             raise ValueError(f"kind {kind!r} not in {KINDS}")
         target = self.cache_dir / path

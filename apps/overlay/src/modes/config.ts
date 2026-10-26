@@ -1,5 +1,5 @@
-// Viewer-mode configuration (TECH_PLAN 1.9 viewer modes, config/budgets.yaml director.modes). The api already
-// filters cues per viewer (T-033); the overlay applies the same rules so fixture playback and recordings match.
+// Viewer-mode configuration (config/budgets.yaml director.modes). The api already
+// filters cues per viewer; the overlay applies the same rules so fixture playback and recordings match.
 import type { OverlayState } from "../stream/reducer";
 import type { Cue } from "../stream/types";
 import { analyst } from "./analyst";

@@ -1,5 +1,5 @@
 """Full-time recap beat for Liverpool v Manchester City (video v3, held for the producer's veto in the studio
-replay): the goals, the red card and the final score from the T-106 tagged events, with event ids as sources.
+replay): the goals, the red card and the final score from the tagged events, with event ids as sources.
 
     python -m footage.recap_beat
 """
@@ -34,7 +34,7 @@ def run() -> dict:
             "red_cards": [{"clock": clock(e["t_ms"]), "team": e["team"], "pid": e.get("player"),
                            "name": e["attrs"].get("player_name"), "event_id": e["id"]} for e in red],
             "window": "the final 20 minutes in the clip (72:00 to full time)",
-            "source": "events.jsonl (T-106 Gemini tags of the broadcast) via cache/evidence.jsonl"}
+            "source": "events.jsonl via cache/evidence.jsonl"}
     write_beat(SLUG, "recap", beat["clip_ms"], beat)
     return beat
 

@@ -1,4 +1,4 @@
-"""Structured tool errors (TECH_PLAN 1.4 mcp_server): every tool returns {error, code} and never raises into the agent."""
+"""Structured tool errors: every tool returns {error, code} and never raises into the agent."""
 
 from __future__ import annotations
 

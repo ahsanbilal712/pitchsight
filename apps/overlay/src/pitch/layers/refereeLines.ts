@@ -1,4 +1,4 @@
-// Referee lines layer (TECH_PLAN 1.9, T-045): a `referee_line` cue's graphics.lines ([[x1,y1],[x2,y2]] in
+// Referee lines layer: a `referee_line` cue's graphics.lines ([[x1,y1],[x2,y2]] in
 // metres) drawn over 0.6 s of match time from t_in_ms, with the margin labelled ("0.4 m"): the gap between the first
 // two lines, or, for a single line (an offside line alone), the cue's verified claim in metres. The cue's text is
 // captioned by the LowerThird.

@@ -1,4 +1,4 @@
-"""Drag-to-correct page for a moment file (T-107).
+"""Drag-to-correct page for a moment file.
 
     python -m footage.editor <slug> <clip_ms> [--port 8765]
 

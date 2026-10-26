@@ -1,4 +1,4 @@
-"""Kickoff training corpus generator (T-014).
+"""Kickoff training corpus generator.
 
     python scripts/generate_corpus.py --seeds 1..50 --full            # evaluation seeds, full tracking
     python scripts/generate_corpus.py --seeds 51..350                 # calibration hold-out, events + truth
@@ -9,7 +9,7 @@ One seed per task in a multiprocessing pool; finished seeds are skipped, so an i
 stopped. Each seed writes into data/matches/corpus/<seed>/ and the run records per-seed status, match stats and
 the engine hash in progress.json (written atomically after every finished seed).
 
-Storage per seed range (seed convention in TASKS.md):
+Storage per seed range:
   1-50       events.jsonl, tracking.npz (10 Hz), truth.json
   51-350     events.jsonl.gz, truth.json
   1001-3000  events.jsonl.gz, truth.json, samples.npz: the state at every on-ball decision (the tick before a
@@ -76,7 +76,7 @@ def storage_for(seed: int, full: bool) -> str:
 
 
 def match_stats(events: list[dict]) -> dict:
-    """Per-team counts the realism test reads (TECH_PLAN 1.4 ranges)."""
+    """Per-team counts the realism test reads."""
     c: Counter = Counter()
     for e in events:
         if e["team"] not in ("home", "away"):

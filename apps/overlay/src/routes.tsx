@@ -1,4 +1,4 @@
-// Overlay routes: the broadcast overlay, or the 3D Sliding Doors replay at /replay3d?cf=<id> (TECH_PLAN 1.9).
+// Overlay routes: the broadcast overlay, or the 3D Sliding Doors replay at /replay3d?cf=<id>.
 // Static hosting without SPA fallback can use ?view=replay3d instead of the path.
 import { lazy, Suspense } from "react";
 import App from "./App";

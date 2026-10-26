@@ -1,6 +1,6 @@
 // Fan stream (pattern copied from apps/overlay; apps do not import each other). Subscribes with
 // WS /ws?viewer_id&mode&club&player for the current profile; the api filters cues by targets and mode kinds
-// (T-033), so a profile change reconnects and the feed starts again from the server's snapshot.
+//, so a profile change reconnects and the feed starts again from the server's snapshot.
 import { createContext, useContext, useEffect, useReducer, useRef, type ReactNode } from "react";
 import type { ViewerProfile } from "../profile";
 import { initialState, reducer, type FanState } from "./reducer";

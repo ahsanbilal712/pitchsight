@@ -1,14 +1,13 @@
 # Video v9 narration
 
-The owner approved narration for video v9 on 26 Oct 2026 (ADR-010, amendment). The voice covers the intro and the
-architecture section only. There is no voice over the match clips ("no need for the commentary on the broadcasts").
+This voice covers the intro and the architecture section; the voice on the match clips is in `narration_v10.md`.
 
 - Voice: Gemini text-to-speech on Vertex AI (`gemini-2.5-pro-tts`, prebuilt voice below), project ffc-19484, live calls
   through SpendGuard. `python -m footage.narration` reads the sections from this file and writes one WAV and one M4A
   stem per section to `packages/demo/out/narration_v9/` (git-ignored), with `timings.json`.
 - Every claim is true of the code: RF-DETR and ByteTrack (`packages/evals/pitchwatch/track.py`); the camera fitted per
   frame to the painted lines, a pan-tilt-zoom model giving the metres (`packages/evals/pitchwatch/calibrate.py`;
-  track C's lens-term refinement, `packages/demo/refine_calib.py`, is for drawing only); the pass model and the published xG
+  the lens-term refinement, `packages/demo/refine_calib.py`, is for drawing only); the pass model and the published xG
   model (`packages/footage/v5_lines.py`); the newsroom on Microsoft Agent Framework (`packages/newsroom/graph.py`),
   Gemini through `agent_framework.gemini` (`packages/newsroom/llm.py`); the Fact Checker binding every number
   (`packages/newsroom/executors/factcheck.py`). The script says nothing about training, gives no training figures, and

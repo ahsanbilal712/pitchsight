@@ -1,5 +1,4 @@
-"""FastLineExecutor: the Scout's fast path (goal, big chance, milestone, player tag) to a one-line cue in < 3 s
-(TECH_PLAN 1.7, T-020). Claims come straight from the moment's evidence events, are verified first, and the
+"""FastLineExecutor: the Scout's fast path (goal, big chance, milestone, player tag) to a one-line cue in < 3 s. Claims come straight from the moment's evidence events, are verified first, and the
 narrator_fast model (or the template) writes the line from those claims only.
 """
 
@@ -27,7 +26,7 @@ def surname(player_id: str) -> str | None:
 def claims_from_moment(moment, bb) -> list[dict]:
     """Player, team and xG claims bound to the moment's evidence events (unverified). For a goal or a big chance
     only the scorer or shooter is named: the evidence also holds the passer, the goalkeeper and the defender who
-    lost the ball, and a one-line cue must not credit the wrong player (T-057 review)."""
+    lost the ball, and a one-line cue must not credit the wrong player."""
     claims: list[dict] = []
     seen: set[str] = set()
     _, clubs = league_data()

@@ -1,4 +1,4 @@
-"""Player-Cam: stats endpoint vs MCP player_stats, the fan card, only-involved cues, the overlay trail (T-044).
+"""Player-Cam: stats endpoint vs MCP player_stats, the fan card, only-involved cues, the overlay trail.
 
 Regenerate the fixture dump after the golden match changes: `PYTHONPATH=packages python tests/apps/test_player_cam.py`.
 """
@@ -24,7 +24,7 @@ def dump() -> None:
     from mcp_server.tools_core import MatchStore, player_stats
 
     store = MatchStore(SqliteBlackboard(Path(tempfile.mkdtemp()) / "bb.sqlite"))
-    out = {"_about": "MCP player_stats for golden m_4242 (T-044); regenerate: "
+    out = {"_about": "MCP player_stats for golden m_4242; regenerate: "
                      "PYTHONPATH=packages python tests/apps/test_player_cam.py",
            "players": {p: player_stats(store, "m_4242", p) for p in ("p_017", "p_031", "p_045")}}
     DUMP.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
@@ -82,7 +82,7 @@ def test_endpoint_matches_mcp_player_stats_dump(api_server):
         assert 3_000 < got["distance_m"] < 14_000
     with pytest.raises(urllib.error.HTTPError):
         get(api_server.base, "/match/m_4242/players/p_999/stats")
-    # no blackboard fact for this player: the golden cache's rollout Decision Index (T-048)
+    # no blackboard fact for this player: the golden cache's rollout Decision Index
     cache = json.loads((ROOT / "data" / "matches" / "4242" / "cache" / "analytics" / "decision_index.json")
                        .read_text())["players"]
     got = get(api_server.base, f"/match/m_4242/players/{OTHER}/stats")
@@ -102,7 +102,7 @@ def test_card_numbers_equal_player_stats(browser, fan_url, api_server, cam_setup
         assert value("touches") == str(want["touches"])
         assert value("sprints") == str(want["sprints"])
         assert value("top speed") == f"{want['top_speed_kmh']:.1f}"
-        assert value("Decision Index") == "71"                  # blackboard fact until T-048
+        assert value("Decision Index") == "71"                  # blackboard fact
         assert float(value("distance")) > 3
         page.wait_for_selector(f".player-cam .tag[data-cue-id={cam_setup[0]}]", timeout=3000)
         assert "32 km/h" in card.locator(".tag").inner_text()

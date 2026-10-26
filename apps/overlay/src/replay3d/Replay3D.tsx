@@ -1,4 +1,4 @@
-// /replay3d?cf=<counterfactual id> (TECH_PLAN 1.9, ADR-008): the Sliding Doors moment as a stylised 3D scene.
+// /replay3d?cf=<counterfactual id>: the Sliding Doors moment as a stylised 3D scene.
 // Players and ball follow the stream (fixture or api) at the replay clock; from the branch point the 200 ghost
 // futures fan out over the horizon, the chosen alternative is an orange dashed trail and the DOM swing bar moves
 // from baseline to alternative. Cameras: ?cam=wide|player, key C, or window.__whyline.camera(name).

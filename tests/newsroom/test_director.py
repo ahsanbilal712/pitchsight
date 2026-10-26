@@ -1,4 +1,4 @@
-"""Director: budgets and hard rules on a timeline, schema-valid cues, deterministic cue ids, degraded mode (T-021)."""
+"""Director: budgets and hard rules on a timeline, schema-valid cues, deterministic cue ids, degraded mode."""
 
 import asyncio
 import json
@@ -137,7 +137,7 @@ def test_same_kind_dedupe_90s(deps):
 
 
 def test_dedupe_compares_kind_and_layer(deps):
-    """A Panel's options card does not suppress the explained lower-third of the same kind (T-057 review)."""
+    """A Panel's options card does not suppress the explained lower-third of the same kind."""
     assert direct(deps, draft(73, 4_400_000, layer="options_card")) is not None
     assert direct(deps, draft(74, 4_410_000)) is not None                  # same kind, other layer
     assert direct(deps, draft(75, 4_420_000, layer="options_card")) is None

@@ -1,4 +1,4 @@
-// Moment cards (TECH_PLAN 1.9 fan app, cue contract): recap cards, dugout options and Panel debates (options_card)
+// Moment cards (cue contract): recap cards, dugout options and Panel debates (options_card)
 // as swipeable cards.
 import { useStream } from "../stream/StreamProvider";
 import { CARD_LAYERS } from "./CueFeed";

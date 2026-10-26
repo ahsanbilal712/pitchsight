@@ -1,5 +1,5 @@
 #!/bin/sh
-# WHYLINE pre-commit secret guard (T-004, TECH_PLAN 1.10 "Secrets").
+# WHYLINE pre-commit secret guard.
 # Refuses a commit when an added line looks like an Anthropic or Google API key, or when a file
 # named .env is staged. Bare prefixes in docs ("sk-ant-", "AIza") pass: a key body must follow.
 # Prints the file name only, never the matched value. Install with scripts/install_hooks.sh.

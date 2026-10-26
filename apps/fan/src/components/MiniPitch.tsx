@@ -1,4 +1,4 @@
-// Mini-pitch (TECH_PLAN 1.9 fan app): the Pitch2D drawing approach at phone scale (copied, not imported):
+// Mini-pitch: the Pitch2D drawing approach at phone scale (copied, not imported):
 // event-schema metres (105 x 68, origin bottom-left) flipped to canvas, kit-coloured discs with a light halo
 // when a kit blends into the grass, the ball, and a ring on the Player-Cam player.
 import { useEffect, useRef } from "react";

@@ -1,5 +1,4 @@
-"""MomentEncoder: a 64-d embedding of a match moment, its phase cluster and nearest neighbours (TECH_PLAN 1.6 heads
-table row "Moment encoder", 1.4 heads, T-054).
+"""MomentEncoder: a 64-d embedding of a match moment, its phase cluster and nearest neighbours.
 
     python -m heads.moment_encoder train [--matches 400] [--epochs 6]      # train, cluster, name, index
     MomentEncoder().encode(pc, features) -> np.ndarray[64];  .phase(z) -> str

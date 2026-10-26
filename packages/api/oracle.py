@@ -1,4 +1,4 @@
-"""Oracle forecasts on the replay clock (TECH_PLAN 1.9 `oracle` message, T-046).
+"""Oracle forecasts on the replay clock.
 
 The golden precompute writes cache/analytics/oracle.json as {producer: "oracle", forecasts: [...]}, one forecast
 every 2 s with per-team values ({"home": p, "away": p}). `message` turns one into the 1.9 shape the overlay threat

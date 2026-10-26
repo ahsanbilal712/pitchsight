@@ -1,4 +1,4 @@
-"""Request and message shapes of whyline-api (TECH_PLAN 1.4 api, 1.9 WebSocket messages)."""
+"""Request and message shapes of whyline-api."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Demo script, runner, shot list and recorder (T-061)."""
+"""Demo script, runner, shot list and recorder."""
 
 import json
 import socket
@@ -22,12 +22,12 @@ SCRIPT = ROOT / "packages" / "demo" / "demo_script.yaml"
 SHOTS = ROOT / "packages" / "demo" / "shot_list.yaml"
 SAMPLE = ROOT / "tests" / "demo" / "data" / "golden_moments_sample.yaml"
 BEATS = {"opener", "sliding_doors", "fourth_official", "panel_kill", "oracle_dugout", "split_modes",
-         "architecture", "halftime"}                     # DEMO_MASTERPLAN §7 beats (T-061 brief)
+         "architecture", "halftime"}                     # storyboard beats
 
 
 # ---------------------------------------------------------------- demo_script.yaml
 def test_demo_script_is_exactly_the_tech_plan_entries():
-    """The four TECH_PLAN 1.8 actions in 1.8 order (kill, veto of the recap 15 s after half-time, speed 1 before the
+    """The four demo actions in order (kill, veto of the recap 15 s after half-time, speed 1 before the
     Sliding Doors moment, speed 10 after it); clocks follow golden_moments.yaml (next test)."""
     rows = yaml.safe_load(SCRIPT.read_text())
     assert [(r["action"], r.get("target"), r.get("cue_kind"), r.get("value")) for r in rows] == [
@@ -40,7 +40,7 @@ def test_demo_script_is_exactly_the_tech_plan_entries():
 
 
 def test_demo_script_clocks_come_from_golden_moments():
-    """Each entry with a `ref` must match golden_moments.yaml (T-039 writes it), to the second the clock is written in
+    """Each entry with a `ref` must match golden_moments.yaml, to the second the clock is written in
     (golden_moments has exact t_ms, the script whole-second clocks)."""
     moments = load_moments()                              # raises until the golden precompute has run
     for row in yaml.safe_load(SCRIPT.read_text()):

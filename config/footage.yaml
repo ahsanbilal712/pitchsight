@@ -1,15 +1,15 @@
-# Real Premier League clips (FOOTAGE_ADDENDUM.md; sources and permission in data/footage/SOURCES.md).
+# Real Premier League clips (sources and permission in data/footage/SOURCES.md).
 # Each clip has its own match id so its model spend is separate from the synthetic matches (SpendGuard per-match cap).
 # The media stays in data/footage/<slug>/ and is never committed.
 schema_version: "1.0.0"
 tagger:
   model: gemini-3.8-flash
-  segment_s: 180                # inline video per call (no bucket, no Files API: owner rule)
+  segment_s: 180                # inline video per call (no bucket, no Files API: project rule)
   height_px: 360
   fps_encode: 5
   fps_sample: 1                 # frames per second Gemini reads
   max_usd_per_clip: 0.40
-  max_usd_per_moment: 0.10      # T-109 explanation (gemini-4-argon) per featured moment
+  max_usd_per_moment: 0.10      # explanation (gemini-4-argon) per featured moment
 clips:
   liverpool-mancity-2526: { match_id: m_9001, home: Liverpool, away: Manchester City, home_id: liverpool,
                             away_id: man_city, home_short: Liverpool, away_short: Man City }
@@ -19,10 +19,10 @@ clips:
                             home_short: Arsenal, away_short: Chelsea }
   manutd-spurs-2425:      { match_id: m_9004, home: Manchester United, away: Tottenham Hotspur, home_id: man_utd,
                             away_id: tottenham, home_short: Man Utd, away_short: Spurs }
-  # local-only pipeline test (owner, 26 Oct 2026; data/footage/SOURCES.md): not in the public video or the hosted demo
+  # local-only pipeline test (26 Oct 2026; data/footage/SOURCES.md): not in the public video or the hosted demo
   barca-madrid-2627:      { match_id: m_9005, home: FC Barcelona, away: Real Madrid, home_id: barcelona,
                             away_id: real_madrid, home_short: Barcelona, away_short: Real Madrid }
-# T-109: one Sliding Doors moment per clip (frozen frame in moments/<clip_ms>.json; the real action is its
+# One Sliding Doors moment per clip (frozen frame in moments/<clip_ms>.json; the real action is its
 # `actual`; the alternative's pass target is a label in that file, a carry direction is in the file's coordinates)
 featured:
   - { slug: liverpool-mancity-2526, clip_ms: 875000, moment_id: mo_00001, alternative: { kind: pass, target: "#11" },

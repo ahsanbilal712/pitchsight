@@ -1,4 +1,4 @@
-"""/replay3d: the Sliding Doors scene renders, records at >= 30 fps, seeks and switches cameras (T-053).
+"""/replay3d: the Sliding Doors scene renders, records at >= 30 fps, seeks and switches cameras.
 
 Runs in Chromium on the GPU (`gpu_browser`, Metal via ANGLE), the way the demo recorder runs it.
 """
@@ -65,8 +65,7 @@ def test_20s_records_at_30fps(gpu_browser, overlay_url):
 
 
 def test_ready_while_the_replay_is_paused(gpu_browser, overlay_url, api_server):
-    """The recorder pauses the replay before opening a shot; the scene must still report ready (T-062 found it did
-    not: readiness was only re-evaluated on stream messages)."""
+    """The recorder pauses the replay before opening a shot; the scene must still report ready (readiness was only re-evaluated on stream messages)."""
     import json
     import urllib.request
     from pathlib import Path

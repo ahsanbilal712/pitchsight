@@ -1,4 +1,4 @@
-"""Cue fan-out to 20 WebSocket clients < 50 ms (TECH_PLAN 1.4 api, T-033).
+"""Cue fan-out to 20 WebSocket clients < 50 ms.
 
 A real uvicorn server and 20 asyncio websocket clients (analyst, casual and studio). Each trial writes one cue into
 the blackboard, the way the newsroom's CueBus does, and times the moment the 20th client has it. That includes

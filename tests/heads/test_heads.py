@@ -1,4 +1,4 @@
-"""Outcome heads: artefacts present, no silent fallback, monotonicity sanity (T-015)."""
+"""Outcome heads: artefacts present, no silent fallback, monotonicity sanity."""
 
 import json
 import shutil

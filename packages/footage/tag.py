@@ -1,9 +1,9 @@
-"""Gemini event tagging of a real clip (FOOTAGE_ADDENDUM.md step 4, T-106).
+"""Gemini event tagging of a real clip.
 
     python -m footage.tag <slug> [--segments 0,1] [--dry-run]
 
 The clip is cut with ffmpeg into short low-resolution segments (data/footage/<slug>/segments/, git-ignored media),
-and each segment goes inline to gemini-3.8-flash on Vertex AI (no bucket, no Files API: owner rule) at low media
+and each segment goes inline to gemini-3.8-flash on Vertex AI (no bucket, no Files API: project rule) at low media
 resolution and 1 frame per second, with a JSON schema for the answer. Every call is checked and recorded by
 SpendGuard under the clip's own match id (config/footage.yaml); a clip stops at `max_usd_per_clip`.
 The raw answer per segment is kept in data/footage/<slug>/tags/ (a re-run reads it instead of paying again), and

@@ -1,4 +1,4 @@
-// Stadium bowl, pitch and lights, all procedural (no external 3D assets; FEASIBILITY_AUDIT A rows 61-62).
+// Stadium bowl, pitch and lights, all procedural (no external 3D assets).
 // The pitch texture is drawn on a canvas at 10 px per metre: stripes and the full set of markings.
 import { useMemo } from "react";
 import * as THREE from "three";

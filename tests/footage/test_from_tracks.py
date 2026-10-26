@@ -1,4 +1,4 @@
-"""Pitchwatch format v1 -> moment file (T-107): y flip, 1 s velocities, labels from the hand marks, a state that
+"""Pitchwatch format v1 -> moment file: y flip, 1 s velocities, labels from the hand marks, a state that
 branches. A synthetic shots/calib/tracks fixture; no media."""
 
 import json

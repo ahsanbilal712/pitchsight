@@ -1,4 +1,4 @@
-"""Pitch control: which team would reach each 2 m cell first (Spearman-style, TECH_PLAN 1.4).
+"""Pitch control: which team would reach each 2 m cell first (Spearman-style).
 
 Implemented from the published method (Spearman 2018, "Beyond expected goals"), simplified: each player's
 time to intercept a cell is a reaction phase on the current velocity followed by a straight run at top speed;

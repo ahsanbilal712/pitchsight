@@ -1,9 +1,9 @@
-"""Oracle: will there be a shot in the next 10 s, from where, by whom (TECH_PLAN 1.5 "Callers", 1.14 #2, T-046).
+"""Oracle: will there be a shot in the next 10 s, from where, by whom.
 
     oracle(match, t_ms, n=100, horizon_s=8, seed=4242) -> Forecast
 
 One unforced rollout of n worlds from the current state. A shot inside the 8 s horizon counts directly; seconds 8-10
-are an estimate (the learned engine is capped at 8 s, ADR-002): for worlds without a shot, the goal-in-8-s head on
+are an estimate (the learned engine is capped at 8 s): for worlds without a shot, the goal-in-8-s head on
 the terminal state times the corpus shots-per-goal ratio, scaled to the remaining 2 s. `p_shot_10s_estimated` says
 how much of the number came from that estimate.
 """
@@ -20,7 +20,7 @@ from kickoff.physics_prior import BOX_DEPTH, BOX_HALF, GOAL_Y, PITCH_L
 from .core import MatchRef, simulate
 from .futures import heads
 
-SHOTS_PER_GOAL = 9.0          # corpus seeds 1-50: 13.2 shots and 1.52 goals per team per match (T-014)
+SHOTS_PER_GOAL = 9.0          # corpus seeds 1-50: 13.2 shots and 1.52 goals per team per match
 WINDOW_S = 10.0
 
 

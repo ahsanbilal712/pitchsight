@@ -1,7 +1,7 @@
-"""Overlay viewer modes, heatmap, threat front and referee lines (T-045).
+"""Overlay viewer modes, heatmap, threat front and referee lines.
 
 The same fixture moment is rendered in analyst, casual and player_cam; the layers each mode draws must differ in
-exactly the ways TECH_PLAN 1.9 lists: analyst adds heatmap and threat front, casual drops heatmap, threat front and
+exactly these ways: analyst adds heatmap and threat front, casual drops heatmap, threat front and
 ticker, player_cam adds the player trail and the player tag.
 """
 
@@ -136,7 +136,7 @@ def test_heatmap_redraw_under_8ms_p95(page, overlay_url):
 
 def test_single_offside_line_labels_the_claimed_margin(page, overlay_url):
     """The golden offside call carries one line (the offside line); the margin label comes from its verified
-    metres claim (found recording T-062)."""
+    metres claim."""
     open_mode(page, overlay_url, "casual", REFEREE)
     page.evaluate("""() => window.__whyline.inject({type: 'cue', payload: {cue_id: 'c_900200', t_in_ms: 1900000,
         t_out_ms: 1908000, layer: 'referee_line', kind: 'fourth_official', priority: 1, clock: '31:40',

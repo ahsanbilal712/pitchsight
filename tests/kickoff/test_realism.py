@@ -1,4 +1,4 @@
-"""Realism ranges on evaluation seeds 1-50 (T-014, TECH_PLAN 1.4).
+"""Realism ranges on evaluation seeds 1-50.
 
 Reads the per-seed stats that scripts/generate_corpus.py stores in data/matches/corpus/progress.json when that
 corpus was built by the current engine; otherwise simulates the 50 matches itself in a process pool.

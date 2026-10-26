@@ -1,4 +1,4 @@
-"""Futures: what a rollout returns, and the horizon hand-off to the outcome heads (TECH_PLAN 1.5).
+"""Futures: what a rollout returns, and the horizon hand-off to the outcome heads.
 
 For each world, goal_b = 1 if the team scores within the horizon; worlds without a goal are valued by GoalIn8sHead
 on their terminal state, so p_goal_team = mean_b[goal_b + (1 - goal_b) * head_b]. Win probability is WinProbHead on

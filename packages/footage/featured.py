@@ -1,4 +1,4 @@
-"""Featured real-clip moments: counterfactual, explanation, Fact Checker, cache (FOOTAGE_ADDENDUM.md, T-109).
+"""Featured real-clip moments: counterfactual, explanation, Fact Checker, cache.
 
     python -m footage.featured [--only <slug>] [--no-model]
 

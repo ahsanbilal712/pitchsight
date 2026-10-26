@@ -1,4 +1,4 @@
-"""The Blackboard protocol (TECH_PLAN 1.4): the shared store of facts, moments, cues and traces."""
+"""The Blackboard protocol: the shared store of facts, moments, cues and traces."""
 
 from __future__ import annotations
 

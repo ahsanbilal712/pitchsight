@@ -1,4 +1,4 @@
-"""Oracle (T-046): p_shot_10s per team with the 8-10 s estimate labelled, deterministic, cached every 2 s; the
+"""Oracle: p_shot_10s per team with the 8-10 s estimate labelled, deterministic, cached every 2 s; the
 storyboard Oracle beat has p_shot >= 0.30 (config/budgets.yaml hard_rules.oracle_min_p_shot)."""
 
 import json

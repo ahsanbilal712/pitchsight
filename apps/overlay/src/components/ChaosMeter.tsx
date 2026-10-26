@@ -1,4 +1,4 @@
-// Chaos meter (TECH_PLAN 1.9): 0-100 bar plus state label, fed by `fact` messages. `chaos_index` carries the
+// Chaos meter: 0-100 bar plus state label, fed by `fact` messages. `chaos_index` carries the
 // value; `chaos_state` (the physics state machine, with hysteresis) carries Settled, Transitional or Chaotic.
 // Without a state fact the label falls back to plain thresholds on the value.
 import { useStream } from "../stream/StreamProvider";

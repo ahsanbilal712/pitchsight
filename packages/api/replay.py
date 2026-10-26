@@ -1,4 +1,4 @@
-"""Replay clock over a recorded match (TECH_PLAN 1.1 "Data flow, replay mode", 1.3 tracking frame format).
+"""Replay clock over a recorded match (replay mode", 1.3 tracking frame format).
 
 `MatchData` loads `data/matches/<seed>/{tracking.npz, events.jsonl}`; `ReplayClock` maps wall time to match
 time at speed x1..x10 with play, pause and seek. `python -m api.replay --seed 4242` serves the match on
@@ -112,7 +112,7 @@ class MatchData:
         return max(0, int(np.searchsorted(self.t_ms, t_ms, side="right")) - 1)
 
     def frame(self, i: int) -> dict:
-        """tracking_frame payload (TECH_PLAN 1.3): 23 rows of [x, y, vx, vy] rounded to cm and cm/s."""
+        """tracking_frame payload: 23 rows of [x, y, vx, vy] rounded to cm and cm/s."""
         return {
             "t_ms": int(self.t_ms[i]),
             "period": int(self.period[i]),

@@ -1,4 +1,4 @@
-"""Real-clip layer (FOOTAGE_ADDENDUM.md): event tagging (T-106), moment freeze (T-107), featured moments (T-109)."""
+"""Real-clip layer: event tagging, moment freeze, featured moments."""
 
 from footage.clips import CLIPS, FOOTAGE, clip_dir, load_config
 

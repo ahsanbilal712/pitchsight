@@ -1,9 +1,9 @@
 # Permissions
 
-Place the original permission email here as an `.eml` export (with headers), not a pasted body.
+Written permission from a Partnerships & Licensing Representative of the Premier League (the original email, with
+headers, is held by the project owner).
 
-- `premier-league-permission.eml` — from a Partnerships & Licensing Representative, Premier League (name held by the project owner).
-  Scope as stated: highlight clips downloaded from the Premier League's official YouTube channel; club names,
+- Scope as stated: highlight clips downloaded from the Premier League's official YouTube channel; club names,
   player names, logos and crests; use in the hackathon prototype, the hosted demonstration for judges and the
   public demo video under two minutes; until 10 November 2026; analysis by computer vision and AI overlays
   permitted; footage must not misrepresent events, be sold, be redistributed as standalone content, or be

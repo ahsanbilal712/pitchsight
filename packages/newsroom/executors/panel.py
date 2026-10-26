@@ -1,4 +1,4 @@
-"""PanelExecutor: three pundits and a chair debate one high-leverage moment (TECH_PLAN 1.7 Panel row, T-041).
+"""PanelExecutor: three pundits and a chair debate one high-leverage moment.
 
 A sub-workflow built with `agent_framework.orchestrations.GroupChatBuilder` runs inside the executor: the three
 pundits (press, possession, sceptic; role `panel_pundit`, gemini-3.8-flash live; `panel_pundit_golden`,

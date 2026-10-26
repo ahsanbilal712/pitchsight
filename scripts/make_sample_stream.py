@@ -1,11 +1,11 @@
-"""Build the 60-second sample WebSocket stream so screens can start before the engine exists (T-003).
+"""Build the 60-second sample WebSocket stream so screens can start before the engine exists.
 
 Usage:
   python3 scripts/make_sample_stream.py           # writes tests/fixtures/stream/sample_stream.jsonl
   python3 scripts/make_sample_stream.py --check   # re-parses the file, asserts counts and byte-identity
 
 Standard library only and deterministic: no randomness, floats rounded to 2 decimals, keys sorted.
-Each line is one message envelope {"type": <TECH_PLAN 1.9 message type>, "payload": {...}}; the
+Each line is one message envelope {"type": <message type>, "payload": {...}}; the
 message type names the schema the payload follows (event -> event.schema.json, cue -> cue.schema.json).
 
 The window is 30:50-31:50 of the golden match m_4242 (Verdant v Ironvale), around the storyboard
@@ -30,7 +30,7 @@ SCHEMAS = ROOT / "schemas"
 MATCH_ID = "m_4242"
 T0, N_FRAMES, DT = 1_850_000, 600, 100        # 60 s at 10 Hz
 BALL_REST_Z = 0.11
-# Rows 0-10 home (Verdant, attacking +x in period 1), 11-21 away (Ironvale), 22 ball (TECH_PLAN 1.3).
+# Rows 0-10 home (Verdant, attacking +x in period 1), 11-21 away (Ironvale), 22 ball.
 PLAYER_IDS = [
     "p_001", "p_004", "p_005", "p_006", "p_007", "p_012", "p_022", "p_013", "p_014", "p_017", "p_031",
     "p_026", "p_029", "p_030", "p_032", "p_033", "p_037", "p_038", "p_039", "p_040", "p_045", "p_046",
@@ -196,15 +196,15 @@ def pass_event(n: int, a: int, b: int, t0: int, t1: int, *, height="ground", out
                  location=[r2(x0), r2(y0)])
 
 
-# chaos_index once a second (TECH_PLAN 1.9 "indices every 1 s"): (t_ms, value) knots, linear in between.
-# The storyboard fact f_000301 (67.4 at 31:15) stays as it was in T-003; the state machine (enter > 65 for 20 s)
+# chaos_index once a second: (t_ms, value) knots, linear in between.
+# The storyboard fact f_000301 (67.4 at 31:15) keeps its value; the state machine (enter > 65 for 20 s)
 # turns Chaotic at 31:26; the window opens Transitional.
 CHAOS_KNOTS = [(1850000, 46.0), (1862000, 55.0), (1866000, 66.0), (1875000, 67.4), (1880000, 72.0),
                (1890000, 69.0), (1899000, 58.0)]
 
 
 def chaos_facts() -> list[dict]:
-    facts, n = [], 275  # numbered so the 31:15 fact keeps its T-003 id f_000301
+    facts, n = [], 275  # numbered so the 31:15 fact keeps its id f_000301
     for t in range(T0, T0 + N_FRAMES * DT, 1000):
         (ta, va), (tb, vb) = next(((a, b) for a, b in zip(CHAOS_KNOTS, CHAOS_KNOTS[1:], strict=False)
                                    if a[0] <= t <= b[0]), (CHAOS_KNOTS[-2], CHAOS_KNOTS[-1]))
@@ -225,8 +225,8 @@ def chaos_facts() -> list[dict]:
     return facts
 
 
-# Ghost futures for the counterfactual (T-024): 200 ball paths at 1 Hz over the 8 s horizon from the branch
-# point. Renderer convention (docs/cue_contract.md gap 7): the first half of futures_sample are baseline futures,
+# Ghost futures for the counterfactual: 200 ball paths at 1 Hz over the 8 s horizon from the branch
+# point. Renderer convention: the first half of futures_sample are baseline futures,
 # the second half alternative futures. Variation comes from a fixed trig hash, not a random generator.
 N_FUTURES, HORIZON_S = 200, 8
 
@@ -262,7 +262,7 @@ def counterfactual() -> dict:
     return cf
 
 
-# Oracle (T-045 until T-046): every 2 s, {t_ms, p_shot_home, p_shot_away, zone {x, y, r} in metres, shooter}.
+# Oracle: every 2 s, {t_ms, p_shot_home, p_shot_away, zone {x, y, r} in metres, shooter}.
 # Verdant's threat builds toward the right-hand box and peaks just before Okafor's shot at 31:14.
 ORACLE_KNOTS = [(1850000, 0.06), (1862000, 0.12), (1868000, 0.24), (1872000, 0.34), (1876000, 0.18),
                 (1882000, 0.05), (1910000, 0.04)]
@@ -282,7 +282,7 @@ def oracle_messages() -> list[dict]:
 
 
 def referee_cue() -> dict:
-    """A Fourth Official ruling (T-045 until T-049): offside lines in metres, onside by 0.4 m."""
+    """A Fourth Official ruling: offside lines in metres, onside by 0.4 m."""
     cue = schema_example("cue.schema.json")
     cue.update({"cue_id": "c_000913", "moment_id": None, "t_in_ms": 1900000, "t_out_ms": 1908000, "clock": "31:40",
                 "layer": "referee_line", "kind": "fourth_official", "priority": 0.9, "leverage": None,

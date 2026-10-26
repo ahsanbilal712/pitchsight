@@ -1,4 +1,4 @@
-"""Video v7: analytics on every frame (owner, 23 Oct: "keep it analytics full").
+"""Video v7: analytics on every frame (23 Oct: "keep it analytics full").
 
 An always-on layer from player positions alone (track A cache/v7 always_<start_ms>.json: pitch control, dangerous
 space in view per team, team shape), drawn under v6's ball layer (carrier, shot now, best pass, priced pass lines). The

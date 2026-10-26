@@ -1,4 +1,4 @@
-// Player tags (TECH_PLAN 1.9, cue contract): a `player_tag` cue pins a tag to its player's disc on Pitch2D.
+// Player tags (cue contract): a `player_tag` cue pins a tag to its player's disc on Pitch2D.
 // Position comes from the latest 10 Hz frame; a 100 ms linear transition smooths the hop between frames.
 // In player_cam mode the followed player keeps a tag ("Player-Cam") whenever no cue tag is up for them.
 import { surname, useLeague } from "../league";

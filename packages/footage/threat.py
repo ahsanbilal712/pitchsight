@@ -1,4 +1,4 @@
-"""Oracle threat front on a real build-up (video v2): the Oracle (rollout.oracle, T-046) run on every second of a
+"""Oracle threat front on a real build-up (video v2): the Oracle (rollout.oracle) run on every second of a
 tracked window, with the threat zone in the frame's own coordinates so it can be drawn on the broadcast.
 
     python -m footage.threat <slug> <start_ms> <end_ms> [--step-ms 1000] [--n 100]

@@ -1,11 +1,11 @@
-"""Player recall of the detector on labelled frames (T-105 acceptance: recall >= 0.9 on 200 frames).
+"""Player recall of the detector on labelled frames.
 
     python -m evals.pitchwatch.recall data/footage/<slug> sheets --shots 43,48,49,62,135 --per-shot 40
     python -m evals.pitchwatch.recall data/footage/<slug> score
 
 `sheets` samples frames evenly across the shots, runs RF-DETR (people, threshold 0.3) and writes review sheets to
 <slug>/frames/recall/ (git-ignored): four frames per sheet, each person box drawn and numbered, with a box count per
-frame. The labeller (the owner approved the agent labelling by eye, 23 Oct 2026) records for every frame how many
+frame. The labeller (labelled by eye, 23 Oct 2026) records for every frame how many
 people on the pitch have no box (`missed`) and how many boxes are not a person on the pitch (`false`), in
 <slug>/recall_labels.json. `score` computes recall = (boxes - false) / (boxes - false + missed) pooled over frames,
 and precision = (boxes - false) / boxes; writes <slug>/recall.json.

@@ -1,4 +1,4 @@
-"""T-057 hand review: the golden cache replays with no red trace row (T-062 records zero)."""
+"""Hand review: the golden cache replays with no red trace row."""
 
 from pathlib import Path
 

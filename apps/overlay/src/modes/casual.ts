@@ -1,4 +1,4 @@
-// Casual mode (TECH_PLAN 1.9): no heatmap, no threat front, no ticker, only its allowed kinds. Kinds mirror
+// Casual mode: no heatmap, no threat front, no ticker, only its allowed kinds. Kinds mirror
 // config/budgets.yaml director.modes.casual (tests/apps/test_viewer_modes.py checks they match).
 import type { ModeConfig } from "./config";
 

@@ -1,4 +1,4 @@
-"""GRF coordinates (T-027): metre mapping holds, team 0 attacks +x all game, speeds plausible, tokens flipped."""
+"""GRF coordinates: metre mapping holds, team 0 attacks +x all game, speeds plausible, tokens flipped."""
 
 from pathlib import Path
 
@@ -13,7 +13,7 @@ CSV = Path(__file__).resolve().parents[2] / "data" / "grf" / "tiny_set" / "gfoot
 @pytest.fixture(scope="module")
 def games():
     if not CSV.exists():
-        pytest.skip("needs data/grf/tiny_set (T-012)")
+        pytest.skip("needs data/grf/tiny_set")
     return grf_games(CSV)
 
 

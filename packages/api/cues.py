@@ -1,4 +1,4 @@
-"""Cue fan-out from the blackboard (TECH_PLAN 1.1, 1.9, T-033).
+"""Cue fan-out from the blackboard.
 
 `Forwarder` watches the blackboard collections the newsroom writes (cues, moments, facts, oracle, traces, modes,
 requests) and hands each new document to the hub:
@@ -93,7 +93,7 @@ def list_cues(request: Request, match_id: str, viewer: str = Query("studio", des
 @router.get("/cues/negotiate")
 def negotiate(match_id: str = Query(..., description="match whose cue group the screen joins"),
               viewer: str | None = None) -> dict:
-    """Azure deployment: a short-lived Web PubSub URL for a screen on Static Web Apps (ADR-009). Locally the
+    """Azure deployment: a short-lived Web PubSub URL for a screen on Static Web Apps. Locally the
     screens use the api's own WebSocket (`/ws`), and this answers `{"mode": "local"}`."""
     from cloud import cloud_enabled, settings
 

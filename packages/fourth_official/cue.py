@@ -1,4 +1,4 @@
-"""Ruling -> referee_line cue (schemas/cue.schema.json), verified by construction (T-049).
+"""Ruling -> referee_line cue (schemas/cue.schema.json), verified by construction.
 
 Every number on screen is a claim that cites the event it came from, so the Fact Checker can re-verify it (the offside
 margin is the event's margin_m). Geometry the events do not carry (the fouler's closing speed, the contact point, the

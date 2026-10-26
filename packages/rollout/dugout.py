@@ -1,4 +1,4 @@
-"""Dugout: which style change helps a team most right now (TECH_PLAN 1.5 "Callers", T-047).
+"""Dugout: which style change helps a team most right now.
 
     dugout(match, t_ms, team, options, n=100, horizon_s=8, seed=4242) -> list[OptionResult]
 

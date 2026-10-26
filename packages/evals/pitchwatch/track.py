@@ -1,4 +1,4 @@
-"""Players and ball: detection, tracking, team labels, pitch metres (FOOTAGE_ADDENDUM §3 step 3, T-105).
+"""Players and ball: detection, tracking, team labels, pitch metres.
 
     python -m evals.pitchwatch.track data/footage/<slug> --shots 62 [--step 2]
 

@@ -1,5 +1,4 @@
-"""Hand review and the cached cue stream (TECH_PLAN 1.7 "Prompt versioning and few-shots", 1.8 precompute step 6;
-T-057).
+"""Hand review and the cached cue stream.
 
     replay(manifest)                         every golden moment through the graph from the cache (no model call)
     export_review(manifest, k, out_dir)      review/<moment_id>.md for the k highest-leverage explained moments

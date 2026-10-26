@@ -1,4 +1,4 @@
-// Demo controls (TECH_PLAN 1.9 studio, 1.8 demo script): kill the newsroom worker, replay speed x1/x2/x5/x10,
+// Demo controls: kill the newsroom worker, replay speed x1/x2/x5/x10,
 // play/pause and seek to a clock (mm:ss). Kill posts POST /demo/kill {target: "newsroom"}; the rest post
 // /replay/control.
 import { useState } from "react";

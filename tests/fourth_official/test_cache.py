@@ -1,5 +1,5 @@
 """Every offside, foul and card of the golden match has a cached referee_line cue with lines and its margin,
-verified by construction (T-049)."""
+verified by construction."""
 
 import json
 from pathlib import Path

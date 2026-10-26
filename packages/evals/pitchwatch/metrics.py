@@ -2,11 +2,11 @@
 
     python -m evals.pitchwatch.insights metrics      # writes data/footage/insights/metrics.json
 
-- Detection recall: from <slug>/recall.json (200 frames labelled by eye, T-105); only clips that have labels.
+- Detection recall: from <slug>/recall.json (200 frames labelled by eye); only clips that have labels.
 - Calibration, per clip and over every calibrated shot: share of frames whose fit is trusted (ok) and the median and
   p95 line residual of those frames, in pixels (distance from the projected pitch model to the detected line
   segments; includes about half a line width of edge bias). Where track C refined a shot against the paint
-  (calib/<shot>_refined.json) its drift to the paint centre is reported too, and the 20 check points of T-104 give
+  (calib/<shot>_refined.json) its drift to the paint centre is reported too, and the 20 check points give
   metres.
 - Tracking continuity: interior track starts per player-minute. A track that starts mid-shot with its box at least
   EDGE_PX from the picture border is a player the tracker lost and picked up again under a new id (an ID switch or

@@ -1,4 +1,4 @@
-"""Decision Index: how good each on-ball decision was, by rollout (TECH_PLAN 1.14 #3, 1.8 step 3; T-048).
+"""Decision Index: how good each on-ball decision was, by rollout.
 
 Formula. For every pass, shot and clearance of the match (the decision tick, event t_ms - 100), force the action
 actually taken and each of the engine's three most likely other options (scripted_v1 option probabilities at that
@@ -11,7 +11,7 @@ hand-off) after forcing a. The decision's value is
 refuses to force a pass to an offside target; when the actual pass was one, its consequence is known (offside, free
 kick to the opponents), so p(actual) is an unforced rollout from the realised state just after the whistle. A player's
 Decision Index is the percentile (0-100) of his mean value among all players of the match with at least
-MIN_DECISIONS decisions. Live mode cannot afford this many rollouts (TECH_PLAN 1.14 #3), so `live_values` uses the
+MIN_DECISIONS decisions. Live mode cannot afford this many rollouts, so `live_values` uses the
 goal-in-8-s head swing per decision, net of the opponent: (p(team scores) - p(opponent scores)) at t + 1 s minus the
 same at t - 100 ms, aggregated the same way; `spearman` reports how well it ranks players like the rollout index.
 (Net, because a decision that gives the ball away raises the opponent's chance, which the team-only swing misses:

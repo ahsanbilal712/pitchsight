@@ -1,4 +1,4 @@
-"""Every cached cue's evidence resolves (T-057, M1 item 2).
+"""Every cached cue's evidence resolves (M1 item 2).
 
 Usage: python scripts/check_cue_evidence.py --seed 4242
 

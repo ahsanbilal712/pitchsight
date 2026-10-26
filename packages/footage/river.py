@@ -3,7 +3,7 @@ real score and clock, every 15 s of match time, with the clip's key moments mark
 
     python -m footage.river [<slug>]
 
-The score comes from the T-106 tagged goals; the clock-to-video mapping from the score-bug readings of the tagged
+The score comes from the tagged goals; the clock-to-video mapping from the score-bug readings of the tagged
 events (piecewise linear). Context features the head also uses (15-minute xT/xG difference, chaos) are not
 measured on real footage and are held neutral, so the curve moves with the score and the clock only; the head was
 trained on 90-minute synthetic matches, so stoppage time is valued as minute 90. Markers: every goal, red card and

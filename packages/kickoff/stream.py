@@ -1,4 +1,4 @@
-"""Stream a simulated match into whyline-api in real time (TECH_PLAN 1.1 live data flow, T-033).
+"""Stream a simulated match into whyline-api in real time.
 
     python -m kickoff play --seed N --target api [--api http://localhost:8000] [--speed 1]
 
@@ -18,7 +18,7 @@ import numpy as np
 
 
 def frame_json(tracking: dict, i: int) -> dict:
-    """tracking_frame payload (TECH_PLAN 1.3) for frame i of a tracking dict (same keys as tracking.npz)."""
+    """tracking_frame payload for frame i of a tracking dict (same keys as tracking.npz)."""
     return {
         "t_ms": int(tracking["t_ms"][i]),
         "period": int(tracking["period"][i]),

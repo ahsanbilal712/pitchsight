@@ -1,4 +1,4 @@
-"""Studio producer panel and demo controls (T-035).
+"""Studio producer panel and demo controls.
 
 Approve, veto and hold post /producer/decision; vetoing an on-air cue removes it from the overlay within 200 ms
 (two pages: the studio clicks, the overlay's lower-third leaves); kill posts /demo/kill; speed and seek post

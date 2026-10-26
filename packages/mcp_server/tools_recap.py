@@ -1,4 +1,4 @@
-"""Recap tools (TECH_PLAN 1.7 MCP list, T-050):
+"""Recap tools:
 
     top_moments(match_id: str, period: int | None = None, k: int = 5) -> list[dict]
     timeline(match_id: str) -> dict          # chaos, control, xT series at 30 s

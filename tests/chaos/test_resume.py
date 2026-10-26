@@ -1,4 +1,4 @@
-"""Kill switch and resume (TECH_PLAN 1.7, T-051): SIGKILL the worker between Tactician and Narrator, the supervisor
+"""Kill switch and resume: SIGKILL the worker between Tactician and Narrator, the supervisor
 restarts it within 2 s, the run resumes from its checkpoint and delivers the same cue id as an uninterrupted run.
 One run, replay mode (cached model outputs, no network): the CI chaos-resume job."""
 
@@ -125,7 +125,7 @@ def test_kill_between_tactician_and_narrator_resumes_with_same_cue(tmp_path, mon
     assert len(red) == 1 and red[0]["executor"] == "narrator"          # one red row for the studio, from the kill
     bb.close()
     out = os.environ.get("WHYLINE_KILL_LOG_OUT")
-    if out:  # python -m pytest tests/chaos with WHYLINE_KILL_LOG_OUT=docs/evidence/kill_resume.log saves the demo log
+    if out:  # python -m pytest tests/chaos with WHYLINE_KILL_LOG_OUT=<path> saves the demo log
         Path(out).write_text(log.read_text())
 
 

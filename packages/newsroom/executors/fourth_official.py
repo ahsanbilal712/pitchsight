@@ -1,5 +1,5 @@
-"""FourthOfficialExecutor: referee moments (offside, foul, card) -> a referee_line draft, by code (TECH_PLAN 1.7
-agent table, 5 ms; T-049). The ruling is re-derived from the tracking frames (fourth_official.check_offside /
+"""FourthOfficialExecutor: referee moments (offside, foul, card) -> a referee_line draft, by code
+(about 5 ms). The ruling is re-derived from the tracking frames (fourth_official.check_offside /
 check_foul), so the draft is verified by construction; its numbers are claims that cite the referee event.
 """
 

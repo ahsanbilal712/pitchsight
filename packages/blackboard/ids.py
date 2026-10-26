@@ -1,4 +1,4 @@
-"""Blackboard document IDs (TECH_PLAN 1.3): zero-padded, monotonic per match, identical across runs of a seed.
+"""Blackboard document IDs: zero-padded, monotonic per match, identical across runs of a seed.
 
     f_000001  facts            mo_00077  moments          pc_000412  pitch_control
     cf_000077 counterfactuals  ex_000077 explanations     c_000912   cues

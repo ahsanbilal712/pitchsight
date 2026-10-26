@@ -1,4 +1,4 @@
-"""Video edit: every caption number has a source; the v1 edit list is consistent (T-063)."""
+"""Video edit: every caption number has a source; the v1 edit list is consistent."""
 
 from pathlib import Path
 

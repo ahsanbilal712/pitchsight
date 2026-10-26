@@ -1,4 +1,4 @@
-"""Kickoff: a batched, deterministic football match engine with hidden tactical truth (ADR-001).
+"""Kickoff: a batched, deterministic football match engine with hidden tactical truth.
 
 B worlds advance in lock-step at 10 Hz. Continuous physics (player movement, ball flight) is vectorised
 over worlds; discrete match logic (control, duels, restarts, events) runs per world only where something
@@ -87,7 +87,7 @@ PHASE_DELTA = {
 }
 # Hidden match state (truth phases with side "M"): one regime at a time for both teams. It shifts both teams'
 # styles and scales duel intensity (tackle hazard, interception chance), so the game-state machine has a real,
-# hidden signal to detect (T-055 scores it against these labels).
+# hidden signal to detect.
 REGIMES = ("state_settled", "state_transitional", "state_chaotic")
 REGIME_P = (0.45, 0.30, 0.25)
 REGIME_MIN = (10, 18)                     # regime length in whole minutes (inclusive range)
@@ -111,7 +111,7 @@ PARKED = np.array([PITCH_L / 2, -1.0e4])          # where a sent-off player stan
 KEEPER_ROWS = np.array([0, 11])
 KIND_CODE = {"pass": PASS, "carry": CARRY, "shoot": SHOOT, "clear": CLEAR, "hold": HOLD}
 NOISE_BLOCK = 64                          # ticks of noise drawn per world at once
-# Realism knobs, tuned on seeds 1-50 against TECH_PLAN 1.4 (T-014).
+# Realism knobs, tuned on seeds 1-50 against the realism ranges.
 LINE_IN_POSS, LINE_OUT_POSS = 6.0, 10.0   # metres the defensive line moves up per unit of line_height
 RUN_AMP_M = 3.0                           # forwards drift this far either side of the offside line on a 7 s cycle
 FWD_REACH_M = 20.0                        # forwards push onto the offside line when it is this close to the ball
@@ -679,7 +679,7 @@ class Engine:
                      score=self.score.astype(np.int16), t_ms=self.t_ms, period=self.period,
                      attack_dir=self.home_dir, styles=styles)
 
-    # ------------------------------------------------------------------ branching (TECH_PLAN 1.5)
+    # ------------------------------------------------------------------ branching
     PER_WORLD = ("S", "ball_z", "ball_vz", "holder", "possession", "score", "control_since", "latency", "restart_flag",
                  "dead", "flight", "kicker", "kick_t", "last_touch", "carry_dir", "mode", "eff_styles", "mom",
                  "intensity", "shots", "force_pending", "first_kind", "first_target", "vtop")
@@ -848,7 +848,7 @@ class Engine:
 
     def _decide(self, noise: np.ndarray, only: np.ndarray | None = None) -> None:
         need = (~self.dead) & (self.holder >= 0) & (self.t_ms - self.control_since >= self.latency)
-        if only is not None:                       # a learned decision model handles the other worlds (T-036)
+        if only is not None:                       # a learned decision model handles the other worlds
             need &= only
         forced = np.zeros(self.B, dtype=bool)
         if self.force is not None:                 # a branch's first decision happens on its first tick

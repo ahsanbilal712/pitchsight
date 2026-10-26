@@ -1,4 +1,4 @@
-"""The Agent Framework APIs the newsroom is built on import from the pinned packages (T-008).
+"""The Agent Framework APIs the newsroom is built on import from the pinned packages.
 
 Located in agent-framework-core 1.22.0: `Case` and `Default` are defined in
 `agent_framework._workflows._edge` and re-exported as `agent_framework.Case` / `agent_framework.Default`.

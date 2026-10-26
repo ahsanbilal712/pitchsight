@@ -1,11 +1,10 @@
-"""Shot segmentation with replay detection (FOOTAGE_ADDENDUM §3 step 1, T-103).
+"""Shot segmentation with replay detection.
 
     python -m evals.pitchwatch.shots data/footage/<slug>/clip.mp4 [--out data/footage/<slug>]
 
 Samples the clip at 5 fps. A cut is an HSV-histogram correlation below CUT_CORR between samples. A sample is "wide"
 when pitch green covers at least WIDE_GREEN of the frame, at least MIN_PLAYERS player-sized blobs are on the pitch,
-and no tall blob (a close-up person) is larger than WIDE_BLOB of the frame (tuning history in data/footage/
-SHOTS_REVIEW.md). A shot is wide when 70% of its samples are, and is trimmed to its longest run of wide samples (gaps up to 0.6 s
+and no tall blob (a close-up person) is larger than WIDE_BLOB of the frame. A shot is wide when 70% of its samples are, and is trimmed to its longest run of wide samples (gaps up to 0.6 s
 bridged): a fast pan into the stands or the bench changes the colours too gradually to count as a cut.
 
 Replays: Premier League broadcasts keep the score graphic and its running clock through replays, so the graphic

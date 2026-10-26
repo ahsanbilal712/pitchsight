@@ -83,7 +83,7 @@ class ScriptedRule:
     """Utility + noise on-ball rule (scripted_v1)."""
 
     temperature = 0.012
-    # Tuned on seeds 1-50 against the TECH_PLAN 1.4 realism ranges (T-014).
+    # Tuned on seeds 1-50 against the realism ranges.
     shot_scale = 1.3              # weight on xG when comparing a shot with the best pass
     shot_range_m = 25.0           # no open-play shots from further out
     through_ball_bias = 0.07      # the passer over-rates a runner past the offside line (mistimed runs -> offsides)

@@ -1,4 +1,4 @@
-"""Every event is schema-valid, ids are monotonic, events carry player ids only (T-006)."""
+"""Every event is schema-valid, ids are monotonic, events carry player ids only."""
 
 import json
 import re

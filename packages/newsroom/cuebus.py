@@ -1,5 +1,5 @@
-"""CueBus: the last node of every run. Puts the cue into blackboard `cues` (the api watches that collection,
-T-033) and yields it as the workflow output (TECH_PLAN 1.7, T-021)."""
+"""CueBus: the last node of every run. Puts the cue into blackboard `cues` (the api watches that
+collection) and yields it as the workflow output."""
 
 from __future__ import annotations
 

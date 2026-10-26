@@ -1,4 +1,4 @@
-"""Live latency probe (T-032): explained moments of the golden match through the real processes.
+"""Live latency probe: explained moments of the golden match through the real processes.
 
     python scripts/latency_probe.py --moment-t 2715600[,2905600,...] [--out data/runtime/latency_probe.json]
 

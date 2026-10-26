@@ -1,4 +1,4 @@
-"""DecisionPolicy (T-028): about 4.9M parameters (within 10%), forward on [200, 23, 16] on mps, pointer masking,
+"""DecisionPolicy: about 4.9M parameters (within 10%), forward on [200, 23, 16] on mps, pointer masking,
 sampling from a kickoff State, and a loss that is finite with the holder slot masked."""
 
 import numpy as np

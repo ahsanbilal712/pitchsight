@@ -966,7 +966,7 @@ def v9_overlays(beats: dict) -> list[dict]:
     title's clock is the tagged shot's; the receiver is unnamed unless verified. Strike tags on the live beats: each
     strike in the beat's window prints its shots_0 xG and outcome (the window's own shot row must agree) and the
     verified shooter only; a disallowed strike prints no number and needs its evidence. Diagram, opener, SEE and end
-    card: no number, and no claim the owner ruled out (training, YOLO, Azure, "every player")."""
+    card: no number, and no claim the project ruled out (training, YOLO, Azure, "every player")."""
     from footage.names import short, verify
 
     rows = []

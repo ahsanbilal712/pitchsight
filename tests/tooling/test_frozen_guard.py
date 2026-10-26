@@ -1,4 +1,4 @@
-"""Frozen-cache guard: unchanged, changed without a VERSION bump (fail), changed with a bump (pass) (T-060)."""
+"""Frozen-cache guard: unchanged, changed without a VERSION bump (fail), changed with a bump (pass)."""
 
 import importlib.util
 import json
@@ -90,7 +90,7 @@ def test_not_frozen_or_absent_passes(repo):
     commit(repo, "manifest")
     assert run(repo)[0]                                  # absent at base
     write(repo, frozen=False, sha="c" * 64)
-    commit(repo, "regenerate before T-071")
+    commit(repo, "regenerate")
     assert run(repo)[0]                                  # base not frozen
 
 

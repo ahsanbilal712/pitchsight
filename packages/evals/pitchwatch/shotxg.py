@@ -4,7 +4,7 @@
     python -m evals.pitchwatch.shotxg xg         # release frame, features, xG; writes data/footage/insights/shots_xg.json
     python -m evals.pitchwatch.shotxg sheet      # review sheet of every release frame (git-ignored)
 
-Shots: the Gemini-tagged events (T-106, <slug>/events.jsonl, type shot; times are whole seconds of the clip). A shot
+Shots: the Gemini-tagged events (<slug>/events.jsonl, type shot, times are whole seconds of the clip). A shot
 is measurable when its time falls in a usable wide main-camera shot (shots.json); replays and close-ups have no pitch
 geometry and are listed as not measured.
 

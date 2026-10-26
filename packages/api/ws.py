@@ -1,4 +1,4 @@
-"""WebSocket fan-out (TECH_PLAN 1.9): one ticker walks the stream clock and pushes `tracking_frame` (10 Hz match
+"""WebSocket fan-out: one ticker walks the stream clock and pushes `tracking_frame` (10 Hz match
 time), `event`, `lineup` and the blackboard's timed documents (cues, facts, moments, oracle) to every connected
 screen; each client has its own bounded queue and its own filter (cue targets, studio-only types).
 

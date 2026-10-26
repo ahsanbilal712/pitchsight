@@ -1,6 +1,6 @@
-"""NarratorExecutor: one lower-third from verified claims only (TECH_PLAN 1.7, T-020).
+"""NarratorExecutor: one lower-third from verified claims only.
 
-Role `narrator_fast` (gemini-3.8-flash since ADR-004 Revision 1), prompt `narrator@2`, timeout 4 s with one retry.
+Role `narrator_fast`, prompt `narrator@2`, timeout 4 s with one retry.
 Fallback chain: model -> retry once (a provider error, or the role's `provider_fallback` role if one is configured)
 -> deterministic template on timeout, second failure, cache miss or spend cap. Rewrites receive the Fact Checker's
 `diff` and the previous draft.
@@ -33,7 +33,7 @@ CUE_KINDS = {"sliding_doors", "state_change", "big_chance", "goal", "tempo_shift
 def build_messages(kind: str, claims: list[dict], diff: list[dict] | None = None,
                    previous: dict | None = None) -> list[dict]:
     _, system = config.prompt(PROMPT)
-    # few-shots belong to the prompt version after the hand review (T-057): narrator@2 made the golden cache
+    # few-shots belong to the prompt version after the hand review: narrator@2 made the golden cache
     # without them, so loading them under the same version would change a cached prompt silently
     shots = [] if PROMPT == "narrator@2" else load_fewshot(config.PROMPTS / "fewshot" / "narrator.jsonl")[:FEWSHOT_MAX]
     msgs = [{"role": "system", "content": system}]

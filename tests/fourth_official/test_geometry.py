@@ -1,4 +1,4 @@
-"""Fourth Official geometry on hand-built frames (T-049): onside/offside by 0.4 m, level is onside, own-half
+"""Fourth Official geometry on hand-built frames: onside/offside by 0.4 m, level is onside, own-half
 exception, foul in/out of the box; each check < 5 ms; the golden match's offsides re-derive to the event margins."""
 
 import json

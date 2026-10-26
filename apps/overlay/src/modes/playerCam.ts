@@ -1,4 +1,4 @@
-// Player-Cam overlay mode (TECH_PLAN 1.9: player_cam draws the player trail and shows player tags; budgets.yaml
+// Player-Cam overlay mode (player_cam draws the player trail and shows player tags; budgets.yaml
 // player_cam.player_trail). The trail is the chosen player's last 8 s of positions, fading out; the tag stays on
 // that player while no cue tag is up for them.
 import { layerStats, registerLayer, type LayerFn } from "../pitch/layers";

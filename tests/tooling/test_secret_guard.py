@@ -1,4 +1,4 @@
-"""The pre-commit secret guard refuses key-shaped content and .env files (T-004).
+"""The pre-commit secret guard refuses key-shaped content and .env files.
 
 Fake keys are built by concatenation so this file never contains the pattern itself.
 """
@@ -64,7 +64,7 @@ def test_clean_commit_passes(repo: Path) -> None:
 
 
 def test_bare_prefixes_in_docs_pass(repo: Path) -> None:
-    for doc in ("TECH_PLAN.md", "TASKS.md"):
+    for doc in ("README.md", "LICENSES.md"):
         shutil.copy(ROOT / doc, repo / doc)
         git(repo, "add", doc)
     res = git(repo, "commit", "-q", "-m", "docs")

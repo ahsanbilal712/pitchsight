@@ -1,4 +1,4 @@
-"""Video v9 narration (ADR-010 amendment): the script's sections, its length and the claims it may not make."""
+"""Video v9 narration: the script's sections, its length and the claims it may not make."""
 
 import re
 
@@ -14,7 +14,7 @@ def test_the_script_opens_with_the_hackathon_and_stays_in_length():
     assert all(t.endswith(".") for t in sentences(s["architecture"]))
 
 
-def test_the_script_makes_no_claim_the_owner_ruled_out_and_speaks_no_number():
+def test_the_script_makes_no_ruled_out_claim_and_speaks_no_number():
     text = " ".join(sections().values())
     for banned in ("YOLO", "trained", "training", "Foundry", "Azure", "live"):
         assert not re.search(rf"\b{banned}\b", text, re.I), banned
@@ -27,7 +27,7 @@ def test_the_transcriber_spelling_is_not_a_different_word():
     assert words("This is PitchSite") == words("This is Pitchsight")     # the product's name heard as a homophone
 
 
-def test_v10_voice_keeps_the_owners_rules():
+def test_v10_voice_keeps_its_rules():
     from footage.clips import ROOT
 
     s = sections(ROOT / "docs" / "video" / "narration_v10.md")

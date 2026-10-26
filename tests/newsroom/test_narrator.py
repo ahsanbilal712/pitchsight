@@ -1,5 +1,5 @@
 """Narrator and fast line: verified claims only, cue limits, timeout -> template, provider error -> retry,
-rewrite with the diff, one live call (T-020)."""
+rewrite with the diff, one live call."""
 
 import asyncio
 import dataclasses
@@ -124,7 +124,7 @@ def test_fast_line_claims_come_from_the_moment_evidence(evidence_bb):
 
 
 def test_goal_fast_line_names_only_the_scorer(evidence_bb):
-    """T-057 review: the evidence also holds the passer, so a goal cue named the wrong player."""
+    """Review: the evidence also holds the passer, so a goal cue named the wrong player."""
     for eid, t, typ, pid, attrs in (("e_9101", 2_000_000, "pass", "p_018", {}),
                                     ("e_9102", 2_001_000, "shot", "p_017", {"xg": 0.27}),
                                     ("e_9103", 2_001_100, "goal", "p_017", {})):

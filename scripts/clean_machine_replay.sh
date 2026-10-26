@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Clean-machine replay test (T-064, DEMO_MASTERPLAN §9 item 1, TECH_PLAN 1.12 "Judges can test").
+# Clean-machine replay test.
 #
 #   bash scripts/clean_machine_replay.sh [--runs 3] [--speed 10] [--keep]
 #

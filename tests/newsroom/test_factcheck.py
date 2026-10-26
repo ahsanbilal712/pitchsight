@@ -1,4 +1,4 @@
-"""Fact Checker: one passing and one failing test per TECH_PLAN 1.7 rule, every tolerance (T-019)."""
+"""Fact Checker: one passing and one failing test per rule, every tolerance."""
 
 import asyncio
 import time
@@ -232,7 +232,7 @@ def test_executor_rejects_unbound_numbers_until_attempt_3(evidence_bb):
 
 
 def test_one_point_is_a_hundredth(evidence_bb):
-    """'1 point' of win chance is 0.01, not 1.0 (found in the T-057 hand review)."""
+    """'1 point' of win chance is 0.01, not 1.0."""
     cf = {**evidence_bb.get("counterfactuals", "cf_000077"), "counterfactual_id": "cf_000078",
           "delta_win_prob_home": -0.0103}
     evidence_bb.put("counterfactuals", cf)
@@ -242,7 +242,7 @@ def test_one_point_is_a_hundredth(evidence_bb):
 
 
 def test_footage_match_allows_only_its_roster_names(tmp_path):
-    """A real-clip match (T-109) lists its players and clubs in match_metadata: those real names pass rules 3 and 7,
+    """A real-clip match lists its players and clubs in match_metadata: those real names pass rules 3 and 7,
     any other real name is still banned, and synthetic matches are unchanged."""
     from blackboard import SqliteBlackboard
 

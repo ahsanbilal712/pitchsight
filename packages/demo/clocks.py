@@ -1,7 +1,7 @@
-"""Clock references for the demo script and shot list (TECH_PLAN 1.8, T-061).
+"""Clock references for the demo script and shot list.
 
-A clock is either literal or a reference into packages/demo/golden_moments.yaml (written by the golden precompute,
-T-039), so shots and demo actions follow the moments the precompute chose:
+A clock is either literal or a reference into packages/demo/golden_moments.yaml (written by the golden
+precompute), so shots and demo actions follow the moments the precompute chose:
 
     "31:10"              literal match clock (minutes may exceed 59)
     "45:00+15s"          literal with an offset
@@ -53,7 +53,7 @@ def load_moments(path: Path | str | None = None) -> dict:
     p = Path(path) if path else GOLDEN_MOMENTS
     if not p.exists():
         raise ClockError(f"{p.relative_to(ROOT) if p.is_relative_to(ROOT) else p} does not exist yet "
-                         "(written by the golden precompute, T-039)")
+                         "(written by the golden precompute)")
     return yaml.safe_load(p.read_text()) or {}
 
 

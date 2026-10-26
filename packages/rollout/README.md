@@ -2,7 +2,6 @@
 
 The rollout primitive and its callers: Sliding Doors, Oracle, Dugout.
 
-Interface restated from `TECH_PLAN.md` section 1.4 "rollout (the primitive and three callers)" (TECH_PLAN wins on conflict).
 Tests live in `tests/rollout/`.
 
 See 1.5. Public interface:
@@ -15,7 +14,7 @@ def oracle(match: MatchRef, t_ms: int, n: int = 100, horizon_s: float = 8, seed=
 def dugout(match: MatchRef, t_ms: int, team: str, options: list[StyleDelta], n: int = 100, horizon_s: float = 8, seed=...) -> list[OptionResult]
 ```
 
-Implementation notes (T-016):
+Implementation notes:
 - `MatchRef(seed, match_dir=...)` re-simulates world 0 from kick-off to any tick (never reads `truth.json`);
   `state_at(t_ms)` returns a `State` whose `source` is a one-world engine fork. Events with ids come from
   `match_dir` (`events.jsonl` or `.jsonl.gz`).

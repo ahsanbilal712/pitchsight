@@ -1,4 +1,4 @@
-"""Pitch control: shape, shares sum to 1, mirror symmetry, nearest player wins (T-013)."""
+"""Pitch control: shape, shares sum to 1, mirror symmetry, nearest player wins."""
 
 import numpy as np
 import pytest

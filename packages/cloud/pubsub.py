@@ -1,4 +1,4 @@
-"""Cue fan-out through Azure Web PubSub (ADR-009): CueBus publishes each delivered cue to the hub, and the
+"""Cue fan-out through Azure Web PubSub: CueBus publishes each delivered cue to the hub, and the
 screens on Static Web Apps subscribe with a client token from `GET /cues/negotiate`. Locally the api's
 WebSocket forwarder does the same job, so this publisher is only built when WHYLINE_CLOUD=1."""
 

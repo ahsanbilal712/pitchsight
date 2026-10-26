@@ -1,5 +1,5 @@
 """CacheClient: hits after simulated_latency_ms / WHYLINE_REPLAY_SPEED, misses raise CacheMiss, counterfactuals by
-content (also through the MCP tool in replay mode), replay injection in the worker (T-038)."""
+content (also through the MCP tool in replay mode), replay injection in the worker."""
 
 import asyncio
 import json

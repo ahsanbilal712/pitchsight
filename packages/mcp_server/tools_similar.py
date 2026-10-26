@@ -1,4 +1,4 @@
-"""MCP tool similar_moments (TECH_PLAN 1.7, T-054): the k nearest moments of the golden season to a moment.
+"""MCP tool similar_moments: the k nearest moments of the golden season to a moment.
 
 The query moment is embedded with heads.MomentEncoder (pitch-control grid + 12 chaos features -> 64-d); neighbours
 come from packages/heads/artifacts/moment_index.npz (evaluation seeds 1-50 and the golden match, every 10 s), other

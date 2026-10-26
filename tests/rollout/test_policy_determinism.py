@@ -1,4 +1,4 @@
-"""policy_v1 rollouts (T-036): byte-identical Futures on MPS twice and on MPS vs CPU; ungated checkpoints refused."""
+"""policy_v1 rollouts: byte-identical Futures on MPS twice and on MPS vs CPU; ungated checkpoints refused."""
 
 import json
 
@@ -24,7 +24,7 @@ def _run(golden, decision_t, device, monkeypatch):
                    events=golden.events())
 
 
-@pytest.mark.skipif(NO_CKPT, reason="needs a policy_v1 checkpoint (T-028)")
+@pytest.mark.skipif(NO_CKPT, reason="needs a policy_v1 checkpoint")
 @pytest.mark.skipif(not torch.backends.mps.is_available(), reason="needs Apple GPU")
 def test_mps_twice_and_mps_vs_cpu(golden, decision_t, ungated_ok, monkeypatch):
     a = _run(golden, decision_t, "mps", monkeypatch)

@@ -1,4 +1,4 @@
-"""CI judge: plausibility of explained cues (TECH_PLAN 1.7 agent table row "Judge", 1.11; T-056). Reported only.
+"""CI judge: plausibility of explained cues. Reported only.
 
     python -m evals.judge [--n 30] [--seed 4242]
 
@@ -98,7 +98,7 @@ def run(n: int, seed: int) -> dict:
     return {"n": len(rows), "judged": len(judged), "pool": len(pool), "errors": sum(1 for r in rows if r.get("error")),
             "plausibility_rate": round(sum(r["plausible"] for r in judged) / len(judged), 4) if judged else None,
             "cost_usd": round(spent - prior, 4), "judge_total_usd": round(spent, 4), "max_usd": MAX_USD, "prompt": PROMPT, "seed": seed, "rows": rows,
-            "threshold": None, "note": "reported only (TECH_PLAN 1.11 has no judge threshold)"}
+            "threshold": None, "note": "reported only"}
 
 
 def main(argv: list[str] | None = None) -> int:

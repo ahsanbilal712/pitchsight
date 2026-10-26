@@ -1,4 +1,4 @@
-"""'Dugout called it' log (FEASIBILITY_AUDIT C.6, T-047): compare the Dugout's recommendation at 60:00 with the
+"""'Dugout called it' log: compare the Dugout's recommendation at 60:00 with the
 style change the team actually showed in 60:00-70:00 versus 50:00-60:00.
 
     python -m evals.dugout_log --seed 4242

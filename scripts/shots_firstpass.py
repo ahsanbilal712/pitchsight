@@ -1,4 +1,4 @@
-"""First-pass shot segmentation for broadcast football clips (T-103 exploration).
+"""First-pass shot segmentation for broadcast football clips.
 
 Usage: python -I shots.py <clip.mp4> <out_dir>
 Writes <out_dir>/shots.json and one review thumbnail per wide shot in <out_dir>/frames/.

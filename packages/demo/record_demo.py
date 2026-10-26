@@ -1,4 +1,4 @@
-"""Record the demo shots with Playwright (TECH_PLAN 1.9 "Recording", T-061).
+"""Record the demo shots with Playwright.
 
     python -m demo.record_demo --shots packages/demo/shot_list.yaml [--only a,b] [--api http://127.0.0.1:8000]
     python -m demo.record_demo --shots packages/demo/shot_list.yaml --dry-run
@@ -243,7 +243,7 @@ def main(argv: list[str] | None = None) -> int:
         for a in missing:
             print(f"warning: apps/{a}/dist missing (npm --prefix apps/{a} run build)")
         for p in pages:
-            print(f"warning: {p} missing (written by the video edit, T-063)")
+            print(f"warning: {p} missing (written by the video edit)")
         print(f"dry run: {len(shots)} shots into {out}")
         return 0
     if missing:

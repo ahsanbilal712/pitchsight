@@ -1,4 +1,4 @@
-"""Decision Index (T-048): every on-ball decision of the golden match has a cached value, the per-player index is in
+"""Decision Index: every on-ball decision of the golden match has a cached value, the per-player index is in
 [0, 100], the formula is documented, and the live head-swing approximation ranks players like the rollout index
 (Spearman >= 0.5)."""
 

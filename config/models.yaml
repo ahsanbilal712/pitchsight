@@ -1,13 +1,13 @@
 # WHYLINE model routing. Role -> model. Read by packages/newsroom at start-up.
-# Decision 21 Oct 2026 (owner): runtime reasoning runs on Gemini, not Claude (ADR-004 revised).
+# Decision 21 Oct 2026 runtime reasoning runs on Gemini, not Claude.
 # Both models verified callable on Vertex AI project ffc-19484 on 21 Oct 2026.
-# Prices (USD per 1M tokens; ADR-004 / audit rows 30-31; confirm on the Vertex AI pricing page):
+# Prices (USD per 1M tokens, confirm on the Vertex AI pricing page):
 #   gemini-4-argon   in 2.00  out 10.00 until 30 Nov 2026, then 4.00 / 20.00; no free tier
 #   gemini-3.8-flash in 0.75  out 3.75 paid tier until 31 Dec 2026; free tier exists (limits unpublished)
 #   Vertex AI batch prediction is billed at 0.5x (batch_discount in budgets.yaml).
 # Rules: thinking tokens are billed as output, so count thoughts_token_count in tokens_out; effort maps to
 # Gemini thinking_level (low | high; "medium" -> high on Argon, low on Flash; "none" -> thinking_budget 0 on Flash,
-# measured 1.3-1.8 s per call against 2.5-5.1 s at low, 21 Oct 2026, T-020); structured output via
+# measured 1.3-1.8 s per call against 2.5-5.1 s at low, 21 Oct 2026); structured output via
 # response_mime_type application/json + response_json_schema; tools via function declarations with
 # automatic function calling off (the workflow runs tool rounds itself). Claude roles were removed; the
 # anthropic provider block is kept so a role can be switched back by editing provider/model only.
@@ -30,7 +30,7 @@ roles:
   tactician_golden:                   # precompute only, golden match, Vertex AI batch prediction
     provider: gemini
     model: gemini-4-argon
-    effort: low                       # high: all 3000 output tokens on thinking, JSON cut off, 37 s, $0.035 (T-032);
+    effort: low                       # high: all 3000 output tokens on thinking, JSON cut off, 37 s, $0.035;
                                       # low: valid 8-claim explanation, $0.012. Keeps the golden run under $1.50.
     max_tokens: 4000
     output_format: schemas/explanation.schema.json
@@ -42,14 +42,14 @@ roles:
 
   tactician_live:
     provider: gemini
-    model: gemini-3.8-flash           # owner decision 22 Oct: pick by measurement. Tactician prompt: Flash 4.4-5.3 s,
-    effort: none                      # $0.003; Argon low 9-14 s, high 37 s (T-032). Argon stays for the golden batch.
+    model: gemini-3.8-flash           # decision 22 Oct: pick by measurement. Tactician prompt: Flash 4.4-5.3 s,
+    effort: none                      # $0.003; Argon low 9-14 s, high 37 s. Argon stays for the golden batch.
     max_tokens: 3000
     output_format: schemas/explanation.schema.json
     tools: [query_events, get_pitch_control, simulate_counterfactual, player_stats]
-    max_tool_rounds: 1                # TECH_PLAN 1.13 response: first live probe 18.6 s > 15 s (T-032)
+    max_tool_rounds: 1                # keeps explained cues inside the 15 s budget
     timeout_s: 12
-    hedge_after_s: 5.0                # Flash Tactician typically 2.7-4.3 s, tail 6-7 s (T-032 probes)
+    hedge_after_s: 5.0                # Flash Tactician typically 2.7-4.3 s, tail 6-7 s
     fallback_role: tactician_degraded
 
   tactician_degraded:                 # no LLM; template explanation from the counterfactual numbers
@@ -59,7 +59,7 @@ roles:
   proposer:
     provider: gemini
     model: gemini-3.8-flash
-    effort: none                      # live path: thinking off 1.3-1.8 s vs low 2.5-5.1 s per Flash call (T-020/T-032)
+    effort: none                      # live path: thinking off 1.3-1.8 s vs low 2.5-5.1 s per Flash call
     max_tokens: 600
     output_format: inline_json        # {"alternatives": [{"kind","actor","target","reason"}]}
     timeout_s: 6
@@ -82,16 +82,16 @@ roles:
 
   panel_pundit:                       # three instances with distinct system prompts; live (25 s budget)
     provider: gemini
-    model: gemini-3.8-flash           # owner decision 22 Oct: Flash live if it fits the budget (Argon: 9-10 s/pundit)
+    model: gemini-3.8-flash           # decision 22 Oct: Flash live if it fits the budget (Argon: 9-10 s/pundit)
     effort: none
     max_tokens: 500
     output_format: inline_json        # {"take","claims":[...],"stance"}
     tools: [simulate_counterfactual, get_pitch_control]
     max_tool_rounds: 1
     timeout_s: 10
-    hedge_after_s: 4.0                # live panel: Flash pundits 3.5-7.5 s each, 25 s budget for all three (T-041)
+    hedge_after_s: 4.0                # live panel: Flash pundits 3.5-7.5 s each, 25 s budget for all three
 
-  panel_pundit_golden:                # golden precompute (T-042): same prompts, Argon, batch
+  panel_pundit_golden:                # golden precompute: same prompts, Argon, batch
     provider: gemini
     model: gemini-4-argon
     effort: low
@@ -111,7 +111,7 @@ roles:
   recap:
     provider: gemini
     model: gemini-4-argon
-    effort: low                       # high: all 6000 output tokens on thinking, empty text (T-050 golden run)
+    effort: low                       # high: all 6000 output tokens on thinking, empty text
     max_tokens: 6000
     output_format: inline_json        # recap_card list
     timeout_s: 90

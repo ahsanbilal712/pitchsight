@@ -1,4 +1,4 @@
-"""Policy dataset (T-027): shapes F = 16 and G = 4, labels in range, splits disjoint by game, report written."""
+"""Policy dataset: shapes F = 16 and G = 4, labels in range, splits disjoint by game, report written."""
 
 import json
 from pathlib import Path
@@ -18,7 +18,7 @@ FULL = ROOT / "data" / "grf" / "dataset"
 @pytest.fixture(scope="module")
 def small(tmp_path_factory):
     if not GRF_TINY.exists() or not (CORPUS / "1001" / "samples.npz").exists():
-        pytest.skip("needs data/grf/tiny_set (T-012) and the Kickoff corpus (T-014)")
+        pytest.skip("needs data/grf/tiny_set and the Kickoff corpus")
     out = tmp_path_factory.mktemp("dataset")
     report_before = (ARTIFACTS / "dataset_report.json").read_bytes() if (ARTIFACTS / "dataset_report.json").exists() else None
     plot_before = (ARTIFACTS / "coord_sanity.png").read_bytes() if (ARTIFACTS / "coord_sanity.png").exists() else None

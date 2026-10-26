@@ -1,4 +1,4 @@
-// Recording mode (TECH_PLAN 1.9): ?record=1 hides the cursor, forces DPR 1 and exposes window.__whyline.
+// Recording mode: ?record=1 hides the cursor, forces DPR 1 and exposes window.__whyline.
 
 export interface WhylineHandle {
   ready: boolean;

@@ -1,7 +1,7 @@
 #!/bin/sh
-# Record every shot of the demo (DEMO_MASTERPLAN_50USD.md §6 step 7, T-061).
+# Record every shot of the demo.
 # Builds the three apps, starts the api in replay mode with the demo script armed, records with Playwright, stops
-# the api. The newsroom worker and MCP server for a full rehearsal are started separately (T-062).
+# the api. The newsroom worker and MCP server for a full rehearsal are started separately.
 #   scripts/record_demo.sh [--only shot_a,shot_b]
 set -e
 cd "$(dirname "$0")/.."

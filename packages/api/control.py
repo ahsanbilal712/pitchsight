@@ -1,11 +1,11 @@
-"""Control endpoints (TECH_PLAN 1.4 api, 1.7 producer veto, T-033): replay clock, producer decisions, demo kill.
+"""Control endpoints: replay clock, producer decisions, demo kill.
 
 - `POST /replay/control {action: play|pause|seek|speed, value | t_ms}` drives the replay clock and publishes it to
   blackboard `replay/<match_id>` {speed, playing, t_ms} for other processes (publish_clock).
-- `POST /producer/decision {request_id, decision}` writes `decisions/<request_id>` for the newsroom worker (T-050).
+- `POST /producer/decision {request_id, decision}` writes `decisions/<request_id>` for the newsroom worker.
   A veto whose request_id is a shown cue's id also rewrites that cue as `producer_status: vetoed` and broadcasts
   `cue_remove` at once (the veto-a-shown-cue path of 1.7).
-- `POST /demo/kill {target: newsroom}` (T-051) waits in the background until a running newsroom run has finished
+- `POST /demo/kill {target: newsroom}` waits in the background until a running newsroom run has finished
   the Tactician and not the Narrator, then sends SIGKILL to the worker pid the supervisor wrote
   (WHYLINE_WORKER_PIDFILE) and logs `kill target=newsroom run_id=... at_executor=tactician`.
 """
@@ -143,7 +143,7 @@ def demo_kill(request: Request, body: Kill) -> dict:
     if body.target not in ("newsroom", "mcp", "api"):
         raise HTTPException(422, f"unknown target {body.target!r}")
     if body.target != "newsroom":
-        return {"accepted": False, "target": body.target, "note": "only the newsroom worker is supervised (T-051)"}
+        return {"accepted": False, "target": body.target, "note": "only the newsroom worker is supervised"}
     bb = request.app.state.bb
     threading.Thread(target=kill_when_ready, args=(thread_board(bb),), daemon=True, name="demo-kill").start()
     return {"accepted": True, "target": body.target}

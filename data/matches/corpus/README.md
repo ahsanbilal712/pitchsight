@@ -1,14 +1,14 @@
 # Kickoff corpus (git-ignored except this file)
 
-Built by `scripts/generate_corpus.py` (T-014). `python scripts/generate_corpus.py --status` shows progress and
+Built by `scripts/generate_corpus.py`. `python scripts/generate_corpus.py --status` shows progress and
 whether the corpus matches the current engine (`engine_hash` is a behavioural fingerprint: three minutes of seed
-4242). Seed convention (TASKS.md): never mix the ranges.
+4242). Never mix the ranges.
 
 | Seeds | Use | Files per seed (`<seed>/`) |
 |---|---|---|
 | 1–50 | evaluation, realism test | `events.jsonl`, `tracking.npz` (10 Hz), `truth.json` |
-| 51–350 | calibration hold-out (T-040) | `events.jsonl.gz`, `truth.json` |
-| 1001–3000 | training (heads T-015/T-025, policy T-027) | `events.jsonl.gz`, `truth.json`, `samples.npz` |
+| 51–350 | calibration hold-out | `events.jsonl.gz`, `truth.json` |
+| 1001–3000 | training (heads, policy) | `events.jsonl.gz`, `truth.json`, `samples.npz` |
 
 `samples.npz`: `t_ms`, `period`, `S` (float16 [N,23,6]), `ball_z`, `holder`, `possession`, `score` [N,2],
 `is_decision` (the tick before a pass, shot or clearance is kicked), `player_ids` (starting XI row order). Frames are
@@ -23,4 +23,4 @@ outfield players 11.6 km per 90, keepers 5.7 km, fastest outfield player per mat
 
 `truth.json` (truth_version t2) phases carry side `H`/`A` (tactical phases) and side `M`: the hidden match regime
 (`state_settled`, `state_transitional`, `state_chaotic`, 10–18 min each) that drives tempo, press and duel intensity.
-The physics state machine recovers it at macro F1 0.771 on seeds 1–50 (T-055 owns the official number).
+The physics state machine recovers it at macro F1 0.771 on seeds 1–50.

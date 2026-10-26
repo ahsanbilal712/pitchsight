@@ -1,4 +1,4 @@
-"""Placebo (T-016): forcing the action the player actually took reproduces the baseline within its 95% interval."""
+"""Placebo: forcing the action the player actually took reproduces the baseline within its 95% interval."""
 
 import pytest
 

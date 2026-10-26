@@ -1,11 +1,11 @@
-"""policy_v1: rollouts whose on-ball decisions come from the learned DecisionPolicy (TECH_PLAN 1.5, T-036).
+"""policy_v1: rollouts whose on-ball decisions come from the learned DecisionPolicy.
 
 Decision points: the policy is asked when a player gains control or 1.0 s after its last call for the same holder,
 on a shared 0.5 s grid so that all due worlds go through one forward pass (about 16 calls for 8 s at B = 200, the
 audit's "decision-only" path). Between calls the previous action persists (a carry continues, a pass is in flight).
 Restarts and a forced first action (Override) stay with the engine rule. Off-ball movement, ball physics and duels
 are the engine's. Sampling: torch.Generator().manual_seed(seed) with logits moved to CPU before torch.multinomial,
-so MPS and CPU draw the same samples (ADR-002: learned rollouts are decision-only and capped at 8 s).
+so MPS and CPU draw the same samples.
 """
 
 from __future__ import annotations

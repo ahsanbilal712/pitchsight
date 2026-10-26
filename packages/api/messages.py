@@ -1,4 +1,4 @@
-"""Stream message types and per-viewer filtering (TECH_PLAN 1.9, T-033).
+"""Stream message types and per-viewer filtering.
 
 Every WebSocket line is `{type, payload}`. Blackboard collections map to message types; `targets` on a cue decides
 which viewers get it, server side. Studio gets every cue and the studio-only messages.
@@ -13,7 +13,7 @@ import yaml
 
 BUDGETS = Path(__file__).resolve().parents[2] / "config" / "budgets.yaml"
 
-# TECH_PLAN 1.9 message types, plus the additions screens already handle (lineup, counterfactual).
+# Stream message types, plus the additions screens already handle (lineup, counterfactual).
 MESSAGE_TYPES = ("hello", "tracking_frame", "event", "fact", "moment", "cue", "cue_remove", "trace", "request_info",
                  "mode", "spend", "oracle", "lineup", "counterfactual")
 

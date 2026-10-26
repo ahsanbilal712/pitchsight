@@ -1,4 +1,4 @@
-"""CacheClient: replay mode's LLMClient and tool client (TECH_PLAN 1.8 "Replay serving", ADR-003; T-038).
+"""CacheClient: replay mode's LLMClient and tool client.
 
     CacheClient.complete(role, messages, tools, **ctx)   # same signature as newsroom.llm.LiveClient
     CacheClient.call(name, args)                         # same signature as newsroom.tools.McpTools

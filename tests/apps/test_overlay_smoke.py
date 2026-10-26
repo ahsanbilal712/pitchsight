@@ -1,4 +1,4 @@
-"""The overlay shell plays the T-003 fixture and exposes the record-mode handle (T-010)."""
+"""The overlay shell plays the sample fixture and exposes the record-mode handle."""
 
 import time
 

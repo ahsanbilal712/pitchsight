@@ -1,4 +1,4 @@
-// Score bug (TECH_PLAN 1.9): short club codes with kit chips, score, match clock and period.
+// Score bug: short club codes with kit chips, score, match clock and period.
 // Fed by the world-state stream: the score follows `goal` events (reducer) and the hello after a seek.
 import { matchClubs, matchKits, useLeague } from "../league";
 import { useStream } from "../stream/StreamProvider";

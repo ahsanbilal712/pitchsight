@@ -1,4 +1,4 @@
-"""Tool clients for code executors: the MCP tools (TECH_PLAN 1.7) over Streamable HTTP, or the same functions
+"""Tool clients for code executors: the MCP tools over Streamable HTTP, or the same functions
 in-process. Both expose `await call(name, args) -> dict | list` and never raise: failures are {error, code}.
 
     McpTools("http://localhost:8080/mcp")   # mcp.Client over Streamable HTTP (see the class for why not

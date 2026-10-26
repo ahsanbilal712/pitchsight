@@ -1,4 +1,4 @@
-"""Sliding Doors: baseline vs one alternative at a decision point (TECH_PLAN 1.5 "Callers").
+"""Sliding Doors: baseline vs one alternative at a decision point.
 
 The branch point is the decision state: for an on-ball event kicked at T, t_ms = T - 100 (the tick before, as in
 samples.npz). Baseline = the player in control takes the engine's own choice on the first tick, then the engine
@@ -52,7 +52,7 @@ def _rule_at(eng: Engine):
 
 def option_probs(eng: Engine) -> dict[str, float]:
     """scripted_v1 probabilities at the branch point: softmax of the rule's utilities (passes by player id, shoot,
-    clear, carry); used as `policy_prob` and by the RolloutExecutor filter (T-031)."""
+    clear, carry); used as `policy_prob` and by the RolloutExecutor filter."""
     rule, out, team = _rule_at(eng)
     p = rule.option_probs(out)[0]
     names = [eng.worlds[0].row_ids[11 * team + s] for s in range(11)] + ["shoot", "clear", "carry"]

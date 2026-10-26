@@ -1,4 +1,4 @@
-// Feeds the overlay reducer from the API WebSocket, or with ?fixture=1 from the T-003 sample stream
+// Feeds the overlay reducer from the API WebSocket, or with ?fixture=1 from the sample stream
 // replayed on the same 10 Hz clock. Exposes seek() for the recorder through window.__whyline.
 import { createContext, useCallback, useContext, useEffect, useReducer, useRef, type ReactNode } from "react";
 import { API } from "../api";

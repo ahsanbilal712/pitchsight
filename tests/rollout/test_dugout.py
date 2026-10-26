@@ -1,4 +1,4 @@
-"""Dugout (T-047): options ranked by the team's win-probability change; three cached at 60:00 with n, horizon and
+"""Dugout: options ranked by the team's win-probability change; three cached at 60:00 with n, horizon and
 seed; the 'Dugout called it' log records whether the recommendation matched."""
 
 import json

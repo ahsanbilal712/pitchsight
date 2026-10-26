@@ -1,5 +1,4 @@
-"""Moment freeze: a real clip's frozen frame -> a synthetic `State` the engine can branch (FOOTAGE_ADDENDUM.md step 5,
-T-107).
+"""Moment freeze: a real clip's frozen frame -> a synthetic `State` the engine can branch.
 
 A moment file `data/footage/<slug>/moments/<clip_ms>.json` holds the players and ball of one frame in pitch metres
 (105 x 68, origin bottom-left as event.schema.json), whichever way the broadcast shows them:
@@ -13,7 +12,7 @@ A moment file `data/footage/<slug>/moments/<clip_ms>.json` holds the players and
      "ball": {"x", "y", "holder": <label of the player in control> | null},
      "actual": {"kind": "shoot"|"pass"|"carry", "target": <label>|null}, "notes": "..."}
 
-Tracking (T-105) or a hand-marked frame fills the observed players; `fill` adds the missing ones from the role
+Tracking or a hand-marked frame fills the observed players; `fill` adds the missing ones from the role
 prior: the engine's 4-3-3 slots (kickoff SLOTS) shifted to the team's observed shape, matched to the observed players
 with the Hungarian algorithm, so each player also gets the engine slot his row will take. `to_state` builds an
 Engine for a neutral synthetic fixture, sets that one world to the frame (mirrored when the broadcast's direction

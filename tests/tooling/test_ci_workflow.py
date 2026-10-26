@@ -1,4 +1,4 @@
-"""The CI workflow defines exactly the nine TECH_PLAN 1.10 jobs (T-005)."""
+"""The CI workflow defines exactly the nine CI jobs."""
 
 from pathlib import Path
 
@@ -14,7 +14,6 @@ def test_ci_has_exactly_the_nine_jobs() -> None:
     assert list(workflow["jobs"]) == JOBS
 
 
-def test_guarded_jobs_print_their_ticket() -> None:
+def test_every_job_runs_unconditionally() -> None:
     text = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    for ticket in ("T-007", "T-056", "T-066", "T-060", "T-051"):
-        assert f'echo "skipped: {ticket}"' in text
+    assert "hashFiles(" not in text and "skipped" not in text

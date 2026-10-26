@@ -1,4 +1,4 @@
-// Cue list (TECH_PLAN 1.9 studio): every cue regardless of mode, newest first, with the verified flag and the
+// Cue list: every cue regardless of mode, newest first, with the verified flag and the
 // producer status. Clicking a row opens the Why? drawer.
 import { clockText } from "../api";
 import { cueStatus } from "../stream/reducer";

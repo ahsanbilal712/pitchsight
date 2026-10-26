@@ -1,6 +1,5 @@
-"""Stub executors for graph branches built in later tickets (T-018). Each keeps the real executor's id,
-input and output types, so swapping in the real one leaves the graph (and its checkpoint signature) unchanged.
-Tests also use them directly, e.g. `StubFactCheck(verdict=lambda d: False)` for the rewrite loop.
+"""Test doubles for the graph executors. Each keeps the real executor's id, input and output types, so a test can
+swap one in without changing the graph (or its checkpoint signature). Tests use them directly, e.g. `StubFactCheck(verdict=lambda d: False)` for the rewrite loop.
 """
 
 from __future__ import annotations
@@ -16,7 +15,7 @@ from newsroom.messages import CueOut, Draft, Explained, MomentIn, Proposals, Rol
 
 
 def stub_branches(msg: MomentIn) -> list[str]:
-    """Routing used until the real Scout (T-029): an explicit `branches` list on the moment, else fast/explained."""
+    """Routing used until the real Scout: an explicit `branches` list on the moment, else fast/explained."""
     explicit = getattr(msg.moment, "branches", None)
     if explicit:
         return list(explicit)

@@ -1,11 +1,11 @@
-"""Validate every schema, its examples, the test fixtures and any match cache against the schemas (T-005).
+"""Validate every schema, its examples, the test fixtures and any match cache against the schemas.
 
 Usage: python scripts/validate_schemas.py
 
-TECH_PLAN 1.3 versioning rule: a document is validated against the schema it names, and the
+Versioning rule: a document is validated against the schema it names, and the
 `schema_version` it carries must be the version that schema defines. How a document names its schema:
 - a `$schema` field holding a schema file name or `$id` (any JSON document);
-- the stream envelope {"type", "payload"} of TECH_PLAN 1.9 (JSONL lines): the message type names it,
+- the stream envelope {"type", "payload"} (JSONL lines): the message type names it,
   e.g. `event` -> event.schema.json, `cue` -> cue.schema.json, `hello.payload.viewer_profile`;
 - under data/matches/*/ and data/footage/*/: `events.jsonl` lines are events; in `cache/`, `manifest.json` is a cache
   manifest and files named `cf_*`, `ex_*`, `c_*` are counterfactuals, explanations and cues.
@@ -25,14 +25,14 @@ ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = ROOT / "schemas"
 FIXTURES = ROOT / "tests" / "fixtures"
 MATCHES = ROOT / "data" / "matches"
-FOOTAGE = ROOT / "data" / "footage"     # real clips (FOOTAGE_ADDENDUM.md): tagged events and featured-moment caches
+FOOTAGE = ROOT / "data" / "footage"     # real clips: tagged events and featured-moment caches
 
-# TECH_PLAN 1.9 message types; those without a JSON schema are checked for shape only.
+# Stream message types; those without a JSON schema are checked for shape only.
 MESSAGE_SCHEMAS = {"event": "event.schema.json", "cue": "cue.schema.json", "counterfactual": "counterfactual.schema.json"}
 SCHEMALESS_MESSAGES = {"hello", "tracking_frame", "fact", "moment", "cue_remove", "trace", "request_info", "mode",
                        "spend", "oracle"}
 CACHE_PREFIXES = {"cf_": "counterfactual.schema.json", "ex_": "explanation.schema.json", "c_": "cue.schema.json",
-                  "x_cf_": "counterfactual.schema.json", "x_r": "counterfactual.schema.json"}   # T-042 extra rollouts
+                  "x_cf_": "counterfactual.schema.json", "x_r": "counterfactual.schema.json"}   # extra rollouts
 
 
 class Validators:

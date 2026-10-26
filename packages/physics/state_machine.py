@@ -1,8 +1,8 @@
-"""Game-state machine over the chaos index with hysteresis (TECH_PLAN 1.4 physics).
+"""Game-state machine over the chaos index with hysteresis.
 
 States: Settled, Transitional, Chaotic. Chaotic is entered only after the chaos index stays above 65 for 20 s and
 left only after it stays below 50 for 30 s (then Transitional). Between the other two: Settled -> Transitional
-after 10 s above 35, Transitional -> Settled after 10 s below 25 (thresholds fitted to the hidden regimes, T-055). Each threshold has one timer that runs from
+after 10 s above 35, Transitional -> Settled after 10 s below 25 (thresholds fitted to the hidden regimes). Each threshold has one timer that runs from
 the first update meeting it and resets on any update that breaks it; state changes do not reset timers, so
 65+ for 20 s enters Chaotic even though Settled passes through Transitional on the way.
 """

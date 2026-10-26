@@ -1,4 +1,4 @@
-// Canvas 2D drawing for the pitch, players and ball (ADR-008: 2.5D canvas for live overlays).
+// Canvas 2D drawing for the pitch, players and ball.
 import { contrast, type Kit } from "../league";
 import { PITCH_L, PITCH_W, type Transform } from "./geometry";
 import type { DrawFrame } from "./layers";

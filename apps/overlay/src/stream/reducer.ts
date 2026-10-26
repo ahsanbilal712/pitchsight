@@ -1,4 +1,4 @@
-// Overlay state (TECH_PLAN 1.9): {frame, cues[], facts, oracle, profile} plus the bits the score bug and badges need.
+// Overlay state: {frame, cues[], facts, oracle, profile} plus the bits the score bug and badges need.
 import { modeAllows } from "../modes/config";
 import type {
   Counterfactual,

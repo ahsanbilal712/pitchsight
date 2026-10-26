@@ -1,4 +1,4 @@
-"""The overlay plays the golden match from the API WebSocket instead of the fixture (T-022)."""
+"""The overlay plays the golden match from the API WebSocket instead of the fixture."""
 
 import json
 from pathlib import Path

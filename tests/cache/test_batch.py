@@ -1,4 +1,4 @@
-"""Golden precompute of model calls (T-042): rounds of batched requests matched by custom_id, a Fact Checker verdict
+"""Golden precompute of model calls: rounds of batched requests matched by custom_id, a Fact Checker verdict
 on every cached line, and a replay of the same moments with zero cache misses and identical cues."""
 
 import asyncio

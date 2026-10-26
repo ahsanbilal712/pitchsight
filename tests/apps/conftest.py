@@ -1,4 +1,4 @@
-"""Serve a built front-end app and drive it with Playwright for Python (TECH_PLAN conventions)."""
+"""Serve a built front-end app and drive it with Playwright for Python."""
 
 import functools
 import http.server

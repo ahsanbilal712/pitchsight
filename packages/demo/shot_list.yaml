@@ -1,9 +1,9 @@
-# Shot list for the two-minute video (DEMO_MASTERPLAN_50USD.md §7, TECH_PLAN 1.9 "Recording").
+# Shot list for the two-minute video.
 # One row per recorded clip: {shot, beat, app, route, viewer, clock_in, clock_out, speed, keyframes[]}.
-# Clocks are literal ("45:00") or references into golden_moments.yaml (T-039), e.g. "@sliding_doors-6s";
+# Clocks are literal ("45:00") or references into golden_moments.yaml, e.g. "@sliding_doors-6s";
 # {key.field} in a route or player is filled from golden_moments.yaml too (packages/demo/clocks.py).
 # app: overlay | studio | fan (served from apps/<app>/dist) | page (a local HTML file, recorded for duration_s).
-# Split screens are separate rows with the same beat and clocks; the edit (T-063) composes them.
+# Split screens are separate rows with the same beat and clocks; the edit composes them.
 
 - shot: opener_3d
   beat: opener

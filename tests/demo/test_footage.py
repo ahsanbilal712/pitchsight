@@ -1,4 +1,4 @@
-"""Pitch geometry and real-frame compositing (T-108).
+"""Pitch geometry and real-frame compositing.
 
 The camera fit and the drawn overlay are checked on a synthetic broadcast frame rendered from a known camera (so
 they run anywhere), and on the real Liverpool v Manchester City freeze frame when the clip is on this machine
@@ -134,7 +134,7 @@ def test_ghosts_are_clamped_to_the_pitch_and_standin_is_marked():
     pitch = TRUE.unproject(every)
     assert pitch[:, 0].min() >= -C.GHOST_MARGIN_M - 1e-3 and pitch[:, 0].max() <= 105 + C.GHOST_MARGIN_M + 1e-3
     assert C.stem(MOMENT, True).endswith("_standin")
-    with pytest.raises(SystemExit, match="T-109"):
+    with pytest.raises(SystemExit):
         C.load_futures({**MOMENT, "counterfactual": None}, TRUE, standin=False)
 
 
@@ -212,7 +212,7 @@ def test_refine_brings_a_seed_camera_to_the_paint():
 
 def test_viewer_modes_on_a_real_freeze():
     """Player-Cam is a phone screen carrying the moment's verified numbers; the analyst heatmap reads the mirrored
-    pitch-control grid in the frame's coordinates; casual mode drops the card (T-110: the modes on real footage)."""
+    pitch-control grid in the frame's coordinates; casual mode drops the card."""
     fut = C.standin_futures(np.array([79.5, 19.6]), np.array([87.7, 9.1]))
     frame = synthetic_frame(TRUE)
     phone = C.Painter(MOMENT, frame, TRUE, fut, mode="player_cam")

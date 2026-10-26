@@ -1,9 +1,9 @@
-"""Match indices over a tracking window and the chaos index (TECH_PLAN 1.4 physics).
+"""Match indices over a tracking window and the chaos index.
 
 Turnovers are open-play possession changes (`possession_change` events), so restarts do not count as chaos.
 `indices` returns control, pressure, tempo and turnover rate plus the inputs of `chaos_index` (contested share,
 turnovers in the window, transition share) and the mean closing speed of the nearest defender, so one call
-yields every number the facts stream and the chaos head (T-015) need.
+yields every number the facts stream and the chaos head need.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ TRANSITION_S = 10.0       # s after a turnover counts as transition
 RATE_TAU_S = 60.0         # s, time constant of the exponentially weighted turnover rate
 # chaos_index: the turnover rate maps linearly from RATE_LO (chaos 20) to RATE_HI (chaos 85) per minute; transition
 # share and contested pitch nudge it by at most CHAOS_NUDGE points each. Calibrated against the hidden match regimes
-# (truth phases with side "M") so the state machine's 65 / 50 thresholds separate them (T-013, T-055).
+# (truth phases with side "M") so the state machine's 65 / 50 thresholds separate them.
 RATE_LO, RATE_HI = 1.0, 7.0
 CHAOS_NUDGE = 0.0           # measured: nudges cost macro F1 (0.748 vs 0.765, seeds 1-30), so off for now
 TRANSITION_MID, CONTESTED_MID = 0.40, 0.035

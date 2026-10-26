@@ -1,4 +1,4 @@
-"""Newsroom graph: fast branch to a cue, the rewrite loop stops at attempt 3, checkpoints per superstep (T-018)."""
+"""Newsroom graph: fast branch to a cue, the rewrite loop stops at attempt 3, checkpoints per superstep."""
 
 import asyncio
 from concurrent.futures import ThreadPoolExecutor

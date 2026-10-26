@@ -2,7 +2,6 @@
 
 Deterministic offside and foul re-derivation from tracking.
 
-Interface restated from `TECH_PLAN.md` section 1.4 "fourth_official" (TECH_PLAN wins on conflict).
 Tests live in `tests/fourth_official/`.
 
 ```python

@@ -1,13 +1,13 @@
-"""Golden-match precompute into the replay cache (TECH_PLAN 1.8 "Precompute", ADR-003).
+"""Golden-match precompute into the replay cache.
 
     python scripts/precompute.py --seed 4242 --mode batch --stages fourth_official
-    python scripts/precompute.py --seed 4242 --mode batch --stages analytics,moments,counterfactuals   (T-039)
+    python scripts/precompute.py --seed 4242 --mode batch --stages analytics,moments,counterfactuals
 
-Every stage writes files under data/matches/<seed>/cache/ and indexes them in cache/manifest.json (CacheManifest,
-T-038) with their SHA-256. Stages are idempotent: re-running replaces their entries. `--mode live` is accepted for
-the CLI contract (later stages call models); the code-only stages behave the same in both modes. Other tickets add
-stages to STAGES: analytics, moments, counterfactuals (T-039), model calls (T-042), oracle (T-046), dugout (T-047),
-decision_index (T-048), hand review (T-057).
+Every stage writes files under data/matches/<seed>/cache/ and indexes them in cache/manifest.json (CacheManifest)
+with their SHA-256. Stages are idempotent: re-running replaces their entries. `--mode live` is accepted for
+the CLI contract (later stages call models); the code-only stages behave the same in both modes. Later stages add
+stages to STAGES: analytics, moments, counterfactuals, model calls, oracle, dugout,
+decision_index, hand review.
 """
 
 from __future__ import annotations
@@ -49,7 +49,7 @@ def open_manifest(match_dir: Path) -> CacheManifest:
 
 # ---------------------------------------------------------------------------------------------------- stages
 def stage_fourth_official(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """A referee_line cue for every offside, foul and card (T-049); keyed by the referee event id."""
+    """A referee_line cue for every offside, foul and card; keyed by the referee event id."""
     from newsroom.executors.fourth_official import REFEREE, rule_event
 
     match_id = events[0]["match_id"]
@@ -74,10 +74,10 @@ def stage_fourth_official(seed: int, manifest: CacheManifest, events: list[dict]
 
 
 def gate_engine() -> str:
-    """The engine the day-4 gate chose (packages/policy/artifacts/gate.json, T-037); required for model stages."""
+    """The engine the day-4 gate chose (packages/policy/artifacts/gate.json); required for model stages."""
     path = ROOT / "packages" / "policy" / "artifacts" / "gate.json"
     if not path.exists():
-        raise SystemExit(f"{path} is missing: run python -m policy.evaluate first (T-037)")
+        raise SystemExit(f"{path} is missing: run python -m policy.evaluate first")
     return json.loads(path.read_text(encoding="utf-8"))["engine"]
 
 
@@ -94,7 +94,7 @@ ORACLE_EVERY_MS, ORACLE_N, ORACLE_HORIZON_S = 2000, 200, 8.0
 
 
 def stage_oracle(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """Oracle forecasts every 2 s of match time at n = 200 (T-046): one analytics file for the whole match."""
+    """Oracle forecasts every 2 s of match time at n = 200: one analytics file for the whole match."""
     from multiprocessing import Pool
 
     engine = gate_engine()
@@ -120,8 +120,8 @@ DUGOUT_T_MS, DUGOUT_N, DUGOUT_HORIZON_S = 3_600_000, 100, 90.0
 
 
 def stage_dugout(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """Dugout options at 60:00 for both teams (T-047). Style changes act over minutes, so the scripted engine runs the
-    longest horizon the counterfactual schema allows (90 s); learned engines are capped at 8 s (ADR-002)."""
+    """Dugout options at 60:00 for both teams. Style changes act over minutes, so the scripted engine runs the
+    longest horizon the counterfactual schema allows (90 s); learned engines are capped at 8 s."""
     from dataclasses import asdict
 
     from rollout import MatchRef
@@ -147,7 +147,7 @@ def stage_dugout(seed: int, manifest: CacheManifest, events: list[dict], window,
 
 
 def stage_analytics(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """Indices, chaos and the game state for every 100 ms frame (TECH_PLAN 1.8 step 1) -> analytics/frames.npz."""
+    """Indices, chaos and the game state for every 100 ms frame -> analytics/frames.npz."""
     import io
 
     import numpy as np
@@ -180,7 +180,7 @@ def stage_analytics(seed: int, manifest: CacheManifest, events: list[dict], wind
 
 def stage_moments(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
     """Scout over the whole match (newsroom.scout_rules) -> moments.jsonl with mo_ ids, and a pitch-control snapshot
-    (pc_<t/100>.npz + JSON stub, TECH_PLAN 1.3) at every moment (TECH_PLAN 1.8 steps 1-2)."""
+    (pc_<t/100>.npz + JSON stub) at every moment."""
     import io
 
     import numpy as np
@@ -225,7 +225,7 @@ CF_N, CF_HORIZON_S = 200, 8.0
 
 
 def stage_counterfactuals(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """sliding_doors for every explained moment (TECH_PLAN 1.8 step 3): the rule proposer's alternatives at the
+    """sliding_doors for every explained moment: the rule proposer's alternatives at the
     moment's decision point, n = 200, 8 s, seed, engine from gate.json -> counterfactuals/cf_*.json."""
     from blackboard import SqliteBlackboard
     from kickoff import BranchError
@@ -247,7 +247,7 @@ def stage_counterfactuals(seed: int, manifest: CacheManifest, events: list[dict]
     runtime.mkdir(parents=True, exist_ok=True)
     store = MatchStore(SqliteBlackboard(runtime / f"bb_{seed}.sqlite"), runtime_dir=runtime)
     ref = MatchRef(seed, match_dir=match_dir)
-    # replace this stage's own entries; keep the extra alternatives T-042 adds (counterfactuals/x_*.json)
+    # replace this stage's own entries; keep the extra alternatives the model stage adds (counterfactuals/x_*.json)
     manifest.data["entries"] = [e for e in manifest.entries if e.get("producer") != "rollout"
                                 or e["path"].startswith("counterfactuals/x_")]
     made, skipped, n_cf = 0, [], 0
@@ -287,12 +287,12 @@ def _clock(t_ms: int) -> str:
 
 
 def stage_storyboard(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """packages/demo/golden_moments.yaml: the storyboard beats (DEMO_MASTERPLAN 7) chosen from the cache. Sliding
+    """packages/demo/golden_moments.yaml: the storyboard beats chosen from the cache. Sliding
     Doors = the home team's counterfactual with the largest win-probability gain whose alternative the engine gives
     >= 5%, preferring "shot, but the pass was on"; Fourth Official = every offside, then fouls with a card; Oracle =
     the highest forecast in 0.30-0.60 that the match then confirms with a shot by that side within 10 s (home
     preferred); Dugout = 60:00, the home team; kill = 3 s after the last explained decision moment before 44:10 whose
-    cue survives the Director's same-kind dedupe, so the worker dies while that run is in flight (TECH_PLAN 1.7)."""
+    cue survives the Director's same-kind dedupe, so the worker dies while that run is in flight."""
     import yaml
 
     from newsroom.scout_rules import is_explained
@@ -343,7 +343,7 @@ def stage_storyboard(seed: int, manifest: CacheManifest, events: list[dict], win
         "kill": {"clock": _clock(kill["t_ms"] + KILL_AFTER_MS), "t_ms": int(kill["t_ms"]) + KILL_AFTER_MS,
                  "moment_id": kill["moment_id"], "moment_clock": kill["clock"], "target": "newsroom"},
     }
-    header = ("# Written by scripts/precompute.py --stages storyboard (T-039). Storyboard beats of the golden match,\n"
+    header = ("# Written by scripts/precompute.py --stages storyboard. Storyboard beats of the golden match,\n"
               "# chosen from the cache; the demo script and shot list reference them as @key (packages/demo/clocks.py).\n")
     path = ROOT / "packages" / "demo" / "golden_moments.yaml"
     path.write_text(header + yaml.safe_dump(out, sort_keys=False, width=110), encoding="utf-8")
@@ -383,7 +383,7 @@ def _decision_chunk(args: tuple[int, list[dict], str]) -> list[dict]:
 
 
 def stage_decision_index(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """A rollout value for every on-ball decision of the match and the per-player Decision Index (T-048)."""
+    """A rollout value for every on-ball decision of the match and the per-player Decision Index."""
     from multiprocessing import Pool
 
     from rollout.decision_index import DECISIONS, HORIZON_S, N, live_values, player_index, spearman
@@ -416,10 +416,10 @@ def stage_decision_index(seed: int, manifest: CacheManifest, events: list[dict],
 
 STAGES = {"decision_index": stage_decision_index, "storyboard": stage_storyboard, "analytics": stage_analytics, "moments": stage_moments, "counterfactuals": stage_counterfactuals,
           "fourth_official": stage_fourth_official, "oracle": stage_oracle, "dugout": stage_dugout,
-          **dict.fromkeys(NEWSROOM_STAGES, stage_newsroom),       # T-042 model calls (cache/precompute_models.py)
-          "recap": stage_recap,                                   # T-050 half-time and full-time recaps
-          "replay_check": stage_replay_check,                     # T-042: replay from the cache, count misses
-          "cue_stream": stage_cue_stream}                         # T-057: every cached cue, no model needed
+          **dict.fromkeys(NEWSROOM_STAGES, stage_newsroom),       # model calls (cache/precompute_models.py)
+          "recap": stage_recap,                                   # half-time and full-time recaps
+          "replay_check": stage_replay_check,                     # replay from the cache, count misses
+          "cue_stream": stage_cue_stream}                         # every cached cue, no model needed
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -428,14 +428,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--seed", type=int, default=4242)
     ap.add_argument("--mode", choices=("batch", "live"), default="batch")
     ap.add_argument("--stages", default="", help=f"comma list of {', '.join(STAGES)}")
-    ap.add_argument("--hand-review", type=int, default=0, help="top K moments for hand review (T-057)")
+    ap.add_argument("--hand-review", type=int, default=0, help="top K moments for hand review")
     ap.add_argument("--workers", type=int, default=8)
-    ap.add_argument("--bucket", default=None, help="gs:// bucket for Vertex AI batch input/output (T-042)")
-    ap.add_argument("--moments", default=None, help="comma list of moment ids (partial model stages, T-042)")
+    ap.add_argument("--bucket", default=None, help="gs:// bucket for Vertex AI batch input/output")
+    ap.add_argument("--moments", default=None, help="comma list of moment ids (partial model stages)")
     ap.add_argument("--repair", action="store_true", help="replay_check: cache what no model call is needed for")
     args = ap.parse_args(argv)
     stages = [s for s in args.stages.split(",") if s]
-    if args.hand_review:   # T-057: export the top moments for hand review (review/<moment_id>.md)
+    if args.hand_review:   # export the top moments for hand review (review/<moment_id>.md)
         from cache.review import export_fast_lines, export_review
 
         match_dir = ROOT / "data" / "matches" / str(args.seed)

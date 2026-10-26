@@ -1,4 +1,4 @@
-// Studio console (TECH_PLAN 1.9): App -> StreamProvider -> Header -> MomentQueue -> AgentTrace -> CueList
+// Studio console: App -> StreamProvider -> Header -> MomentQueue -> AgentTrace -> CueList
 // (Why? drawer) -> ProducerPanel -> DemoControls -> Blackboard.
 import { useState } from "react";
 import AgentTrace from "./components/AgentTrace";

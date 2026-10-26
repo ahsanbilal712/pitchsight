@@ -1,6 +1,6 @@
-"""TacticianExecutor: the explanation behind an explained moment (TECH_PLAN 1.7, T-032).
+"""TacticianExecutor: the explanation behind an explained moment.
 
-Role `tactician_live` (gemini-4-argon since ADR-004 Revision 1, effort medium, max 2 tool rounds, 12 s), prompt
+Role `tactician_live` (effort medium, max 2 tool rounds, 12 s), prompt
 `tactician@3`. Tools are the MCP tools `query_events`, `get_pitch_control`, `simulate_counterfactual` and
 `player_stats`, reached through the newsroom tool client (MCP over HTTP, or the same functions in-process);
 the chat client's own loop runs the rounds in this process and stops after `max_tool_rounds`. Structured output

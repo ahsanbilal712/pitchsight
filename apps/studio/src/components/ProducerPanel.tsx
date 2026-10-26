@@ -1,4 +1,4 @@
-// Producer panel (TECH_PLAN 1.7 "Producer veto", 1.9 studio): pending request_info items (recap cues waiting for
+// Producer panel: pending request_info items (recap cues waiting for
 // approval) with Approve / Veto / Hold, and a Veto button on every cue currently on air. Each choice posts
 // POST /producer/decision {request_id, decision}; vetoing an on-air cue makes the api broadcast cue_remove.
 import { useState } from "react";

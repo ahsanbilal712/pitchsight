@@ -1,11 +1,9 @@
-"""evals-gate (TECH_PLAN 1.10 CI job, 1.11 thresholds; T-056): fails when a measured number misses its threshold.
+"""evals-gate: fails when a measured number misses its threshold.
 
     python -m evals.gate [packages/evals/results.json]
 
-Reads the committed results.json that run_evals wrote. Exit 1 when any row is "fail" or a gated row has no status;
-"pending" (not measurable yet, the owning ticket named), "reported" (no threshold) and "cut" (a documented cut line
-was applied: the threshold is unchanged and the miss stays in the table) are listed but do not fail. Standard
-library only, so the CI job needs no install.
+Reads the committed results.json that run_evals wrote. Exit 1 when any row is "fail" or has no valid status;
+"reported" rows (no threshold) are listed but do not fail. Standard library only, so the CI job needs no install.
 """
 
 from __future__ import annotations
@@ -16,7 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "packages" / "evals" / "results.json"
-STATUSES = ("pass", "fail", "pending", "reported", "cut")
+STATUSES = ("pass", "fail", "reported")
 
 
 def check(results: dict) -> list[str]:
@@ -27,8 +25,6 @@ def check(results: dict) -> list[str]:
             problems.append(f"{row['id']}: status {status!r} (must be one of {', '.join(STATUSES)})")
         elif status == "fail":
             problems.append(f"{row['id']}: {row['measured']} misses {row['threshold']}")
-        elif status == "pending" and "T-" not in (row.get("measured") or ""):
-            problems.append(f"{row['id']}: pending without the ticket that measures it")
     return problems
 
 

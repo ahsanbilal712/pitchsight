@@ -1,4 +1,4 @@
-"""Pitchwatch tracking -> moment file (T-107): track A's calib/<shot>.json and tracks/<shot>.json (format v1,
+"""Pitchwatch tracking -> moment file: track A's calib/<shot>.json and tracks/<shot>.json (format v1,
 shared notes track-a-pitchwatch-format.md) become data/footage/<slug>/moments/<clip_ms>.json.
 
     python -m footage.from_tracks <slug> <clip_ms> [--write]

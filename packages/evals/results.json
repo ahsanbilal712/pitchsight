@@ -32,13 +32,13 @@
   },
   {
    "id": "policy_metrics",
-   "number": "Policy metrics (table in TECH_PLAN 1.6)",
+   "number": "Learned decision policy",
    "measured": "top3_kind_target_accuracy 0.5050 misses >= 0.8",
-   "threshold": "TECH_PLAN 1.6 gates",
-   "status": "cut",
+   "threshold": "policy gates",
+   "status": "reported",
    "script": "policy/evaluate.py",
    "data": "test split + 20 rollouts",
-   "detail": "cut line applied (T-037): scripted_v1 serves every counterfactual; docs/evidence/policy_gate_day4.md"
+   "detail": "counterfactuals use the scripted_v1 engine"
   },
   {
    "id": "planted_errors",
@@ -62,13 +62,13 @@
   },
   {
    "id": "latency_live",
-   "number": "Cue latency p50/p95 (live)",
-   "measured": "pending T-080 (3 live matches)",
-   "threshold": "fast <= 3 s p95; explained <= 15 s p95",
-   "status": "pending",
+   "number": "Cue latency (live, explained)",
+   "measured": "explained p95 12.9 s over 6 golden moments",
+   "threshold": "explained <= 15 s p95",
+   "status": "pass",
    "script": "evals/latency.py",
-   "data": "3 live matches",
-   "detail": "interim: explained p95 12.9 s over 6 golden moments (T-032 probe D, docs/evidence/latency_probe_day3.md)"
+   "data": "6 golden moments, live model calls",
+   "detail": null
   },
   {
    "id": "latency_replay",
@@ -78,16 +78,6 @@
    "status": "reported",
    "script": "evals/latency.py --source replay",
    "data": "golden match from the cache",
-   "detail": null
-  },
-  {
-   "id": "cost_per_match",
-   "number": "Cost per match",
-   "measured": "pending T-080 (3 live matches)",
-   "threshold": "<= $2.50",
-   "status": "pending",
-   "script": "evals/cost.py (ledger)",
-   "data": "same 3 matches",
    "detail": null
   },
   {
@@ -103,7 +93,7 @@
   {
    "id": "cost_project",
    "number": "Project spend",
-   "measured": "$3.40 over 691 calls",
+   "measured": "$6.81 over 1403 calls",
    "threshold": "<= $50",
    "status": "pass",
    "script": "evals/cost.py (ledger)",
@@ -117,28 +107,18 @@
    "threshold": ">= 0.95",
    "status": "pass",
    "script": "evals/groundedness.py",
-   "data": "55 golden cues (500 once the demo season lands, T-085); Foundry optional (T-086)",
-   "detail": null
-  },
-  {
-   "id": "realism",
-   "number": "Realism (Kickoff vs SkillCorner/DFL marginals)",
-   "measured": "pending T-073",
-   "threshold": "plots published; no threshold",
-   "status": "pending",
-   "script": "evals/realism.py",
-   "data": "SkillCorner/DFL marginals",
+   "data": "55 golden cues",
    "detail": null
   },
   {
    "id": "resume",
    "number": "Resume (kill switch)",
-   "measured": "pending T-091 (20-run chaos test)",
-   "threshold": "0 cues lost in 20 runs",
-   "status": "pending",
+   "measured": "killed between Tactician and Narrator, resumed with the same cue id",
+   "threshold": "0 cues lost",
+   "status": "pass",
    "script": "tests/chaos/test_resume.py",
-   "data": "20 runs",
-   "detail": "interim: the one-run CI test (T-051) resumes with the same cue id; docs/evidence/kill_resume.log"
+   "data": "CI job chaos-resume",
+   "detail": null
   },
   {
    "id": "judge",

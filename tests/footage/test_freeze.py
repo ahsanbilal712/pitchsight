@@ -1,4 +1,4 @@
-"""Moment freeze (T-107): homography, role-prior fill, a frozen frame becomes a branchable engine state. Synthetic
+"""Moment freeze: homography, role-prior fill, a frozen frame becomes a branchable engine state. Synthetic
 moments only: CI has no footage."""
 
 import numpy as np

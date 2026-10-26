@@ -1,4 +1,4 @@
-"""Replay server: REST, replay clock and the WebSocket tracking stream (T-022)."""
+"""Replay server: REST, replay clock and the WebSocket tracking stream."""
 
 import json
 import time

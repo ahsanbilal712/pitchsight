@@ -1,8 +1,8 @@
-"""whyline-mcp: the only data path for agents (ADR-006, TECH_PLAN 1.7 "MCP tool list", T-030).
+"""whyline-mcp: the only data path for agents.
 
 mcp 2.x renamed FastMCP to `MCPServer`; it serves Streamable HTTP at /mcp (port WHYLINE_MCP_PORT, default 8080).
 Every tool is wrapped by `errors.guarded`, so a failure comes back as {error, code} and never raises into the agent.
-Signatures are copied from TECH_PLAN 1.7 (returns spelled dict[str, Any], which structured output needs). `top_moments` and `timeline` (T-050) come later; `similar_moments` is T-054.
+Returns are spelled dict[str, Any], which structured output needs.
 """
 
 from __future__ import annotations

@@ -1,6 +1,6 @@
 # The Meridian League
 
-A fictional eight-club top flight, written for WHYLINE (T-002). Every club, player, ground and town here is
+A fictional eight-club top flight, written for WHYLINE. Every club, player, ground and town here is
 invented. Club and player data live in `clubs.json`, `players.json` and `styles.json`; this file is the shared
 background the agents may draw colour from. Facts on screen still come only from the match data, never from lore.
 

@@ -1,4 +1,4 @@
-"""Recap and producer veto (TECH_PLAN 1.7, T-050): the Director holds a recap with ctx.request_info; a vetoed recap
+"""Recap and producer veto: the Director holds a recap with ctx.request_info; a vetoed recap
 never reaches the CueBus, an approved one does with producer_status "approved"; the run resumes from its pause
 checkpoint with responses. Also the recap tools top_moments and timeline."""
 

@@ -1,4 +1,4 @@
-"""Hand review of the featured real-clip moments (T-109).
+"""Hand review of the featured real-clip moments.
 
     python -m footage.review export      # review/footage/<slug>_<moment_id>.md
     python -m footage.review import      # Fact Checker gate, then cache entries with hand_reviewed: true

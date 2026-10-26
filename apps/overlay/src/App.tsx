@@ -1,4 +1,4 @@
-// Overlay root (TECH_PLAN 1.9): a fixed 1920x1080 transparent stage. Component tree:
+// Overlay root: a fixed 1920x1080 transparent stage. Component tree:
 // Pitch2D -> ScoreBug -> ChaosMeter -> SwingBar -> LowerThird -> PlayerTags -> Ticker.
 import ChaosMeter from "./components/ChaosMeter";
 import LowerThird from "./components/LowerThird";

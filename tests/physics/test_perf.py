@@ -1,4 +1,4 @@
-"""All physics functions for one 100 ms frame in < 15 ms on CPU (T-013, TECH_PLAN 1.4)."""
+"""All physics functions for one 100 ms frame in < 15 ms on CPU."""
 
 import json
 import time

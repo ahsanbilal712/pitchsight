@@ -1,4 +1,4 @@
-"""CosmosBlackboard: the Blackboard protocol on Azure Cosmos DB for NoSQL (serverless; TECH_PLAN 1.4, ADR-009).
+"""CosmosBlackboard: the Blackboard protocol on Azure Cosmos DB for NoSQL (serverless).
 
 One container partitioned on /match_id holds every collection. Each item is
 {id: "<collection>:<doc id>", collection, match_id, doc_id, t_ms, seq, doc}; `seq` is a nanosecond write stamp,

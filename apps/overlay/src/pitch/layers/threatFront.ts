@@ -1,4 +1,4 @@
-// Threat front layer (TECH_PLAN 1.9, T-045): from the latest `oracle` message {t_ms, p_shot_home, p_shot_away,
+// Threat front layer: from the latest `oracle` message {t_ms, p_shot_home, p_shot_away,
 // zone {x, y, r}, shooter}. A glow where the attacking side's shot threat is concentrated with a dashed front
 // line around it; alpha follows p_shot. Stale oracles (more than two refresh periods old) are not drawn.
 import { modeConfig } from "../../modes/config";

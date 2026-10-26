@@ -1,4 +1,4 @@
-"""Train the DecisionPolicy (TECH_PLAN 1.6 "Training", T-028).
+"""Train the DecisionPolicy.
 
     python -m policy.train [--epochs 8] [--smoke-minutes 10] [--name policy_v1]
 
@@ -6,8 +6,8 @@ AdamW 3e-4 with a 1,000-step linear warm-up and cosine decay, batch 256, label s
 CE(kind) + CE(pass target, pass samples only) + CE(carry direction, carry samples only). One checkpoint per epoch
 (artifacts/<name>_epN.pt) holding model, optimiser, scheduler and generator state; an interrupted run resumes from
 the last epoch file. The best epoch by validation loss is copied to <name>.pt. Every line of
-artifacts/train_log.jsonl is one JSON record (step losses and per-epoch validation). Weights (*.pt) are git-ignored
-until T-089 settles the GRF licence; the log and metrics are committed.
+artifacts/train_log.jsonl is one JSON record (step losses and per-epoch validation). Weights (*.pt) are git-ignored;
+the log and metrics are committed.
 """
 
 from __future__ import annotations

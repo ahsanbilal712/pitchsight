@@ -1,4 +1,4 @@
-"""Policy dataset: GRF tracking games and Kickoff matches -> tokens, context, labels (TECH_PLAN 1.6 Pipeline, T-027).
+"""Policy dataset: GRF tracking games and Kickoff matches -> tokens, context, labels.
 
     python -m policy.data --grf data/grf --kickoff data/matches/corpus --out data/grf/dataset --split-seed 4242
 
@@ -6,7 +6,7 @@ Every sample is the state the player in control saw, flipped so the team in poss
 Tokens [23, F=16]: possession team's 11 players (slot order), the opponents' 11, the ball. Per token:
   x/105, y/68, vx/10, vy/10, team (+1 in possession, -1 defending, 0 ball), is_holder, role one-hot (8 GRF roles),
   distance to ball / 50, angle to the attacked goal / pi.
-TECH_PLAN 1.6 lists stamina as well, which makes 17 entries for "F = 16"; stamina is left out (GRF has none and the
+The design lists stamina as well, which makes 17 entries for "F = 16"; stamina is left out (GRF has none and the
 scripted rule never reads it), keeping F = 16.
 Context [G=4]: score difference for the team in possession / 3, clock fraction, period - 1, team in possession is home.
 Labels: kind (pass, carry, shoot, clear, hold), pass target (slot 0-10 of the team in possession, -1 otherwise),
@@ -38,7 +38,7 @@ ROLES = ("goalkeeper", "centre back", "left back", "right back", "central midfie
 # Kickoff 4-3-3 slot -> GRF role (GK, RB, RCB, LCB, LB, RCM, CM, LCM, RW, CF, LW)
 KICKOFF_ROLE = np.array([0, 3, 1, 1, 2, 4, 4, 4, 6, 7, 5])
 PITCH_L, PITCH_W, GOAL_Y = 105.0, 68.0, 34.0
-GRF_HZ = 10.2                      # derived from ball gravity in T-012 (docs/DATA.md)
+GRF_HZ = 10.2                      # derived from ball gravity (docs/DATA.md)
 GRF_X, GRF_Y = 52.5, 68.0 / 0.84   # metres per normalised unit (anisotropic)
 KICKOFF_DECISION_EVENTS = {"pass": PASS, "shot": SHOOT, "clearance": CLEAR}
 TRAIN_SEEDS = range(1001, 3001)
@@ -222,7 +222,7 @@ def grf_games(csv_path: Path) -> dict[int, dict[str, np.ndarray]]:
 
 
 def grf_labels(game: dict[str, np.ndarray], hold_every: int = 3) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """(frame, kind, pass target slot, carry bin) per labelled frame of one GRF game (TECH_PLAN 1.6 step 3).
+    """(frame, kind, pass target slot, carry bin) per labelled frame of one GRF game.
     A release frame is the last frame a player is in control before a different player is; the label is pass when
     the next holder is a team-mate, shoot when the ball leaves faster than 15 m/s toward the attacked goal within
     1 s, clear when it travels more than 25 m away from the own goal with an opponent within 3 m of the kicker;

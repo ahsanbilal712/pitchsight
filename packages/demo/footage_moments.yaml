@@ -1,17 +1,17 @@
-# Featured real-clip moments for the compositor (T-108). Clips are the four downloaded data/footage/*/clip.mp4
+# Featured real-clip moments for the compositor. Clips are the four downloaded data/footage/*/clip.mp4
 # (sources and permission: data/footage/SOURCES.md); nothing here is media. Composites go to packages/demo/out/footage/.
 #
 #   python -m demo.composite <moment> [--png] [--clip] [--standin]
 #
 # camera: hand landmarks on the freeze frame (pitch metres <-> pixels, >= 4) and the markings the fit refines
 #   against; `top` is the advertising boards' lower edge as a polyline of pixels (nothing above it is pitch).
-#   Track A's per-frame calibration (T-104: calib/<shot>.json for the usable shot holding t_s) is measured the
+#   Track A's per-frame calibration is measured the
 #   same way and used when its drift is no worse.
 # actor/target: `player` is a label in the moment file (players and ball in pitch metres); `label` is the tag drawn
 #   (real names on the featured clips: the written permission names club and player names, lead 23 Oct).
 # Pitch metres: x 0..105 towards the goal the attacking side faces, y 0..68 with y = 0 the touchline nearest
 # the main camera. Pixels are 1920x1080 frames.
-# counterfactual: the precomputed rollout for the moment (T-109, track B: first 100 futures the actual action, the
+# counterfactual: the precomputed rollout for the moment (first 100 futures the actual action, the
 # last 100 the alternative; `futures: alternative` when every path is the alternative). line: the reviewed
 # lower-third. options: the two bars of the win-chance card. panels: right puts lower-third and card bottom right. Without a counterfactual, --standin draws the golden
 # match's cf_000070 futures re-anchored on the players, watermarked, for checking the look only; a
@@ -28,11 +28,11 @@ moments:
         pixel: [[920, 205], [1150, 268], [578, 313], [1540, 705], [1195, 345], [1688, 495]]
       lines: [penalty_box_right, goal_box_right, goal_line_right, touchline_far, penalty_arc_right]
       top: [[0, 249], [915, 208], [916, 200], [1919, 200]]
-    moment_file: liverpool-mancity-2526/moments/875000.json    # T-107 hand-marked frame (track A, a152373)
+    moment_file: liverpool-mancity-2526/moments/875000.json    # hand-marked frame
     actor: {player: "#8", feet: [728, 705], label: "Szoboszlai"}    # feet: fallback without the moment file
     ball: [832, 682]
     target: {player: "#11", feet: [1700, 797], label: "Salah · free"}
-    counterfactual: data/footage/liverpool-mancity-2526/cache/counterfactuals/cf_000001.json   # T-109 (a751c1a)
+    counterfactual: data/footage/liverpool-mancity-2526/cache/counterfactuals/cf_000001.json
     line: data/footage/liverpool-mancity-2526/cache/lines/mo_00001.json    # reviewed lower-third
     options: {actual: "Shot", alternative: "Pass to Salah"}
     kits: {home: [214, 32, 52], away: [120, 182, 232]}         # analyst heatmap: Liverpool red, City sky blue
@@ -42,7 +42,7 @@ moments:
       side: home
       facts: [{id: f_000001, caption: "Distance to goal"}]
 
-  # The other three featured moments (config/footage.yaml, T-109): no hand landmarks; the camera is seeded with the
+  # The other three featured moments (config/footage.yaml): no hand landmarks; the camera is seeded with the
   # moment file's homography and refined against the paint (far touchline and boards left out).
   ars_sliding_doors:
     clip: arsenal-chelsea-2526
@@ -221,7 +221,7 @@ moments:
     kits: {home: [218, 41, 28], away: [120, 182, 232]}
     label: "If City's defender had been in the cone"
 
-  # ------------------------------------------------------------------ video v4 (owner, 23 Oct): attacks only,
+  # ------------------------------------------------------------------ video v4 (23 Oct): attacks only,
   # goal chance in the next 10 s (track A cache/v4, a953292), no win chance. `alternative` is drawn only when track A's
   # verdict says it is better beyond the noise; `finishing: true` draws no alternative (a finish that went in).
   lfc_v4:
@@ -338,7 +338,7 @@ moments:
     label: "Man Utd: goal in the next 10 s"
     foot: "if passed to, each option replayed 1,000 times"
 
-  # ------------------------------------------------------------------ video v5 (owner, 23 Oct): xG from the real-data
+  # ------------------------------------------------------------------ video v5 (23 Oct): xG from the real-data
   # reference model (track A cache/v5: Soccermatics' logistic fit on PL shots; a pass = P(complete) x xG at the
   # receiver's arrival spot). No goal-in-10s, no win chance. Receivers labelled by name if verified, else team and area.
 
@@ -533,7 +533,7 @@ moments:
     kits: {home: [214, 32, 52], away: [120, 182, 232]}
     label: "WHYLINE is watching: where Liverpool's next shot will come from"
 
-  # ------------------------------------------------------------------ video v6 (owner, 23 Oct): live analytics on the
+  # ------------------------------------------------------------------ video v6 (23 Oct): live analytics on the
   # playing clip (track A cache/v6, 2305ca9), the agent pipeline (track B pipeline_*.json), no cartoon, no placeholders.
   mci_live_v6:                       # Amad's passage 56:37-56:41 playing, live HUD and pass lines
     clip: manutd-mancity-2526
@@ -964,7 +964,7 @@ moments:
     clip_ms: 876700
     duration: 10.0
     tagline: "See the decision behind every moment."
-    repo: "github.com/ahsanbilal712/pitchsight"     # placeholder until the owner creates the repository
+    repo: "github.com/ahsanbilal712/pitchsight"
     permission: "Premier League clips used with permission"
 
   # v8 in action: v7's beats in the PITCHSIGHT style (glass panels, the fixed right stack, nothing under 24 px)
@@ -1370,7 +1370,7 @@ moments:
     receiver_label: "Arsenal teammate · in the box"
     card_title: "THE DECISION · 79:11"
 
-  # v10 (owner, 26 Oct): v9's beats without the xG banner (no_score) and without any ruling on screen (no_rulings,
+  # v10 (26 Oct): v9's beats without the xG banner (no_score) and without any ruling on screen (no_rulings,
   # state_says); the HUD values as in v9
   mci_live_v10: {<<: *mci_live_v9, no_score: true}
   mci_amad_v10: {<<: *mci_amad_v9, no_score: true}

@@ -14,7 +14,7 @@
     "tracking_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "engine_hash": { "type": "string", "description": "Git SHA of the engine at generation time." },
     "created_at": { "type": "string", "format": "date-time" },
-    "frozen": { "type": "boolean", "default": false, "description": "True after day 7. A frozen manifest may not be regenerated without a new video (TECH_PLAN 1.8)." },
+    "frozen": { "type": "boolean", "default": false, "description": "True once the video is cut. A frozen manifest may not be regenerated without a new video." },
     "entries": {
       "type": "array",
       "items": {

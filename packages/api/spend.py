@@ -1,4 +1,4 @@
-"""SpendGuard: prices every model call, appends it to the ledger and enforces the caps (ADR-011, T-008).
+"""SpendGuard: prices every model call, appends it to the ledger and enforces the caps.
 
 Usage around each model call:
 

@@ -1,4 +1,4 @@
-"""Counterfactual calibration and placebo on held-out matches (TECH_PLAN 1.11, FEASIBILITY_AUDIT B.2, T-040).
+"""Counterfactual calibration and placebo on held-out matches.
 
     python -m evals.calibration --seeds 51..350 --engine-from packages/policy/artifacts/gate.json --out packages/evals/out
 

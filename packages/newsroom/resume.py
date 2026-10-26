@@ -1,4 +1,4 @@
-"""Resume after a kill (TECH_PLAN 1.7 "Checkpoints, resume and the kill-switch demo", T-051).
+"""Resume after a kill (resume and the kill-switch demo").
 
 The worker records each run in blackboard `runs` (`running` → `done`). On start it calls `resume_pending`: for every
 run still `running`, the latest checkpoint whose pending messages belong to that run is restored with
@@ -48,7 +48,7 @@ async def latest_checkpoint(storage, run_id: str, workflow_name: str = "newsroom
 
 
 def mark_interrupted(bb, run: dict, at_executor: str | None = None, checkpoint_id: str | None = None) -> None:
-    """One `interrupted` trace row for a killed run (TECH_PLAN 1.7 kill-switch step 2: the studio shows it red for
+    """One `interrupted` trace row for a killed run (the studio shows it red for
     the gap). Written once per run: by the kill, or by the resume when the worker died some other way."""
     if any(t.get("status") == "interrupted" for t in bb.query("traces", run_id=run["id"])):
         return
@@ -93,7 +93,7 @@ async def resume_pending(deps, storage, run_moment_fn=None, on_result=None) -> l
 
 
 async def publish_requests(deps, workflow, storage, msg, requests: list) -> list[dict]:
-    """A run paused on request_info (a recap waiting for the producer, TECH_PLAN 1.7): write {request_id, cue}
+    """A run paused on request_info (a recap waiting for the producer): write {request_id, cue}
     to blackboard `requests` (the api broadcasts it to the studio) with the checkpoint to resume from."""
     out = []
     for ev in requests:

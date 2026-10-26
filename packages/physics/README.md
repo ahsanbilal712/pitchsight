@@ -2,7 +2,6 @@
 
 Pitch control, indices, chaos index, speeds, auto-events and the game-state machine.
 
-Interface restated from `TECH_PLAN.md` section 1.4 "physics (analytics)" (TECH_PLAN wins on conflict).
 Tests live in `tests/physics/`.
 
 ```python
@@ -16,7 +15,7 @@ class StateMachine: def update(self, chaos: float, t_ms: int) -> str | None     
 
 Performance: all of the above for one 100 ms frame in < 15 ms on CPU (target; 1,802 cells × 22 players vectorised). Tests: pitch control sums to 1 per cell; symmetry test (mirror the pitch, shares invert); state machine hysteresis unit tests. Libraries: numpy, scipy 1.18.1.
 
-Implementation notes (T-013):
+Implementation notes:
 - `window.py`: `TrackingWindow` (slice of `tracking.npz`, substitutions applied by `player_at`) and `Frame`.
 - `pitch_control.py`: arrival time = 0.7 s reaction on the current velocity + run at 5 m/s; softmin over all 22
   players with Spearman's logistic scale (sigma 0.45 s). Grid rows are y (bottom to top), columns x.

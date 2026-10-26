@@ -1,5 +1,5 @@
 """Tactician: explanation.schema.json output with evidence on every claim, 12 s timeout with one retry, then the
-tactician_degraded template, tools over the newsroom tool client, the stable league block (T-032)."""
+tactician_degraded template, tools over the newsroom tool client, the stable league block."""
 
 import asyncio
 import json

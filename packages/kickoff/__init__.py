@@ -1,4 +1,4 @@
-"""kickoff: batched numpy match engine with hidden tactical truth (ADR-001)."""
+"""kickoff: batched numpy match engine with hidden tactical truth."""
 
 from .engine import Engine, MatchRecord, Override, State
 from .errors import BranchError, EngineError

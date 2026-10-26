@@ -1,4 +1,4 @@
-// Message shapes the studio reads (TECH_PLAN 1.3, 1.9; copied from the overlay, studio fields added).
+// Message shapes the studio reads (copied from the overlay, studio fields added).
 export interface ViewerProfile {
   schema_version: string;
   viewer_id: string;

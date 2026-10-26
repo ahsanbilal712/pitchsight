@@ -1,4 +1,4 @@
-"""Rollout budgets (T-016): B=200 x 900 steps (90 s) scripted <= 1.3 s warm on CPU (TECH_PLAN 1.4); the $50 plan's
+"""Rollout budgets: B=200 x 900 steps (90 s) scripted <= 1.3 s warm on CPU; the $50 plan's
 200 x 60 s case <= 1.2 s (config/budgets.yaml scripted_200x60s_cpu). Measured as process CPU time, best of three,
 so other work on the machine (corpus generation, other test runs) does not decide the number; wall time is printed."""
 

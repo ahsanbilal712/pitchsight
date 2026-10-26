@@ -1,4 +1,4 @@
-"""Cue latency p50/p95 per tier from blackboard traces (TECH_PLAN 1.11 row "Cue latency", T-056).
+"""Cue latency p50/p95 per tier from blackboard traces.
 
     python -m evals.latency --source live --matches 9001,9002,9003 --blackboard PATH --out packages/evals/out/latency_live.json
     python -m evals.latency --source replay [--match-dir data/matches/4242]
@@ -6,7 +6,7 @@
 Per moment run (`run_id`) and branch: event to cue = the Scout's frame wait (100 ms, it reads the frame after the
 event) + from the run's first trace row (ingest) to the end of the CueBus row that delivered the cue. Tiers: fast,
 explained (gated: fast p95 <= fast_cue_p95_s, explained p95 <= explained_cue_p95_s in config/budgets.yaml), panel and
-referee (reported). Live numbers come from live runs (T-032 probe, T-080 judge run); a replay serves cached results
+referee (reported). Live numbers come from live runs; a replay serves cached results
 after their simulated latency / WHYLINE_REPLAY_SPEED, so replay numbers are labelled "replay" and never gate.
 """
 

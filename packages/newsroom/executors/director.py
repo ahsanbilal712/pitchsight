@@ -1,12 +1,12 @@
-"""DirectorExecutor: turns a checked draft into a schema-valid cue under the screen-time budgets (TECH_PLAN 1.7
-"Director budgets", config/budgets.yaml `director`, T-021).
+"""DirectorExecutor: turns a checked draft into a schema-valid cue under the screen-time budgets
+(config/budgets.yaml `director`).
 
 Hard rules: no overlay during a shot sequence (shot until ball dead or possession change, max 6 s) and none within
 3 s after a goal (the cue waits); same kind within 90 s, unshown for 45 s, Sliding Doors below leverage 0.04 and
 Oracle below p_shot 0.30 are dropped. Per viewer mode: allowed kinds, min gap between lower-thirds, max cues per
 10 minutes, casual Sliding Doors per half. The studio sees every cue that reaches any viewer mode.
 
-The cue id comes from the moment number and the branch only (`cue_id_for`), so a resumed run (T-051) emits the
+The cue id comes from the moment number and the branch only (`cue_id_for`), so a resumed run emits the
 same id as an uninterrupted one. Spend cap reached -> degraded mode and a `modes` document; a model error, timeout,
 cache miss or third rejected attempt -> template line from verified claims and a red trace row.
 """
@@ -229,7 +229,7 @@ class DirectorExecutor(NewsroomExecutor):
                            "cache_key": msg.cache_key},
         }
         envelope = out.model_dump(include=set(CueOut.model_fields) - {"cue"})
-        if kind == "recap":   # TECH_PLAN 1.7 "Producer veto": a recap waits for the producer
+        if kind == "recap":   # producer veto: a recap waits for the producer
             self.trace(out, started, status="awaiting_producer", cue_id=cue["cue_id"], t_in_ms=t_in,
                        model=cue["provenance"]["model"])
             await self.handle_recap(cue, envelope, ctx)

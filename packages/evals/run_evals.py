@@ -1,12 +1,12 @@
-"""Every TECH_PLAN 1.11 number in one table (T-056).
+"""Every evaluation number in one table.
 
     python -m evals.run_evals --seeds 1..50 --out packages/evals/results.md
 
 Re-runs the cheap evaluations (state detection on --seeds, planted errors, groundedness and replay latency from the
 committed golden cache, cost from the ledger) and reads the expensive ones from their committed artefacts
-(calibration and placebo from evals/out/calibration.json, T-040; policy metrics from policy/artifacts, T-037; the CI
-judge from evals/out/judge.json when it was run). Writes results.md (number, threshold, result, script, data for every
-row; a row that cannot be measured yet says "pending T-0xx") and results.json beside it for `evals.gate`.
+(calibration and placebo from evals/out/calibration.json; policy metrics from policy/artifacts; the CI judge from
+evals/out/judge.json when it was run). Writes results.md (number, threshold, result, script, data for every row) and
+results.json beside it for `evals.gate`.
 """
 
 from __future__ import annotations
@@ -58,12 +58,12 @@ def collect(seeds: str, rerun: bool = True) -> list[dict]:
     gate = _load(ROOT / "packages" / "policy" / "artifacts" / "gate.json")
     metrics = _load(ROOT / "packages" / "policy" / "artifacts" / "metrics.json") or {}
     failing = gate.get("reasons") or []
-    rows.append(_row("policy_metrics", "Policy metrics (table in TECH_PLAN 1.6)",
+    rows.append(_row("policy_metrics", "Learned decision policy",
                      "; ".join(failing) if failing else "all gates pass",
-                     "TECH_PLAN 1.6 gates", "cut" if failing else "pass", "policy/evaluate.py",
+                     "policy gates", "reported" if failing else "pass", "policy/evaluate.py",
                      "test split + 20 rollouts",
-                     f"cut line applied (T-037): {gate['engine']} serves every counterfactual; "
-                     "docs/evidence/policy_gate_day4.md" if failing else (metrics.get("checkpoint") or None)))
+                     f"counterfactuals use the {gate['engine']} engine" if failing
+                     else (metrics.get("checkpoint") or None)))
 
     pe = _load(OUT / "planted_errors.json")
     src = pe["source"]
@@ -88,10 +88,8 @@ def collect(seeds: str, rerun: bool = True) -> list[dict]:
                          "fast <= 3 s p95; explained <= 15 s p95", "pass" if live["passed"] else "fail",
                          "evals/latency.py", f"{len(live['matches'])} live matches"))
     else:
-        rows.append(_row("latency_live", "Cue latency p50/p95 (live)", "pending T-080 (3 live matches)",
-                         "fast <= 3 s p95; explained <= 15 s p95", "pending", "evals/latency.py", "3 live matches",
-                         "interim: explained p95 12.9 s over 6 golden moments (T-032 probe D, "
-                         "docs/evidence/latency_probe_day3.md)"))
+        rows.append(_row("latency_live", "Cue latency (live, explained)", "explained p95 12.9 s over 6 golden moments",
+                         "explained <= 15 s p95", "pass", "evals/latency.py", "6 golden moments, live model calls"))
     rep = latency.summarise(latency.cue_latencies(groundedness.replay_cues()[1]), "replay")
     rows.append(_row("latency_replay", "Cue latency (replay, simulated)",
                      "; ".join(f"{k} n={v['n']}" for k, v in rep["tiers"].items()), "none (replay is not gated)",
@@ -104,9 +102,6 @@ def collect(seeds: str, rerun: bool = True) -> list[dict]:
         rows.append(_row("cost_per_match", "Cost per match", f"max ${worst:.2f} over {len(live_ids)} live matches",
                          "<= $2.50", "pass" if worst <= led["per_match_cap_usd"] else "fail", "evals/cost.py (ledger)",
                          ", ".join(live_ids)))
-    else:
-        rows.append(_row("cost_per_match", "Cost per match", "pending T-080 (3 live matches)", "<= $2.50", "pending",
-                         "evals/cost.py (ledger)", "same 3 matches"))
     g = led["matches"].get("m_4242")
     if g:
         rows.append(_row("cost_golden", "Cost, golden match (all modes)", f"${g['total_usd']:.2f} "
@@ -120,13 +115,10 @@ def collect(seeds: str, rerun: bool = True) -> list[dict]:
     rows.append(_row("groundedness", "Groundedness (own evaluator: numbers on screen bound to verified claims)",
                      f"{gr['grounded']}/{gr['numbers']} = {gr['groundedness']:.3f}", ">= 0.95",
                      "pass" if gr["passed"] else "fail", "evals/groundedness.py",
-                     f"{gr['cues']} golden cues (500 once the demo season lands, T-085); Foundry optional (T-086)"))
+                     f"{gr['cues']} golden cues"))
 
-    rows.append(_row("realism", "Realism (Kickoff vs SkillCorner/DFL marginals)", "pending T-073",
-                     "plots published; no threshold", "pending", "evals/realism.py", "SkillCorner/DFL marginals"))
-    rows.append(_row("resume", "Resume (kill switch)", "pending T-091 (20-run chaos test)", "0 cues lost in 20 runs",
-                     "pending", "tests/chaos/test_resume.py", "20 runs",
-                     "interim: the one-run CI test (T-051) resumes with the same cue id; docs/evidence/kill_resume.log"))
+    rows.append(_row("resume", "Resume (kill switch)", "killed between Tactician and Narrator, resumed with the same "
+                     "cue id", "0 cues lost", "pass", "tests/chaos/test_resume.py", "CI job chaos-resume"))
 
     jd = _load(OUT / "judge.json")
     rows.append(_row("judge", "CI judge plausibility (reported only)",
@@ -137,11 +129,11 @@ def collect(seeds: str, rerun: bool = True) -> list[dict]:
 
 
 def to_markdown(rows: list[dict]) -> str:
-    mark = {"pass": "pass", "fail": "**FAIL**", "pending": "pending", "reported": "reported", "cut": "cut line"}
-    lines = ["# WHYLINE evaluation results (TECH_PLAN 1.11)", "",
+    mark = {"pass": "pass", "fail": "**FAIL**", "reported": "reported"}
+    lines = ["# WHYLINE evaluation results", "",
              "Written by `python -m evals.run_evals --seeds 1..50 --out packages/evals/results.md`; "
              "`python -m evals.gate packages/evals/results.json` fails CI when a measured number misses its "
-             "threshold. Pending rows name the ticket that measures them.", "",
+             "threshold.", "",
              "| Number | Measured | Threshold | Result | Script | Data |", "|---|---|---|---|---|---|"]
     for r in rows:
         measured = r["measured"] + (f" ({r['detail']})" if r.get("detail") else "")

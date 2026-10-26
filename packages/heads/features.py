@@ -1,4 +1,4 @@
-"""Feature tables for the outcome heads (TECH_PLAN 1.6 "Outcome heads").
+"""Feature tables for the outcome heads.
 
 Inputs are Kickoff training matches (seeds 1001-3000): `events.jsonl.gz`, `samples.npz` (the state at every on-ball
 decision and at 1 Hz) and `truth.json`. Coordinates are turned into the frame of the team that matters (the shooter,
@@ -10,7 +10,7 @@ Tables (one row each):
   states  every `step_s` of match time (1 Hz frames)   -> GoalIn8sHead, ChaosHead; every 30 s -> WinProbHead
 
 `state_features` builds the goal-in-8-s and win-probability features from raw arrays, batched over worlds, so the
-rollout engine (T-016) values terminal states with exactly the features the heads were trained on.
+rollout engine values terminal states with exactly the features the heads were trained on.
 """
 
 from __future__ import annotations

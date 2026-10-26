@@ -1,4 +1,4 @@
-"""Golden precompute of the model calls (T-042): the stages fast_lines, tactician, narrator, panel and factcheck of
+"""Golden precompute of the model calls: the stages fast_lines, tactician, narrator, panel and factcheck of
 `scripts/precompute.py`, served by one pass.
 
 The real newsroom graph runs every golden moment with a `cache.batch.BatchingClient` (calls leave in rounds: one
@@ -17,9 +17,9 @@ from pathlib import Path
 from cache.manifest import CacheManifest
 
 ROOT = Path(__file__).resolve().parents[2]
-BUDGET_USD = 2.00   # T-042 limit, raised from $1.50 by the owner on 22 Oct (no batch bucket: live calls)
+BUDGET_USD = 2.00   # golden precompute limit (no batch bucket: live calls)
 NEWSROOM_STAGES = ("fast_lines", "tactician", "narrator", "panel", "factcheck")
-RECAP_STAGES = ("recap",)       # T-050: only the period-end moments, merged into the existing entries
+RECAP_STAGES = ("recap",)       # only the period-end moments, merged into the existing entries
 MODEL_PRODUCERS = ("tactician", "proposer", "narrator", "fast_line", "panel", "recap")
 TOOL_PRODUCERS = ("get_state", "get_pitch_control", "query_events", "player_stats")
 
@@ -46,7 +46,7 @@ def _id_field(collection: str) -> str:
 
 
 def stage_recap(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """T-050: the half-time and full-time recaps only (the period-end moments), merged into the golden cache."""
+    """The half-time and full-time recaps only (the period-end moments), merged into the golden cache."""
     args.recap_only = True
     return stage_newsroom(seed, manifest, events, window, args)
 
@@ -99,7 +99,7 @@ def stage_newsroom(seed: int, manifest: CacheManifest, events: list[dict], windo
     match_id = events[0]["match_id"]
     entry = manifest.find(producer="scout")
     if not entry:
-        raise SystemExit("run the moments stage first (T-039)")
+        raise SystemExit("run the moments stage first")
     moments = [json.loads(line) for line in (manifest.cache_dir / entry[0]["path"]).read_text().splitlines()
                if line.strip()]
     if getattr(args, "moments", None):
@@ -124,7 +124,7 @@ def stage_newsroom(seed: int, manifest: CacheManifest, events: list[dict], windo
         if args.mode == "batch" and bucket:
             runner = VertexBatchRunner(bucket, live=LiveRunner(budget_usd=BUDGET_USD))
         else:
-            if args.mode == "batch":   # owner decision 22 Oct: no new GCP resources, so no batch bucket
+            if args.mode == "batch":   # decision 22 Oct: no new GCP resources, so no batch bucket
                 print("no batch bucket (--bucket / WHYLINE_BATCH_BUCKET): the model calls run live")
             runner = LiveRunner(budget_usd=BUDGET_USD)
     for m in moments:
@@ -179,7 +179,7 @@ def stage_newsroom(seed: int, manifest: CacheManifest, events: list[dict], windo
 
 
 def stage_replay_check(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """Replay every golden moment from the cache with no model call (TECH_PLAN 1.8 replay serving) and count the
+    """Replay every golden moment from the cache with no model call and count the
     cache misses. With --repair, close the gaps no model call is needed for: an alternative's counterfactual (or
     the engine's error for it) is simulated and cached, and a model call the golden run lost is cached as failed,
     so replay takes the fallback the golden run took. Repeats until clean (at most three passes)."""
@@ -275,7 +275,7 @@ def stage_replay_check(seed: int, manifest: CacheManifest, events: list[dict], w
 
 
 def stage_cue_stream(seed: int, manifest: CacheManifest, events: list[dict], window, args) -> dict:
-    """T-057: cache the full cue stream (every delivered cue, each recap held for the producer, the explanations
+    """Cache the full cue stream (every delivered cue, each recap held for the producer, the explanations
     they cite) so replay screens and checks need no model."""
     from cache.review import build_cue_stream
 

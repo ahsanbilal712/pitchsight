@@ -1,8 +1,7 @@
-# TECH_PLAN 1.8 "Demo script": actions the api applies on the replay clock (packages/api/demo_runner.py),
-# so every take of the golden match is the same. The four 1.8 entries, in 1.8 order, at the clocks of the golden
-# match's storyboard beats: at_clock is what runs; `ref` names the golden_moments.yaml entry (T-039) it was taken
-# from, and tests/demo/test_demo_script.py checks the two agree. TECH_PLAN's example clocks (44:10, 31:10, 33:00)
-# were for the storyboard's draft match; the veto stays 15 s after half-time, where the recap waits for approval.
+# Demo script: actions the api applies on the replay clock (packages/api/demo_runner.py),
+# so every take of the golden match is the same. Four entries at the clocks of the golden
+# match's storyboard beats: at_clock is what runs; `ref` names the golden_moments.yaml entry it was taken
+# from, and tests/demo/test_demo_script.py checks the two agree. The veto stays 15 s after half-time, where the recap waits for approval.
 - {at_clock: "41:37", ref: "@kill", action: kill, target: newsroom}
 - {at_clock: "45:00+15s", action: veto, cue_kind: recap}
 - {at_clock: "76:52", ref: "@sliding_doors-4s", action: speed, value: 1}

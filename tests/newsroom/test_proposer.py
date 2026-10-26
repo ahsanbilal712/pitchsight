@@ -1,5 +1,5 @@
 """Proposer and RolloutExecutor: decision point, rule fallback, model output validated, 6 s timeout with one retry,
-2 s rollout timeout with n = 50 fallback, invalid alternatives skipped, policy_prob >= 0.05 (T-031)."""
+2 s rollout timeout with n = 50 fallback, invalid alternatives skipped, policy_prob >= 0.05."""
 
 import asyncio
 import json

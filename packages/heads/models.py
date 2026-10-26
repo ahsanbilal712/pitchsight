@@ -1,5 +1,5 @@
-"""Outcome heads (TECH_PLAN 1.4 heads, 1.6 table). Each head loads its artefact at construction and raises if it
-is missing: there is no silent fallback (TECH_PLAN 1.13)."""
+"""Outcome heads. Each head loads its artefact at construction and raises if it
+is missing: there is no silent fallback."""
 
 from __future__ import annotations
 

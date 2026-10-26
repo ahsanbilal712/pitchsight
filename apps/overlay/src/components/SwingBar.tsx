@@ -1,4 +1,4 @@
-// Swing bar (TECH_PLAN 1.9, T-024): a cue's graphics.bar {label, from, to} animated from -> to, with the
+// Swing bar: a cue's graphics.bar {label, from, to} animated from -> to, with the
 // counterfactual's n, horizon and seed printed beside the number. The counterfactual schema says numbers are
 // shown on screen only with n, horizon_s and seed, so without the counterfactual document the bar stays hidden.
 import { useEffect, useState } from "react";

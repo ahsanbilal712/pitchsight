@@ -1,8 +1,8 @@
-"""Train the five outcome heads on Kickoff training matches (T-015 v0, T-025 v1).
+"""Train the five outcome heads on Kickoff training matches.
 
     python -m heads.train --matches data/matches/corpus --out packages/heads/artifacts --seed 4242 [--limit 200]
 
-Uses training seeds 1001-3000 that have samples.npz (TECH_PLAN seed convention), first `--limit` by seed. Splits
+Uses training seeds 1001-3000 that have samples.npz, first `--limit` by seed. Splits
 80/10/10 by match seed (never by row) with numpy.random.default_rng(seed). LightGBM trains on the train split with
 early stopping on val; every reported number is on the test split. Per head: <head>.txt, <head>.metrics.json,
 <head>.calibration.png; plus metrics.json with all heads. Per-match feature tables are cached under
@@ -35,7 +35,7 @@ from .features import (
 
 TRAIN_SEEDS = range(1001, 3001)
 TABLES = ("shots", "passes", "goal8s", "chaos", "winprob")
-# TECH_PLAN 1.6 thresholds (gated from T-025; reported in v0)
+# Gate thresholds (reported in v0)
 THRESHOLDS = {"xg": {"ece_max": 0.03}, "pass": {"ece_max": 0.03}, "winprob": {"ece_max": 0.03},
               "goal8s": {"ece_max": 0.01}, "chaos": {"auc_min": 0.70}}
 LGB_PARAMS = {"learning_rate": 0.05, "num_leaves": 31, "min_data_in_leaf": 100, "feature_fraction": 0.9,

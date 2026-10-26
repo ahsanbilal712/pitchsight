@@ -442,7 +442,7 @@ class Oracle(Live):
             return
         bar, value, _ = self.at(t)
         goal = self.goal_at(t)
-        if goal is not None:                             # v4: the owner's metric, goal in the next 10 s
+        if goal is not None:                             # v4: the metric, goal in the next 10 s
             bar, value = goal
         layer = hi_layer(im.size)
         d = HiDraw(layer)
