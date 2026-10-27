@@ -33,6 +33,7 @@ Rules for the voice:
 | `mbeumo_pass` | `mci_mbeumo_live_v10` | the pass to the HUD's best option | Best pass, PASS IN FLIGHT |
 | `mbeumo_shot` | `mci_mbeumo_live_v10` | the strike (0.10), after the carry into the box | strike tag, GOAL tag |
 | `mount_pass` | `mci_late_live_v10` | the pass to the HUD's best option | Best pass, PASS IN FLIGHT |
+| `newsroom` | `mci_pipeline_v11` (v11) | each agent's card as it is named; the action-to-air banner (15 s, 12.9 s measured) | every card open, the named one lit |
 | `mount_shot` | `mci_late_live_v10` | the receiver's panel: shot now 0.20 above every pass (best 0.09, not spoken: it would land after the panel fades) | the HUD panel (held 2 s) |
 
 Takes of 26 Oct 2026, voice Charon: each stem matched its script word for word, numbers included (gemini-3.8-flash,
@@ -53,6 +54,7 @@ segment's cues into one stem for track C.
 | `mbeumo_shot` | 4.73 s | 0.10 at 2.64 | mbeumo, 2.95 s |
 | `mount_pass` | 2.14 s | – | mount, 0.50 s |
 | `mount_shot` | 3.63 s | 0.20 at 0.99 | mount, 2.85 s |
+| `newsroom` (v11, 27 Oct) | 15.52 s | – (fifteen is spoken in words and printed on the banner) | the Newsroom, 0.40 s; its cards fire at the sentence starts |
 
 Wording changed to fit the takes: "They shoot" at the start of a take was heard as "the shoot" or "per shoot" (twice
 each), so the Amad and Mount lines open with "A shot". One take read 0.20 as "point twenty"; it was taken again, and
@@ -105,3 +107,7 @@ The red team find the best pass.
 ## mount_shot
 
 A shot at 0.20 xG, more than any pass.
+
+## newsroom
+
+As a play happens live, the newsroom takes over. The scout flags it. The models price every option. The tactician drafts the line. The fact checker tests every number. The director puts it on air, in under fifteen seconds.

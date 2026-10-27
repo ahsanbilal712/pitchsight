@@ -1,0 +1,118 @@
+# Video v11 edit decision list (submit, 2:00 or under): PITCHSIGHT. Assembled by
+#   python packages/demo/assemble.py packages/demo/edit_v11_submit.yaml
+# v10's cut with three changes (27 Oct): the Newsroom with every card open, voiced agent by agent and ending on the
+# action-to-air budget (16.8 s, was 10.5 s; every later cue 6.3 s later), and the close shows the repository link.
+# As in v10: no xG banner, no ruling on screen, the decisions voiced by kit colour; the broadcast sound stays off.
+
+out: packages/demo/out/final_v11_submit.mp4
+size: [1920, 1080]
+fps: 30
+caption_band: 0
+version: v11
+caption_style: {one_line: true, size: 32, margin_v: 40}
+audio:
+  - {file: packages/demo/out/narration_v9/intro.m4a, at: 0.0}
+  - {file: packages/demo/out/narration_v9/short/architecture.m4a, at: 19.3}
+  # the decision lines over the match clips (packages/demo/voice_v10.yaml, docs/video/narration_v10.md)
+  - {file: packages/demo/out/narration_v10/segments/mci_live.m4a, at: 48.1}
+  - {file: packages/demo/out/narration_v10/segments/amad_freeze.m4a, at: 51.95}
+  - {file: packages/demo/out/narration_v10/newsroom.m4a, at: 58.1}      # the Newsroom, 0.4 s into its beat
+  - {file: packages/demo/out/narration_v10/segments/eze_live.m4a, at: 75.10}
+  - {file: packages/demo/out/narration_v10/segments/eze_decision.m4a, at: 78.38}
+  - {file: packages/demo/out/narration_v10/segments/eze_strike.m4a, at: 84.93}
+  - {file: packages/demo/out/narration_v10/segments/lfc.m4a, at: 88.58}
+  - {file: packages/demo/out/narration_v10/segments/mbeumo.m4a, at: 97.08}
+  - {file: packages/demo/out/narration_v10/segments/mount.m4a, at: 104.68}
+
+clips:
+  - shot: footage/opener_v9               # 0:00 the sting, under "Built for Inside the Game ... This is Pitchsight."
+    from: 0.0
+    to: 7.2
+
+  - shot: footage/see_v9                  # 0:07 SEE, under "A broadcast shows you what happened ..."
+    from: 0.0
+    to: 12.1
+    captions:
+      - {from: 0.2, to: 11.9, text: "Computer vision tracks every player in view, on the broadcast and on the pitch."}
+
+  - shot: footage/architecture_short_v9   # 0:19 how it works, under the short stem (track B 44be9d5, 26.5 s)
+    from: 0.0
+    to: 27.0
+    captions:
+      - {from: 0.3, to: 11.0, text: "RF-DETR detects the players in view, ByteTrack follows them, the camera is calibrated."}
+      - {from: 11.1, to: 16.2, text: "A pass model and a published Expected Goals (xG) model price every option."}
+      - {from: 16.3, to: 26.8, text: "An agent newsroom on Microsoft Agent Framework writes the line; a fact checker checks it."}
+
+  - shot: footage/mci_live_v10            # 1:11 in action: Amad's passage (56:38-56:41)
+    from: 0.3
+    to: 5.3
+    captions:
+      - {from: 0.1, to: 4.9, text: "Man Utd v Man City: every option priced live, the danger zone tracked."}
+
+  - shot: footage/mci_amad_v10_v8         # the decision freeze
+    from: 2.7
+    to: 9.1
+    captions:
+      - {from: 0.1, to: 2.8, text: "Amad shoots from here: 0.06 xG."}
+      - {from: 3.0, to: 6.3, text: "The pass to Mbeumo, arriving 84% of the time, was worth 0.11."}
+
+  - shot: footage/mci_pipeline_v11        # the Newsroom, every card open, voiced agent by agent, ending ON AIR
+    from: 0.0
+    to: 16.8
+
+  - shot: footage/ars_eze_live_v10       # Arsenal v Chelsea 79:07-79:11: the regain, Eze carries (to the strike)
+    from: 0.3
+    to: 4.38
+    captions:
+      - {from: 0.1, to: 3.9, text: "Arsenal v Chelsea: Arsenal win it back through Eze."}
+
+  - shot: footage/ars_eze_decision_v9    # 79:11 held at the strike: the shot against the square pass
+    from: 0.0
+    to: 6.0
+    captions:
+      - {from: 0.1, to: 2.8, text: "Eze shoots: 0.08 xG."}
+      - {from: 2.9, to: 5.8, text: "The square pass, if it reaches him: 0.15 xG, arriving 66% of the time."}
+
+  - shot: footage/ars_eze_live_v10       # then the strike plays out
+    from: 4.4
+    to: 6.0
+    captions:
+      - {from: 0.1, to: 1.5, text: "Saved."}
+
+  - shot: footage/lfc_live_v10            # Liverpool 86': through Szoboszlai's strike and the block (+2.6 s for the voice)
+    from: 0.3
+    to: 10.6
+    captions:
+      - {from: 0.1, to: 4.9, text: "Liverpool v Man City, 86th minute: the pass options re-price as the play moves."}
+      - {from: 5.0, to: 10.2, text: "Szoboszlai shoots from 29 m: 0.02 xG. Blocked."}
+
+  - shot: footage/mci_mbeumo_live_v10     # Man Utd v Man City 64:2x: the move, the strike, the goal, normal speed
+    from: 0.3
+    to: 8.0
+    captions:
+      - {from: 0.1, to: 3.9, text: "Man Utd v Man City: the move into the box."}
+      - {from: 4.0, to: 7.6, text: "Mbeumo from 15 m: 0.10 xG. Goal."}
+
+  - shot: footage/mci_late_live_v10       # stoppage time: Cunha to Mount, his shot
+    from: 0.3
+    to: 6.8
+    captions:
+      - {from: 0.1, to: 3.3, text: "Stoppage time: Cunha on the ball, Mount the best option."}
+      - {from: 3.4, to: 6.4, text: "Mount shoots."}
+
+  - shot: footage/end_v11                 # the close: the repository link
+    from: 0.0
+    to: 4.0
+
+sources:
+  "0.06": "xg_decision_877000 actual xg 0.06 (Amad, the decision freeze; 'from here')"
+  "84%": "xg_decision_877000 best_alternative p_pass 0.84"
+  "0.11": "xg_decision_877000 best_alternative xg_after_pass 0.11"
+  "0.08": "arsenal-chelsea-2526 cache/v9/decision_gap_0 eze shot_xg 0.08 (= shots_0 strike 1301080 xg 0.08)"
+  "0.15": "arsenal-chelsea-2526 cache/v9/decision_gap_0 eze best_option xg_receiver 0.15 (t39, if it reaches him)"
+  "66%": "arsenal-chelsea-2526 cache/v9/decision_gap_0 eze best_option p_complete 0.66 (pass model)"
+  "86": "the Liverpool clip's broadcast clock 86:17-86:25 (live_802600)"
+  "29": "shots_0 (liverpool-mancity-2526) strike 875560 distance_m 28.8"
+  "0.02": "shots_0 (liverpool-mancity-2526) strike 875560 xg 0.02 (blocked)"
+  "15": "shots_0 (manutd-mancity-2526) 64:27 strike distance (Mbeumo), lines_1079360 display '15 m'"
+  "0.10": "shots_0 (manutd-mancity-2526) 64:27 xg 0.1 (Mbeumo, goal)"

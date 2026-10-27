@@ -552,6 +552,9 @@ class Pipeline(Still):
         for rows in self.rows:                             # time on screen grows with what there is to read
             self.starts.append(t)
             t += min(1.8, 0.75 + 0.2 * len(rows))
+        self.expanded = m.get("layout") == "expanded"      # v11: every card open from the start, read aloud in turn
+        if m.get("fire_s"):                                # each agent fires as the voice names it
+            self.starts = [float(x) for x in m["fire_s"]]
         self.air = self.starts[-1]
 
     def span(self):
@@ -582,7 +585,11 @@ class Pipeline(Still):
         layer = hi_layer((W, H))
         d = HiDraw(layer)
         dx = int((1 - e) * (W - self.LEFT_W))              # the panel slides in from the right
-        self._flow(d, tau, dx)
+        if self.expanded:
+            self._flow_expanded(d, tau, dx)
+            self._banner(d, tau, dx)
+        else:
+            self._flow(d, tau, dx)
         self._on_air(d, tau)
         flatten(im, layer)
         return im
@@ -714,9 +721,110 @@ class Pipeline(Still):
             text += " · Gemini" if str(n["model"]).lower().startswith("gemini") else f" · {n['model']}"
         return text
 
+    # -- v11: every card open, the agents read in turn, the action-to-air budget underneath ------------------------
+    WHAT_SHORT = {"scout": "flags the moment", "proposer": "lists every option", "rollout": "prices each option",
+                  "tactician": "drafts the line", "factcheck": "checks every number", "director": "schedules it",
+                  "cuebus": "sends it to air"}
+    CARD_H, CARD_GAP, CARDS_Y = 96, 16, 150
+
+    def _out_line(self, n: dict) -> tuple[str, list | None]:
+        """The card's second line: what the agent produced, from the record (a moment may reword it, no new
+        numbers); the Fact Checker's claims come back as a list to draw with their ticks."""
+        a = n["agent"]
+        if n.get("claims"):
+            return "", n["claims"]
+        if n.get("options"):
+            def val(o):
+                return float(o.get("xg_after_pass") or o.get("xg") or 0)
+            opts = n["options"]
+            named = [o for o in opts if o["label"] == "Shot" or o["label"].startswith("Pass to ")][:3]
+            parts = [f"{o['label'][8:] if o['label'].startswith('Pass to ') else o['label']} "
+                     f"{o.get('xg_after_pass') or o.get('xg')}" for o in sorted(named, key=val, reverse=True)]
+            more = len(opts) - len(named)
+            return "  ·  ".join(parts) + (f"  ·  {more} more" if more else "") + "  (xG)", None
+        says = (self.m.get("says") or {}).get(a)
+        if says:
+            return says, None
+        if n.get("says") and a == "tactician":
+            return f"\u201c{n['says']}\u201d", None
+        if n.get("line"):
+            return f"\u201c{n['line']}\u201d", None
+        return (self.m.get("compact") or {}).get(a) or n.get("says") or "", None
+
+    def _flow_expanded(self, d: ImageDraw.ImageDraw, tau: float, dx: int) -> None:
+        x0 = self.LEFT_W + 40 + dx
+        w = W - 48 - (self.LEFT_W + 40)
+        d.text((x0, 40), "THE NEWSROOM", font=self.f[40], fill=(255, 255, 255, 255))
+        d.text((x0, 92), "from the action to the line on air, agent by agent", font=self.r[24], fill=(*MUTED, 255))
+        n_cards = len(self.data["nodes"])
+        for k, n in enumerate(self.data["nodes"]):
+            y = self.CARDS_Y + k * (self.CARD_H + self.CARD_GAP)
+            nxt = self.starts[k + 1] if k + 1 < n_cards else self.air + 99
+            state = "future" if tau < self.starts[k] else ("active" if tau < nxt else "done")
+            if k:                                          # the hand-off arrow from the card above
+                ya, yb, ax_ = y - self.CARD_GAP, y, x0 + 28
+                lit = state != "future"
+                d.line((ax_, ya, ax_, yb), fill=(*(ACCENT if lit else (90, 98, 110)), 255 if lit else 120), width=3)
+            col = {"active": ACCENT, "done": (90, 100, 112), "future": (64, 70, 80)}[state]
+            d.rounded_rectangle((x0, y, x0 + w, y + self.CARD_H), radius=RADIUS,
+                                fill=(36, 41, 52, 255) if state == "active" else (28, 32, 40, 255),
+                                outline=(*col, 255), width=3 if state == "active" else 2)
+            dot = GOOD if state == "done" else (ACCENT if state == "active" else (90, 98, 110))
+            d.ellipse((x0 + 18, y + 20, x0 + 38, y + 40), fill=(*dot, 255))
+            label = self.label(n)
+            d.text((x0 + 54, y + 12), label, font=self.f[30], fill=(255, 255, 255, 255))
+            timing = self._timing(n)
+            tw = d.textlength(timing, font=self.r[24]) if timing else 0
+            if timing:
+                d.text((x0 + w - 20, y + 16), timing, font=self.r[24], fill=(*MUTED, 255), anchor="ra")
+            wx = x0 + 54 + d.textlength(label, font=self.f[30]) + 16
+            what = self.WHAT_SHORT.get(n["agent"], "")
+            fw = shrink(d, what, FONT_REG, 24, x0 + w - 36 - tw - wx, floor=self.floor)
+            d.text((wx, y + 17), what, font=fw, fill=(*MUTED, 255))
+            text, claims = self._out_line(n)
+            ty, tx = y + 54, x0 + 54
+            body = (240, 244, 248, 255) if state != "future" else (205, 212, 220, 255)
+            if claims:                                     # every claim with its drawn tick
+                for c in claims:
+                    yy = ty + 15
+                    good = c.get("ok")
+                    if good:
+                        d.line((tx, yy, tx + 7, yy + 7, tx + 19, yy - 7), fill=(*GOOD, 255), width=4)
+                    else:
+                        d.line((tx, yy - 7, tx + 14, yy + 7), fill=(*ORANGE, 255), width=4)
+                        d.line((tx, yy + 7, tx + 14, yy - 7), fill=(*ORANGE, 255), width=4)
+                    d.text((tx + 28, ty), c["text"], font=self.r[27], fill=body)
+                    tx += 28 + d.textlength(c["text"], font=self.r[27]) + 30
+                d.text((tx, ty), "all verified" if all(c.get("ok") for c in claims) else "", font=self.r[24],
+                       fill=(*GOOD, 255))
+            elif text:
+                f = shrink(d, text, FONT_REG, 27, x0 + w - 24 - tx, floor=self.floor)
+                d.text((tx, ty), text, font=f, fill=body)
+        self._bottom = self.CARDS_Y + n_cards * (self.CARD_H + self.CARD_GAP)
+
+    def _banner(self, d: ImageDraw.ImageDraw, tau: float, dx: int) -> None:
+        """The action-to-air budget and its live measurement (footage_moments `banner`, bound in
+        footage.grounding.v6_pipeline to config/budgets.yaml and packages/evals/results.json)."""
+        b = self.m.get("banner")
+        if not b:
+            return
+        x0 = self.LEFT_W + 40 + dx
+        x1 = W - 48 + dx
+        y0, y1 = self._bottom + 8, H - 32
+        lit = tau >= self.air
+        d.rounded_rectangle((x0, y0, x1, y1), radius=RADIUS, fill=(*((60, 22, 22) if lit else (24, 28, 36)), 255),
+                            outline=(*((220, 40, 40) if lit else ACCENT), 255), width=3)
+        d.text((x0 + 26, y0 + 14), b["label"], font=self.f[24], fill=(*MUTED, 255))
+        d.text((x0 + 26, y0 + 44), b["value"], font=self.f[40], fill=(*ACCENT, 255))
+        d.text((x1 - 24, y0 + 18), b["note_label"], font=self.r[24], fill=(*MUTED, 255), anchor="ra")
+        d.text((x1 - 24, y0 + 50), b["note"], font=self.f[30], fill=(255, 255, 255, 255), anchor="ra")
+
     def _on_air(self, d: ImageDraw.ImageDraw, tau: float) -> None:
         a = window(tau, self.air, self.air + 0.3)
         if a <= 0:
+            return
+        if self.expanded:                                  # the last card and the banner say it; the line slides on
+            self._lower_third(d, tau, self.data["nodes"][-1].get("line"))
             return
         line = self.data["nodes"][-1].get("line")
         pop = 1 + 0.15 * (1 - ease_in_out(window(tau, self.air, self.air + 0.4)))
@@ -728,6 +836,9 @@ class Pipeline(Still):
         on = 0.5 + 0.5 * np.sin(2 * np.pi * (tau - self.air) / 1.0)
         d.ellipse((x0 + 26, y0 + 55 * pop - 14, x0 + 54, y0 + 55 * pop + 14), fill=(255, 255, 255, int(255 * a * (0.5 + 0.5 * on))))
         d.text((x0 + 72, y0 + 55 * pop), "ON AIR", font=f, fill=(255, 255, 255, int(255 * a)), anchor="lm")
+        self._lower_third(d, tau, line)
+
+    def _lower_third(self, d: ImageDraw.ImageDraw, tau: float, line: str | None) -> None:
         s = ease_in_out(window(tau, self.air + 0.2, self.air + 0.7))
         if s <= 0 or not line:
             return

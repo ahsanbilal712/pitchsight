@@ -10,16 +10,16 @@ footage, used with the Premier League's permission, is the ingest and the presen
 
 ## The video
 
-- **Video v10**, the submission cut: `packages/demo/out/final_v10_submit.mp4`, 1:48. It opens with what Pitchsight
+- **Video v11**, the submission cut: `packages/demo/out/final_v11_submit.mp4`, 1:55. It opens with what Pitchsight
   is and how it works (the architecture below, narrated), then plays real Premier League attacks with the analytics
   on every frame: the player on the ball, the xG of a shot now, the best pass and its xG, the threat, pitch control
-  and the team shape. A voice explains each decision (pass, through ball, shot) by kit colour; the broadcast sound
-  is off.
-- Edit list `packages/demo/edit_v10_submit.yaml`, captions `captions_v10*.srt`, narration
+  and the team shape. A voice explains each decision (pass, through ball, shot) by kit colour, then walks through the
+  newsroom agent by agent, from the action to the line on air in under 15 s; the broadcast sound is off.
+- Edit list `packages/demo/edit_v11_submit.yaml`, captions `captions_v11_submit.srt`, narration
   script `docs/video/narration_v10.md` (voice: Gemini TTS) and `narration_v9.md` (intro and architecture).
-- **Every number is checked.** `python -m footage.grounding --edit packages/demo/edit_v10_submit.yaml` binds every
+- **Every number is checked.** `python -m footage.grounding --edit packages/demo/edit_v11_submit.yaml` binds every
   on-screen and spoken number to its evidence (tracking, the xG model, the pass model):
-  `data/footage/v10_submit_grounding.json` shows 1,106 of 1,106 numbers bound, and every spoken number is on screen
+  `data/footage/v11_submit_grounding.json` shows 1,109 of 1,109 numbers bound, and every spoken number is on screen
   while it is said.
 - Rendered files are git-ignored with all footage-derived media.
 
@@ -112,4 +112,4 @@ keep it.
   python -m api.replay --match m_9001` serves it.
 - Rendering the real-clip beats needs the clips locally (they are not distributed): `python -m demo.composite
   <moment>` for each moment in `packages/demo/footage_moments.yaml`, then
-  `python packages/demo/assemble.py packages/demo/edit_v10_submit.yaml`.
+  `python packages/demo/assemble.py packages/demo/edit_v11_submit.yaml`.

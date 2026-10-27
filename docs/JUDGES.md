@@ -2,7 +2,7 @@
 
 ## Watch first
 
-The demo video (1:48) shows Pitchsight on real Premier League broadcast footage, used with the Premier League's
+The demo video (1:55) shows Pitchsight on real Premier League broadcast footage, used with the Premier League's
 written permission ([permissions](permissions/README.md), [sources](../data/footage/SOURCES.md)). The clips are not in
 this repository: the permission excludes redistribution, so the footage appears in the video only.
 

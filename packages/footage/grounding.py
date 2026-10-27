@@ -195,7 +195,7 @@ def video_captions(version: str = "v3", edit_path: Path | None = None) -> list[d
     shown = [c["text"] for clip in edit["clips"] for c in clip.get("captions", [])]
     sources = {"v3": caption_sources, "v4": v4_caption_sources, "v5": v5_caption_sources,
                "v6": v6_caption_sources, "v7": v7_caption_sources, "v8": v8_caption_sources,
-               "v9": v9_caption_sources, "v10": v9_caption_sources}[version]()
+               "v9": v9_caption_sources, "v10": v9_caption_sources, "v11": v9_caption_sources}[version]()
     rows = []
     for n_caption, text in enumerate(shown, 1):
         if not DIGITS.search(text):
@@ -389,11 +389,11 @@ def v4_overlay() -> list[dict]:
 def run(version: str = "v3", edit: Path | None = None) -> dict:
     """Count for one video version; `edit` defaults to packages/demo/edit_<version>.yaml."""
     edit = Path(edit) if edit else ROOT / "packages" / "demo" / f"edit_{version}.yaml"
-    if version in ("v9", "v10"):          # v8's beats and checks, the v9 graphics, no VERIFY counter; v10: the voice
+    if version in ("v9", "v10", "v11"):   # v8's beats and checks, the v9 graphics, no VERIFY counter; v10: the voice
         beats = _v6_beats(edit)
         rows = v6_lines(beats) + v6_freezes(beats) + v6_live(beats) + v7_always(beats) + v6_shots(beats) + \
             v6_pipeline(beats) + video_captions(version, edit) + v9_overlays(beats) + v8_screen_text(edit)
-        if version == "v10":
+        if version in ("v10", "v11"):
             rows += v10_voice(edit, beats)
         counters = [r for r in rows if r["group"] == "video caption" and COUNTER.search(r["item"])]
         return _write([r for r in rows if r not in counters], version, edit, counters=counters or None)
@@ -685,6 +685,20 @@ def v6_shots(beats: dict) -> list[dict]:
     return rows
 
 
+def _banner_numbers(banner: dict) -> tuple[list, list[str]]:
+    """The newsroom banner's numbers: the explained-cue budget (config/budgets.yaml `explained_cue_p95_s`) and the
+    live p95 the evaluation table reports (packages/evals/results.json, row latency_live), 95% being that p95."""
+    budget = yaml.safe_load((ROOT / "config" / "budgets.yaml").read_text())
+    p95_budget = next(v["explained_cue_p95_s"] for v in budget.values()
+                      if isinstance(v, dict) and "explained_cue_p95_s" in v)
+    rows = json.loads((ROOT / "packages" / "evals" / "results.json").read_text())["rows"]
+    live = next(r for r in rows if r["id"] == "latency_live")
+    measured = re.search(r"p95 ([\d.]+) s", live["measured"]).group(1)
+    allowed = {f"{p95_budget:g}", measured, "95%"}
+    printed = [("banner", tok) for text in (banner.get("value", ""), banner.get("note", "")) for tok in _tokens(text)]
+    return printed, [f"banner: {tok}" for _, tok in printed if tok not in allowed]
+
+
 def v6_pipeline(beats: dict) -> list[dict]:
     """The pipeline beat (demo.v6.Pipeline on track B's view): every number it prints (the agents' says, the
     options, the line, the latencies, the compact phrases of footage_moments `compact`) must be a fact of the view,
@@ -723,6 +737,10 @@ def v6_pipeline(beats: dict) -> list[dict]:
         bad = [f"{a}: {t}" for a, t in printed if t not in ("latency", "claims") and t not in allowed
                and t.replace("%", "") not in allowed]
         diff += bad
+        if b.get("banner"):                          # v11: the action-to-air budget and its live measurement
+            printed_b, diff_b = _banner_numbers(b["banner"])
+            printed += printed_b
+            diff += diff_b
         row = _row("v6 overlay", f"{name}: pipeline view ({len(v['nodes'])} agents)", b["data"], len(printed),
                    len(printed) - len(diff), diff)
         if says:
@@ -1025,7 +1043,8 @@ def v9_overlays(beats: dict) -> list[dict]:
                                  f"{x['xg']:.2f} xG'" + (f" ({who})" if who else ""),
                                  f"{slug} v5 shots_0 {x['event_id']}", numbers, numbers - (1 if diff else 0), diff))
         elif kind in ("architecture", "opener", "see_split", "end_card"):
-            texts = [v for k, v in b.items() if isinstance(v, str) and k not in ("clip", "kind", "data", "window")]
+            texts = [v for k, v in b.items() if isinstance(v, str)
+                     and k not in ("clip", "kind", "data", "window", "repo")]   # the repository link is an address
             for box in (b.get("top") or []) + (b.get("bottom") or []):
                 texts += [box["title"], *box.get("sub", [])]
             nums = [t for x in texts for t in _tokens(x)]

@@ -1323,6 +1323,35 @@ moments:
     theme: v9
     says: {rollout: "xG for the shot; pass model × xG for each pass"}   # lead + track B: exact, no "no rollouts"
 
+  mci_pipeline_v11:                  # v11: the Newsroom with every card open, read aloud agent by agent
+    clip: manutd-mancity-2526
+    kind: pipeline
+    data: data/footage/manutd-mancity-2526/cache/v6/pipeline_manutd-mancity-2526_877000.json
+    clip_ms: 877000
+    pre_s: 0.0
+    hold_s: 16.8
+    left: packages/demo/out/footage/mci_amad_arcs_v8_v8.png
+    compact: {cuebus: Line sent to air, director: 'On air 56:43 · 8 s', proposer: Shot + 4 passes priced, rollout: xG model + pass model, scout: 'Big chance: Amad, 18 m', tactician: The pass beats the shot}
+    theme: v9
+    says: {rollout: "xG for the shot; pass model × xG for each pass"}
+    layout: expanded
+    # each card fires as the newsroom voice names it: the stem starts 0.4 s into the beat (narration_v10 newsroom,
+    # sentence starts 3.54 scout, 5.02 models, 7.19 tactician, 9.34 fact checker, 11.84 director; "on air" 13.2)
+    fire_s: [3.94, 5.42, 6.2, 7.59, 9.74, 12.24, 13.6]
+    banner: {label: "FROM THE ACTION TO ON AIR", value: "under 15 s", note_label: "measured on live runs",
+             note: "95% within 12.9 s"}
+
+  end_v11:                           # the close: the repository link
+    clip: manutd-mancity-2526
+    kind: end_card
+    data: data/footage/manutd-mancity-2526/cache/v6/live_869000.json
+    shot_id: 104
+    clip_ms: 876700
+    duration: 6.0
+    tagline: "See the decision behind every moment."
+    repo: "github.com/ahsanbilal712/pitchsight"
+    permission: ""
+
   ars_palmer_decision_v9:            # 50:33, held: Palmer's shot 0.04 against the cutback 0.27 if it arrives (54%)
     clip: arsenal-chelsea-2526
     kind: decision
